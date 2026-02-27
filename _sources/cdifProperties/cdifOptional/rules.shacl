@@ -50,3 +50,31 @@ cdifd:CDIFDatasetOptionalShape
     ] ;
     sh:message "CDIF optional properties: datasets should have a description, creator, and keywords." ;
     .
+
+cdifd:creatorListValidation a sh:NodeShape ;
+# validate that creator list entries are Person or Organization.
+# schema:creator uses @list for ordering; the rdf:List wrapper prevents
+# sh:class checks from seeing the Person/Organization types directly,
+# so we use SPARQL to walk the rdf:first/rdf:rest chain.
+	sh:targetClass schema:Dataset ;
+	sh:sparql [
+		a sh:SPARQLConstraint ;
+		sh:severity sh:Info ;
+		sh:message "All creators in the list must be a schema:Person or schema:Organization." ;
+		sh:prefixes (
+			[ sh:prefix "schema" ; sh:namespace "http://schema.org/" ]
+			[ sh:prefix "rdf" ; sh:namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#" ]
+		) ;
+		sh:select """
+			PREFIX schema: <http://schema.org/>
+			PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+			SELECT $this WHERE {
+				$this schema:creator ?list .
+				?list rdf:rest*/rdf:first ?item .
+				FILTER NOT EXISTS {
+					?item a ?type .
+					FILTER(?type IN (schema:Person, schema:Organization))
+				}
+			}
+		""" ;
+	] .
