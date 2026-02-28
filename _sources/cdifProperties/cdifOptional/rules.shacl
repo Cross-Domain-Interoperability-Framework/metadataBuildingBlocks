@@ -51,6 +51,43 @@ cdifd:CDIFDatasetOptionalShape
     sh:message "CDIF optional properties: datasets should have a description, creator, and keywords." ;
     .
 
+cdifd:relatedResourceProperty
+	a sh:PropertyShape ;
+	sh:path schema:relatedLink;
+	sh:class schema:LinkRole;
+		sh:property [
+			sh:path schema:linkRelationship;
+			sh:or (
+				[sh:nodeKind sh:IRI ]
+				[sh:datatype xsd:string ]
+				[sh:class schema:DefinedTerm ]
+				);
+			sh:minCount 1;
+			sh:message "a link to a related resource must specify the relationship to that resource, with a string label, IRI, or DefinedTerm";
+			];
+		sh:property [
+			sh:path schema:target;
+				sh:class schema:EntryPoint;
+				sh:property [
+					sh:path schema:encodingType;
+					sh:datatype xsd:string
+					];
+				sh:property [
+					sh:path schema:name;
+					sh:datatype xsd:string
+					];
+				sh:property [
+					sh:path schema:url;
+					sh:datatype xsd:string;
+					sh:minCount 1;
+					sh:message "a URL must be provided for a link to a related resource";
+					]
+			];
+	sh:minCount 0;
+	sh:severity sh:Info;
+	sh:message "links to related resource use schema:LinkRole, with a linkRelationship (string, IRI, or DefinedTerm), and at least a target schema:url";
+	.
+
 cdifd:creatorListValidation a sh:NodeShape ;
 # validate that creator list entries are Person or Organization.
 # schema:creator uses @list for ordering; the rdf:List wrapper prevents
