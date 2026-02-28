@@ -66,8 +66,16 @@ metadataBuildingBlocks/
 │   │   ├── xasRequired/             # XAS mandatory property group
 │   │   ├── xasOptional/             # XAS optional property group
 │   │   └── xasSubject/              # XAS subject classification
+│   ├── DDEproperties/               # DDE (Deep-time Digital Earth) types
+│   │   ├── ddeSubject/              # DDE profile conformance (CatalogRecord extension)
+│   │   ├── ddeResourceType/         # DDE resource type (42 geoscience types)
+│   │   ├── ddeRequired/             # DDE mandatory property group
+│   │   ├── ddeOptional/             # DDE optional properties
+│   │   ├── ddeImagery/              # DDE imagery (sensor, platform)
+│   │   └── ddeServiceInfo/          # DDE service info (OGC/ESRI service types)
 │   └── profiles/                    # Top-level profiles that compose BBs
 │       ├── CDIFDiscovery/           # CDIF Discovery profile
+│       ├── DDEDiscovery/            # DDE Geoscience Discovery profile
 │       ├── adaProduct/              # ADA product metadata profile (v3, CDIF 2026)
 │       ├── adaEMPA/                 # Electron Microprobe Analysis technique profile
 │       ├── adaXRD/                  # X-ray Diffraction technique profile
@@ -295,6 +303,74 @@ Key detail types used in technique profiles:
 
 The ADA building blocks define the JSON-LD schema structure. The CZ Net Data Submission Portal (`dspback`) has a JSON-LD translation endpoint (`POST /api/metadata/ada/jsonld`) that accepts JSON-LD conforming to the `adaProduct` profile and translates it to the flat format used by the portal's form schema (`schema.json`). See the [IEDADataSubmission agents.md](https://github.com/smrgeoinfo/IEDADataSubmission/blob/main/agents.md) for translation details.
 
+## DDE Building Blocks
+
+The DDE (Deep-time Digital Earth) metadata schema extends CDIF Discovery with geoscience-specific properties: resource type classification (42 DDE resource types), topic and acquisition type keywords from DDE controlled vocabularies, browse graphics, and conditional extensions for imagery and service resources. The 6 building blocks in `DDEproperties/` plus the `DDEDiscovery` profile in `profiles/cdifProfiles/` compose on top of the existing CDIF mandatory/optional building blocks.
+
+### Namespace
+
+| Prefix | URI | Used In |
+|---|---|---|
+| `dde` | `https://www.ddeworld.org/resource/` | All DDE building blocks |
+
+Vocabulary URIs: `dde:codelist/ResourceTypeCode`, `dde:codelist/TopicCategoryCode`, `dde:codelist/AcquisitionTypeCode`, `dde:codelist/ServiceTypeCode`
+
+Profile conformance URI: `cdif:profile_ddeCDIF`
+
+### Composition Hierarchy
+
+```
+profiles/cdifProfiles/DDEDiscovery/     ← Top-level DDE profile
+├── allOf[0]: cdifMandatory             ← CDIF mandatory (name, identifier, dates, etc.)
+├── allOf[1]: cdifOptional              ← CDIF optional (keywords, distribution, spatial, etc.)
+├── allOf[2]: ddeRequired               ← DDE mandatory extensions
+│   ├── schema:subjectOf → ddeSubject   ← CatalogRecord with dcterms:conformsTo containing cdif:profile_ddeCDIF
+│   ├── schema:additionalType → ddeResourceType  ← ≥1 DefinedTerm from dde:codelist/ResourceTypeCode (42 codes)
+│   ├── schema:keywords                 ← allOf contains:
+│   │   ├── ≥1 DefinedTerm from dde:codelist/TopicCategoryCode
+│   │   └── ≥1 DefinedTerm from dde:codelist/AcquisitionTypeCode (21 codes)
+│   └── schema:image                    ← ≥1 schema:ImageObject with contentUrl
+└── allOf[3]: ddeOptional               ← DDE optional extensions
+    ├── schema:alternateName            ← string or array of strings
+    ├── schema:measurementTechnique     ← array of string or DefinedTerm
+    ├── schema:keywords                 ← additional unconstrained keywords
+    └── schema:additionalType           ← additional unconstrained type classifications
+```
+
+Conditional extensions (NOT in base DDEDiscovery profile — compose into sub-profiles when needed):
+
+```
+DDEproperties/ddeImagery/               ← For imagery resources
+└── schema:additionalProperty           ← allOf contains:
+    ├── dde:sensorType (required)       ← PropertyValue with propertyID "dde:sensorType"
+    └── dde:platform (required)         ← PropertyValue with propertyID "dde:platform"
+
+DDEproperties/ddeServiceInfo/           ← For service resources
+├── schema:distribution                 ← contains WebAPI with schema:serviceType
+│   └── schema:serviceType              ← DefinedTerm from dde:codelist/ServiceTypeCode
+│       (OGC:WMS, OGC:WFS, OGC:API-Features, ESRI:MapServer, SPARQL, etc.)
+└── schema:additionalProperty           ← optional service-specific properties
+```
+
+### Building Block Details
+
+| Building Block | Description | Required By |
+|---|---|---|
+| `ddeSubject` | CatalogRecord extension requiring `dcterms:conformsTo` to contain `cdif:profile_ddeCDIF`. Follows xasSubject pattern — extends cdifCatalogRecord with minContains constraint. | ddeRequired |
+| `ddeResourceType` | Constrains `schema:additionalType` to require ≥1 DefinedTerm with `schema:inDefinedTermSet: "dde:codelist/ResourceTypeCode"` and `schema:termCode` from enum of 42 geoscience types (dataset, geologicMap, geochemicalDataset, paleontologicalDataset, stratigraphicSection, etc.). | ddeRequired |
+| `ddeRequired` | DDE mandatory property group. Uses allOf with $ref to cdifMandatory, adds ddeSubject, ddeResourceType, DDE vocabulary-constrained keywords (TopicCategoryCode + AcquisitionTypeCode), and browse graphics (schema:image). | DDEDiscovery |
+| `ddeOptional` | DDE optional properties: alternateName, measurementTechnique, additional unconstrained keywords and additionalType. | DDEDiscovery |
+| `ddeImagery` | Conditional extension for imagery resources. Requires schema:additionalProperty with dde:sensorType and dde:platform PropertyValues. | Sub-profiles |
+| `ddeServiceInfo` | Conditional extension for service resources. Requires schema:distribution to contain a WebAPI with serviceType from dde:codelist/ServiceTypeCode (21 codes including OGC and ESRI services). | Sub-profiles |
+
+### DDE Resource Type Codes (42)
+
+attribute, attributeType, collectionHardware, collectionSession, dataset, dimensionGroup, document, feature, featureType, fieldSession, geographicDataset, geographicImage, geologicMap, image, initiative, knowledgeGraph, map, model, nonGeographicDataset, physicalSample, platformSeries, product, propertyType, repository, sample, sensor, sensorSeries, series, service, software, tile, transferAggregate, vocabulary, 3dModel, crossSection, drillhole, geochemicalDataset, geochronologicalDataset, geophysicalDataset, mineralogicalDataset, paleontologicalDataset, stratigraphicSection
+
+### DDE Service Type Codes (21)
+
+OGC:WMS, OGC:WFS, OGC:WCS, OGC:WMTS, OGC:WPS, OGC:CSW, OGC:SOS, OGC:SensorThings, OGC:API-Features, OGC:API-Records, OGC:API-Maps, OGC:API-Tiles, OGC:API-Coverages, OGC:API-Processes, OGC:API-EDR, ESRI:MapServer, ESRI:FeatureServer, ESRI:ImageServer, SPARQL, OpenDAP, THREDDS
+
 ---
 
 # Schema Tools
@@ -323,6 +399,7 @@ Recursively resolves ALL `$ref` references from modular YAML/JSON source schemas
 # Resolve a profile by name (searches _sources/profiles/{adaProfiles,cdifProfiles}/{name}/)
 python tools/resolve_schema.py adaProduct
 python tools/resolve_schema.py adaEMPA --flatten-allof -o _sources/profiles/adaProfiles/adaEMPA/resolvedSchema.json
+python tools/resolve_schema.py DDEDiscovery --flatten-allof
 
 # Resolve an arbitrary schema file
 python tools/resolve_schema.py --file path/to/any/schema.yaml
