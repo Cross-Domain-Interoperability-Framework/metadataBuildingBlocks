@@ -30,27 +30,46 @@ properties:
             'schema:termCode':
               type: string
               enum:
-              - 'OGC:WMS'
-              - 'OGC:WFS'
-              - 'OGC:WCS'
-              - 'OGC:WMTS'
-              - 'OGC:WPS'
-              - 'OGC:CSW'
-              - 'OGC:SOS'
-              - 'OGC:SensorThings'
-              - 'OGC:API-Features'
-              - 'OGC:API-Records'
-              - 'OGC:API-Maps'
-              - 'OGC:API-Tiles'
-              - 'OGC:API-Coverages'
-              - 'OGC:API-Processes'
-              - 'OGC:API-EDR'
-              - 'ESRI:MapServer'
-              - 'ESRI:FeatureServer'
-              - 'ESRI:ImageServer'
-              - SPARQL
-              - OpenDAP
-              - THREDDS
+              # Category 1: Data services
+              - 'DataService>DataAccess'
+              - 'DataService>DataWorkflow'
+              - 'DataService>DataProcessing'
+              - 'DataService>MapView'
+              - 'DataService>Other'
+              # Category 2: Knowledge services
+              - DDE_GeoscienceKnowledgeDirectory
+              - DDE_GeoscienceKnowledgeContent
+              - DDE_KnowledgeReasoning
+              - DDE_DeepShovel
+              - DDE_Scholar
+              - DDE_OtherKnowledge
+              # Category 3: Platform services
+              - DDE_PlatformCatalogue
+              - DDE_PlatformRegistry
+              - DDE_PlatformModel
+              - DDE_PlatformCloudComputing
+              - DDE_PlatformAnnotation
+              - DDE_API_Information
+              - DDE_EarthExplorer
+              - 'DDE_Platform>DataEvaluation'
+              - 'DDE_Platform>DataIdentifier'
+              - 'DDE_Platform>Other'
+              # Category 4: Thematic services
+              - 'Theme>MineralResourceAssessment'
+              - 'Theme>GeologicMapping'
+              - 'Theme>GeologicalTime'
+              - 'Theme>GeologicalOccurrence'
+              - 'Theme>Dinosaur'
+              - 'Theme>GeographicName'
+              - 'Theme>GeomorphologyMapping'
+              - 'Theme>GeoscienceStandard'
+              - 'Theme>Other'
+              # Categories 5-9: Generic services
+              - VocabularyService
+              - RegistryService
+              - DiscoveryService
+              - ViewService
+              - OtherService
           required:
           - '@type'
           - 'schema:inDefinedTermSet'
@@ -103,18 +122,13 @@ properties:
   'schema:dataset':
     type: array
     description: Datasets operated on by the service (operatedDataset).
+      XSD type is MD_Identifier (code + codeSpace + version). Mapped to
+      Identifier PropertyValue pattern (value or url required).
     items:
       anyOf:
       - type: string
         format: uri
-      - type: object
-        properties:
-          '@id':
-            type: string
-          '@type':
-            type: string
-          'schema:name':
-            type: string
+      - $ref: '#/$defs/Identifier'
   'schema:additionalProperty':
     type: array
     description: Optional properties for service resources.
@@ -127,3 +141,5 @@ $defs:
     $ref: ../../schemaorgProperties/additionalProperty/schema.yaml
   DefinedTerm:
     $ref: ../../schemaorgProperties/definedTerm/schema.yaml
+  Identifier:
+    $ref: ../../schemaorgProperties/identifier/schema.yaml

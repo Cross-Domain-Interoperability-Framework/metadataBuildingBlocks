@@ -2,32 +2,26 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 title: DDE Imagery properties
 description: Conditional extension for imagery resources with DDE-specific properties.
-  Implements MD_Imagery entity (DDE spec Table 3) with 9 elements for sensor,
-  platform, equipment, collector, temporal bounds, signal generator, wavelength,
-  and processed level.
+  Implements MD_Imagery entity (DDE spec Table 3 / XSD). All properties are optional.
+  The XSD defines 6 elements (sensor, platform, equipment, signalGenerator,
+  wavelength, processedLevel). Additional properties collector, startTime, and
+  endTime are included from the spec table but are not in the XSD.
 type: object
 properties:
   'schema:additionalProperty':
     type: array
     description: Additional properties for imagery resources using DDE propertyIDs.
+      Value types are constrained per the XSD type definitions.
     items:
-      $ref: '#/$defs/AdditionalProperty'
-    contains:
-      type: object
-      properties:
-        'schema:propertyID':
-          type: array
-          contains:
-            enum:
-            - 'dde:sensorType'
-            - 'dde:platform'
-            - 'dde:equipment'
-            - 'dde:collector'
-            - 'dde:signalGenerator'
-            - 'dde:wavelength'
-            - 'dde:processedLevel'
-      required:
-      - 'schema:propertyID'
+      anyOf:
+      - $ref: '#/$defs/SensorTypePV'
+      - $ref: '#/$defs/PlatformPV'
+      - $ref: '#/$defs/EquipmentPV'
+      - $ref: '#/$defs/CollectorPV'
+      - $ref: '#/$defs/SignalGeneratorPV'
+      - $ref: '#/$defs/WavelengthPV'
+      - $ref: '#/$defs/ProcessedLevelPV'
+      - $ref: '#/$defs/AdditionalProperty'
   'schema:startTime':
     type: string
     description: Start time of the imagery acquisition. ISO 8601 date-time format.
@@ -37,3 +31,149 @@ properties:
 $defs:
   AdditionalProperty:
     $ref: ../../schemaorgProperties/additionalProperty/schema.yaml
+  SensorTypePV:
+    type: object
+    description: Type of sensor used to acquire the imagery (e.g. "Multispectral",
+      "SAR", "LiDAR"). XSD type CharacterString_Type.
+    properties:
+      '@type':
+        const: schema:PropertyValue
+      'schema:propertyID':
+        type: array
+        contains:
+          const: 'dde:sensorType'
+        minItems: 1
+      'schema:name':
+        type: string
+      'schema:value':
+        type: string
+    required:
+    - 'schema:propertyID'
+    - 'schema:name'
+    - 'schema:value'
+  PlatformPV:
+    type: object
+    description: Platform carrying the sensor (e.g. "Landsat-8", "Sentinel-2A",
+      "Airborne"). XSD type CharacterString_Type.
+    properties:
+      '@type':
+        const: schema:PropertyValue
+      'schema:propertyID':
+        type: array
+        contains:
+          const: 'dde:platform'
+        minItems: 1
+      'schema:name':
+        type: string
+      'schema:value':
+        type: string
+    required:
+    - 'schema:propertyID'
+    - 'schema:name'
+    - 'schema:value'
+  EquipmentPV:
+    type: object
+    description: Equipment used for imagery acquisition.
+      XSD type CharacterString_Type.
+    properties:
+      '@type':
+        const: schema:PropertyValue
+      'schema:propertyID':
+        type: array
+        contains:
+          const: 'dde:equipment'
+        minItems: 1
+      'schema:name':
+        type: string
+      'schema:value':
+        type: string
+    required:
+    - 'schema:propertyID'
+    - 'schema:name'
+    - 'schema:value'
+  CollectorPV:
+    type: object
+    description: Person or organization that collected the imagery.
+      Not in XSD MD_Imagery; included from spec table.
+    properties:
+      '@type':
+        const: schema:PropertyValue
+      'schema:propertyID':
+        type: array
+        contains:
+          const: 'dde:collector'
+        minItems: 1
+      'schema:name':
+        type: string
+      'schema:value':
+        type: string
+    required:
+    - 'schema:propertyID'
+    - 'schema:name'
+    - 'schema:value'
+  SignalGeneratorPV:
+    type: object
+    description: Type of signal used (e.g. "Passive solar", "Active radar").
+      XSD type CharacterString_Type.
+    properties:
+      '@type':
+        const: schema:PropertyValue
+      'schema:propertyID':
+        type: array
+        contains:
+          const: 'dde:signalGenerator'
+        minItems: 1
+      'schema:name':
+        type: string
+      'schema:value':
+        type: string
+    required:
+    - 'schema:propertyID'
+    - 'schema:name'
+    - 'schema:value'
+  WavelengthPV:
+    type: object
+    description: Wavelength range of the imagery (e.g. "0.45-0.52 micrometers").
+      XSD type CharacterString_Type.
+    properties:
+      '@type':
+        const: schema:PropertyValue
+      'schema:propertyID':
+        type: array
+        contains:
+          const: 'dde:wavelength'
+        minItems: 1
+      'schema:name':
+        type: string
+      'schema:value':
+        type: string
+    required:
+    - 'schema:propertyID'
+    - 'schema:name'
+    - 'schema:value'
+  ProcessedLevelPV:
+    type: object
+    description: Processing level of the imagery. Value from ProcessingLevelCode
+      (XSD).
+    properties:
+      '@type':
+        const: schema:PropertyValue
+      'schema:propertyID':
+        type: array
+        contains:
+          const: 'dde:processedLevel'
+        minItems: 1
+      'schema:name':
+        type: string
+      'schema:value':
+        type: string
+        enum:
+        - Level0
+        - Level1
+        - Level2
+        - Level3
+        - Level4
+    required:
+    - 'schema:propertyID'
+    - 'schema:name'
+    - 'schema:value'
