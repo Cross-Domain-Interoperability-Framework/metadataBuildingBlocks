@@ -63,7 +63,7 @@ The `generate-jsonforms` workflow runs this automatically after schema conversio
 
 ## Profiles (52 total)
 
-Profiles are organized into subdirectories: `_sources/profiles/adaProfiles/` (36 ADA profiles), `_sources/profiles/cdifProfiles/` (5 CDIF profiles), and `_sources/profiles/ecrrProfiles/` (11 ECRR profiles).
+Profiles are organized into subdirectories: `_sources/profiles/adaProfiles/` (36 ADA profiles), `_sources/profiles/cdifProfiles/` (4 CDIF profiles), `_sources/profiles/DDEProfiles/` (1 DDE profile), and `_sources/profiles/ecrrProfiles/` (11 ECRR profiles).
 
 | Profile | Description |
 |---|---|

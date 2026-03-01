@@ -87,7 +87,8 @@ metadataBuildingBlocks/
 │   └── profiles/                    # Top-level profiles that compose BBs
 │       ├── cdifProfiles/
 │       │   ├── CDIFDiscovery/       # CDIF Discovery profile
-│       │   ├── CDIFcomplete/        # CDIF Complete profile (discovery + data description)
+│       │   └── CDIFcomplete/        # CDIF Complete profile (discovery + data description)
+│       ├── DDEProfiles/
 │       │   └── DDEDiscovery/        # DDE Geoscience Discovery profile
 │       ├── adaProfiles/
 │       │   ├── adaProduct/          # ADA product metadata profile (v3, CDIF 2026)
@@ -331,7 +332,7 @@ The ADA building blocks define the JSON-LD schema structure. The CZ Net Data Sub
 
 ## DDE Building Blocks
 
-The DDE (Deep-time Digital Earth) metadata schema extends CDIF Discovery with geoscience-specific properties: resource type classification (42 DDE resource types), topic and acquisition type keywords from DDE controlled vocabularies, browse graphics, and conditional extensions for imagery and service resources. The 6 building blocks in `DDEproperties/` plus the `DDEDiscovery` profile in `profiles/cdifProfiles/` compose on top of the existing CDIF mandatory/optional building blocks.
+The DDE (Deep-time Digital Earth) metadata schema extends CDIF Discovery with geoscience-specific properties: resource type classification (42 DDE resource types), topic and acquisition type keywords from DDE controlled vocabularies, browse graphics, and conditional extensions for imagery and service resources. The 6 building blocks in `DDEproperties/` plus the `DDEDiscovery` profile in `profiles/DDEProfiles/` compose on top of the existing CDIF mandatory/optional building blocks.
 
 ### Namespace
 
@@ -346,7 +347,7 @@ Profile conformance URI: `cdif:profile_ddeCDIF`
 ### Composition Hierarchy
 
 ```
-profiles/cdifProfiles/DDEDiscovery/     ← Top-level DDE profile
+profiles/DDEProfiles/DDEDiscovery/     ← Top-level DDE profile
 ├── allOf[0]: cdifMandatory             ← CDIF mandatory (name, identifier, dates, etc.)
 ├── allOf[1]: cdifOptional              ← CDIF optional (keywords, distribution, spatial, etc.)
 ├── allOf[2]: ddeRequired               ← DDE mandatory extensions
