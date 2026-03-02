@@ -23,6 +23,33 @@
                     },
                     "description": "Must include both an Action type and prov:Activity (prov:Activity required by base generatedBy schema)"
                 },
+                "prov:used": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {"type": "string"},
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string",
+                                        "description": "a resolvable reference to a representation of the software or instrument used"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "description": "an item used by the activity that includes a schema:instrument sub-key",
+                                "properties": {
+                                    "schema:instrument": {
+                                        "$ref": "#/$defs/Instrument"
+                                    }
+                                },
+                                "required": ["schema:instrument"]
+                            }
+                        ]
+                    }
+                },
                 "schema:name": {
                     "type": "string",
                     "description": "Human-readable name for the activity"
