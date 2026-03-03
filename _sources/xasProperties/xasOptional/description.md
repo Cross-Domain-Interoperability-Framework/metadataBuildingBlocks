@@ -1,3 +1,11 @@
-##  XAS profile extension properties
+## Optional Fields for XAS data
 
-XAS profile files that extend requirements of CDIF discovery. Field content: x-ray source,definition, Data/mode, element/symbol, edge,Instrument/source/type, Instrument/source/name, Instrument/source/probe, Instrument/monochromator/type, Instrument/monochromator/d_spacing, Instrument/monochromator/reflection, Sample/name
+Extends CDIF mandatory metadata with optional XAS-specific properties. Composes cdifMandatory with cdifProv-based provenance (via xasGeneratedBy pattern), XAS subject descriptors, data distribution with XDI conformance, measurement technique DefinedTerms, and element/edge keywords.
+
+### Key properties
+
+- **schema:subjectOf** — XAS subject descriptors (element, edge)
+- **prov:wasGeneratedBy** — cdifProv activity extended with XAS instrument wrappers (source, monochromator with d-spacing/reflection), sample object, and facility
+- **schema:distribution** — data download with XDI specification conformance
+- **schema:measurementTechnique** — DefinedTerms for XAS technique and measurement mode
+- **schema:keywords** — DefinedTerms for absorption edge (XDI dictionary) and target element (SWEET ontology)
