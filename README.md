@@ -163,6 +163,73 @@ Domain-specific building blocks (`ddeImagery`, `xasOptional`, `xasRequired`) imp
 | `xasRequired` | XAS mandatory properties — `prov:wasGeneratedBy` items use `allOf` with `cdifProv` + NXsource/NXmonochromator instrument constraints via `schema:instrument` sub-key. |
 | `xasOptional` | Same provenance structure as `xasRequired` — `cdifProv` activity with XAS instrument constraints. |
 
+## Building Block Identifiers and Web Resolution
+
+Each building block has a persistent HTTP URI under `https://w3id.org/cdif/bbr/metadata/`. The URI pattern is:
+
+```
+https://w3id.org/cdif/bbr/metadata/{category}/{name}
+```
+
+where `{category}` is one of `schemaorgProperties`, `cdifProperties`, `adaProperties`, `provProperties`, `qualityProperties`, `ddiProperties`, `xasProperties`, `DDEproperties`, `ecrrProperties` and `{name}` is the building block directory name (e.g., `person`, `cdifProv`, `xasGeneratedBy`).
+
+Examples:
+- `https://w3id.org/cdif/bbr/metadata/schemaorgProperties/person`
+- `https://w3id.org/cdif/bbr/metadata/cdifProperties/cdifProv`
+- `https://w3id.org/cdif/bbr/metadata/xasProperties/xasGeneratedBy`
+
+The register root `https://w3id.org/cdif/bbr/metadata` resolves to the building blocks viewer home page.
+
+All redirects use HTTP 303 (See Other).
+
+### Content negotiation
+
+A single building block URI serves different representations depending on the `Accept` header:
+
+| Accept header | Returns |
+|---|---|
+| `text/html` (default) | Landing page in the building blocks viewer |
+| `application/schema+json` | JSON Schema (JSON format) |
+| `application/yaml` | JSON Schema (YAML format) |
+| `text/turtle` | SHACL validation rules (Turtle) |
+| `application/ld+json` | JSON-LD context |
+| `application/json` | Full JSON documentation |
+
+```bash
+# Landing page (browser default)
+curl -L https://w3id.org/cdif/bbr/metadata/schemaorgProperties/person
+
+# JSON Schema
+curl -L -H "Accept: application/schema+json" \
+  https://w3id.org/cdif/bbr/metadata/schemaorgProperties/person
+
+# SHACL rules
+curl -L -H "Accept: text/turtle" \
+  https://w3id.org/cdif/bbr/metadata/schemaorgProperties/person
+
+# JSON-LD context
+curl -L -H "Accept: application/ld+json" \
+  https://w3id.org/cdif/bbr/metadata/schemaorgProperties/person
+```
+
+### Explicit sub-path resources
+
+These resolve directly to the named resource regardless of `Accept` header:
+
+| Sub-path | Returns |
+|---|---|
+| `…/{category}/{name}/schema` | JSON Schema (YAML; or JSON via `Accept: application/json`) |
+| `…/{category}/{name}/resolved` | Resolved schema — all `$ref` inlined (JSON) |
+| `…/{category}/{name}/shacl` | SHACL validation rules (Turtle) |
+| `…/{category}/{name}/context` | JSON-LD context |
+
+```bash
+curl -L https://w3id.org/cdif/bbr/metadata/schemaorgProperties/person/schema
+curl -L https://w3id.org/cdif/bbr/metadata/schemaorgProperties/person/resolved
+curl -L https://w3id.org/cdif/bbr/metadata/schemaorgProperties/person/shacl
+curl -L https://w3id.org/cdif/bbr/metadata/schemaorgProperties/person/context
+```
+
 ## License
 
 This material is based upon work supported by the National Science Foundation (NSF) under awards 2012893, 2012748, and 2012593.
