@@ -6,15 +6,15 @@
   "properties": {
     "@id": {
       "type": "string",
-      "description": "The URI for the resource should be the @id value for the root of the JSON instance document tree. Note that this identifier can be interpreted to identify the resource that is the subject of this metadata record, or the JSON-LD object that is the digital object containing the metadata information."
+      "description": "The URI for the resource should be the @id value for the root of the JSON instance document tree. Must be an IRI (e.g. https://doi.org/..., urn:..., or a relative URI like #localid). Note that this identifier can be interpreted to identify the resource that is the subject of this metadata record, or the JSON-LD object that is the digital object containing the metadata information."
     },
     "@type": {
-      "description": "a schema.org Class that specifies the expected information content for the metadata record. For CDIF, 'schema:Dataset' is required, but other possible values (e.g. CreativeWork, SoftwareApplication, Product, WebAPI) are sometimes included to enable the schema.org properties used to describe the resource without schema.org validation errors.",
+      "description": "a schema.org Class that specifies the expected information content for the metadata record. For CDIF, 'schema:Dataset' is required, but other possible values (e.g. CreativeWork, SoftwareApplication, Product, WebAPI) are sometimes included to enable the schema.org properties used to describe the resource without schema.org validation errors. The array must include at least one value from the known set, but can also include other strings for extensibility.",
       "type": "array",
       "items": {
-        "type": "string",
-        "default": "schema:Dataset"
-      }
+        "type": "string"
+      },
+      "default": "schema:Dataset"
     },
     "schema:name": {
       "type": "string",
@@ -132,9 +132,16 @@
               },
               "spdx:checksumValue": {
                 "type": "string"
+              },
+              "@type": {
+                "type": "string",
+                "default": "spdx:Checksum"
               }
             },
-            "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload."
+            "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
+            "required": [
+              "@type"
+            ]
           },
           "schema:serviceType": {
             "type": "string",
@@ -187,6 +194,14 @@
                 "type": "string",
                 "default": "byte"
               }
+            }
+          },
+          "resultTarget": {
+            "title": "String Array Type",
+            "description": "Simple reusable array of strings",
+            "type": "array",
+            "items": {
+              "type": "string"
             }
           },
           "schema:relatedLink": {
@@ -266,13 +281,20 @@
                   "type": "object",
                   "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
                   "properties": {
+                    "@type": {
+                      "type": "string",
+                      "default": "spdx:Checksum"
+                    },
                     "spdx:algorithm": {
                       "type": "string"
                     },
                     "spdx:checksumValue": {
                       "type": "string"
                     }
-                  }
+                  },
+                  "required": [
+                    "@type"
+                  ]
                 },
                 "schema:provider": {
                   "type": "array",
@@ -317,6 +339,14 @@
                       "type": "string",
                       "default": "byte"
                     }
+                  }
+                },
+                "resultTarget": {
+                  "title": "String Array Type",
+                  "description": "Simple reusable array of strings",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
                   }
                 },
                 "schema:relatedLink": {
@@ -1015,8 +1045,22 @@
               "properties": {
                 "@type": {
                   "type": "string",
-                  "description": "TBD, recognize other actions, e.g. SearchAction, UpdateAction..., others?",
-                  "default": "schema:Action"
+                  "description": "The type of action. Must be schema:Action or one of its subtypes.",
+                  "default": "schema:Action",
+                  "enum": [
+                    "schema:Action",
+                    "schema:AssessAction",
+                    "schema:ConsumeAction",
+                    "schema:ControlAction",
+                    "schema:CreateAction",
+                    "schema:FindAction",
+                    "schema:InteractAction",
+                    "schema:MoveAction",
+                    "schema:PlayAction",
+                    "schema:SearchAction",
+                    "schema:TransferAction",
+                    "schema:UpdateAction"
+                  ]
                 },
                 "schema:name": {
                   "type": "string",
@@ -1291,13 +1335,20 @@
                     "type": "object",
                     "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
                     "properties": {
+                      "@type": {
+                        "type": "string",
+                        "default": "spdx:Checksum"
+                      },
                       "spdx:algorithm": {
                         "type": "string"
                       },
                       "spdx:checksumValue": {
                         "type": "string"
                       }
-                    }
+                    },
+                    "required": [
+                      "@type"
+                    ]
                   },
                   "schema:provider": {
                     "type": "array",
@@ -1342,6 +1393,14 @@
                         "type": "string",
                         "default": "byte"
                       }
+                    }
+                  },
+                  "resultTarget": {
+                    "title": "String Array Type",
+                    "description": "Simple reusable array of strings",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
                     }
                   },
                   "schema:relatedLink": {
@@ -2069,13 +2128,20 @@
                     "type": "object",
                     "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
                     "properties": {
+                      "@type": {
+                        "type": "string",
+                        "default": "spdx:Checksum"
+                      },
                       "spdx:algorithm": {
                         "type": "string"
                       },
                       "spdx:checksumValue": {
                         "type": "string"
                       }
-                    }
+                    },
+                    "required": [
+                      "@type"
+                    ]
                   },
                   "schema:provider": {
                     "type": "array",
@@ -2120,6 +2186,14 @@
                         "type": "string",
                         "default": "byte"
                       }
+                    }
+                  },
+                  "resultTarget": {
+                    "title": "String Array Type",
+                    "description": "Simple reusable array of strings",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
                     }
                   },
                   "schema:relatedLink": {
@@ -2841,13 +2915,20 @@
                           "type": "object",
                           "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
                           "properties": {
+                            "@type": {
+                              "type": "string",
+                              "default": "spdx:Checksum"
+                            },
                             "spdx:algorithm": {
                               "type": "string"
                             },
                             "spdx:checksumValue": {
                               "type": "string"
                             }
-                          }
+                          },
+                          "required": [
+                            "@type"
+                          ]
                         },
                         "schema:provider": {
                           "type": "array",
@@ -2892,6 +2973,14 @@
                               "type": "string",
                               "default": "byte"
                             }
+                          }
+                        },
+                        "resultTarget": {
+                          "title": "String Array Type",
+                          "description": "Simple reusable array of strings",
+                          "type": "array",
+                          "items": {
+                            "type": "string"
                           }
                         },
                         "schema:relatedLink": {
@@ -3599,8 +3688,23 @@
       "description": "see https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13 for discussion on how to make assertion about the sample registration and metadata distinct from statements about the physical object",
       "properties": {
         "@type": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "schema:Dataset"
+            ]
+          }
+        },
+        "schema:additionalType": {
           "type": "string",
-          "default": "schema:Dataset"
+          "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
+          "oneOf": [
+            {
+              "const": "dcat:CatalogRecord",
+              "title": "Catalog Record"
+            }
+          ]
         },
         "@id": {
           "type": "string",
@@ -3704,6 +3808,7 @@
       "required": [
         "schema:about",
         "dcterms:conformsTo",
+        "schema:additionalType",
         "@type",
         "@id"
       ]
@@ -4527,7 +4632,7 @@
                 "prov:Activity"
               ]
             },
-            "description": "Include 'prov:Activity' and 'schema:Event'"
+            "description": "Include 'schema:Action' and 'prov:Activity'"
           },
           "prov:used": {
             "type": "array",
