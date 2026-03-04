@@ -45,10 +45,11 @@ properties:
       $ref: '#/$defs/AdditionalProperty'
   'schema:hasPart':
     type: array
-    description: Sub-components of this instrument system
+    description: Sub-components of this instrument system.
+      Use @id references or inline instrument objects.
     items:
       anyOf:
-      - $ref: '#'
+      - $ref: '#/$defs/InstrumentRef'
       - type: object
         properties:
           '@id':
@@ -64,3 +65,38 @@ $defs:
     $ref: ../identifier/schema.yaml
   AdditionalProperty:
     $ref: ../additionalProperty/schema.yaml
+  InstrumentRef:
+    type: object
+    description: Inline sub-component instrument (non-recursive single level)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        minItems: 1
+        contains:
+          const: schema:Thing
+      '@id':
+        type: string
+      'schema:name':
+        type: string
+      'schema:identifier':
+        anyOf:
+        - type: string
+        - $ref: '#/$defs/Identifier'
+      'schema:description':
+        type: string
+      'schema:alternateName':
+        type: string
+      'schema:additionalType':
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            type: string
+      'schema:additionalProperty':
+        type: array
+        items:
+          $ref: '#/$defs/AdditionalProperty'
+    required:
+    - 'schema:name'
