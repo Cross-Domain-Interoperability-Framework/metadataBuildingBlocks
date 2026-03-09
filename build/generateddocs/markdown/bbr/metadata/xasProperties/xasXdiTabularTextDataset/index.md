@@ -145,12 +145,7 @@ ex:xasXDIdownload_23463h a cdi:WideDataStructure ;
     cdi:arrayBase 1 ;
     cdi:commentPrefix "#" ;
     cdi:hasHeader true ;
-    cdi:has_DataStructureComponent [ a cdi:IdentifierComponent ;
-            cdi:has [ a cdi:ValueMapping ;
-                    cdi:hasIndex 1 ;
-                    cdi:haslength 12 ] ;
-            cdi:isDefinedBy_InstanceVariable xas:monochromatorEnergyVariable ],
-        [ a cdi:MeasureComponent ;
+    cdi:has_DataStructureComponent [ a cdi:MeasureComponent ;
             cdi:has [ a cdi:ValueMapping ;
                     cdi:hasIndex 2 ;
                     cdi:haslength 12 ] ;
@@ -159,7 +154,12 @@ ex:xasXDIdownload_23463h a cdi:WideDataStructure ;
             cdi:has [ a cdi:ValueMapping ;
                     cdi:hasIndex 3 ;
                     cdi:haslength 13 ] ;
-            cdi:isDefinedBy_InstanceVariable xas:incidentIntensityVariable ] ;
+            cdi:isDefinedBy_InstanceVariable xas:incidentIntensityVariable ],
+        [ a cdi:IdentifierComponent ;
+            cdi:has [ a cdi:ValueMapping ;
+                    cdi:hasIndex 1 ;
+                    cdi:haslength 12 ] ;
+            cdi:isDefinedBy_InstanceVariable xas:monochromatorEnergyVariable ] ;
     cdi:headerRowCount 27 ;
     cdi:isDelimited false ;
     cdi:isFixedWidth true ;
