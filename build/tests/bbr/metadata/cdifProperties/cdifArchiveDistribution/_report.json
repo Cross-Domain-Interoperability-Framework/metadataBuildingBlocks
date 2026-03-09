@@ -2,7 +2,7 @@
   "title": "Validation report for cdif.bbr.metadata.cdifProperties.cdifArchiveDistribution - CDIF Archive Distribution",
   "bblockName": "CDIF Archive Distribution",
   "bblockId": "cdif.bbr.metadata.cdifProperties.cdifArchiveDistribution",
-  "generated": "2026-03-09T22:39:34.879196+00:00",
+  "generated": "2026-03-09T22:44:37.931275+00:00",
   "result": false,
   "items": [
     {
@@ -64,200 +64,45 @@
           "entries": [
             {
               "op": "shacl-report",
-              "shaclFile": "_sources/schemaorgProperties/dataDownload/rules.shacl",
-              "graph": "@prefix dcterms: <http://purl.org/dc/terms/> .\n@prefix ns1: <http://spdx.org/rdf/terms#> .\n@prefix schema1: <http://schema.org/> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode [ a schema1:DataDownload ;\n                    schema1:contentUrl \"https://example.org/data/geochem-package.zip\" ;\n                    schema1:description \"This data product is distributed as a zip archive; contents of the archive are listed as parts. The component files are not individually accessible.\" ;\n                    schema1:encodingFormat \"application/zip\" ;\n                    schema1:hasPart <file:///github/workspace/#3eaec0f86900d58d874bd7c18bedb156>,\n                        <file:///github/workspace/#7c6ef03f6b0e88dec54d9897f591deab>,\n                        <file:///github/workspace/#a6143a557a62f78ae39fcb80578b74a3>,\n                        <file:///github/workspace/#d640488b65b53b6bcc1abcb66b3cde7e>,\n                        <file:///github/workspace/#e0fee3cccca4292d76dcb5238224e677> ;\n                    schema1:name \"Geochemistry analysis data package\" ;\n                    ns1:checksum [ a ns1:Checksum ;\n                            ns1:algorithm \"SHA256\" ;\n                            ns1:checksumValue \"a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2\" ] ] ;\n            sh:resultMessage \"Recommended: include dcterms:conformsTo to identify the standard or specification this distribution conforms to.\" ;\n            sh:resultPath dcterms:conformsTo ;\n            sh:resultSeverity sh:Info ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape [ sh:message \"Recommended: include dcterms:conformsTo to identify the standard or specification this distribution conforms to.\" ;\n                    sh:minCount 1 ;\n                    sh:path dcterms:conformsTo ;\n                    sh:severity sh:Info ] ] .\n\n",
+              "shaclFile": "_sources/cdifProperties/cdifTabularData/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/cdifProperties/cdifTabularData/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/cdifProperties/cdifTabularData/rules.shacl",
+              "focusNodes": {
+                "cdifd:tabularDataShape": {
+                  "nodes": [
+                    "<file:///github/workspace/#7c6ef03f6b0e88dec54d9897f591deab>"
+                  ]
+                },
+                "cdifd:tabularDataShape/sh:or/rdf:rest/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:tabularDataShape/sh:or/rdf:first": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/cdifProperties/cdifTabularData/rules.shacl:\n - Shape cdifd:tabularDataShape: <file:///github/workspace/#7c6ef03f6b0e88dec54d9897f591deab>\n - Shape cdifd:tabularDataShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:tabularDataShape/sh:or/rdf:first: *none*\n"
+            },
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/cdifProperties/cdifPhysicalMapping/rules.shacl",
+              "graph": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode [ cdi:format \"decimal\" ;\n                    cdi:index 1 ;\n                    cdi:isRequired true ;\n                    cdi:locator \"/spectra/intensity\" ;\n                    cdi:physicalDataType \"float32\" ] ;\n            sh:resultMessage \"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\" ;\n            sh:resultPath cdi:formats_InstanceVariable ;\n            sh:resultSeverity sh:Warning ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape _:n8d99c0efc4794400b5bd381a10160124b2 ],\n        [ a sh:ValidationResult ;\n            sh:focusNode [ cdi:format \"decimal\" ;\n                    cdi:index 2 ;\n                    cdi:isRequired false ;\n                    cdi:nullSequence \"NA\" ;\n                    cdi:physicalDataType \"float64\" ] ;\n            sh:resultMessage \"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\" ;\n            sh:resultPath cdi:formats_InstanceVariable ;\n            sh:resultSeverity sh:Warning ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape _:n8d99c0efc4794400b5bd381a10160124b2 ],\n        [ a sh:ValidationResult ;\n            sh:focusNode [ cdi:format \"string\" ;\n                    cdi:index 0 ;\n                    cdi:isRequired true ;\n                    cdi:physicalDataType \"string\" ] ;\n            sh:resultMessage \"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\" ;\n            sh:resultPath cdi:formats_InstanceVariable ;\n            sh:resultSeverity sh:Warning ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape _:n8d99c0efc4794400b5bd381a10160124b2 ],\n        [ a sh:ValidationResult ;\n            sh:focusNode [ cdi:format \"decimal\" ;\n                    cdi:index 0 ;\n                    cdi:isRequired true ;\n                    cdi:locator \"/spectra/wavelength\" ;\n                    cdi:physicalDataType \"float32\" ] ;\n            sh:resultMessage \"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\" ;\n            sh:resultPath cdi:formats_InstanceVariable ;\n            sh:resultSeverity sh:Warning ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape _:n8d99c0efc4794400b5bd381a10160124b2 ],\n        [ a sh:ValidationResult ;\n            sh:focusNode [ cdi:format \"decimal\" ;\n                    cdi:index 1 ;\n                    cdi:isRequired true ;\n                    cdi:nullSequence \"NA\" ;\n                    cdi:physicalDataType \"float64\" ] ;\n            sh:resultMessage \"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\" ;\n            sh:resultPath cdi:formats_InstanceVariable ;\n            sh:resultSeverity sh:Warning ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape _:n8d99c0efc4794400b5bd381a10160124b2 ] .\n\n_:n8d99c0efc4794400b5bd381a10160124b2 sh:message \"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\" ;\n    sh:minCount 1 ;\n    sh:path cdi:formats_InstanceVariable ;\n    sh:severity sh:Warning .\n\n",
               "isError": true,
-              "message": "Validation result for _sources/schemaorgProperties/dataDownload/rules.shacl:\n  Validation Report\n  Conforms: False\n  Results (1):\n  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Info\n  \tSource Shape: [ sh:message Literal(\"Recommended: include dcterms:conformsTo to identify the standard or specification this distribution conforms to.\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path dcterms:conformsTo ; sh:severity sh:Info ]\n  \tFocus Node: [ rdf:type schema1:DataDownload ; schema1:contentUrl Literal(\"https://example.org/data/geochem-package.zip\") ; schema1:description Literal(\"This data product is distributed as a zip archive; contents of the archive are listed as parts. The component files are not individually accessible.\") ; schema1:encodingFormat Literal(\"application/zip\") ; schema1:hasPart <file:///github/workspace/#3eaec0f86900d58d874bd7c18bedb156>, <file:///github/workspace/#7c6ef03f6b0e88dec54d9897f591deab>, <file:///github/workspace/#a6143a557a62f78ae39fcb80578b74a3>, <file:///github/workspace/#d640488b65b53b6bcc1abcb66b3cde7e>, <file:///github/workspace/#e0fee3cccca4292d76dcb5238224e677> ; schema1:name Literal(\"Geochemistry analysis data package\") ; spdx:checksum [ rdf:type spdx:Checksum ; spdx:algorithm Literal(\"SHA256\") ; spdx:checksumValue Literal(\"a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2\") ] ]\n  \tResult Path: dcterms:conformsTo\n  \tMessage: Recommended: include dcterms:conformsTo to identify the standard or specification this distribution conforms to.\n  "
+              "message": "Validation result for _sources/cdifProperties/cdifPhysicalMapping/rules.shacl:\n  Validation Report\n  Conforms: False\n  Results (5):\n  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Warning\n  \tSource Shape: [ sh:message Literal(\"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path cdi:formats_InstanceVariable ; sh:severity sh:Warning ]\n  \tFocus Node: [ cdi:format Literal(\"string\") ; cdi:index Literal(\"0\", datatype=xsd:integer) ; cdi:isRequired Literal(\"true\" = True, datatype=xsd:boolean) ; cdi:physicalDataType Literal(\"string\") ]\n  \tResult Path: cdi:formats_InstanceVariable\n  \tMessage: A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\n  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Warning\n  \tSource Shape: [ sh:message Literal(\"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path cdi:formats_InstanceVariable ; sh:severity sh:Warning ]\n  \tFocus Node: [ cdi:format Literal(\"decimal\") ; cdi:index Literal(\"0\", datatype=xsd:integer) ; cdi:isRequired Literal(\"true\" = True, datatype=xsd:boolean) ; cdi:locator Literal(\"/spectra/wavelength\") ; cdi:physicalDataType Literal(\"float32\") ]\n  \tResult Path: cdi:formats_InstanceVariable\n  \tMessage: A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\n  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Warning\n  \tSource Shape: [ sh:message Literal(\"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path cdi:formats_InstanceVariable ; sh:severity sh:Warning ]\n  \tFocus Node: [ cdi:format Literal(\"decimal\") ; cdi:index Literal(\"1\", datatype=xsd:integer) ; cdi:isRequired Literal(\"true\" = True, datatype=xsd:boolean) ; cdi:nullSequence Literal(\"NA\") ; cdi:physicalDataType Literal(\"float64\") ]\n  \tResult Path: cdi:formats_InstanceVariable\n  \tMessage: A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\n  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Warning\n  \tSource Shape: [ sh:message Literal(\"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path cdi:formats_InstanceVariable ; sh:severity sh:Warning ]\n  \tFocus Node: [ cdi:format Literal(\"decimal\") ; cdi:index Literal(\"2\", datatype=xsd:integer) ; cdi:isRequired Literal(\"false\" = False, datatype=xsd:boolean) ; cdi:nullSequence Literal(\"NA\") ; cdi:physicalDataType Literal(\"float64\") ]\n  \tResult Path: cdi:formats_InstanceVariable\n  \tMessage: A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\n  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Warning\n  \tSource Shape: [ sh:message Literal(\"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path cdi:formats_InstanceVariable ; sh:severity sh:Warning ]\n  \tFocus Node: [ cdi:format Literal(\"decimal\") ; cdi:index Literal(\"1\", datatype=xsd:integer) ; cdi:isRequired Literal(\"true\" = True, datatype=xsd:boolean) ; cdi:locator Literal(\"/spectra/intensity\") ; cdi:physicalDataType Literal(\"float32\") ]\n  \tResult Path: cdi:formats_InstanceVariable\n  \tMessage: A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\n  "
             },
             {
-              "shaclFile": "_sources/schemaorgProperties/dataDownload/rules.shacl",
+              "shaclFile": "_sources/cdifProperties/cdifPhysicalMapping/rules.shacl",
               "focusNodes": {
-                "<https://www.ogc.org/rules/template/#ConformsToInfo>": {
-                  "nodes": [
-                    "_:N62f6fc1115ed48f1a8f6342f80cc2385"
-                  ]
-                },
-                "cdifd:CDIFDataDownloadShape": {
-                  "nodes": [
-                    "_:N62f6fc1115ed48f1a8f6342f80cc2385"
-                  ]
-                }
-              },
-              "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/dataDownload/rules.shacl:\n - Shape <https://www.ogc.org/rules/template/#ConformsToInfo>: _:N62f6fc1115ed48f1a8f6342f80cc2385\n - Shape cdifd:CDIFDataDownloadShape: _:N62f6fc1115ed48f1a8f6342f80cc2385\n"
-            },
-            {
-              "op": "shacl-report",
-              "shaclFile": "_sources/schemaorgProperties/person/rules.shacl",
-              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
-              "isError": false,
-              "message": "Validation result for _sources/schemaorgProperties/person/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
-            },
-            {
-              "shaclFile": "_sources/schemaorgProperties/person/rules.shacl",
-              "focusNodes": {
-                "cdifd:contactPointProperty/sh:or/rdf:rest/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:contactPointProperty/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:maintainerOrProviderContactPointShape": {
-                  "nodes": []
-                },
-                "_:neef688ff584942e0bfb1eea7dcf64416b14": {
-                  "nodes": []
-                },
-                "cdifd:CDIFPersonShape/sh:or/rdf:rest/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:CDIFPersonShape": {
-                  "nodes": []
-                },
-                "cdifd:CDIFPersonShape/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:CDIFContactPointShape": {
-                  "nodes": []
-                },
-                "cdifd:affiliationProperty/sh:or/rdf:rest/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:maintainerOrProviderContactPointShape/sh:property/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:affiliationProperty/sh:or/rdf:first": {
+                "cdifd:physicalMappingShape": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/person/rules.shacl:\n - Shape cdifd:contactPointProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:contactPointProperty/sh:or/rdf:first: *none*\n - Shape cdifd:maintainerOrProviderContactPointShape: *none*\n - Shape _:neef688ff584942e0bfb1eea7dcf64416b14: *none*\n - Shape cdifd:CDIFPersonShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:CDIFPersonShape: *none*\n - Shape cdifd:CDIFPersonShape/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFContactPointShape: *none*\n - Shape cdifd:affiliationProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:maintainerOrProviderContactPointShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:affiliationProperty/sh:or/rdf:first: *none*\n"
-            },
-            {
-              "op": "shacl-report",
-              "shaclFile": "_sources/schemaorgProperties/identifier/rules.shacl",
-              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
-              "isError": false,
-              "message": "Validation result for _sources/schemaorgProperties/identifier/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
-            },
-            {
-              "shaclFile": "_sources/schemaorgProperties/identifier/rules.shacl",
-              "focusNodes": {
-                "cdifd:CDIFIdentifierShape/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:nbad0a0cfd0ec46eaa680b2c27087bb9bb21": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierShape": {
-                  "nodes": []
-                },
-                "_:nbad0a0cfd0ec46eaa680b2c27087bb9bb10": {
-                  "nodes": []
-                },
-                "_:nbad0a0cfd0ec46eaa680b2c27087bb9bb23": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierTypeTermShape": {
-                  "nodes": []
-                },
-                "_:nbad0a0cfd0ec46eaa680b2c27087bb9bb11": {
-                  "nodes": []
-                },
-                "_:nbad0a0cfd0ec46eaa680b2c27087bb9bb22": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:nbad0a0cfd0ec46eaa680b2c27087bb9bb20": {
-                  "nodes": []
-                },
-                "_:nbad0a0cfd0ec46eaa680b2c27087bb9bb25": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first": {
-                  "nodes": []
-                }
-              },
-              "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape _:nbad0a0cfd0ec46eaa680b2c27087bb9bb21: *none*\n - Shape cdifd:CDIFIdentifierShape: *none*\n - Shape _:nbad0a0cfd0ec46eaa680b2c27087bb9bb10: *none*\n - Shape _:nbad0a0cfd0ec46eaa680b2c27087bb9bb23: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape _:nbad0a0cfd0ec46eaa680b2c27087bb9bb11: *none*\n - Shape _:nbad0a0cfd0ec46eaa680b2c27087bb9bb22: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nbad0a0cfd0ec46eaa680b2c27087bb9bb20: *none*\n - Shape _:nbad0a0cfd0ec46eaa680b2c27087bb9bb25: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n"
-            },
-            {
-              "op": "shacl-report",
-              "shaclFile": "_sources/schemaorgProperties/organization/rules.shacl",
-              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
-              "isError": false,
-              "message": "Validation result for _sources/schemaorgProperties/organization/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
-            },
-            {
-              "shaclFile": "_sources/schemaorgProperties/organization/rules.shacl",
-              "focusNodes": {
-                "cdifd:CDIFOrganizationShape/sh:or/rdf:rest/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:CDIFOrganizationShape/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:CDIFOrganizationShape": {
-                  "nodes": []
-                }
-              },
-              "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/organization/rules.shacl:\n - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFOrganizationShape: *none*\n"
-            },
-            {
-              "op": "shacl-report",
-              "shaclFile": "_sources/schemaorgProperties/definedTerm/rules.shacl",
-              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
-              "isError": false,
-              "message": "Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
-            },
-            {
-              "shaclFile": "_sources/schemaorgProperties/definedTerm/rules.shacl",
-              "focusNodes": {
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
-                  "nodes": []
-                },
-                "_:nd2590c359e544c49a07e36470f2e3ee5b5": {
-                  "nodes": []
-                },
-                "_:nd2590c359e544c49a07e36470f2e3ee5b7": {
-                  "nodes": []
-                },
-                "_:nd2590c359e544c49a07e36470f2e3ee5b8": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:nd2590c359e544c49a07e36470f2e3ee5b19": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape": {
-                  "nodes": []
-                },
-                "_:nd2590c359e544c49a07e36470f2e3ee5b6": {
-                  "nodes": []
-                },
-                "_:nd2590c359e544c49a07e36470f2e3ee5b4": {
-                  "nodes": []
-                },
-                "_:nd2590c359e544c49a07e36470f2e3ee5b26": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:nd2590c359e544c49a07e36470f2e3ee5b10": {
-                  "nodes": []
-                }
-              },
-              "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:nd2590c359e544c49a07e36470f2e3ee5b5: *none*\n - Shape _:nd2590c359e544c49a07e36470f2e3ee5b7: *none*\n - Shape _:nd2590c359e544c49a07e36470f2e3ee5b8: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nd2590c359e544c49a07e36470f2e3ee5b19: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape _:nd2590c359e544c49a07e36470f2e3ee5b6: *none*\n - Shape _:nd2590c359e544c49a07e36470f2e3ee5b4: *none*\n - Shape _:nd2590c359e544c49a07e36470f2e3ee5b26: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape _:nd2590c359e544c49a07e36470f2e3ee5b10: *none*\n"
+              "message": "Focus nodes for _sources/cdifProperties/cdifPhysicalMapping/rules.shacl:\n - Shape cdifd:physicalMappingShape: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -280,45 +125,200 @@
             },
             {
               "op": "shacl-report",
-              "shaclFile": "_sources/cdifProperties/cdifPhysicalMapping/rules.shacl",
-              "graph": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode [ cdi:format \"decimal\" ;\n                    cdi:index 1 ;\n                    cdi:isRequired true ;\n                    cdi:nullSequence \"NA\" ;\n                    cdi:physicalDataType \"float64\" ] ;\n            sh:resultMessage \"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\" ;\n            sh:resultPath cdi:formats_InstanceVariable ;\n            sh:resultSeverity sh:Warning ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape _:n1442af1adf8040a29f3a0c3d5d7b5a79b2 ],\n        [ a sh:ValidationResult ;\n            sh:focusNode [ cdi:format \"decimal\" ;\n                    cdi:index 2 ;\n                    cdi:isRequired false ;\n                    cdi:nullSequence \"NA\" ;\n                    cdi:physicalDataType \"float64\" ] ;\n            sh:resultMessage \"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\" ;\n            sh:resultPath cdi:formats_InstanceVariable ;\n            sh:resultSeverity sh:Warning ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape _:n1442af1adf8040a29f3a0c3d5d7b5a79b2 ],\n        [ a sh:ValidationResult ;\n            sh:focusNode [ cdi:format \"decimal\" ;\n                    cdi:index 0 ;\n                    cdi:isRequired true ;\n                    cdi:locator \"/spectra/wavelength\" ;\n                    cdi:physicalDataType \"float32\" ] ;\n            sh:resultMessage \"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\" ;\n            sh:resultPath cdi:formats_InstanceVariable ;\n            sh:resultSeverity sh:Warning ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape _:n1442af1adf8040a29f3a0c3d5d7b5a79b2 ],\n        [ a sh:ValidationResult ;\n            sh:focusNode [ cdi:format \"decimal\" ;\n                    cdi:index 1 ;\n                    cdi:isRequired true ;\n                    cdi:locator \"/spectra/intensity\" ;\n                    cdi:physicalDataType \"float32\" ] ;\n            sh:resultMessage \"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\" ;\n            sh:resultPath cdi:formats_InstanceVariable ;\n            sh:resultSeverity sh:Warning ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape _:n1442af1adf8040a29f3a0c3d5d7b5a79b2 ],\n        [ a sh:ValidationResult ;\n            sh:focusNode [ cdi:format \"string\" ;\n                    cdi:index 0 ;\n                    cdi:isRequired true ;\n                    cdi:physicalDataType \"string\" ] ;\n            sh:resultMessage \"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\" ;\n            sh:resultPath cdi:formats_InstanceVariable ;\n            sh:resultSeverity sh:Warning ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape _:n1442af1adf8040a29f3a0c3d5d7b5a79b2 ] .\n\n_:n1442af1adf8040a29f3a0c3d5d7b5a79b2 sh:message \"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\" ;\n    sh:minCount 1 ;\n    sh:path cdi:formats_InstanceVariable ;\n    sh:severity sh:Warning .\n\n",
+              "shaclFile": "_sources/schemaorgProperties/dataDownload/rules.shacl",
+              "graph": "@prefix dcterms: <http://purl.org/dc/terms/> .\n@prefix ns1: <http://spdx.org/rdf/terms#> .\n@prefix schema1: <http://schema.org/> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode [ a schema1:DataDownload ;\n                    schema1:contentUrl \"https://example.org/data/geochem-package.zip\" ;\n                    schema1:description \"This data product is distributed as a zip archive; contents of the archive are listed as parts. The component files are not individually accessible.\" ;\n                    schema1:encodingFormat \"application/zip\" ;\n                    schema1:hasPart <file:///github/workspace/#3eaec0f86900d58d874bd7c18bedb156>,\n                        <file:///github/workspace/#7c6ef03f6b0e88dec54d9897f591deab>,\n                        <file:///github/workspace/#a6143a557a62f78ae39fcb80578b74a3>,\n                        <file:///github/workspace/#d640488b65b53b6bcc1abcb66b3cde7e>,\n                        <file:///github/workspace/#e0fee3cccca4292d76dcb5238224e677> ;\n                    schema1:name \"Geochemistry analysis data package\" ;\n                    ns1:checksum [ a ns1:Checksum ;\n                            ns1:algorithm \"SHA256\" ;\n                            ns1:checksumValue \"a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2\" ] ] ;\n            sh:resultMessage \"Recommended: include dcterms:conformsTo to identify the standard or specification this distribution conforms to.\" ;\n            sh:resultPath dcterms:conformsTo ;\n            sh:resultSeverity sh:Info ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape [ sh:message \"Recommended: include dcterms:conformsTo to identify the standard or specification this distribution conforms to.\" ;\n                    sh:minCount 1 ;\n                    sh:path dcterms:conformsTo ;\n                    sh:severity sh:Info ] ] .\n\n",
               "isError": true,
-              "message": "Validation result for _sources/cdifProperties/cdifPhysicalMapping/rules.shacl:\n  Validation Report\n  Conforms: False\n  Results (5):\n  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Warning\n  \tSource Shape: [ sh:message Literal(\"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path cdi:formats_InstanceVariable ; sh:severity sh:Warning ]\n  \tFocus Node: [ cdi:format Literal(\"string\") ; cdi:index Literal(\"0\", datatype=xsd:integer) ; cdi:isRequired Literal(\"true\" = True, datatype=xsd:boolean) ; cdi:physicalDataType Literal(\"string\") ]\n  \tResult Path: cdi:formats_InstanceVariable\n  \tMessage: A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\n  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Warning\n  \tSource Shape: [ sh:message Literal(\"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path cdi:formats_InstanceVariable ; sh:severity sh:Warning ]\n  \tFocus Node: [ cdi:format Literal(\"decimal\") ; cdi:index Literal(\"2\", datatype=xsd:integer) ; cdi:isRequired Literal(\"false\" = False, datatype=xsd:boolean) ; cdi:nullSequence Literal(\"NA\") ; cdi:physicalDataType Literal(\"float64\") ]\n  \tResult Path: cdi:formats_InstanceVariable\n  \tMessage: A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\n  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Warning\n  \tSource Shape: [ sh:message Literal(\"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path cdi:formats_InstanceVariable ; sh:severity sh:Warning ]\n  \tFocus Node: [ cdi:format Literal(\"decimal\") ; cdi:index Literal(\"0\", datatype=xsd:integer) ; cdi:isRequired Literal(\"true\" = True, datatype=xsd:boolean) ; cdi:locator Literal(\"/spectra/wavelength\") ; cdi:physicalDataType Literal(\"float32\") ]\n  \tResult Path: cdi:formats_InstanceVariable\n  \tMessage: A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\n  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Warning\n  \tSource Shape: [ sh:message Literal(\"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path cdi:formats_InstanceVariable ; sh:severity sh:Warning ]\n  \tFocus Node: [ cdi:format Literal(\"decimal\") ; cdi:index Literal(\"1\", datatype=xsd:integer) ; cdi:isRequired Literal(\"true\" = True, datatype=xsd:boolean) ; cdi:locator Literal(\"/spectra/intensity\") ; cdi:physicalDataType Literal(\"float32\") ]\n  \tResult Path: cdi:formats_InstanceVariable\n  \tMessage: A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\n  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Warning\n  \tSource Shape: [ sh:message Literal(\"A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path cdi:formats_InstanceVariable ; sh:severity sh:Warning ]\n  \tFocus Node: [ cdi:format Literal(\"decimal\") ; cdi:index Literal(\"1\", datatype=xsd:integer) ; cdi:isRequired Literal(\"true\" = True, datatype=xsd:boolean) ; cdi:nullSequence Literal(\"NA\") ; cdi:physicalDataType Literal(\"float64\") ]\n  \tResult Path: cdi:formats_InstanceVariable\n  \tMessage: A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable).\n  "
+              "message": "Validation result for _sources/schemaorgProperties/dataDownload/rules.shacl:\n  Validation Report\n  Conforms: False\n  Results (1):\n  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Info\n  \tSource Shape: [ sh:message Literal(\"Recommended: include dcterms:conformsTo to identify the standard or specification this distribution conforms to.\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path dcterms:conformsTo ; sh:severity sh:Info ]\n  \tFocus Node: [ rdf:type schema1:DataDownload ; schema1:contentUrl Literal(\"https://example.org/data/geochem-package.zip\") ; schema1:description Literal(\"This data product is distributed as a zip archive; contents of the archive are listed as parts. The component files are not individually accessible.\") ; schema1:encodingFormat Literal(\"application/zip\") ; schema1:hasPart <file:///github/workspace/#3eaec0f86900d58d874bd7c18bedb156>, <file:///github/workspace/#7c6ef03f6b0e88dec54d9897f591deab>, <file:///github/workspace/#a6143a557a62f78ae39fcb80578b74a3>, <file:///github/workspace/#d640488b65b53b6bcc1abcb66b3cde7e>, <file:///github/workspace/#e0fee3cccca4292d76dcb5238224e677> ; schema1:name Literal(\"Geochemistry analysis data package\") ; spdx:checksum [ rdf:type spdx:Checksum ; spdx:algorithm Literal(\"SHA256\") ; spdx:checksumValue Literal(\"a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2\") ] ]\n  \tResult Path: dcterms:conformsTo\n  \tMessage: Recommended: include dcterms:conformsTo to identify the standard or specification this distribution conforms to.\n  "
             },
             {
-              "shaclFile": "_sources/cdifProperties/cdifPhysicalMapping/rules.shacl",
+              "shaclFile": "_sources/schemaorgProperties/dataDownload/rules.shacl",
               "focusNodes": {
-                "cdifd:physicalMappingShape": {
-                  "nodes": []
+                "cdifd:CDIFDataDownloadShape": {
+                  "nodes": [
+                    "_:Nd6909ad1f57542ebb50fbde7210f633f"
+                  ]
+                },
+                "<https://www.ogc.org/rules/template/#ConformsToInfo>": {
+                  "nodes": [
+                    "_:Nd6909ad1f57542ebb50fbde7210f633f"
+                  ]
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/cdifProperties/cdifPhysicalMapping/rules.shacl:\n - Shape cdifd:physicalMappingShape: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/dataDownload/rules.shacl:\n - Shape cdifd:CDIFDataDownloadShape: _:Nd6909ad1f57542ebb50fbde7210f633f\n - Shape <https://www.ogc.org/rules/template/#ConformsToInfo>: _:Nd6909ad1f57542ebb50fbde7210f633f\n"
             },
             {
               "op": "shacl-report",
-              "shaclFile": "_sources/cdifProperties/cdifTabularData/rules.shacl",
+              "shaclFile": "_sources/schemaorgProperties/person/rules.shacl",
               "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
               "isError": false,
-              "message": "Validation result for _sources/cdifProperties/cdifTabularData/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+              "message": "Validation result for _sources/schemaorgProperties/person/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
             },
             {
-              "shaclFile": "_sources/cdifProperties/cdifTabularData/rules.shacl",
+              "shaclFile": "_sources/schemaorgProperties/person/rules.shacl",
               "focusNodes": {
-                "cdifd:tabularDataShape/sh:or/rdf:rest/rdf:first": {
+                "cdifd:contactPointProperty/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "cdifd:tabularDataShape": {
-                  "nodes": [
-                    "<file:///github/workspace/#7c6ef03f6b0e88dec54d9897f591deab>"
-                  ]
+                "cdifd:CDIFPersonShape/sh:or/rdf:first": {
+                  "nodes": []
                 },
-                "cdifd:tabularDataShape/sh:or/rdf:first": {
+                "cdifd:CDIFContactPointShape": {
+                  "nodes": []
+                },
+                "cdifd:CDIFPersonShape": {
+                  "nodes": []
+                },
+                "cdifd:CDIFPersonShape/sh:or/rdf:rest/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:contactPointProperty/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:maintainerOrProviderContactPointShape/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:affiliationProperty/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:maintainerOrProviderContactPointShape": {
+                  "nodes": []
+                },
+                "cdifd:affiliationProperty/sh:or/rdf:rest/rdf:first": {
+                  "nodes": []
+                },
+                "_:n808090248f9f43d59d264edae29e16bcb14": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/cdifProperties/cdifTabularData/rules.shacl:\n - Shape cdifd:tabularDataShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:tabularDataShape: <file:///github/workspace/#7c6ef03f6b0e88dec54d9897f591deab>\n - Shape cdifd:tabularDataShape/sh:or/rdf:first: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/person/rules.shacl:\n - Shape cdifd:contactPointProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:CDIFPersonShape/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFContactPointShape: *none*\n - Shape cdifd:CDIFPersonShape: *none*\n - Shape cdifd:CDIFPersonShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:contactPointProperty/sh:or/rdf:first: *none*\n - Shape cdifd:maintainerOrProviderContactPointShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:affiliationProperty/sh:or/rdf:first: *none*\n - Shape cdifd:maintainerOrProviderContactPointShape: *none*\n - Shape cdifd:affiliationProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n808090248f9f43d59d264edae29e16bcb14: *none*\n"
+            },
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/schemaorgProperties/organization/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/schemaorgProperties/organization/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/schemaorgProperties/organization/rules.shacl",
+              "focusNodes": {
+                "cdifd:CDIFOrganizationShape/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:CDIFOrganizationShape/sh:or/rdf:rest/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:CDIFOrganizationShape": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/schemaorgProperties/organization/rules.shacl:\n - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:CDIFOrganizationShape: *none*\n"
+            },
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/schemaorgProperties/definedTerm/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/schemaorgProperties/definedTerm/rules.shacl",
+              "focusNodes": {
+                "_:n7fc7628e3b3e4f248fc426f19b00153eb19": {
+                  "nodes": []
+                },
+                "_:n7fc7628e3b3e4f248fc426f19b00153eb7": {
+                  "nodes": []
+                },
+                "_:n7fc7628e3b3e4f248fc426f19b00153eb26": {
+                  "nodes": []
+                },
+                "_:n7fc7628e3b3e4f248fc426f19b00153eb8": {
+                  "nodes": []
+                },
+                "_:n7fc7628e3b3e4f248fc426f19b00153eb5": {
+                  "nodes": []
+                },
+                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:CDIFDefinedTermShape": {
+                  "nodes": []
+                },
+                "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
+                  "nodes": []
+                },
+                "_:n7fc7628e3b3e4f248fc426f19b00153eb10": {
+                  "nodes": []
+                },
+                "_:n7fc7628e3b3e4f248fc426f19b00153eb6": {
+                  "nodes": []
+                },
+                "cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n7fc7628e3b3e4f248fc426f19b00153eb4": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape _:n7fc7628e3b3e4f248fc426f19b00153eb19: *none*\n - Shape _:n7fc7628e3b3e4f248fc426f19b00153eb7: *none*\n - Shape _:n7fc7628e3b3e4f248fc426f19b00153eb26: *none*\n - Shape _:n7fc7628e3b3e4f248fc426f19b00153eb8: *none*\n - Shape _:n7fc7628e3b3e4f248fc426f19b00153eb5: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n7fc7628e3b3e4f248fc426f19b00153eb10: *none*\n - Shape _:n7fc7628e3b3e4f248fc426f19b00153eb6: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n7fc7628e3b3e4f248fc426f19b00153eb4: *none*\n"
+            },
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/schemaorgProperties/identifier/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/schemaorgProperties/identifier/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/schemaorgProperties/identifier/rules.shacl",
+              "focusNodes": {
+                "_:n43810cb5e2224728851c0501e599b9c8b20": {
+                  "nodes": []
+                },
+                "_:n43810cb5e2224728851c0501e599b9c8b23": {
+                  "nodes": []
+                },
+                "_:n43810cb5e2224728851c0501e599b9c8b22": {
+                  "nodes": []
+                },
+                "_:n43810cb5e2224728851c0501e599b9c8b25": {
+                  "nodes": []
+                },
+                "cdifd:CDIFIdentifierShape": {
+                  "nodes": []
+                },
+                "cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n43810cb5e2224728851c0501e599b9c8b10": {
+                  "nodes": []
+                },
+                "_:n43810cb5e2224728851c0501e599b9c8b21": {
+                  "nodes": []
+                },
+                "cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n43810cb5e2224728851c0501e599b9c8b11": {
+                  "nodes": []
+                },
+                "cdifd:CDIFIdentifierTypeTermShape": {
+                  "nodes": []
+                },
+                "cdifd:CDIFIdentifierShape/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape _:n43810cb5e2224728851c0501e599b9c8b20: *none*\n - Shape _:n43810cb5e2224728851c0501e599b9c8b23: *none*\n - Shape _:n43810cb5e2224728851c0501e599b9c8b22: *none*\n - Shape _:n43810cb5e2224728851c0501e599b9c8b25: *none*\n - Shape cdifd:CDIFIdentifierShape: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n43810cb5e2224728851c0501e599b9c8b10: *none*\n - Shape _:n43810cb5e2224728851c0501e599b9c8b21: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n43810cb5e2224728851c0501e599b9c8b11: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n"
             }
           ]
         }
