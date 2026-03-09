@@ -336,16 +336,16 @@ ex:exampleAction_37467 a schema1:Action ;
             schema1:description "plain text list of instruments available" ;
             schema1:encodingFormat "text/plain" ] ;
     schema1:target [ a schema1:EntryPoint ;
+            schema1:contentType "text/plain" ;
+            schema1:description "endpoint URL to invoke the action; content type spcifies the supported content type(s) for an EntryPoint response" ;
+            schema1:httpMethod "GET" ;
+            schema1:urlTemplate "http://portal.chordsrt.com/api/v1/data/instruments" ],
+        [ a schema1:EntryPoint ;
             schema1:contentType "application/json",
                 "text/csv" ;
             schema1:description "endpoint URL to invoke the action; content type spcifies the supported content type(s) for an EntryPoint response" ;
             schema1:httpMethod "GET" ;
-            schema1:urlTemplate "http://portal.chordsrt.com/api/v1/data.{encoding}?instruments={instruments}&start={start}&end={end}" ],
-        [ a schema1:EntryPoint ;
-            schema1:contentType "text/plain" ;
-            schema1:description "endpoint URL to invoke the action; content type spcifies the supported content type(s) for an EntryPoint response" ;
-            schema1:httpMethod "GET" ;
-            schema1:urlTemplate "http://portal.chordsrt.com/api/v1/data/instruments" ] .
+            schema1:urlTemplate "http://portal.chordsrt.com/api/v1/data.{encoding}?instruments={instruments}&start={start}&end={end}" ] .
 
 ex:input_encoding a schema1:PropertyValueSpecification ;
     schema1:description "format of requested result" ;
@@ -416,6 +416,7 @@ properties:
       description as a whole.
     oneOf:
     - type: string
+      default: not specified
     - $ref: '#/$defs/LabeledLink'
   schema:documentation:
     description: a document that provides a machine-actionable description of a service
@@ -435,6 +436,7 @@ properties:
 required:
 - schema:serviceType
 - schema:potentialAction
+- schema:termsOfService
 $defs:
   LabeledLink:
     $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml

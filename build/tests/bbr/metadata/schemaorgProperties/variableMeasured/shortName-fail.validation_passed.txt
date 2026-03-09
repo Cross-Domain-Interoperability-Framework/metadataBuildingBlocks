@@ -1,5 +1,5 @@
 Validation report for cdif.bbr.metadata.schemaorgProperties.variableMeasured - VariableMeasured
-Generated 2026-03-09T19:12:40.212056+00:00
+Generated 2026-03-09T21:51:48.510158+00:00
 === General ===
 Test was expected to fail and it did.
 === End General ===
@@ -14,16 +14,136 @@ Output Turtle shortName-fail.ttl created
 === JSON Schema ===
 
 ** Validation error **
-ValidationError: 'schema:Person' is not of type 'array'
+ValidationError: {'@context': {'schema': 'http://schema.org/', 'ex': 'https://example.org/'}, '@id': 'ex:PersonExample_zZc', '@type': 'schema:Person', 'schema:name': ' ', 'schema:alternateName': 'Test, Joe', 'schema:description': 'Metadata specialist, based in Portland, Maine', 'schema:sameAs': ['https://ark.org/46737', 'uri:test:43737']} is not valid under any of the given schemas
 
-Failed validating 'type' in schema['properties']['@type']:
-    {'contains': {'const': 'schema:PropertyValue'},
-     'items': {'type': 'string'},
-     'minItems': 1,
-     'type': 'array'}
+Failed validating 'oneOf' in schema:
+    {'$defs': {'DefinedTerm': {'$ref': 'https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml'}},
+     '$schema': 'https://json-schema.org/draft/2020-12/schema',
+     'description': 'CDIF schema.org implementation of variableMeasured',
+     'oneOf': [{'properties': {'@type': {'contains': {'const': 'schema:PropertyValue'},
+                                         'items': {'type': 'string'},
+                                         'minItems': 1,
+                                         'type': 'array'},
+                               'schema:maxValue': {'description': 'maximum '
+                                                                  'numeric '
+                                                                  'value '
+                                                                  'in the '
+                                                                  'dataset',
+                                                   'type': 'number'},
+                               'schema:minValue': {'description': 'minimum '
+                                                                  'numeric '
+                                                                  'value '
+                                                                  'in the '
+                                                                  'dataset',
+                                                   'type': 'number'},
+                               'schema:propertyID': {'description': 'identifier '
+                                                                    'or '
+                                                                    'name '
+                                                                    'for '
+                                                                    'the '
+                                                                    'property '
+                                                                    'concept',
+                                                     'items': {'anyOf': [{'type': 'string'},
+                                                                         {'properties': {'@id': {'type': 'string'}},
+                                                                          'type': 'object'},
+                                                                         {'$ref': '#/$defs/DefinedTerm'}]},
+                                                     'type': 'array'},
+                               'schema:unitCode': {'anyOf': [{'type': 'string'},
+                                                             {'properties': {'@id': {'type': 'string'}},
+                                                              'type': 'object'},
+                                                             {'$ref': '#/$defs/DefinedTerm'}],
+                                                   'description': 'URI or '
+                                                                  'code '
+                                                                  'identifying '
+                                                                  'the '
+                                                                  'unit of '
+                                                                  'measure'},
+                               'schema:unitText': {'description': 'unit of '
+                                                                  'measurement '
+                                                                  'as text',
+                                                   'type': 'string'},
+                               'schema:url': {'description': 'link to a '
+                                                             'web page '
+                                                             'useful for '
+                                                             'interpreting '
+                                                             'the variable',
+                                              'format': 'uri',
+                                              'type': 'string'}},
+                'required': ['@type'],
+                'type': 'object'},
+               {'properties': {'@type': {'contains': {'const': 'schema:StatisticalVariable'},
+                                         'items': {'type': 'string'},
+                                         'minItems': 1,
+                                         'type': 'array'},
+                               'schema:measuredProperty': {'properties': {'@id': {'description': 'reference '
+                                                                                                 'to '
+                                                                                                 'a '
+                                                                                                 'skos '
+                                                                                                 'concept '
+                                                                                                 'for '
+                                                                                                 'the '
+                                                                                                 'property',
+                                                                                  'type': 'string'},
+                                                                          '@type': {'const': 'schema:Property',
+                                                                                    'type': 'string'},
+                                                                          'schema:name': {'anyOf': [{'type': 'string'},
+                                                                                                    {'properties': {'@id': {'type': 'string'}},
+                                                                                                     'type': 'object'},
+                                                                                                    {'$ref': '#/$defs/DefinedTerm'}]}},
+                                                           'type': 'object'},
+                               'schema:statType': {'anyOf': [{'type': 'string'},
+                                                             {'properties': {'@id': {'type': 'string'}},
+                                                              'type': 'object'},
+                                                             {'$ref': '#/$defs/DefinedTerm'}]}},
+                'required': ['@type', 'schema:measuredProperty'],
+                'type': 'object'}],
+     'properties': {'@id': {'type': 'string'},
+                    'schema:alternateName': {'items': {'description': 'human '
+                                                                      'intelligible '
+                                                                      'name '
+                                                                      'for '
+                                                                      'variable '
+                                                                      'that '
+                                                                      'conveys '
+                                                                      'semantics',
+                                                       'type': 'string'},
+                                             'type': 'array'},
+                    'schema:description': {'default': 'missing',
+                                           'type': 'string'},
+                    'schema:measurementTechnique': {'anyOf': [{'type': 'string'},
+                                                              {'properties': {'@id': {'description': 'reference '
+                                                                                                     'to '
+                                                                                                     'a '
+                                                                                                     'skos '
+                                                                                                     'concept',
+                                                                                      'type': 'string'}},
+                                                               'type': 'object'},
+                                                              {'$ref': '#/$defs/DefinedTerm'}],
+                                                    'description': 'Text '
+                                                                   'description '
+                                                                   'or URI '
+                                                                   'identifying '
+                                                                   'the '
+                                                                   'measurement '
+                                                                   'method.'},
+                    'schema:name': {'description': 'string label '
+                                                   'associated with the '
+                                                   'variable in the '
+                                                   'dataset serialization',
+                                    'type': 'string'}},
+     'required': ['schema:name'],
+     'type': 'object',
+     'x-jsonld-prefixes': {'schema': 'http://schema.org/'}}
 
-On instance['@type']:
-    'schema:Person'
+On instance:
+    {'@context': {'ex': 'https://example.org/',
+                  'schema': 'http://schema.org/'},
+     '@id': 'ex:PersonExample_zZc',
+     '@type': 'schema:Person',
+     'schema:alternateName': 'Test, Joe',
+     'schema:description': 'Metadata specialist, based in Portland, Maine',
+     'schema:name': ' ',
+     'schema:sameAs': ['https://ark.org/46737', 'uri:test:43737']}
 === End JSON Schema ===
 
 === SHACL ===
@@ -32,66 +152,66 @@ Validation result for _sources/schemaorgProperties/variableMeasured/rules.shacl:
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/variableMeasured/rules.shacl:
- - Shape _:nddc53b394cea4d57a31990d72a0b42eeb7: *none*
- - Shape _:nddc53b394cea4d57a31990d72a0b42eeb45: *none*
- - Shape _:nddc53b394cea4d57a31990d72a0b42eeb12: *none*
+ - Shape _:nabecff07da0b434087d3800a413b8dd0b4: *none*
+ - Shape _:nabecff07da0b434087d3800a413b8dd0b44: *none*
+ - Shape _:nabecff07da0b434087d3800a413b8dd0b9: *none*
+ - Shape _:nabecff07da0b434087d3800a413b8dd0b8: *none*
+ - Shape _:nabecff07da0b434087d3800a413b8dd0b38: *none*
  - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:nddc53b394cea4d57a31990d72a0b42eeb44: *none*
- - Shape _:nddc53b394cea4d57a31990d72a0b42eeb14: *none*
- - Shape _:nddc53b394cea4d57a31990d72a0b42eeb52: *none*
+ - Shape _:nabecff07da0b434087d3800a413b8dd0b10: *none*
+ - Shape _:nabecff07da0b434087d3800a413b8dd0b7: *none*
  - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nabecff07da0b434087d3800a413b8dd0b37: *none*
+ - Shape _:nabecff07da0b434087d3800a413b8dd0b52: *none*
+ - Shape _:nabecff07da0b434087d3800a413b8dd0b30: *none*
  - Shape cdifd:CDIFVariableMeasuredShape: *none*
- - Shape _:nddc53b394cea4d57a31990d72a0b42eeb38: *none*
- - Shape _:nddc53b394cea4d57a31990d72a0b42eeb4: *none*
- - Shape _:nddc53b394cea4d57a31990d72a0b42eeb5: *none*
- - Shape _:nddc53b394cea4d57a31990d72a0b42eeb9: *none*
- - Shape _:nddc53b394cea4d57a31990d72a0b42eeb29: *none*
  - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
  - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:nddc53b394cea4d57a31990d72a0b42eeb11: *none*
- - Shape _:nddc53b394cea4d57a31990d72a0b42eeb30: *none*
- - Shape _:nddc53b394cea4d57a31990d72a0b42eeb10: *none*
  - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:nddc53b394cea4d57a31990d72a0b42eeb8: *none*
- - Shape _:nddc53b394cea4d57a31990d72a0b42eeb51: *none*
- - Shape _:nddc53b394cea4d57a31990d72a0b42eeb37: *none*
+ - Shape _:nabecff07da0b434087d3800a413b8dd0b29: *none*
+ - Shape _:nabecff07da0b434087d3800a413b8dd0b45: *none*
+ - Shape _:nabecff07da0b434087d3800a413b8dd0b12: *none*
+ - Shape _:nabecff07da0b434087d3800a413b8dd0b51: *none*
+ - Shape _:nabecff07da0b434087d3800a413b8dd0b5: *none*
+ - Shape _:nabecff07da0b434087d3800a413b8dd0b11: *none*
+ - Shape _:nabecff07da0b434087d3800a413b8dd0b14: *none*
 
 Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
- - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n7cf3a32af21d4f7291872b27d4e8177eb5: *none*
+ - Shape _:nfbd0204c412549d6bd8203fa00b6b6e7b8: *none*
+ - Shape _:nfbd0204c412549d6bd8203fa00b6b6e7b10: *none*
+ - Shape _:nfbd0204c412549d6bd8203fa00b6b6e7b19: *none*
  - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
- - Shape _:n7cf3a32af21d4f7291872b27d4e8177eb6: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n7cf3a32af21d4f7291872b27d4e8177eb10: *none*
- - Shape _:n7cf3a32af21d4f7291872b27d4e8177eb26: *none*
+ - Shape _:nfbd0204c412549d6bd8203fa00b6b6e7b6: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
  - Shape cdifd:CDIFDefinedTermShape: *none*
- - Shape _:n7cf3a32af21d4f7291872b27d4e8177eb4: *none*
- - Shape _:n7cf3a32af21d4f7291872b27d4e8177eb19: *none*
- - Shape _:n7cf3a32af21d4f7291872b27d4e8177eb8: *none*
- - Shape _:n7cf3a32af21d4f7291872b27d4e8177eb7: *none*
+ - Shape _:nfbd0204c412549d6bd8203fa00b6b6e7b5: *none*
+ - Shape _:nfbd0204c412549d6bd8203fa00b6b6e7b26: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:nfbd0204c412549d6bd8203fa00b6b6e7b7: *none*
+ - Shape _:nfbd0204c412549d6bd8203fa00b6b6e7b4: *none*
 
 Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
- - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
- - Shape _:nfafd295a310a4f398cfd7fa95561d233b23: *none*
- - Shape _:nfafd295a310a4f398cfd7fa95561d233b20: *none*
- - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
- - Shape _:nfafd295a310a4f398cfd7fa95561d233b10: *none*
- - Shape _:nfafd295a310a4f398cfd7fa95561d233b22: *none*
- - Shape _:nfafd295a310a4f398cfd7fa95561d233b25: *none*
- - Shape _:nfafd295a310a4f398cfd7fa95561d233b21: *none*
- - Shape _:nfafd295a310a4f398cfd7fa95561d233b11: *none*
  - Shape cdifd:CDIFIdentifierShape: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n0cf7070aa1b7417dad25cd5f2651b149b23: *none*
+ - Shape _:n0cf7070aa1b7417dad25cd5f2651b149b25: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape _:n0cf7070aa1b7417dad25cd5f2651b149b21: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
+ - Shape _:n0cf7070aa1b7417dad25cd5f2651b149b22: *none*
+ - Shape _:n0cf7070aa1b7417dad25cd5f2651b149b11: *none*
+ - Shape _:n0cf7070aa1b7417dad25cd5f2651b149b20: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n0cf7070aa1b7417dad25cd5f2651b149b10: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
 
 === End SHACL ===
 

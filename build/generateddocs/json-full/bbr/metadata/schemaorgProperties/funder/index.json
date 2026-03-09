@@ -31,11 +31,11 @@
     "cdif.bbr.metadata.schemaorgProperties.funder": [
       "https://usgin.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/funder/rules.shacl"
     ],
-    "cdif.bbr.metadata.schemaorgProperties.identifier": [
-      "https://usgin.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
-    ],
     "cdif.bbr.metadata.schemaorgProperties.person": [
       "https://usgin.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/person/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://usgin.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
     ],
     "cdif.bbr.metadata.schemaorgProperties.organization": [
       "https://usgin.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/organization/rules.shacl"
@@ -45,8 +45,8 @@
     ]
   },
   "dependsOn": [
-    "cdif.bbr.metadata.schemaorgProperties.identifier",
     "cdif.bbr.metadata.schemaorgProperties.person",
+    "cdif.bbr.metadata.schemaorgProperties.identifier",
     "cdif.bbr.metadata.schemaorgProperties.organization"
   ],
   "ldContext": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/context.jsonld",
@@ -88,7 +88,7 @@
       ]
     }
   ],
-  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: Funding acknowledgement properties, profile of schema.org/MonetaryGrant\ntype: object\nproperties:\n  '@type':\n    type: string\n    default: schema:MonetaryGrant\n    const: schema:MonetaryGrant\n  schema:identifier:\n    $ref: '#/$defs/Identifier'\n    description: identifier for a particular grant\n  schema:description:\n    type: string\n    description: description of the funding or grant\n  schema:name:\n    type: string\n    description: title of the grant\n  schema:funder:\n    anyOf:\n    - type: object\n      properties:\n        '@id':\n          type: string\n          description: a identifier for an agent defined in this metadata, or externally;\n            must be dereferenceable\n    - $ref: '#/$defs/Person'\n    - $ref: '#/$defs/Organization'\nanyOf:\n- required:\n  - schema:funder\n- required:\n  - schema:identifier\n- required:\n  - schema:name\n- required:\n  - schema:description\n$defs:\n  Person:\n    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml\n  Organization:\n    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml\n  Identifier:\n    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: Funding acknowledgement properties, profile of schema.org/MonetaryGrant\ntype: object\nproperties:\n  '@id':\n    type: string\n    description: URI identifier for this funding record\n  '@type':\n    type: string\n    default: schema:MonetaryGrant\n    const: schema:MonetaryGrant\n  schema:identifier:\n    $ref: '#/$defs/Identifier'\n    description: identifier for a particular grant\n  schema:description:\n    type: string\n    description: description of the funding or grant\n  schema:name:\n    type: string\n    description: title of the grant\n  schema:funder:\n    anyOf:\n    - type: object\n      properties:\n        '@id':\n          type: string\n          description: a identifier for an agent defined in this metadata, or externally;\n            must be dereferenceable\n    - $ref: '#/$defs/Person'\n    - $ref: '#/$defs/Organization'\nanyOf:\n- required:\n  - schema:funder\n- required:\n  - schema:identifier\n- required:\n  - schema:name\n$defs:\n  Person:\n    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml\n  Organization:\n    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml\n  Identifier:\n    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
   "gitRepository": "https://github.com/usgin/metadataBuildingBlocks",
   "gitPath": "_sources/schemaorgProperties/funder"
 }

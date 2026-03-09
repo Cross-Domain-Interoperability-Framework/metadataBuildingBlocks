@@ -485,27 +485,11 @@ properties:
     items:
       $ref: '#/$defs/QualityMeasure'
   schema:distribution:
-    description: Distribution with dual typing for structured or tabular data; extends
-      the CDIFMandatory distribution by requiring a CDI dataset type alongside schema:DataDownload.
+    description: Distribution options for the dataset.
     type: array
     items:
       anyOf:
       - $ref: '#/$defs/DataDownload'
-      - description: Distribution with CDIF dual typing for structured or tabular
-          data
-        allOf:
-        - $ref: '#/$defs/DataDownload'
-        - type: object
-          properties:
-            '@type':
-              type: array
-              items:
-                type: string
-              contains:
-                enum:
-                - cdi:StructuredDataSet
-                - cdi:TabularTextDataSet
-              minItems: 2
       - $ref: '#/$defs/WebAPI'
 $defs:
   LabeledLink:
