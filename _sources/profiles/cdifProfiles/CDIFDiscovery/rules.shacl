@@ -261,11 +261,15 @@ cdifd:datePublishedProperty
     .
 
 cdifd:keywordsNoCommaTest
-# throw warning if there is a comma character in a keyword string
+# throw warning if there is a comma character in a keyword string.
+# Only applies to literal (string) keywords; DefinedTerm objects are allowed.
     a sh:PropertyShape ;
     sh:path schema:keywords ;
-	sh:datatype xsd:string ;
-	sh:pattern "^[^,]*$" ;
+	sh:or (
+		[ sh:datatype xsd:string ;
+		  sh:pattern "^[^,]*$" ; ]
+		[ sh:nodeKind sh:BlankNodeOrIRI ; ]
+	) ;
     sh:severity sh:Warning ;
     sh:message "If there are multiple keywords, they should be in an array; an individual keyword MUST not contain a comma character" ;
     sh:description "https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html" ;
