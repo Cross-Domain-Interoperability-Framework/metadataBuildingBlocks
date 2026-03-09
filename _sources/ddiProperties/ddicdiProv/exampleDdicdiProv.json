@@ -3,56 +3,45 @@
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
         "ex": "https://example.org/"
     },
-    "@graph": [
+    "@id": "ex:activity-soil-chem-analysis",
+    "@type": "cdi:Activity",
+    "cdi:name": {
+        "@type": "cdi:ObjectName",
+        "cdi:name": "Soil Chemistry Analysis - Great Basin Transect 2025"
+    },
+    "cdi:description": "Major and trace element analysis of soil samples collected along a 200 km transect across the Great Basin, using ICP-MS and XRF spectrometry with certified reference materials.",
+    "cdi:displayLabel": {
+        "@type": "cdi:LabelForDisplay",
+        "cdi:languageSpecificString": {
+            "@type": "cdi:LanguageString",
+            "cdi:content": "GB Soil Chemistry 2025",
+            "cdi:language": "en"
+        }
+    },
+    "cdi:entityUsed": [
         {
-            "@id": "ex:activity-soil-chem-analysis",
-            "@type": "cdi:Activity",
-            "cdi:name": {
-                "@type": "cdi:ObjectName",
-                "cdi:name": "Soil Chemistry Analysis - Great Basin Transect 2025"
-            },
-            "cdi:description": "Major and trace element analysis of soil samples collected along a 200 km transect across the Great Basin, using ICP-MS and XRF spectrometry with certified reference materials.",
-            "cdi:displayLabel": {
-                "@type": "cdi:LabelForDisplay",
-                "cdi:languageSpecificString": {
-                    "@type": "cdi:LanguageString",
-                    "cdi:content": "GB Soil Chemistry 2025",
-                    "cdi:language": "en"
-                }
-            },
-            "cdi:entityUsed": [
-                {
-                    "@type": "cdi:Reference",
-                    "cdi:uri": "https://vocab.nerc.ac.uk/collection/L05/current/LAB02",
-                    "cdi:description": "NERC laboratory analysis technique vocabulary"
-                },
-                {
-                    "@type": "cdi:Reference",
-                    "cdi:description": "Soil core samples collected June 2025, sites GB-001 through GB-045"
-                },
-                {
-                    "@type": "cdi:Reference",
-                    "cdi:uri": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination",
-                    "cdi:description": "EPA Method 6200 - XRF Analysis of Soils"
-                }
-            ],
-            "cdi:entityProduced": [
-                {
-                    "@type": "cdi:Reference",
-                    "cdi:uri": "https://doi.org/10.5281/zenodo.example-soil-chem-gb-2025",
-                    "cdi:description": "Output dataset: Great Basin soil geochemistry results"
-                }
-            ],
-            "cdi:has_Step": [
-                {"@id": "ex:step-sample-prep"},
-                {"@id": "ex:step-icpms-measurement"}
-            ],
-            "cdi:standardModelMapping": {
-                "@type": "cdi:Reference",
-                "cdi:uri": "https://statswiki.unece.org/display/GSBPM/GSBPM+v5.1",
-                "cdi:description": "Generic Statistical Business Process Model v5.1"
-            }
+            "@type": "cdi:Reference",
+            "cdi:uri": "https://vocab.nerc.ac.uk/collection/L05/current/LAB02",
+            "cdi:description": "NERC laboratory analysis technique vocabulary"
         },
+        {
+            "@type": "cdi:Reference",
+            "cdi:description": "Soil core samples collected June 2025, sites GB-001 through GB-045"
+        },
+        {
+            "@type": "cdi:Reference",
+            "cdi:uri": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination",
+            "cdi:description": "EPA Method 6200 - XRF Analysis of Soils"
+        }
+    ],
+    "cdi:entityProduced": [
+        {
+            "@type": "cdi:Reference",
+            "cdi:uri": "https://doi.org/10.5281/zenodo.example-soil-chem-gb-2025",
+            "cdi:description": "Output dataset: Great Basin soil geochemistry results"
+        }
+    ],
+    "cdi:has_Step": [
         {
             "@id": "ex:step-sample-prep",
             "@type": "cdi:Step",
@@ -73,10 +62,32 @@
                 "cdi:entryValue": "Laboratory protocol"
             },
             "cdi:receives": [
-                {"@id": "ex:param-soil-samples"}
+                {
+                    "@id": "ex:param-soil-samples",
+                    "@type": "cdi:Parameter",
+                    "cdi:name": {
+                        "@type": "cdi:ObjectName",
+                        "cdi:name": "Soil samples"
+                    },
+                    "cdi:entityBound": {
+                        "@type": "cdi:Reference",
+                        "cdi:description": "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect, sites GB-001 through GB-045"
+                    }
+                }
             ],
             "cdi:produces": [
-                {"@id": "ex:param-digested-solutions"}
+                {
+                    "@id": "ex:param-digested-solutions",
+                    "@type": "cdi:Parameter",
+                    "cdi:name": {
+                        "@type": "cdi:ObjectName",
+                        "cdi:name": "Digested solutions"
+                    },
+                    "cdi:entityBound": {
+                        "@type": "cdi:Reference",
+                        "cdi:description": "Acid-digested soil solutions ready for ICP-MS analysis"
+                    }
+                }
             ]
         },
         {
@@ -99,80 +110,30 @@
                 "cdi:entryValue": "Instrumental method"
             },
             "cdi:receives": [
-                {"@id": "ex:param-digested-solutions"}
+                {
+                    "@id": "ex:param-digested-solutions"
+                }
             ],
             "cdi:produces": [
-                {"@id": "ex:param-measurement-data"}
-            ]
-        },
-        {
-            "@id": "ex:param-soil-samples",
-            "@type": "cdi:Parameter",
-            "cdi:name": {
-                "@type": "cdi:ObjectName",
-                "cdi:name": "Soil samples"
-            },
-            "cdi:entityBound": {
-                "@type": "cdi:Reference",
-                "cdi:description": "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect, sites GB-001 through GB-045"
-            }
-        },
-        {
-            "@id": "ex:param-digested-solutions",
-            "@type": "cdi:Parameter",
-            "cdi:name": {
-                "@type": "cdi:ObjectName",
-                "cdi:name": "Digested solutions"
-            },
-            "cdi:entityBound": {
-                "@type": "cdi:Reference",
-                "cdi:description": "Acid-digested soil solutions ready for ICP-MS analysis"
-            }
-        },
-        {
-            "@id": "ex:param-measurement-data",
-            "@type": "cdi:Parameter",
-            "cdi:name": {
-                "@type": "cdi:ObjectName",
-                "cdi:name": "Measurement data"
-            },
-            "cdi:entityBound": {
-                "@type": "cdi:Reference",
-                "cdi:uri": "https://doi.org/10.5281/zenodo.example-soil-chem-gb-2025",
-                "cdi:description": "Raw ICP-MS measurement data with element concentrations"
-            }
-        },
-        {
-            "@id": "ex:agent-maria-chen",
-            "@type": "cdi:ProcessingAgent",
-            "cdi:identifier": {
-                "@type": "cdi:Identifier",
-                "cdi:uri": "https://orcid.org/0000-0002-8765-4321",
-                "cdi:nonDdiIdentifier": {
-                    "@type": "cdi:NonDdiIdentifier",
-                    "cdi:identifierContent": "0000-0002-8765-4321",
-                    "cdi:managingAgency": "ORCID"
+                {
+                    "@id": "ex:param-measurement-data",
+                    "@type": "cdi:Parameter",
+                    "cdi:name": {
+                        "@type": "cdi:ObjectName",
+                        "cdi:name": "Measurement data"
+                    },
+                    "cdi:entityBound": {
+                        "@type": "cdi:Reference",
+                        "cdi:uri": "https://doi.org/10.5281/zenodo.example-soil-chem-gb-2025",
+                        "cdi:description": "Raw ICP-MS measurement data with element concentrations"
+                    }
                 }
-            },
-            "cdi:performs": [
-                {"@id": "ex:activity-soil-chem-analysis"}
-            ],
-            "cdi:operatesOn": [
-                {"@id": "ex:env-nbmg-lab"}
             ]
-        },
-        {
-            "@id": "ex:env-nbmg-lab",
-            "@type": "cdi:ProductionEnvironment",
-            "cdi:name": {
-                "@type": "cdi:ObjectName",
-                "cdi:name": "Nevada Bureau of Mines and Geology Analytical Lab"
-            },
-            "cdi:description": "Geochemistry analytical laboratory at the University of Nevada, Reno",
-            "cdi:identifier": {
-                "@type": "cdi:Identifier",
-                "cdi:uri": "https://www.unr.edu/nbmg"
-            }
         }
-    ]
+    ],
+    "cdi:standardModelMapping": {
+        "@type": "cdi:Reference",
+        "cdi:uri": "https://statswiki.unece.org/display/GSBPM/GSBPM+v5.1",
+        "cdi:description": "Generic Statistical Business Process Model v5.1"
+    }
 }
