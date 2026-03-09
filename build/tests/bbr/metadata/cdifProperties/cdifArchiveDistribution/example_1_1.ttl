@@ -1,5 +1,6 @@
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix ns1: <dcterms:> .
 @prefix schema1: <http://schema.org/> .
 @prefix spdx: <http://spdx.org/rdf/terms#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -20,17 +21,17 @@
             cdi:isRequired false ;
             cdi:nullSequence "NA" ;
             cdi:physicalDataType "float64" ],
+        [ cdi:format "string" ;
+            cdi:formats_InstanceVariable <file:///github/workspace/#var-sample-id> ;
+            cdi:index 0 ;
+            cdi:isRequired true ;
+            cdi:physicalDataType "string" ],
         [ cdi:format "decimal" ;
             cdi:formats_InstanceVariable <file:///github/workspace/#var-concentration> ;
             cdi:index 1 ;
             cdi:isRequired true ;
             cdi:nullSequence "NA" ;
-            cdi:physicalDataType "float64" ],
-        [ cdi:format "string" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-sample-id> ;
-            cdi:index 0 ;
-            cdi:isRequired true ;
-            cdi:physicalDataType "string" ] ;
+            cdi:physicalDataType "float64" ] ;
     cdi:isDelimited true ;
     schema1:description "Measurement data with column structure described via CSVW and physical mappings." ;
     schema1:encodingFormat "text/csv" ;
@@ -45,16 +46,16 @@
 <file:///github/workspace/#a6143a557a62f78ae39fcb80578b74a3> a cdi:StructuredDataSet,
         schema1:MediaObject ;
     cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-wavelength> ;
-            cdi:index 0 ;
-            cdi:isRequired true ;
-            cdi:locator "/spectra/wavelength" ;
-            cdi:physicalDataType "float32" ],
-        [ cdi:format "decimal" ;
             cdi:formats_InstanceVariable <file:///github/workspace/#var-intensity> ;
             cdi:index 1 ;
             cdi:isRequired true ;
             cdi:locator "/spectra/intensity" ;
+            cdi:physicalDataType "float32" ],
+        [ cdi:format "decimal" ;
+            cdi:formats_InstanceVariable <file:///github/workspace/#var-wavelength> ;
+            cdi:index 0 ;
+            cdi:isRequired true ;
+            cdi:locator "/spectra/wavelength" ;
             cdi:physicalDataType "float32" ] ;
     schema1:description "Spectral data cube with wavelength and intensity dimensions." ;
     schema1:encodingFormat "application/x-netcdf" ;
@@ -84,6 +85,7 @@
             spdx:checksumValue "f962af0b2e2f02752aa258a58cede1263f05c7a78e3b9d162da960368f7dc54b" ] .
 
 [] a schema1:DataDownload ;
+    ns1:conformsTo "https://www.iana.org/assignments/media-types/application/zip" ;
     schema1:contentUrl "https://example.org/data/geochem-package.zip" ;
     schema1:description "This data product is distributed as a zip archive; contents of the archive are listed as parts. The component files are not individually accessible." ;
     schema1:encodingFormat "application/zip" ;

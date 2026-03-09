@@ -80,7 +80,8 @@ Defintion of properties to describe file-based distribution of a resource on the
         "schema:url": "https://orcid.org/3333-4444-5565"
       }
     }
-  ]
+  ],
+  "dcterms:conformsTo": "not specified"
 }
 
 ```
@@ -139,13 +140,15 @@ Defintion of properties to describe file-based distribution of a resource on the
         "schema:url": "https://orcid.org/3333-4444-5565"
       }
     }
-  ]
+  ],
+  "dcterms:conformsTo": "not specified"
 }
 ```
 
 #### ttl
 ```ttl
 @prefix ns1: <spdx:> .
+@prefix ns2: <dcterms:> .
 @prefix schema1: <http://schema.org/> .
 
 <https://orcid.org/3333-4444-5565> a schema1:Person ;
@@ -166,6 +169,7 @@ Defintion of properties to describe file-based distribution of a resource on the
     schema1:name "Houndstooth Data Repository" .
 
 [] a schema1:DataDownload ;
+    ns2:conformsTo "not specified" ;
     schema1:contentUrl "https://hounddata.org/354277.csv" ;
     schema1:encodingFormat "text/csv" ;
     schema1:name "Water levels in Beartooth reservoir, 1992-2020" ;
