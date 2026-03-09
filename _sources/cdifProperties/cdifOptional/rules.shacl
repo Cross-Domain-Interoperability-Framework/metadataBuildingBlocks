@@ -103,36 +103,6 @@ cdifd:relatedResourceProperty
 	sh:message "links to related resource use schema:LinkRole, with a linkRelationship (string, IRI, or DefinedTerm), and at least a target schema:url";
 	.
 
-# ------------------------------------------------------------
-# Provenance layering warning — detect cdifProv-level detail
-# in metadata that only claims cdifOptional conformance.
-# Fires when a prov:wasGeneratedBy activity contains structured
-# instrument objects (schema:instrument sub-keys on prov:used items),
-# which belong in CDIFcomplete or domain-specific profiles.
-# ------------------------------------------------------------
-
-cdifd:cdifOptionalProvWarningShape
-	a sh:NodeShape ;
-	sh:targetClass schema:Dataset ;
-	sh:sparql [
-		a sh:SPARQLConstraint ;
-		sh:severity sh:Warning ;
-		sh:message "Activity contains instrument objects (schema:instrument); this suggests cdifProv-level provenance. Consider declaring conformance to CDIFcomplete or a domain-specific profile." ;
-		sh:prefixes (
-			[ sh:prefix "schema" ; sh:namespace "http://schema.org/" ]
-			[ sh:prefix "prov" ; sh:namespace "http://www.w3.org/ns/prov#" ]
-		) ;
-		sh:select """
-			PREFIX schema: <http://schema.org/>
-			PREFIX prov: <http://www.w3.org/ns/prov#>
-			SELECT $this WHERE {
-				$this prov:wasGeneratedBy ?activity .
-				?activity prov:used ?usedItem .
-				?usedItem schema:instrument ?inst .
-			}
-		""" ;
-	] .
-
 cdifd:creatorListValidation a sh:NodeShape ;
 # validate that creator list entries are Person or Organization.
 # schema:creator uses @list for ordering; the rdf:List wrapper prevents
