@@ -150,16 +150,16 @@ ex:xasXDIdownload_23463h a cdi:WideDataStructure ;
                     cdi:hasIndex 3 ;
                     cdi:haslength 13 ] ;
             cdi:isDefinedBy_InstanceVariable xas:incidentIntensityVariable ],
-        [ a cdi:MeasureComponent ;
-            cdi:has [ a cdi:ValueMapping ;
-                    cdi:hasIndex 2 ;
-                    cdi:haslength 12 ] ;
-            cdi:isDefinedBy_InstanceVariable xas:transmittedIntensityVariable ],
         [ a cdi:IdentifierComponent ;
             cdi:has [ a cdi:ValueMapping ;
                     cdi:hasIndex 1 ;
                     cdi:haslength 12 ] ;
-            cdi:isDefinedBy_InstanceVariable xas:monochromatorEnergyVariable ] ;
+            cdi:isDefinedBy_InstanceVariable xas:monochromatorEnergyVariable ],
+        [ a cdi:MeasureComponent ;
+            cdi:has [ a cdi:ValueMapping ;
+                    cdi:hasIndex 2 ;
+                    cdi:haslength 12 ] ;
+            cdi:isDefinedBy_InstanceVariable xas:transmittedIntensityVariable ] ;
     cdi:headerRowCount 27 ;
     cdi:isDelimited false ;
     cdi:isFixedWidth true ;
