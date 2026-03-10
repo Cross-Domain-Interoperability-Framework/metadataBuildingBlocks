@@ -4,6 +4,48 @@
   "title": "CDIF discovery metadata schema, with schema: prefixes",
   "description": "JSON schema for JSON-LD documents that describe science datasets for the CDIF DataDiscovery profile. See https://cdif.codata.org/, USING OGC building blocks modularization.  Content based on Google guide for publishers (https://developers.google.com/search/docs/data-types/dataset), and the Earth Science Information Partners (ESIP) Science on Schema.org recommendations v1.3 prerelease (see https://doi.org/10.5281/zenodo.2628755 dataset.md for current recommendations document). The context is not specified in the schema, but must be added in instance documents. '\"@context\": {\"schema\":\"http://schema.org/\", \"dcterms\": \"http://purl.org/dc/terms/\", \"geosparql\": \"http://www.opengis.net/ont/geosparql#\", \"spdx\": \"http://spdx.org/rdf/terms#\" }' 2024-07-24, SMR change handling of registration information to align with current proposal for cross-domain interoperability (CDIF). Created by Stephen Richard 2024-07-30 based on NSF GeoCODES dataset and iSamples draft2 schema.org JSON schema. 2025-07-24. NOTE-- assumes that schema:http://schema.org is declared in context, so schema: namespace prefix is required as prefix for all schema.org elements.  SMR 2025-10-23 update schema version to https://json-schema.org/draft/2020-12/schema; add additionalType on organization with the alt schema.org types as one option, additional required constraints in various places; update constraint on @type to require schema:Dataset. Implement using OGC building blocks approach. ",
   "properties": {
+    "@context": {
+      "type": "object",
+      "description": "Additional JSON-LD namespace prefixes used by optional CDIF properties.",
+      "properties": {
+        "schema": {
+          "default": "http://schema.org/",
+          "type": "string"
+        },
+        "dcterms": {
+          "default": "http://purl.org/dc/terms/",
+          "type": "string"
+        },
+        "spdx": {
+          "default": "http://spdx.org/rdf/terms#",
+          "type": "string"
+        },
+        "dcat": {
+          "default": "http://www.w3.org/ns/dcat#",
+          "type": "string"
+        },
+        "geosparql": {
+          "default": "http://www.opengis.net/ont/geosparql#",
+          "type": "string"
+        },
+        "prov": {
+          "default": "http://www.w3.org/ns/prov#",
+          "type": "string"
+        },
+        "dqv": {
+          "default": "http://www.w3.org/ns/dqv#",
+          "type": "string"
+        },
+        "cdi": {
+          "default": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema",
+        "dcterms"
+      ]
+    },
     "@id": {
       "type": "string",
       "description": "The URI for the resource should be the @id value for the root of the JSON instance document tree. Must be an IRI (e.g. https://doi.org/..., urn:..., or a relative URI like #localid). Note that this identifier can be interpreted to identify the resource that is the subject of this metadata record, or the JSON-LD object that is the digital object containing the metadata information."
@@ -332,9 +374,18 @@
                     "schema:variableMeasured": {
                       "type": "array",
                       "items": {
-                        "description": "CDIF schema.org implementation of variableMeasured",
+                        "description": "Schema.org PropertyValue-based variableMeasured. Defines properties for a measured variable in a dataset, typed as schema:PropertyValue.",
                         "type": "object",
                         "properties": {
+                          "@type": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "enum": [
+                                "schema:PropertyValue"
+                              ]
+                            }
+                          },
                           "@id": {
                             "type": "string"
                           },
@@ -367,193 +418,56 @@
                             "required": [
                               "schema:name"
                             ]
+                          },
+                          "schema:propertyID": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "@type": {
+                                  "type": "string",
+                                  "default": "schema:DefinedTerm"
+                                },
+                                "schema:name": {
+                                  "type": "string"
+                                },
+                                "schema:identifier": {
+                                  "type": "string"
+                                },
+                                "schema:inDefinedTermSet": {
+                                  "type": "string"
+                                },
+                                "schema:termCode": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "description": "identifier or name for the property concept"
+                          },
+                          "schema:unitText": {
+                            "type": "string",
+                            "description": "unit of measurement as text"
+                          },
+                          "schema:unitCode": {
+                            "type": "string"
+                          },
+                          "schema:minValue": {
+                            "type": "number",
+                            "description": "minimum numeric value in the dataset"
+                          },
+                          "schema:maxValue": {
+                            "type": "number",
+                            "description": "maximum numeric value in the dataset"
+                          },
+                          "schema:url": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "link to a web page useful for interpreting the variable"
                           }
                         },
                         "required": [
+                          "@type",
                           "schema:name"
-                        ],
-                        "oneOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "@type": {
-                                "type": "array",
-                                "items": {
-                                  "type": "string",
-                                  "enum": [
-                                    "schema:PropertyValue"
-                                  ]
-                                }
-                              },
-                              "schema:propertyID": {
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "@type": {
-                                      "type": "string",
-                                      "default": "schema:DefinedTerm"
-                                    },
-                                    "schema:name": {
-                                      "type": "string"
-                                    },
-                                    "schema:identifier": {
-                                      "type": "string"
-                                    },
-                                    "schema:inDefinedTermSet": {
-                                      "type": "string"
-                                    },
-                                    "schema:termCode": {
-                                      "type": "string"
-                                    }
-                                  }
-                                },
-                                "description": "identifier or name for the property concept"
-                              },
-                              "schema:unitText": {
-                                "type": "string",
-                                "description": "unit of measurement as text"
-                              },
-                              "schema:unitCode": {
-                                "type": "string"
-                              },
-                              "schema:minValue": {
-                                "type": "number",
-                                "description": "minimum numeric value in the dataset"
-                              },
-                              "schema:maxValue": {
-                                "type": "number",
-                                "description": "maximum numeric value in the dataset"
-                              },
-                              "schema:url": {
-                                "type": "string",
-                                "format": "uri",
-                                "description": "link to a web page useful for interpreting the variable"
-                              }
-                            },
-                            "required": [
-                              "@type"
-                            ]
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "@type": {
-                                "type": "array",
-                                "items": {
-                                  "type": "string",
-                                  "enum": [
-                                    "schema:StatisticalVariable"
-                                  ]
-                                }
-                              },
-                              "schema:statType": {
-                                "anyOf": [
-                                  {
-                                    "type": "string"
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "@id": {
-                                        "type": "string"
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "description": "schema.org Defined Term schema",
-                                    "type": "object",
-                                    "properties": {
-                                      "@type": {
-                                        "type": "string",
-                                        "default": "schema:DefinedTerm"
-                                      },
-                                      "schema:name": {
-                                        "type": "string",
-                                        "description": "text label for the term that is useful to human user"
-                                      },
-                                      "schema:identifier": {
-                                        "type": "string",
-                                        "description": "Identifier"
-                                      },
-                                      "schema:inDefinedTermSet": {
-                                        "type": "string",
-                                        "description": "Identifier for the controlled vocabulary responsible for this keyword."
-                                      },
-                                      "schema:termCode": {
-                                        "type": "string",
-                                        "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
-                                      }
-                                    },
-                                    "required": [
-                                      "@type"
-                                    ]
-                                  }
-                                ]
-                              },
-                              "schema:measuredProperty": {
-                                "type": "object",
-                                "properties": {
-                                  "@id": {
-                                    "type": "string",
-                                    "description": "reference to a skos concept for the property"
-                                  },
-                                  "@type": {
-                                    "type": "string",
-                                    "default": "schema:Property"
-                                  },
-                                  "schema:name": {
-                                    "anyOf": [
-                                      {
-                                        "type": "string"
-                                      },
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "@id": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "description": "schema.org Defined Term schema",
-                                        "type": "object",
-                                        "properties": {
-                                          "@type": {
-                                            "type": "string",
-                                            "default": "schema:DefinedTerm"
-                                          },
-                                          "schema:name": {
-                                            "type": "string",
-                                            "description": "text label for the term that is useful to human user"
-                                          },
-                                          "schema:identifier": {
-                                            "type": "string",
-                                            "description": "Identifier"
-                                          },
-                                          "schema:inDefinedTermSet": {
-                                            "type": "string",
-                                            "description": "Identifier for the controlled vocabulary responsible for this keyword."
-                                          },
-                                          "schema:termCode": {
-                                            "type": "string",
-                                            "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
-                                          }
-                                        },
-                                        "required": [
-                                          "@type"
-                                        ]
-                                      }
-                                    ]
-                                  }
-                                }
-                              }
-                            },
-                            "required": [
-                              "@type",
-                              "schema:measuredProperty"
-                            ]
-                          }
                         ]
                       }
                     }
@@ -1106,128 +1020,90 @@
       "description": "What does the dataset measure? (e.g., temperature, pressure)",
       "type": "array",
       "items": {
-        "description": "Extends cdif variableMeasured with properties for DDI-CDI InstanceVariable",
-        "type": "object",
-        "properties": {
-          "@type": {
-            "type": "array",
-            "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
-            "items": {
-              "type": "string"
-            }
-          },
-          "cdi:identifier": {
-            "type": "string"
-          },
-          "cdi:physicalDataType": {
-            "type": "array",
-            "items": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "type": "string",
-                      "description": "reference to a skos concept for the data type"
-                    }
-                  }
-                },
-                {
-                  "description": "schema.org Defined Term schema",
-                  "type": "object",
-                  "properties": {
-                    "@type": {
-                      "type": "string",
-                      "default": "schema:DefinedTerm"
-                    },
-                    "schema:name": {
-                      "type": "string",
-                      "description": "text label for the term that is useful to human user"
-                    },
-                    "schema:identifier": {
-                      "type": "string",
-                      "description": "Identifier"
-                    },
-                    "schema:inDefinedTermSet": {
-                      "type": "string",
-                      "description": "Identifier for the controlled vocabulary responsible for this keyword."
-                    },
-                    "schema:termCode": {
-                      "type": "string",
-                      "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
-                    }
-                  },
-                  "required": [
-                    "@type"
-                  ]
-                }
-              ]
-            },
-            "description": "identifier or name for the data type concept."
-          },
-          "cdi:intendedDataType": {
-            "type": "string",
-            "description": "The intended data type for values of this variable, from DDI-CDI RepresentedVariable.hasIntendedDataType. Recommended values are XML Schema datatypes (e.g. https://www.w3.org/TR/xmlschema-2/#decimal)."
-          },
-          "cdi:role": {
-            "type": "string",
-            "enum": [
-              "MeasureComponent",
-              "AttributeComponent",
-              "DimensionComponent",
-              "DescriptorComponent",
-              "ReferenceValueComponent"
-            ],
-            "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
-          },
-          "cdi:describedUnitOfMeasure": {
-            "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure.",
+        "anyOf": [
+          {
+            "description": "Extends cdif variableMeasured with properties for DDI-CDI InstanceVariable",
             "type": "object",
             "properties": {
               "@type": {
-                "type": "string",
-                "default": "schema:DefinedTerm"
-              },
-              "schema:name": {
-                "type": "string",
-                "description": "text label for the term that is useful to human user"
-              },
-              "schema:identifier": {
-                "type": "string",
-                "description": "Identifier"
-              },
-              "schema:inDefinedTermSet": {
-                "type": "string",
-                "description": "Identifier for the controlled vocabulary responsible for this keyword."
-              },
-              "schema:termCode": {
-                "type": "string",
-                "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
-              }
-            },
-            "required": [
-              "@type"
-            ]
-          },
-          "cdi:simpleUnitOfMeasure": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "reference to a skos concept for the data type"
-                  }
+                "type": "array",
+                "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "schema:PropertyValue"
+                  ]
                 }
               },
-              {
-                "description": "schema.org Defined Term schema",
+              "cdi:identifier": {
+                "type": "string"
+              },
+              "cdi:physicalDataType": {
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "@id": {
+                          "type": "string",
+                          "description": "reference to a skos concept for the data type"
+                        }
+                      }
+                    },
+                    {
+                      "description": "schema.org Defined Term schema",
+                      "type": "object",
+                      "properties": {
+                        "@type": {
+                          "type": "string",
+                          "default": "schema:DefinedTerm"
+                        },
+                        "schema:name": {
+                          "type": "string",
+                          "description": "text label for the term that is useful to human user"
+                        },
+                        "schema:identifier": {
+                          "type": "string",
+                          "description": "Identifier"
+                        },
+                        "schema:inDefinedTermSet": {
+                          "type": "string",
+                          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                        },
+                        "schema:termCode": {
+                          "type": "string",
+                          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                        }
+                      },
+                      "required": [
+                        "@type"
+                      ]
+                    }
+                  ]
+                },
+                "description": "identifier or name for the data type concept."
+              },
+              "cdi:intendedDataType": {
+                "type": "string",
+                "description": "The intended data type for values of this variable, from DDI-CDI RepresentedVariable.hasIntendedDataType. Recommended values are XML Schema datatypes (e.g. https://www.w3.org/TR/xmlschema-2/#decimal)."
+              },
+              "cdi:role": {
+                "type": "string",
+                "enum": [
+                  "MeasureComponent",
+                  "AttributeComponent",
+                  "DimensionComponent",
+                  "DescriptorComponent",
+                  "ReferenceValueComponent"
+                ],
+                "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
+              },
+              "cdi:describedUnitOfMeasure": {
+                "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure.",
                 "type": "object",
                 "properties": {
                   "@type": {
@@ -1254,84 +1130,108 @@
                 "required": [
                   "@type"
                 ]
-              }
-            ]
-          },
-          "cdi:uses": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "@type": {
-                  "type": "string",
-                  "default": "schema:DefinedTerm"
+              },
+              "cdi:simpleUnitOfMeasure": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "description": "reference to a skos concept for the data type"
+                      }
+                    }
+                  },
+                  {
+                    "description": "schema.org Defined Term schema",
+                    "type": "object",
+                    "properties": {
+                      "@type": {
+                        "type": "string",
+                        "default": "schema:DefinedTerm"
+                      },
+                      "schema:name": {
+                        "type": "string",
+                        "description": "text label for the term that is useful to human user"
+                      },
+                      "schema:identifier": {
+                        "type": "string",
+                        "description": "Identifier"
+                      },
+                      "schema:inDefinedTermSet": {
+                        "type": "string",
+                        "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                      },
+                      "schema:termCode": {
+                        "type": "string",
+                        "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                      }
+                    },
+                    "required": [
+                      "@type"
+                    ]
+                  }
+                ]
+              },
+              "cdi:uses": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "type": "string",
+                      "default": "schema:DefinedTerm"
+                    },
+                    "schema:name": {
+                      "type": "string"
+                    }
+                  }
                 },
-                "schema:name": {
-                  "type": "string"
-                }
-              }
-            },
-            "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents."
-          },
-          "cdi:name": {
-            "type": "string",
-            "description": "DDI-CDI Concept.name. The name of this variable in the DDI-CDI model."
-          },
-          "cdi:displayLabel": {
-            "type": "string",
-            "description": "DDI-CDI Concept.displayLabel. A human-readable label for display purposes."
-          },
-          "@id": {
-            "type": "string"
-          },
-          "schema:name": {
-            "type": "string",
-            "description": "string label associated with the variable in the dataset serialization"
-          },
-          "schema:description": {
-            "type": "string",
-            "default": "missing"
-          },
-          "schema:alternateName": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "description": "human intelligible name for variable that conveys semantics"
-            }
-          },
-          "schema:measurementTechnique": {
-            "type": "object",
-            "properties": {
-              "@type": {
+                "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents."
+              },
+              "cdi:name": {
                 "type": "string",
-                "default": "schema:DefinedTerm"
+                "description": "DDI-CDI Concept.name. The name of this variable in the DDI-CDI model."
+              },
+              "cdi:displayLabel": {
+                "type": "string",
+                "description": "DDI-CDI Concept.displayLabel. A human-readable label for display purposes."
+              },
+              "@id": {
+                "type": "string"
               },
               "schema:name": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "schema:name"
-            ]
-          }
-        },
-        "required": [
-          "@type",
-          "cdi:physicalDataType",
-          "schema:name"
-        ],
-        "oneOf": [
-          {
-            "type": "object",
-            "properties": {
-              "@type": {
+                "type": "string",
+                "description": "string label associated with the variable in the dataset serialization"
+              },
+              "schema:description": {
+                "type": "string",
+                "default": "missing"
+              },
+              "schema:alternateName": {
                 "type": "array",
                 "items": {
                   "type": "string",
-                  "enum": [
-                    "schema:PropertyValue"
-                  ]
+                  "description": "human intelligible name for variable that conveys semantics"
                 }
+              },
+              "schema:measurementTechnique": {
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "type": "string",
+                    "default": "schema:DefinedTerm"
+                  },
+                  "schema:name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schema:name"
+                ]
               },
               "schema:propertyID": {
                 "type": "array",
@@ -1380,10 +1280,12 @@
               }
             },
             "required": [
-              "@type"
+              "@type",
+              "schema:name"
             ]
           },
           {
+            "description": "A statistical variable description using schema.org/StatisticalVariable. Defines a variable that represents a statistical measure, such as median income or unemployment rate.",
             "type": "object",
             "properties": {
               "@type": {
@@ -1394,6 +1296,38 @@
                     "schema:StatisticalVariable"
                   ]
                 }
+              },
+              "@id": {
+                "type": "string"
+              },
+              "schema:name": {
+                "type": "string",
+                "description": "string label for the statistical variable"
+              },
+              "schema:description": {
+                "type": "string"
+              },
+              "schema:alternateName": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "human intelligible name for variable that conveys semantics"
+                }
+              },
+              "schema:measurementTechnique": {
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "type": "string",
+                    "default": "schema:DefinedTerm"
+                  },
+                  "schema:name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "schema:name"
+                ]
               },
               "schema:statType": {
                 "anyOf": [
@@ -1499,6 +1433,7 @@
             },
             "required": [
               "@type",
+              "schema:name",
               "schema:measuredProperty"
             ]
           }
