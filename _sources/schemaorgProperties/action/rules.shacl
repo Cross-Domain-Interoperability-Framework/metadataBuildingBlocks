@@ -18,8 +18,8 @@ cdifd:CDIFActionShape
                 FILTER (?type IN (
                     schema:Action, schema:AssessAction, schema:ConsumeAction,
                     schema:ControlAction, schema:CreateAction, schema:FindAction,
-                    schema:InteractAction, schema:PlayAction, schema:SearchAction,
-                    schema:TransferAction, schema:UpdateAction
+                    schema:InteractAction, schema:MoveAction, schema:PlayAction, schema:SearchAction,
+                    schema:DeleteAction, schema:TransferAction, schema:UpdateAction
                 ))
             }
         """ ;
@@ -29,6 +29,7 @@ cdifd:CDIFActionShape
     # duplicate violations on dual-typed Action/Activity nodes.
 	sh:property
 		[sh:path schema:target;
+			sh:minCount 1;
 			sh:class schema:EntryPoint;
 				sh:property 	
 					[sh:path schema:contentType;

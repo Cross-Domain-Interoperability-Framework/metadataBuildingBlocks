@@ -28,6 +28,16 @@ cdifd:webAPINode
 			sh:minCount 1;
 			sh:severity sh:Info
 		];
+	sh:property [
+		sh:path schema:termsOfService ;
+		sh:or (
+			[sh:nodeKind sh:IRI]
+			[sh:datatype xsd:string]
+			[sh:class schema:CreativeWork]
+		) ;
+		sh:minCount 1 ;
+		sh:message "A WebAPI must specify terms of service (schema:termsOfService) as a string, IRI, or CreativeWork." ;
+	] ;
 	sh:property
         [sh:path schema:potentialAction;
 			sh:or (
@@ -36,8 +46,10 @@ cdifd:webAPINode
 				[sh:class schema:ConsumeAction]
 				[sh:class schema:ControlAction]
 				[sh:class schema:CreateAction]
+				[sh:class schema:DeleteAction]
 				[sh:class schema:FindAction]
 				[sh:class schema:InteractAction]
+				[sh:class schema:MoveAction]
 				[sh:class schema:PlayAction]
 				[sh:class schema:SearchAction]
 				[sh:class schema:TransferAction]

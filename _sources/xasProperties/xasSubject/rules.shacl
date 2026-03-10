@@ -3,18 +3,27 @@
 @prefix sh:          <http://www.w3.org/ns/shacl#> .
 @prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
 @prefix schema:      <http://schema.org/>.
+@prefix dcterms:     <http://purl.org/dc/terms/> .
+@prefix dcat:        <http://www.w3.org/ns/dcat#> .
 @prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
 @base <https://www.ogc.org/rules/template/> .
 
 
-cdifd:CDIFDataDownloadShape
-    a sh:NodeShape ;
-    sh:targetClass schema:DataDownload ;
-	sh:property [
-    	sh:path schema:contentUrl;
-    	sh:minCount 1 ;
-    	sh:datatype xsd:string ;
-        sh:pattern "^[a-zA-Z][a-zA-Z0-9+.-]*:[^\\s]*$";
-    	];
-    sh:message "a datadownload must have a URL that will get the described resource" ;
-	.
+cdifd:xasSubjectNode
+	a sh:NodeShape;
+	    sh:target [
+	  a sh:SPARQLTarget ;
+      sh:select  """
+      PREFIX schema: <http://schema.org/>
+      PREFIX dcat: <http://www.w3.org/ns/dcat#>
+      SELECT DISTINCT ?this
+        WHERE {
+          ?this a schema:Dataset .
+          ?this schema:additionalType "dcat:CatalogRecord" .
+          }""";
+	] ;
+    sh:property [
+      sh:path dcterms:conformsTo ;
+      sh:minCount 2 ;
+      sh:message "An XAS catalog record must have at least 2 conformsTo entries (CDIF and CDIFxas profiles)."
+    ] .

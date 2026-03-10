@@ -5,24 +5,20 @@
 @prefix schema:      <http://schema.org/>.
 @prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
 @prefix xas: <https://xas.org/dictionary/> .
-@prefix nxs: <http://purl.org/nexusformat/definitions/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix wd: <https://www.wikidata.org/entity/> .
-@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
 @base <https://www.ogc.org/rules/template/> .
 
 
-cdifd:generatedByNode
-	a sh:NodeShape; 
-	sh:targetClass "xas:AnalysisEvent" ;
+cdifd:xasGeneratedByNode
+	a sh:NodeShape;
+	sh:targetClass xas:AnalysisEvent ;
 	sh:property [
       sh:path rdf:type ;
-      sh:hasValue "prov:Activity" ;
-      sh:message "Must have rdf:type prov:Activity."
+      sh:hasValue prov:Activity ;
+      sh:message "An XAS AnalysisEvent must also have rdf:type prov:Activity."
     ] ;
-	sh:property 
-        [sh:path [sh:alternativePath ( prov:used schema:additionalProperty schema:location schema:mainEntity ) ]  ;
-			sh:minCount 1;
-			sh:message "at least one of prov:used, schema:additionalProperty, schema:location, schema:mainEntity must be provided in a generatedBy node."
-			]
-			.
+	sh:property [
+      sh:path [sh:alternativePath ( prov:used schema:additionalProperty schema:location schema:object ) ] ;
+      sh:minCount 1 ;
+      sh:message "An XAS AnalysisEvent must specify at least one of prov:used, schema:additionalProperty, schema:location, or schema:object."
+    ] .

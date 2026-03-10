@@ -3,34 +3,34 @@
 @prefix sh:          <http://www.w3.org/ns/shacl#> .
 @prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
 @prefix schema:      <http://schema.org/>.
+@prefix spdx:        <http://spdx.org/rdf/terms#> .
 @prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
-@prefix xas: <https://xas.org/dictionary/> .
 @base <https://www.ogc.org/rules/template/> .
 
 
-cdifd:xasFacilityNode
+# Archive distribution hasPart components: each must be a MediaObject with name and encodingFormat.
+# Uses SPARQL target to find MediaObject nodes that are hasPart of a DataDownload.
+cdifd:archiveComponentNode
 	a sh:NodeShape;
 	    sh:target [
 	  a sh:SPARQLTarget ;
       sh:select  """
       PREFIX schema: <http://schema.org/>
-      PREFIX xas: <https://xas.org/dictionary/>
       SELECT DISTINCT ?this
         WHERE {
-          ?this a schema:Place .
-          ?this schema:additionalType "xas:Facility" .
+          ?dd a schema:DataDownload .
+          ?dd schema:hasPart ?this .
+          ?this a schema:MediaObject .
           }""";
 	] ;
-    sh:property [
-      sh:path schema:additionalType ;
-      sh:hasValue "xas:Facility" ;
-      sh:minCount 1 ;
-      sh:message "An XAS facility must have additionalType xas:Facility."
-    ] ;
     sh:property [
       sh:path schema:name ;
       sh:minCount 1 ;
       sh:datatype xsd:string ;
-	  sh:minLength 3 ;
-      sh:message "A facility must have a name with at least 3 characters."
+      sh:message "Each archive component must have a filename (schema:name)."
+    ] ;
+    sh:property [
+      sh:path schema:encodingFormat ;
+      sh:minCount 1 ;
+      sh:message "Each archive component must specify its MIME type (schema:encodingFormat)."
     ] .
