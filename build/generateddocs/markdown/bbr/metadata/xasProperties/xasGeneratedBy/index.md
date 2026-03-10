@@ -696,10 +696,6 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
         prov:Activity,
         xas:AnalysisEvent ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Installed Options" ;
-            schema1:propertyID "xas:installedOptions" ;
-            schema1:value "Description of extra equipment installed on the base instrument(?)" ],
-        [ a schema1:PropertyValue ;
             schema1:name "Instrument configuration" ;
             schema1:propertyID "nxs:Group/NXentry/experiment_documentation" ;
             schema1:url "http://protocols.io/link/to/calibrationMethod" ;
@@ -719,7 +715,11 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
             schema1:name "Edge energy" ;
             schema1:propertyID "xas:edge_energy" ;
             schema1:unitText "eV" ;
-            schema1:value "12658.0" ] ;
+            schema1:value "12658.0" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Installed Options" ;
+            schema1:propertyID "xas:installedOptions" ;
+            schema1:value "Description of extra equipment installed on the base instrument(?)" ] ;
     schema1:identifier "20241111_DSC_NU_OREX-803224-0_1" ;
     schema1:location ex:xasfacility_37yht ;
     schema1:object [ a schema1:Product,
@@ -729,9 +729,9 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
                     schema1:propertyID "nxs:Field/NXsample/unit_cell" ;
                     schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
                 [ a schema1:PropertyValue ;
-                    schema1:name "Stoichiometry" ;
-                    schema1:propertyID "xas:stoichiometry" ;
-                    schema1:value "Na2SeO4" ],
+                    schema1:name "Material state" ;
+                    schema1:propertyID "xas:materialState" ;
+                    schema1:value "solid metal foil" ],
                 [ a schema1:PropertyValue ;
                     schema1:name "Parent sample" ;
                     schema1:propertyID "xas:parentSample" ;
@@ -741,13 +741,13 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
                     schema1:propertyID "xas:samplePreparation" ;
                     schema1:value "powder on tape, 6 layers" ],
                 [ a schema1:PropertyValue ;
-                    schema1:name "Material state" ;
-                    schema1:propertyID "xas:materialState" ;
-                    schema1:value "solid metal foil" ],
-                [ a schema1:PropertyValue ;
                     schema1:name "Point group" ;
                     schema1:propertyID "nxs:Field/NXsample/point_group" ;
                     schema1:value "mm2" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Stoichiometry" ;
+                    schema1:propertyID "xas:stoichiometry" ;
+                    schema1:value "Na2SeO4" ],
                 [ a schema1:PropertyValue ;
                     schema1:name "Porosity" ;
                     schema1:propertyID "xas:porosity" ;
@@ -770,14 +770,14 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
                     schema1:hasPart [ a schema1:Product,
                                 schema1:Thing ;
                             schema1:additionalProperty [ a schema1:PropertyValue ;
+                                    schema1:name "monitor preset" ;
+                                    schema1:propertyID "nxs:Field/NXmonitor/preset" ;
+                                    schema1:value "N.A." ],
+                                [ a schema1:PropertyValue ;
                                     schema1:alternateName "incident flux measurement method" ;
                                     schema1:name "detector mode i0" ;
                                     schema1:propertyID "xas:detector.i0" ;
                                     schema1:value "10cm  N2" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:name "monitor preset" ;
-                                    schema1:propertyID "nxs:Field/NXmonitor/preset" ;
-                                    schema1:value "N.A." ],
                                 [ a schema1:PropertyValue ;
                                     schema1:alternateName "transmitted flux measurement method" ;
                                     schema1:name "detector mode it" ;
@@ -793,18 +793,18 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
                         [ a schema1:Product,
                                 schema1:Thing ;
                             schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "Monochromator d-spacing" ;
-                                    schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
-                                    schema1:unitText "Angstrom" ;
-                                    schema1:value "3.13550" ],
+                                    schema1:name "Monochromator crystal type" ;
+                                    schema1:propertyID "nxs:Field/NXcrystal/type" ;
+                                    schema1:value "crystal type" ],
                                 [ a schema1:PropertyValue ;
                                     schema1:name "Monochromator chemical formula" ;
                                     schema1:propertyID "nxs:Field/NXcrystal/chemical_formula" ;
                                     schema1:value "Si" ],
                                 [ a schema1:PropertyValue ;
-                                    schema1:name "Monochromator crystal type" ;
-                                    schema1:propertyID "nxs:Field/NXcrystal/type" ;
-                                    schema1:value "crystal type" ],
+                                    schema1:name "Monochromator d-spacing" ;
+                                    schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
+                                    schema1:unitText "Angstrom" ;
+                                    schema1:value "3.13550" ],
                                 [ a schema1:PropertyValue ;
                                     schema1:name "Reflecting plane" ;
                                     schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
@@ -815,13 +815,13 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
                         [ a schema1:Product,
                                 schema1:Thing ;
                             schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "harmonic_rejection" ;
-                                    schema1:propertyID "xas:harmonic_rejection" ;
-                                    schema1:value "Rh-coated mirror, detuned" ],
-                                [ a schema1:PropertyValue ;
                                     schema1:name "beamline collimation" ;
                                     schema1:propertyID "xas:collimation" ;
                                     schema1:value "none" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "harmonic_rejection" ;
+                                    schema1:propertyID "xas:harmonic_rejection" ;
+                                    schema1:value "Rh-coated mirror, detuned" ],
                                 [ a schema1:PropertyValue ;
                                     schema1:name "focusing" ;
                                     schema1:propertyID "xas:focusing" ;
@@ -833,13 +833,13 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
                         [ a schema1:Product,
                                 schema1:Thing ;
                             schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "X-ray source" ;
-                                    schema1:propertyID "nxs:Field/NXsource/type" ;
-                                    schema1:value "Synchrotron X-ray Source" ],
-                                [ a schema1:PropertyValue ;
                                     schema1:name "Probe" ;
                                     schema1:propertyID "nxs:Field/NXsource/probe" ;
-                                    schema1:value "x-ray" ] ;
+                                    schema1:value "x-ray" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "X-ray source" ;
+                                    schema1:propertyID "nxs:Field/NXsource/type" ;
+                                    schema1:value "Synchrotron X-ray Source" ] ;
                             schema1:additionalType "nxs:BaseClass/NXsource",
                                 "wd:Q3099911" ;
                             schema1:identifier "https://www.aps.anl.gov/Beamlines/Directory/source/13-BM" ;
@@ -848,11 +848,6 @@ ex:exampleGeneratedBy_w46j6j a schema1:Action,
 
 ex:xasfacility_37yht a schema1:Place ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Facility current" ;
-            schema1:propertyID "xas:current" ;
-            schema1:unitText "Amps" ;
-            schema1:value "120" ],
-        [ a schema1:PropertyValue ;
             schema1:name "X-ray Source" ;
             schema1:propertyID "xas:xray_source" ;
             schema1:value "APS bending magnet" ],
@@ -860,7 +855,12 @@ ex:xasfacility_37yht a schema1:Place ;
             schema1:name "Facility energy" ;
             schema1:propertyID "xas:energy" ;
             schema1:unitText "GeV" ;
-            schema1:value "7.00" ] ;
+            schema1:value "7.00" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Facility current" ;
+            schema1:propertyID "xas:current" ;
+            schema1:unitText "Amps" ;
+            schema1:value "120" ] ;
     schema1:additionalType "xas:Facility" ;
     schema1:identifier "https://ror.org/aps" ;
     schema1:name "APS" .

@@ -82,7 +82,7 @@ Defintion of properties to describe file-based distribution of a resource on the
       }
     }
   ],
-  "dcterms:conformsTo": [{"@id": "not specified"}]
+  "dcterms:conformsTo": [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}]
 }
 
 ```
@@ -146,7 +146,7 @@ Defintion of properties to describe file-based distribution of a resource on the
   ],
   "dcterms:conformsTo": [
     {
-      "@id": "not specified"
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
     }
   ]
 }
@@ -154,6 +154,7 @@ Defintion of properties to describe file-based distribution of a resource on the
 
 #### ttl
 ```ttl
+@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ns1: <spdx:> .
 @prefix schema1: <http://schema.org/> .
 
@@ -175,6 +176,7 @@ Defintion of properties to describe file-based distribution of a resource on the
     schema1:name "Houndstooth Data Repository" .
 
 [] a schema1:DataDownload ;
+    dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
     schema1:contentUrl "https://hounddata.org/354277.csv" ;
     schema1:encodingFormat "text/csv" ;
     schema1:name "Water levels in Beartooth reservoir, 1992-2020" ;

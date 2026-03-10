@@ -106,7 +106,7 @@ bring together all required properties.
           "@id": "EwHwOWWPjkVxr"
         }
       ],
-      "dcterms:conformsTo": [{"@id": "not specified"}]
+      "dcterms:conformsTo": [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}]
     }
   ],
   "schema:subjectOf": {
@@ -377,7 +377,7 @@ bring together all required properties.
       ],
       "dcterms:conformsTo": [
         {
-          "@id": "not specified"
+          "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
         }
       ]
     }
@@ -566,6 +566,7 @@ bring together all required properties.
 @prefix spdx: <http://spdx.org/rdf/terms#> .
 
 <file:///github/workspace/RNdlTIf> a schema1:DataDownload ;
+    dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
     schema1:contentUrl "http://example.com/resource/34h5ykl" ;
     schema1:encodingFormat "application/zip",
         "text/csv" ;
@@ -655,30 +656,30 @@ ex:xas-dataset-001 a schema1:Dataset,
             prov:used [ schema1:instrument [ schema1:hasPart [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "x-ray source" ;
-                                            schema1:propertyID "nxs:Field/NXsource/type" ;
-                                            schema1:value "Synchrotron X-ray Source" ],
-                                        [ a schema1:PropertyValue ;
                                             schema1:name "Probe" ;
                                             schema1:propertyID "nxs:Field/NXsource/probe" ;
-                                            schema1:value "x-ray" ] ;
+                                            schema1:value "x-ray" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "x-ray source" ;
+                                            schema1:propertyID "nxs:Field/NXsource/type" ;
+                                            schema1:value "Synchrotron X-ray Source" ] ;
                                     schema1:additionalType "nxs:BaseClass/NXsource" ;
                                     schema1:name "APS bending magnet source" ],
                                 [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "crystal type" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
-                                            schema1:value "Si(111)" ],
+                                            schema1:name "reflection plane (hkl)" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
+                                            schema1:value "1,1,1" ],
                                         [ a schema1:PropertyValue ;
                                             schema1:name "d-spacing" ;
                                             schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
                                             schema1:unitText "Angstrom" ;
                                             schema1:value "3.13550" ],
                                         [ a schema1:PropertyValue ;
-                                            schema1:name "reflection plane (hkl)" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
-                                            schema1:value "1,1,1" ] ;
+                                            schema1:name "crystal type" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
+                                            schema1:value "Si(111)" ] ;
                                     schema1:additionalType "nxs:BaseClass/NXmonochromator" ;
                                     schema1:name "Si 111" ] ] ] ] .
 

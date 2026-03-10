@@ -309,7 +309,7 @@ quality measurements.
           "schema:name": "IEDA-"
         }
       ],
-      "dcterms:conformsTo": [{"@id": "not specified"}]
+      "dcterms:conformsTo": [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}]
     },
     {
       "@type": [
@@ -384,7 +384,7 @@ quality measurements.
           }
         }
       ],
-      "dcterms:conformsTo": [{"@id": "not specified"}]
+      "dcterms:conformsTo": [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}]
     },
     {
       "@type": [
@@ -424,7 +424,7 @@ quality measurements.
           }
         }
       ],
-      "dcterms:conformsTo": [{"@id": "not specified"}]
+      "dcterms:conformsTo": [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}]
     },
     {
       "@type": [
@@ -579,7 +579,7 @@ quality measurements.
           ]
         }
       ],
-      "dcterms:conformsTo": [{"@id": "not specified"}]
+      "dcterms:conformsTo": [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}]
     },
     {
       "@type": [
@@ -652,7 +652,7 @@ quality measurements.
                 }
               }
             ],
-            "dcterms:conformsTo": [{"@id": "not specified"}]
+            "dcterms:conformsTo": [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}]
           },
           "schema:object": {
             "@type": "schema:DataFeed",
@@ -1235,7 +1235,7 @@ quality measurements.
       ],
       "dcterms:conformsTo": [
         {
-          "@id": "not specified"
+          "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
         }
       ]
     },
@@ -1314,7 +1314,7 @@ quality measurements.
       ],
       "dcterms:conformsTo": [
         {
-          "@id": "not specified"
+          "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
         }
       ]
     },
@@ -1358,7 +1358,7 @@ quality measurements.
       ],
       "dcterms:conformsTo": [
         {
-          "@id": "not specified"
+          "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
         }
       ]
     },
@@ -1517,7 +1517,7 @@ quality measurements.
       ],
       "dcterms:conformsTo": [
         {
-          "@id": "not specified"
+          "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
         }
       ]
     },
@@ -1594,7 +1594,7 @@ quality measurements.
             ],
             "dcterms:conformsTo": [
               {
-                "@id": "not specified"
+                "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
               }
             ]
           },
@@ -1912,20 +1912,20 @@ quality measurements.
 
 <file:///github/workspace/#part-measurements-csv> a cdi:TabularTextDataSet,
         schema1:MediaObject ;
-    cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-            cdi:index 1 ;
+    cdi:hasPhysicalMapping [ cdi:format "string" ;
+            cdi:index 0 ;
             cdi:isRequired true ;
-            cdi:nullSequence "NA" ;
-            cdi:physicalDataType "float64" ],
+            cdi:physicalDataType "string" ],
         [ cdi:format "decimal" ;
             cdi:index 2 ;
             cdi:isRequired false ;
             cdi:nullSequence "NA" ;
             cdi:physicalDataType "float64" ],
-        [ cdi:format "string" ;
-            cdi:index 0 ;
+        [ cdi:format "decimal" ;
+            cdi:index 1 ;
             cdi:isRequired true ;
-            cdi:physicalDataType "string" ] ;
+            cdi:nullSequence "NA" ;
+            cdi:physicalDataType "float64" ] ;
     cdi:isDelimited true ;
     schema1:description "Measurement data with column structure described via CSVW and physical mappings." ;
     schema1:encodingFormat "text/csv" ;
@@ -1957,14 +1957,14 @@ quality measurements.
 <file:///github/workspace/#part-spectra-nc> a cdi:StructuredDataSet,
         schema1:MediaObject ;
     cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-            cdi:index 0 ;
-            cdi:isRequired true ;
-            cdi:locator "/spectra/wavelength" ;
-            cdi:physicalDataType "float32" ],
-        [ cdi:format "decimal" ;
             cdi:index 1 ;
             cdi:isRequired true ;
             cdi:locator "/spectra/intensity" ;
+            cdi:physicalDataType "float32" ],
+        [ cdi:format "decimal" ;
+            cdi:index 0 ;
+            cdi:isRequired true ;
+            cdi:locator "/spectra/wavelength" ;
             cdi:physicalDataType "float32" ] ;
     schema1:description "Spectral data cube with wavelength and intensity dimensions." ;
     schema1:encodingFormat "application/x-netcdf" ;
@@ -2012,10 +2012,7 @@ ex:activity-geochem-analysis a schema1:Action,
             schema1:roleName "Lab Technician" ] ;
     schema1:result ex:complete-dataset-001 ;
     schema1:startTime "2025-07-15T08:00:00Z" ;
-    prov:used [ a schema1:CreativeWork ;
-            schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
-            schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
-        [ schema1:instrument [ a schema1:DefinedTerm,
+    prov:used [ schema1:instrument [ a schema1:DefinedTerm,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
                             schema1:name "Typical Detection Limit" ;
@@ -2031,6 +2028,9 @@ ex:activity-geochem-analysis a schema1:Action,
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
                     schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
                     schema1:termCode "ICP-MS" ] ],
+        [ a schema1:CreativeWork ;
+            schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
+            schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
         "Soil core samples collected June 2025, sites GB-001 through GB-045, dried and sieved to <2 mm fraction",
         "https://vocab.nerc.ac.uk/collection/L05/current/LAB02" .
 
@@ -2080,34 +2080,22 @@ ex:complete-dataset-001 a schema1:Dataset ;
     schema1:dateModified "2026-02-15" ;
     schema1:datePublished "2026-02-01" ;
     schema1:description "Comprehensive geochemistry dataset demonstrating the CDIF complete profile with single-file downloads, archive distribution with component files, and WebAPI access. Includes tabular CSV results, NetCDF data cubes, and an OGC API Features endpoint." ;
-    schema1:distribution [ a schema1:DataDownload ;
-            schema1:contentUrl "https://example.org/data/geochem-package.zip" ;
-            schema1:description "Archive containing all data files. Component files are listed as parts and are not individually accessible." ;
-            schema1:encodingFormat "application/zip" ;
-            schema1:hasPart <file:///github/workspace/#part-measurements-csv>,
-                <file:///github/workspace/#part-metadata-yaml>,
-                <file:///github/workspace/#part-method-pdf>,
-                <file:///github/workspace/#part-results-csv>,
-                <file:///github/workspace/#part-spectra-nc> ;
-            schema1:name "Complete data package" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5" ] ],
-        [ a cdi:StructuredDataSet,
+    schema1:distribution [ a cdi:StructuredDataSet,
                 schema1:DataDownload ;
             cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:var-wavelength ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/spectra/wavelength" ;
-                    cdi:physicalDataType "float32" ],
-                [ cdi:format "decimal" ;
                     cdi:formats_InstanceVariable ex:var-intensity ;
                     cdi:index 1 ;
                     cdi:isRequired true ;
                     cdi:locator "/spectra/intensity" ;
                     cdi:physicalDataType "float32" ;
-                    cdi:scale 1000 ] ;
+                    cdi:scale 1000 ],
+                [ cdi:format "decimal" ;
+                    cdi:formats_InstanceVariable ex:var-wavelength ;
+                    cdi:index 0 ;
+                    cdi:isRequired true ;
+                    cdi:locator "/spectra/wavelength" ;
+                    cdi:physicalDataType "float32" ] ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "https://example.org/data/spectra-cube.nc" ;
             schema1:encodingFormat "application/x-netcdf" ;
             schema1:name "Spectral data cube" ;
@@ -2123,13 +2111,13 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     schema1:object [ a schema1:DataFeed ;
                             schema1:description "Geochemistry observations collection" ] ;
                     schema1:query-input [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Starting index for pagination" ;
+                            schema1:valueName "offset" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Response format: csv or geojson" ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv|geojson" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Starting index for pagination" ;
-                            schema1:valueName "offset" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
                             schema1:description "Maximum number of features to return" ;
@@ -2147,6 +2135,7 @@ ex:complete-dataset-001 a schema1:Dataset ;
                                     cdi:isRequired false ;
                                     cdi:physicalDataType "float64" ] ;
                             cdi:isDelimited true ;
+                            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
                             schema1:contentUrl "https://example.org/api/v1/collections/geochem/items?f=csv" ;
                             schema1:encodingFormat "text/csv" ;
                             schema1:name "Geochemistry query results" ;
@@ -2169,6 +2158,21 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     schema1:termCode "ogcapi-features" ] ;
             schema1:termsOfService "Open access, no authentication required" ],
         [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "https://example.org/data/geochem-package.zip" ;
+            schema1:description "Archive containing all data files. Component files are listed as parts and are not individually accessible." ;
+            schema1:encodingFormat "application/zip" ;
+            schema1:hasPart <file:///github/workspace/#part-measurements-csv>,
+                <file:///github/workspace/#part-metadata-yaml>,
+                <file:///github/workspace/#part-method-pdf>,
+                <file:///github/workspace/#part-results-csv>,
+                <file:///github/workspace/#part-spectra-nc> ;
+            schema1:name "Complete data package" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5" ] ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "https://example.org/data/geochem-summary.csv" ;
             schema1:encodingFormat "text/csv" ;
             schema1:name "Geochemistry summary results" ;
@@ -2181,6 +2185,13 @@ ex:complete-dataset-001 a schema1:Dataset ;
             cdi:arrayBase 0 ;
             cdi:escapeCharacter "\\" ;
             cdi:hasPhysicalMapping [ cdi:decimalPositions 4 ;
+                    cdi:format "decimal" ;
+                    cdi:formats_InstanceVariable ex:var-concentration ;
+                    cdi:index 1 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "NA" ;
+                    cdi:physicalDataType "float64" ],
+                [ cdi:decimalPositions 4 ;
                     cdi:format "decimal" ;
                     cdi:formats_InstanceVariable ex:var-uncertainty ;
                     cdi:index 2 ;
@@ -2195,18 +2206,12 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     cdi:isRequired true ;
                     cdi:maximumLength 40 ;
                     cdi:minimumLength 3 ;
-                    cdi:physicalDataType "string" ],
-                [ cdi:decimalPositions 4 ;
-                    cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:var-concentration ;
-                    cdi:index 1 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "NA" ;
-                    cdi:physicalDataType "float64" ] ;
+                    cdi:physicalDataType "string" ] ;
             cdi:headerIsCaseSensitive false ;
             cdi:isDelimited true ;
             cdi:isFixedWidth false ;
             cdi:treatConsecutiveDelimitersAsOne false ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "https://example.org/data/geochem-detailed.csv" ;
             schema1:encodingFormat "text/csv" ;
             schema1:name "Detailed geochemistry analysis results" ;
@@ -2308,17 +2313,17 @@ ex:complete-dataset-001 a schema1:Dataset ;
         ex:var-wavelength ;
     schema1:version "1.0" ;
     dqv:hasQualityMeasurement [ a dqv:QualityMeasurement ;
-            dqv:isMeasurementOf "Analytical precision (2-sigma RSD on NIST SRM 2711a replicates)" ;
-            dqv:value [ a schema1:DefinedTerm ;
-                    schema1:inDefinedTermSet "https://example.org/quality-levels/" ;
-                    schema1:name "High-" ;
-                    schema1:termCode "HIGH" ] ],
-        [ a dqv:QualityMeasurement ;
             dqv:isMeasurementOf [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://www.w3.org/TR/vocab-dqv/" ;
                     schema1:name "Completeness" ;
                     schema1:termCode "completeness" ] ;
-            dqv:value "98.5% of planned sample sites successfully analyzed" ] ;
+            dqv:value "98.5% of planned sample sites successfully analyzed" ],
+        [ a dqv:QualityMeasurement ;
+            dqv:isMeasurementOf "Analytical precision (2-sigma RSD on NIST SRM 2711a replicates)" ;
+            dqv:value [ a schema1:DefinedTerm ;
+                    schema1:inDefinedTermSet "https://example.org/quality-levels/" ;
+                    schema1:name "High-" ;
+                    schema1:termCode "HIGH" ] ] ;
     prov:wasDerivedFrom [ a schema1:CreativeWork ;
             schema1:description "Prior regional geochemical survey used for site selection and comparative analysis" ;
             schema1:name "USGS Great Basin Geochemical Survey (2020)" ;
