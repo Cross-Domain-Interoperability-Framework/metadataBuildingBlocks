@@ -1,0 +1,1 @@
+Schema for schema.org/StatisticalVariable. Defines a variable that represents a statistical measure, such as median income or unemployment rate. Separated from PropertyValue-based variableMeasured to allow independent use in metadata records that describe statistical datasets.

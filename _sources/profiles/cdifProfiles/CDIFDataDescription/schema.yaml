@@ -19,8 +19,15 @@ description: 'JSON schema for JSON-LD documents that describe science datasets f
 allOf:
 - $ref: ../../../cdifProperties/cdifMandatory/schema.yaml
 - $ref: ../../../cdifProperties/cdifOptional/schema.yaml
+- $ref: ../../../cdifProperties/cdifDataDescription/schema.yaml
 - type: object
   properties:
+    '@context':
+      type: object
+      description: Additional namespace prefix for data description properties.
+      properties:
+        csvw:
+          const: "http://www.w3.org/ns/csvw#"
     '@type':
       description: For CDIF DataDescription, the @type array should include a value from the known
         set of schema.org types used for dataset-like resources.

@@ -1,8 +1,16 @@
 ---
 $schema: https://json-schema.org/draft/2020-12/schema
-description: CDIF schema.org implementation of variableMeasured
+description: Schema.org PropertyValue-based variableMeasured. Defines properties for
+  a measured variable in a dataset, typed as schema:PropertyValue.
 type: object
 properties:
+  '@type':
+    type: array
+    items:
+      type: string
+    contains:
+      const: schema:PropertyValue
+    minItems: 1
   '@id':
     type: string
   schema:name:
@@ -26,33 +34,9 @@ properties:
           description: reference to a skos concept
     - $ref: '#/$defs/DefinedTerm'
     description: Text description or URI identifying the measurement method.
-required:
-- schema:name
-oneOf:
-- type: object
-  properties:
-    '@type':
-      type: array
-      items:
-        type: string
-      contains:
-        const: schema:PropertyValue
-      minItems: 1
-    schema:propertyID:
-      type: array
-      items:
-        anyOf:
-        - type: string
-        - type: object
-          properties:
-            '@id':
-              type: string
-        - $ref: '#/$defs/DefinedTerm'
-      description: identifier or name for the property concept
-    schema:unitText:
-      type: string
-      description: unit of measurement as text
-    schema:unitCode:
+  schema:propertyID:
+    type: array
+    items:
       anyOf:
       - type: string
       - type: object
@@ -60,62 +44,32 @@ oneOf:
           '@id':
             type: string
       - $ref: '#/$defs/DefinedTerm'
-      description: URI or code identifying the unit of measure
-    schema:minValue:
-      type: number
-      description: minimum numeric value in the dataset
-    schema:maxValue:
-      type: number
-      description: maximum numeric value in the dataset
-    schema:url:
-      type: string
-      format: uri
-      description: link to a web page useful for interpreting the variable
-  required:
-  - '@type'
-- type: object
-  properties:
-    '@type':
-      type: array
-      items:
-        type: string
-      contains:
-        const: schema:StatisticalVariable
-      minItems: 1
-    schema:statType:
-      anyOf:
-      - type: string
-      - type: object
-        properties:
-          '@id':
-            type: string
-      - $ref: '#/$defs/DefinedTerm'
-    schema:measuredProperty:
-      type: object
+    description: identifier or name for the property concept
+  schema:unitText:
+    type: string
+    description: unit of measurement as text
+  schema:unitCode:
+    anyOf:
+    - type: string
+    - type: object
       properties:
         '@id':
           type: string
-          description: reference to a skos concept for the property
-        '@type':
-          anyOf:
-          - type: string
-            const: schema:Property
-          - type: array
-            items:
-              type: string
-            contains:
-              const: schema:Property
-        schema:name:
-          anyOf:
-          - type: string
-          - type: object
-            properties:
-              '@id':
-                type: string
-          - $ref: '#/$defs/DefinedTerm'
-  required:
-  - '@type'
-  - schema:measuredProperty
+    - $ref: '#/$defs/DefinedTerm'
+    description: URI or code identifying the unit of measure
+  schema:minValue:
+    type: number
+    description: minimum numeric value in the dataset
+  schema:maxValue:
+    type: number
+    description: maximum numeric value in the dataset
+  schema:url:
+    type: string
+    format: uri
+    description: link to a web page useful for interpreting the variable
+required:
+- '@type'
+- schema:name
 $defs:
   DefinedTerm:
     $ref: ../definedTerm/schema.yaml
