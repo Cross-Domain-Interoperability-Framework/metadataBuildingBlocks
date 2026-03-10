@@ -245,9 +245,14 @@ cdifd:responsiblePartyProperty
 cdifd:contributorProperty
     a sh:PropertyShape ;
     sh:path schema:contributor ;
-    sh:class schema:Role ;
+    sh:or (
+        [sh:class schema:Role ]
+        [sh:class schema:Person ]
+        [sh:class schema:Organization ]
+        [sh:nodeKind sh:IRI ]
+    ) ;
 	sh:minCount 0;
-   	sh:message "Contributors are expected to be assigned a role using the schema.org Role construct" ;
+   	sh:message "Contributors should be a Role, Person, Organization, or IRI reference to one" ;
     sh:description "https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html" ;
     sh:severity sh:Info
     .
