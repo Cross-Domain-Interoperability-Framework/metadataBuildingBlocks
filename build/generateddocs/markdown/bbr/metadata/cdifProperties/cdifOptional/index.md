@@ -256,12 +256,12 @@ ex:cdifOptional_23578 a schema1:Dataset ;
     schema1:name "Bathymetry Bay of Biscay" ;
     schema1:publishingPrinciples "https://example.org/principles/3478" ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "related data" ],
-        [ a schema1:LinkRole ;
             schema1:linkRelationship [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://www.iana.org/assignments/link-relations/" ;
                     schema1:name "related dataset" ;
-                    schema1:termCode "related" ] ] ;
+                    schema1:termCode "related" ] ],
+        [ a schema1:LinkRole ;
+            schema1:linkRelationship "related data" ] ;
     schema1:url "https://example.org/landingPage254266" ;
     schema1:version "1.0" .
 
@@ -428,6 +428,8 @@ properties:
                 type: string
                 description: a identifier for an agent defined in this metadata, or
                   externally; must be dereferenceable
+            required:
+            - '@id'
           - $ref: '#/$defs/Person'
           - $ref: '#/$defs/Organization'
   schema:contributor:
@@ -441,6 +443,8 @@ properties:
             type: string
             description: a identifier for an agent defined in this metadata, or externally;
               must be dereferenceable
+        required:
+        - '@id'
       - $ref: '#/$defs/Person'
       - $ref: '#/$defs/Organization'
       - $ref: '#/$defs/Contributor'
@@ -453,6 +457,8 @@ properties:
           type: string
           description: a identifier for an agent defined in this metadata, or externally;
             must be dereferenceable
+      required:
+      - '@id'
     - $ref: '#/$defs/Person'
     - $ref: '#/$defs/Organization'
   schema:provider:
@@ -468,6 +474,8 @@ properties:
             type: string
             description: a identifier for an agent defined in this metadata, or externally;
               must be dereferenceable
+        required:
+        - '@id'
       - $ref: '#/$defs/Person'
       - $ref: '#/$defs/Organization'
   schema:funding:
@@ -534,7 +542,7 @@ $defs:
   Funder:
     $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema.yaml
   VariableMeasured:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml
+    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifVariableMeasured/schema.yaml
   SpatialExtent:
     $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
   TemporalExtent:
@@ -566,8 +574,13 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
-    "time": "http://www.w3.org/2006/time#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xas": "https://xas.org/dictionary/",
+    "nxs": "http://purl.org/nexusformat/definitions/",
     "prov": "http://www.w3.org/ns/prov#",
+    "time": "http://www.w3.org/2006/time#",
     "@version": 1.1
   }
 }

@@ -116,6 +116,8 @@ properties:
           type: string
           description: a identifier for an agent defined in this metadata, or externally;
             must be dereferenceable
+      required:
+      - '@id'
     - $ref: '#/$defs/Person'
     - $ref: '#/$defs/Organization'
 anyOf:
