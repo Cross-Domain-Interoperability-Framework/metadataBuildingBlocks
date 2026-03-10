@@ -10,14 +10,31 @@
         },
         "schema:roleName": {
             "anyOf": [
-                {"type": "string"},
-                {"$ref": "#/$defs/DefinedTerm"}
+                {
+                    "type": "string"
+                },
+                {
+                    "$ref": "#/$defs/DefinedTerm"
+                }
             ]
         },
         "schema:contributor": {
-            "oneOf": [
-                {"$ref": "#/$defs/Person"},
-                {"$ref": "#/$defs/Organization"}
+            "anyOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "type": "string",
+                            "description": "IRI reference to a Person or Organization defined elsewhere"
+                        }
+                    }
+                },
+                {
+                    "$ref": "#/$defs/Person"
+                },
+                {
+                    "$ref": "#/$defs/Organization"
+                }
             ]
         }
     },
@@ -26,8 +43,14 @@
         "schema:contributor"
     ],
     "$defs": {
-        "Person": {"$ref": "../person/personSchema.json"},
-        "Organization": {"$ref": "../organization/organizationSchema.json"},
-        "DefinedTerm": {"$ref": "../definedTerm/definedTermSchema.json"}
+        "Person": {
+            "$ref": "../person/personSchema.json"
+        },
+        "Organization": {
+            "$ref": "../organization/organizationSchema.json"
+        },
+        "DefinedTerm": {
+            "$ref": "../definedTerm/definedTermSchema.json"
+        }
     }
 }
