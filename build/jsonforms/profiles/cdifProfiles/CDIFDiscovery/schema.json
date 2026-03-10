@@ -199,22 +199,46 @@
               "description": "this element defines an action (operation) that can be invoked via messages using the protocol defined. In most cases this will be an http request via TCP/IP, but in desktop or LAN environments, other protocols might be used. The target property defines the endpoint and syntax for invoking the action. Result specifies the encoding format for the (possible) response(s) when the action is invoked. Object specifies the information model for the resource that is the object of the action. This approach is an adoptation of the Action Blog Post from schema.org (see https://schema.org/docs/actions.html, and https://github.com/schemaorg/suggestions-questions-brainstorming/issues/62) ",
               "properties": {
                 "@type": {
-                  "type": "string",
                   "description": "The type of action. Must be schema:Action or one of its subtypes.",
                   "default": "schema:Action",
-                  "enum": [
-                    "schema:Action",
-                    "schema:AssessAction",
-                    "schema:ConsumeAction",
-                    "schema:ControlAction",
-                    "schema:CreateAction",
-                    "schema:FindAction",
-                    "schema:InteractAction",
-                    "schema:MoveAction",
-                    "schema:PlayAction",
-                    "schema:SearchAction",
-                    "schema:TransferAction",
-                    "schema:UpdateAction"
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "schema:Action",
+                        "schema:AssessAction",
+                        "schema:ConsumeAction",
+                        "schema:ControlAction",
+                        "schema:CreateAction",
+                        "schema:FindAction",
+                        "schema:InteractAction",
+                        "schema:MoveAction",
+                        "schema:PlayAction",
+                        "schema:SearchAction",
+                        "schema:TransferAction",
+                        "schema:UpdateAction"
+                      ]
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "schema:Action",
+                          "schema:AssessAction",
+                          "schema:ConsumeAction",
+                          "schema:ControlAction",
+                          "schema:CreateAction",
+                          "schema:FindAction",
+                          "schema:InteractAction",
+                          "schema:MoveAction",
+                          "schema:PlayAction",
+                          "schema:SearchAction",
+                          "schema:TransferAction",
+                          "schema:UpdateAction"
+                        ]
+                      }
+                    }
                   ]
                 },
                 "schema:name": {
@@ -440,8 +464,8 @@
                                     "type": "object",
                                     "properties": {
                                       "@type": {
-                                        "default": "schema:DefinedTerm",
-                                        "type": "string"
+                                        "type": "string",
+                                        "default": "schema:DefinedTerm"
                                       },
                                       "schema:name": {
                                         "type": "string",
@@ -495,8 +519,8 @@
                                         "type": "object",
                                         "properties": {
                                           "@type": {
-                                            "default": "schema:DefinedTerm",
-                                            "type": "string"
+                                            "type": "string",
+                                            "default": "schema:DefinedTerm"
                                           },
                                           "schema:name": {
                                             "type": "string",
@@ -756,7 +780,7 @@
             "type": "string",
             "description": "How the linked resource is related"
           },
-          "target": {
+          "schema:target": {
             "type": "object",
             "properties": {
               "@type": {
@@ -1138,8 +1162,8 @@
                     "type": "object",
                     "properties": {
                       "@type": {
-                        "default": "schema:DefinedTerm",
-                        "type": "string"
+                        "type": "string",
+                        "default": "schema:DefinedTerm"
                       },
                       "schema:name": {
                         "type": "string",
@@ -1193,8 +1217,8 @@
                         "type": "object",
                         "properties": {
                           "@type": {
-                            "default": "schema:DefinedTerm",
-                            "type": "string"
+                            "type": "string",
+                            "default": "schema:DefinedTerm"
                           },
                           "schema:name": {
                             "type": "string",
@@ -1348,52 +1372,44 @@
       "type": "array",
       "items": {
         "title": "very simple links or names of data sources used to generate the described resource.",
-        "type": "object",
-        "properties": {
-          "prov:wasDerivedFrom": {
-            "type": "array",
-            "items": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "type": "string",
-                      "description": "a resolvable reference to a representation of the software or instrument used"
-                    }
-                  }
-                },
-                {
-                  "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
-                  "type": "object",
-                  "properties": {
-                    "@type": {
-                      "type": "string",
-                      "default": "schema:CreativeWork"
-                    },
-                    "schema:name": {
-                      "type": "string"
-                    },
-                    "schema:description": {
-                      "type": "string"
-                    },
-                    "schema:url": {
-                      "type": "string",
-                      "format": "uri"
-                    }
-                  },
-                  "required": [
-                    "@type",
-                    "schema:url"
-                  ]
-                }
-              ]
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string",
+                "description": "a resolvable reference to a representation of the software or instrument used"
+              }
             }
+          },
+          {
+            "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+            "type": "object",
+            "properties": {
+              "@type": {
+                "type": "string",
+                "default": "schema:CreativeWork"
+              },
+              "schema:name": {
+                "type": "string"
+              },
+              "schema:description": {
+                "type": "string"
+              },
+              "schema:url": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "required": [
+              "@type",
+              "schema:url"
+            ]
           }
-        }
+        ]
       }
     },
     "dqv:hasQualityMeasurement": {
@@ -1404,8 +1420,8 @@
         "type": "object",
         "properties": {
           "@type": {
-            "default": "dqv:QualityMeasurement",
-            "type": "string"
+            "type": "string",
+            "default": "dqv:QualityMeasurement"
           },
           "dqv:isMeasurementOf": {
             "description": "specify the quality measure that is reported, by name, with an ID ref, or as a Defined Term",
@@ -1427,8 +1443,8 @@
                 "type": "object",
                 "properties": {
                   "@type": {
-                    "default": "schema:DefinedTerm",
-                    "type": "string"
+                    "type": "string",
+                    "default": "schema:DefinedTerm"
                   },
                   "schema:name": {
                     "type": "string",
@@ -1464,8 +1480,8 @@
                 "type": "object",
                 "properties": {
                   "@type": {
-                    "default": "schema:DefinedTerm",
-                    "type": "string"
+                    "type": "string",
+                    "default": "schema:DefinedTerm"
                   },
                   "schema:name": {
                     "type": "string",
