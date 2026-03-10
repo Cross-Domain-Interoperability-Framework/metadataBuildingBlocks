@@ -18,16 +18,19 @@ properties:
       - type: string
       - $ref: '#/$defs/DefinedTerm'
   'schema:sameAs':
-    description: The other identifiers for the dataset. Schema.org has three ways of encoding identifiers--
-      a text description, a URL, or by using the schema:PropertyValue field. The Science on Schema.org
-      guidance strongly recommends using the PropertyValue approach. see https://github.com/ESIPFed/science-on-schema.org   ....
-      Dataset.md#identifier.
+    description: Other identifiers for the dataset, as IRI references, literal strings,
+      or structured identifiers using schema:PropertyValue.
     type: array
     minItems: 0
     items:
       anyOf:
-      - $ref: '#/$defs/Identifier'
       - type: string
+      - type: object
+        properties:
+          '@id':
+            type: string
+            description: IRI for an equivalent resource or alternate identifier
+      - $ref: '#/$defs/Identifier'
   'schema:version':
     type:
     - string
