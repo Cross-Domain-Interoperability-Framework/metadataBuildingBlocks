@@ -62,18 +62,24 @@
               "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
             }
           },
-          "required": [
-            "@type"
-          ],
-          "anyOf": [
+          "allOf": [
             {
               "required": [
-                "schema:value"
+                "@type"
               ]
             },
             {
-              "required": [
-                "schema:url"
+              "anyOf": [
+                {
+                  "required": [
+                    "schema:value"
+                  ]
+                },
+                {
+                  "required": [
+                    "schema:url"
+                  ]
+                }
               ]
             }
           ]
@@ -255,21 +261,16 @@
               },
               "dcterms:conformsTo": {
                 "description": "An identifier for a standard or specification that the distribution conforms to. Recommended to enable machine-actionable data access.",
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "uri"
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "@id": {
-                        "type": "string",
-                        "format": "uri"
-                      }
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "uri for specification that this distribution conforms to"
                     }
                   }
-                ]
+                }
               },
               "schema:provider": {
                 "type": "array",
@@ -328,18 +329,24 @@
                                   "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                                 }
                               },
-                              "required": [
-                                "@type"
-                              ],
-                              "anyOf": [
+                              "allOf": [
                                 {
                                   "required": [
-                                    "schema:value"
+                                    "@type"
                                   ]
                                 },
                                 {
-                                  "required": [
-                                    "schema:url"
+                                  "anyOf": [
+                                    {
+                                      "required": [
+                                        "schema:value"
+                                      ]
+                                    },
+                                    {
+                                      "required": [
+                                        "schema:url"
+                                      ]
+                                    }
                                   ]
                                 }
                               ]
@@ -420,18 +427,24 @@
                                                 "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                                               }
                                             },
-                                            "required": [
-                                              "@type"
-                                            ],
-                                            "anyOf": [
+                                            "allOf": [
                                               {
                                                 "required": [
-                                                  "schema:value"
+                                                  "@type"
                                                 ]
                                               },
                                               {
-                                                "required": [
-                                                  "schema:url"
+                                                "anyOf": [
+                                                  {
+                                                    "required": [
+                                                      "schema:value"
+                                                    ]
+                                                  },
+                                                  {
+                                                    "required": [
+                                                      "schema:url"
+                                                    ]
+                                                  }
                                                 ]
                                               }
                                             ]
@@ -447,23 +460,29 @@
                                         "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                                       }
                                     },
-                                    "required": [
-                                      "@type"
-                                    ],
-                                    "anyOf": [
+                                    "allOf": [
                                       {
                                         "required": [
-                                          "schema:name"
+                                          "@type"
                                         ]
                                       },
                                       {
-                                        "required": [
-                                          "schema:identifier"
-                                        ]
-                                      },
-                                      {
-                                        "required": [
-                                          "schema:termCode"
+                                        "anyOf": [
+                                          {
+                                            "required": [
+                                              "schema:name"
+                                            ]
+                                          },
+                                          {
+                                            "required": [
+                                              "schema:identifier"
+                                            ]
+                                          },
+                                          {
+                                            "required": [
+                                              "schema:termCode"
+                                            ]
+                                          }
                                         ]
                                       }
                                     ]
@@ -510,18 +529,24 @@
                                       "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                                     }
                                   },
-                                  "required": [
-                                    "@type"
-                                  ],
-                                  "anyOf": [
+                                  "allOf": [
                                     {
                                       "required": [
-                                        "schema:value"
+                                        "@type"
                                       ]
                                     },
                                     {
-                                      "required": [
-                                        "schema:url"
+                                      "anyOf": [
+                                        {
+                                          "required": [
+                                            "schema:value"
+                                          ]
+                                        },
+                                        {
+                                          "required": [
+                                            "schema:url"
+                                          ]
+                                        }
                                       ]
                                     }
                                   ]
@@ -535,26 +560,88 @@
                               "type": "array",
                               "description": "other identifiers for the organization",
                               "items": {
-                                "type": "string"
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "@id": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "description": "Properties for a schema.org identifier",
+                                    "type": "object",
+                                    "properties": {
+                                      "@type": {
+                                        "type": "string",
+                                        "const": "schema:PropertyValue"
+                                      },
+                                      "schema:propertyID": {
+                                        "type": "string",
+                                        "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                                      },
+                                      "schema:value": {
+                                        "type": "string",
+                                        "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                                      },
+                                      "schema:url": {
+                                        "type": "string",
+                                        "format": "uri",
+                                        "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                                      }
+                                    },
+                                    "allOf": [
+                                      {
+                                        "required": [
+                                          "@type"
+                                        ]
+                                      },
+                                      {
+                                        "anyOf": [
+                                          {
+                                            "required": [
+                                              "schema:value"
+                                            ]
+                                          },
+                                          {
+                                            "required": [
+                                              "schema:url"
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
                               }
                             }
                           },
-                          "description": "if affiliation is present, value must be a schema:Organization.",
-                          "required": [
-                            "@type"
-                          ],
-                          "anyOf": [
+                          "allOf": [
                             {
                               "required": [
-                                "schema:name"
+                                "@type"
                               ]
                             },
                             {
-                              "required": [
-                                "schema:identifier"
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "schema:name"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "schema:identifier"
+                                  ]
+                                }
                               ]
                             }
-                          ]
+                          ],
+                          "description": "if affiliation is present, value must be a schema:Organization."
                         },
                         "schema:contactPoint": {
                           "type": "object",
@@ -574,22 +661,84 @@
                           "type": "array",
                           "description": "other identifiers for the person",
                           "items": {
-                            "type": "string"
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "@id": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              {
+                                "description": "Properties for a schema.org identifier",
+                                "type": "object",
+                                "properties": {
+                                  "@type": {
+                                    "type": "string",
+                                    "const": "schema:PropertyValue"
+                                  },
+                                  "schema:propertyID": {
+                                    "type": "string",
+                                    "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                                  },
+                                  "schema:value": {
+                                    "type": "string",
+                                    "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                                  },
+                                  "schema:url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                                  }
+                                },
+                                "allOf": [
+                                  {
+                                    "required": [
+                                      "@type"
+                                    ]
+                                  },
+                                  {
+                                    "anyOf": [
+                                      {
+                                        "required": [
+                                          "schema:value"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "schema:url"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
                           }
                         }
                       },
-                      "required": [
-                        "@type"
-                      ],
-                      "anyOf": [
+                      "allOf": [
                         {
                           "required": [
-                            "schema:name"
+                            "@type"
                           ]
                         },
                         {
-                          "required": [
-                            "schema:identifier"
+                          "anyOf": [
+                            {
+                              "required": [
+                                "schema:name"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "schema:identifier"
+                              ]
+                            }
                           ]
                         }
                       ]
@@ -661,18 +810,24 @@
                                             "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                                           }
                                         },
-                                        "required": [
-                                          "@type"
-                                        ],
-                                        "anyOf": [
+                                        "allOf": [
                                           {
                                             "required": [
-                                              "schema:value"
+                                              "@type"
                                             ]
                                           },
                                           {
-                                            "required": [
-                                              "schema:url"
+                                            "anyOf": [
+                                              {
+                                                "required": [
+                                                  "schema:value"
+                                                ]
+                                              },
+                                              {
+                                                "required": [
+                                                  "schema:url"
+                                                ]
+                                              }
                                             ]
                                           }
                                         ]
@@ -688,23 +843,29 @@
                                     "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                                   }
                                 },
-                                "required": [
-                                  "@type"
-                                ],
-                                "anyOf": [
+                                "allOf": [
                                   {
                                     "required": [
-                                      "schema:name"
+                                      "@type"
                                     ]
                                   },
                                   {
-                                    "required": [
-                                      "schema:identifier"
-                                    ]
-                                  },
-                                  {
-                                    "required": [
-                                      "schema:termCode"
+                                    "anyOf": [
+                                      {
+                                        "required": [
+                                          "schema:name"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "schema:identifier"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "schema:termCode"
+                                        ]
+                                      }
                                     ]
                                   }
                                 ]
@@ -751,18 +912,24 @@
                                   "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                                 }
                               },
-                              "required": [
-                                "@type"
-                              ],
-                              "anyOf": [
+                              "allOf": [
                                 {
                                   "required": [
-                                    "schema:value"
+                                    "@type"
                                   ]
                                 },
                                 {
-                                  "required": [
-                                    "schema:url"
+                                  "anyOf": [
+                                    {
+                                      "required": [
+                                        "schema:value"
+                                      ]
+                                    },
+                                    {
+                                      "required": [
+                                        "schema:url"
+                                      ]
+                                    }
                                   ]
                                 }
                               ]
@@ -776,22 +943,84 @@
                           "type": "array",
                           "description": "other identifiers for the organization",
                           "items": {
-                            "type": "string"
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "@id": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              {
+                                "description": "Properties for a schema.org identifier",
+                                "type": "object",
+                                "properties": {
+                                  "@type": {
+                                    "type": "string",
+                                    "const": "schema:PropertyValue"
+                                  },
+                                  "schema:propertyID": {
+                                    "type": "string",
+                                    "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                                  },
+                                  "schema:value": {
+                                    "type": "string",
+                                    "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                                  },
+                                  "schema:url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                                  }
+                                },
+                                "allOf": [
+                                  {
+                                    "required": [
+                                      "@type"
+                                    ]
+                                  },
+                                  {
+                                    "anyOf": [
+                                      {
+                                        "required": [
+                                          "schema:value"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "schema:url"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
                           }
                         }
                       },
-                      "required": [
-                        "@type"
-                      ],
-                      "anyOf": [
+                      "allOf": [
                         {
                           "required": [
-                            "schema:name"
+                            "@type"
                           ]
                         },
                         {
-                          "required": [
-                            "schema:identifier"
+                          "anyOf": [
+                            {
+                              "required": [
+                                "schema:name"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "schema:identifier"
+                              ]
+                            }
                           ]
                         }
                       ]
@@ -863,18 +1092,24 @@
                                 "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                               }
                             },
-                            "required": [
-                              "@type"
-                            ],
-                            "anyOf": [
+                            "allOf": [
                               {
                                 "required": [
-                                  "schema:value"
+                                  "@type"
                                 ]
                               },
                               {
-                                "required": [
-                                  "schema:url"
+                                "anyOf": [
+                                  {
+                                    "required": [
+                                      "schema:value"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "schema:url"
+                                    ]
+                                  }
                                 ]
                               }
                             ]
@@ -890,23 +1125,29 @@
                         "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                       }
                     },
-                    "required": [
-                      "@type"
-                    ],
-                    "anyOf": [
+                    "allOf": [
                       {
                         "required": [
-                          "schema:name"
+                          "@type"
                         ]
                       },
                       {
-                        "required": [
-                          "schema:identifier"
-                        ]
-                      },
-                      {
-                        "required": [
-                          "schema:termCode"
+                        "anyOf": [
+                          {
+                            "required": [
+                              "schema:name"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "schema:identifier"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "schema:termCode"
+                            ]
+                          }
                         ]
                       }
                     ]
@@ -1174,18 +1415,24 @@
                                                 "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                                               }
                                             },
-                                            "required": [
-                                              "@type"
-                                            ],
-                                            "anyOf": [
+                                            "allOf": [
                                               {
                                                 "required": [
-                                                  "schema:value"
+                                                  "@type"
                                                 ]
                                               },
                                               {
-                                                "required": [
-                                                  "schema:url"
+                                                "anyOf": [
+                                                  {
+                                                    "required": [
+                                                      "schema:value"
+                                                    ]
+                                                  },
+                                                  {
+                                                    "required": [
+                                                      "schema:url"
+                                                    ]
+                                                  }
                                                 ]
                                               }
                                             ]
@@ -1201,23 +1448,29 @@
                                         "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                                       }
                                     },
-                                    "required": [
-                                      "@type"
-                                    ],
-                                    "anyOf": [
+                                    "allOf": [
                                       {
                                         "required": [
-                                          "schema:name"
+                                          "@type"
                                         ]
                                       },
                                       {
-                                        "required": [
-                                          "schema:identifier"
-                                        ]
-                                      },
-                                      {
-                                        "required": [
-                                          "schema:termCode"
+                                        "anyOf": [
+                                          {
+                                            "required": [
+                                              "schema:name"
+                                            ]
+                                          },
+                                          {
+                                            "required": [
+                                              "schema:identifier"
+                                            ]
+                                          },
+                                          {
+                                            "required": [
+                                              "schema:termCode"
+                                            ]
+                                          }
                                         ]
                                       }
                                     ]
@@ -1296,18 +1549,24 @@
                                                       "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                                                     }
                                                   },
-                                                  "required": [
-                                                    "@type"
-                                                  ],
-                                                  "anyOf": [
+                                                  "allOf": [
                                                     {
                                                       "required": [
-                                                        "schema:value"
+                                                        "@type"
                                                       ]
                                                     },
                                                     {
-                                                      "required": [
-                                                        "schema:url"
+                                                      "anyOf": [
+                                                        {
+                                                          "required": [
+                                                            "schema:value"
+                                                          ]
+                                                        },
+                                                        {
+                                                          "required": [
+                                                            "schema:url"
+                                                          ]
+                                                        }
                                                       ]
                                                     }
                                                   ]
@@ -1323,23 +1582,29 @@
                                               "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                                             }
                                           },
-                                          "required": [
-                                            "@type"
-                                          ],
-                                          "anyOf": [
+                                          "allOf": [
                                             {
                                               "required": [
-                                                "schema:name"
+                                                "@type"
                                               ]
                                             },
                                             {
-                                              "required": [
-                                                "schema:identifier"
-                                              ]
-                                            },
-                                            {
-                                              "required": [
-                                                "schema:termCode"
+                                              "anyOf": [
+                                                {
+                                                  "required": [
+                                                    "schema:name"
+                                                  ]
+                                                },
+                                                {
+                                                  "required": [
+                                                    "schema:identifier"
+                                                  ]
+                                                },
+                                                {
+                                                  "required": [
+                                                    "schema:termCode"
+                                                  ]
+                                                }
                                               ]
                                             }
                                           ]
@@ -1403,18 +1668,24 @@
                                                     "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                                                   }
                                                 },
-                                                "required": [
-                                                  "@type"
-                                                ],
-                                                "anyOf": [
+                                                "allOf": [
                                                   {
                                                     "required": [
-                                                      "schema:value"
+                                                      "@type"
                                                     ]
                                                   },
                                                   {
-                                                    "required": [
-                                                      "schema:url"
+                                                    "anyOf": [
+                                                      {
+                                                        "required": [
+                                                          "schema:value"
+                                                        ]
+                                                      },
+                                                      {
+                                                        "required": [
+                                                          "schema:url"
+                                                        ]
+                                                      }
                                                     ]
                                                   }
                                                 ]
@@ -1430,23 +1701,29 @@
                                             "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                                           }
                                         },
-                                        "required": [
-                                          "@type"
-                                        ],
-                                        "anyOf": [
+                                        "allOf": [
                                           {
                                             "required": [
-                                              "schema:name"
+                                              "@type"
                                             ]
                                           },
                                           {
-                                            "required": [
-                                              "schema:identifier"
-                                            ]
-                                          },
-                                          {
-                                            "required": [
-                                              "schema:termCode"
+                                            "anyOf": [
+                                              {
+                                                "required": [
+                                                  "schema:name"
+                                                ]
+                                              },
+                                              {
+                                                "required": [
+                                                  "schema:identifier"
+                                                ]
+                                              },
+                                              {
+                                                "required": [
+                                                  "schema:termCode"
+                                                ]
+                                              }
                                             ]
                                           }
                                         ]
@@ -1536,18 +1813,24 @@
                                                     "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                                                   }
                                                 },
-                                                "required": [
-                                                  "@type"
-                                                ],
-                                                "anyOf": [
+                                                "allOf": [
                                                   {
                                                     "required": [
-                                                      "schema:value"
+                                                      "@type"
                                                     ]
                                                   },
                                                   {
-                                                    "required": [
-                                                      "schema:url"
+                                                    "anyOf": [
+                                                      {
+                                                        "required": [
+                                                          "schema:value"
+                                                        ]
+                                                      },
+                                                      {
+                                                        "required": [
+                                                          "schema:url"
+                                                        ]
+                                                      }
                                                     ]
                                                   }
                                                 ]
@@ -1563,23 +1846,29 @@
                                             "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                                           }
                                         },
-                                        "required": [
-                                          "@type"
-                                        ],
-                                        "anyOf": [
+                                        "allOf": [
                                           {
                                             "required": [
-                                              "schema:name"
+                                              "@type"
                                             ]
                                           },
                                           {
-                                            "required": [
-                                              "schema:identifier"
-                                            ]
-                                          },
-                                          {
-                                            "required": [
-                                              "schema:termCode"
+                                            "anyOf": [
+                                              {
+                                                "required": [
+                                                  "schema:name"
+                                                ]
+                                              },
+                                              {
+                                                "required": [
+                                                  "schema:identifier"
+                                                ]
+                                              },
+                                              {
+                                                "required": [
+                                                  "schema:termCode"
+                                                ]
+                                              }
                                             ]
                                           }
                                         ]
@@ -1648,18 +1937,24 @@
                                                         "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                                                       }
                                                     },
-                                                    "required": [
-                                                      "@type"
-                                                    ],
-                                                    "anyOf": [
+                                                    "allOf": [
                                                       {
                                                         "required": [
-                                                          "schema:value"
+                                                          "@type"
                                                         ]
                                                       },
                                                       {
-                                                        "required": [
-                                                          "schema:url"
+                                                        "anyOf": [
+                                                          {
+                                                            "required": [
+                                                              "schema:value"
+                                                            ]
+                                                          },
+                                                          {
+                                                            "required": [
+                                                              "schema:url"
+                                                            ]
+                                                          }
                                                         ]
                                                       }
                                                     ]
@@ -1675,23 +1970,29 @@
                                                 "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                                               }
                                             },
-                                            "required": [
-                                              "@type"
-                                            ],
-                                            "anyOf": [
+                                            "allOf": [
                                               {
                                                 "required": [
-                                                  "schema:name"
+                                                  "@type"
                                                 ]
                                               },
                                               {
-                                                "required": [
-                                                  "schema:identifier"
-                                                ]
-                                              },
-                                              {
-                                                "required": [
-                                                  "schema:termCode"
+                                                "anyOf": [
+                                                  {
+                                                    "required": [
+                                                      "schema:name"
+                                                    ]
+                                                  },
+                                                  {
+                                                    "required": [
+                                                      "schema:identifier"
+                                                    ]
+                                                  },
+                                                  {
+                                                    "required": [
+                                                      "schema:termCode"
+                                                    ]
+                                                  }
                                                 ]
                                               }
                                             ]
@@ -1861,18 +2162,24 @@
                           "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                         }
                       },
-                      "required": [
-                        "@type"
-                      ],
-                      "anyOf": [
+                      "allOf": [
                         {
                           "required": [
-                            "schema:value"
+                            "@type"
                           ]
                         },
                         {
-                          "required": [
-                            "schema:url"
+                          "anyOf": [
+                            {
+                              "required": [
+                                "schema:value"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "schema:url"
+                              ]
+                            }
                           ]
                         }
                       ]
@@ -1953,18 +2260,24 @@
                                         "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                                       }
                                     },
-                                    "required": [
-                                      "@type"
-                                    ],
-                                    "anyOf": [
+                                    "allOf": [
                                       {
                                         "required": [
-                                          "schema:value"
+                                          "@type"
                                         ]
                                       },
                                       {
-                                        "required": [
-                                          "schema:url"
+                                        "anyOf": [
+                                          {
+                                            "required": [
+                                              "schema:value"
+                                            ]
+                                          },
+                                          {
+                                            "required": [
+                                              "schema:url"
+                                            ]
+                                          }
                                         ]
                                       }
                                     ]
@@ -1980,23 +2293,29 @@
                                 "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                               }
                             },
-                            "required": [
-                              "@type"
-                            ],
-                            "anyOf": [
+                            "allOf": [
                               {
                                 "required": [
-                                  "schema:name"
+                                  "@type"
                                 ]
                               },
                               {
-                                "required": [
-                                  "schema:identifier"
-                                ]
-                              },
-                              {
-                                "required": [
-                                  "schema:termCode"
+                                "anyOf": [
+                                  {
+                                    "required": [
+                                      "schema:name"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "schema:identifier"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "schema:termCode"
+                                    ]
+                                  }
                                 ]
                               }
                             ]
@@ -2043,18 +2362,24 @@
                               "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                             }
                           },
-                          "required": [
-                            "@type"
-                          ],
-                          "anyOf": [
+                          "allOf": [
                             {
                               "required": [
-                                "schema:value"
+                                "@type"
                               ]
                             },
                             {
-                              "required": [
-                                "schema:url"
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "schema:value"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "schema:url"
+                                  ]
+                                }
                               ]
                             }
                           ]
@@ -2068,26 +2393,88 @@
                       "type": "array",
                       "description": "other identifiers for the organization",
                       "items": {
-                        "type": "string"
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "@id": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          {
+                            "description": "Properties for a schema.org identifier",
+                            "type": "object",
+                            "properties": {
+                              "@type": {
+                                "type": "string",
+                                "const": "schema:PropertyValue"
+                              },
+                              "schema:propertyID": {
+                                "type": "string",
+                                "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                              },
+                              "schema:value": {
+                                "type": "string",
+                                "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                              },
+                              "schema:url": {
+                                "type": "string",
+                                "format": "uri",
+                                "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                              }
+                            },
+                            "allOf": [
+                              {
+                                "required": [
+                                  "@type"
+                                ]
+                              },
+                              {
+                                "anyOf": [
+                                  {
+                                    "required": [
+                                      "schema:value"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "schema:url"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
                       }
                     }
                   },
-                  "description": "if affiliation is present, value must be a schema:Organization.",
-                  "required": [
-                    "@type"
-                  ],
-                  "anyOf": [
+                  "allOf": [
                     {
                       "required": [
-                        "schema:name"
+                        "@type"
                       ]
                     },
                     {
-                      "required": [
-                        "schema:identifier"
+                      "anyOf": [
+                        {
+                          "required": [
+                            "schema:name"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "schema:identifier"
+                          ]
+                        }
                       ]
                     }
-                  ]
+                  ],
+                  "description": "if affiliation is present, value must be a schema:Organization."
                 },
                 "schema:contactPoint": {
                   "type": "object",
@@ -2107,22 +2494,84 @@
                   "type": "array",
                   "description": "other identifiers for the person",
                   "items": {
-                    "type": "string"
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      {
+                        "description": "Properties for a schema.org identifier",
+                        "type": "object",
+                        "properties": {
+                          "@type": {
+                            "type": "string",
+                            "const": "schema:PropertyValue"
+                          },
+                          "schema:propertyID": {
+                            "type": "string",
+                            "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                          },
+                          "schema:value": {
+                            "type": "string",
+                            "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                          },
+                          "schema:url": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                          }
+                        },
+                        "allOf": [
+                          {
+                            "required": [
+                              "@type"
+                            ]
+                          },
+                          {
+                            "anyOf": [
+                              {
+                                "required": [
+                                  "schema:value"
+                                ]
+                              },
+                              {
+                                "required": [
+                                  "schema:url"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
                   }
                 }
               },
-              "required": [
-                "@type"
-              ],
-              "anyOf": [
+              "allOf": [
                 {
                   "required": [
-                    "schema:name"
+                    "@type"
                   ]
                 },
                 {
-                  "required": [
-                    "schema:identifier"
+                  "anyOf": [
+                    {
+                      "required": [
+                        "schema:name"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "schema:identifier"
+                      ]
+                    }
                   ]
                 }
               ]
@@ -2194,18 +2643,24 @@
                                     "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                                   }
                                 },
-                                "required": [
-                                  "@type"
-                                ],
-                                "anyOf": [
+                                "allOf": [
                                   {
                                     "required": [
-                                      "schema:value"
+                                      "@type"
                                     ]
                                   },
                                   {
-                                    "required": [
-                                      "schema:url"
+                                    "anyOf": [
+                                      {
+                                        "required": [
+                                          "schema:value"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "schema:url"
+                                        ]
+                                      }
                                     ]
                                   }
                                 ]
@@ -2221,23 +2676,29 @@
                             "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                           }
                         },
-                        "required": [
-                          "@type"
-                        ],
-                        "anyOf": [
+                        "allOf": [
                           {
                             "required": [
-                              "schema:name"
+                              "@type"
                             ]
                           },
                           {
-                            "required": [
-                              "schema:identifier"
-                            ]
-                          },
-                          {
-                            "required": [
-                              "schema:termCode"
+                            "anyOf": [
+                              {
+                                "required": [
+                                  "schema:name"
+                                ]
+                              },
+                              {
+                                "required": [
+                                  "schema:identifier"
+                                ]
+                              },
+                              {
+                                "required": [
+                                  "schema:termCode"
+                                ]
+                              }
                             ]
                           }
                         ]
@@ -2284,18 +2745,24 @@
                           "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                         }
                       },
-                      "required": [
-                        "@type"
-                      ],
-                      "anyOf": [
+                      "allOf": [
                         {
                           "required": [
-                            "schema:value"
+                            "@type"
                           ]
                         },
                         {
-                          "required": [
-                            "schema:url"
+                          "anyOf": [
+                            {
+                              "required": [
+                                "schema:value"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "schema:url"
+                              ]
+                            }
                           ]
                         }
                       ]
@@ -2309,22 +2776,84 @@
                   "type": "array",
                   "description": "other identifiers for the organization",
                   "items": {
-                    "type": "string"
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      {
+                        "description": "Properties for a schema.org identifier",
+                        "type": "object",
+                        "properties": {
+                          "@type": {
+                            "type": "string",
+                            "const": "schema:PropertyValue"
+                          },
+                          "schema:propertyID": {
+                            "type": "string",
+                            "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                          },
+                          "schema:value": {
+                            "type": "string",
+                            "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                          },
+                          "schema:url": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                          }
+                        },
+                        "allOf": [
+                          {
+                            "required": [
+                              "@type"
+                            ]
+                          },
+                          {
+                            "anyOf": [
+                              {
+                                "required": [
+                                  "schema:value"
+                                ]
+                              },
+                              {
+                                "required": [
+                                  "schema:url"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
                   }
                 }
               },
-              "required": [
-                "@type"
-              ],
-              "anyOf": [
+              "allOf": [
                 {
                   "required": [
-                    "schema:name"
+                    "@type"
                   ]
                 },
                 {
-                  "required": [
-                    "schema:identifier"
+                  "anyOf": [
+                    {
+                      "required": [
+                        "schema:name"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "schema:identifier"
+                      ]
+                    }
                   ]
                 }
               ]
@@ -2379,18 +2908,24 @@
                   "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                 }
               },
-              "required": [
-                "@type"
-              ],
-              "anyOf": [
+              "allOf": [
                 {
                   "required": [
-                    "schema:value"
+                    "@type"
                   ]
                 },
                 {
-                  "required": [
-                    "schema:url"
+                  "anyOf": [
+                    {
+                      "required": [
+                        "schema:value"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "schema:url"
+                      ]
+                    }
                   ]
                 }
               ]
@@ -2407,24 +2942,44 @@
       ]
     }
   },
-  "required": [
-    "@id",
-    "@type",
-    "@context",
-    "schema:name",
-    "schema:identifier",
-    "schema:dateModified",
-    "schema:subjectOf"
-  ],
-  "anyOf": [
+  "allOf": [
     {
       "required": [
-        "schema:url"
+        "@id",
+        "@type",
+        "@context",
+        "schema:name",
+        "schema:identifier",
+        "schema:dateModified",
+        "schema:subjectOf"
       ]
     },
     {
-      "required": [
-        "schema:distribution"
+      "anyOf": [
+        {
+          "required": [
+            "schema:license"
+          ]
+        },
+        {
+          "required": [
+            "schema:conditionsOfAccess"
+          ]
+        }
+      ]
+    },
+    {
+      "anyOf": [
+        {
+          "required": [
+            "schema:url"
+          ]
+        },
+        {
+          "required": [
+            "schema:distribution"
+          ]
+        }
       ]
     }
   ]

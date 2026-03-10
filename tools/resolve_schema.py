@@ -328,6 +328,30 @@ def _resolve_ref(ref: str, base_dir: Path, defs: dict, seen: set) -> Any:
     if not file_path.exists():
         return {"$comment": f"file not found: {file_path}"}
 
+    # For cross-file $defs fragment refs, resolve the defs from the raw schema
+    # before resolve_file strips them.
+    if fragment:
+        parts = fragment.lstrip("/").split("/")
+        if len(parts) >= 2 and parts[0] == "$defs":
+            raw_schema = load_schema_file(file_path.resolve())
+            if isinstance(raw_schema, dict) and "$defs" in raw_schema:
+                canonical = file_path.resolve()
+                file_seen = seen | {canonical}
+                raw_defs = raw_schema["$defs"]
+                resolved_defs = {}
+                for def_name, def_schema in raw_defs.items():
+                    resolved_defs[def_name] = resolve_node(
+                        def_schema, canonical.parent, {}, file_seen
+                    )
+                for def_name in list(resolved_defs.keys()):
+                    resolved_defs[def_name] = _inline_unresolved_defs(
+                        resolved_defs[def_name], resolved_defs, canonical.parent, file_seen
+                    )
+                target_name = parts[1]
+                if target_name in resolved_defs:
+                    return copy.deepcopy(resolved_defs[target_name])
+            return {"$comment": f"could not resolve fragment {fragment} in {file_path}"}
+
     resolved = resolve_file(file_path, seen)
 
     if fragment:
