@@ -5,10 +5,7 @@
   "description": "JSON schema for JSON-LD documents that describe science datasets for the CDIF complete profile, combining discovery metadata with data description and archive distribution extensions. Extends CDIFDiscovery (cdifMandatory + cdifOptional including variableMeasured) with distribution constraints supporting single-file DataDownloads with optional tabular/dataCube data description, archive distributions with hasPart component files, and WebAPI distributions with potentialAction result data description.",
   "allOf": [
     {
-      "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDiscovery/schema.json"
-    },
-    {
-      "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.json"
+      "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/schema.json"
     },
     {
       "type": "object",
@@ -18,81 +15,6 @@
           "type": "array",
           "items": {
             "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema.json"
-          }
-        }
-      }
-    },
-    {
-      "type": "object",
-      "properties": {
-        "schema:distribution": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "allOf": [
-                  {
-                    "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.json"
-                  },
-                  {
-                    "anyOf": [
-                      {
-                        "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataCube/schema.json"
-                      },
-                      {
-                        "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularData/schema.json"
-                      },
-                      {
-                        "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifLongData/schema.json"
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema.json"
-              },
-              {
-                "allOf": [
-                  {
-                    "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema.json"
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "schema:potentialAction": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "schema:result": {
-                              "allOf": [
-                                {
-                                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.json"
-                                },
-                                {
-                                  "anyOf": [
-                                    {
-                                      "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataCube/schema.json"
-                                    },
-                                    {
-                                      "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularData/schema.json"
-                                    },
-                                    {
-                                      "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifLongData/schema.json"
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
-            ]
           }
         }
       }

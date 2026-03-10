@@ -168,13 +168,29 @@ description: Additional constraints for CDIF data description level. Adds cdi:ph
   file characterization (characterSet, fileSize, fileSizeUofM).
 type: object
 properties:
+  '@context':
+    type: object
+    description: Additional namespace prefix for data description properties.
+    properties:
+      csvw:
+        enum:
+        - http://www.w3.org/ns/csvw#
   schema:variableMeasured:
     type: array
     items:
       anyOf:
       - type: object
         description: PropertyValue variables at data description level must include
-          cdi:physicalDataType.
+          cdi:physicalDataType and cdi:InstanceVariable typing.
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - cdi:InstanceVariable
+            minItems: 2
         required:
         - cdi:physicalDataType
       - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.yaml#/$defs/StatisticalVariable

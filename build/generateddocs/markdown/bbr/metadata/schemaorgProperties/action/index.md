@@ -337,6 +337,7 @@ properties:
       - schema:ConsumeAction
       - schema:ControlAction
       - schema:CreateAction
+      - schema:DeleteAction
       - schema:FindAction
       - schema:InteractAction
       - schema:MoveAction
@@ -354,6 +355,7 @@ properties:
         - schema:ConsumeAction
         - schema:ControlAction
         - schema:CreateAction
+        - schema:DeleteAction
         - schema:FindAction
         - schema:InteractAction
         - schema:MoveAction
@@ -508,6 +510,11 @@ $defs:
             const: schema:DataFeed
       schema:description:
         type: string
+      schema:encodingFormat-input:
+        type: array
+        items:
+          type: string
+        description: MIME types accepted as input encoding formats for the action.
       schema:variableMeasured:
         type: array
         items:

@@ -696,13 +696,38 @@
       "description": "Additional constraints for CDIF data description level. Adds cdi:physicalDataType requirement on variableMeasured items and distribution-level cdi properties for file characterization (characterSet, fileSize, fileSizeUofM).",
       "type": "object",
       "properties": {
+        "@context": {
+          "type": "object",
+          "description": "Additional namespace prefix for data description properties.",
+          "properties": {
+            "csvw": {
+              "enum": [
+                "http://www.w3.org/ns/csvw#"
+              ]
+            }
+          }
+        },
         "schema:variableMeasured": {
           "type": "array",
           "items": {
             "anyOf": [
               {
                 "type": "object",
-                "description": "PropertyValue variables at data description level must include cdi:physicalDataType.",
+                "description": "PropertyValue variables at data description level must include cdi:physicalDataType and cdi:InstanceVariable typing.",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "enum": [
+                        "cdi:InstanceVariable"
+                      ]
+                    },
+                    "minItems": 2
+                  }
+                },
                 "required": [
                   "cdi:physicalDataType"
                 ]
@@ -2795,10 +2820,14 @@
                   ]
                 },
                 "schema:latitude": {
-                  "type": "number"
+                  "type": "number",
+                  "minimum": -90,
+                  "maximum": 90
                 },
                 "schema:longitude": {
-                  "type": "number"
+                  "type": "number",
+                  "minimum": -180,
+                  "maximum": 180
                 }
               },
               "required": [
@@ -3608,6 +3637,7 @@
                 "schema:ConsumeAction",
                 "schema:ControlAction",
                 "schema:CreateAction",
+                "schema:DeleteAction",
                 "schema:FindAction",
                 "schema:InteractAction",
                 "schema:MoveAction",
@@ -3629,6 +3659,7 @@
                   "schema:ConsumeAction",
                   "schema:ControlAction",
                   "schema:CreateAction",
+                  "schema:DeleteAction",
                   "schema:FindAction",
                   "schema:InteractAction",
                   "schema:MoveAction",
@@ -3856,6 +3887,13 @@
             },
             "schema:description": {
               "type": "string"
+            },
+            "schema:encodingFormat-input": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "MIME types accepted as input encoding formats for the action."
             },
             "schema:variableMeasured": {
               "type": "array",

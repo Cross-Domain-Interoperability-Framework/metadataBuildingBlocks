@@ -480,13 +480,29 @@ x-defs:
       for file characterization (characterSet, fileSize, fileSizeUofM).
     type: object
     properties:
+      '@context':
+        type: object
+        description: Additional namespace prefix for data description properties.
+        properties:
+          csvw:
+            enum:
+            - http://www.w3.org/ns/csvw#
       schema:variableMeasured:
         type: array
         items:
           anyOf:
           - type: object
             description: PropertyValue variables at data description level must include
-              cdi:physicalDataType.
+              cdi:physicalDataType and cdi:InstanceVariable typing.
+            properties:
+              '@type':
+                type: array
+                items:
+                  type: string
+                contains:
+                  enum:
+                  - cdi:InstanceVariable
+                minItems: 2
             required:
             - cdi:physicalDataType
           - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifDataDescription/$defs/StatisticalVariable
@@ -1761,8 +1777,12 @@ x-defs:
                   - schema:GeoCoordinates
             schema:latitude:
               type: number
+              minimum: -90
+              maximum: 90
             schema:longitude:
               type: number
+              minimum: -180
+              maximum: 180
           required:
           - '@type'
           - schema:latitude
@@ -2172,6 +2192,7 @@ x-defs:
           - schema:ConsumeAction
           - schema:ControlAction
           - schema:CreateAction
+          - schema:DeleteAction
           - schema:FindAction
           - schema:InteractAction
           - schema:MoveAction
@@ -2189,6 +2210,7 @@ x-defs:
             - schema:ConsumeAction
             - schema:ControlAction
             - schema:CreateAction
+            - schema:DeleteAction
             - schema:FindAction
             - schema:InteractAction
             - schema:MoveAction
@@ -2356,6 +2378,11 @@ x-defs:
                 - schema:DataFeed
           schema:description:
             type: string
+          schema:encodingFormat-input:
+            type: array
+            items:
+              type: string
+            description: MIME types accepted as input encoding formats for the action.
           schema:variableMeasured:
             type: array
             items:
