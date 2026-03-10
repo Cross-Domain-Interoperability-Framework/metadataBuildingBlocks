@@ -9,7 +9,7 @@
       "description": "The URI for the resource should be the @id value for the root of the JSON instance document tree. Must be an IRI (e.g. https://doi.org/..., urn:..., or a relative URI like #localid). Note that this identifier can be interpreted to identify the resource that is the subject of this metadata record, or the JSON-LD object that is the digital object containing the metadata information."
     },
     "@type": {
-      "description": "a schema.org Class that specifies the expected information content for the metadata record. For CDIF, 'schema:Dataset' is required, but other possible values (e.g. CreativeWork, SoftwareApplication, Product, WebAPI) are sometimes included to enable the schema.org properties used to describe the resource without schema.org validation errors. The array must include at least one value from the known set, but can also include other strings for extensibility.",
+      "description": "a schema.org Class that specifies the expected information content for the metadata record. The array must include at least one schema.org type value. Default is schema:Dataset.",
       "type": "array",
       "items": {
         "type": "string"
@@ -810,6 +810,112 @@
       "items": {
         "type": "string",
         "description": "Publishing principle statement or URL"
+      }
+    },
+    "schema:measurementTechnique": {
+      "description": "Require DefinedTerms for both: absorption edge (XDI dict) and target element (SWEET).",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "description": "schema.org Defined Term schema",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "default": "schema:DefinedTerm"
+            },
+            "schema:name": {
+              "type": "string",
+              "description": "text label for the term that is useful to human user"
+            },
+            "schema:identifier": {
+              "type": "string",
+              "description": "Identifier"
+            },
+            "schema:inDefinedTermSet": {
+              "type": "string",
+              "description": "Identifier for the controlled vocabulary responsible for this keyword."
+            },
+            "schema:termCode": {
+              "type": "string",
+              "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "description": "schema.org Defined Term schema",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "type": "string",
+                    "default": "schema:DefinedTerm"
+                  },
+                  "schema:name": {
+                    "type": "string",
+                    "description": "text label for the term that is useful to human user"
+                  },
+                  "schema:identifier": {
+                    "type": "string",
+                    "description": "Identifier"
+                  },
+                  "schema:inDefinedTermSet": {
+                    "type": "string",
+                    "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                  },
+                  "schema:termCode": {
+                    "type": "string",
+                    "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                  }
+                },
+                "required": [
+                  "@type"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "type": "array",
+      "items": {
+        "description": "schema.org Defined Term schema",
+        "type": "object",
+        "properties": {
+          "@type": {
+            "type": "string",
+            "default": "schema:DefinedTerm"
+          },
+          "schema:name": {
+            "type": "string",
+            "description": "text label for the term that is useful to human user"
+          },
+          "schema:identifier": {
+            "type": "string",
+            "description": "Identifier"
+          },
+          "schema:inDefinedTermSet": {
+            "type": "string",
+            "description": "Identifier for the controlled vocabulary responsible for this keyword."
+          },
+          "schema:termCode": {
+            "type": "string",
+            "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+          }
+        },
+        "required": [
+          "@type"
+        ]
       }
     },
     "schema:keywords": {
@@ -2985,39 +3091,6 @@
         "required": [
           "dqv:isMeasurementOf",
           "dqv:value"
-        ]
-      }
-    },
-    "schema:measurementTechnique": {
-      "type": "array",
-      "description": "Require DefinedTerms for both: absorption edge (XDI dict) and target element (SWEET).",
-      "items": {
-        "description": "schema.org Defined Term schema",
-        "type": "object",
-        "properties": {
-          "@type": {
-            "type": "string",
-            "default": "schema:DefinedTerm"
-          },
-          "schema:name": {
-            "type": "string",
-            "description": "text label for the term that is useful to human user"
-          },
-          "schema:identifier": {
-            "type": "string",
-            "description": "Identifier"
-          },
-          "schema:inDefinedTermSet": {
-            "type": "string",
-            "description": "Identifier for the controlled vocabulary responsible for this keyword."
-          },
-          "schema:termCode": {
-            "type": "string",
-            "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
-          }
-        },
-        "required": [
-          "@type"
         ]
       }
     }
