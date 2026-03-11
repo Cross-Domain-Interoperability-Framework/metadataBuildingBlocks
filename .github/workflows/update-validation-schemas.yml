@@ -29,6 +29,9 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install dependencies
+        run: pip install rdflib jsonschema
+
       - name: Generate CDIFDiscoverySchema.json
         run: |
           python validation/generate_validation_schema.py \
@@ -47,15 +50,31 @@ jobs:
             -d "JSON schema for validating framed JSON-LD documents that describe science datasets for the CDIF complete profile, combining discovery metadata with data description and archive distribution extensions. Generated from CDIFcomplete building block profile resolvedSchema.json (https://usgin.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfiles/CDIFcomplete/resolvedSchema.json)." \
             -v
 
+      - name: Generate CDIF-Discovery-Shapes.ttl
+        run: |
+          python validation/generate_shacl_shapes.py \
+            --profile discovery \
+            --bb-dir bb/_sources \
+            --output validation/CDIF-Discovery-Shapes.ttl \
+            -v
+
+      - name: Generate CDIF-Complete-Shapes.ttl
+        run: |
+          python validation/generate_shacl_shapes.py \
+            --profile complete \
+            --bb-dir bb/_sources \
+            --output validation/CDIF-Complete-Shapes.ttl \
+            -v
+
       - name: Commit and push to validation repo
         working-directory: validation
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add CDIFDiscoverySchema.json CDIFCompleteSchema.json
+          git add CDIFDiscoverySchema.json CDIFCompleteSchema.json CDIF-Discovery-Shapes.ttl CDIF-Complete-Shapes.ttl
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Update validation schemas from building blocks [automated]"
+            git commit -m "Update validation schemas and SHACL shapes from building blocks [automated]"
             git push
           fi
