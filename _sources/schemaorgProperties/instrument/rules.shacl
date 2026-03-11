@@ -9,7 +9,16 @@
 
 cdifd:instrumentNode
 	a sh:NodeShape;
-	sh:targetClass schema:Thing ;
+	    sh:target [
+	  a sh:SPARQLTarget ;
+      sh:select  """
+      PREFIX schema: <http://schema.org/>
+      SELECT DISTINCT ?this
+        WHERE {
+          ?s schema:instrument ?this .
+          FILTER (isIRI(?this) || isBlank(?this))
+          }""";
+	] ;
     sh:property [
       sh:path schema:name ;
       sh:minCount 1 ;
