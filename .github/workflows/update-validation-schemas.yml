@@ -21,8 +21,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Cross-Domain-Interoperability-Framework/validation
-          token: ${{ secrets.VALIDATION_REPO_PAT }}
           path: validation
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -71,6 +71,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.VALIDATION_REPO_PAT }}@github.com/Cross-Domain-Interoperability-Framework/validation.git
           git add CDIFDiscoverySchema.json CDIFCompleteSchema.json CDIF-Discovery-Shapes.ttl CDIF-Complete-Shapes.ttl
           if git diff --cached --quiet; then
             echo "No changes to commit"
