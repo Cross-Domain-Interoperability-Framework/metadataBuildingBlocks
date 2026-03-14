@@ -1,7 +1,7 @@
 
 # CDIF Provenance Activity (Schema)
 
-`cdif.bbr.metadata.cdifProperties.cdifProv` *v0.1*
+`cdif.bbr.metadata.cdifProperties.cdifProvActivity` *v0.1*
 
 Extended provenance activity for CDIF metadata, adding schema.org Action properties (agents, methodology, temporal bounds, action chaining) to the base prov:Activity. Instruments are nested within prov:used items via schema:instrument sub-key, referencing the generic instrument building block. Defines properties: @type, prov:used, schema:name, schema:description, schema:identifier, schema:agent, schema:participant, schema:object, schema:result, schema:actionStatus, schema:startTime, schema:endTime, schema:location, schema:actionProcess, schema:error, schema:additionalProperty. Uses building blocks: generatedBy (provProperties), person (schemaorgProperties), organization (schemaorgProperties), agentInRole (schemaorgProperties), identifier (schemaorgProperties), instrument (schemaorgProperties), definedTerm (schemaorgProperties), labeledLink (schemaorgProperties), spatialExtent (schemaorgProperties), additionalProperty (schemaorgProperties).
 
@@ -48,7 +48,7 @@ Extended provenance activity for CDIF metadata, adding schema.org Action propert
 ## Examples
 
 ### Example CDIF provenance activity.
-Soil chemistry analysis activity demonstrating extended cdifProv building
+Soil chemistry analysis activity demonstrating extended cdifProvActivity building
 block features: multi-typed activity (schema:Action + prov:Activity), agent
 with ORCID, DefinedTerm instrument with detection limit, prov:used array
 (vocab URI, string, CreativeWork), action chaining via schema:object/result,
@@ -144,7 +144,7 @@ schema:actionProcess HowTo with ordered steps, and facility location.
       "schema": "http://schema.org/",
       "prov": "http://www.w3.org/ns/prov#"
     },
-    "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/context.jsonld",
+    "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/context.jsonld",
     {
       "schema": "http://schema.org/",
       "prov": "http://www.w3.org/ns/prov#",
@@ -568,8 +568,8 @@ x-jsonld-prefixes:
 
 Links to the schema:
 
-* YAML version: [schema.yaml](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema.json)
-* JSON version: [schema.json](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema.yaml)
+* YAML version: [schema.yaml](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/schema.json)
+* JSON version: [schema.json](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/schema.yaml)
 
 
 # JSON-LD Context
@@ -586,7 +586,7 @@ Links to the schema:
 ```
 
 You can find the full JSON-LD context here:
-[context.jsonld](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/context.jsonld)
+[context.jsonld](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/context.jsonld)
 
 ## Sources
 
@@ -598,5 +598,5 @@ You can find the full JSON-LD context here:
 The source code for this Building Block can be found in the following repository:
 
 * URL: [https://github.com/usgin/metadataBuildingBlocks](https://github.com/usgin/metadataBuildingBlocks)
-* Path: `_sources/cdifProperties/cdifProv`
+* Path: `_sources/cdifProperties/cdifProvActivity`
 

@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.xasProperties.xasRequired` *v0.1*
 
-Required XAS metadata extending CDIF mandatory with cdifProv-based provenance. Requires dual @type (Dataset + Product), XAS instrument components (NXsource, NXmonochromator), XDI-conformant distribution, measurement technique DefinedTerms, and element/edge keywords. Defines properties: @type, schema:subjectOf, prov:wasGeneratedBy, schema:distribution, schema:measurementTechnique, schema:keywords. Uses building blocks: cdifMandatory (cdifProperties), cdifProv (cdifProperties), definedTerm (schemaorgProperties), additionalProperty (schemaorgProperties), dataDownload (schemaorgProperties), xasSample (xasProperties), xasSubject (xasProperties).
+Required XAS metadata extending CDIF mandatory with cdifProvActivity-based provenance. Requires dual @type (Dataset + Product), XAS instrument components (NXsource, NXmonochromator), XDI-conformant distribution, measurement technique DefinedTerms, and element/edge keywords. Defines properties: @type, schema:subjectOf, prov:wasGeneratedBy, schema:distribution, schema:measurementTechnique, schema:keywords. Uses building blocks: cdifMandatory (cdifProperties), cdifProvActivity (cdifProperties), definedTerm (schemaorgProperties), additionalProperty (schemaorgProperties), dataDownload (schemaorgProperties), xasSample (xasProperties), xasSubject (xasProperties).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -17,7 +17,7 @@ Extends CDIF mandatory metadata with required XAS-specific properties. Same stru
 
 - **@type** — must include both `schema:Dataset` and `schema:Product`
 - **schema:subjectOf** — XAS subject descriptors (element, edge)
-- **prov:wasGeneratedBy** — cdifProv activity requiring XAS instruments with NXsource (type, probe) and NXmonochromator (type, d_spacing, reflection) components, plus sample object
+- **prov:wasGeneratedBy** — cdifProvActivity activity requiring XAS instruments with NXsource (type, probe) and NXmonochromator (type, d_spacing, reflection) components, plus sample object
 - **schema:distribution** — requires at least one DataDownload typed as `cdi:PhysicalDataset` conforming to the XDI specification
 - **schema:measurementTechnique** — requires DefinedTerms for XAS (PaNET) and measurement mode (NXxas)
 - **schema:keywords** — requires DefinedTerms from both the XDI dictionary (absorption edge) and SWEET ontology (target element)
@@ -668,14 +668,14 @@ ex:xas-dataset-001 a schema1:Dataset,
                                 [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "reflection plane (hkl)" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
-                                            schema1:value "1,1,1" ],
-                                        [ a schema1:PropertyValue ;
                                             schema1:name "d-spacing" ;
                                             schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
                                             schema1:unitText "Angstrom" ;
                                             schema1:value "3.13550" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "reflection plane (hkl)" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
+                                            schema1:value "1,1,1" ],
                                         [ a schema1:PropertyValue ;
                                             schema1:name "crystal type" ;
                                             schema1:propertyID "nxs:Field/NXcrystal/type" ;
@@ -707,7 +707,7 @@ allOf:
       type: array
       items:
         allOf:
-        - $ref: '#/$defs/CdifProv'
+        - $ref: '#/$defs/CdifProvActivity'
         - type: object
           properties:
             prov:used:
@@ -963,8 +963,8 @@ allOf:
 $defs:
   CdifMandatory:
     $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifMandatory/schema.yaml
-  CdifProv:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema.yaml
+  CdifProvActivity:
+    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/schema.yaml
   DefinedTerm:
     $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
   AdditionalProperty:
@@ -992,6 +992,10 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "prov": "http://www.w3.org/ns/prov#",
     "nxs": "http://purl.org/nexusformat/definitions/",
     "@version": 1.1

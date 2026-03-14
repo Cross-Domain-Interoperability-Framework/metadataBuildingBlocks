@@ -1,4 +1,281 @@
 x-defs:
+  cdif.bbr.metadata.cdifProperties.cdifProvActivity:
+    title: CDIF Provenance Activity
+    description: Extended provenance activity building block for CDIF. Extends the
+      minimal prov:Activity (generatedBy) with schema.org Action properties for comprehensive
+      provenance documentation including agents, instruments, methodology, temporal
+      bounds, action chaining, and more.
+    type: object
+    allOf:
+    - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.provProperties.generatedBy
+    - type: object
+      properties:
+        '@type':
+          type: array
+          items:
+            type: string
+          minItems: 2
+          contains:
+            enum:
+            - schema:Action
+          description: Must include both schema:Action and prov:Activity (prov:Activity
+            required by base generatedBy schema)
+        prov:used:
+          type: array
+          items:
+            anyOf:
+            - type: string
+            - type: object
+              properties:
+                '@id':
+                  type: string
+                  description: a resolvable reference to a representation of the software
+                    or instrument used
+            - type: object
+              description: an item used by the activity that includes a schema:instrument
+                sub-key
+              properties:
+                schema:instrument:
+                  $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Instrument
+              required:
+              - schema:instrument
+        schema:name:
+          type: string
+          description: Human-readable name for the activity
+        schema:description:
+          type: string
+          description: Text description of what this activity did
+        schema:identifier:
+          description: Formal identifier for this activity
+          anyOf:
+          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Identifier
+          - type: string
+        schema:agent:
+          description: Primary responsible agent for this activity (maps to PROV wasAssociatedWith)
+          anyOf:
+          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Person
+          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Organization
+          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/AgentInRole
+          - type: object
+            properties:
+              '@id':
+                type: string
+                description: reference to an agent defined elsewhere
+            required:
+            - '@id'
+        schema:participant:
+          description: Other participants in this activity
+          type: array
+          items:
+            anyOf:
+            - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Person
+            - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Organization
+            - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/AgentInRole
+            - type: object
+              properties:
+                '@id':
+                  type: string
+                  description: reference to a participant defined elsewhere
+              required:
+              - '@id'
+        schema:object:
+          description: Input entity for this activity (for action chaining, references
+            the result of a prior activity)
+          anyOf:
+          - type: string
+          - type: object
+            properties:
+              '@id':
+                type: string
+                description: reference to an input entity
+        schema:result:
+          description: Output entity produced by this activity (for action chaining,
+            can be referenced as object of a subsequent activity)
+          anyOf:
+          - type: string
+          - type: object
+            properties:
+              '@id':
+                type: string
+                description: reference to an output entity
+        schema:actionStatus:
+          type: string
+          description: Status of this activity
+          enum:
+          - schema:CompletedActionStatus
+          - schema:ActiveActionStatus
+          - schema:PotentialActionStatus
+          - schema:FailedActionStatus
+        schema:startTime:
+          type: string
+          description: ISO8601 date-time when the activity started (maps to PROV startedAtTime)
+        schema:endTime:
+          type: string
+          description: ISO8601 date-time when the activity ended (maps to PROV endedAtTime)
+        schema:location:
+          description: Where the activity occurred
+          anyOf:
+          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/SpatialExtent
+          - type: string
+          - type: object
+            properties:
+              '@id':
+                type: string
+                description: reference to a place defined elsewhere
+        schema:actionProcess:
+          description: Methodology or protocol for this activity
+          anyOf:
+          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/HowTo
+          - type: string
+          - type: object
+            properties:
+              '@id':
+                type: string
+                description: reference to a methodology defined elsewhere
+        schema:error:
+          type: string
+          description: Error description for failed activities
+        schema:additionalProperty:
+          description: Domain-specific extension properties
+          type: array
+          items:
+            $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/AdditionalProperty
+    $defs:
+      Person:
+        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
+      Organization:
+        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
+      AgentInRole:
+        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.agentInRole
+      Identifier:
+        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+      Instrument:
+        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument
+      DefinedTerm:
+        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+      LabeledLink:
+        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
+      SpatialExtent:
+        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent
+      AdditionalProperty:
+        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
+      HowTo:
+        type: object
+        description: A methodology or protocol described as a HowTo with optional
+          steps
+        properties:
+          '@type':
+            anyOf:
+            - type: string
+              enum:
+              - schema:HowTo
+            - type: array
+              items:
+                type: string
+              contains:
+                enum:
+                - schema:HowTo
+          '@id':
+            type: string
+          schema:name:
+            type: string
+            description: Name of the methodology or protocol
+          schema:description:
+            type: string
+            description: Description of the methodology
+          schema:url:
+            type: string
+            format: uri
+            description: URL to a published methodology or protocol document
+          schema:step:
+            type: array
+            description: Ordered steps in this methodology
+            items:
+              $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/HowToStep
+        required:
+        - '@type'
+        anyOf:
+        - required:
+          - schema:name
+        - required:
+          - schema:url
+      HowToStep:
+        type: object
+        description: A single step in a HowTo methodology
+        properties:
+          '@type':
+            anyOf:
+            - type: string
+              enum:
+              - schema:HowToStep
+            - type: array
+              items:
+                type: string
+              contains:
+                enum:
+                - schema:HowToStep
+          schema:name:
+            type: string
+            description: Name of this step
+          schema:description:
+            type: string
+            description: Description of what this step involves
+          schema:url:
+            type: string
+            format: uri
+            description: URL to documentation for this step
+          schema:position:
+            type: integer
+            description: Ordinal position of this step
+        required:
+        - '@type'
+        - schema:name
+      Claim:
+        type: object
+        description: A statement or assertion about the dataset, such as a quality
+          claim
+        properties:
+          '@type':
+            anyOf:
+            - type: string
+              enum:
+              - schema:Claim
+            - type: array
+              items:
+                type: string
+              contains:
+                enum:
+                - schema:Claim
+          '@id':
+            type: string
+          schema:claimReviewed:
+            type: string
+            description: The claim being reviewed or asserted
+          schema:author:
+            description: Author of this claim
+            anyOf:
+            - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Person
+            - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Organization
+            - type: object
+              properties:
+                '@id':
+                  type: string
+          schema:datePublished:
+            type: string
+            description: ISO8601 date when this claim was published
+          schema:appearance:
+            description: Where this claim appears
+            anyOf:
+            - type: string
+            - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/LabeledLink
+        required:
+        - '@type'
+        - schema:claimReviewed
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+      prov: http://www.w3.org/ns/prov#
+    x-schema-source: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.provProperties.generatedBy:
     title: very simple links or names of software or instruments used to generate
       a resource.
@@ -53,7 +330,7 @@ x-defs:
       schema:identifier:
         description: identifier for person, recommend ORCID
         anyOf:
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
         - type: string
       schema:alternateName:
         type: string
@@ -61,7 +338,7 @@ x-defs:
       schema:affiliation:
         description: if affiliation is present, value must be a schema:Organization.
         allOf:
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
+        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
       schema:contactPoint:
         type: object
         properties:
@@ -91,7 +368,7 @@ x-defs:
             properties:
               '@id':
                 type: string
-          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
     allOf:
     - required:
       - '@type'
@@ -136,7 +413,7 @@ x-defs:
             - schema:NGO
             - schema:Project
             - schema:ResearchOrganization
-          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
           - type: string
       schema:name:
         type: string
@@ -149,7 +426,7 @@ x-defs:
       schema:identifier:
         description: identifier for organization
         anyOf:
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
         - type: string
       schema:sameAs:
         type: array
@@ -161,7 +438,7 @@ x-defs:
             properties:
               '@id':
                 type: string
-          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
     allOf:
     - required:
       - '@type'
@@ -197,7 +474,7 @@ x-defs:
       schema:roleName:
         anyOf:
         - type: string
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
       schema:contributor:
         anyOf:
         - type: object
@@ -207,8 +484,8 @@ x-defs:
               description: IRI reference to a Person or Organization defined elsewhere
           required:
           - '@id'
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
+        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
+        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
     required:
     - schema:roleName
     - schema:contributor
@@ -283,7 +560,7 @@ x-defs:
         description: Formal identifier for this instrument
         anyOf:
         - type: string
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
+        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
       schema:description:
         type: string
         description: Text description of this instrument
@@ -302,14 +579,14 @@ x-defs:
         description: Domain-specific properties (detection limits, calibration info,
           etc.)
         items:
-          $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/AdditionalProperty
+          $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/AdditionalProperty
       schema:hasPart:
         type: array
         description: Sub-components of this instrument system. Use @id references
           or inline instrument objects.
         items:
           anyOf:
-          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/InstrumentRef
+          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/InstrumentRef
           - type: object
             properties:
               '@id':
@@ -322,9 +599,9 @@ x-defs:
       - '@type'
     $defs:
       Identifier:
-        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
       AdditionalProperty:
-        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
+        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
       InstrumentRef:
         type: object
         description: Inline sub-component instrument (non-recursive single level)
@@ -344,7 +621,7 @@ x-defs:
           schema:identifier:
             anyOf:
             - type: string
-            - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
+            - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
           schema:description:
             type: string
           schema:alternateName:
@@ -358,7 +635,7 @@ x-defs:
           schema:additionalProperty:
             type: array
             items:
-              $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/AdditionalProperty
+              $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/AdditionalProperty
         required:
         - schema:name
     x-jsonld-prefixes:
@@ -386,7 +663,7 @@ x-defs:
       schema:identifier:
         anyOf:
         - type: string
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
       schema:inDefinedTermSet:
         type: string
         description: Identifier for the controlled vocabulary responsible for this
@@ -464,7 +741,7 @@ x-defs:
         items:
           anyOf:
           - type: string
-          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/DefinedTerm
+          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/DefinedTerm
       schema:geo:
         description: Either a bounding box or a point location.
         anyOf:
@@ -599,7 +876,7 @@ x-defs:
                   'CRS84'
     $defs:
       DefinedTerm:
-        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
@@ -624,7 +901,7 @@ x-defs:
       schema:propertyID:
         type: array
         items:
-          $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/propertyID_item
+          $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/propertyID_item
         minItems: 1
         description: identifier or name for the property concept quantified by the
           values in this variable slot. Multiple values can specify the property at
@@ -640,7 +917,7 @@ x-defs:
       schema:unitCode:
         anyOf:
         - type: string
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm
+        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm
       schema:unitText:
         type: string
     required:
@@ -648,7 +925,7 @@ x-defs:
     - schema:value
     $defs:
       DefinedTerm:
-        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
       propertyID_item:
         anyOf:
         - type: string
@@ -656,282 +933,22 @@ x-defs:
           properties:
             '@id':
               type: string
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm
+        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm
     x-jsonld-prefixes:
       schema: http://schema.org/
       nxs: http://purl.org/nexusformat/definitions/
     x-schema-source: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
-title: CDIF Provenance Activity
-description: Extended provenance activity building block for CDIF. Extends the minimal
-  prov:Activity (generatedBy) with schema.org Action properties for comprehensive
-  provenance documentation including agents, instruments, methodology, temporal bounds,
-  action chaining, and more.
+title: CDIF Provenance
+description: Building block that defines the prov:wasGeneratedBy property for CDIF
+  metadata records. Wraps the cdifProvActivity building block as an array of provenance
+  activities that describe how the described resource was generated.
 type: object
-allOf:
-- $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.provProperties.generatedBy
-- type: object
-  properties:
-    '@type':
-      type: array
-      items:
-        type: string
-      minItems: 2
-      contains:
-        enum:
-        - schema:Action
-      description: Must include both schema:Action and prov:Activity (prov:Activity
-        required by base generatedBy schema)
-    prov:used:
-      type: array
-      items:
-        anyOf:
-        - type: string
-        - type: object
-          properties:
-            '@id':
-              type: string
-              description: a resolvable reference to a representation of the software
-                or instrument used
-        - type: object
-          description: an item used by the activity that includes a schema:instrument
-            sub-key
-          properties:
-            schema:instrument:
-              $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/$defs/Instrument
-          required:
-          - schema:instrument
-    schema:name:
-      type: string
-      description: Human-readable name for the activity
-    schema:description:
-      type: string
-      description: Text description of what this activity did
-    schema:identifier:
-      description: Formal identifier for this activity
-      anyOf:
-      - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/$defs/Identifier
-      - type: string
-    schema:agent:
-      description: Primary responsible agent for this activity (maps to PROV wasAssociatedWith)
-      anyOf:
-      - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/$defs/Person
-      - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/$defs/Organization
-      - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/$defs/AgentInRole
-      - type: object
-        properties:
-          '@id':
-            type: string
-            description: reference to an agent defined elsewhere
-        required:
-        - '@id'
-    schema:participant:
-      description: Other participants in this activity
-      type: array
-      items:
-        anyOf:
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/$defs/Person
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/$defs/Organization
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/$defs/AgentInRole
-        - type: object
-          properties:
-            '@id':
-              type: string
-              description: reference to a participant defined elsewhere
-          required:
-          - '@id'
-    schema:object:
-      description: Input entity for this activity (for action chaining, references
-        the result of a prior activity)
-      anyOf:
-      - type: string
-      - type: object
-        properties:
-          '@id':
-            type: string
-            description: reference to an input entity
-    schema:result:
-      description: Output entity produced by this activity (for action chaining, can
-        be referenced as object of a subsequent activity)
-      anyOf:
-      - type: string
-      - type: object
-        properties:
-          '@id':
-            type: string
-            description: reference to an output entity
-    schema:actionStatus:
-      type: string
-      description: Status of this activity
-      enum:
-      - schema:CompletedActionStatus
-      - schema:ActiveActionStatus
-      - schema:PotentialActionStatus
-      - schema:FailedActionStatus
-    schema:startTime:
-      type: string
-      description: ISO8601 date-time when the activity started (maps to PROV startedAtTime)
-    schema:endTime:
-      type: string
-      description: ISO8601 date-time when the activity ended (maps to PROV endedAtTime)
-    schema:location:
-      description: Where the activity occurred
-      anyOf:
-      - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/$defs/SpatialExtent
-      - type: string
-      - type: object
-        properties:
-          '@id':
-            type: string
-            description: reference to a place defined elsewhere
-    schema:actionProcess:
-      description: Methodology or protocol for this activity
-      anyOf:
-      - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/$defs/HowTo
-      - type: string
-      - type: object
-        properties:
-          '@id':
-            type: string
-            description: reference to a methodology defined elsewhere
-    schema:error:
-      type: string
-      description: Error description for failed activities
-    schema:additionalProperty:
-      description: Domain-specific extension properties
-      type: array
-      items:
-        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/$defs/AdditionalProperty
-$defs:
-  Person:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
-  Organization:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
-  AgentInRole:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.agentInRole
-  Identifier:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
-  Instrument:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument
-  DefinedTerm:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
-  LabeledLink:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
-  SpatialExtent:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent
-  AdditionalProperty:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
-  HowTo:
-    type: object
-    description: A methodology or protocol described as a HowTo with optional steps
-    properties:
-      '@type':
-        anyOf:
-        - type: string
-          enum:
-          - schema:HowTo
-        - type: array
-          items:
-            type: string
-          contains:
-            enum:
-            - schema:HowTo
-      '@id':
-        type: string
-      schema:name:
-        type: string
-        description: Name of the methodology or protocol
-      schema:description:
-        type: string
-        description: Description of the methodology
-      schema:url:
-        type: string
-        format: uri
-        description: URL to a published methodology or protocol document
-      schema:step:
-        type: array
-        description: Ordered steps in this methodology
-        items:
-          $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/$defs/HowToStep
-    required:
-    - '@type'
-    anyOf:
-    - required:
-      - schema:name
-    - required:
-      - schema:url
-  HowToStep:
-    type: object
-    description: A single step in a HowTo methodology
-    properties:
-      '@type':
-        anyOf:
-        - type: string
-          enum:
-          - schema:HowToStep
-        - type: array
-          items:
-            type: string
-          contains:
-            enum:
-            - schema:HowToStep
-      schema:name:
-        type: string
-        description: Name of this step
-      schema:description:
-        type: string
-        description: Description of what this step involves
-      schema:url:
-        type: string
-        format: uri
-        description: URL to documentation for this step
-      schema:position:
-        type: integer
-        description: Ordinal position of this step
-    required:
-    - '@type'
-    - schema:name
-  Claim:
-    type: object
-    description: A statement or assertion about the dataset, such as a quality claim
-    properties:
-      '@type':
-        anyOf:
-        - type: string
-          enum:
-          - schema:Claim
-        - type: array
-          items:
-            type: string
-          contains:
-            enum:
-            - schema:Claim
-      '@id':
-        type: string
-      schema:claimReviewed:
-        type: string
-        description: The claim being reviewed or asserted
-      schema:author:
-        description: Author of this claim
-        anyOf:
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/$defs/Person
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/$defs/Organization
-        - type: object
-          properties:
-            '@id':
-              type: string
-      schema:datePublished:
-        type: string
-        description: ISO8601 date when this claim was published
-      schema:appearance:
-        description: Where this claim appears
-        anyOf:
-        - type: string
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema-oas3.0.yaml#/$defs/LabeledLink
-    required:
-    - '@type'
-    - schema:claimReviewed
-x-jsonld-prefixes:
-  schema: http://schema.org/
-  prov: http://www.w3.org/ns/prov#
+properties:
+  prov:wasGeneratedBy:
+    description: Provenance activities describing how the resource was generated,
+      including agents, instruments, methodology, temporal bounds, and action chaining.
+    type: array
+    items:
+      $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity
 x-schema-version: https://json-schema.org/draft/2020-12/schema

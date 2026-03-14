@@ -1,605 +1,5 @@
 {
   "x-defs": {
-    "cdif.bbr.metadata.profiles.cdifProfiles.CDIFDataDescription": {
-      "type": "object",
-      "title": "CDIF discovery metadata schema, with schema: prefixes",
-      "description": "JSON schema for JSON-LD documents that describe science datasets for the CDIF DataDiscovery profile. See https://cdif.codata.org/, USING OGC building blocks modularization.  Content based on Google guide for publishers (https://developers.google.com/search/docs/data-types/dataset), and the Earth Science Information Partners (ESIP) Science on Schema.org recommendations v1.3 prerelease (see https://doi.org/10.5281/zenodo.2628755 dataset.md for current recommendations document). The context is not specified in the schema, but must be added in instance documents. '\"@context\": {\"schema\":\"http://schema.org/\", \"dcterms\": \"http://purl.org/dc/terms/\", \"geosparql\": \"http://www.opengis.net/ont/geosparql#\", \"spdx\": \"http://spdx.org/rdf/terms#\" }' 2024-07-24, SMR change handling of registration information to align with current proposal for cross-domain interoperability (CDIF). Created by Stephen Richard 2024-07-30 based on NSF GeoCODES dataset and iSamples draft2 schema.org JSON schema. 2025-07-24. NOTE-- assumes that schema:http://schema.org is declared in context, so schema: namespace prefix is required as prefix for all schema.org elements.  SMR 2025-10-23 update schema version to https://json-schema.org/draft/2020-12/schema; add additionalType on organization with the alt schema.org types as one option, additional required constraints in various places; update constraint on @type to require schema:Dataset. Implement using OGC building blocks approach. ",
-      "allOf": [
-        {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifMandatory"
-        },
-        {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifOptional"
-        },
-        {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifDataDescription"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "@context": {
-              "type": "object",
-              "description": "Additional namespace prefix for data description properties.",
-              "properties": {
-                "csvw": {
-                  "enum": [
-                    "http://www.w3.org/ns/csvw#"
-                  ]
-                }
-              }
-            },
-            "@type": {
-              "description": "For CDIF DataDescription, the @type array should include a value from the known set of schema.org types used for dataset-like resources.",
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "default": "schema:Dataset",
-              "minItems": 1,
-              "contains": {
-                "enum": [
-                  "schema:CreativeWork",
-                  "schema:SoftwareApplication",
-                  "schema:SoftwareSourceCode",
-                  "schema:Product",
-                  "schema:WebAPI",
-                  "schema:Dataset",
-                  "schema:DigitalDocument",
-                  "schema:Collection",
-                  "schema:ImageObject",
-                  "schema:DataCatalog",
-                  "schema:DefinedTermSet",
-                  "schema:MediaObject"
-                ]
-              }
-            },
-            "schema:distribution": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "allOf": [
-                      {
-                        "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.dataDownload"
-                      },
-                      {
-                        "anyOf": [
-                          {
-                            "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifDataCube"
-                          },
-                          {
-                            "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifTabularData"
-                          },
-                          {
-                            "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifLongData"
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifArchiveDistribution"
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.webAPI"
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "schema:potentialAction": {
-                            "type": "array",
-                            "items": {
-                              "type": "object",
-                              "properties": {
-                                "schema:result": {
-                                  "allOf": [
-                                    {
-                                      "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.dataDownload"
-                                    },
-                                    {
-                                      "anyOf": [
-                                        {
-                                          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifDataCube"
-                                        },
-                                        {
-                                          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifTabularData"
-                                        },
-                                        {
-                                          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifLongData"
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    ]
-                  }
-                ]
-              }
-            }
-          }
-        }
-      ],
-      "x-jsonld-extra-terms": {
-        "csvw": {}
-      },
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "dcterms": "http://purl.org/dc/terms/",
-        "geosparql": "http://www.opengis.net/ont/geosparql#",
-        "spdx": "http://spdx.org/rdf/terms#",
-        "time": "http://www.w3.org/2006/time#",
-        "skos": "http://www.w3.org/2004/02/skos/core#",
-        "xas": "https://xas.org/dictionary/",
-        "nxs": "http://purl.org/nexusformat/definitions/",
-        "prov": "http://www.w3.org/ns/prov#"
-      },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.cdifProperties.cdifProv": {
-      "title": "CDIF Provenance Activity",
-      "description": "Extended provenance activity building block for CDIF. Extends the minimal prov:Activity (generatedBy) with schema.org Action properties for comprehensive provenance documentation including agents, instruments, methodology, temporal bounds, action chaining, and more.",
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.provProperties.generatedBy"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "minItems": 2,
-              "contains": {
-                "enum": [
-                  "schema:Action"
-                ]
-              },
-              "description": "Must include both schema:Action and prov:Activity (prov:Activity required by base generatedBy schema)"
-            },
-            "prov:used": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "@id": {
-                        "type": "string",
-                        "description": "a resolvable reference to a representation of the software or instrument used"
-                      }
-                    }
-                  },
-                  {
-                    "type": "object",
-                    "description": "an item used by the activity that includes a schema:instrument sub-key",
-                    "properties": {
-                      "schema:instrument": {
-                        "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProv/$defs/Instrument"
-                      }
-                    },
-                    "required": [
-                      "schema:instrument"
-                    ]
-                  }
-                ]
-              }
-            },
-            "schema:name": {
-              "type": "string",
-              "description": "Human-readable name for the activity"
-            },
-            "schema:description": {
-              "type": "string",
-              "description": "Text description of what this activity did"
-            },
-            "schema:identifier": {
-              "description": "Formal identifier for this activity",
-              "anyOf": [
-                {
-                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProv/$defs/Identifier"
-                },
-                {
-                  "type": "string"
-                }
-              ]
-            },
-            "schema:agent": {
-              "description": "Primary responsible agent for this activity (maps to PROV wasAssociatedWith)",
-              "anyOf": [
-                {
-                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProv/$defs/Person"
-                },
-                {
-                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProv/$defs/Organization"
-                },
-                {
-                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProv/$defs/AgentInRole"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "type": "string",
-                      "description": "reference to an agent defined elsewhere"
-                    }
-                  },
-                  "required": [
-                    "@id"
-                  ]
-                }
-              ]
-            },
-            "schema:participant": {
-              "description": "Other participants in this activity",
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProv/$defs/Person"
-                  },
-                  {
-                    "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProv/$defs/Organization"
-                  },
-                  {
-                    "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProv/$defs/AgentInRole"
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "@id": {
-                        "type": "string",
-                        "description": "reference to a participant defined elsewhere"
-                      }
-                    },
-                    "required": [
-                      "@id"
-                    ]
-                  }
-                ]
-              }
-            },
-            "schema:object": {
-              "description": "Input entity for this activity (for action chaining, references the result of a prior activity)",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "type": "string",
-                      "description": "reference to an input entity"
-                    }
-                  }
-                }
-              ]
-            },
-            "schema:result": {
-              "description": "Output entity produced by this activity (for action chaining, can be referenced as object of a subsequent activity)",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "type": "string",
-                      "description": "reference to an output entity"
-                    }
-                  }
-                }
-              ]
-            },
-            "schema:actionStatus": {
-              "type": "string",
-              "description": "Status of this activity",
-              "enum": [
-                "schema:CompletedActionStatus",
-                "schema:ActiveActionStatus",
-                "schema:PotentialActionStatus",
-                "schema:FailedActionStatus"
-              ]
-            },
-            "schema:startTime": {
-              "type": "string",
-              "description": "ISO8601 date-time when the activity started (maps to PROV startedAtTime)"
-            },
-            "schema:endTime": {
-              "type": "string",
-              "description": "ISO8601 date-time when the activity ended (maps to PROV endedAtTime)"
-            },
-            "schema:location": {
-              "description": "Where the activity occurred",
-              "anyOf": [
-                {
-                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProv/$defs/SpatialExtent"
-                },
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "type": "string",
-                      "description": "reference to a place defined elsewhere"
-                    }
-                  }
-                }
-              ]
-            },
-            "schema:actionProcess": {
-              "description": "Methodology or protocol for this activity",
-              "anyOf": [
-                {
-                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProv/$defs/HowTo"
-                },
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "type": "string",
-                      "description": "reference to a methodology defined elsewhere"
-                    }
-                  }
-                }
-              ]
-            },
-            "schema:error": {
-              "type": "string",
-              "description": "Error description for failed activities"
-            },
-            "schema:additionalProperty": {
-              "description": "Domain-specific extension properties",
-              "type": "array",
-              "items": {
-                "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProv/$defs/AdditionalProperty"
-              }
-            }
-          }
-        }
-      ],
-      "$defs": {
-        "Person": {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.person"
-        },
-        "Organization": {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization"
-        },
-        "AgentInRole": {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.agentInRole"
-        },
-        "Identifier": {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
-        },
-        "Instrument": {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument"
-        },
-        "DefinedTerm": {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
-        },
-        "LabeledLink": {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink"
-        },
-        "SpatialExtent": {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent"
-        },
-        "AdditionalProperty": {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty"
-        },
-        "HowTo": {
-          "type": "object",
-          "description": "A methodology or protocol described as a HowTo with optional steps",
-          "properties": {
-            "@type": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "enum": [
-                    "schema:HowTo"
-                  ]
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "enum": [
-                      "schema:HowTo"
-                    ]
-                  }
-                }
-              ]
-            },
-            "@id": {
-              "type": "string"
-            },
-            "schema:name": {
-              "type": "string",
-              "description": "Name of the methodology or protocol"
-            },
-            "schema:description": {
-              "type": "string",
-              "description": "Description of the methodology"
-            },
-            "schema:url": {
-              "type": "string",
-              "format": "uri",
-              "description": "URL to a published methodology or protocol document"
-            },
-            "schema:step": {
-              "type": "array",
-              "description": "Ordered steps in this methodology",
-              "items": {
-                "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProv/$defs/HowToStep"
-              }
-            }
-          },
-          "required": [
-            "@type"
-          ],
-          "anyOf": [
-            {
-              "required": [
-                "schema:name"
-              ]
-            },
-            {
-              "required": [
-                "schema:url"
-              ]
-            }
-          ]
-        },
-        "HowToStep": {
-          "type": "object",
-          "description": "A single step in a HowTo methodology",
-          "properties": {
-            "@type": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "enum": [
-                    "schema:HowToStep"
-                  ]
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "enum": [
-                      "schema:HowToStep"
-                    ]
-                  }
-                }
-              ]
-            },
-            "schema:name": {
-              "type": "string",
-              "description": "Name of this step"
-            },
-            "schema:description": {
-              "type": "string",
-              "description": "Description of what this step involves"
-            },
-            "schema:url": {
-              "type": "string",
-              "format": "uri",
-              "description": "URL to documentation for this step"
-            },
-            "schema:position": {
-              "type": "integer",
-              "description": "Ordinal position of this step"
-            }
-          },
-          "required": [
-            "@type",
-            "schema:name"
-          ]
-        },
-        "Claim": {
-          "type": "object",
-          "description": "A statement or assertion about the dataset, such as a quality claim",
-          "properties": {
-            "@type": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "enum": [
-                    "schema:Claim"
-                  ]
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "enum": [
-                      "schema:Claim"
-                    ]
-                  }
-                }
-              ]
-            },
-            "@id": {
-              "type": "string"
-            },
-            "schema:claimReviewed": {
-              "type": "string",
-              "description": "The claim being reviewed or asserted"
-            },
-            "schema:author": {
-              "description": "Author of this claim",
-              "anyOf": [
-                {
-                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProv/$defs/Person"
-                },
-                {
-                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProv/$defs/Organization"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "type": "string"
-                    }
-                  }
-                }
-              ]
-            },
-            "schema:datePublished": {
-              "type": "string",
-              "description": "ISO8601 date when this claim was published"
-            },
-            "schema:appearance": {
-              "description": "Where this claim appears",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProv/$defs/LabeledLink"
-                }
-              ]
-            }
-          },
-          "required": [
-            "@type",
-            "schema:claimReviewed"
-          ]
-        }
-      },
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/",
-        "prov": "http://www.w3.org/ns/prov#"
-      },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
     "cdif.bbr.metadata.cdifProperties.cdifMandatory": {
       "type": "object",
       "title": "Optional properties for CDIF Discovery metadata schema, with schema: prefixes",
@@ -821,7 +221,7 @@
       "x-jsonld-prefixes": {
         "schema": "http://schema.org/"
       },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifMandatory/schema.yaml",
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifMandatory/schema.json",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.cdifProperties.cdifOptional": {
@@ -1288,7 +688,7 @@
       "x-jsonld-prefixes": {
         "schema": "http://schema.org/"
       },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.yaml",
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.json",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.cdifProperties.cdifDataDescription": {
@@ -1364,457 +764,7 @@
           "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.statisticalVariable"
         }
       },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.dataDownload": {
-      "description": "schema to document file-based access to a resoruce via URL, based on schema.org/DataDownload",
-      "type": "object",
-      "properties": {
-        "@id": {
-          "type": "string"
-        },
-        "@type": {
-          "type": "array",
-          "description": "implement as array because extensions might need to add additional types",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:DataDownload"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:name": {
-          "type": "string"
-        },
-        "schema:description": {
-          "type": "string",
-          "description": "Description of this distribution, e.g. what format, access constraints, etc."
-        },
-        "schema:contentUrl": {
-          "type": "string",
-          "format": "uri"
-        },
-        "schema:encodingFormat": {
-          "type": "array",
-          "description": "MIME type with extension; should indicate the serialization scheme in sufficient detail that machine can know how to parse.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "spdx:checksum": {
-          "type": "object",
-          "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
-          "properties": {
-            "@type": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "enum": [
-                    "spdx:Checksum"
-                  ]
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "enum": [
-                      "spdx:Checksum"
-                    ]
-                  }
-                }
-              ]
-            },
-            "spdx:algorithm": {
-              "type": "string"
-            },
-            "spdx:checksumValue": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "@type"
-          ]
-        },
-        "dcterms:conformsTo": {
-          "description": "An identifier for a standard or specification that the distribution conforms to. Recommended to enable machine-actionable data access.",
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "type": "object",
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "uri for specification that this distribution conforms to"
-              }
-            }
-          }
-        },
-        "schema:provider": {
-          "type": "array",
-          "description": "Party who maintains this particular distribution option for the dataset. Use this property if there are multiple distributions from different providers",
-          "items": {
-            "anyOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              },
-              {
-                "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.person"
-              },
-              {
-                "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization"
-              }
-            ]
-          }
-        }
-      },
-      "required": [
-        "schema:contentUrl",
-        "@type"
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.cdifProperties.cdifDataCube": {
-      "title": "Data Cube Type",
-      "description": "Multi-dimensional data cube structure using DDI-CDI. Typed as ada:dataCube and cdi:StructuredDataSet per CDIF 2026 alignment.",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "allOf": [
-            {
-              "contains": {
-                "enum": [
-                  "cdi:StructuredDataSet"
-                ]
-              }
-            }
-          ]
-        },
-        "cdi:hasPhysicalMapping": {
-          "type": "array",
-          "description": "Links variables to their physical representation in this dataset.",
-          "items": {
-            "allOf": [
-              {
-                "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "cdi:locator": {
-                    "type": "string",
-                    "description": "String that can be used by software to locate values of the variable in this physical dataset."
-                  }
-                }
-              }
-            ]
-          }
-        }
-      },
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/",
-        "ada": "https://ada.astromat.org/metadata/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
-      },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataCube/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.cdifProperties.cdifTabularData": {
-      "type": "object",
-      "title": "Tabular Data Type",
-      "description": "Tabular data type aligned with CDIF 2026 schema using DDI-CDI and CSVW properties. Typed as cdi:TabularTextDataSet and ada:tabularData.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 2,
-          "allOf": [
-            {
-              "contains": {
-                "enum": [
-                  "cdi:TabularTextDataSet"
-                ]
-              }
-            }
-          ]
-        },
-        "cdi:arrayBase": {
-          "type": "integer"
-        },
-        "csvw:commentPrefix": {
-          "type": "string",
-          "description": "An atomic property that sets the comment prefix flag to the single provided value, which MUST be a string. The default is '#'."
-        },
-        "csvw:delimiter": {
-          "type": "string",
-          "description": "Sets the delimiter flag to the single provided value, which MUST be a string. The default is ','."
-        },
-        "csvw:header": {
-          "type": "boolean",
-          "description": "If true, sets the header row count flag to 1, and if false to 0, unless headerRowCount is provided, in which case the value provided for the header property is ignored. The default is true."
-        },
-        "csvw:headerRowCount": {
-          "type": "integer",
-          "minimum": 0,
-          "default": 1,
-          "description": "A numeric atomic property that sets the header row count flag to the single provided value, which MUST be a non-negative integer."
-        },
-        "cdi:isDelimited": {
-          "type": "boolean",
-          "description": "Schema constraint is that one of {'isDelimited','isFixedWidth'} must be present with a True value; the other one may be present or omitted, but if present must have a false value."
-        },
-        "cdi:isFixedWidth": {
-          "type": "boolean"
-        },
-        "csvw:lineTerminators": {
-          "type": "string",
-          "enum": [
-            "CRLF",
-            "LF",
-            "\r\n",
-            "\n"
-          ]
-        },
-        "csvw:quoteChar": {
-          "type": "string",
-          "default": "\"",
-          "description": "Same as DDI-CDI quoteCharacter. The string that is used around escaped cells."
-        },
-        "csvw:skipBlankRows": {
-          "type": "boolean",
-          "default": false
-        },
-        "csvw:skipColumns": {
-          "type": "integer",
-          "default": 0,
-          "description": "The number of columns to skip at the beginning of each row."
-        },
-        "csvw:skipInitialSpace": {
-          "type": "boolean",
-          "default": true
-        },
-        "csvw:skipRows": {
-          "type": "integer",
-          "description": "The number of rows to skip at the beginning of the file, before a header row or tabular data.",
-          "default": 0
-        },
-        "cdi:escapeCharacter": {
-          "type": "string",
-          "description": "The character used to escape special characters in the data. From DDI-CDI PhysicalSegmentLayout.escapeCharacter."
-        },
-        "cdi:headerIsCaseSensitive": {
-          "type": "boolean",
-          "default": false,
-          "description": "Whether column header names are case-sensitive. From DDI-CDI PhysicalSegmentLayout.headerIsCaseSensitive."
-        },
-        "cdi:treatConsecutiveDelimitersAsOne": {
-          "type": "boolean",
-          "default": false,
-          "description": "Whether consecutive delimiters should be treated as a single delimiter. From DDI-CDI PhysicalSegmentLayout.treatConsecutiveDelimitersAsOne."
-        },
-        "csvw:tableDirection": {
-          "type": "string",
-          "enum": [
-            "Ltr",
-            "Rtl"
-          ],
-          "default": "Ltr",
-          "description": "Indicates the direction of the table layout (left-to-right or right-to-left). From DDI-CDI PhysicalSegmentLayout.tableDirection."
-        },
-        "csvw:textDirection": {
-          "type": "string",
-          "enum": [
-            "Auto",
-            "Inherit",
-            "Ltr",
-            "Rtl"
-          ],
-          "default": "Auto",
-          "description": "Indicates whether the text within cells should be displayed as left-to-right, right-to-left, according to content, or inherited from the table direction. From DDI-CDI PhysicalSegmentLayout.textDirection."
-        },
-        "csvw:trim": {
-          "type": "string",
-          "enum": [
-            "true",
-            "end",
-            "false",
-            "start"
-          ],
-          "description": "Indicates whether to trim whitespace around cells. 'true' corresponds to DDI-CDI 'both' value, 'false' corresponds to DDI-CDI 'neither' value."
-        },
-        "cdi:hasPhysicalMapping": {
-          "type": "array",
-          "description": "Links variables to their physical representation in this dataset.",
-          "items": {
-            "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping"
-          }
-        },
-        "countRows": {
-          "type": "integer"
-        },
-        "countColumns": {
-          "type": "integer"
-        }
-      },
-      "oneOf": [
-        {
-          "properties": {
-            "cdi:isDelimited": {
-              "enum": [
-                true
-              ]
-            },
-            "cdi:isFixedWidth": {}
-          },
-          "required": [
-            "cdi:isDelimited"
-          ]
-        },
-        {
-          "properties": {
-            "cdi:isDelimited": {},
-            "cdi:isFixedWidth": {
-              "enum": [
-                true
-              ]
-            }
-          },
-          "required": [
-            "cdi:isFixedWidth"
-          ]
-        }
-      ],
-      "required": [
-        "@type"
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/",
-        "ada": "https://ada.astromat.org/metadata/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
-      },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularData/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.cdifProperties.cdifLongData": {
-      "type": "object",
-      "title": "Long Data Structure Type",
-      "description": "Long (narrow) data structure using DDI-CDI. Typed as cdi:LongStructureDataSet. In long format each row represents a single observation, with a descriptor column identifying which variable is measured and a reference column holding the value. The descriptor and reference roles are expressed via cdi:role on InstanceVariables in schema:variableMeasured (DescriptorComponent and ReferenceValueComponent).",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "allOf": [
-            {
-              "contains": {
-                "enum": [
-                  "cdi:LongStructureDataSet"
-                ]
-              }
-            }
-          ]
-        },
-        "cdi:hasPhysicalMapping": {
-          "type": "array",
-          "description": "Links variables to their physical representation in this dataset.",
-          "items": {
-            "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping"
-          }
-        },
-        "cdi:arrayBase": {
-          "type": "integer"
-        },
-        "csvw:delimiter": {
-          "type": "string",
-          "description": "Sets the delimiter flag to the single provided value, which MUST be a string. The default is ','."
-        },
-        "csvw:header": {
-          "type": "boolean",
-          "description": "If true, sets the header row count flag to 1, and if false to 0, unless headerRowCount is provided, in which case the value provided for the header property is ignored. The default is true."
-        },
-        "csvw:headerRowCount": {
-          "type": "integer",
-          "minimum": 0,
-          "default": 1,
-          "description": "A numeric atomic property that sets the header row count flag to the single provided value, which MUST be a non-negative integer."
-        },
-        "csvw:commentPrefix": {
-          "type": "string",
-          "description": "An atomic property that sets the comment prefix flag to the single provided value, which MUST be a string. The default is '#'."
-        },
-        "csvw:skipBlankRows": {
-          "type": "boolean",
-          "default": false
-        },
-        "csvw:skipInitialSpace": {
-          "type": "boolean",
-          "default": true
-        },
-        "csvw:skipRows": {
-          "type": "integer",
-          "description": "The number of rows to skip at the beginning of the file, before a header row or tabular data.",
-          "default": 0
-        },
-        "csvw:lineTerminators": {
-          "type": "string",
-          "enum": [
-            "CRLF",
-            "LF",
-            "\r\n",
-            "\n"
-          ]
-        },
-        "csvw:quoteChar": {
-          "type": "string",
-          "default": "\"",
-          "description": "Same as DDI-CDI quoteCharacter. The string that is used around escaped cells."
-        },
-        "cdi:isDelimited": {
-          "type": "boolean",
-          "description": "Indicates whether the data uses a delimiter to separate fields."
-        },
-        "cdi:isFixedWidth": {
-          "type": "boolean",
-          "description": "Indicates whether the data uses fixed-width fields."
-        },
-        "cdi:escapeCharacter": {
-          "type": "string",
-          "description": "The character used to escape special characters in the data. From DDI-CDI PhysicalSegmentLayout.escapeCharacter."
-        }
-      },
-      "required": [
-        "@type"
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
-      },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifLongData/schema.yaml",
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.json",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.cdifProperties.cdifArchiveDistribution": {
@@ -1989,7 +939,341 @@
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
         "csvw": "http://www.w3.org/ns/csvw#"
       },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema.yaml",
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifProperties.cdifProvenance": {
+      "title": "CDIF Provenance",
+      "description": "Building block that defines the prov:wasGeneratedBy property for CDIF metadata records. Wraps the cdifProvActivity building block as an array of provenance activities that describe how the described resource was generated.",
+      "type": "object",
+      "properties": {
+        "prov:wasGeneratedBy": {
+          "description": "Provenance activities describing how the resource was generated, including agents, instruments, methodology, temporal bounds, and action chaining.",
+          "type": "array",
+          "items": {
+            "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity"
+          }
+        }
+      },
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.labeledLink": {
+      "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "default": "schema:CreativeWork",
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "schema:CreativeWork"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "schema:CreativeWork"
+                ]
+              }
+            }
+          ]
+        },
+        "schema:name": {
+          "type": "string"
+        },
+        "schema:description": {
+          "type": "string"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "@type",
+        "schema:url"
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.identifier": {
+      "description": "Properties for a schema.org identifier",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "schema:PropertyValue"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "schema:PropertyValue"
+                ]
+              }
+            }
+          ]
+        },
+        "schema:propertyID": {
+          "type": "string",
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+        },
+        "schema:value": {
+          "type": "string",
+          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:value"
+              ]
+            },
+            {
+              "required": [
+                "schema:url"
+              ]
+            }
+          ]
+        }
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm": {
+      "description": "schema.org Defined Term schema",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "schema:DefinedTerm"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "schema:DefinedTerm"
+                ]
+              }
+            }
+          ]
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "text label for the term that is useful to human user"
+        },
+        "schema:identifier": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
+            }
+          ]
+        },
+        "schema:inDefinedTermSet": {
+          "type": "string",
+          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+        },
+        "schema:termCode": {
+          "type": "string",
+          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:identifier"
+              ]
+            },
+            {
+              "required": [
+                "schema:termCode"
+              ]
+            }
+          ]
+        }
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.dataDownload": {
+      "description": "schema to document file-based access to a resoruce via URL, based on schema.org/DataDownload",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string"
+        },
+        "@type": {
+          "type": "array",
+          "description": "implement as array because extensions might need to add additional types",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "schema:DataDownload"
+            ]
+          },
+          "minItems": 1
+        },
+        "schema:name": {
+          "type": "string"
+        },
+        "schema:description": {
+          "type": "string",
+          "description": "Description of this distribution, e.g. what format, access constraints, etc."
+        },
+        "schema:contentUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "schema:encodingFormat": {
+          "type": "array",
+          "description": "MIME type with extension; should indicate the serialization scheme in sufficient detail that machine can know how to parse.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "spdx:checksum": {
+          "type": "object",
+          "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
+          "properties": {
+            "@type": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "spdx:Checksum"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "enum": [
+                      "spdx:Checksum"
+                    ]
+                  }
+                }
+              ]
+            },
+            "spdx:algorithm": {
+              "type": "string"
+            },
+            "spdx:checksumValue": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        },
+        "dcterms:conformsTo": {
+          "description": "An identifier for a standard or specification that the distribution conforms to. Recommended to enable machine-actionable data access.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string",
+                "description": "uri for specification that this distribution conforms to"
+              }
+            }
+          }
+        },
+        "schema:provider": {
+          "type": "array",
+          "description": "Party who maintains this particular distribution option for the dataset. Use this property if there are multiple distributions from different providers",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              },
+              {
+                "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.person"
+              },
+              {
+                "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "schema:contentUrl",
+        "@type"
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.schemaorgProperties.webAPI": {
@@ -2073,47 +1357,156 @@
       "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
-    "cdif.bbr.metadata.provProperties.generatedBy": {
-      "title": "very simple links or names of software or instruments used to generate a resource.",
+    "cdif.bbr.metadata.cdifProperties.cdifCatalogRecord": {
       "type": "object",
+      "description": "see https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13 for discussion on how to make assertion about the sample registration and metadata distinct from statements about the physical object",
       "properties": {
         "@type": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "minItems": 1,
           "contains": {
             "enum": [
-              "prov:Activity"
+              "schema:Dataset"
             ]
+          },
+          "minItems": 1
+        },
+        "schema:additionalType": {
+          "type": "array",
+          "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "dcat:CatalogRecord"
+            ]
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "identifier for the metadata record"
+        },
+        "schema:about": {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "this must be the @id value of the node containing the resource description metadata"
+            }
           }
         },
-        "prov:used": {
+        "dcterms:conformsTo": {
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "a resolvable reference to a representation of the software or instrument used"
+            "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCatalogRecord/$defs/conformsTo_item"
+          },
+          "minItems": 1,
+          "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile.  Implement as $def to facilitate extension for profiles that need to add conformance statements"
+        },
+        "schema:maintainer": {
+          "description": "iSamples Registrant. identification of the agent that registered the sample, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
+          "anyOf": [
+            {
+              "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCatalogRecord/$defs/Person"
+            },
+            {
+              "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCatalogRecord/$defs/Organization"
+            }
+          ]
+        },
+        "schema:sdDatePublished": {
+          "description": "date of most recent update to the metadata content, extends iSamples schema",
+          "type": "string",
+          "format": "date"
+        },
+        "schema:includedInDataCatalog": {
+          "type": "object",
+          "description": "identify the data collection or repository that contains the described dataset. The value is expected to be a schema:DataCatalog",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "identifier for the containing catalog or repository; example data at https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#catalog puts identifier here"
+            },
+            "@type": {
+              "default": "schema:DataCatalog",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "schema:DataCatalog"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "enum": [
+                      "schema:DataCatalog"
+                    ]
                   }
                 }
-              }
-            ]
+              ]
+            },
+            "schema:name": {
+              "type": "string"
+            },
+            "schema:url": {
+              "type": "string",
+              "format": "uri",
+              "description": "locator to access a landing page for the collection or catalog"
+            },
+            "schema:identifier": {
+              "description": "identifier for the collection or catalog; use identifier_type to provide information on identifier scheme and context for identifier",
+              "allOf": [
+                {
+                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCatalogRecord/$defs/Identifier"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "required": [
+        "schema:about",
+        "dcterms:conformsTo",
+        "schema:additionalType",
+        "@type",
+        "@id"
+      ],
+      "$defs": {
+        "Identifier": {
+          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
+        },
+        "Person": {
+          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.person"
+        },
+        "Organization": {
+          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization"
+        },
+        "conformsTo_item": {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "uri for specifications that this metadata record conforms to"
+            }
           }
         }
       },
       "x-jsonld-prefixes": {
         "schema": "http://schema.org/",
-        "prov": "http://www.w3.org/ns/prov#"
+        "ex": "https://example.org/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "dcterms": "http://purl.org/dc/terms/",
+        "dcat": "http://www.w3.org/ns/dcat#"
       },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/generatedBy/schema.yaml",
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCatalogRecord/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.schemaorgProperties.person": {
@@ -2449,855 +1842,6 @@
         "schema": "http://schema.org/"
       },
       "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/agentInRole/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.identifier": {
-      "description": "Properties for a schema.org identifier",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "anyOf": [
-            {
-              "type": "string",
-              "enum": [
-                "schema:PropertyValue"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "schema:PropertyValue"
-                ]
-              }
-            }
-          ]
-        },
-        "schema:propertyID": {
-          "type": "string",
-          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-        },
-        "schema:value": {
-          "type": "string",
-          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri",
-          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-        }
-      },
-      "allOf": [
-        {
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "anyOf": [
-            {
-              "required": [
-                "schema:value"
-              ]
-            },
-            {
-              "required": [
-                "schema:url"
-              ]
-            }
-          ]
-        }
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.instrument": {
-      "title": "Generic Instrument",
-      "description": "A generic instrument or instrument system. Uses schema:Thing as base type with optional schema:Product typing. Supports hierarchical instrument systems via schema:hasPart for sub-components.",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 1,
-          "contains": {
-            "enum": [
-              "schema:Thing"
-            ]
-          },
-          "description": "Must include schema:Thing. May also include schema:Product or domain-specific types."
-        },
-        "@id": {
-          "type": "string"
-        },
-        "schema:name": {
-          "type": "string",
-          "description": "Human-readable name for this instrument"
-        },
-        "schema:identifier": {
-          "description": "Formal identifier for this instrument",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier"
-            }
-          ]
-        },
-        "schema:description": {
-          "type": "string",
-          "description": "Text description of this instrument"
-        },
-        "schema:alternateName": {
-          "type": "string",
-          "description": "Alternate name, e.g. specific make/model"
-        },
-        "schema:additionalType": {
-          "description": "Domain-specific type URIs for this instrument",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          ]
-        },
-        "schema:additionalProperty": {
-          "type": "array",
-          "description": "Domain-specific properties (detection limits, calibration info, etc.)",
-          "items": {
-            "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/AdditionalProperty"
-          }
-        },
-        "schema:hasPart": {
-          "type": "array",
-          "description": "Sub-components of this instrument system. Use @id references or inline instrument objects.",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/InstrumentRef"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "reference to a sub-component defined elsewhere"
-                  }
-                }
-              }
-            ]
-          }
-        }
-      },
-      "required": [
-        "schema:name"
-      ],
-      "allOf": [
-        {
-          "required": [
-            "@type"
-          ]
-        }
-      ],
-      "$defs": {
-        "Identifier": {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
-        },
-        "AdditionalProperty": {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty"
-        },
-        "InstrumentRef": {
-          "type": "object",
-          "description": "Inline sub-component instrument (non-recursive single level)",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "minItems": 1,
-              "contains": {
-                "enum": [
-                  "schema:Thing"
-                ]
-              }
-            },
-            "@id": {
-              "type": "string"
-            },
-            "schema:name": {
-              "type": "string"
-            },
-            "schema:identifier": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier"
-                }
-              ]
-            },
-            "schema:description": {
-              "type": "string"
-            },
-            "schema:alternateName": {
-              "type": "string"
-            },
-            "schema:additionalType": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              ]
-            },
-            "schema:additionalProperty": {
-              "type": "array",
-              "items": {
-                "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/AdditionalProperty"
-              }
-            }
-          },
-          "required": [
-            "schema:name"
-          ]
-        }
-      },
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.definedTerm": {
-      "description": "schema.org Defined Term schema",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "anyOf": [
-            {
-              "type": "string",
-              "enum": [
-                "schema:DefinedTerm"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "schema:DefinedTerm"
-                ]
-              }
-            }
-          ]
-        },
-        "schema:name": {
-          "type": "string",
-          "description": "text label for the term that is useful to human user"
-        },
-        "schema:identifier": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
-            }
-          ]
-        },
-        "schema:inDefinedTermSet": {
-          "type": "string",
-          "description": "Identifier for the controlled vocabulary responsible for this keyword."
-        },
-        "schema:termCode": {
-          "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
-        }
-      },
-      "allOf": [
-        {
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "anyOf": [
-            {
-              "required": [
-                "schema:name"
-              ]
-            },
-            {
-              "required": [
-                "schema:identifier"
-              ]
-            },
-            {
-              "required": [
-                "schema:termCode"
-              ]
-            }
-          ]
-        }
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.labeledLink": {
-      "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "default": "schema:CreativeWork",
-          "anyOf": [
-            {
-              "type": "string",
-              "enum": [
-                "schema:CreativeWork"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "schema:CreativeWork"
-                ]
-              }
-            }
-          ]
-        },
-        "schema:name": {
-          "type": "string"
-        },
-        "schema:description": {
-          "type": "string"
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri"
-        }
-      },
-      "required": [
-        "@type",
-        "schema:url"
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.spatialExtent": {
-      "description": "Spatial Extent description for CDIF discovery profile.  Note required prefix declaration for geoSparql ( http://www.opengis.net/ont/geosparql#) and OGC simple features (sf: http://www.opengis.net/ont/sf#)",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "default": "schema:Place",
-          "anyOf": [
-            {
-              "type": "string",
-              "enum": [
-                "schema:Place"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "schema:Place"
-                ]
-              }
-            }
-          ]
-        },
-        "schema:name": {
-          "description": "multiple place names or DefinedTerms that have a place name and URI for the location",
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/DefinedTerm"
-              }
-            ]
-          }
-        },
-        "schema:geo": {
-          "description": "Either a bounding box or a point location.",
-          "anyOf": [
-            {
-              "type": "object",
-              "description": "A point location. Point locations are recommended for data that is associated with specific sample locations, particularly if these are widely spaced such that an enclosing bounding box would be a misleading representation of the spatial location. Be aware that some client applications might only index or display bounding box extents or a single point location.",
-              "properties": {
-                "@type": {
-                  "default": "schema:GeoCoordinates",
-                  "anyOf": [
-                    {
-                      "type": "string",
-                      "enum": [
-                        "schema:GeoCoordinates"
-                      ]
-                    },
-                    {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "contains": {
-                        "enum": [
-                          "schema:GeoCoordinates"
-                        ]
-                      }
-                    }
-                  ]
-                },
-                "schema:latitude": {
-                  "type": "number",
-                  "minimum": -90,
-                  "maximum": 90
-                },
-                "schema:longitude": {
-                  "type": "number",
-                  "minimum": -180,
-                  "maximum": 180
-                }
-              },
-              "required": [
-                "@type",
-                "schema:latitude",
-                "schema:longitude"
-              ]
-            },
-            {
-              "type": "object",
-              "description": "A schema:GeoShape bounding box. The geometry is described with a set of latitude/longitude pairs (in that order).The documentation for schema:GeoShape states 'Either whitespace or commas can be used to separate latitude and longitude; whitespace should be used when writing a list of several such points.'",
-              "properties": {
-                "@type": {
-                  "default": "schema:GeoShape",
-                  "anyOf": [
-                    {
-                      "type": "string",
-                      "enum": [
-                        "schema:GeoShape"
-                      ]
-                    },
-                    {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "contains": {
-                        "enum": [
-                          "schema:GeoShape"
-                        ]
-                      }
-                    }
-                  ]
-                },
-                "schema:box": {
-                  "type": "string",
-                  "description": "A GeoShape box defines an area on the surface of the earth defined by point locations of the southwest corner and northeast corner of the rectangle in latitude-longitude coordinates. A space should be used to separate the latitude and longitude values. The two corner coordinate points are separated by a space. 'East longitude' means positive longitude values are east of the prime (Greenwich) meridian."
-                }
-              },
-              "required": [
-                "@type",
-                "schema:box"
-              ]
-            },
-            {
-              "type": "object",
-              "description": "A schema:GeoShape curvilinear trace, for resource related to a linear trace like a ship track or airplane flight line",
-              "properties": {
-                "@type": {
-                  "default": "schema:GeoShape",
-                  "anyOf": [
-                    {
-                      "type": "string",
-                      "enum": [
-                        "schema:GeoShape"
-                      ]
-                    },
-                    {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "contains": {
-                        "enum": [
-                          "schema:GeoShape"
-                        ]
-                      }
-                    }
-                  ]
-                },
-                "schema:line": {
-                  "type": "string",
-                  "description": "A GeoShape box defines a curvilinear geometry as a string of latitude-longitude coordinates. A space should be used to separate the latitude and longitude values. The coordinate point pairs are also separated by a space. 'East longitude' means positive longitude values are east of the prime (Greenwich) meridian. e.g. '39.33 120.77 40.44 123.96 41.00 121.34' "
-                }
-              },
-              "required": [
-                "@type",
-                "schema:line"
-              ]
-            }
-          ]
-        },
-        "geosparql:hasGeometry": {
-          "type": "object",
-          "description": "Optional geographic extent using wkt geometry, see Ocean InfoHub (https://book.oceaninfohub.org/thematics/spatial/README.html#simple-geosparql-wkt). Other geometry schemes might be specified in a specific domain profile, e.g. for atmospheric, subsurface data, or local coordinate systems. NOTE that the location specified here should be the same as the schema.org point or contained within the specified bounding box.",
-          "properties": {
-            "@type": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              ],
-              "description": "MUST be sf: (<http://www.opengis.net/ont/sf#>) SimpleFeature geometry type. See https://opengeospatial.github.io/ogc-geosparql/geosparql11/sf_geometries.ttl"
-            },
-            "geosparql:asWKT": {
-              "type": "object",
-              "properties": {
-                "@type": {
-                  "anyOf": [
-                    {
-                      "type": "string",
-                      "enum": [
-                        "geosparql:wktLiteral"
-                      ]
-                    },
-                    {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "contains": {
-                        "enum": [
-                          "geosparql:wktLiteral"
-                        ]
-                      }
-                    }
-                  ]
-                },
-                "@value": {
-                  "type": "string",
-                  "description": "a WKT geometry description string, e.g. 'POINT(-76 -18)'"
-                }
-              }
-            },
-            "geosparql:crs": {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string",
-                  "description": "identifier string for coordinate reference system, e.g., 'CRS84'"
-                }
-              }
-            }
-          }
-        }
-      },
-      "$defs": {
-        "DefinedTerm": {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
-        }
-      },
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.additionalProperty": {
-      "type": "object",
-      "title": "additionalProperty PropertyValue",
-      "description": "PropertyValue values required to define a soft-typed property with a value. ",
-      "properties": {
-        "@type": {
-          "anyOf": [
-            {
-              "type": "string",
-              "enum": [
-                "schema:PropertyValue"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "schema:PropertyValue"
-                ]
-              }
-            }
-          ]
-        },
-        "schema:propertyID": {
-          "type": "array",
-          "items": {
-            "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/propertyID_item"
-          },
-          "minItems": 1,
-          "description": "identifier or name for the property concept quantified by the values in this variable slot. Multiple values can specify the property at different levels of granularity."
-        },
-        "schema:name": {
-          "type": "string"
-        },
-        "schema:value": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "number"
-            },
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "object"
-            }
-          ]
-        },
-        "schema:unitCode": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm"
-            }
-          ]
-        },
-        "schema:unitText": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "schema:name",
-        "schema:value"
-      ],
-      "$defs": {
-        "DefinedTerm": {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
-        },
-        "propertyID_item": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              }
-            },
-            {
-              "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm"
-            }
-          ]
-        }
-      },
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/",
-        "nxs": "http://purl.org/nexusformat/definitions/"
-      },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.cdifProperties.cdifCatalogRecord": {
-      "type": "object",
-      "description": "see https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13 for discussion on how to make assertion about the sample registration and metadata distinct from statements about the physical object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:Dataset"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:additionalType": {
-          "type": "array",
-          "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "dcat:CatalogRecord"
-            ]
-          },
-          "minItems": 1
-        },
-        "@id": {
-          "type": "string",
-          "description": "identifier for the metadata record"
-        },
-        "schema:about": {
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "this must be the @id value of the node containing the resource description metadata"
-            }
-          }
-        },
-        "dcterms:conformsTo": {
-          "type": "array",
-          "items": {
-            "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCatalogRecord/$defs/conformsTo_item"
-          },
-          "minItems": 1,
-          "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile.  Implement as $def to facilitate extension for profiles that need to add conformance statements"
-        },
-        "schema:maintainer": {
-          "description": "iSamples Registrant. identification of the agent that registered the sample, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
-          "anyOf": [
-            {
-              "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCatalogRecord/$defs/Person"
-            },
-            {
-              "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCatalogRecord/$defs/Organization"
-            }
-          ]
-        },
-        "schema:sdDatePublished": {
-          "description": "date of most recent update to the metadata content, extends iSamples schema",
-          "type": "string",
-          "format": "date"
-        },
-        "schema:includedInDataCatalog": {
-          "type": "object",
-          "description": "identify the data collection or repository that contains the described dataset. The value is expected to be a schema:DataCatalog",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "identifier for the containing catalog or repository; example data at https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#catalog puts identifier here"
-            },
-            "@type": {
-              "default": "schema:DataCatalog",
-              "anyOf": [
-                {
-                  "type": "string",
-                  "enum": [
-                    "schema:DataCatalog"
-                  ]
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "enum": [
-                      "schema:DataCatalog"
-                    ]
-                  }
-                }
-              ]
-            },
-            "schema:name": {
-              "type": "string"
-            },
-            "schema:url": {
-              "type": "string",
-              "format": "uri",
-              "description": "locator to access a landing page for the collection or catalog"
-            },
-            "schema:identifier": {
-              "description": "identifier for the collection or catalog; use identifier_type to provide information on identifier scheme and context for identifier",
-              "allOf": [
-                {
-                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCatalogRecord/$defs/Identifier"
-                }
-              ]
-            }
-          }
-        }
-      },
-      "required": [
-        "schema:about",
-        "dcterms:conformsTo",
-        "schema:additionalType",
-        "@type",
-        "@id"
-      ],
-      "$defs": {
-        "Identifier": {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
-        },
-        "Person": {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.person"
-        },
-        "Organization": {
-          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization"
-        },
-        "conformsTo_item": {
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "uri for specifications that this metadata record conforms to"
-            }
-          }
-        }
-      },
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/",
-        "ex": "https://example.org/",
-        "xsd": "http://www.w3.org/2001/XMLSchema#",
-        "dcterms": "http://purl.org/dc/terms/",
-        "dcat": "http://www.w3.org/ns/dcat#"
-      },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCatalogRecord/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.schemaorgProperties.funder": {
@@ -3691,6 +2235,237 @@
       "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
+    "cdif.bbr.metadata.schemaorgProperties.spatialExtent": {
+      "description": "Spatial Extent description for CDIF discovery profile.  Note required prefix declaration for geoSparql ( http://www.opengis.net/ont/geosparql#) and OGC simple features (sf: http://www.opengis.net/ont/sf#)",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "default": "schema:Place",
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "schema:Place"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "schema:Place"
+                ]
+              }
+            }
+          ]
+        },
+        "schema:name": {
+          "description": "multiple place names or DefinedTerms that have a place name and URI for the location",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/DefinedTerm"
+              }
+            ]
+          }
+        },
+        "schema:geo": {
+          "description": "Either a bounding box or a point location.",
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "A point location. Point locations are recommended for data that is associated with specific sample locations, particularly if these are widely spaced such that an enclosing bounding box would be a misleading representation of the spatial location. Be aware that some client applications might only index or display bounding box extents or a single point location.",
+              "properties": {
+                "@type": {
+                  "default": "schema:GeoCoordinates",
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "schema:GeoCoordinates"
+                      ]
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "enum": [
+                          "schema:GeoCoordinates"
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "schema:latitude": {
+                  "type": "number",
+                  "minimum": -90,
+                  "maximum": 90
+                },
+                "schema:longitude": {
+                  "type": "number",
+                  "minimum": -180,
+                  "maximum": 180
+                }
+              },
+              "required": [
+                "@type",
+                "schema:latitude",
+                "schema:longitude"
+              ]
+            },
+            {
+              "type": "object",
+              "description": "A schema:GeoShape bounding box. The geometry is described with a set of latitude/longitude pairs (in that order).The documentation for schema:GeoShape states 'Either whitespace or commas can be used to separate latitude and longitude; whitespace should be used when writing a list of several such points.'",
+              "properties": {
+                "@type": {
+                  "default": "schema:GeoShape",
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "schema:GeoShape"
+                      ]
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "enum": [
+                          "schema:GeoShape"
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "schema:box": {
+                  "type": "string",
+                  "description": "A GeoShape box defines an area on the surface of the earth defined by point locations of the southwest corner and northeast corner of the rectangle in latitude-longitude coordinates. A space should be used to separate the latitude and longitude values. The two corner coordinate points are separated by a space. 'East longitude' means positive longitude values are east of the prime (Greenwich) meridian."
+                }
+              },
+              "required": [
+                "@type",
+                "schema:box"
+              ]
+            },
+            {
+              "type": "object",
+              "description": "A schema:GeoShape curvilinear trace, for resource related to a linear trace like a ship track or airplane flight line",
+              "properties": {
+                "@type": {
+                  "default": "schema:GeoShape",
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "schema:GeoShape"
+                      ]
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "enum": [
+                          "schema:GeoShape"
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "schema:line": {
+                  "type": "string",
+                  "description": "A GeoShape box defines a curvilinear geometry as a string of latitude-longitude coordinates. A space should be used to separate the latitude and longitude values. The coordinate point pairs are also separated by a space. 'East longitude' means positive longitude values are east of the prime (Greenwich) meridian. e.g. '39.33 120.77 40.44 123.96 41.00 121.34' "
+                }
+              },
+              "required": [
+                "@type",
+                "schema:line"
+              ]
+            }
+          ]
+        },
+        "geosparql:hasGeometry": {
+          "type": "object",
+          "description": "Optional geographic extent using wkt geometry, see Ocean InfoHub (https://book.oceaninfohub.org/thematics/spatial/README.html#simple-geosparql-wkt). Other geometry schemes might be specified in a specific domain profile, e.g. for atmospheric, subsurface data, or local coordinate systems. NOTE that the location specified here should be the same as the schema.org point or contained within the specified bounding box.",
+          "properties": {
+            "@type": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "description": "MUST be sf: (<http://www.opengis.net/ont/sf#>) SimpleFeature geometry type. See https://opengeospatial.github.io/ogc-geosparql/geosparql11/sf_geometries.ttl"
+            },
+            "geosparql:asWKT": {
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "geosparql:wktLiteral"
+                      ]
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "enum": [
+                          "geosparql:wktLiteral"
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "@value": {
+                  "type": "string",
+                  "description": "a WKT geometry description string, e.g. 'POINT(-76 -18)'"
+                }
+              }
+            },
+            "geosparql:crs": {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "identifier string for coordinate reference system, e.g., 'CRS84'"
+                }
+              }
+            }
+          }
+        }
+      },
+      "$defs": {
+        "DefinedTerm": {
+          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
     "cdif.bbr.metadata.schemaorgProperties.temporalExtent": {
       "description": "The time interval during which data was collected or observations were made; or a time period that an activity or collection is linked to intellectually or thematically (for example, 1997 to 1998; the 18th century) (see https://documentation.ardc.edu.au/display/DOC/Temporal+coverage). For documentation of Earth Science, Paleobiology or Paleontology datasets, we are interested in the second case-- the time period that data are linked to thematically. NOTE-- context must include \"time\": \"http://www.w3.org/2006/time#\"}",
       "anyOf": [
@@ -3898,6 +2673,49 @@
       "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/temporalExtent/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
+    "cdif.bbr.metadata.provProperties.generatedBy": {
+      "title": "very simple links or names of software or instruments used to generate a resource.",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "contains": {
+            "enum": [
+              "prov:Activity"
+            ]
+          }
+        },
+        "prov:used": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "a resolvable reference to a representation of the software or instrument used"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#"
+      },
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/generatedBy/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
     "cdif.bbr.metadata.provProperties.derivedFrom": {
       "title": "very simple links or names of data sources used to generate the described resource.",
       "anyOf": [
@@ -3996,59 +2814,44 @@
       "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityMeasure/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
-    "cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping": {
-      "title": "Physical Mapping Type",
-      "description": "Defines implementation-specific properties for the representation of a variable in a dataset. Aligned with CDIF 2026 schema using DDI-CDI flat per-column mapping structure.",
+    "cdif.bbr.metadata.cdifProperties.cdifDataCube": {
+      "title": "Data Cube Type",
+      "description": "Multi-dimensional data cube structure using DDI-CDI. Typed as ada:dataCube and cdi:StructuredDataSet per CDIF 2026 alignment.",
       "type": "object",
       "properties": {
-        "cdi:index": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Non-negative integer that orders the fields in the data structure (column number)."
-        },
-        "cdi:format": {
-          "type": "string",
-          "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
-        },
-        "cdi:physicalDataType": {
-          "type": "string"
-        },
-        "cdi:length": {
-          "type": "integer",
-          "description": "The column width if the tabular text is fixed width."
-        },
-        "cdi:nullSequence": {
-          "type": "string",
-          "description": "The value of this property becomes the null annotation for the described column."
-        },
-        "cdi:defaultValue": {
-          "type": "string",
-          "description": "A default string indicating the value to substitute for an empty string."
-        },
-        "cdi:scale": {
-          "type": "integer"
-        },
-        "cdi:decimalPositions": {
-          "type": "integer"
-        },
-        "cdi:minimumLength": {
-          "type": "integer"
-        },
-        "cdi:maximumLength": {
-          "type": "integer"
-        },
-        "cdi:isRequired": {
-          "type": "boolean",
-          "default": false
-        },
-        "cdi:formats_InstanceVariable": {
-          "type": "object",
-          "description": "Reference to a variable defined in schema:variableMeasured.",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "This should be a reference to a variable defined in the schema:variableMeasured section."
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "allOf": [
+            {
+              "contains": {
+                "enum": [
+                  "cdi:StructuredDataSet"
+                ]
+              }
             }
+          ]
+        },
+        "cdi:hasPhysicalMapping": {
+          "type": "array",
+          "description": "Links variables to their physical representation in this dataset.",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "cdi:locator": {
+                    "type": "string",
+                    "description": "String that can be used by software to locate values of the variable in this physical dataset."
+                  }
+                }
+              }
+            ]
           }
         }
       },
@@ -4057,7 +2860,641 @@
         "ada": "https://ada.astromat.org/metadata/",
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
       },
-      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml",
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataCube/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifProperties.cdifTabularData": {
+      "type": "object",
+      "title": "Tabular Data Type",
+      "description": "Tabular data type aligned with CDIF 2026 schema using DDI-CDI and CSVW properties. Typed as cdi:TabularTextDataSet and ada:tabularData.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "enum": [
+                  "cdi:TabularTextDataSet"
+                ]
+              }
+            }
+          ]
+        },
+        "cdi:arrayBase": {
+          "type": "integer"
+        },
+        "csvw:commentPrefix": {
+          "type": "string",
+          "description": "An atomic property that sets the comment prefix flag to the single provided value, which MUST be a string. The default is '#'."
+        },
+        "csvw:delimiter": {
+          "type": "string",
+          "description": "Sets the delimiter flag to the single provided value, which MUST be a string. The default is ','."
+        },
+        "csvw:header": {
+          "type": "boolean",
+          "description": "If true, sets the header row count flag to 1, and if false to 0, unless headerRowCount is provided, in which case the value provided for the header property is ignored. The default is true."
+        },
+        "csvw:headerRowCount": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 1,
+          "description": "A numeric atomic property that sets the header row count flag to the single provided value, which MUST be a non-negative integer."
+        },
+        "cdi:isDelimited": {
+          "type": "boolean",
+          "description": "Schema constraint is that one of {'isDelimited','isFixedWidth'} must be present with a True value; the other one may be present or omitted, but if present must have a false value."
+        },
+        "cdi:isFixedWidth": {
+          "type": "boolean"
+        },
+        "csvw:lineTerminators": {
+          "type": "string",
+          "enum": [
+            "CRLF",
+            "LF",
+            "\r\n",
+            "\n"
+          ]
+        },
+        "csvw:quoteChar": {
+          "type": "string",
+          "default": "\"",
+          "description": "Same as DDI-CDI quoteCharacter. The string that is used around escaped cells."
+        },
+        "csvw:skipBlankRows": {
+          "type": "boolean",
+          "default": false
+        },
+        "csvw:skipColumns": {
+          "type": "integer",
+          "default": 0,
+          "description": "The number of columns to skip at the beginning of each row."
+        },
+        "csvw:skipInitialSpace": {
+          "type": "boolean",
+          "default": true
+        },
+        "csvw:skipRows": {
+          "type": "integer",
+          "description": "The number of rows to skip at the beginning of the file, before a header row or tabular data.",
+          "default": 0
+        },
+        "cdi:escapeCharacter": {
+          "type": "string",
+          "description": "The character used to escape special characters in the data. From DDI-CDI PhysicalSegmentLayout.escapeCharacter."
+        },
+        "cdi:headerIsCaseSensitive": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether column header names are case-sensitive. From DDI-CDI PhysicalSegmentLayout.headerIsCaseSensitive."
+        },
+        "cdi:treatConsecutiveDelimitersAsOne": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether consecutive delimiters should be treated as a single delimiter. From DDI-CDI PhysicalSegmentLayout.treatConsecutiveDelimitersAsOne."
+        },
+        "csvw:tableDirection": {
+          "type": "string",
+          "enum": [
+            "Ltr",
+            "Rtl"
+          ],
+          "default": "Ltr",
+          "description": "Indicates the direction of the table layout (left-to-right or right-to-left). From DDI-CDI PhysicalSegmentLayout.tableDirection."
+        },
+        "csvw:textDirection": {
+          "type": "string",
+          "enum": [
+            "Auto",
+            "Inherit",
+            "Ltr",
+            "Rtl"
+          ],
+          "default": "Auto",
+          "description": "Indicates whether the text within cells should be displayed as left-to-right, right-to-left, according to content, or inherited from the table direction. From DDI-CDI PhysicalSegmentLayout.textDirection."
+        },
+        "csvw:trim": {
+          "type": "string",
+          "enum": [
+            "true",
+            "end",
+            "false",
+            "start"
+          ],
+          "description": "Indicates whether to trim whitespace around cells. 'true' corresponds to DDI-CDI 'both' value, 'false' corresponds to DDI-CDI 'neither' value."
+        },
+        "cdi:hasPhysicalMapping": {
+          "type": "array",
+          "description": "Links variables to their physical representation in this dataset.",
+          "items": {
+            "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping"
+          }
+        },
+        "countRows": {
+          "type": "integer"
+        },
+        "countColumns": {
+          "type": "integer"
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "cdi:isDelimited": {
+              "enum": [
+                true
+              ]
+            },
+            "cdi:isFixedWidth": {}
+          },
+          "required": [
+            "cdi:isDelimited"
+          ]
+        },
+        {
+          "properties": {
+            "cdi:isDelimited": {},
+            "cdi:isFixedWidth": {
+              "enum": [
+                true
+              ]
+            }
+          },
+          "required": [
+            "cdi:isFixedWidth"
+          ]
+        }
+      ],
+      "required": [
+        "@type"
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "ada": "https://ada.astromat.org/metadata/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+      },
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularData/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifProperties.cdifProvActivity": {
+      "title": "CDIF Provenance Activity",
+      "description": "Extended provenance activity building block for CDIF. Extends the minimal prov:Activity (generatedBy) with schema.org Action properties for comprehensive provenance documentation including agents, instruments, methodology, temporal bounds, action chaining, and more.",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.provProperties.generatedBy"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 2,
+              "contains": {
+                "enum": [
+                  "schema:Action"
+                ]
+              },
+              "description": "Must include both schema:Action and prov:Activity (prov:Activity required by base generatedBy schema)"
+            },
+            "prov:used": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "description": "a resolvable reference to a representation of the software or instrument used"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "description": "an item used by the activity that includes a schema:instrument sub-key",
+                    "properties": {
+                      "schema:instrument": {
+                        "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Instrument"
+                      }
+                    },
+                    "required": [
+                      "schema:instrument"
+                    ]
+                  }
+                ]
+              }
+            },
+            "schema:name": {
+              "type": "string",
+              "description": "Human-readable name for the activity"
+            },
+            "schema:description": {
+              "type": "string",
+              "description": "Text description of what this activity did"
+            },
+            "schema:identifier": {
+              "description": "Formal identifier for this activity",
+              "anyOf": [
+                {
+                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Identifier"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "schema:agent": {
+              "description": "Primary responsible agent for this activity (maps to PROV wasAssociatedWith)",
+              "anyOf": [
+                {
+                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Person"
+                },
+                {
+                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Organization"
+                },
+                {
+                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/AgentInRole"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "reference to an agent defined elsewhere"
+                    }
+                  },
+                  "required": [
+                    "@id"
+                  ]
+                }
+              ]
+            },
+            "schema:participant": {
+              "description": "Other participants in this activity",
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Person"
+                  },
+                  {
+                    "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Organization"
+                  },
+                  {
+                    "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/AgentInRole"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "description": "reference to a participant defined elsewhere"
+                      }
+                    },
+                    "required": [
+                      "@id"
+                    ]
+                  }
+                ]
+              }
+            },
+            "schema:object": {
+              "description": "Input entity for this activity (for action chaining, references the result of a prior activity)",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "reference to an input entity"
+                    }
+                  }
+                }
+              ]
+            },
+            "schema:result": {
+              "description": "Output entity produced by this activity (for action chaining, can be referenced as object of a subsequent activity)",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "reference to an output entity"
+                    }
+                  }
+                }
+              ]
+            },
+            "schema:actionStatus": {
+              "type": "string",
+              "description": "Status of this activity",
+              "enum": [
+                "schema:CompletedActionStatus",
+                "schema:ActiveActionStatus",
+                "schema:PotentialActionStatus",
+                "schema:FailedActionStatus"
+              ]
+            },
+            "schema:startTime": {
+              "type": "string",
+              "description": "ISO8601 date-time when the activity started (maps to PROV startedAtTime)"
+            },
+            "schema:endTime": {
+              "type": "string",
+              "description": "ISO8601 date-time when the activity ended (maps to PROV endedAtTime)"
+            },
+            "schema:location": {
+              "description": "Where the activity occurred",
+              "anyOf": [
+                {
+                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/SpatialExtent"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "reference to a place defined elsewhere"
+                    }
+                  }
+                }
+              ]
+            },
+            "schema:actionProcess": {
+              "description": "Methodology or protocol for this activity",
+              "anyOf": [
+                {
+                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/HowTo"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "reference to a methodology defined elsewhere"
+                    }
+                  }
+                }
+              ]
+            },
+            "schema:error": {
+              "type": "string",
+              "description": "Error description for failed activities"
+            },
+            "schema:additionalProperty": {
+              "description": "Domain-specific extension properties",
+              "type": "array",
+              "items": {
+                "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/AdditionalProperty"
+              }
+            }
+          }
+        }
+      ],
+      "$defs": {
+        "Person": {
+          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.person"
+        },
+        "Organization": {
+          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization"
+        },
+        "AgentInRole": {
+          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.agentInRole"
+        },
+        "Identifier": {
+          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
+        },
+        "Instrument": {
+          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument"
+        },
+        "DefinedTerm": {
+          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
+        },
+        "LabeledLink": {
+          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink"
+        },
+        "SpatialExtent": {
+          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent"
+        },
+        "AdditionalProperty": {
+          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty"
+        },
+        "HowTo": {
+          "type": "object",
+          "description": "A methodology or protocol described as a HowTo with optional steps",
+          "properties": {
+            "@type": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "schema:HowTo"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "enum": [
+                      "schema:HowTo"
+                    ]
+                  }
+                }
+              ]
+            },
+            "@id": {
+              "type": "string"
+            },
+            "schema:name": {
+              "type": "string",
+              "description": "Name of the methodology or protocol"
+            },
+            "schema:description": {
+              "type": "string",
+              "description": "Description of the methodology"
+            },
+            "schema:url": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to a published methodology or protocol document"
+            },
+            "schema:step": {
+              "type": "array",
+              "description": "Ordered steps in this methodology",
+              "items": {
+                "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/HowToStep"
+              }
+            }
+          },
+          "required": [
+            "@type"
+          ],
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:url"
+              ]
+            }
+          ]
+        },
+        "HowToStep": {
+          "type": "object",
+          "description": "A single step in a HowTo methodology",
+          "properties": {
+            "@type": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "schema:HowToStep"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "enum": [
+                      "schema:HowToStep"
+                    ]
+                  }
+                }
+              ]
+            },
+            "schema:name": {
+              "type": "string",
+              "description": "Name of this step"
+            },
+            "schema:description": {
+              "type": "string",
+              "description": "Description of what this step involves"
+            },
+            "schema:url": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to documentation for this step"
+            },
+            "schema:position": {
+              "type": "integer",
+              "description": "Ordinal position of this step"
+            }
+          },
+          "required": [
+            "@type",
+            "schema:name"
+          ]
+        },
+        "Claim": {
+          "type": "object",
+          "description": "A statement or assertion about the dataset, such as a quality claim",
+          "properties": {
+            "@type": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "schema:Claim"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "enum": [
+                      "schema:Claim"
+                    ]
+                  }
+                }
+              ]
+            },
+            "@id": {
+              "type": "string"
+            },
+            "schema:claimReviewed": {
+              "type": "string",
+              "description": "The claim being reviewed or asserted"
+            },
+            "schema:author": {
+              "description": "Author of this claim",
+              "anyOf": [
+                {
+                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Person"
+                },
+                {
+                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Organization"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              ]
+            },
+            "schema:datePublished": {
+              "type": "string",
+              "description": "ISO8601 date when this claim was published"
+            },
+            "schema:appearance": {
+              "description": "Where this claim appears",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/LabeledLink"
+                }
+              ]
+            }
+          },
+          "required": [
+            "@type",
+            "schema:claimReviewed"
+          ]
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#"
+      },
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.schemaorgProperties.action": {
@@ -4480,26 +3917,363 @@
       },
       "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping": {
+      "title": "Physical Mapping Type",
+      "description": "Defines implementation-specific properties for the representation of a variable in a dataset. Aligned with CDIF 2026 schema using DDI-CDI flat per-column mapping structure.",
+      "type": "object",
+      "properties": {
+        "cdi:index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Non-negative integer that orders the fields in the data structure (column number)."
+        },
+        "cdi:format": {
+          "type": "string",
+          "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
+        },
+        "cdi:physicalDataType": {
+          "type": "string"
+        },
+        "cdi:length": {
+          "type": "integer",
+          "description": "The column width if the tabular text is fixed width."
+        },
+        "cdi:nullSequence": {
+          "type": "string",
+          "description": "The value of this property becomes the null annotation for the described column."
+        },
+        "cdi:defaultValue": {
+          "type": "string",
+          "description": "A default string indicating the value to substitute for an empty string."
+        },
+        "cdi:scale": {
+          "type": "integer"
+        },
+        "cdi:decimalPositions": {
+          "type": "integer"
+        },
+        "cdi:minimumLength": {
+          "type": "integer"
+        },
+        "cdi:maximumLength": {
+          "type": "integer"
+        },
+        "cdi:isRequired": {
+          "type": "boolean",
+          "default": false
+        },
+        "cdi:formats_InstanceVariable": {
+          "type": "object",
+          "description": "Reference to a variable defined in schema:variableMeasured.",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "This should be a reference to a variable defined in the schema:variableMeasured section."
+            }
+          }
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "ada": "https://ada.astromat.org/metadata/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+      },
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.instrument": {
+      "title": "Generic Instrument",
+      "description": "A generic instrument or instrument system. Uses schema:Thing as base type with optional schema:Product typing. Supports hierarchical instrument systems via schema:hasPart for sub-components.",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "contains": {
+            "enum": [
+              "schema:Thing"
+            ]
+          },
+          "description": "Must include schema:Thing. May also include schema:Product or domain-specific types."
+        },
+        "@id": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "Human-readable name for this instrument"
+        },
+        "schema:identifier": {
+          "description": "Formal identifier for this instrument",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier"
+            }
+          ]
+        },
+        "schema:description": {
+          "type": "string",
+          "description": "Text description of this instrument"
+        },
+        "schema:alternateName": {
+          "type": "string",
+          "description": "Alternate name, e.g. specific make/model"
+        },
+        "schema:additionalType": {
+          "description": "Domain-specific type URIs for this instrument",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "schema:additionalProperty": {
+          "type": "array",
+          "description": "Domain-specific properties (detection limits, calibration info, etc.)",
+          "items": {
+            "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/AdditionalProperty"
+          }
+        },
+        "schema:hasPart": {
+          "type": "array",
+          "description": "Sub-components of this instrument system. Use @id references or inline instrument objects.",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/InstrumentRef"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "reference to a sub-component defined elsewhere"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "schema:name"
+      ],
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        }
+      ],
+      "$defs": {
+        "Identifier": {
+          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
+        },
+        "AdditionalProperty": {
+          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty"
+        },
+        "InstrumentRef": {
+          "type": "object",
+          "description": "Inline sub-component instrument (non-recursive single level)",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "contains": {
+                "enum": [
+                  "schema:Thing"
+                ]
+              }
+            },
+            "@id": {
+              "type": "string"
+            },
+            "schema:name": {
+              "type": "string"
+            },
+            "schema:identifier": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier"
+                }
+              ]
+            },
+            "schema:description": {
+              "type": "string"
+            },
+            "schema:alternateName": {
+              "type": "string"
+            },
+            "schema:additionalType": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "schema:additionalProperty": {
+              "type": "array",
+              "items": {
+                "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/AdditionalProperty"
+              }
+            }
+          },
+          "required": [
+            "schema:name"
+          ]
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.additionalProperty": {
+      "type": "object",
+      "title": "additionalProperty PropertyValue",
+      "description": "PropertyValue values required to define a soft-typed property with a value. ",
+      "properties": {
+        "@type": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "schema:PropertyValue"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "schema:PropertyValue"
+                ]
+              }
+            }
+          ]
+        },
+        "schema:propertyID": {
+          "type": "array",
+          "items": {
+            "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/propertyID_item"
+          },
+          "minItems": 1,
+          "description": "identifier or name for the property concept quantified by the values in this variable slot. Multiple values can specify the property at different levels of granularity."
+        },
+        "schema:name": {
+          "type": "string"
+        },
+        "schema:value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "object"
+            }
+          ]
+        },
+        "schema:unitCode": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm"
+            }
+          ]
+        },
+        "schema:unitText": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema:name",
+        "schema:value"
+      ],
+      "$defs": {
+        "DefinedTerm": {
+          "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
+        },
+        "propertyID_item": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm"
+            }
+          ]
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "nxs": "http://purl.org/nexusformat/definitions/"
+      },
+      "x-schema-source": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     }
   },
   "type": "object",
   "title": "CDIF complete metadata schema",
-  "description": "JSON schema for JSON-LD documents that describe science datasets for the CDIF complete profile, combining discovery metadata with data description and archive distribution extensions. Extends CDIFDiscovery (cdifMandatory + cdifOptional including variableMeasured) with distribution constraints supporting single-file DataDownloads with optional tabular/dataCube data description, archive distributions with hasPart component files, and WebAPI distributions with potentialAction result data description.",
+  "description": "JSON schema for JSON-LD documents that describe science datasets for the CDIF complete profile, combining discovery metadata with data description, archive distribution, and provenance extensions. Composes cdifMandatory, cdifOptional, cdifDataDescription, cdifArchiveDistribution, and cdifProvenance building blocks.",
   "allOf": [
     {
-      "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfiles.CDIFDataDescription"
+      "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifMandatory"
     },
     {
-      "type": "object",
-      "properties": {
-        "prov:wasGeneratedBy": {
-          "description": "Extended provenance activities with instruments, agents, temporal bounds, methodology, and action chaining (cdifProv pattern).",
-          "type": "array",
-          "items": {
-            "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProv"
-          }
-        }
-      }
+      "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifOptional"
+    },
+    {
+      "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifDataDescription"
+    },
+    {
+      "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifArchiveDistribution"
+    },
+    {
+      "$ref": "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcomplete/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvenance"
     }
   ],
   "x-jsonld-prefixes": {
