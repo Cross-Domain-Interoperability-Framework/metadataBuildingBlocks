@@ -1,4 +1,127 @@
 x-defs:
+  cdif.bbr.metadata.cdifProperties.cdifArchive:
+    title: CDIF Archive Distribution
+    description: A DataDownload distribution that is an archive file (e.g. ZIP) containing
+      multiple component files described in schema:hasPart. The archive itself is
+      typed as schema:DataDownload; each component file is typed as schema:MediaObject
+      (not DataDownload, since they are not independently accessible via URL). Components
+      may optionally include CDIF data description extensions (cdifTabularData, cdifDataCube)
+      to describe their internal data structure.
+    type: object
+    allOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.dataDownload
+    - type: object
+      properties:
+        schema:hasPart:
+          type: array
+          description: Array describing the files contained in the archive. Each item
+            represents a component file that is part of the archive and is not independently
+            accessible.
+          items:
+            allOf:
+            - type: object
+              properties:
+                '@id':
+                  type: string
+                  description: Identifier for this file, typically a hash-based anchor
+                    (e.g. '#abc123'). Used for cross-references from schema:about
+                    in metadata sidecar files.
+                '@type':
+                  type: array
+                  description: Must include schema:MediaObject. Must NOT include schema:DataDownload
+                    since this file is not independently accessible. May include additional
+                    types for categorization.
+                  items:
+                    type: string
+                  contains:
+                    enum:
+                    - schema:MediaObject
+                  not:
+                    contains:
+                      enum:
+                      - schema:DataDownload
+                  minItems: 1
+                schema:name:
+                  type: string
+                  description: Filename of the component file within the archive.
+                schema:description:
+                  type: string
+                  description: Description of the file content. May include checksum
+                    information.
+                schema:encodingFormat:
+                  type: array
+                  description: MIME type(s) for this file.
+                  items:
+                    type: string
+                schema:size:
+                  type: object
+                  description: File size as a QuantitativeValue.
+                  properties:
+                    '@type':
+                      anyOf:
+                      - type: string
+                        enum:
+                        - schema:QuantitativeValue
+                      - type: array
+                        items:
+                          type: string
+                        contains:
+                          enum:
+                          - schema:QuantitativeValue
+                    schema:value:
+                      type: number
+                      description: Numeric size value.
+                    schema:unitText:
+                      type: string
+                      description: Unit of measure for size (e.g. 'byte').
+                schema:about:
+                  type: array
+                  description: For metadata sidecar files, references the data file
+                    this metadata describes.
+                  items:
+                    type: object
+                    properties:
+                      '@id':
+                        type: string
+                        description: Reference to the @id of the data file described
+                          by this sidecar.
+                spdx:checksum:
+                  type: object
+                  description: Checksum for integrity verification of this component
+                    file.
+                  properties:
+                    '@type':
+                      anyOf:
+                      - type: string
+                        enum:
+                        - spdx:Checksum
+                      - type: array
+                        items:
+                          type: string
+                        contains:
+                          enum:
+                          - spdx:Checksum
+                    spdx:algorithm:
+                      type: string
+                    spdx:checksumValue:
+                      type: string
+                  required:
+                  - '@type'
+              required:
+              - '@type'
+              - schema:name
+              - schema:encodingFormat
+            - anyOf:
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifDataCube
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifTabularData
+              - {}
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+      spdx: http://spdx.org/rdf/terms#
+      cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+      csvw: http://www.w3.org/ns/csvw#
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.dataDownload:
     description: schema to document file-based access to a resoruce via URL, based
       on schema.org/DataDownload
@@ -80,14 +203,14 @@ x-defs:
                   externally; must be dereferenceable
             required:
             - '@id'
-          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
-          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
     required:
     - schema:contentUrl
     - '@type'
     x-jsonld-prefixes:
       schema: http://schema.org/
-    x-schema-source: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.cdifProperties.cdifDataCube:
     title: Data Cube Type
@@ -108,7 +231,7 @@ x-defs:
         description: Links variables to their physical representation in this dataset.
         items:
           allOf:
-          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping
           - type: object
             properties:
               cdi:locator:
@@ -119,7 +242,7 @@ x-defs:
       schema: http://schema.org/
       ada: https://ada.astromat.org/metadata/
       cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-    x-schema-source: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataCube/schema.yaml
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataCube/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.cdifProperties.cdifTabularData:
     type: object
@@ -239,7 +362,7 @@ x-defs:
         type: array
         description: Links variables to their physical representation in this dataset.
         items:
-          $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping
       countRows:
         type: integer
       countColumns:
@@ -265,7 +388,7 @@ x-defs:
       schema: http://schema.org/
       ada: https://ada.astromat.org/metadata/
       cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-    x-schema-source: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularData/schema.yaml
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularData/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.person:
     description: schema for cdif profile of schema.org/Person
@@ -292,7 +415,7 @@ x-defs:
       schema:identifier:
         description: identifier for person, recommend ORCID
         anyOf:
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
         - type: string
       schema:alternateName:
         type: string
@@ -300,7 +423,7 @@ x-defs:
       schema:affiliation:
         description: if affiliation is present, value must be a schema:Organization.
         allOf:
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
       schema:contactPoint:
         type: object
         properties:
@@ -330,7 +453,7 @@ x-defs:
             properties:
               '@id':
                 type: string
-          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
     allOf:
     - required:
       - '@type'
@@ -341,7 +464,7 @@ x-defs:
         - schema:identifier
     x-jsonld-prefixes:
       schema: http://schema.org/
-    x-schema-source: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.organization:
     type: object
@@ -375,7 +498,7 @@ x-defs:
             - schema:NGO
             - schema:Project
             - schema:ResearchOrganization
-          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
           - type: string
       schema:name:
         type: string
@@ -388,7 +511,7 @@ x-defs:
       schema:identifier:
         description: identifier for organization
         anyOf:
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
         - type: string
       schema:sameAs:
         type: array
@@ -400,7 +523,7 @@ x-defs:
             properties:
               '@id':
                 type: string
-          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
     allOf:
     - required:
       - '@type'
@@ -411,7 +534,7 @@ x-defs:
         - schema:identifier
     x-jsonld-prefixes:
       schema: http://schema.org/
-    x-schema-source: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping:
     title: Physical Mapping Type
@@ -465,7 +588,7 @@ x-defs:
       schema: http://schema.org/
       ada: https://ada.astromat.org/metadata/
       cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-    x-schema-source: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.identifier:
     description: Properties for a schema.org identifier
@@ -506,7 +629,7 @@ x-defs:
         - schema:url
     x-jsonld-prefixes:
       schema: http://schema.org/
-    x-schema-source: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.definedTerm:
     description: schema.org Defined Term schema
@@ -529,7 +652,7 @@ x-defs:
       schema:identifier:
         anyOf:
         - type: string
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
       schema:inDefinedTermSet:
         type: string
         description: Identifier for the controlled vocabulary responsible for this
@@ -550,124 +673,19 @@ x-defs:
         - schema:termCode
     x-jsonld-prefixes:
       schema: http://schema.org/
-    x-schema-source: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
 title: CDIF Archive Distribution
-description: A DataDownload distribution that is an archive file (e.g. ZIP) containing
-  multiple component files described in schema:hasPart. The archive itself is typed
-  as schema:DataDownload; each component file is typed as schema:MediaObject (not
-  DataDownload, since they are not independently accessible via URL). Components may
-  optionally include CDIF data description extensions (cdifTabularData, cdifDataCube)
-  to describe their internal data structure.
+description: Building block that adds archive distribution as a valid distribution
+  item type. cdifOptional already defines schema:distribution with DataDownload and
+  WebAPI options; this building block extends that with the cdifArchive option (DataDownload
+  with schema:hasPart component files).
 type: object
-allOf:
-- $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.dataDownload
-- type: object
-  properties:
-    schema:hasPart:
-      type: array
-      description: Array describing the files contained in the archive. Each item
-        represents a component file that is part of the archive and is not independently
-        accessible.
-      items:
-        allOf:
-        - type: object
-          properties:
-            '@id':
-              type: string
-              description: Identifier for this file, typically a hash-based anchor
-                (e.g. '#abc123'). Used for cross-references from schema:about in metadata
-                sidecar files.
-            '@type':
-              type: array
-              description: Must include schema:MediaObject. Must NOT include schema:DataDownload
-                since this file is not independently accessible. May include additional
-                types for categorization.
-              items:
-                type: string
-              contains:
-                enum:
-                - schema:MediaObject
-              not:
-                contains:
-                  enum:
-                  - schema:DataDownload
-              minItems: 1
-            schema:name:
-              type: string
-              description: Filename of the component file within the archive.
-            schema:description:
-              type: string
-              description: Description of the file content. May include checksum information.
-            schema:encodingFormat:
-              type: array
-              description: MIME type(s) for this file.
-              items:
-                type: string
-            schema:size:
-              type: object
-              description: File size as a QuantitativeValue.
-              properties:
-                '@type':
-                  anyOf:
-                  - type: string
-                    enum:
-                    - schema:QuantitativeValue
-                  - type: array
-                    items:
-                      type: string
-                    contains:
-                      enum:
-                      - schema:QuantitativeValue
-                schema:value:
-                  type: number
-                  description: Numeric size value.
-                schema:unitText:
-                  type: string
-                  description: Unit of measure for size (e.g. 'byte').
-            schema:about:
-              type: array
-              description: For metadata sidecar files, references the data file this
-                metadata describes.
-              items:
-                type: object
-                properties:
-                  '@id':
-                    type: string
-                    description: Reference to the @id of the data file described by
-                      this sidecar.
-            spdx:checksum:
-              type: object
-              description: Checksum for integrity verification of this component file.
-              properties:
-                '@type':
-                  anyOf:
-                  - type: string
-                    enum:
-                    - spdx:Checksum
-                  - type: array
-                    items:
-                      type: string
-                    contains:
-                      enum:
-                      - spdx:Checksum
-                spdx:algorithm:
-                  type: string
-                spdx:checksumValue:
-                  type: string
-              required:
-              - '@type'
-          required:
-          - '@type'
-          - schema:name
-          - schema:encodingFormat
-        - anyOf:
-          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifDataCube
-          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifTabularData
-          - {}
-x-jsonld-prefixes:
-  schema: http://schema.org/
-  spdx: http://spdx.org/rdf/terms#
-  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-  csvw: http://www.w3.org/ns/csvw#
+properties:
+  schema:distribution:
+    type: array
+    items:
+      anyOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifArchive
+      - {}
 x-schema-version: https://json-schema.org/draft/2020-12/schema

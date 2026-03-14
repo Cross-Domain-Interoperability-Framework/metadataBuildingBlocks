@@ -1,0 +1,1004 @@
+{
+  "x-defs": {
+    "cdif.bbr.metadata.schemaorgProperties.dataDownload": {
+      "description": "schema to document file-based access to a resoruce via URL, based on schema.org/DataDownload",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string"
+        },
+        "@type": {
+          "type": "array",
+          "description": "implement as array because extensions might need to add additional types",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "schema:DataDownload"
+            ]
+          },
+          "minItems": 1
+        },
+        "schema:name": {
+          "type": "string"
+        },
+        "schema:description": {
+          "type": "string",
+          "description": "Description of this distribution, e.g. what format, access constraints, etc."
+        },
+        "schema:contentUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "schema:encodingFormat": {
+          "type": "array",
+          "description": "MIME type with extension; should indicate the serialization scheme in sufficient detail that machine can know how to parse.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "spdx:checksum": {
+          "type": "object",
+          "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
+          "properties": {
+            "@type": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "spdx:Checksum"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "enum": [
+                      "spdx:Checksum"
+                    ]
+                  }
+                }
+              ]
+            },
+            "spdx:algorithm": {
+              "type": "string"
+            },
+            "spdx:checksumValue": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        },
+        "dcterms:conformsTo": {
+          "description": "An identifier for a standard or specification that the distribution conforms to. Recommended to enable machine-actionable data access.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string",
+                "description": "uri for specification that this distribution conforms to"
+              }
+            }
+          }
+        },
+        "schema:provider": {
+          "type": "array",
+          "description": "Party who maintains this particular distribution option for the dataset. Use this property if there are multiple distributions from different providers",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.person"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "schema:contentUrl",
+        "@type"
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifProperties.cdifDataCube": {
+      "title": "Data Cube Type",
+      "description": "Multi-dimensional data cube structure using DDI-CDI. Typed as ada:dataCube and cdi:StructuredDataSet per CDIF 2026 alignment.",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "allOf": [
+            {
+              "contains": {
+                "enum": [
+                  "cdi:StructuredDataSet"
+                ]
+              }
+            }
+          ]
+        },
+        "cdi:hasPhysicalMapping": {
+          "type": "array",
+          "description": "Links variables to their physical representation in this dataset.",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "cdi:locator": {
+                    "type": "string",
+                    "description": "String that can be used by software to locate values of the variable in this physical dataset."
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "ada": "https://ada.astromat.org/metadata/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataCube/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifProperties.cdifTabularData": {
+      "type": "object",
+      "title": "Tabular Data Type",
+      "description": "Tabular data type aligned with CDIF 2026 schema using DDI-CDI and CSVW properties. Typed as cdi:TabularTextDataSet and ada:tabularData.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "enum": [
+                  "cdi:TabularTextDataSet"
+                ]
+              }
+            }
+          ]
+        },
+        "cdi:arrayBase": {
+          "type": "integer"
+        },
+        "csvw:commentPrefix": {
+          "type": "string",
+          "description": "An atomic property that sets the comment prefix flag to the single provided value, which MUST be a string. The default is '#'."
+        },
+        "csvw:delimiter": {
+          "type": "string",
+          "description": "Sets the delimiter flag to the single provided value, which MUST be a string. The default is ','."
+        },
+        "csvw:header": {
+          "type": "boolean",
+          "description": "If true, sets the header row count flag to 1, and if false to 0, unless headerRowCount is provided, in which case the value provided for the header property is ignored. The default is true."
+        },
+        "csvw:headerRowCount": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 1,
+          "description": "A numeric atomic property that sets the header row count flag to the single provided value, which MUST be a non-negative integer."
+        },
+        "cdi:isDelimited": {
+          "type": "boolean",
+          "description": "Schema constraint is that one of {'isDelimited','isFixedWidth'} must be present with a True value; the other one may be present or omitted, but if present must have a false value."
+        },
+        "cdi:isFixedWidth": {
+          "type": "boolean"
+        },
+        "csvw:lineTerminators": {
+          "type": "string",
+          "enum": [
+            "CRLF",
+            "LF",
+            "\r\n",
+            "\n"
+          ]
+        },
+        "csvw:quoteChar": {
+          "type": "string",
+          "default": "\"",
+          "description": "Same as DDI-CDI quoteCharacter. The string that is used around escaped cells."
+        },
+        "csvw:skipBlankRows": {
+          "type": "boolean",
+          "default": false
+        },
+        "csvw:skipColumns": {
+          "type": "integer",
+          "default": 0,
+          "description": "The number of columns to skip at the beginning of each row."
+        },
+        "csvw:skipInitialSpace": {
+          "type": "boolean",
+          "default": true
+        },
+        "csvw:skipRows": {
+          "type": "integer",
+          "description": "The number of rows to skip at the beginning of the file, before a header row or tabular data.",
+          "default": 0
+        },
+        "cdi:escapeCharacter": {
+          "type": "string",
+          "description": "The character used to escape special characters in the data. From DDI-CDI PhysicalSegmentLayout.escapeCharacter."
+        },
+        "cdi:headerIsCaseSensitive": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether column header names are case-sensitive. From DDI-CDI PhysicalSegmentLayout.headerIsCaseSensitive."
+        },
+        "cdi:treatConsecutiveDelimitersAsOne": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether consecutive delimiters should be treated as a single delimiter. From DDI-CDI PhysicalSegmentLayout.treatConsecutiveDelimitersAsOne."
+        },
+        "csvw:tableDirection": {
+          "type": "string",
+          "enum": [
+            "Ltr",
+            "Rtl"
+          ],
+          "default": "Ltr",
+          "description": "Indicates the direction of the table layout (left-to-right or right-to-left). From DDI-CDI PhysicalSegmentLayout.tableDirection."
+        },
+        "csvw:textDirection": {
+          "type": "string",
+          "enum": [
+            "Auto",
+            "Inherit",
+            "Ltr",
+            "Rtl"
+          ],
+          "default": "Auto",
+          "description": "Indicates whether the text within cells should be displayed as left-to-right, right-to-left, according to content, or inherited from the table direction. From DDI-CDI PhysicalSegmentLayout.textDirection."
+        },
+        "csvw:trim": {
+          "type": "string",
+          "enum": [
+            "true",
+            "end",
+            "false",
+            "start"
+          ],
+          "description": "Indicates whether to trim whitespace around cells. 'true' corresponds to DDI-CDI 'both' value, 'false' corresponds to DDI-CDI 'neither' value."
+        },
+        "cdi:hasPhysicalMapping": {
+          "type": "array",
+          "description": "Links variables to their physical representation in this dataset.",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping"
+          }
+        },
+        "countRows": {
+          "type": "integer"
+        },
+        "countColumns": {
+          "type": "integer"
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "cdi:isDelimited": {
+              "enum": [
+                true
+              ]
+            },
+            "cdi:isFixedWidth": {}
+          },
+          "required": [
+            "cdi:isDelimited"
+          ]
+        },
+        {
+          "properties": {
+            "cdi:isDelimited": {},
+            "cdi:isFixedWidth": {
+              "enum": [
+                true
+              ]
+            }
+          },
+          "required": [
+            "cdi:isFixedWidth"
+          ]
+        }
+      ],
+      "required": [
+        "@type"
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "ada": "https://ada.astromat.org/metadata/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularData/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.person": {
+      "description": "schema for cdif profile of schema.org/Person",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string"
+        },
+        "@type": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "schema:Person"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "schema:Person"
+                ]
+              }
+            }
+          ]
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "string label for person that is meaningful for human users"
+        },
+        "schema:description": {
+          "type": "string"
+        },
+        "schema:identifier": {
+          "description": "identifier for person, recommend ORCID",
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "schema:alternateName": {
+          "type": "string",
+          "description": "other labels by which the person might be known"
+        },
+        "schema:affiliation": {
+          "description": "if affiliation is present, value must be a schema:Organization.",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization"
+            }
+          ]
+        },
+        "schema:contactPoint": {
+          "type": "object",
+          "properties": {
+            "@type": {
+              "default": "schema:ContactPoint",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "schema:ContactPoint"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "enum": [
+                      "schema:ContactPoint"
+                    ]
+                  }
+                }
+              ]
+            },
+            "schema:email": {
+              "type": "string"
+            }
+          },
+          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well"
+        },
+        "schema:sameAs": {
+          "type": "array",
+          "description": "other identifiers for the person",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
+              }
+            ]
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:identifier"
+              ]
+            }
+          ]
+        }
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.organization": {
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string"
+        },
+        "@type": {
+          "default": "schema:Organization",
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "schema:Organization"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "schema:Organization"
+                ]
+              }
+            }
+          ]
+        },
+        "schema:additionalType": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "schema:FundingAgency",
+                  "schema:Consortium",
+                  "schema:Corporation",
+                  "schema:EducationalOrganization",
+                  "schema:FundingScheme",
+                  "schema:GovernmentOrganization",
+                  "schema:NGO",
+                  "schema:Project",
+                  "schema:ResearchOrganization"
+                ]
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "string label for organization that is meaningful for human users"
+        },
+        "schema:alternateName": {
+          "type": "string",
+          "description": "other labels by which the organization might be known"
+        },
+        "schema:description": {
+          "type": "string"
+        },
+        "schema:identifier": {
+          "description": "identifier for organization",
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "schema:sameAs": {
+          "type": "array",
+          "description": "other identifiers for the organization",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
+              }
+            ]
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:identifier"
+              ]
+            }
+          ]
+        }
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping": {
+      "title": "Physical Mapping Type",
+      "description": "Defines implementation-specific properties for the representation of a variable in a dataset. Aligned with CDIF 2026 schema using DDI-CDI flat per-column mapping structure.",
+      "type": "object",
+      "properties": {
+        "cdi:index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Non-negative integer that orders the fields in the data structure (column number)."
+        },
+        "cdi:format": {
+          "type": "string",
+          "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
+        },
+        "cdi:physicalDataType": {
+          "type": "string"
+        },
+        "cdi:length": {
+          "type": "integer",
+          "description": "The column width if the tabular text is fixed width."
+        },
+        "cdi:nullSequence": {
+          "type": "string",
+          "description": "The value of this property becomes the null annotation for the described column."
+        },
+        "cdi:defaultValue": {
+          "type": "string",
+          "description": "A default string indicating the value to substitute for an empty string."
+        },
+        "cdi:scale": {
+          "type": "integer"
+        },
+        "cdi:decimalPositions": {
+          "type": "integer"
+        },
+        "cdi:minimumLength": {
+          "type": "integer"
+        },
+        "cdi:maximumLength": {
+          "type": "integer"
+        },
+        "cdi:isRequired": {
+          "type": "boolean",
+          "default": false
+        },
+        "cdi:formats_InstanceVariable": {
+          "type": "object",
+          "description": "Reference to a variable defined in schema:variableMeasured.",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "This should be a reference to a variable defined in the schema:variableMeasured section."
+            }
+          }
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "ada": "https://ada.astromat.org/metadata/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.identifier": {
+      "description": "Properties for a schema.org identifier",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "schema:PropertyValue"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "schema:PropertyValue"
+                ]
+              }
+            }
+          ]
+        },
+        "schema:propertyID": {
+          "type": "string",
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+        },
+        "schema:value": {
+          "type": "string",
+          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:value"
+              ]
+            },
+            {
+              "required": [
+                "schema:url"
+              ]
+            }
+          ]
+        }
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm": {
+      "description": "schema.org Defined Term schema",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "schema:DefinedTerm"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "schema:DefinedTerm"
+                ]
+              }
+            }
+          ]
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "text label for the term that is useful to human user"
+        },
+        "schema:identifier": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
+            }
+          ]
+        },
+        "schema:inDefinedTermSet": {
+          "type": "string",
+          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+        },
+        "schema:termCode": {
+          "type": "string",
+          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:identifier"
+              ]
+            },
+            {
+              "required": [
+                "schema:termCode"
+              ]
+            }
+          ]
+        }
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    }
+  },
+  "title": "CDIF Archive Distribution",
+  "description": "A DataDownload distribution that is an archive file (e.g. ZIP) containing multiple component files described in schema:hasPart. The archive itself is typed as schema:DataDownload; each component file is typed as schema:MediaObject (not DataDownload, since they are not independently accessible via URL). Components may optionally include CDIF data description extensions (cdifTabularData, cdifDataCube) to describe their internal data structure.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.dataDownload"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema:hasPart": {
+          "type": "array",
+          "description": "Array describing the files contained in the archive. Each item represents a component file that is part of the archive and is not independently accessible.",
+          "items": {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "Identifier for this file, typically a hash-based anchor (e.g. '#abc123'). Used for cross-references from schema:about in metadata sidecar files."
+                  },
+                  "@type": {
+                    "type": "array",
+                    "description": "Must include schema:MediaObject. Must NOT include schema:DataDownload since this file is not independently accessible. May include additional types for categorization.",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "enum": [
+                        "schema:MediaObject"
+                      ]
+                    },
+                    "not": {
+                      "contains": {
+                        "enum": [
+                          "schema:DataDownload"
+                        ]
+                      }
+                    },
+                    "minItems": 1
+                  },
+                  "schema:name": {
+                    "type": "string",
+                    "description": "Filename of the component file within the archive."
+                  },
+                  "schema:description": {
+                    "type": "string",
+                    "description": "Description of the file content. May include checksum information."
+                  },
+                  "schema:encodingFormat": {
+                    "type": "array",
+                    "description": "MIME type(s) for this file.",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "schema:size": {
+                    "type": "object",
+                    "description": "File size as a QuantitativeValue.",
+                    "properties": {
+                      "@type": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "schema:QuantitativeValue"
+                            ]
+                          },
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "contains": {
+                              "enum": [
+                                "schema:QuantitativeValue"
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      "schema:value": {
+                        "type": "number",
+                        "description": "Numeric size value."
+                      },
+                      "schema:unitText": {
+                        "type": "string",
+                        "description": "Unit of measure for size (e.g. 'byte')."
+                      }
+                    }
+                  },
+                  "schema:about": {
+                    "type": "array",
+                    "description": "For metadata sidecar files, references the data file this metadata describes.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "@id": {
+                          "type": "string",
+                          "description": "Reference to the @id of the data file described by this sidecar."
+                        }
+                      }
+                    }
+                  },
+                  "spdx:checksum": {
+                    "type": "object",
+                    "description": "Checksum for integrity verification of this component file.",
+                    "properties": {
+                      "@type": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "spdx:Checksum"
+                            ]
+                          },
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "contains": {
+                              "enum": [
+                                "spdx:Checksum"
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      "spdx:algorithm": {
+                        "type": "string"
+                      },
+                      "spdx:checksumValue": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "@type"
+                    ]
+                  }
+                },
+                "required": [
+                  "@type",
+                  "schema:name",
+                  "schema:encodingFormat"
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifDataCube"
+                  },
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifTabularData"
+                  },
+                  {}
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "x-jsonld-prefixes": {
+    "schema": "http://schema.org/",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#"
+  },
+  "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+}

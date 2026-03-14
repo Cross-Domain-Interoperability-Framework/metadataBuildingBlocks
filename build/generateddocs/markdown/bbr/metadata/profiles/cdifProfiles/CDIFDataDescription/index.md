@@ -709,7 +709,7 @@ physical mappings.
       "dcterms": "http://purl.org/dc/terms/",
       "spdx": "http://spdx.org/rdf/terms#"
     },
-    "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/context.jsonld",
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/context.jsonld",
     {
       "schema": "http://schema.org/",
       "dcterms": "http://purl.org/dc/terms/",
@@ -1495,74 +1495,7 @@ ex:YOPx a schema1:Dataset ;
     schema1:dateModified "2020-10-15" ;
     schema1:datePublished "2021-09-05" ;
     schema1:description "Auto generated from JSON schema, values are gobbledegoop. For testing" ;
-    schema1:distribution [ a schema1:WebAPI ;
-            schema1:documentation [ a schema1:CreativeWork ;
-                    schema1:name "OpenAPI specification for geochemistry data service" ;
-                    schema1:url "http://example.com/api/v1/openapi.json" ] ;
-            schema1:potentialAction [ a schema1:Action ;
-                    schema1:name "Query geochemistry features" ;
-                    schema1:object [ a schema1:DataFeed ;
-                            schema1:description "Geochemistry observations collection" ] ;
-                    schema1:query-input [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Response format: csv or geojson" ;
-                            schema1:valueName "format" ;
-                            schema1:valuePattern "csv|geojson" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of features to return (default 100)" ;
-                            schema1:valueName "limit" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Starting index for pagination" ;
-                            schema1:valueName "offset" ;
-                            schema1:valueRequired false ] ;
-                    schema1:result [ a schema1:DataDownload ;
-                            cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-                                    cdi:formats_InstanceVariable ex:OjHgIDO ;
-                                    cdi:index 1 ;
-                                    cdi:isRequired false ;
-                                    cdi:physicalDataType "float64" ],
-                                [ cdi:format "decimal" ;
-                                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
-                                    cdi:index 0 ;
-                                    cdi:isRequired true ;
-                                    cdi:physicalDataType "float64" ] ;
-                            cdi:isDelimited true ;
-                            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-                            schema1:contentUrl "http://example.com/api/v1/collections/geochem/items?f=csv" ;
-                            schema1:encodingFormat "text/csv" ;
-                            schema1:name "Geochemistry query results" ;
-                            csvw:delimiter "," ;
-                            csvw:header true ;
-                            csvw:headerRowCount 1 ] ;
-                    schema1:target [ a schema1:EntryPoint ;
-                            schema1:contentType "application/geo+json",
-                                "text/csv" ;
-                            schema1:description "OGC API Features endpoint returning geochemistry observations as CSV" ;
-                            schema1:httpMethod "GET" ;
-                            schema1:urlTemplate "http://example.com/api/v1/collections/geochem/items?f={format}&limit={limit}&offset={offset}" ] ] ;
-            schema1:serviceType [ a schema1:DefinedTerm ;
-                    schema1:identifier [ a schema1:PropertyValue ;
-                            schema1:propertyID "https://www.ogc.org/standards" ;
-                            schema1:url "https://www.ogc.org/standard/ogcapi-features/" ;
-                            schema1:value "ogcapi-features-1" ] ;
-                    schema1:inDefinedTermSet "https://www.ogc.org/standards" ;
-                    schema1:name "OGC API - Features" ;
-                    schema1:termCode "ogcapi-features" ] ;
-            schema1:termsOfService "Open access, no authentication required" ],
-        [ a schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "kpZDvhyVo",
-                "sMUGwSqxWzJOYEb",
-                "tNdpXaJgDeWbFkNM" ;
-            schema1:name "MVMpmnCGAggEnsoEgJXH" ;
-            schema1:provider <file:///github/workspace/kNKPZsCSWMc>,
-                ex:sr68lgy ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "j" ;
-                    spdx:checksumValue "h" ] ],
-        [ a cdi:StructuredDataSet,
+    schema1:distribution [ a cdi:StructuredDataSet,
                 schema1:DataDownload ;
             cdi:hasPhysicalMapping [ cdi:format "decimal" ;
                     cdi:formats_InstanceVariable ex:KJTFKurNFu ;
@@ -1625,14 +1558,75 @@ ex:YOPx a schema1:Dataset ;
             csvw:headerRowCount 1 ;
             csvw:quoteChar "\"" ;
             csvw:skipBlankRows true ;
-            csvw:skipRows 0 ] ;
+            csvw:skipRows 0 ],
+        [ a schema1:WebAPI ;
+            schema1:documentation [ a schema1:CreativeWork ;
+                    schema1:name "OpenAPI specification for geochemistry data service" ;
+                    schema1:url "http://example.com/api/v1/openapi.json" ] ;
+            schema1:potentialAction [ a schema1:Action ;
+                    schema1:name "Query geochemistry features" ;
+                    schema1:object [ a schema1:DataFeed ;
+                            schema1:description "Geochemistry observations collection" ] ;
+                    schema1:query-input [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Starting index for pagination" ;
+                            schema1:valueName "offset" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Maximum number of features to return (default 100)" ;
+                            schema1:valueName "limit" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Response format: csv or geojson" ;
+                            schema1:valueName "format" ;
+                            schema1:valuePattern "csv|geojson" ;
+                            schema1:valueRequired false ] ;
+                    schema1:result [ a schema1:DataDownload ;
+                            cdi:hasPhysicalMapping [ cdi:format "decimal" ;
+                                    cdi:formats_InstanceVariable ex:OjHgIDO ;
+                                    cdi:index 1 ;
+                                    cdi:isRequired false ;
+                                    cdi:physicalDataType "float64" ],
+                                [ cdi:format "decimal" ;
+                                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
+                                    cdi:index 0 ;
+                                    cdi:isRequired true ;
+                                    cdi:physicalDataType "float64" ] ;
+                            cdi:isDelimited true ;
+                            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+                            schema1:contentUrl "http://example.com/api/v1/collections/geochem/items?f=csv" ;
+                            schema1:encodingFormat "text/csv" ;
+                            schema1:name "Geochemistry query results" ;
+                            csvw:delimiter "," ;
+                            csvw:header true ;
+                            csvw:headerRowCount 1 ] ;
+                    schema1:target [ a schema1:EntryPoint ;
+                            schema1:contentType "application/geo+json",
+                                "text/csv" ;
+                            schema1:description "OGC API Features endpoint returning geochemistry observations as CSV" ;
+                            schema1:httpMethod "GET" ;
+                            schema1:urlTemplate "http://example.com/api/v1/collections/geochem/items?f={format}&limit={limit}&offset={offset}" ] ] ;
+            schema1:serviceType [ a schema1:DefinedTerm ;
+                    schema1:identifier [ a schema1:PropertyValue ;
+                            schema1:propertyID "https://www.ogc.org/standards" ;
+                            schema1:url "https://www.ogc.org/standard/ogcapi-features/" ;
+                            schema1:value "ogcapi-features-1" ] ;
+                    schema1:inDefinedTermSet "https://www.ogc.org/standards" ;
+                    schema1:name "OGC API - Features" ;
+                    schema1:termCode "ogcapi-features" ] ;
+            schema1:termsOfService "Open access, no authentication required" ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "kpZDvhyVo",
+                "sMUGwSqxWzJOYEb",
+                "tNdpXaJgDeWbFkNM" ;
+            schema1:name "MVMpmnCGAggEnsoEgJXH" ;
+            schema1:provider <file:///github/workspace/kNKPZsCSWMc>,
+                ex:sr68lgy ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "j" ;
+                    spdx:checksumValue "h" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/sejer4w6u8> ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "grant-id" ;
-                    schema1:value "LZpo" ] ;
-            schema1:name "ekckpBtI" ],
-        [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/fnjrj68> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
@@ -1643,7 +1637,13 @@ ex:YOPx a schema1:Dataset ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
                     schema1:value "lieopgXuumP" ] ;
-            schema1:name "fhhbzh" ] ;
+            schema1:name "fhhbzh" ],
+        [ a schema1:MonetaryGrant ;
+            schema1:funder <https://ror.org/sejer4w6u8> ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "grant-id" ;
+                    schema1:value "LZpo" ] ;
+            schema1:name "ekckpBtI" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
@@ -1852,8 +1852,8 @@ x-jsonld-prefixes:
 
 Links to the schema:
 
-* YAML version: [schema.yaml](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/schema.json)
-* JSON version: [schema.json](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/schema.yaml)
+* YAML version: [schema.yaml](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/schema.json)
+* JSON version: [schema.json](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/schema.yaml)
 
 
 # JSON-LD Context
@@ -1880,7 +1880,7 @@ Links to the schema:
 ```
 
 You can find the full JSON-LD context here:
-[context.jsonld](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/context.jsonld)
+[context.jsonld](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/context.jsonld)
 
 ## Sources
 
@@ -1890,6 +1890,6 @@ You can find the full JSON-LD context here:
 
 The source code for this Building Block can be found in the following repository:
 
-* URL: [https://github.com/usgin/metadataBuildingBlocks](https://github.com/usgin/metadataBuildingBlocks)
+* URL: [https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks](https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks)
 * Path: `_sources/profiles/cdifProfiles/CDIFDataDescription`
 

@@ -106,7 +106,7 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
       "xas": "https://xas.org/dictionary/",
       "nxs": "http://purl.org/nexusformat/definitions/"
     },
-    "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/context.jsonld",
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/context.jsonld",
     {
       "schema": "http://schema.org/",
       "ex": "https://example.org/",
@@ -207,31 +207,18 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
 ex:exampleSampel_357h a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "samplePreparation" ;
+            schema1:propertyID "xas:samplePreparation" ;
+            schema1:value "powder on tape, 6 layers" ],
+        [ a schema1:PropertyValue ;
             schema1:name "porosity" ;
             schema1:propertyID "xas:porosity" ;
             schema1:unitText "percent" ;
             schema1:value "27" ],
         [ a schema1:PropertyValue ;
-            schema1:name "samplePreparation" ;
-            schema1:propertyID "xas:samplePreparation" ;
-            schema1:value "powder on tape, 6 layers" ],
-        [ a schema1:PropertyValue ;
             schema1:name "stoichiometry" ;
             schema1:propertyID "xas:stoichiometry" ;
             schema1:value "Na2SeO4" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "sample material state" ;
-            schema1:propertyID "xas:materialState" ;
-            schema1:value "solid metal foil" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "crystal unit cell" ;
-            schema1:propertyID "nxs:Field/NXsample/unit_cell" ;
-            schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "sample mass" ;
-            schema1:propertyID "nxs:Field/NXsample/mass" ;
-            schema1:unitText "mg" ;
-            schema1:value "10" ],
         [ a schema1:PropertyValue ;
             schema1:name "crystal point group" ;
             schema1:propertyID "nxs:Field/NXsample/point_group" ;
@@ -239,7 +226,20 @@ ex:exampleSampel_357h a schema1:Product,
         [ a schema1:PropertyValue ;
             schema1:name "Parent sample" ;
             schema1:propertyID "xas:parentSample" ;
-            schema1:value "igsn:10.3476/342573" ] ;
+            schema1:value "igsn:10.3476/342573" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "sample mass" ;
+            schema1:propertyID "nxs:Field/NXsample/mass" ;
+            schema1:unitText "mg" ;
+            schema1:value "10" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "crystal unit cell" ;
+            schema1:propertyID "nxs:Field/NXsample/unit_cell" ;
+            schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "sample material state" ;
+            schema1:propertyID "xas:materialState" ;
+            schema1:value "solid metal foil" ] ;
     schema1:additionalType "MaterialSample",
         "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample",
         "https://www.wikidata.org/wiki/Q485146" ;
@@ -304,7 +304,7 @@ properties:
             minItems: 1
             items:
               anyOf:
-              - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml#/$defs/propertyID_item
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml#/$defs/propertyID_item
               - enum:
                 - xas:stoichiometry
                 - xas:samplePreparation
@@ -319,9 +319,9 @@ required:
 - schema:name
 $defs:
   Identifier:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
   AdditionalProperty:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
 
@@ -329,8 +329,8 @@ x-jsonld-prefixes:
 
 Links to the schema:
 
-* YAML version: [schema.yaml](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema.json)
-* JSON version: [schema.json](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema.yaml)
+* YAML version: [schema.yaml](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema.json)
+* JSON version: [schema.json](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema.yaml)
 
 
 # JSON-LD Context
@@ -346,7 +346,7 @@ Links to the schema:
 ```
 
 You can find the full JSON-LD context here:
-[context.jsonld](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/context.jsonld)
+[context.jsonld](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/context.jsonld)
 
 ## Sources
 
@@ -356,6 +356,6 @@ You can find the full JSON-LD context here:
 
 The source code for this Building Block can be found in the following repository:
 
-* URL: [https://github.com/usgin/metadataBuildingBlocks](https://github.com/usgin/metadataBuildingBlocks)
+* URL: [https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks](https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks)
 * Path: `_sources/xasProperties/xasSample`
 

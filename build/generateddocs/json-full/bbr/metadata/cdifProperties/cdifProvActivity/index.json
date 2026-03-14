@@ -38,17 +38,14 @@
     "cdif.bbr.metadata.schemaorgProperties.identifier": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
     ],
-    "cdif.bbr.metadata.schemaorgProperties.spatialExtent": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/spatialExtent/rules.shacl"
-    ],
     "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
     ],
     "cdif.bbr.metadata.schemaorgProperties.instrument": [
-      "https://usgin.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/instrument/rules.shacl"
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/instrument/rules.shacl"
     ],
     "cdif.bbr.metadata.schemaorgProperties.additionalProperty": [
-      "https://usgin.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/additionalProperty/rules.shacl"
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/additionalProperty/rules.shacl"
     ],
     "cdif.bbr.metadata.schemaorgProperties.agentInRole": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/agentInRole/rules.shacl"
@@ -59,24 +56,27 @@
     "cdif.bbr.metadata.schemaorgProperties.organization": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/organization/rules.shacl"
     ],
-    "cdif.bbr.metadata.provProperties.generatedBy": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/provProperties/generatedBy/rules.shacl"
-    ],
     "cdif.bbr.metadata.schemaorgProperties.labeledLink": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/labeledLink/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.spatialExtent": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/spatialExtent/rules.shacl"
+    ],
+    "cdif.bbr.metadata.provProperties.generatedBy": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/provProperties/generatedBy/rules.shacl"
     ]
   },
   "dependsOn": [
     "cdif.bbr.metadata.schemaorgProperties.identifier",
-    "cdif.bbr.metadata.schemaorgProperties.spatialExtent",
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm",
     "cdif.bbr.metadata.schemaorgProperties.instrument",
-    "cdif.bbr.metadata.schemaorgProperties.additionalProperty",
     "cdif.bbr.metadata.schemaorgProperties.agentInRole",
+    "cdif.bbr.metadata.schemaorgProperties.additionalProperty",
     "cdif.bbr.metadata.schemaorgProperties.person",
     "cdif.bbr.metadata.schemaorgProperties.organization",
-    "cdif.bbr.metadata.provProperties.generatedBy",
-    "cdif.bbr.metadata.schemaorgProperties.definedTerm",
-    "cdif.bbr.metadata.schemaorgProperties.labeledLink"
+    "cdif.bbr.metadata.schemaorgProperties.labeledLink",
+    "cdif.bbr.metadata.schemaorgProperties.spatialExtent",
+    "cdif.bbr.metadata.provProperties.generatedBy"
   ],
   "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/context.jsonld",
   "schema": {
@@ -113,7 +113,7 @@
         },
         {
           "language": "ttl",
-          "code": "@prefix ex: <https://example.org/> .\n@prefix prov: <http://www.w3.org/ns/prov#> .\n@prefix schema1: <http://schema.org/> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\nex:activity-soil-chem-analysis a schema1:Action,\n        prov:Activity ;\n    schema1:actionProcess [ a schema1:HowTo ;\n            schema1:description \"Combined XRF screening and ICP-MS confirmatory analysis for major and trace elements in soil matrices.\" ;\n            schema1:name \"EPA 6200 / ICP-MS Soil Geochemistry Protocol\" ;\n            schema1:step [ a schema1:HowToStep ;\n                    schema1:description \"Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels.\" ;\n                    schema1:name \"Sample preparation and acid digestion\" ;\n                    schema1:position 1 ],\n                [ a schema1:HowToStep ;\n                    schema1:description \"Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards.\" ;\n                    schema1:name \"ICP-MS measurement and calibration\" ;\n                    schema1:position 2 ] ] ;\n    schema1:actionStatus \"schema:CompletedActionStatus\" ;\n    schema1:agent [ a schema1:Person ;\n            schema1:contactPoint <mailto:maria.chen@unr.edu> ;\n            schema1:identifier [ a schema1:PropertyValue ;\n                    schema1:propertyID \"https://registry.identifiers.org/registry/orcid\" ;\n                    schema1:url \"https://orcid.org/0000-0002-8765-4321\" ;\n                    schema1:value \"0000-0002-8765-4321\" ] ;\n            schema1:name \"Dr. Maria Chen\" ] ;\n    schema1:description \"Major and trace element analysis of soil samples collected along a 200 km transect across the Great Basin, using ICP-MS and XRF spectrometry with certified reference materials.\" ;\n    schema1:endTime \"2025-09-30T17:00:00Z\" ;\n    schema1:location [ a schema1:Place ;\n            schema1:address \"University of Nevada, Reno, 1664 N. Virginia Street, Reno, NV 89557\" ;\n            schema1:name \"Nevada Bureau of Mines and Geology Analytical Lab\" ;\n            schema1:url \"https://www.unr.edu/nbmg\" ] ;\n    schema1:name \"Soil Chemistry Analysis - Great Basin Transect 2025\" ;\n    schema1:object \"Dried and sieved soil samples (<2 mm fraction) from Great Basin transect\" ;\n    schema1:result ex:dataset-soil-chem-gb-2025 ;\n    schema1:startTime \"2025-07-15T08:00:00Z\" ;\n    prov:used [ a schema1:CreativeWork ;\n            schema1:name \"EPA Method 6200 - XRF Analysis of Soils\" ;\n            schema1:url \"https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination\" ],\n        [ schema1:instrument [ a schema1:DefinedTerm,\n                        schema1:Thing ;\n                    schema1:additionalProperty [ a schema1:PropertyValue ;\n                            schema1:name \"Typical Detection Limit\" ;\n                            schema1:propertyID \"detectionLimit\" ;\n                            schema1:value \"0.01 mg/kg for trace elements\" ] ;\n                    schema1:alternateName \"Thermo Fisher iCAP RQ ICP-MS\" ;\n                    schema1:inDefinedTermSet \"https://vocab.nerc.ac.uk/collection/L05/current/\" ;\n                    schema1:name \"Inductively Coupled Plasma Mass Spectrometry\" ;\n                    schema1:termCode \"ICP-MS\" ] ],\n        \"Soil core samples collected June 2025, sites GB-001 through GB-045\",\n        \"https://vocab.nerc.ac.uk/collection/L05/current/LAB02\" .\n\n",
+          "code": "@prefix ex: <https://example.org/> .\n@prefix prov: <http://www.w3.org/ns/prov#> .\n@prefix schema1: <http://schema.org/> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\nex:activity-soil-chem-analysis a schema1:Action,\n        prov:Activity ;\n    schema1:actionProcess [ a schema1:HowTo ;\n            schema1:description \"Combined XRF screening and ICP-MS confirmatory analysis for major and trace elements in soil matrices.\" ;\n            schema1:name \"EPA 6200 / ICP-MS Soil Geochemistry Protocol\" ;\n            schema1:step [ a schema1:HowToStep ;\n                    schema1:description \"Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards.\" ;\n                    schema1:name \"ICP-MS measurement and calibration\" ;\n                    schema1:position 2 ],\n                [ a schema1:HowToStep ;\n                    schema1:description \"Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels.\" ;\n                    schema1:name \"Sample preparation and acid digestion\" ;\n                    schema1:position 1 ] ] ;\n    schema1:actionStatus \"schema:CompletedActionStatus\" ;\n    schema1:agent [ a schema1:Person ;\n            schema1:contactPoint <mailto:maria.chen@unr.edu> ;\n            schema1:identifier [ a schema1:PropertyValue ;\n                    schema1:propertyID \"https://registry.identifiers.org/registry/orcid\" ;\n                    schema1:url \"https://orcid.org/0000-0002-8765-4321\" ;\n                    schema1:value \"0000-0002-8765-4321\" ] ;\n            schema1:name \"Dr. Maria Chen\" ] ;\n    schema1:description \"Major and trace element analysis of soil samples collected along a 200 km transect across the Great Basin, using ICP-MS and XRF spectrometry with certified reference materials.\" ;\n    schema1:endTime \"2025-09-30T17:00:00Z\" ;\n    schema1:location [ a schema1:Place ;\n            schema1:address \"University of Nevada, Reno, 1664 N. Virginia Street, Reno, NV 89557\" ;\n            schema1:name \"Nevada Bureau of Mines and Geology Analytical Lab\" ;\n            schema1:url \"https://www.unr.edu/nbmg\" ] ;\n    schema1:name \"Soil Chemistry Analysis - Great Basin Transect 2025\" ;\n    schema1:object \"Dried and sieved soil samples (<2 mm fraction) from Great Basin transect\" ;\n    schema1:result ex:dataset-soil-chem-gb-2025 ;\n    schema1:startTime \"2025-07-15T08:00:00Z\" ;\n    prov:used [ schema1:instrument [ a schema1:DefinedTerm,\n                        schema1:Thing ;\n                    schema1:additionalProperty [ a schema1:PropertyValue ;\n                            schema1:name \"Typical Detection Limit\" ;\n                            schema1:propertyID \"detectionLimit\" ;\n                            schema1:value \"0.01 mg/kg for trace elements\" ] ;\n                    schema1:alternateName \"Thermo Fisher iCAP RQ ICP-MS\" ;\n                    schema1:inDefinedTermSet \"https://vocab.nerc.ac.uk/collection/L05/current/\" ;\n                    schema1:name \"Inductively Coupled Plasma Mass Spectrometry\" ;\n                    schema1:termCode \"ICP-MS\" ] ],\n        [ a schema1:CreativeWork ;\n            schema1:name \"EPA Method 6200 - XRF Analysis of Soils\" ;\n            schema1:url \"https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination\" ],\n        \"Soil core samples collected June 2025, sites GB-001 through GB-045\",\n        \"https://vocab.nerc.ac.uk/collection/L05/current/LAB02\" .\n\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifProvActivity/example_1_1.ttl"
         }
       ]

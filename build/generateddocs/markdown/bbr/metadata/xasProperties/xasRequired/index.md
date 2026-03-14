@@ -150,6 +150,8 @@ bring together all required properties.
       "prov:used": [
         {
           "schema:instrument": {
+            "@type": ["schema:Thing", "schema:Product"],
+            "schema:name": "APS Sector 20-BM beamline instrument",
             "schema:hasPart": [
               {
                 "@type": [
@@ -292,7 +294,7 @@ bring together all required properties.
       "schema": "http://schema.org/",
       "dcterms": "http://purl.org/dc/terms/"
     },
-    "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasRequired/context.jsonld",
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasRequired/context.jsonld",
     {
       "schema": "http://schema.org/",
       "dcterms": "http://purl.org/dc/terms/",
@@ -423,6 +425,11 @@ bring together all required properties.
       "prov:used": [
         {
           "schema:instrument": {
+            "@type": [
+              "schema:Thing",
+              "schema:Product"
+            ],
+            "schema:name": "APS Sector 20-BM beamline instrument",
             "schema:hasPart": [
               {
                 "@type": [
@@ -627,47 +634,49 @@ ex:xas-dataset-001 a schema1:Dataset,
             schema1:termCode "K" ] ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
-            schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01188" ;
-            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
-            schema1:name "Transmission" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01196" ;
             schema1:inDefinedTermSet "http://purl.org/pan-science/PaNET/PaNET.owl" ;
             schema1:name "X-Ray Absorption Spectroscopy" ;
-            schema1:termCode "XAS" ] ;
+            schema1:termCode "XAS" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01188" ;
+            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
+            schema1:name "Transmission" ] ;
     schema1:name "Se K-edge XANES of Na2SeO4 reference compound" ;
     schema1:subjectOf <file:///github/workspace/RUUvGtoRqzVlQELZ> ;
     schema1:url "http://example.com/resource?foo=bar#fragment" ;
     prov:wasGeneratedBy [ schema1:object [ a schema1:Product,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "Stoichiometry" ;
-                            schema1:propertyID "xas:stoichiometry" ;
-                            schema1:value "Na2SeO4" ],
-                        [ a schema1:PropertyValue ;
                             schema1:name "sample preparation method" ;
                             schema1:propertyID "https://example.org/vocab/sample-prep" ;
-                            schema1:value "powder on tape, 6 layers" ] ;
+                            schema1:value "powder on tape, 6 layers" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "Stoichiometry" ;
+                            schema1:propertyID "xas:stoichiometry" ;
+                            schema1:value "Na2SeO4" ] ;
                     schema1:additionalType "MaterialSample",
                         "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample" ;
                     schema1:description "Sodium selenate reference compound, powder" ;
                     schema1:identifier "igsn:10.6620/se-selenate-001" ;
                     schema1:name "Na2SeO4" ] ;
-            prov:used [ schema1:instrument [ schema1:hasPart [ a schema1:Product,
+            prov:used [ schema1:instrument [ a schema1:Product,
+                                schema1:Thing ;
+                            schema1:hasPart [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "crystal type" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
-                                            schema1:value "Si(111)" ],
+                                            schema1:name "d-spacing" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
+                                            schema1:unitText "Angstrom" ;
+                                            schema1:value "3.13550" ],
                                         [ a schema1:PropertyValue ;
                                             schema1:name "reflection plane (hkl)" ;
                                             schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
                                             schema1:value "1,1,1" ],
                                         [ a schema1:PropertyValue ;
-                                            schema1:name "d-spacing" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
-                                            schema1:unitText "Angstrom" ;
-                                            schema1:value "3.13550" ] ;
+                                            schema1:name "crystal type" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
+                                            schema1:value "Si(111)" ] ;
                                     schema1:additionalType "nxs:BaseClass/NXmonochromator" ;
                                     schema1:name "Si 111" ],
                                 [ a schema1:Product,
@@ -681,7 +690,8 @@ ex:xas-dataset-001 a schema1:Dataset,
                                             schema1:propertyID "nxs:Field/NXsource/type" ;
                                             schema1:value "Synchrotron X-ray Source" ] ;
                                     schema1:additionalType "nxs:BaseClass/NXsource" ;
-                                    schema1:name "APS bending magnet source" ] ] ] ] .
+                                    schema1:name "APS bending magnet source" ] ;
+                            schema1:name "APS Sector 20-BM beamline instrument" ] ] ] .
 
 
 ```
@@ -966,15 +976,15 @@ $defs:
   CdifProvActivity:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/schema.yaml
   DefinedTerm:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
   AdditionalProperty:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
   DataDownload:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml
   XasSample:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema.yaml
   XasSubject:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSubject/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSubject/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
 
@@ -982,8 +992,8 @@ x-jsonld-prefixes:
 
 Links to the schema:
 
-* YAML version: [schema.yaml](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasRequired/schema.json)
-* JSON version: [schema.json](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasRequired/schema.yaml)
+* YAML version: [schema.yaml](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasRequired/schema.json)
+* JSON version: [schema.json](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasRequired/schema.yaml)
 
 
 # JSON-LD Context
@@ -1004,7 +1014,7 @@ Links to the schema:
 ```
 
 You can find the full JSON-LD context here:
-[context.jsonld](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasRequired/context.jsonld)
+[context.jsonld](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasRequired/context.jsonld)
 
 ## Sources
 
@@ -1014,6 +1024,6 @@ You can find the full JSON-LD context here:
 
 The source code for this Building Block can be found in the following repository:
 
-* URL: [https://github.com/usgin/metadataBuildingBlocks](https://github.com/usgin/metadataBuildingBlocks)
+* URL: [https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks](https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks)
 * Path: `_sources/xasProperties/xasRequired`
 
