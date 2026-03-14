@@ -61,14 +61,14 @@ properties:
           description: Unit of measure for the file size (e.g., bytes, KB, MB, GB).
 $defs:
   StatisticalVariable:
-    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/schema.yaml
 
 ```
 
 Links to the schema:
 
-* YAML version: [schema.yaml](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.json)
-* JSON version: [schema.json](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.yaml)
+* YAML version: [schema.yaml](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.json)
+* JSON version: [schema.json](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.yaml)
 
 
 # JSON-LD Context
@@ -83,7 +83,7 @@ Links to the schema:
 ```
 
 You can find the full JSON-LD context here:
-[context.jsonld](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/context.jsonld)
+[context.jsonld](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/context.jsonld)
 
 ## Sources
 

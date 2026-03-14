@@ -709,7 +709,7 @@ physical mappings.
       "dcterms": "http://purl.org/dc/terms/",
       "spdx": "http://spdx.org/rdf/terms#"
     },
-    "https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/context.jsonld",
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/context.jsonld",
     {
       "schema": "http://schema.org/",
       "dcterms": "http://purl.org/dc/terms/",
@@ -1495,62 +1495,7 @@ ex:YOPx a schema1:Dataset ;
     schema1:dateModified "2020-10-15" ;
     schema1:datePublished "2021-09-05" ;
     schema1:description "Auto generated from JSON schema, values are gobbledegoop. For testing" ;
-    schema1:distribution [ a cdi:TabularTextDataSet,
-                schema1:DataDownload ;
-            cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "NA" ;
-                    cdi:physicalDataType "float64" ],
-                [ cdi:decimalPositions 4 ;
-                    cdi:defaultValue "0.0" ;
-                    cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:OjHgIDO ;
-                    cdi:index 1 ;
-                    cdi:isRequired false ;
-                    cdi:nullSequence "-9999" ;
-                    cdi:physicalDataType "float64" ] ;
-            cdi:isDelimited true ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/data/geochem-results.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "Geochemistry analysis results" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ;
-            csvw:commentPrefix "#" ;
-            csvw:delimiter "," ;
-            csvw:header true ;
-            csvw:headerRowCount 1 ;
-            csvw:quoteChar "\"" ;
-            csvw:skipBlankRows true ;
-            csvw:skipRows 0 ],
-        [ a cdi:StructuredDataSet,
-                schema1:DataDownload ;
-            cdi:hasPhysicalMapping [ cdi:decimalPositions 6 ;
-                    cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:OjHgIDO ;
-                    cdi:index 1 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/measurements/intensity" ;
-                    cdi:physicalDataType "float32" ;
-                    cdi:scale 1000 ],
-                [ cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/measurements/wavelength" ;
-                    cdi:nullSequence "NaN" ;
-                    cdi:physicalDataType "float32" ] ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/data/measurement-cube.nc" ;
-            schema1:encodingFormat "application/x-netcdf" ;
-            schema1:name "Gridded measurement data cube" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5" ] ],
-        [ a schema1:DataDownload ;
+    schema1:distribution [ a schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
             schema1:encodingFormat "text/csv" ;
@@ -1582,14 +1527,14 @@ ex:YOPx a schema1:Dataset ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a schema1:DataDownload ;
                             cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-                                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
-                                    cdi:index 0 ;
-                                    cdi:isRequired true ;
-                                    cdi:physicalDataType "float64" ],
-                                [ cdi:format "decimal" ;
                                     cdi:formats_InstanceVariable ex:OjHgIDO ;
                                     cdi:index 1 ;
                                     cdi:isRequired false ;
+                                    cdi:physicalDataType "float64" ],
+                                [ cdi:format "decimal" ;
+                                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
+                                    cdi:index 0 ;
+                                    cdi:isRequired true ;
                                     cdi:physicalDataType "float64" ] ;
                             cdi:isDelimited true ;
                             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
@@ -1614,6 +1559,37 @@ ex:YOPx a schema1:Dataset ;
                     schema1:name "OGC API - Features" ;
                     schema1:termCode "ogcapi-features" ] ;
             schema1:termsOfService "Open access, no authentication required" ],
+        [ a cdi:TabularTextDataSet,
+                schema1:DataDownload ;
+            cdi:hasPhysicalMapping [ cdi:decimalPositions 4 ;
+                    cdi:defaultValue "0.0" ;
+                    cdi:format "decimal" ;
+                    cdi:formats_InstanceVariable ex:OjHgIDO ;
+                    cdi:index 1 ;
+                    cdi:isRequired false ;
+                    cdi:nullSequence "-9999" ;
+                    cdi:physicalDataType "float64" ],
+                [ cdi:format "decimal" ;
+                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
+                    cdi:index 0 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "NA" ;
+                    cdi:physicalDataType "float64" ] ;
+            cdi:isDelimited true ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/data/geochem-results.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "Geochemistry analysis results" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ;
+            csvw:commentPrefix "#" ;
+            csvw:delimiter "," ;
+            csvw:header true ;
+            csvw:headerRowCount 1 ;
+            csvw:quoteChar "\"" ;
+            csvw:skipBlankRows true ;
+            csvw:skipRows 0 ],
         [ a schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
@@ -1625,13 +1601,37 @@ ex:YOPx a schema1:Dataset ;
                 ex:sr68lgy ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "j" ;
-                    spdx:checksumValue "h" ] ] ;
+                    spdx:checksumValue "h" ] ],
+        [ a cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            cdi:hasPhysicalMapping [ cdi:decimalPositions 6 ;
+                    cdi:format "decimal" ;
+                    cdi:formats_InstanceVariable ex:OjHgIDO ;
+                    cdi:index 1 ;
+                    cdi:isRequired true ;
+                    cdi:locator "/measurements/intensity" ;
+                    cdi:physicalDataType "float32" ;
+                    cdi:scale 1000 ],
+                [ cdi:format "decimal" ;
+                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
+                    cdi:index 0 ;
+                    cdi:isRequired true ;
+                    cdi:locator "/measurements/wavelength" ;
+                    cdi:nullSequence "NaN" ;
+                    cdi:physicalDataType "float32" ] ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/data/measurement-cube.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Gridded measurement data cube" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/fnjrj68> ;
+            schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
-                    schema1:value "fMuiBjneudpV" ] ;
-            schema1:name "MWoPQAqRYHobey" ],
+                    schema1:value "lieopgXuumP" ] ;
+            schema1:name "fhhbzh" ],
         [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/sejer4w6u8> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -1639,31 +1639,31 @@ ex:YOPx a schema1:Dataset ;
                     schema1:value "LZpo" ] ;
             schema1:name "ekckpBtI" ],
         [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/3572wjht> ;
+            schema1:funder <https://ror.org/fnjrj68> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
-                    schema1:value "lieopgXuumP" ] ;
-            schema1:name "fhhbzh" ] ;
+                    schema1:value "fMuiBjneudpV" ] ;
+            schema1:name "MWoPQAqRYHobey" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
     schema1:inLanguage "bYiJT" ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "ex:rIPXjaCPQX" ;
-                    schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
-                    schema1:value "PVSajGtBPsLzeCTLv" ] ;
-            schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
-            schema1:name "MiSqvcp" ;
-            schema1:termCode "bzOl" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "https://resource.org/identifier" ;
                     schema1:url "http://example.com/resource/tdUMYBItIwdJe" ;
                     schema1:value "tdUMYBItIwdJe" ] ;
             schema1:inDefinedTermSet "sqH" ;
             schema1:name "TiMuawt" ;
-            schema1:termCode "RUUxHY" ] ;
+            schema1:termCode "RUUxHY" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "ex:rIPXjaCPQX" ;
+                    schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
+                    schema1:value "PVSajGtBPsLzeCTLv" ] ;
+            schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
+            schema1:name "MiSqvcp" ;
+            schema1:termCode "bzOl" ] ;
     schema1:license "Kmp",
         "dXhuFoqL" ;
     schema1:name "Test dataset" ;
@@ -1831,9 +1831,9 @@ description: 'JSON schema for JSON-LD documents that describe science datasets f
   additional required constraints in various places; update constraint on @type to
   require schema:Dataset. Implement using OGC building blocks approach. '
 allOf:
-- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifMandatory/schema.yaml
-- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.yaml
-- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.yaml
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifMandatory/schema.yaml
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.yaml
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.yaml
 x-jsonld-extra-terms:
   csvw: {}
 x-jsonld-prefixes:
@@ -1852,8 +1852,8 @@ x-jsonld-prefixes:
 
 Links to the schema:
 
-* YAML version: [schema.yaml](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/schema.json)
-* JSON version: [schema.json](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/schema.yaml)
+* YAML version: [schema.yaml](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/schema.json)
+* JSON version: [schema.json](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/schema.yaml)
 
 
 # JSON-LD Context
@@ -1880,7 +1880,7 @@ Links to the schema:
 ```
 
 You can find the full JSON-LD context here:
-[context.jsonld](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/context.jsonld)
+[context.jsonld](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/context.jsonld)
 
 ## Sources
 

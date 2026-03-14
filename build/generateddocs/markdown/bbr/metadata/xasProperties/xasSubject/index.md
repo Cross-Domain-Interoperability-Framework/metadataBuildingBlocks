@@ -61,7 +61,7 @@ Import base schema.org SubjectOf, add requiremnet that dcterms:conformsTo has XA
     {
       "schema": "http://schema.org/"
     },
-    "https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/xasProperties/xasSubject/context.jsonld",
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSubject/context.jsonld",
     {
       "schema": "http://schema.org/",
       "ex": "https://example.org/",
@@ -138,12 +138,12 @@ ex:subject-pz63 a schema1:Dataset ;
 $schema: https://json-schema.org/draft/2020-12/schema
 type: object
 allOf:
-- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifCatalogRecord/schema.yaml
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCatalogRecord/schema.yaml
 - properties:
     dcterms:conformsTo:
       type: array
       items:
-        $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifCatalogRecord/schema.yaml#/$defs/conformsTo_item
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCatalogRecord/schema.yaml#/$defs/conformsTo_item
       minItems: 2
       contains:
         type: object
@@ -160,8 +160,8 @@ x-jsonld-prefixes:
 
 Links to the schema:
 
-* YAML version: [schema.yaml](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/xasProperties/xasSubject/schema.json)
-* JSON version: [schema.json](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/xasProperties/xasSubject/schema.yaml)
+* YAML version: [schema.yaml](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSubject/schema.json)
+* JSON version: [schema.json](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSubject/schema.yaml)
 
 
 # JSON-LD Context
@@ -180,7 +180,7 @@ Links to the schema:
 ```
 
 You can find the full JSON-LD context here:
-[context.jsonld](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/xasProperties/xasSubject/context.jsonld)
+[context.jsonld](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSubject/context.jsonld)
 
 ## Sources
 

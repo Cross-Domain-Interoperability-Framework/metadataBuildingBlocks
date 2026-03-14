@@ -80,7 +80,7 @@ make/model, and schema:additionalProperty for detection limits.
     {
       "schema": "http://schema.org/"
     },
-    "https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/instrument/context.jsonld",
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/context.jsonld",
     {
       "schema": "http://schema.org/",
       "ex": "https://example.org/"
@@ -140,12 +140,12 @@ ex:instrument-icpms-system a schema1:Product,
     schema1:description "Inductively Coupled Plasma Mass Spectrometry system for trace element analysis of geological samples." ;
     schema1:hasPart [ a schema1:Product,
                 schema1:Thing ;
-            schema1:description "Perfluoroalkoxy spray chamber for sample aerosol generation" ;
-            schema1:name "PFA spray chamber" ],
+            schema1:description "Automated sample introduction system with 240-position tray" ;
+            schema1:name "ESI SC-4DX autosampler" ],
         [ a schema1:Product,
                 schema1:Thing ;
-            schema1:description "Automated sample introduction system with 240-position tray" ;
-            schema1:name "ESI SC-4DX autosampler" ] ;
+            schema1:description "Perfluoroalkoxy spray chamber for sample aerosol generation" ;
+            schema1:name "PFA spray chamber" ] ;
     schema1:name "ICP-MS Analytical System" .
 
 
@@ -217,9 +217,9 @@ allOf:
   - '@type'
 $defs:
   Identifier:
-    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
   AdditionalProperty:
-    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
   InstrumentRef:
     type: object
     description: Inline sub-component instrument (non-recursive single level)
@@ -262,8 +262,8 @@ x-jsonld-prefixes:
 
 Links to the schema:
 
-* YAML version: [schema.yaml](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema.json)
-* JSON version: [schema.json](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema.yaml)
+* YAML version: [schema.yaml](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema.json)
+* JSON version: [schema.json](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema.yaml)
 
 
 # JSON-LD Context
@@ -279,7 +279,7 @@ Links to the schema:
 ```
 
 You can find the full JSON-LD context here:
-[context.jsonld](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/instrument/context.jsonld)
+[context.jsonld](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/context.jsonld)
 
 ## Sources
 

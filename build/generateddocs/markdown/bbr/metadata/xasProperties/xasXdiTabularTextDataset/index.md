@@ -76,7 +76,7 @@ Defintion of properties to describe structure of tabular data formatted followin
     {
       "schema": "http://schema.org"
     },
-    "https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/xasProperties/xasXdiTabularTextDataset/context.jsonld",
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasXdiTabularTextDataset/context.jsonld",
     {
       "schema": "http://schema.org/",
       "ex": "https://example.org/",
@@ -145,12 +145,7 @@ ex:xasXDIdownload_23463h a cdi:WideDataStructure ;
     cdi:arrayBase 1 ;
     cdi:commentPrefix "#" ;
     cdi:hasHeader true ;
-    cdi:has_DataStructureComponent [ a cdi:MeasureComponent ;
-            cdi:has [ a cdi:ValueMapping ;
-                    cdi:hasIndex 3 ;
-                    cdi:haslength 13 ] ;
-            cdi:isDefinedBy_InstanceVariable xas:incidentIntensityVariable ],
-        [ a cdi:IdentifierComponent ;
+    cdi:has_DataStructureComponent [ a cdi:IdentifierComponent ;
             cdi:has [ a cdi:ValueMapping ;
                     cdi:hasIndex 1 ;
                     cdi:haslength 12 ] ;
@@ -159,7 +154,12 @@ ex:xasXDIdownload_23463h a cdi:WideDataStructure ;
             cdi:has [ a cdi:ValueMapping ;
                     cdi:hasIndex 2 ;
                     cdi:haslength 12 ] ;
-            cdi:isDefinedBy_InstanceVariable xas:transmittedIntensityVariable ] ;
+            cdi:isDefinedBy_InstanceVariable xas:transmittedIntensityVariable ],
+        [ a cdi:MeasureComponent ;
+            cdi:has [ a cdi:ValueMapping ;
+                    cdi:hasIndex 3 ;
+                    cdi:haslength 13 ] ;
+            cdi:isDefinedBy_InstanceVariable xas:incidentIntensityVariable ] ;
     cdi:headerRowCount 27 ;
     cdi:isDelimited false ;
     cdi:isFixedWidth true ;
@@ -269,8 +269,8 @@ x-jsonld-prefixes:
 
 Links to the schema:
 
-* YAML version: [schema.yaml](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/xasProperties/xasXdiTabularTextDataset/schema.json)
-* JSON version: [schema.json](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/xasProperties/xasXdiTabularTextDataset/schema.yaml)
+* YAML version: [schema.yaml](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasXdiTabularTextDataset/schema.json)
+* JSON version: [schema.json](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasXdiTabularTextDataset/schema.yaml)
 
 
 # JSON-LD Context
@@ -285,7 +285,7 @@ Links to the schema:
 ```
 
 You can find the full JSON-LD context here:
-[context.jsonld](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/xasProperties/xasXdiTabularTextDataset/context.jsonld)
+[context.jsonld](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasXdiTabularTextDataset/context.jsonld)
 
 ## Sources
 

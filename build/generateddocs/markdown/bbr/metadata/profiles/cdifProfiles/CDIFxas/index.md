@@ -652,7 +652,7 @@ Example CDIF XAS metadata, not real values.
       "schema": "http://schema.org",
       "dcterms": "http://purl.org/dc/terms/"
     },
-    "https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFxas/context.jsonld",
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFxas/context.jsonld",
     {
       "@vocab": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
       "schema": "http://schema.org/",
@@ -1303,14 +1303,14 @@ xas:487y54 a schema1:Dataset,
                     cdi:name "name of the proposal" ;
                     cdi:url "https://example.org/locatorForProposalText" ] ] ;
     schema1:contributor [ a schema1:Role ;
-            schema1:contributor <https://ror.org/aps> ;
-            schema1:roleName "Facility" ],
+            schema1:contributor <https://orcid.org/3547ulkj> ;
+            schema1:roleName "dataCollector" ],
         [ a schema1:Role ;
             schema1:contributor <https://orcid.org/35735ul> ;
             schema1:roleName "principleInvestigator" ],
         [ a schema1:Role ;
-            schema1:contributor <https://orcid.org/3547ulkj> ;
-            schema1:roleName "dataCollector" ] ;
+            schema1:contributor <https://ror.org/aps> ;
+            schema1:roleName "Facility" ] ;
     schema1:creator ( <https://orcid.org/3547ulkj> ) ;
     schema1:dateModified "2025-06-22" ;
     schema1:description "Example metadata including all properties in the CDIF XAS profile" ;
@@ -1324,14 +1324,14 @@ xas:487y54 a schema1:Dataset,
                     cdi:hasHeader true ;
                     cdi:has_DataStructureComponent [ a cdi:MeasureComponent ;
                             cdi:has [ a cdi:ValueMapping ;
-                                    cdi:hasIndex 3 ;
-                                    cdi:length 13 ] ;
-                            cdi:isDefinedBy_InstanceVariable xas:incidentIntensity ],
-                        [ a cdi:MeasureComponent ;
-                            cdi:has [ a cdi:ValueMapping ;
                                     cdi:hasIndex 2 ;
                                     cdi:length 12 ] ;
                             cdi:isDefinedBy_InstanceVariable xas:transmittedIntensity ],
+                        [ a cdi:MeasureComponent ;
+                            cdi:has [ a cdi:ValueMapping ;
+                                    cdi:hasIndex 3 ;
+                                    cdi:length 13 ] ;
+                            cdi:isDefinedBy_InstanceVariable xas:incidentIntensity ],
                         [ a cdi:IdentifierComponent ;
                             cdi:has [ a cdi:ValueMapping ;
                                     cdi:hasIndex 1 ;
@@ -1377,59 +1377,55 @@ xas:487y54 a schema1:Dataset,
                 prov:Activity,
                 xas:AnalysisEvent ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "Installed Options" ;
-                    schema1:propertyID "xas:installedOptions" ;
-                    schema1:value "Description of extra equipment installed on the base instrument(?)" ],
-                [ a schema1:PropertyValue ;
                     schema1:name "Absorption edge" ;
                     schema1:propertyID "xas:edge_energy" ;
                     schema1:unitText "eV" ;
                     schema1:value "12658.0" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Installed Options" ;
+                    schema1:propertyID "xas:installedOptions" ;
+                    schema1:value "Description of extra equipment installed on the base instrument(?)" ],
                 [ a schema1:PropertyValue ;
                     schema1:name "Instrument configuration" ;
                     schema1:propertyID "nxs:Group/NXentry/experiment_documentation" ;
                     schema1:url "http://protocols.io/link/to/calibrationMethod" ;
                     schema1:value "description of instrument configuration" ],
                 [ a schema1:PropertyValue ;
-                    schema1:name "calibration method" ;
-                    schema1:propertyID "nxs:Group/NXdetector/calibration_method" ;
-                    schema1:url "http://protocols.io/link/to/calibrationMethod" ;
-                    schema1:value "description of calibration procedure" ],
-                [ a schema1:PropertyValue ;
                     schema1:description "extrinsic properties of measurement environment--temperature, pressure, e-field, mag-field.  have to check magnetic_moment, electrochemical_potential" ;
                     schema1:name "experiment environment-pressure" ;
                     schema1:propertyID "xas:pressure" ;
                     schema1:unitText "KPa" ;
-                    schema1:value "3567" ] ;
+                    schema1:value "3567" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "calibration method" ;
+                    schema1:propertyID "nxs:Group/NXdetector/calibration_method" ;
+                    schema1:url "http://protocols.io/link/to/calibrationMethod" ;
+                    schema1:value "description of calibration procedure" ] ;
             schema1:identifier "20241111_DSC_NU_OREX-803224-0_1" ;
             schema1:location ex:xasfacility_37yht ;
             schema1:object [ a schema1:Product,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "Crystal unit cell dimensions" ;
-                            schema1:propertyID "nxs:Field/NXsample/unit_cell" ;
-                            schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "Porosity" ;
-                            schema1:propertyID "xas:porosity" ;
-                            schema1:unitText "percent" ;
-                            schema1:value "27" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "samaple preparation method" ;
-                            schema1:propertyID "xas:samplePreparation" ;
-                            schema1:value "powder on tape, 6 layers" ],
+                            schema1:name "parent sample identifier" ;
+                            schema1:propertyID "xas:parentSample" ;
+                            schema1:value "igsn:10.3476/342573" ],
                         [ a schema1:PropertyValue ;
                             schema1:name "material state" ;
                             schema1:propertyID "xas:materialState" ;
                             schema1:value "solid metal foil" ],
                         [ a schema1:PropertyValue ;
+                            schema1:name "Crystal unit cell dimensions" ;
+                            schema1:propertyID "nxs:Field/NXsample/unit_cell" ;
+                            schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
+                        [ a schema1:PropertyValue ;
                             schema1:name "crystallographic point group" ;
                             schema1:propertyID "nxs:Field/NXsample/point_group" ;
                             schema1:value "mm2" ],
                         [ a schema1:PropertyValue ;
-                            schema1:name "parent sample identifier" ;
-                            schema1:propertyID "xas:parentSample" ;
-                            schema1:value "igsn:10.3476/342573" ],
+                            schema1:name "Porosity" ;
+                            schema1:propertyID "xas:porosity" ;
+                            schema1:unitText "percent" ;
+                            schema1:value "27" ],
                         [ a schema1:PropertyValue ;
                             schema1:name "sample mass" ;
                             schema1:propertyID "nxs:Field/NXsample/mass" ;
@@ -1438,7 +1434,11 @@ xas:487y54 a schema1:Dataset,
                         [ a schema1:PropertyValue ;
                             schema1:name "Stoichiometry" ;
                             schema1:propertyID "xas:stoichiometry" ;
-                            schema1:value "Na2SeO4" ] ;
+                            schema1:value "Na2SeO4" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "samaple preparation method" ;
+                            schema1:propertyID "xas:samplePreparation" ;
+                            schema1:value "powder on tape, 6 layers" ] ;
                     schema1:additionalType "MaterialSample",
                         "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample" ;
                     schema1:description "physical properties of sample: ph, eh, volume, porosity, density, concentration, resistivity, viscosity, crystal structure, opacity from xdi list..." ;
@@ -1448,17 +1448,17 @@ xas:487y54 a schema1:Dataset,
             prov:used [ schema1:instrument [ schema1:hasPart [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "harmonic_rejection" ;
-                                            schema1:propertyID "xas:harmonic_rejection" ;
-                                            schema1:value "Rh-coated mirror, detuned" ],
+                                            schema1:name "focusing" ;
+                                            schema1:propertyID "xas:focusing" ;
+                                            schema1:value "???" ],
                                         [ a schema1:PropertyValue ;
                                             schema1:name "collimation technique" ;
                                             schema1:propertyID "xas:collimation" ;
                                             schema1:value "none" ],
                                         [ a schema1:PropertyValue ;
-                                            schema1:name "focusing" ;
-                                            schema1:propertyID "xas:focusing" ;
-                                            schema1:value "???" ] ;
+                                            schema1:name "harmonic_rejection" ;
+                                            schema1:propertyID "xas:harmonic_rejection" ;
+                                            schema1:value "Rh-coated mirror, detuned" ] ;
                                     schema1:additionalType "xas:Beamline" ;
                                     schema1:identifier "should have a registry with URIs" ;
                                     schema1:name "13-BM-D" ],
@@ -1486,19 +1486,6 @@ xas:487y54 a schema1:Dataset,
                                 [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "Probe" ;
-                                            schema1:propertyID "nxs:Field/NXsource/probe" ;
-                                            schema1:value "x-ray" ],
-                                        [ a schema1:PropertyValue ;
-                                            schema1:name "x-ray source" ;
-                                            schema1:propertyID "nxs:Field/NXsource/type" ;
-                                            schema1:value "Synchrotron X-ray Source" ] ;
-                                    schema1:additionalType "nxs:BaseClass/NXsource" ;
-                                    schema1:identifier "should have a registry with URIs" ;
-                                    schema1:name "source, made up for this example" ],
-                                [ a schema1:Product,
-                                        schema1:Thing ;
-                                    schema1:additionalProperty [ a schema1:PropertyValue ;
                                             schema1:name "monitor mode" ;
                                             schema1:propertyID "nxs:Field/NXmonitor/mode" ;
                                             schema1:value "monitor" ],
@@ -1508,31 +1495,44 @@ xas:487y54 a schema1:Dataset,
                                             schema1:propertyID "xas:detector.i0" ;
                                             schema1:value "10cm  N2" ],
                                         [ a schema1:PropertyValue ;
-                                            schema1:name "monitor preset" ;
-                                            schema1:propertyID "nxs:Field/NXmonitor/preset" ;
-                                            schema1:value "N.A." ],
-                                        [ a schema1:PropertyValue ;
                                             schema1:alternateName "transmitted flux measurement method" ;
                                             schema1:name "detector mode it" ;
                                             schema1:propertyID "xas:detector.it" ;
-                                            schema1:value "10cm  N2" ] ;
-                                    schema1:additionalType "nxs:BaseClass/NXmonitor" ] ] ] ] .
+                                            schema1:value "10cm  N2" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "monitor preset" ;
+                                            schema1:propertyID "nxs:Field/NXmonitor/preset" ;
+                                            schema1:value "N.A." ] ;
+                                    schema1:additionalType "nxs:BaseClass/NXmonitor" ],
+                                [ a schema1:Product,
+                                        schema1:Thing ;
+                                    schema1:additionalProperty [ a schema1:PropertyValue ;
+                                            schema1:name "x-ray source" ;
+                                            schema1:propertyID "nxs:Field/NXsource/type" ;
+                                            schema1:value "Synchrotron X-ray Source" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "Probe" ;
+                                            schema1:propertyID "nxs:Field/NXsource/probe" ;
+                                            schema1:value "x-ray" ] ;
+                                    schema1:additionalType "nxs:BaseClass/NXsource" ;
+                                    schema1:identifier "should have a registry with URIs" ;
+                                    schema1:name "source, made up for this example" ] ] ] ] .
 
 ex:xasfacility_37yht a schema1:Place ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Facility current" ;
-            schema1:propertyID "xas:current" ;
-            schema1:unitText "Amps" ;
-            schema1:value "120" ],
+            schema1:name "X-ray Source" ;
+            schema1:propertyID "xas:xray_source" ;
+            schema1:value "APS bending magnet" ],
         [ a schema1:PropertyValue ;
             schema1:name "Facility energy" ;
             schema1:propertyID "xas:energy" ;
             schema1:unitText "GeV" ;
             schema1:value "7.00" ],
         [ a schema1:PropertyValue ;
-            schema1:name "X-ray Source" ;
-            schema1:propertyID "xas:xray_source" ;
-            schema1:value "APS bending magnet" ] ;
+            schema1:name "Facility current" ;
+            schema1:propertyID "xas:current" ;
+            schema1:unitText "Amps" ;
+            schema1:value "120" ] ;
     schema1:additionalType "xas:Facility" ;
     schema1:identifier "https://ror.org/aps" ;
     schema1:name "APS" .
@@ -1638,10 +1638,10 @@ description: 'JSON schema for JSON-LD documents that describe science datasets f
   additional required constraints in various places; update constraint on @type to
   require schema:Dataset. Implement using OGC building blocks approach. '
 allOf:
-- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifMandatory/schema.yaml
-- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.yaml
-- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/xasProperties/xasOptional/schema.yaml
-- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/xasProperties/xasRequired/schema.yaml
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifMandatory/schema.yaml
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.yaml
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema.yaml
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasRequired/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
@@ -1658,8 +1658,8 @@ x-jsonld-prefixes:
 
 Links to the schema:
 
-* YAML version: [schema.yaml](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFxas/schema.json)
-* JSON version: [schema.json](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFxas/schema.yaml)
+* YAML version: [schema.yaml](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFxas/schema.json)
+* JSON version: [schema.json](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFxas/schema.yaml)
 
 
 # JSON-LD Context
@@ -1686,7 +1686,7 @@ Links to the schema:
 ```
 
 You can find the full JSON-LD context here:
-[context.jsonld](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFxas/context.jsonld)
+[context.jsonld](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFxas/context.jsonld)
 
 ## Sources
 
