@@ -63,7 +63,7 @@ Example documentation for x-ray absorption facility, based on schema.org Place
       "schema": "http://schema.org/",
       "xas": "https://xas.org/dictionary/"
     },
-    "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasFacility/context.jsonld",
+    "https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/xasProperties/xasFacility/context.jsonld",
     {
       "schema": "http://schema.org/",
       "ex": "https://example.org/",
@@ -116,19 +116,19 @@ Example documentation for x-ray absorption facility, based on schema.org Place
 
 ex:xasfacility_37yht a schema1:Place ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Facility current" ;
-            schema1:propertyID "xas:current" ;
-            schema1:unitText "Amps" ;
-            schema1:value "120" ],
+            schema1:name "Facility energy" ;
+            schema1:propertyID "xas:energy" ;
+            schema1:unitText "GeV" ;
+            schema1:value "7.00" ],
         [ a schema1:PropertyValue ;
             schema1:name "X-ray Source" ;
             schema1:propertyID "xas:xray_source" ;
             schema1:value "APS bending magnet" ],
         [ a schema1:PropertyValue ;
-            schema1:name "Facility energy" ;
-            schema1:propertyID "xas:energy" ;
-            schema1:unitText "GeV" ;
-            schema1:value "7.00" ] ;
+            schema1:name "Facility current" ;
+            schema1:propertyID "xas:current" ;
+            schema1:unitText "Amps" ;
+            schema1:value "120" ] ;
     schema1:additionalType "xas:Facility" ;
     schema1:identifier "https://ror.org/aps" ;
     schema1:name "APS" .
@@ -177,9 +177,9 @@ required:
 - schema:name
 $defs:
   AdditionalProperty:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
   Identifier:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
 x-jsonld-extra-terms:
   schema: http://schema.org
 x-jsonld-prefixes:
@@ -189,8 +189,8 @@ x-jsonld-prefixes:
 
 Links to the schema:
 
-* YAML version: [schema.yaml](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasFacility/schema.json)
-* JSON version: [schema.json](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasFacility/schema.yaml)
+* YAML version: [schema.yaml](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/xasProperties/xasFacility/schema.json)
+* JSON version: [schema.json](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/xasProperties/xasFacility/schema.yaml)
 
 
 # JSON-LD Context
@@ -207,7 +207,7 @@ Links to the schema:
 ```
 
 You can find the full JSON-LD context here:
-[context.jsonld](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasFacility/context.jsonld)
+[context.jsonld](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/xasProperties/xasFacility/context.jsonld)
 
 ## Sources
 
@@ -219,6 +219,6 @@ You can find the full JSON-LD context here:
 
 The source code for this Building Block can be found in the following repository:
 
-* URL: [https://github.com/usgin/metadataBuildingBlocks](https://github.com/usgin/metadataBuildingBlocks)
+* URL: [https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks](https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks)
 * Path: `_sources/xasProperties/xasFacility`
 

@@ -2,22 +2,15 @@ $schema: https://json-schema.org/draft/2020-12/schema
 type: object
 title: CDIF complete metadata schema
 description: JSON schema for JSON-LD documents that describe science datasets for
-  the CDIF complete profile, combining discovery metadata with data description and
-  archive distribution extensions. Extends CDIFDiscovery (cdifMandatory + cdifOptional
-  including variableMeasured) with distribution constraints supporting single-file
-  DataDownloads with optional tabular/dataCube data description, archive distributions
-  with hasPart component files, and WebAPI distributions with potentialAction result
-  data description.
+  the CDIF complete profile, combining discovery metadata with data description, archive
+  distribution, and provenance extensions. Composes cdifMandatory, cdifOptional, cdifDataDescription,
+  cdifArchiveDistribution, and cdifProvenance building blocks.
 allOf:
-- $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/schema.yaml
-- type: object
-  properties:
-    prov:wasGeneratedBy:
-      description: Extended provenance activities with instruments, agents, temporal
-        bounds, methodology, and action chaining (cdifProv pattern).
-      type: array
-      items:
-        $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProv/schema.yaml
+- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifMandatory/schema.yaml
+- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.yaml
+- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.yaml
+- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema.yaml
+- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/

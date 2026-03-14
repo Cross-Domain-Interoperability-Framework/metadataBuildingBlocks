@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.cdifProperties.cdifOptional` *v0.1*
 
-Definition of optional metadata elements for CDIF discovery profile. Defines properties: schema:description, schema:additionalType, schema:sameAs, schema:version, schema:inLanguage, schema:datePublished, schema:relatedLink, schema:publishingPrinciples, schema:keywords, schema:creator, schema:contributor, schema:publisher, schema:provider, schema:funding, schema:variableMeasured, schema:spatialCoverage, schema:temporalCoverage, prov:wasGeneratedBy, prov:wasDerivedFrom, dqv:hasQualityMeasurement, schema:distribution. At this level prov:wasGeneratedBy uses the simple generatedBy pattern (string or @id references only); the extended cdifProv pattern (instruments, agents, temporal bounds) is introduced at the CDIFcomplete profile level or by domain-specific building blocks. Uses building blocks: labeledLink (schemaorgProperties), identifier (schemaorgProperties), definedTerm (schemaorgProperties), person (schemaorgProperties), organization (schemaorgProperties), agentInRole (schemaorgProperties), funder (schemaorgProperties), variableMeasured (schemaorgProperties), spatialExtent (schemaorgProperties), temporalExtent (schemaorgProperties), generatedBy (provProperties), derivedFrom (provProperties), qualityMeasure (qualityProperties), dataDownload (schemaorgProperties), webAPI (schemaorgProperties).
+Definition of optional metadata elements for CDIF discovery profile. Defines properties: schema:description, schema:additionalType, schema:sameAs, schema:version, schema:inLanguage, schema:datePublished, schema:relatedLink, schema:publishingPrinciples, schema:keywords, schema:creator, schema:contributor, schema:publisher, schema:provider, schema:funding, schema:variableMeasured, schema:spatialCoverage, schema:temporalCoverage, prov:wasGeneratedBy, prov:wasDerivedFrom, dqv:hasQualityMeasurement, schema:distribution. At this level prov:wasGeneratedBy uses the simple generatedBy pattern (string or @id references only); the extended cdifProvActivity pattern (instruments, agents, temporal bounds) is introduced at the CDIFcomplete profile level or by domain-specific building blocks. Uses building blocks: labeledLink (schemaorgProperties), identifier (schemaorgProperties), definedTerm (schemaorgProperties), person (schemaorgProperties), organization (schemaorgProperties), agentInRole (schemaorgProperties), funder (schemaorgProperties), variableMeasured (schemaorgProperties), spatialExtent (schemaorgProperties), temporalExtent (schemaorgProperties), generatedBy (provProperties), derivedFrom (provProperties), qualityMeasure (qualityProperties), dataDownload (schemaorgProperties), webAPI (schemaorgProperties).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -15,7 +15,7 @@ Defines simple properties included in CDIF discovery metadata for the schema.org
 
 ### Provenance
 
-At this level, `prov:wasGeneratedBy` uses the simple `generatedBy` pattern from provProperties — activity items accept only string names or `@id` references to instruments/software. The extended `cdifProv` pattern (with structured instruments, agents, temporal bounds, methodology, and action chaining) is introduced at the CDIFcomplete profile level or by domain-specific building blocks (e.g., ddeImagery, xasRequired).
+At this level, `prov:wasGeneratedBy` uses the simple `generatedBy` pattern from provProperties — activity items accept only string names or `@id` references to instruments/software. The extended `cdifProvActivity` pattern (with structured instruments, agents, temporal bounds, methodology, and action chaining) is introduced at the CDIFcomplete profile level or by domain-specific building blocks (e.g., ddeImagery, xasRequired).
 ## Examples
 
 ### Example CDIF record
@@ -124,7 +124,7 @@ Example CDIF record with mandatory and optional properties.
     {
       "schema": "https//schema.org/"
     },
-    "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifOptional/context.jsonld",
+    "https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifOptional/context.jsonld",
     {
       "schema": "http://schema.org/",
       "ex": "https://example.org/",
@@ -542,37 +542,37 @@ properties:
       - $ref: '#/$defs/WebAPI'
 $defs:
   LabeledLink:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
   Identifier:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
   DefinedTerm:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
   Person:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml
   Organization:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml
   Contributor:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/agentInRole/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/agentInRole/schema.yaml
   Funder:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/funder/schema.yaml
   VariableMeasured:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifVariableMeasured/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifVariableMeasured/schema.yaml
   StatisticalVariable:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/schema.yaml
   SpatialExtent:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
   TemporalExtent:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/temporalExtent/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/temporalExtent/schema.yaml
   GeneratedBy:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/generatedBy/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/provProperties/generatedBy/schema.yaml
   DerivedFrom:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/derivedFrom/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/provProperties/derivedFrom/schema.yaml
   QualityMeasure:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityMeasure/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/qualityProperties/qualityMeasure/schema.yaml
   DataDownload:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml
   WebAPI:
-    $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema.yaml
+    $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
 
@@ -580,8 +580,8 @@ x-jsonld-prefixes:
 
 Links to the schema:
 
-* YAML version: [schema.yaml](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.json)
-* JSON version: [schema.json](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.yaml)
+* YAML version: [schema.yaml](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.json)
+* JSON version: [schema.json](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.yaml)
 
 
 # JSON-LD Context
@@ -603,7 +603,7 @@ Links to the schema:
 ```
 
 You can find the full JSON-LD context here:
-[context.jsonld](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifOptional/context.jsonld)
+[context.jsonld](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifOptional/context.jsonld)
 
 ## Sources
 
@@ -614,6 +614,6 @@ You can find the full JSON-LD context here:
 
 The source code for this Building Block can be found in the following repository:
 
-* URL: [https://github.com/usgin/metadataBuildingBlocks](https://github.com/usgin/metadataBuildingBlocks)
+* URL: [https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks](https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks)
 * Path: `_sources/cdifProperties/cdifOptional`
 

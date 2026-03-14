@@ -23,7 +23,7 @@ bios: https://bioschemas.org/
 
 ### Classes
 
-| Class | Description | cdifProv Mapping |
+| Class | Description | cdifProvActivity Mapping |
 |---|---|---|
 | `bios:LabProcess` | A laboratory process execution | `schema:additionalType` on `["schema:Action", "prov:Activity"]` |
 | `bios:LabProtocol` | Methodology describing how a lab process should be carried out | `schema:HowTo` via `schema:actionProcess` |
@@ -41,9 +41,9 @@ bios: https://bioschemas.org/
 | `bios:computationalTool` | `bios:LabProtocol` | `schema:SoftwareApplication` | Software tools used in the protocol |
 | `bios:reagent` | `bios:LabProtocol` | `schema:Thing` | Materials or chemical substances used |
 
-### Relationship to cdifProv
+### Relationship to cdifProvActivity
 
-This building block extends cdifProv for laboratory analytical workflows. A cdifProv activity node with Bioschemas extensions looks like:
+This building block extends cdifProvActivity for laboratory analytical workflows. A cdifProvActivity activity node with Bioschemas extensions looks like:
 
 ```json
 {
@@ -91,8 +91,8 @@ type: object
 properties:
   bios:executesLabProtocol:
     description: The laboratory protocol executed by this process. Links a LabProcess
-      activity to the LabProtocol it follows. In cdifProv, also mapped to schema:actionProcess
-      for compatibility.
+      activity to the LabProtocol it follows. In cdifProvActivity, also mapped to
+      schema:actionProcess for compatibility.
     anyOf:
     - $ref: '#/$defs/LabProtocol'
     - type: object
@@ -156,7 +156,7 @@ $defs:
   LabProcess:
     type: object
     description: "A Bioschemas LabProcess \u2014 a laboratory process execution. Used
-      as an additionalType on a cdifProv activity ([\"schema:Action\", \"prov:Activity\"])
+      as an additionalType on a cdifProvActivity activity ([\"schema:Action\", \"prov:Activity\"])
       to indicate that the activity represents a lab process. Carries bios:executesLabProtocol
       to link to the protocol followed and bios:parameterValue for actual instrument
       settings."
@@ -195,7 +195,7 @@ $defs:
     type: object
     description: A Bioschemas LabProtocol describing how a lab process should be carried
       out. Includes equipment, reagents, computational tools, and expected parameters.
-      Maps to schema:HowTo in the cdifProv context.
+      Maps to schema:HowTo in the cdifProvActivity context.
     properties:
       '@type':
         anyOf:
@@ -290,8 +290,8 @@ $defs:
   Sample:
     type: object
     description: A Bioschemas Sample representing a physical or material entity used
-      or produced by lab processes. In cdifProv output, typed as schema:Thing with
-      schema:additionalType bios:Sample.
+      or produced by lab processes. In cdifProvActivity output, typed as schema:Thing
+      with schema:additionalType bios:Sample.
     properties:
       '@type':
         type: array
@@ -330,8 +330,8 @@ $defs:
     type: object
     description: A Bioschemas FormalParameter describing the shape and type of inputs
       and outputs of a workflow protocol. Values are realized in process executions
-      through bios:parameterValue PropertyValue objects. In cdifProv output, mapped
-      to schema:MediaObject with additionalType bios:FormalParameter.
+      through bios:parameterValue PropertyValue objects. In cdifProvActivity output,
+      mapped to schema:MediaObject with additionalType bios:FormalParameter.
     properties:
       '@type':
         type: array
@@ -369,7 +369,7 @@ $defs:
     type: object
     description: A Bioschemas ComputationalWorkflow representing the prospective provenance
       of a computational or hybrid lab-computational workflow. Combined with LabProtocol
-      in ARC profiles to bridge computational and laboratory domains. In cdifProv
+      in ARC profiles to bridge computational and laboratory domains. In cdifProvActivity
       output, mapped to schema:SoftwareApplication with additionalType bios:ComputationalWorkflow.
     properties:
       '@type':
@@ -546,8 +546,8 @@ x-jsonld-prefixes:
 
 Links to the schema:
 
-* YAML version: [schema.yaml](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/schema.json)
-* JSON version: [schema.json](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/schema.yaml)
+* YAML version: [schema.yaml](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/schema.json)
+* JSON version: [schema.json](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/schema.yaml)
 
 
 # JSON-LD Context
@@ -564,7 +564,7 @@ Links to the schema:
 ```
 
 You can find the full JSON-LD context here:
-[context.jsonld](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/context.jsonld)
+[context.jsonld](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/context.jsonld)
 
 ## Sources
 
@@ -577,6 +577,6 @@ You can find the full JSON-LD context here:
 
 The source code for this Building Block can be found in the following repository:
 
-* URL: [https://github.com/usgin/metadataBuildingBlocks](https://github.com/usgin/metadataBuildingBlocks)
+* URL: [https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks](https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks)
 * Path: `_sources/bioschemasProperties/cdifBioschemasProperties`
 

@@ -652,7 +652,7 @@ Example CDIF XAS metadata, not real values.
       "schema": "http://schema.org",
       "dcterms": "http://purl.org/dc/terms/"
     },
-    "https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFxas/context.jsonld",
+    "https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFxas/context.jsonld",
     {
       "@vocab": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
       "schema": "http://schema.org/",
@@ -1286,6 +1286,7 @@ Example CDIF XAS metadata, not real values.
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ex: <https://example.org/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix schema1: <http://schema.org/> .
@@ -1305,11 +1306,11 @@ xas:487y54 a schema1:Dataset,
             schema1:contributor <https://ror.org/aps> ;
             schema1:roleName "Facility" ],
         [ a schema1:Role ;
-            schema1:contributor <https://orcid.org/3547ulkj> ;
-            schema1:roleName "dataCollector" ],
-        [ a schema1:Role ;
             schema1:contributor <https://orcid.org/35735ul> ;
-            schema1:roleName "principleInvestigator" ] ;
+            schema1:roleName "principleInvestigator" ],
+        [ a schema1:Role ;
+            schema1:contributor <https://orcid.org/3547ulkj> ;
+            schema1:roleName "dataCollector" ] ;
     schema1:creator ( <https://orcid.org/3547ulkj> ) ;
     schema1:dateModified "2025-06-22" ;
     schema1:description "Example metadata including all properties in the CDIF XAS profile" ;
@@ -1323,14 +1324,14 @@ xas:487y54 a schema1:Dataset,
                     cdi:hasHeader true ;
                     cdi:has_DataStructureComponent [ a cdi:MeasureComponent ;
                             cdi:has [ a cdi:ValueMapping ;
-                                    cdi:hasIndex 2 ;
-                                    cdi:length 12 ] ;
-                            cdi:isDefinedBy_InstanceVariable xas:transmittedIntensity ],
-                        [ a cdi:MeasureComponent ;
-                            cdi:has [ a cdi:ValueMapping ;
                                     cdi:hasIndex 3 ;
                                     cdi:length 13 ] ;
                             cdi:isDefinedBy_InstanceVariable xas:incidentIntensity ],
+                        [ a cdi:MeasureComponent ;
+                            cdi:has [ a cdi:ValueMapping ;
+                                    cdi:hasIndex 2 ;
+                                    cdi:length 12 ] ;
+                            cdi:isDefinedBy_InstanceVariable xas:transmittedIntensity ],
                         [ a cdi:IdentifierComponent ;
                             cdi:has [ a cdi:ValueMapping ;
                                     cdi:hasIndex 1 ;
@@ -1376,12 +1377,6 @@ xas:487y54 a schema1:Dataset,
                 prov:Activity,
                 xas:AnalysisEvent ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:description "extrinsic properties of measurement environment--temperature, pressure, e-field, mag-field.  have to check magnetic_moment, electrochemical_potential" ;
-                    schema1:name "experiment environment-pressure" ;
-                    schema1:propertyID "xas:pressure" ;
-                    schema1:unitText "KPa" ;
-                    schema1:value "3567" ],
-                [ a schema1:PropertyValue ;
                     schema1:name "Installed Options" ;
                     schema1:propertyID "xas:installedOptions" ;
                     schema1:value "Description of extra equipment installed on the base instrument(?)" ],
@@ -1399,9 +1394,15 @@ xas:487y54 a schema1:Dataset,
                     schema1:name "calibration method" ;
                     schema1:propertyID "nxs:Group/NXdetector/calibration_method" ;
                     schema1:url "http://protocols.io/link/to/calibrationMethod" ;
-                    schema1:value "description of calibration procedure" ] ;
+                    schema1:value "description of calibration procedure" ],
+                [ a schema1:PropertyValue ;
+                    schema1:description "extrinsic properties of measurement environment--temperature, pressure, e-field, mag-field.  have to check magnetic_moment, electrochemical_potential" ;
+                    schema1:name "experiment environment-pressure" ;
+                    schema1:propertyID "xas:pressure" ;
+                    schema1:unitText "KPa" ;
+                    schema1:value "3567" ] ;
             schema1:identifier "20241111_DSC_NU_OREX-803224-0_1" ;
-            schema1:location <ex:xasfacility_37yht> ;
+            schema1:location ex:xasfacility_37yht ;
             schema1:object [ a schema1:Product,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
@@ -1409,9 +1410,18 @@ xas:487y54 a schema1:Dataset,
                             schema1:propertyID "nxs:Field/NXsample/unit_cell" ;
                             schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
                         [ a schema1:PropertyValue ;
+                            schema1:name "Porosity" ;
+                            schema1:propertyID "xas:porosity" ;
+                            schema1:unitText "percent" ;
+                            schema1:value "27" ],
+                        [ a schema1:PropertyValue ;
                             schema1:name "samaple preparation method" ;
                             schema1:propertyID "xas:samplePreparation" ;
                             schema1:value "powder on tape, 6 layers" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "material state" ;
+                            schema1:propertyID "xas:materialState" ;
+                            schema1:value "solid metal foil" ],
                         [ a schema1:PropertyValue ;
                             schema1:name "crystallographic point group" ;
                             schema1:propertyID "nxs:Field/NXsample/point_group" ;
@@ -1421,23 +1431,14 @@ xas:487y54 a schema1:Dataset,
                             schema1:propertyID "xas:parentSample" ;
                             schema1:value "igsn:10.3476/342573" ],
                         [ a schema1:PropertyValue ;
-                            schema1:name "Porosity" ;
-                            schema1:propertyID "xas:porosity" ;
-                            schema1:unitText "percent" ;
-                            schema1:value "27" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "Stoichiometry" ;
-                            schema1:propertyID "xas:stoichiometry" ;
-                            schema1:value "Na2SeO4" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "material state" ;
-                            schema1:propertyID "xas:materialState" ;
-                            schema1:value "solid metal foil" ],
-                        [ a schema1:PropertyValue ;
                             schema1:name "sample mass" ;
                             schema1:propertyID "nxs:Field/NXsample/mass" ;
                             schema1:unitText "mg" ;
-                            schema1:value "10" ] ;
+                            schema1:value "10" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "Stoichiometry" ;
+                            schema1:propertyID "xas:stoichiometry" ;
+                            schema1:value "Na2SeO4" ] ;
                     schema1:additionalType "MaterialSample",
                         "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample" ;
                     schema1:description "physical properties of sample: ph, eh, volume, porosity, density, concentration, resistivity, viscosity, crystal structure, opacity from xdi list..." ;
@@ -1464,19 +1465,10 @@ xas:487y54 a schema1:Dataset,
                                 [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "x-ray source" ;
-                                            schema1:propertyID "nxs:Field/NXsource/type" ;
-                                            schema1:value "Synchrotron X-ray Source" ],
+                                            schema1:name "crystal type" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
+                                            schema1:value "missing" ],
                                         [ a schema1:PropertyValue ;
-                                            schema1:name "Probe" ;
-                                            schema1:propertyID "nxs:Field/NXsource/probe" ;
-                                            schema1:value "x-ray" ] ;
-                                    schema1:additionalType "nxs:BaseClass/NXsource" ;
-                                    schema1:identifier "should have a registry with URIs" ;
-                                    schema1:name "source, made up for this example" ],
-                                [ a schema1:Product,
-                                        schema1:Thing ;
-                                    schema1:additionalProperty [ a schema1:PropertyValue ;
                                             schema1:name "reflection plane (hkl)" ;
                                             schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
                                             schema1:value "1,1,1" ],
@@ -1486,15 +1478,24 @@ xas:487y54 a schema1:Dataset,
                                             schema1:unitText "Angstrom" ;
                                             schema1:value "3.13550" ],
                                         [ a schema1:PropertyValue ;
-                                            schema1:name "crystal type" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
-                                            schema1:value "missing" ],
-                                        [ a schema1:PropertyValue ;
                                             schema1:name "chemical formula" ;
                                             schema1:propertyID "nxs:Field/NXcrystal/chemical_formula" ;
                                             schema1:value "Si" ] ;
                                     schema1:additionalType "nxs:BaseClass/NXmonochromator" ;
                                     schema1:name "Si 111" ],
+                                [ a schema1:Product,
+                                        schema1:Thing ;
+                                    schema1:additionalProperty [ a schema1:PropertyValue ;
+                                            schema1:name "Probe" ;
+                                            schema1:propertyID "nxs:Field/NXsource/probe" ;
+                                            schema1:value "x-ray" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "x-ray source" ;
+                                            schema1:propertyID "nxs:Field/NXsource/type" ;
+                                            schema1:value "Synchrotron X-ray Source" ] ;
+                                    schema1:additionalType "nxs:BaseClass/NXsource" ;
+                                    schema1:identifier "should have a registry with URIs" ;
+                                    schema1:name "source, made up for this example" ],
                                 [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
@@ -1517,7 +1518,7 @@ xas:487y54 a schema1:Dataset,
                                             schema1:value "10cm  N2" ] ;
                                     schema1:additionalType "nxs:BaseClass/NXmonitor" ] ] ] ] .
 
-<ex:xasfacility_37yht> a schema1:Place ;
+ex:xasfacility_37yht a schema1:Place ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
             schema1:name "Facility current" ;
             schema1:propertyID "xas:current" ;
@@ -1637,10 +1638,10 @@ description: 'JSON schema for JSON-LD documents that describe science datasets f
   additional required constraints in various places; update constraint on @type to
   require schema:Dataset. Implement using OGC building blocks approach. '
 allOf:
-- $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifMandatory/schema.yaml
-- $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.yaml
-- $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema.yaml
-- $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasRequired/schema.yaml
+- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifMandatory/schema.yaml
+- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.yaml
+- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/xasProperties/xasOptional/schema.yaml
+- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/xasProperties/xasRequired/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
@@ -1657,8 +1658,8 @@ x-jsonld-prefixes:
 
 Links to the schema:
 
-* YAML version: [schema.yaml](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFxas/schema.json)
-* JSON version: [schema.json](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFxas/schema.yaml)
+* YAML version: [schema.yaml](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFxas/schema.json)
+* JSON version: [schema.json](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFxas/schema.yaml)
 
 
 # JSON-LD Context
@@ -1667,8 +1668,11 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "geosparql": "http://www.opengis.net/ont/geosparql#",
     "spdx": "http://spdx.org/rdf/terms#",
     "time": "http://www.w3.org/2006/time#",
@@ -1682,7 +1686,7 @@ Links to the schema:
 ```
 
 You can find the full JSON-LD context here:
-[context.jsonld](https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFxas/context.jsonld)
+[context.jsonld](https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFxas/context.jsonld)
 
 ## Sources
 
@@ -1692,6 +1696,6 @@ You can find the full JSON-LD context here:
 
 The source code for this Building Block can be found in the following repository:
 
-* URL: [https://github.com/usgin/metadataBuildingBlocks](https://github.com/usgin/metadataBuildingBlocks)
+* URL: [https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks](https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks)
 * Path: `_sources/profiles/cdifProfiles/CDIFxas`
 

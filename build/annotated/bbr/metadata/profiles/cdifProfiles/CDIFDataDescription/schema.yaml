@@ -19,66 +19,9 @@ description: 'JSON schema for JSON-LD documents that describe science datasets f
   additional required constraints in various places; update constraint on @type to
   require schema:Dataset. Implement using OGC building blocks approach. '
 allOf:
-- $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifMandatory/schema.yaml
-- $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.yaml
-- $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.yaml
-- type: object
-  properties:
-    '@context':
-      type: object
-      description: Additional namespace prefix for data description properties.
-      properties:
-        csvw:
-          const: http://www.w3.org/ns/csvw#
-    '@type':
-      description: For CDIF DataDescription, the @type array should include a value
-        from the known set of schema.org types used for dataset-like resources.
-      type: array
-      items:
-        type: string
-      default: schema:Dataset
-      minItems: 1
-      contains:
-        enum:
-        - schema:CreativeWork
-        - schema:SoftwareApplication
-        - schema:SoftwareSourceCode
-        - schema:Product
-        - schema:WebAPI
-        - schema:Dataset
-        - schema:DigitalDocument
-        - schema:Collection
-        - schema:ImageObject
-        - schema:DataCatalog
-        - schema:DefinedTermSet
-        - schema:MediaObject
-    schema:distribution:
-      type: array
-      items:
-        anyOf:
-        - allOf:
-          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml
-          - anyOf:
-            - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataCube/schema.yaml
-            - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularData/schema.yaml
-            - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifLongData/schema.yaml
-        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema.yaml
-        - allOf:
-          - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema.yaml
-          - type: object
-            properties:
-              schema:potentialAction:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    schema:result:
-                      allOf:
-                      - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml
-                      - anyOf:
-                        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataCube/schema.yaml
-                        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularData/schema.yaml
-                        - $ref: https://usgin.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifLongData/schema.yaml
+- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifMandatory/schema.yaml
+- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.yaml
+- $ref: https://raw.githubusercontent.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/undefined/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.yaml
 x-jsonld-extra-terms:
   csvw: {}
 x-jsonld-prefixes:
