@@ -1,29 +1,13 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "title": "CDIF discovery metadata schema, with schema: prefixes",
-  "description": "JSON schema for JSON-LD documents that describe science datasets for the CDIF DataDiscovery profile. See https://cdif.codata.org/, USING OGC building blocks modularization.  Content based on Google guide for publishers (https://developers.google.com/search/docs/data-types/dataset), and the Earth Science Information Partners (ESIP) Science on Schema.org recommendations v1.3 prerelease (see https://doi.org/10.5281/zenodo.2628755 dataset.md for current recommendations document). The context is not specified in the schema, but must be added in instance documents. '\"@context\": {\"schema\":\"http://schema.org/\", \"dcterms\": \"http://purl.org/dc/terms/\", \"geosparql\": \"http://www.opengis.net/ont/geosparql#\", \"spdx\": \"http://spdx.org/rdf/terms#\" }' 2024-07-24, SMR change handling of registration information to align with current proposal for cross-domain interoperability (CDIF). Created by Stephen Richard 2024-07-30 based on NSF GeoCODES dataset and iSamples draft2 schema.org JSON schema. 2025-07-24. NOTE-- assumes that schema:http://schema.org is declared in context, so schema: namespace prefix is required as prefix for all schema.org elements.  SMR 2025-10-23 update schema version to https://json-schema.org/draft/2020-12/schema; add additionalType on organization with the alt schema.org types as one option, additional required constraints in various places; update constraint on @type to require schema:Dataset. Implement using OGC building blocks approach. ",
+  "title": "Optional properties for CDIF discovery metadata schema, with schema: prefixes",
+  "description": "Building block specifies properties for CDIF schama.org discovery record",
   "properties": {
     "@context": {
       "type": "object",
       "description": "Additional JSON-LD namespace prefixes used by optional CDIF properties.",
       "properties": {
-        "schema": {
-          "default": "http://schema.org/",
-          "type": "string"
-        },
-        "dcterms": {
-          "default": "http://purl.org/dc/terms/",
-          "type": "string"
-        },
-        "spdx": {
-          "default": "http://spdx.org/rdf/terms#",
-          "type": "string"
-        },
-        "dcat": {
-          "default": "http://www.w3.org/ns/dcat#",
-          "type": "string"
-        },
         "geosparql": {
           "default": "http://www.opengis.net/ont/geosparql#",
           "type": "string"
@@ -40,18 +24,14 @@
           "default": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
           "type": "string"
         }
-      },
-      "required": [
-        "schema",
-        "dcterms"
-      ]
+      }
     },
     "@id": {
       "type": "string",
       "description": "The URI for the resource should be the @id value for the root of the JSON instance document tree. Must be an IRI (e.g. https://doi.org/..., urn:..., or a relative URI like #localid). Note that this identifier can be interpreted to identify the resource that is the subject of this metadata record, or the JSON-LD object that is the digital object containing the metadata information."
     },
     "@type": {
-      "description": "For CDIF Discovery, the @type array should include a value from the known set of schema.org types used for dataset-like resources.",
+      "description": "a schema.org Class that specifies the expected information content for the metadata record. The array must include at least one schema.org type value. Default is schema:Dataset.",
       "type": "array",
       "items": {
         "type": "string"
@@ -253,6 +233,7 @@
                         "schema:ConsumeAction",
                         "schema:ControlAction",
                         "schema:CreateAction",
+                        "schema:DeleteAction",
                         "schema:FindAction",
                         "schema:InteractAction",
                         "schema:MoveAction",
@@ -272,6 +253,7 @@
                           "schema:ConsumeAction",
                           "schema:ControlAction",
                           "schema:CreateAction",
+                          "schema:DeleteAction",
                           "schema:FindAction",
                           "schema:InteractAction",
                           "schema:MoveAction",
@@ -370,6 +352,13 @@
                     },
                     "schema:description": {
                       "type": "string"
+                    },
+                    "schema:encodingFormat-input": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "MIME types accepted as input encoding formats for the action."
                     },
                     "schema:variableMeasured": {
                       "type": "array",
@@ -610,30 +599,8 @@
               "description": "locator to access a landing page for the collection or catalog"
             },
             "schema:identifier": {
-              "description": "identifier for the collection or catalog; use identifier_type to provide information on identifier scheme and context for identifier",
-              "type": "object",
-              "properties": {
-                "@type": {
-                  "type": "string",
-                  "default": "schema:PropertyValue"
-                },
-                "schema:propertyID": {
-                  "type": "string",
-                  "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-                },
-                "schema:value": {
-                  "type": "string",
-                  "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-                },
-                "schema:url": {
-                  "type": "string",
-                  "format": "uri",
-                  "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-                }
-              },
-              "required": [
-                "@type"
-              ]
+              "type": "string",
+              "description": "identifier for the collection or catalog; use identifier_type to provide information on identifier scheme and context for identifier"
             }
           }
         }
@@ -759,6 +726,23 @@
           },
           "required": [
             "@type"
+          ],
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:identifier"
+              ]
+            },
+            {
+              "required": [
+                "schema:termCode"
+              ]
+            }
           ]
         },
         {
@@ -795,6 +779,23 @@
                 },
                 "required": [
                   "@type"
+                ],
+                "anyOf": [
+                  {
+                    "required": [
+                      "schema:name"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "schema:identifier"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "schema:termCode"
+                    ]
+                  }
                 ]
               }
             ]
@@ -948,30 +949,8 @@
             "default": "schema:MonetaryGrant"
           },
           "schema:identifier": {
-            "description": "identifier for a particular grant",
-            "type": "object",
-            "properties": {
-              "@type": {
-                "type": "string",
-                "default": "schema:PropertyValue"
-              },
-              "schema:propertyID": {
-                "type": "string",
-                "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-              },
-              "schema:value": {
-                "type": "string",
-                "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-              },
-              "schema:url": {
-                "type": "string",
-                "format": "uri",
-                "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-              }
-            },
-            "required": [
-              "@type"
-            ]
+            "type": "string",
+            "description": "identifier for a particular grant"
           },
           "schema:description": {
             "type": "string",
@@ -1022,12 +1001,11 @@
       "items": {
         "anyOf": [
           {
-            "description": "Extends cdif variableMeasured with properties for DDI-CDI InstanceVariable",
+            "description": "Schema.org PropertyValue-based variableMeasured. Defines properties for a measured variable in a dataset, typed as schema:PropertyValue.",
             "type": "object",
             "properties": {
               "@type": {
                 "type": "array",
-                "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
                 "items": {
                   "type": "string",
                   "enum": [
@@ -1081,6 +1059,23 @@
                       },
                       "required": [
                         "@type"
+                      ],
+                      "anyOf": [
+                        {
+                          "required": [
+                            "schema:name"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "schema:identifier"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "schema:termCode"
+                          ]
+                        }
                       ]
                     }
                   ]
@@ -1129,6 +1124,23 @@
                 },
                 "required": [
                   "@type"
+                ],
+                "anyOf": [
+                  {
+                    "required": [
+                      "schema:name"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "schema:identifier"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "schema:termCode"
+                    ]
+                  }
                 ]
               },
               "cdi:simpleUnitOfMeasure": {
@@ -1172,6 +1184,23 @@
                     },
                     "required": [
                       "@type"
+                    ],
+                    "anyOf": [
+                      {
+                        "required": [
+                          "schema:name"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "schema:identifier"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "schema:termCode"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -1369,6 +1398,23 @@
                     },
                     "required": [
                       "@type"
+                    ],
+                    "anyOf": [
+                      {
+                        "required": [
+                          "schema:name"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "schema:identifier"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "schema:termCode"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -1424,6 +1470,23 @@
                         },
                         "required": [
                           "@type"
+                        ],
+                        "anyOf": [
+                          {
+                            "required": [
+                              "schema:name"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "schema:identifier"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "schema:termCode"
+                            ]
+                          }
                         ]
                       }
                     ]
@@ -1661,6 +1724,23 @@
                 },
                 "required": [
                   "@type"
+                ],
+                "anyOf": [
+                  {
+                    "required": [
+                      "schema:name"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "schema:identifier"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "schema:termCode"
+                    ]
+                  }
                 ]
               }
             ]
@@ -1698,6 +1778,23 @@
                 },
                 "required": [
                   "@type"
+                ],
+                "anyOf": [
+                  {
+                    "required": [
+                      "schema:name"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "schema:identifier"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "schema:termCode"
+                    ]
+                  }
                 ]
               }
             ]
@@ -1709,5 +1806,26 @@
         ]
       }
     }
-  }
+  },
+  "required": [
+    "@id",
+    "@type",
+    "@context",
+    "schema:name",
+    "schema:identifier",
+    "schema:dateModified",
+    "schema:subjectOf"
+  ],
+  "anyOf": [
+    {
+      "required": [
+        "schema:url"
+      ]
+    },
+    {
+      "required": [
+        "schema:distribution"
+      ]
+    }
+  ]
 }
