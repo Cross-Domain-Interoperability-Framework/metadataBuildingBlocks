@@ -1,72 +1,194 @@
 $schema: https://json-schema.org/draft/2020-12/schema
-title: Generic Instrument
-description: A generic instrument or instrument system. Uses schema:Thing as base
-  type with optional schema:Product typing. Supports hierarchical instrument systems
-  via schema:hasPart for sub-components.
+title: Instrument Description
+description: Schema for describing laboratory instruments and instrument systems.
+  Supports ownership, manufacturer, model, commissioning dates, hierarchical sub-components
+  via schema:hasPart, and domain-specific typing. Instruments may be standalone devices
+  or complex systems with sub-components.
 type: object
 properties:
+  '@context':
+    type: object
+    description: JSON-LD context declaring namespace prefixes.
+    properties:
+      schema:
+        const: http://schema.org/
+      dcterms:
+        const: http://purl.org/dc/terms/
+    required:
+    - schema
+  '@id':
+    type: string
+    description: Persistent identifier URI for this instrument metadata record.
   '@type':
     type: array
     items:
       type: string
-    minItems: 1
-    contains:
-      const: schema:Thing
-    description: Must include schema:Thing. May also include schema:Product or domain-specific
+    minItems: 2
+    description: Must include schema:Product and schema:Thing. May include additional
       types.
-  '@id':
-    type: string
+    allOf:
+    - contains:
+        const: schema:Product
+    - contains:
+        const: schema:Thing
+  schema:additionalType:
+    description: Domain-specific type classifications. Should include a scientific
+      instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).
+    type: array
+    items:
+      type: string
+    minItems: 1
   schema:name:
     type: string
-    description: Human-readable name for this instrument
-  schema:identifier:
-    description: Formal identifier for this instrument
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/Identifier'
+    minLength: 3
+    description: Human-readable name for this instrument.
   schema:description:
     type: string
-    description: Text description of this instrument
+    description: Text description of this instrument, its purpose, and capabilities.
   schema:alternateName:
-    type: string
-    description: Alternate name, e.g. specific make/model
-  schema:additionalType:
-    description: Domain-specific type URIs for this instrument
+    description: Alternate name(s), e.g. specific make/model designation, common abbreviation.
     anyOf:
     - type: string
     - type: array
       items:
         type: string
+  schema:identifier:
+    description: Formal identifier(s) for this instrument. Use PropertyValue for structured
+      identifiers (e.g. PIDINST, serial number, inventory number).
+    anyOf:
+    - type: string
+    - $ref: '#/$defs/Identifier'
+    - type: array
+      items:
+        anyOf:
+        - type: string
+        - $ref: '#/$defs/Identifier'
+  schema:url:
+    type: string
+    format: uri
+    description: Landing page URL for this instrument.
+  schema:manufacturer:
+    description: Organization that manufactured this instrument.
+    $ref: '#/$defs/Organization'
+  schema:model:
+    type: object
+    description: Product model information for this instrument.
+    properties:
+      '@type':
+        anyOf:
+        - type: string
+          const: schema:ProductModel
+        - type: array
+          items:
+            type: string
+          contains:
+            const: schema:ProductModel
+      schema:name:
+        type: string
+        description: Model name or number.
+      schema:identifier:
+        description: Model identifier.
+        anyOf:
+        - type: string
+        - $ref: '#/$defs/Identifier'
+    required:
+    - schema:name
+  schema:category:
+    description: Instrument type classification(s) from a controlled vocabulary.
+    type: array
+    items:
+      $ref: '#/$defs/DefinedTerm'
+  schema:contributor:
+    description: Agents associated with this instrument in specific roles (e.g. owner,
+      operator, custodian).
+    type: array
+    items:
+      $ref: '#/$defs/AgentInRole'
   schema:additionalProperty:
     type: array
-    description: Domain-specific properties (detection limits, calibration info, etc.)
+    description: Instrument-specific properties (measured variables, detection limits,
+      calibration information, operating parameters, etc.).
     items:
       $ref: '#/$defs/AdditionalProperty'
+  schema:validFrom:
+    type: string
+    description: Date the instrument was commissioned (ISO 8601).
+  schema:validThrough:
+    type: string
+    description: Date the instrument was decommissioned (ISO 8601). Absent if still
+      operational.
   schema:hasPart:
     type: array
-    description: Sub-components of this instrument system. Use @id references or inline
-      instrument objects.
+    description: Sub-components of this instrument system. Each item is either an
+      inline instrument description or an @id reference.
     items:
       anyOf:
-      - $ref: '#/$defs/InstrumentRef'
+      - $ref: '#/$defs/InstrumentComponent'
       - type: object
         properties:
           '@id':
             type: string
-            description: reference to a sub-component defined elsewhere
+            description: Reference to a sub-component defined elsewhere.
+        required:
+        - '@id'
+  schema:relatedLink:
+    type: array
+    description: Links to related resources (manuals, datasheets, calibration records,
+      related instruments).
+    items:
+      $ref: '#/$defs/LabeledLink'
+  schema:subjectOf:
+    description: Catalog record metadata-about-metadata for this instrument description.
+    type: object
+    properties:
+      '@id':
+        type: string
+      '@type':
+        type: array
+        items:
+          type: string
+      schema:dateModified:
+        type: string
+        description: Date this metadata record was last modified (ISO 8601).
+      schema:about:
+        type: object
+        properties:
+          '@id':
+            type: string
+            description: Reference back to the instrument @id.
+      dcterms:conformsTo:
+        description: Schema or profile this metadata record conforms to.
+        type: array
+        items:
+          anyOf:
+          - type: string
+          - type: object
+            properties:
+              '@id':
+                type: string
 required:
+- '@type'
 - schema:name
-allOf:
-- required:
-  - '@type'
+- schema:identifier
 $defs:
   Identifier:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
+  Organization:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml
+  Person:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml
+  DefinedTerm:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+  AgentInRole:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/agentInRole/schema.yaml
   AdditionalProperty:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
-  InstrumentRef:
+  LabeledLink:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
+  InstrumentComponent:
     type: object
-    description: Inline sub-component instrument (non-recursive single level)
+    description: A sub-component of an instrument system. Uses the same structure
+      as the parent instrument but without nesting (single level of hasPart).
     properties:
       '@type':
         type: array
@@ -79,15 +201,21 @@ $defs:
         type: string
       schema:name:
         type: string
+        minLength: 3
+      schema:description:
+        type: string
+      schema:alternateName:
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            type: string
       schema:identifier:
         anyOf:
         - type: string
         - $ref: '#/$defs/Identifier'
-      schema:description:
-        type: string
-      schema:alternateName:
-        type: string
       schema:additionalType:
+        description: Component type classification.
         anyOf:
         - type: string
         - type: array
@@ -97,6 +225,26 @@ $defs:
         type: array
         items:
           $ref: '#/$defs/AdditionalProperty'
+      schema:manufacturer:
+        $ref: '#/$defs/Organization'
+      schema:model:
+        type: object
+        properties:
+          '@type':
+            anyOf:
+            - type: string
+              const: schema:ProductModel
+            - type: array
+              items:
+                type: string
+              contains:
+                const: schema:ProductModel
+          schema:name:
+            type: string
+          schema:identifier:
+            anyOf:
+            - type: string
+            - $ref: '#/$defs/Identifier'
     required:
     - schema:name
 x-jsonld-prefixes:

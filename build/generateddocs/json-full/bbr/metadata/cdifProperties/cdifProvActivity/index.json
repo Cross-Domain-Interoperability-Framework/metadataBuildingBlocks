@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-03-14",
+  "dateOfLastChange": "2026-03-15",
   "link": "https://github.com/usgin/metadataBuildingBlocks",
   "maturity": "draft",
   "scope": "unstable",
@@ -35,26 +35,26 @@
     "cdif.bbr.metadata.cdifProperties.cdifProvActivity": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifProvActivity/rules.shacl"
     ],
-    "cdif.bbr.metadata.schemaorgProperties.identifier": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
-    ],
-    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
-    ],
     "cdif.bbr.metadata.schemaorgProperties.instrument": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/instrument/rules.shacl"
     ],
-    "cdif.bbr.metadata.schemaorgProperties.additionalProperty": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/additionalProperty/rules.shacl"
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
     ],
     "cdif.bbr.metadata.schemaorgProperties.agentInRole": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/agentInRole/rules.shacl"
     ],
+    "cdif.bbr.metadata.schemaorgProperties.organization": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/organization/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
+    ],
     "cdif.bbr.metadata.schemaorgProperties.person": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/person/rules.shacl"
     ],
-    "cdif.bbr.metadata.schemaorgProperties.organization": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/organization/rules.shacl"
+    "cdif.bbr.metadata.schemaorgProperties.additionalProperty": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/additionalProperty/rules.shacl"
     ],
     "cdif.bbr.metadata.schemaorgProperties.labeledLink": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/labeledLink/rules.shacl"
@@ -67,15 +67,15 @@
     ]
   },
   "dependsOn": [
-    "cdif.bbr.metadata.schemaorgProperties.identifier",
-    "cdif.bbr.metadata.schemaorgProperties.definedTerm",
     "cdif.bbr.metadata.schemaorgProperties.instrument",
+    "cdif.bbr.metadata.schemaorgProperties.identifier",
     "cdif.bbr.metadata.schemaorgProperties.agentInRole",
     "cdif.bbr.metadata.schemaorgProperties.additionalProperty",
-    "cdif.bbr.metadata.schemaorgProperties.person",
-    "cdif.bbr.metadata.schemaorgProperties.organization",
     "cdif.bbr.metadata.schemaorgProperties.labeledLink",
+    "cdif.bbr.metadata.schemaorgProperties.person",
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm",
     "cdif.bbr.metadata.schemaorgProperties.spatialExtent",
+    "cdif.bbr.metadata.schemaorgProperties.organization",
     "cdif.bbr.metadata.provProperties.generatedBy"
   ],
   "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/context.jsonld",
@@ -88,7 +88,7 @@
   "resolvedSchemaProperties": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/resolvedProperties.json",
   "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifProvActivity/",
   "rdfData": [],
-  "validationPassed": true,
+  "validationPassed": false,
   "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/cdifProperties/cdifProvActivity/",
   "description": "## CDIF Provenance Activity\n\nExtended provenance activity for CDIF metadata, adding schema.org Action properties (agents, methodology, temporal bounds, action chaining) to the base prov:Activity. Instruments are nested within prov:used items via schema:instrument sub-key.\n\n### Defined properties\n\n- **@type** \u2014 must include both schema:Action and prov:Activity\n- **prov:used** \u2014 items used by the activity; can include instruments via schema:instrument sub-key\n- **schema:name** \u2014 human-readable name for the activity\n- **schema:description** \u2014 text description of what this activity did\n- **schema:identifier** \u2014 formal identifier for this activity\n- **schema:agent** \u2014 primary responsible agent for this activity\n- **schema:participant** \u2014 other participants in this activity\n- **schema:object** \u2014 input entity for this activity (for action chaining)\n- **schema:result** \u2014 output entity produced by this activity (for action chaining)\n- **schema:actionStatus** \u2014 status of this activity\n- **schema:startTime** \u2014 ISO 8601 date-time when the activity started\n- **schema:endTime** \u2014 ISO 8601 date-time when the activity ended\n- **schema:location** \u2014 where the activity occurred\n- **schema:actionProcess** \u2014 methodology or protocol for this activity\n- **schema:error** \u2014 error description for failed activities\n- **schema:additionalProperty** \u2014 domain-specific extension properties\n\n### Dependencies\n\n- [generatedBy](../../provProperties/generatedBy/) \u2014 base provenance activity\n- [person](../../schemaorgProperties/person/) \u2014 person agent\n- [organization](../../schemaorgProperties/organization/) \u2014 organization agent\n- [agentInRole](../../schemaorgProperties/agentInRole/) \u2014 agent with qualified role\n- [identifier](../../schemaorgProperties/identifier/) \u2014 structured identifier\n- [instrument](../../schemaorgProperties/instrument/) \u2014 generic instrument\n- [definedTerm](../../schemaorgProperties/definedTerm/) \u2014 controlled vocabulary term\n- [labeledLink](../../schemaorgProperties/labeledLink/) \u2014 link with label and description\n- [spatialExtent](../../schemaorgProperties/spatialExtent/) \u2014 spatial location\n- [additionalProperty](../../schemaorgProperties/additionalProperty/) \u2014 PropertyValue for extension properties\n",
   "examples": [
