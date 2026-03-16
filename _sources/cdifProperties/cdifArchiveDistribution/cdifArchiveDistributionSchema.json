@@ -4,6 +4,31 @@
     "description": "Building block that adds archive distribution as a valid distribution item type. cdifOptional already defines schema:distribution with DataDownload and WebAPI options; this building block extends that with the cdifArchive option (DataDownload with schema:hasPart component files).",
     "type": "object",
     "properties": {
+        "schema:subjectOf": {
+            "properties": {
+                "dcterms:conformsTo": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "@id": {
+                                "type": "string",
+                                "description": "uri for specifications that this metadata record conforms to"
+                            }
+                        }
+                    },
+                    "minItems": 1,
+                    "contains": {
+                        "type": "object",
+                        "properties": {
+                            "@id": {
+                                "const": "https://w3id.org/cdif/manifest/1.0/"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "schema:distribution": {
             "type": "array",
             "items": {

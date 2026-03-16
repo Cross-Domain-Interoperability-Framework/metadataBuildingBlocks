@@ -4,6 +4,31 @@
   "description": "Additional constraints for CDIF data description level. Adds cdi:physicalDataType requirement on variableMeasured items and distribution-level cdi properties for file characterization (characterSet, fileSize, fileSizeUofM).",
   "type": "object",
   "properties": {
+    "schema:subjectOf": {
+      "properties": {
+        "dcterms:conformsTo": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string",
+                "description": "uri for specifications that this metadata record conforms to"
+              }
+            }
+          },
+          "minItems": 1,
+          "contains": {
+            "type": "object",
+            "properties": {
+              "@id": {
+                "const": "https://w3id.org/cdif/data_description/1.0/"
+              }
+            }
+          }
+        }
+      }
+    },
     "@context": {
       "type": "object",
       "description": "Additional namespace prefix for data description properties.",
@@ -146,18 +171,24 @@
                                 "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                               }
                             },
-                            "required": [
-                              "@type"
-                            ],
-                            "anyOf": [
+                            "allOf": [
                               {
                                 "required": [
-                                  "schema:value"
+                                  "@type"
                                 ]
                               },
                               {
-                                "required": [
-                                  "schema:url"
+                                "anyOf": [
+                                  {
+                                    "required": [
+                                      "schema:value"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "schema:url"
+                                    ]
+                                  }
                                 ]
                               }
                             ]
@@ -173,23 +204,29 @@
                         "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                       }
                     },
-                    "required": [
-                      "@type"
-                    ],
-                    "anyOf": [
+                    "allOf": [
                       {
                         "required": [
-                          "schema:name"
+                          "@type"
                         ]
                       },
                       {
-                        "required": [
-                          "schema:identifier"
-                        ]
-                      },
-                      {
-                        "required": [
-                          "schema:termCode"
+                        "anyOf": [
+                          {
+                            "required": [
+                              "schema:name"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "schema:identifier"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "schema:termCode"
+                            ]
+                          }
                         ]
                       }
                     ]
@@ -275,18 +312,24 @@
                                 "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                               }
                             },
-                            "required": [
-                              "@type"
-                            ],
-                            "anyOf": [
+                            "allOf": [
                               {
                                 "required": [
-                                  "schema:value"
+                                  "@type"
                                 ]
                               },
                               {
-                                "required": [
-                                  "schema:url"
+                                "anyOf": [
+                                  {
+                                    "required": [
+                                      "schema:value"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "schema:url"
+                                    ]
+                                  }
                                 ]
                               }
                             ]
@@ -302,23 +345,29 @@
                         "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                       }
                     },
-                    "required": [
-                      "@type"
-                    ],
-                    "anyOf": [
+                    "allOf": [
                       {
                         "required": [
-                          "schema:name"
+                          "@type"
                         ]
                       },
                       {
-                        "required": [
-                          "schema:identifier"
-                        ]
-                      },
-                      {
-                        "required": [
-                          "schema:termCode"
+                        "anyOf": [
+                          {
+                            "required": [
+                              "schema:name"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "schema:identifier"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "schema:termCode"
+                            ]
+                          }
                         ]
                       }
                     ]
@@ -427,18 +476,24 @@
                                     "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
                                   }
                                 },
-                                "required": [
-                                  "@type"
-                                ],
-                                "anyOf": [
+                                "allOf": [
                                   {
                                     "required": [
-                                      "schema:value"
+                                      "@type"
                                     ]
                                   },
                                   {
-                                    "required": [
-                                      "schema:url"
+                                    "anyOf": [
+                                      {
+                                        "required": [
+                                          "schema:value"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "schema:url"
+                                        ]
+                                      }
                                     ]
                                   }
                                 ]
@@ -454,23 +509,29 @@
                             "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
                           }
                         },
-                        "required": [
-                          "@type"
-                        ],
-                        "anyOf": [
+                        "allOf": [
                           {
                             "required": [
-                              "schema:name"
+                              "@type"
                             ]
                           },
                           {
-                            "required": [
-                              "schema:identifier"
-                            ]
-                          },
-                          {
-                            "required": [
-                              "schema:termCode"
+                            "anyOf": [
+                              {
+                                "required": [
+                                  "schema:name"
+                                ]
+                              },
+                              {
+                                "required": [
+                                  "schema:identifier"
+                                ]
+                              },
+                              {
+                                "required": [
+                                  "schema:termCode"
+                                ]
+                              }
                             ]
                           }
                         ]

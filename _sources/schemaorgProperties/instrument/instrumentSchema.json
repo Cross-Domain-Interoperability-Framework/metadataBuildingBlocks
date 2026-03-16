@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "Instrument Description",
-    "description": "Schema for describing laboratory instruments and instrument systems. Combines the CDIF instrument metadata profile (ownership, manufacturer, model, commissioning), the generic instrument building block (hierarchical sub-components via schema:hasPart), and domain-specific typing (schema:Product + schema:Thing with wd:Q3099911 scientific instrument classification). Instruments may be standalone devices or complex systems with sub-components.",
+    "description": "Schema for describing laboratory instruments and instrument systems. Supports ownership, manufacturer, model, commissioning dates, hierarchical sub-components via schema:hasPart, and domain-specific typing. Instruments may be standalone devices or complex systems with sub-components.",
     "type": "object",
     "properties": {
         "@context": {
@@ -15,7 +15,9 @@
                     "const": "http://purl.org/dc/terms/"
                 }
             },
-            "required": ["schema"]
+            "required": [
+                "schema"
+            ]
         },
         "@id": {
             "type": "string",
@@ -27,7 +29,7 @@
                 "type": "string"
             },
             "minItems": 2,
-            "description": "Must include schema:Product and schema:Thing. May include additional types (e.g. schema:CreativeWork for instruments that are also documented works).",
+            "description": "Must include schema:Product and schema:Thing. May include additional types.",
             "allOf": [
                 {
                     "contains": {
@@ -42,7 +44,7 @@
             ]
         },
         "schema:additionalType": {
-            "description": "Domain-specific type classifications. Should include a scientific instrument type URI (e.g. wd:Q3099911 for Wikidata 'scientific instrument', or a domain vocabulary URI).",
+            "description": "Domain-specific type classifications. Should include a scientific instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).",
             "type": "array",
             "items": {
                 "type": "string"
@@ -99,7 +101,7 @@
         "schema:url": {
             "type": "string",
             "format": "uri",
-            "description": "Landing page URL for this instrument (e.g. institutional equipment page, manufacturer product page)."
+            "description": "Landing page URL for this instrument."
         },
         "schema:manufacturer": {
             "description": "Organization that manufactured this instrument.",
@@ -142,7 +144,9 @@
                     ]
                 }
             },
-            "required": ["schema:name"]
+            "required": [
+                "schema:name"
+            ]
         },
         "schema:category": {
             "description": "Instrument type classification(s) from a controlled vocabulary.",
@@ -164,7 +168,7 @@
         },
         "schema:additionalProperty": {
             "type": "array",
-            "description": "Instrument-specific properties: measured variables, detection limits, calibration information, operating parameters, etc.",
+            "description": "Instrument-specific properties (measured variables, detection limits, calibration information, operating parameters, etc.).",
             "items": {
                 "$ref": "#/$defs/AdditionalProperty"
             }
@@ -179,7 +183,7 @@
         },
         "schema:hasPart": {
             "type": "array",
-            "description": "Sub-components of this instrument system (e.g. detector, source, monochromator, autosampler). Each item is either an inline instrument description or an @id reference.",
+            "description": "Sub-components of this instrument system. Each item is either an inline instrument description or an @id reference.",
             "items": {
                 "anyOf": [
                     {
@@ -193,7 +197,9 @@
                                 "description": "Reference to a sub-component defined elsewhere."
                             }
                         },
-                        "required": ["@id"]
+                        "required": [
+                            "@id"
+                        ]
                     }
                 ]
             }
@@ -260,325 +266,25 @@
     ],
     "$defs": {
         "Identifier": {
-            "type": "object",
-            "description": "Structured identifier using schema:PropertyValue.",
-            "properties": {
-                "@type": {
-                    "anyOf": [
-                        {
-                            "type": "string",
-                            "const": "schema:PropertyValue"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "schema:PropertyValue"
-                            }
-                        }
-                    ]
-                },
-                "schema:propertyID": {
-                    "description": "Identifier scheme or namespace (e.g. 'https://doi.org', 'PIDINST', 'serialNumber').",
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    ]
-                },
-                "schema:value": {
-                    "type": "string",
-                    "description": "The identifier value."
-                },
-                "schema:url": {
-                    "type": "string",
-                    "format": "uri",
-                    "description": "Resolvable URL for this identifier."
-                }
-            },
-            "required": ["schema:value"]
+            "$ref": "../identifier/identifierSchema.json"
         },
         "Organization": {
-            "type": "object",
-            "description": "An organization (manufacturer, owner, operator).",
-            "properties": {
-                "@id": {
-                    "type": "string"
-                },
-                "@type": {
-                    "anyOf": [
-                        {
-                            "type": "string",
-                            "const": "schema:Organization"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "schema:Organization"
-                            }
-                        }
-                    ]
-                },
-                "schema:name": {
-                    "type": "string"
-                },
-                "schema:identifier": {
-                    "description": "Organization identifier (e.g. ROR).",
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "$ref": "#/$defs/Identifier"
-                        }
-                    ]
-                },
-                "schema:contactPoint": {
-                    "type": "object",
-                    "properties": {
-                        "@type": {
-                            "type": "string",
-                            "const": "schema:ContactPoint"
-                        },
-                        "schema:email": {
-                            "type": "string"
-                        },
-                        "schema:url": {
-                            "type": "string",
-                            "format": "uri"
-                        }
-                    }
-                }
-            },
-            "required": ["schema:name"]
-        },
-        "DefinedTerm": {
-            "type": "object",
-            "description": "A term from a controlled vocabulary.",
-            "properties": {
-                "@type": {
-                    "anyOf": [
-                        {
-                            "type": "string",
-                            "const": "schema:DefinedTerm"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "schema:DefinedTerm"
-                            }
-                        }
-                    ]
-                },
-                "schema:name": {
-                    "type": "string"
-                },
-                "schema:termCode": {
-                    "type": "string"
-                },
-                "schema:identifier": {
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "$ref": "#/$defs/Identifier"
-                        }
-                    ]
-                },
-                "schema:inDefinedTermSet": {
-                    "type": "string",
-                    "description": "URI of the vocabulary this term belongs to."
-                }
-            },
-            "required": ["schema:name"]
-        },
-        "AgentInRole": {
-            "type": "object",
-            "description": "An agent (person or organization) in a named role relative to this instrument.",
-            "properties": {
-                "@type": {
-                    "anyOf": [
-                        {
-                            "type": "string",
-                            "const": "schema:Role"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "schema:Role"
-                            }
-                        }
-                    ]
-                },
-                "schema:roleName": {
-                    "description": "Name of the role (e.g. 'Owner', 'Operator', 'Custodian').",
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "$ref": "#/$defs/DefinedTerm"
-                        }
-                    ]
-                },
-                "schema:contributor": {
-                    "description": "The agent fulfilling this role.",
-                    "anyOf": [
-                        {
-                            "$ref": "#/$defs/Organization"
-                        },
-                        {
-                            "$ref": "#/$defs/Person"
-                        },
-                        {
-                            "type": "object",
-                            "properties": {
-                                "@id": {
-                                    "type": "string"
-                                }
-                            },
-                            "required": ["@id"]
-                        }
-                    ]
-                }
-            },
-            "required": ["schema:roleName"]
+            "$ref": "../organization/organizationSchema.json"
         },
         "Person": {
-            "type": "object",
-            "properties": {
-                "@id": {
-                    "type": "string"
-                },
-                "@type": {
-                    "anyOf": [
-                        {
-                            "type": "string",
-                            "const": "schema:Person"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "schema:Person"
-                            }
-                        }
-                    ]
-                },
-                "schema:name": {
-                    "type": "string"
-                },
-                "schema:identifier": {
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "$ref": "#/$defs/Identifier"
-                        }
-                    ]
-                },
-                "schema:contactPoint": {
-                    "type": "object",
-                    "properties": {
-                        "@type": {
-                            "type": "string",
-                            "const": "schema:ContactPoint"
-                        },
-                        "schema:email": {
-                            "type": "string"
-                        }
-                    }
-                }
-            },
-            "required": ["schema:name"]
+            "$ref": "../person/personSchema.json"
+        },
+        "DefinedTerm": {
+            "$ref": "../definedTerm/definedTermSchema.json"
+        },
+        "AgentInRole": {
+            "$ref": "../agentInRole/agentInRoleSchema.json"
         },
         "AdditionalProperty": {
-            "type": "object",
-            "description": "A PropertyValue for instrument-specific metadata (measured variables, detection limits, calibration, operating parameters).",
-            "properties": {
-                "@type": {
-                    "anyOf": [
-                        {
-                            "type": "string",
-                            "const": "schema:PropertyValue"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "schema:PropertyValue"
-                            }
-                        }
-                    ]
-                },
-                "schema:propertyID": {
-                    "description": "Property identifier or category.",
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    ]
-                },
-                "schema:name": {
-                    "type": "string",
-                    "description": "Human-readable name for this property."
-                },
-                "schema:value": {
-                    "description": "The property value.",
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    ]
-                },
-                "schema:unitText": {
-                    "type": "string",
-                    "description": "Unit of measure."
-                },
-                "schema:unitCode": {
-                    "type": "string",
-                    "description": "Coded unit of measure (e.g. UN/CEFACT code)."
-                }
-            },
-            "required": ["schema:name"]
+            "$ref": "../additionalProperty/additionalPropertySchema.json"
+        },
+        "LabeledLink": {
+            "$ref": "../labeledLink/labeledLinkSchema.json"
         },
         "InstrumentComponent": {
             "type": "object",
@@ -628,7 +334,7 @@
                     ]
                 },
                 "schema:additionalType": {
-                    "description": "Component type classification (e.g. nxs:BaseClass/NXsource, nxs:BaseClass/NXmonochromator).",
+                    "description": "Component type classification.",
                     "anyOf": [
                         {
                             "type": "string"
@@ -686,70 +392,9 @@
                     }
                 }
             },
-            "required": ["schema:name"]
-        },
-        "LabeledLink": {
-            "type": "object",
-            "description": "A typed link to a related resource.",
-            "properties": {
-                "@type": {
-                    "anyOf": [
-                        {
-                            "type": "string",
-                            "const": "schema:LinkRole"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "contains": {
-                                "const": "schema:LinkRole"
-                            }
-                        }
-                    ]
-                },
-                "schema:linkRelationship": {
-                    "description": "Type of relationship (e.g. 'manual', 'datasheet', 'calibration', 'isPartOf').",
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "$ref": "#/$defs/DefinedTerm"
-                        }
-                    ]
-                },
-                "schema:target": {
-                    "type": "object",
-                    "properties": {
-                        "@type": {
-                            "type": "string",
-                            "const": "schema:EntryPoint"
-                        },
-                        "schema:name": {
-                            "type": "string"
-                        },
-                        "schema:url": {
-                            "type": "string",
-                            "format": "uri"
-                        },
-                        "schema:identifier": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "$ref": "#/$defs/Identifier"
-                                }
-                            ]
-                        },
-                        "schema:encodingFormat": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
+            "required": [
+                "schema:name"
+            ]
         }
     }
 }

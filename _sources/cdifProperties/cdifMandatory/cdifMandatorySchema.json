@@ -143,7 +143,36 @@
             }
         },
         "schema:subjectOf": {
-            "$ref": "#/$defs/CdifCatalogRecord"
+            "allOf": [
+                {
+                    "$ref": "#/$defs/CdifCatalogRecord"
+                },
+                {
+                    "properties": {
+                        "dcterms:conformsTo": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string",
+                                        "description": "uri for specifications that this metadata record conforms to"
+                                    }
+                                }
+                            },
+                            "minItems": 1,
+                            "contains": {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "const": "https://w3id.org/cdif/core/1.0/"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
         }
     },
     "allOf": [

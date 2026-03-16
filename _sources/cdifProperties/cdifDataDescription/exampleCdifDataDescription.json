@@ -1,0 +1,59 @@
+{
+    "@context": {
+        "schema": "http://schema.org/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "csvw": "http://www.w3.org/ns/csvw#",
+        "dcterms": "http://purl.org/dc/terms/",
+        "dcat": "http://www.w3.org/ns/dcat#",
+        "ex": "https://example.org/"
+    },
+    "@id": "ex:dataset_datadesc_001",
+    "@type": ["schema:Dataset"],
+    "schema:name": "Ocean Temperature Monitoring Data",
+    "schema:identifier": "https://doi.org/10.1234/ocean-temp-2025",
+    "schema:url": "https://example.org/datasets/ocean-temp-2025",
+    "schema:dateModified": "2025-09-01",
+    "schema:license": ["https://creativecommons.org/licenses/by/4.0/"],
+    "schema:subjectOf": {
+        "@type": ["schema:Dataset"],
+        "schema:additionalType": ["dcat:CatalogRecord"],
+        "@id": "ex:metadata_datadesc_001",
+        "schema:about": {
+            "@id": "ex:dataset_datadesc_001"
+        },
+        "dcterms:conformsTo": [
+            {
+                "@id": "https://w3id.org/cdif/data_description/1.0/"
+            }
+        ]
+    },
+    "schema:variableMeasured": [
+        {
+            "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+            "schema:name": "sea_water_temperature",
+            "schema:description": "Temperature of sea water at measurement depth",
+            "schema:unitText": "degrees Celsius",
+            "schema:unitCode": "CEL",
+            "cdi:physicalDataType": "Numeric"
+        },
+        {
+            "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+            "schema:name": "measurement_depth",
+            "schema:description": "Depth below sea surface at which temperature was recorded",
+            "schema:unitText": "meters",
+            "schema:unitCode": "MTR",
+            "cdi:physicalDataType": "Numeric"
+        }
+    ],
+    "schema:distribution": [
+        {
+            "@type": ["schema:DataDownload"],
+            "schema:name": "Ocean temperature CSV",
+            "schema:contentUrl": "https://example.org/downloads/ocean-temp-2025.csv",
+            "schema:encodingFormat": ["text/csv"],
+            "cdi:characterSet": "UTF-8",
+            "cdi:fileSize": 1.2,
+            "cdi:fileSizeUofM": "MB"
+        }
+    ]
+}
