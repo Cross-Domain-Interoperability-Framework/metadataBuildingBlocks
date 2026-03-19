@@ -190,26 +190,26 @@ Example use wikidata id for additionalType scientific equipment , schema.org Pro
             "schema:additionalProperty": [
                 {
                     "@type": "schema:PropertyValue",
-                    "schema:propertyID": "nxs:Field/NXmonitor/mode",
+                    "schema:propertyID": ["nxs:Field/NXmonitor/mode"],
                     "schema:name": "monitor mode",
                     "schema:value": "monitor"
                 },
                 {
                     "@type": "schema:PropertyValue",
-                    "schema:propertyID": "nxs:Field/NXmonitor/preset",
+                    "schema:propertyID": ["nxs:Field/NXmonitor/preset"],
                     "schema:name": "monitor preset",
                     "schema:value": "N.A."
                 },
                 {
                     "@type": "schema:PropertyValue",
-                    "schema:propertyID": "xas:detector.i0",
+                    "schema:propertyID": ["xas:detector.i0"],
                     "schema:name": "detector mode i0",
                     "schema:alternateName": "incident flux measurement method",
                     "schema:value": "10cm  N2"
                 },
                 {
                     "@type": "schema:PropertyValue",
-                    "schema:propertyID": "xas:detector.it",
+                    "schema:propertyID": ["xas:detector.it"],
                     "schema:name": "detector mode it",
                     "schema:alternateName": "transmitted flux measurement method",
                     "schema:value": "10cm  N2"
@@ -377,26 +377,34 @@ Example use wikidata id for additionalType scientific equipment , schema.org Pro
       "schema:additionalProperty": [
         {
           "@type": "schema:PropertyValue",
-          "schema:propertyID": "nxs:Field/NXmonitor/mode",
+          "schema:propertyID": [
+            "nxs:Field/NXmonitor/mode"
+          ],
           "schema:name": "monitor mode",
           "schema:value": "monitor"
         },
         {
           "@type": "schema:PropertyValue",
-          "schema:propertyID": "nxs:Field/NXmonitor/preset",
+          "schema:propertyID": [
+            "nxs:Field/NXmonitor/preset"
+          ],
           "schema:name": "monitor preset",
           "schema:value": "N.A."
         },
         {
           "@type": "schema:PropertyValue",
-          "schema:propertyID": "xas:detector.i0",
+          "schema:propertyID": [
+            "xas:detector.i0"
+          ],
           "schema:name": "detector mode i0",
           "schema:alternateName": "incident flux measurement method",
           "schema:value": "10cm  N2"
         },
         {
           "@type": "schema:PropertyValue",
-          "schema:propertyID": "xas:detector.it",
+          "schema:propertyID": [
+            "xas:detector.it"
+          ],
           "schema:name": "detector mode it",
           "schema:alternateName": "transmitted flux measurement method",
           "schema:value": "10cm  N2"
@@ -418,43 +426,17 @@ xas:487y54 a schema1:Product,
     schema1:hasPart [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "focusing" ;
-                    schema1:propertyID "xas:focusing" ;
-                    schema1:value "???" ],
+                    schema1:name "X-ray source" ;
+                    schema1:propertyID "nxs:Field/NXsource/type" ;
+                    schema1:value "Synchrotron X-ray Source" ],
                 [ a schema1:PropertyValue ;
-                    schema1:name "collimation technique" ;
-                    schema1:propertyID "xas:collimation" ;
-                    schema1:value "none" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "harmonic_rejection" ;
-                    schema1:propertyID "xas:harmonic_rejection" ;
-                    schema1:value "Rh-coated mirror, detuned" ] ;
-            schema1:additionalType "wd:Q3099911",
-                "xas:Beamline" ;
+                    schema1:name "Probe" ;
+                    schema1:propertyID "nxs:Field/NXsource/probe" ;
+                    schema1:value "x-ray" ] ;
+            schema1:additionalType "nxs:BaseClass/NXsource",
+                "wd:Q3099911" ;
             schema1:identifier "should have a registry with URIs" ;
-            schema1:name "13-BM-D" ],
-        [ a schema1:Product,
-                schema1:Thing ;
-            schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "monitor preset" ;
-                    schema1:propertyID "nxs:Field/NXmonitor/preset" ;
-                    schema1:value "N.A." ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "monitor mode" ;
-                    schema1:propertyID "nxs:Field/NXmonitor/mode" ;
-                    schema1:value "monitor" ],
-                [ a schema1:PropertyValue ;
-                    schema1:alternateName "incident flux measurement method" ;
-                    schema1:name "detector mode i0" ;
-                    schema1:propertyID "xas:detector.i0" ;
-                    schema1:value "10cm  N2" ],
-                [ a schema1:PropertyValue ;
-                    schema1:alternateName "transmitted flux measurement method" ;
-                    schema1:name "detector mode it" ;
-                    schema1:propertyID "xas:detector.it" ;
-                    schema1:value "10cm  N2" ] ;
-            schema1:additionalType "nxs:BaseClass/NXmonitor" ;
-            schema1:name "Beam monitor and detectors" ],
+            schema1:name "source of x-ray excitation for analysis. Made up for this example" ],
         [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
@@ -462,13 +444,13 @@ xas:487y54 a schema1:Product,
                     schema1:propertyID "nxs:Field/NXcrystal/type" ;
                     schema1:value "channel-cut" ],
                 [ a schema1:PropertyValue ;
-                    schema1:name "chemical formula" ;
-                    schema1:propertyID "nxs:Field/NXcrystal/chemical_formula" ;
-                    schema1:value "Si" ],
-                [ a schema1:PropertyValue ;
                     schema1:name "reflection plane (hkl)" ;
                     schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
                     schema1:value "1,1,1" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "chemical formula" ;
+                    schema1:propertyID "nxs:Field/NXcrystal/chemical_formula" ;
+                    schema1:value "Si" ],
                 [ a schema1:PropertyValue ;
                     schema1:name "d-spacing" ;
                     schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
@@ -480,17 +462,43 @@ xas:487y54 a schema1:Product,
         [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "Probe" ;
-                    schema1:propertyID "nxs:Field/NXsource/probe" ;
-                    schema1:value "x-ray" ],
+                    schema1:name "harmonic_rejection" ;
+                    schema1:propertyID "xas:harmonic_rejection" ;
+                    schema1:value "Rh-coated mirror, detuned" ],
                 [ a schema1:PropertyValue ;
-                    schema1:name "X-ray source" ;
-                    schema1:propertyID "nxs:Field/NXsource/type" ;
-                    schema1:value "Synchrotron X-ray Source" ] ;
-            schema1:additionalType "nxs:BaseClass/NXsource",
-                "wd:Q3099911" ;
+                    schema1:name "focusing" ;
+                    schema1:propertyID "xas:focusing" ;
+                    schema1:value "???" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "collimation technique" ;
+                    schema1:propertyID "xas:collimation" ;
+                    schema1:value "none" ] ;
+            schema1:additionalType "wd:Q3099911",
+                "xas:Beamline" ;
             schema1:identifier "should have a registry with URIs" ;
-            schema1:name "source of x-ray excitation for analysis. Made up for this example" ] ;
+            schema1:name "13-BM-D" ],
+        [ a schema1:Product,
+                schema1:Thing ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:alternateName "transmitted flux measurement method" ;
+                    schema1:name "detector mode it" ;
+                    schema1:propertyID "xas:detector.it" ;
+                    schema1:value "10cm  N2" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "monitor preset" ;
+                    schema1:propertyID "nxs:Field/NXmonitor/preset" ;
+                    schema1:value "N.A." ],
+                [ a schema1:PropertyValue ;
+                    schema1:alternateName "incident flux measurement method" ;
+                    schema1:name "detector mode i0" ;
+                    schema1:propertyID "xas:detector.i0" ;
+                    schema1:value "10cm  N2" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "monitor mode" ;
+                    schema1:propertyID "nxs:Field/NXmonitor/mode" ;
+                    schema1:value "monitor" ] ;
+            schema1:additionalType "nxs:BaseClass/NXmonitor" ;
+            schema1:name "Beam monitor and detectors" ] ;
     schema1:identifier "xas:487y54" ;
     schema1:name "x-ray absorption analysis system" .
 
