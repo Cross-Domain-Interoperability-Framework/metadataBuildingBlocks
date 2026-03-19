@@ -63,7 +63,11 @@ Example dataset with provenance activity describing how the resource was generat
             "schema:agent": {
                 "@type": "schema:Person",
                 "schema:name": "Garcia, Maria",
-                "schema:identifier": "https://orcid.org/0000-0003-1234-5678"
+                "schema:identifier": "https://orcid.org/0000-0003-1234-5678",
+                "schema:contactPoint": {
+                    "@type": "schema:ContactPoint",
+                    "schema:email": "m.garcia@example.org"
+                }
             },
             "prov:used": [
                 {
@@ -141,7 +145,11 @@ Example dataset with provenance activity describing how the resource was generat
       "schema:agent": {
         "@type": "schema:Person",
         "schema:name": "Garcia, Maria",
-        "schema:identifier": "https://orcid.org/0000-0003-1234-5678"
+        "schema:identifier": "https://orcid.org/0000-0003-1234-5678",
+        "schema:contactPoint": {
+          "@type": "schema:ContactPoint",
+          "schema:email": "m.garcia@example.org"
+        }
       },
       "prov:used": [
         {
@@ -188,6 +196,8 @@ ex:dataset_with_provenance_001 a schema1:Dataset ;
                 prov:Activity ;
             schema1:actionStatus "schema:CompletedActionStatus" ;
             schema1:agent [ a schema1:Person ;
+                    schema1:contactPoint [ a schema1:ContactPoint ;
+                            schema1:email "m.garcia@example.org" ] ;
                     schema1:identifier "https://orcid.org/0000-0003-1234-5678" ;
                     schema1:name "Garcia, Maria" ] ;
             schema1:description "Raw seismic traces were processed using standard reflection seismology workflow including deconvolution, stacking, and migration." ;
