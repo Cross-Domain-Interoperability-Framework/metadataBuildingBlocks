@@ -444,16 +444,16 @@ description extensions (TabularTextDataSet, StructuredDataSet).
 <file:///github/workspace/#a6143a557a62f78ae39fcb80578b74a3> a cdi:StructuredDataSet,
         schema1:MediaObject ;
     cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-wavelength> ;
-            cdi:index 0 ;
-            cdi:isRequired true ;
-            cdi:locator "/spectra/wavelength" ;
-            cdi:physicalDataType "float32" ],
-        [ cdi:format "decimal" ;
             cdi:formats_InstanceVariable <file:///github/workspace/#var-intensity> ;
             cdi:index 1 ;
             cdi:isRequired true ;
             cdi:locator "/spectra/intensity" ;
+            cdi:physicalDataType "float32" ],
+        [ cdi:format "decimal" ;
+            cdi:formats_InstanceVariable <file:///github/workspace/#var-wavelength> ;
+            cdi:index 0 ;
+            cdi:isRequired true ;
+            cdi:locator "/spectra/wavelength" ;
             cdi:physicalDataType "float32" ] ;
     schema1:description "Spectral data cube with wavelength and intensity dimensions." ;
     schema1:encodingFormat "application/x-netcdf" ;

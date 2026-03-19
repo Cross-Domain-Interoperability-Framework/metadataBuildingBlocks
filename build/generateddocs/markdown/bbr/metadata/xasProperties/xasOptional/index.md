@@ -23,8 +23,591 @@ Extends CDIF mandatory metadata with optional XAS-specific properties. Composes 
 
 ## Examples
 
-### Example XAS metadata conforms to extension.
-Import base schema.org SubjectOf, add requiremnet that dcterms:conformsTo has XAS profile URI.
+### Example XAS optional metadata with beamline instrument, measurement technique, and sample.
+XAS dataset with NXsource and NXmonochromator instrument components, XAS measurement technique keywords, and sample description.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "xas": "https://xas.org/dictionary/",
+    "nxs": "http://purl.org/nexusformat/definitions/",
+    "dcat": "http://www.w3.org/ns/dcat#"
+  },
+  "@id": "ex:xasOptionalExample_001",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "XAS measurement of Fe K-edge in magnetite sample",
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:propertyID": "DOI",
+    "schema:value": "10.12345/xas-optional-test",
+    "schema:url": "https://doi.org/10.12345/xas-optional-test"
+  },
+  "schema:dateModified": "2026-01-15",
+  "schema:license": [
+    "https://creativecommons.org/licenses/by/4.0/"
+  ],
+  "schema:distribution": [
+    {
+      "@id": "ex:dist_xdi_001",
+      "@type": [
+        "schema:DataDownload",
+        "cdi:PhysicalDataset"
+      ],
+      "schema:name": "XDI data file for Fe K-edge magnetite",
+      "schema:contentUrl": "https://example.org/data/fe_magnetite_kedge_01.xdi",
+      "schema:encodingFormat": [
+        "text/plain"
+      ],
+      "dcterms:conformsTo": [{"@id": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md"}],
+      "spdx:checksum": {
+        "@type": "spdx:Checksum",
+        "spdx:algorithm": "SHA256",
+        "spdx:checksumValue": "a1b2c3d4e5f6"
+      }
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "@id": "ex:meta_xasOpt_001",
+    "schema:about": {
+      "@id": "ex:xasOptionalExample_001"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/xasDiscovery/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/bbr/metadata/xasProperties/xasOptional"
+      },
+      {
+        "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFxas"
+      }
+    ],
+    "schema:maintainer": {
+      "@id": "ex:person_jdoe",
+      "@type": "schema:Person",
+      "schema:name": "Doe, Jane"
+    },
+    "schema:sdDatePublished": "2026-01-20T10:00:00Z"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "prov:used": [
+        {
+          "schema:instrument": {
+            "@type": ["schema:Thing", "schema:Product"],
+            "schema:name": "APS Sector 20-BM beamline instrument",
+            "schema:hasPart": [
+              {
+                "@type": [
+                  "schema:Thing",
+                  "schema:Product"
+                ],
+                "schema:additionalType": "nxs:BaseClass/NXsource",
+                "schema:name": "APS Undulator A",
+                "schema:additionalProperty": [
+                  {
+                    "@type": "schema:PropertyValue",
+                    "schema:propertyID": [
+                      "nxs:Field/NXsource/type"
+                    ],
+                    "schema:name": "x-ray source type",
+                    "schema:value": "Synchrotron X-ray Source"
+                  },
+                  {
+                    "@type": "schema:PropertyValue",
+                    "schema:propertyID": [
+                      "nxs:Field/NXsource/probe"
+                    ],
+                    "schema:name": "Probe",
+                    "schema:value": "x-ray"
+                  }
+                ]
+              },
+              {
+                "@type": [
+                  "schema:Thing",
+                  "schema:Product"
+                ],
+                "schema:additionalType": "nxs:BaseClass/NXmonochromator",
+                "schema:name": "Si 311",
+                "schema:additionalProperty": [
+                  {
+                    "@type": "schema:PropertyValue",
+                    "schema:propertyID": [
+                      "nxs:Field/NXcrystal/d_spacing"
+                    ],
+                    "schema:name": "d-spacing",
+                    "schema:value": "1.63747",
+                    "schema:unitText": "Angstrom"
+                  },
+                  {
+                    "@type": "schema:PropertyValue",
+                    "schema:propertyID": [
+                      "nxs:Field/NXcrystal/type"
+                    ],
+                    "schema:name": "crystal type",
+                    "schema:value": "channel-cut"
+                  },
+                  {
+                    "@type": "schema:PropertyValue",
+                    "schema:propertyID": [
+                      "nxs:Field/NXcrystal/reflection"
+                    ],
+                    "schema:name": "reflection plane (hkl)",
+                    "schema:value": "3,1,1"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "schema:object": {
+        "@type": [
+          "schema:Product",
+          "schema:Thing"
+        ],
+        "schema:additionalType": [
+          "MaterialSample",
+          "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+        ],
+        "schema:name": "Magnetite powder",
+        "schema:identifier": "igsn:10.60471/mag-001",
+        "schema:description": "Synthetic magnetite powder, 99.5% purity",
+        "schema:additionalProperty": [
+          {
+            "@type": "schema:PropertyValue",
+            "schema:propertyID": [
+              "xas:stoichiometry"
+            ],
+            "schema:name": "Stoichiometry",
+            "schema:value": "Fe3O4"
+          },
+          {
+            "@type": "schema:PropertyValue",
+            "schema:propertyID": [
+              "xas:samplePreparation"
+            ],
+            "schema:name": "sample preparation method",
+            "schema:value": "ground and pressed into pellet with BN diluent"
+          }
+        ]
+      }
+    }
+  ],
+  "schema:measurementTechnique": [
+    {
+      "@type": "schema:DefinedTerm",
+      "schema:name": "X-Ray Absorption Spectroscopy",
+      "schema:termCode": "XAS",
+      "schema:identifier": "http://purl.org/pan-science/PaNET/PaNET01196",
+      "schema:inDefinedTermSet": "http://purl.org/pan-science/PaNET/PaNET.owl"
+    },
+    {
+      "@type": "schema:DefinedTerm",
+      "schema:name": "Transmission",
+      "schema:identifier": "xas:transmissionMode",
+      "schema:inDefinedTermSet": "nxs:Field/NXxas/ENTRY/DATA/mode"
+    }
+  ],
+  "schema:keywords": [
+    {
+      "@type": "schema:DefinedTerm",
+      "schema:name": "K-edge",
+      "schema:identifier": "xas:K-edge",
+      "schema:termCode": "K",
+      "schema:inDefinedTermSet": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md"
+    },
+    {
+      "@type": "schema:DefinedTerm",
+      "schema:name": "Iron",
+      "schema:identifier": "http://sweetontology.net/matrElement/Iron",
+      "schema:termCode": "Fe",
+      "schema:inDefinedTermSet": "http://sweetontology.net/matrElement"
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "prov": "http://www.w3.org/ns/prov#",
+      "nxs": "http://purl.org/nexusformat/definitions/",
+      "xas": "https://xas.org/dictionary/",
+      "dcat": "http://www.w3.org/ns/dcat#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "geosparql": "http://www.opengis.net/ont/geosparql#",
+      "spdx": "http://spdx.org/rdf/terms#",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "prov": "http://www.w3.org/ns/prov#",
+      "xas": "https://xas.org/dictionary/",
+      "nxs": "http://purl.org/nexusformat/definitions/",
+      "dcat": "http://www.w3.org/ns/dcat#"
+    }
+  ],
+  "@id": "ex:xasOptionalExample_001",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "XAS measurement of Fe K-edge in magnetite sample",
+  "schema:identifier": {
+    "@type": "schema:PropertyValue",
+    "schema:propertyID": "DOI",
+    "schema:value": "10.12345/xas-optional-test",
+    "schema:url": "https://doi.org/10.12345/xas-optional-test"
+  },
+  "schema:dateModified": "2026-01-15",
+  "schema:license": [
+    "https://creativecommons.org/licenses/by/4.0/"
+  ],
+  "schema:distribution": [
+    {
+      "@id": "ex:dist_xdi_001",
+      "@type": [
+        "schema:DataDownload",
+        "cdi:PhysicalDataset"
+      ],
+      "schema:name": "XDI data file for Fe K-edge magnetite",
+      "schema:contentUrl": "https://example.org/data/fe_magnetite_kedge_01.xdi",
+      "schema:encodingFormat": [
+        "text/plain"
+      ],
+      "dcterms:conformsTo": [
+        {
+          "@id": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md"
+        }
+      ],
+      "spdx:checksum": {
+        "@type": "spdx:Checksum",
+        "spdx:algorithm": "SHA256",
+        "spdx:checksumValue": "a1b2c3d4e5f6"
+      }
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "@id": "ex:meta_xasOpt_001",
+    "schema:about": {
+      "@id": "ex:xasOptionalExample_001"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/xasDiscovery/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/bbr/metadata/xasProperties/xasOptional"
+      },
+      {
+        "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFxas"
+      }
+    ],
+    "schema:maintainer": {
+      "@id": "ex:person_jdoe",
+      "@type": "schema:Person",
+      "schema:name": "Doe, Jane"
+    },
+    "schema:sdDatePublished": "2026-01-20T10:00:00Z"
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "prov:used": [
+        {
+          "schema:instrument": {
+            "@type": [
+              "schema:Thing",
+              "schema:Product"
+            ],
+            "schema:name": "APS Sector 20-BM beamline instrument",
+            "schema:hasPart": [
+              {
+                "@type": [
+                  "schema:Thing",
+                  "schema:Product"
+                ],
+                "schema:additionalType": "nxs:BaseClass/NXsource",
+                "schema:name": "APS Undulator A",
+                "schema:additionalProperty": [
+                  {
+                    "@type": "schema:PropertyValue",
+                    "schema:propertyID": [
+                      "nxs:Field/NXsource/type"
+                    ],
+                    "schema:name": "x-ray source type",
+                    "schema:value": "Synchrotron X-ray Source"
+                  },
+                  {
+                    "@type": "schema:PropertyValue",
+                    "schema:propertyID": [
+                      "nxs:Field/NXsource/probe"
+                    ],
+                    "schema:name": "Probe",
+                    "schema:value": "x-ray"
+                  }
+                ]
+              },
+              {
+                "@type": [
+                  "schema:Thing",
+                  "schema:Product"
+                ],
+                "schema:additionalType": "nxs:BaseClass/NXmonochromator",
+                "schema:name": "Si 311",
+                "schema:additionalProperty": [
+                  {
+                    "@type": "schema:PropertyValue",
+                    "schema:propertyID": [
+                      "nxs:Field/NXcrystal/d_spacing"
+                    ],
+                    "schema:name": "d-spacing",
+                    "schema:value": "1.63747",
+                    "schema:unitText": "Angstrom"
+                  },
+                  {
+                    "@type": "schema:PropertyValue",
+                    "schema:propertyID": [
+                      "nxs:Field/NXcrystal/type"
+                    ],
+                    "schema:name": "crystal type",
+                    "schema:value": "channel-cut"
+                  },
+                  {
+                    "@type": "schema:PropertyValue",
+                    "schema:propertyID": [
+                      "nxs:Field/NXcrystal/reflection"
+                    ],
+                    "schema:name": "reflection plane (hkl)",
+                    "schema:value": "3,1,1"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "schema:object": {
+        "@type": [
+          "schema:Product",
+          "schema:Thing"
+        ],
+        "schema:additionalType": [
+          "MaterialSample",
+          "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+        ],
+        "schema:name": "Magnetite powder",
+        "schema:identifier": "igsn:10.60471/mag-001",
+        "schema:description": "Synthetic magnetite powder, 99.5% purity",
+        "schema:additionalProperty": [
+          {
+            "@type": "schema:PropertyValue",
+            "schema:propertyID": [
+              "xas:stoichiometry"
+            ],
+            "schema:name": "Stoichiometry",
+            "schema:value": "Fe3O4"
+          },
+          {
+            "@type": "schema:PropertyValue",
+            "schema:propertyID": [
+              "xas:samplePreparation"
+            ],
+            "schema:name": "sample preparation method",
+            "schema:value": "ground and pressed into pellet with BN diluent"
+          }
+        ]
+      }
+    }
+  ],
+  "schema:measurementTechnique": [
+    {
+      "@type": "schema:DefinedTerm",
+      "schema:name": "X-Ray Absorption Spectroscopy",
+      "schema:termCode": "XAS",
+      "schema:identifier": "http://purl.org/pan-science/PaNET/PaNET01196",
+      "schema:inDefinedTermSet": "http://purl.org/pan-science/PaNET/PaNET.owl"
+    },
+    {
+      "@type": "schema:DefinedTerm",
+      "schema:name": "Transmission",
+      "schema:identifier": "xas:transmissionMode",
+      "schema:inDefinedTermSet": "nxs:Field/NXxas/ENTRY/DATA/mode"
+    }
+  ],
+  "schema:keywords": [
+    {
+      "@type": "schema:DefinedTerm",
+      "schema:name": "K-edge",
+      "schema:identifier": "xas:K-edge",
+      "schema:termCode": "K",
+      "schema:inDefinedTermSet": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md"
+    },
+    {
+      "@type": "schema:DefinedTerm",
+      "schema:name": "Iron",
+      "schema:identifier": "http://sweetontology.net/matrElement/Iron",
+      "schema:termCode": "Fe",
+      "schema:inDefinedTermSet": "http://sweetontology.net/matrElement"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ex: <https://example.org/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix schema1: <http://schema.org/> .
+@prefix spdx: <http://spdx.org/rdf/terms#> .
+
+ex:dist_xdi_001 a cdi:PhysicalDataset,
+        schema1:DataDownload ;
+    dcterms:conformsTo <https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md> ;
+    schema1:contentUrl "https://example.org/data/fe_magnetite_kedge_01.xdi" ;
+    schema1:encodingFormat "text/plain" ;
+    schema1:name "XDI data file for Fe K-edge magnetite" ;
+    spdx:checksum [ a spdx:Checksum ;
+            spdx:algorithm "SHA256" ;
+            spdx:checksumValue "a1b2c3d4e5f6" ] .
+
+ex:meta_xasOpt_001 a schema1:Dataset ;
+    dcterms:conformsTo <https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFxas>,
+        <https://w3id.org/cdif/bbr/metadata/xasProperties/xasOptional>,
+        <https://w3id.org/cdif/core/1.0/>,
+        <https://w3id.org/cdif/discovery/1.0/>,
+        <https://w3id.org/cdif/xasDiscovery/1.0/> ;
+    schema1:about ex:xasOptionalExample_001 ;
+    schema1:additionalType "dcat:CatalogRecord" ;
+    schema1:maintainer ex:person_jdoe ;
+    schema1:sdDatePublished "2026-01-20T10:00:00Z" .
+
+ex:person_jdoe a schema1:Person ;
+    schema1:name "Doe, Jane" .
+
+ex:xasOptionalExample_001 a schema1:Dataset,
+        schema1:Product ;
+    schema1:dateModified "2026-01-15" ;
+    schema1:distribution ex:dist_xdi_001 ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "DOI" ;
+            schema1:url "https://doi.org/10.12345/xas-optional-test" ;
+            schema1:value "10.12345/xas-optional-test" ] ;
+    schema1:keywords [ a schema1:DefinedTerm ;
+            schema1:identifier "xas:K-edge" ;
+            schema1:inDefinedTermSet "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md" ;
+            schema1:name "K-edge" ;
+            schema1:termCode "K" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "http://sweetontology.net/matrElement/Iron" ;
+            schema1:inDefinedTermSet "http://sweetontology.net/matrElement" ;
+            schema1:name "Iron" ;
+            schema1:termCode "Fe" ] ;
+    schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
+    schema1:measurementTechnique [ a schema1:DefinedTerm ;
+            schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01196" ;
+            schema1:inDefinedTermSet "http://purl.org/pan-science/PaNET/PaNET.owl" ;
+            schema1:name "X-Ray Absorption Spectroscopy" ;
+            schema1:termCode "XAS" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "xas:transmissionMode" ;
+            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
+            schema1:name "Transmission" ] ;
+    schema1:name "XAS measurement of Fe K-edge in magnetite sample" ;
+    schema1:subjectOf ex:meta_xasOpt_001 ;
+    prov:wasGeneratedBy [ schema1:object [ a schema1:Product,
+                        schema1:Thing ;
+                    schema1:additionalProperty [ a schema1:PropertyValue ;
+                            schema1:name "sample preparation method" ;
+                            schema1:propertyID "xas:samplePreparation" ;
+                            schema1:value "ground and pressed into pellet with BN diluent" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "Stoichiometry" ;
+                            schema1:propertyID "xas:stoichiometry" ;
+                            schema1:value "Fe3O4" ] ;
+                    schema1:additionalType "MaterialSample",
+                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample" ;
+                    schema1:description "Synthetic magnetite powder, 99.5% purity" ;
+                    schema1:identifier "igsn:10.60471/mag-001" ;
+                    schema1:name "Magnetite powder" ] ;
+            prov:used [ schema1:instrument [ a schema1:Product,
+                                schema1:Thing ;
+                            schema1:hasPart [ a schema1:Product,
+                                        schema1:Thing ;
+                                    schema1:additionalProperty [ a schema1:PropertyValue ;
+                                            schema1:name "x-ray source type" ;
+                                            schema1:propertyID "nxs:Field/NXsource/type" ;
+                                            schema1:value "Synchrotron X-ray Source" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "Probe" ;
+                                            schema1:propertyID "nxs:Field/NXsource/probe" ;
+                                            schema1:value "x-ray" ] ;
+                                    schema1:additionalType "nxs:BaseClass/NXsource" ;
+                                    schema1:name "APS Undulator A" ],
+                                [ a schema1:Product,
+                                        schema1:Thing ;
+                                    schema1:additionalProperty [ a schema1:PropertyValue ;
+                                            schema1:name "crystal type" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
+                                            schema1:value "channel-cut" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "reflection plane (hkl)" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
+                                            schema1:value "3,1,1" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "d-spacing" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
+                                            schema1:unitText "Angstrom" ;
+                                            schema1:value "1.63747" ] ;
+                                    schema1:additionalType "nxs:BaseClass/NXmonochromator" ;
+                                    schema1:name "Si 311" ] ;
+                            schema1:name "APS Sector 20-BM beamline instrument" ] ] ] .
+
+
+```
+
 ## Schema
 
 ```yaml
