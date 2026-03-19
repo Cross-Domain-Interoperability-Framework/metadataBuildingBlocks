@@ -57,6 +57,9 @@ Example dataset with an archive distribution containing component files.
             "schema:name": "Geochemistry results archive",
             "schema:contentUrl": "https://example.org/downloads/geochem-results-2025.zip",
             "schema:encodingFormat": ["application/zip"],
+            "dcterms:conformsTo": [
+                {"@id": "https://w3id.org/cdif/manifest/1.0/"}
+            ],
             "schema:hasPart": [
                 {
                     "@id": "#data-csv",
@@ -145,6 +148,11 @@ Example dataset with an archive distribution containing component files.
       "schema:encodingFormat": [
         "application/zip"
       ],
+      "dcterms:conformsTo": [
+        {
+          "@id": "https://w3id.org/cdif/manifest/1.0/"
+        }
+      ],
       "schema:hasPart": [
         {
           "@id": "#data-csv",
@@ -206,6 +214,7 @@ Example dataset with an archive distribution containing component files.
 ex:dataset_archive_001 a schema1:Dataset ;
     schema1:dateModified "2025-08-01" ;
     schema1:distribution [ a schema1:DataDownload ;
+            dcterms:conformsTo <https://w3id.org/cdif/manifest/1.0/> ;
             schema1:contentUrl "https://example.org/downloads/geochem-results-2025.zip" ;
             schema1:encodingFormat "application/zip" ;
             schema1:hasPart <file:///github/workspace/#data-csv>,

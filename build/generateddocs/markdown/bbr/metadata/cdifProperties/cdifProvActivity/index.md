@@ -73,6 +73,12 @@ schema:actionProcess HowTo with ordered steps, and facility location.
                 "schema:termCode": "ICP-MS",
                 "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
                 "schema:alternateName": "Thermo Fisher iCAP RQ ICP-MS",
+                "schema:category": [{
+                    "@type": "schema:DefinedTerm",
+                    "schema:name": "Inductively coupled plasma mass spectrometer",
+                    "schema:termCode": "LAB21",
+                    "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+                }],
                 "schema:additionalProperty": [
                     {
                         "@type": "schema:PropertyValue",
@@ -169,6 +175,14 @@ schema:actionProcess HowTo with ordered steps, and facility location.
         "schema:termCode": "ICP-MS",
         "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
         "schema:alternateName": "Thermo Fisher iCAP RQ ICP-MS",
+        "schema:category": [
+          {
+            "@type": "schema:DefinedTerm",
+            "schema:name": "Inductively coupled plasma mass spectrometer",
+            "schema:termCode": "LAB21",
+            "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+          }
+        ],
         "schema:additionalProperty": [
           {
             "@type": "schema:PropertyValue",
@@ -275,19 +289,23 @@ ex:activity-soil-chem-analysis a schema1:Action,
     schema1:object "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect" ;
     schema1:result ex:dataset-soil-chem-gb-2025 ;
     schema1:startTime "2025-07-15T08:00:00Z" ;
-    prov:used [ schema1:instrument [ a schema1:DefinedTerm,
+    prov:used [ a schema1:CreativeWork ;
+            schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
+            schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
+        [ schema1:instrument [ a schema1:DefinedTerm,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
                             schema1:name "Typical Detection Limit" ;
                             schema1:propertyID "detectionLimit" ;
                             schema1:value "0.01 mg/kg for trace elements" ] ;
                     schema1:alternateName "Thermo Fisher iCAP RQ ICP-MS" ;
+                    schema1:category [ a schema1:DefinedTerm ;
+                            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+                            schema1:name "Inductively coupled plasma mass spectrometer" ;
+                            schema1:termCode "LAB21" ] ;
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
                     schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
                     schema1:termCode "ICP-MS" ] ],
-        [ a schema1:CreativeWork ;
-            schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
-            schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
         "Soil core samples collected June 2025, sites GB-001 through GB-045",
         "https://vocab.nerc.ac.uk/collection/L05/current/LAB02" .
 

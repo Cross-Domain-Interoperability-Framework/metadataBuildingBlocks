@@ -47,6 +47,7 @@ Import base schema.org SubjectOf, add requiremnet that dcterms:conformsTo has XA
     "schema:about": {"@id": "xas:485749"},
     "schema:description": "metadata about documentation for se_na2so4",
     "dcterms:conformsTo": [
+        {"@id": "https://w3id.org/cdif/core/1.0/"},
         {"@id": "https://w3id.org/cdif/bbr/metadata/cdifProperties/cdifCore"},
         {"@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFxas"}
     ]
@@ -98,6 +99,9 @@ Import base schema.org SubjectOf, add requiremnet that dcterms:conformsTo has XA
   "schema:description": "metadata about documentation for se_na2so4",
   "dcterms:conformsTo": [
     {
+      "@id": "https://w3id.org/cdif/core/1.0/"
+    },
+    {
       "@id": "https://w3id.org/cdif/bbr/metadata/cdifProperties/cdifCore"
     },
     {
@@ -116,7 +120,8 @@ Import base schema.org SubjectOf, add requiremnet that dcterms:conformsTo has XA
 
 ex:subject-pz63 a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/bbr/metadata/cdifProperties/cdifCore>,
-        <https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFxas> ;
+        <https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFxas>,
+        <https://w3id.org/cdif/core/1.0/> ;
     schema1:about xas:485749 ;
     schema1:additionalType "dcat:CatalogRecord" ;
     schema1:creator <https://ada.org/person/3479> ;

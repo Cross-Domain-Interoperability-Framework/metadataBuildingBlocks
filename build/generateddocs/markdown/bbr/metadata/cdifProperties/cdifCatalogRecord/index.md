@@ -32,7 +32,7 @@ Example instance of properties for a catalog record describing information about
     "@id": "ex:URIforMetadata3575",
     "schema:about": {"@id": "ex:URIforNode2246"},
     "dcterms:conformsTo": [
-        {"@id":"xas:https://xas.org/dictionary/"}
+        {"@id": "https://w3id.org/cdif/core/1.0/"}
     ],
     "schema:maintainer": {
         "@id": "https://orcid.org/3333-4442-9456-9347",
@@ -114,7 +114,7 @@ Example instance of properties for a catalog record describing information about
   },
   "dcterms:conformsTo": [
     {
-      "@id": "xas:https://xas.org/dictionary/"
+      "@id": "https://w3id.org/cdif/core/1.0/"
     }
   ],
   "schema:maintainer": {
@@ -174,7 +174,7 @@ Example instance of properties for a catalog record describing information about
 @prefix schema1: <http://schema.org/> .
 
 ex:URIforMetadata3575 a schema1:Dataset ;
-    dcterms:conformsTo <xas:https://xas.org/dictionary/> ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/1.0/> ;
     schema1:about ex:URIforNode2246 ;
     schema1:additionalType "dcat:CatalogRecord" ;
     schema1:includedInDataCatalog <https://ror.org/04sfkyrt24> ;
