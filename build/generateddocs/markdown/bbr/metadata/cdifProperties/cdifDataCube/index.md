@@ -13,6 +13,105 @@ metadata to document physical data structure for data cube or hierarchical data.
 
 Describes structured data files-- hierarchical datastructures like JSON, and multidimensional data array structures serialized in data cube format like hdf5 or netCDF. T
 
+## Examples
+
+### Example Data Cube
+Example multi-dimensional data cube structure with physical mappings.
+#### json
+```json
+{
+    "@context": {
+        "schema": "http://schema.org/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "ex": "https://example.org/"
+    },
+    "@type": ["cdi:StructuredDataSet"],
+    "cdi:hasPhysicalMapping": [
+        {
+            "cdi:index": 0,
+            "cdi:format": "float64",
+            "cdi:physicalDataType": "Numeric",
+            "cdi:formats_InstanceVariable": {
+                "@id": "ex:var-temperature"
+            },
+            "cdi:locator": "/temperature[*][*]"
+        },
+        {
+            "cdi:index": 1,
+            "cdi:format": "float64",
+            "cdi:physicalDataType": "Numeric",
+            "cdi:formats_InstanceVariable": {
+                "@id": "ex:var-pressure"
+            },
+            "cdi:locator": "/pressure[*][*]"
+        }
+    ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "schema": "http://schema.org/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataCube/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:StructuredDataSet"
+  ],
+  "cdi:hasPhysicalMapping": [
+    {
+      "cdi:index": 0,
+      "cdi:format": "float64",
+      "cdi:physicalDataType": "Numeric",
+      "cdi:formats_InstanceVariable": {
+        "@id": "ex:var-temperature"
+      },
+      "cdi:locator": "/temperature[*][*]"
+    },
+    {
+      "cdi:index": 1,
+      "cdi:format": "float64",
+      "cdi:physicalDataType": "Numeric",
+      "cdi:formats_InstanceVariable": {
+        "@id": "ex:var-pressure"
+      },
+      "cdi:locator": "/pressure[*][*]"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix ex: <https://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] a cdi:StructuredDataSet ;
+    cdi:hasPhysicalMapping [ cdi:format "float64" ;
+            cdi:formats_InstanceVariable ex:var-pressure ;
+            cdi:index 1 ;
+            cdi:locator "/pressure[*][*]" ;
+            cdi:physicalDataType "Numeric" ],
+        [ cdi:format "float64" ;
+            cdi:formats_InstanceVariable ex:var-temperature ;
+            cdi:index 0 ;
+            cdi:locator "/temperature[*][*]" ;
+            cdi:physicalDataType "Numeric" ] .
+
+
+```
+
 ## Schema
 
 ```yaml

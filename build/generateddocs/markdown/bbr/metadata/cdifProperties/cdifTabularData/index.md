@@ -13,6 +13,127 @@ metadata to document physical data structure, mapping DDI/CDI instance variable 
 
 Describes tabular/structured data files. Typed as `cdi:PhysicalDataSet` and `ada:tabularData`. Supports DDI-CDI WideDataStructure for column layout description, spatial registration, and various analytical technique-specific component types, hierarchical datastructures like JSON, and multidimensional data array structures serialized in data cube format like hdf5 or netCDF.
 
+## Examples
+
+### Example Tabular Data
+Example delimited tabular data structure with CSV settings and physical mappings.
+#### json
+```json
+{
+    "@context": {
+        "schema": "http://schema.org/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "csvw": "http://www.w3.org/ns/csvw#",
+        "ex": "https://example.org/"
+    },
+    "@type": ["cdi:TabularTextDataSet", "schema:Dataset"],
+    "cdi:isDelimited": true,
+    "csvw:delimiter": ",",
+    "csvw:header": true,
+    "csvw:headerRowCount": 1,
+    "csvw:commentPrefix": "#",
+    "csvw:skipBlankRows": false,
+    "csvw:skipInitialSpace": true,
+    "countRows": 1500,
+    "countColumns": 5,
+    "cdi:hasPhysicalMapping": [
+        {
+            "cdi:index": 0,
+            "cdi:physicalDataType": "String",
+            "cdi:formats_InstanceVariable": {
+                "@id": "ex:var-station-id"
+            }
+        },
+        {
+            "cdi:index": 1,
+            "cdi:format": "float64",
+            "cdi:physicalDataType": "Numeric",
+            "cdi:formats_InstanceVariable": {
+                "@id": "ex:var-temperature"
+            }
+        }
+    ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "csvw": "http://www.w3.org/ns/csvw#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularData/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "csvw": "http://www.w3.org/ns/csvw#",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:TabularTextDataSet",
+    "schema:Dataset"
+  ],
+  "cdi:isDelimited": true,
+  "csvw:delimiter": ",",
+  "csvw:header": true,
+  "csvw:headerRowCount": 1,
+  "csvw:commentPrefix": "#",
+  "csvw:skipBlankRows": false,
+  "csvw:skipInitialSpace": true,
+  "countRows": 1500,
+  "countColumns": 5,
+  "cdi:hasPhysicalMapping": [
+    {
+      "cdi:index": 0,
+      "cdi:physicalDataType": "String",
+      "cdi:formats_InstanceVariable": {
+        "@id": "ex:var-station-id"
+      }
+    },
+    {
+      "cdi:index": 1,
+      "cdi:format": "float64",
+      "cdi:physicalDataType": "Numeric",
+      "cdi:formats_InstanceVariable": {
+        "@id": "ex:var-temperature"
+      }
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] a cdi:TabularTextDataSet,
+        schema1:Dataset ;
+    cdi:hasPhysicalMapping [ cdi:formats_InstanceVariable ex:var-station-id ;
+            cdi:index 0 ;
+            cdi:physicalDataType "String" ],
+        [ cdi:format "float64" ;
+            cdi:formats_InstanceVariable ex:var-temperature ;
+            cdi:index 1 ;
+            cdi:physicalDataType "Numeric" ] ;
+    cdi:isDelimited true ;
+    csvw:commentPrefix "#" ;
+    csvw:delimiter "," ;
+    csvw:header true ;
+    csvw:headerRowCount 1 ;
+    csvw:skipBlankRows false ;
+    csvw:skipInitialSpace true .
+
+
+```
+
 ## Schema
 
 ```yaml

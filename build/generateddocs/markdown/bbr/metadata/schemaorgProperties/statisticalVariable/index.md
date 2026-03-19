@@ -11,6 +11,75 @@ Schema defining properties for schema.org/StatisticalVariable. Defines a variabl
 
 Schema for schema.org/StatisticalVariable. Defines a variable that represents a statistical measure, such as median income or unemployment rate. Separated from PropertyValue-based variableMeasured to allow independent use in metadata records that describe statistical datasets.
 
+## Examples
+
+### Example Statistical Variable
+Example statistical variable defining a median household income measure.
+#### json
+```json
+{
+    "@context": {
+        "schema": "http://schema.org/",
+        "ex": "https://example.org/"
+    },
+    "@id": "ex:statvar-median-income",
+    "@type": ["schema:StatisticalVariable"],
+    "schema:name": "Median Household Income",
+    "schema:description": "Median annual household income in US dollars, estimated from survey data.",
+    "schema:statType": "Median",
+    "schema:measuredProperty": {
+        "@type": "schema:Property",
+        "schema:name": "household income"
+    },
+    "schema:measurementTechnique": "American Community Survey 5-year estimates"
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:statvar-median-income",
+  "@type": [
+    "schema:StatisticalVariable"
+  ],
+  "schema:name": "Median Household Income",
+  "schema:description": "Median annual household income in US dollars, estimated from survey data.",
+  "schema:statType": "Median",
+  "schema:measuredProperty": {
+    "@type": "schema:Property",
+    "schema:name": "household income"
+  },
+  "schema:measurementTechnique": "American Community Survey 5-year estimates"
+}
+```
+
+#### ttl
+```ttl
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+
+ex:statvar-median-income a schema1:StatisticalVariable ;
+    schema1:description "Median annual household income in US dollars, estimated from survey data." ;
+    schema1:measuredProperty [ a schema1:Property ;
+            schema1:name "household income" ] ;
+    schema1:measurementTechnique "American Community Survey 5-year estimates" ;
+    schema1:name "Median Household Income" ;
+    schema1:statType "Median" .
+
+
+```
+
 ## Schema
 
 ```yaml

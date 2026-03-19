@@ -17,6 +17,108 @@ Uses DDI-CDI `LongStructureDataSet` type. The descriptor and reference variable 
 
 Optional CSVW and DDI-CDI physical properties may be provided when the long data is serialized as delimited text.
 
+## Examples
+
+### Example Long Data Structure
+Example long (narrow) data structure with delimiter and header settings.
+#### json
+```json
+{
+    "@context": {
+        "schema": "http://schema.org/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "csvw": "http://www.w3.org/ns/csvw#",
+        "ex": "https://example.org/"
+    },
+    "@type": ["cdi:LongStructureDataSet"],
+    "cdi:hasPhysicalMapping": [
+        {
+            "cdi:index": 0,
+            "cdi:physicalDataType": "String",
+            "cdi:formats_InstanceVariable": {
+                "@id": "ex:var-descriptor"
+            }
+        },
+        {
+            "cdi:index": 1,
+            "cdi:physicalDataType": "Numeric",
+            "cdi:formats_InstanceVariable": {
+                "@id": "ex:var-value"
+            }
+        }
+    ],
+    "csvw:delimiter": ",",
+    "csvw:header": true,
+    "csvw:headerRowCount": 1,
+    "cdi:isDelimited": true
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "csvw": "http://www.w3.org/ns/csvw#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifLongData/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "csvw": "http://www.w3.org/ns/csvw#",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:LongStructureDataSet"
+  ],
+  "cdi:hasPhysicalMapping": [
+    {
+      "cdi:index": 0,
+      "cdi:physicalDataType": "String",
+      "cdi:formats_InstanceVariable": {
+        "@id": "ex:var-descriptor"
+      }
+    },
+    {
+      "cdi:index": 1,
+      "cdi:physicalDataType": "Numeric",
+      "cdi:formats_InstanceVariable": {
+        "@id": "ex:var-value"
+      }
+    }
+  ],
+  "csvw:delimiter": ",",
+  "csvw:header": true,
+  "csvw:headerRowCount": 1,
+  "cdi:isDelimited": true
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix ex: <https://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] a cdi:LongStructureDataSet ;
+    cdi:hasPhysicalMapping [ cdi:formats_InstanceVariable ex:var-value ;
+            cdi:index 1 ;
+            cdi:physicalDataType "Numeric" ],
+        [ cdi:formats_InstanceVariable ex:var-descriptor ;
+            cdi:index 0 ;
+            cdi:physicalDataType "String" ] ;
+    cdi:isDelimited true ;
+    csvw:delimiter "," ;
+    csvw:header true ;
+    csvw:headerRowCount 1 .
+
+
+```
+
 ## Schema
 
 ```yaml

@@ -1,5 +1,5 @@
 Validation report for cdif.bbr.metadata.cdifProperties.cdifCatalogRecord - CDIF Catalog Record
-Generated 2026-03-16T20:28:51.389166+00:00
+Generated 2026-03-19T15:26:55.659547+00:00
 === General ===
 Test was expected to fail and it did.
 === End General ===
@@ -19,18 +19,7 @@ ValidationError: 'dcterms:conformsTo' is a required property
 Failed validating 'required' in schema:
     {'$defs': {'Identifier': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml'},
                'Organization': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml'},
-               'Person': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml'},
-               'conformsTo_item': {'properties': {'@id': {'description': 'uri '
-                                                                         'for '
-                                                                         'specifications '
-                                                                         'that '
-                                                                         'this '
-                                                                         'metadata '
-                                                                         'record '
-                                                                         'conforms '
-                                                                         'to',
-                                                          'type': 'string'}},
-                                   'type': 'object'}},
+               'Person': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml'}},
      '$schema': 'https://json-schema.org/draft/2020-12/schema',
      'description': 'see '
                     'https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13 '
@@ -53,16 +42,18 @@ Failed validating 'required' in schema:
                                                           'should specify '
                                                           'uri for CDIF '
                                                           'discovery '
-                                                          'profile.  '
-                                                          'Implement as '
-                                                          '$def to '
-                                                          'facilitate '
-                                                          'extension for '
-                                                          'profiles that '
-                                                          'need to add '
-                                                          'conformance '
-                                                          'statements',
-                                           'items': {'$ref': '#/$defs/conformsTo_item'},
+                                                          'profile.',
+                                           'items': {'properties': {'@id': {'description': 'uri '
+                                                                                           'for '
+                                                                                           'specifications '
+                                                                                           'that '
+                                                                                           'this '
+                                                                                           'metadata '
+                                                                                           'record '
+                                                                                           'conforms '
+                                                                                           'to',
+                                                                            'type': 'string'}},
+                                                     'type': 'object'},
                                            'minItems': 1,
                                            'type': 'array'},
                     'schema:about': {'properties': {'@id': {'description': 'this '
@@ -248,8 +239,14 @@ On instance:
 Validation result for _sources/cdifProperties/cdifCatalogRecord/rules.shacl:
   Validation Report
   Conforms: False
-  Results (1):
+  Results (2):
   Constraint Violation in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
+  	Severity: sh:Violation
+  	Source Shape: cdifd:metadataProfileProperty
+  	Focus Node: ex:URIforMetadata3575
+  	Result Path: dcterms:conformsTo
+  	Message: provide identifiers for specifications used in this record to provide guidance for machine agents processing the metadata record
+  Constraint Violation in HasValueConstraintComponent (http://www.w3.org/ns/shacl#HasValueConstraintComponent):
   	Severity: sh:Violation
   	Source Shape: cdifd:metadataProfileProperty
   	Focus Node: ex:URIforMetadata3575
@@ -264,19 +261,36 @@ Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
+ - Shape _:nb232a0a6f0194ef29b24ead0d245f250b11: *none*
+ - Shape _:nb232a0a6f0194ef29b24ead0d245f250b23: *none*
  - Shape cdifd:CDIFIdentifierShape: *none*
- - Shape _:nd107d7f2ff214b889b850bc71a4fd63bb23: *none*
- - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
- - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:nd107d7f2ff214b889b850bc71a4fd63bb25: *none*
- - Shape _:nd107d7f2ff214b889b850bc71a4fd63bb21: *none*
- - Shape _:nd107d7f2ff214b889b850bc71a4fd63bb20: *none*
- - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
- - Shape _:nd107d7f2ff214b889b850bc71a4fd63bb11: *none*
  - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:nd107d7f2ff214b889b850bc71a4fd63bb10: *none*
+ - Shape _:nb232a0a6f0194ef29b24ead0d245f250b20: *none*
+ - Shape _:nb232a0a6f0194ef29b24ead0d245f250b21: *none*
+ - Shape _:nb232a0a6f0194ef29b24ead0d245f250b22: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
  - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:nd107d7f2ff214b889b850bc71a4fd63bb22: *none*
+ - Shape _:nb232a0a6f0194ef29b24ead0d245f250b10: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape _:nb232a0a6f0194ef29b24ead0d245f250b25: *none*
+
+Validation result for _sources/schemaorgProperties/person/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/person/rules.shacl:
+ - Shape cdifd:CDIFContactPointShape: <https://orcid.org/3333-4442-9456-9347>/schema1:contactPoint
+ - Shape _:nba1eb8fef43446a1a293a887ed1eba8fb14: *none*
+ - Shape cdifd:affiliationProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:maintainerOrProviderContactPointShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:affiliationProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFPersonShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:maintainerOrProviderContactPointShape: *none*
+ - Shape cdifd:CDIFPersonShape/sh:or/rdf:first: *none*
+ - Shape cdifd:contactPointProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:contactPointProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFPersonShape: <https://orcid.org/3333-4442-9456-9347>
 
 Validation result for _sources/schemaorgProperties/organization/rules.shacl:
   Validation Report
@@ -284,43 +298,26 @@ Validation result for _sources/schemaorgProperties/organization/rules.shacl:
   
 Focus nodes for _sources/schemaorgProperties/organization/rules.shacl:
  - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFOrganizationShape: *none*
  - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFOrganizationShape: *none*
 
 Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
- - Shape _:n42a5991f743d4bcdb1ea5308b5ded2e4b5: *none*
- - Shape _:n42a5991f743d4bcdb1ea5308b5ded2e4b10: *none*
- - Shape _:n42a5991f743d4bcdb1ea5308b5ded2e4b26: *none*
- - Shape cdifd:CDIFDefinedTermShape: *none*
- - Shape _:n42a5991f743d4bcdb1ea5308b5ded2e4b6: *none*
- - Shape _:n42a5991f743d4bcdb1ea5308b5ded2e4b7: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n42a5991f743d4bcdb1ea5308b5ded2e4b8: *none*
- - Shape _:n42a5991f743d4bcdb1ea5308b5ded2e4b19: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
- - Shape _:n42a5991f743d4bcdb1ea5308b5ded2e4b4: *none*
+ - Shape _:n8c1323f46e934c80b099d94cd58980cab8: *none*
  - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
-
-Validation result for _sources/schemaorgProperties/person/rules.shacl:
-  Validation Report
-  Conforms: True
-  
-Focus nodes for _sources/schemaorgProperties/person/rules.shacl:
- - Shape cdifd:affiliationProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:affiliationProperty/sh:or/rdf:first: *none*
- - Shape _:nce3f6b83456b4ea796735d0604721905b14: *none*
- - Shape cdifd:CDIFContactPointShape: <https://orcid.org/3333-4442-9456-9347>/schema1:contactPoint
- - Shape cdifd:CDIFPersonShape: <https://orcid.org/3333-4442-9456-9347>
- - Shape cdifd:maintainerOrProviderContactPointShape: *none*
- - Shape cdifd:maintainerOrProviderContactPointShape/sh:property/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFPersonShape/sh:or/rdf:first: *none*
- - Shape cdifd:contactPointProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:contactPointProperty/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFPersonShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n8c1323f46e934c80b099d94cd58980cab7: *none*
+ - Shape _:n8c1323f46e934c80b099d94cd58980cab26: *none*
+ - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape _:n8c1323f46e934c80b099d94cd58980cab4: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n8c1323f46e934c80b099d94cd58980cab19: *none*
+ - Shape _:n8c1323f46e934c80b099d94cd58980cab10: *none*
+ - Shape _:n8c1323f46e934c80b099d94cd58980cab5: *none*
+ - Shape _:n8c1323f46e934c80b099d94cd58980cab6: *none*
 
 === End SHACL ===
 

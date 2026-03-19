@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-03-16",
+  "dateOfLastChange": "2026-03-19",
   "link": "https://github.com/usgin/metadataBuildingBlocks",
   "sources": [
     {
@@ -47,7 +47,35 @@
   "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/statisticalVariable/",
   "rdfData": [],
   "validationPassed": true,
+  "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/schemaorgProperties/statisticalVariable/",
   "description": "Schema for schema.org/StatisticalVariable. Defines a variable that represents a statistical measure, such as median income or unemployment rate. Separated from PropertyValue-based variableMeasured to allow independent use in metadata records that describe statistical datasets.\n",
+  "examples": [
+    {
+      "title": "Example Statistical Variable",
+      "content": "Example statistical variable defining a median household income measure.",
+      "prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "exampleStatisticalVariable.json",
+          "code": "{\n    \"@context\": {\n        \"schema\": \"http://schema.org/\",\n        \"ex\": \"https://example.org/\"\n    },\n    \"@id\": \"ex:statvar-median-income\",\n    \"@type\": [\"schema:StatisticalVariable\"],\n    \"schema:name\": \"Median Household Income\",\n    \"schema:description\": \"Median annual household income in US dollars, estimated from survey data.\",\n    \"schema:statType\": \"Median\",\n    \"schema:measuredProperty\": {\n        \"@type\": \"schema:Property\",\n        \"schema:name\": \"household income\"\n    },\n    \"schema:measurementTechnique\": \"American Community Survey 5-year estimates\"\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/statisticalVariable/example_1_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@id\": \"ex:statvar-median-income\",\n  \"@type\": [\n    \"schema:StatisticalVariable\"\n  ],\n  \"schema:name\": \"Median Household Income\",\n  \"schema:description\": \"Median annual household income in US dollars, estimated from survey data.\",\n  \"schema:statType\": \"Median\",\n  \"schema:measuredProperty\": {\n    \"@type\": \"schema:Property\",\n    \"schema:name\": \"household income\"\n  },\n  \"schema:measurementTechnique\": \"American Community Survey 5-year estimates\"\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/statisticalVariable/example_1_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n\nex:statvar-median-income a schema1:StatisticalVariable ;\n    schema1:description \"Median annual household income in US dollars, estimated from survey data.\" ;\n    schema1:measuredProperty [ a schema1:Property ;\n            schema1:name \"household income\" ] ;\n    schema1:measurementTechnique \"American Community Survey 5-year estimates\" ;\n    schema1:name \"Median Household Income\" ;\n    schema1:statType \"Median\" .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/statisticalVariable/example_1_1.ttl"
+        }
+      ]
+    }
+  ],
   "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: A statistical variable description using schema.org/StatisticalVariable.\n  Defines a variable that represents a statistical measure, such as median income\n  or unemployment rate.\ntype: object\nproperties:\n  '@type':\n    type: array\n    items:\n      type: string\n    contains:\n      const: schema:StatisticalVariable\n    minItems: 1\n  '@id':\n    type: string\n  schema:name:\n    type: string\n    description: string label for the statistical variable\n  schema:description:\n    type: string\n  schema:alternateName:\n    type: array\n    items:\n      type: string\n      description: human intelligible name for variable that conveys semantics\n  schema:measurementTechnique:\n    anyOf:\n    - type: string\n    - type: object\n      properties:\n        '@id':\n          type: string\n          description: reference to a skos concept\n    - $ref: '#/$defs/DefinedTerm'\n    description: Text description or URI identifying the measurement method.\n  schema:statType:\n    anyOf:\n    - type: string\n    - type: object\n      properties:\n        '@id':\n          type: string\n    - $ref: '#/$defs/DefinedTerm'\n  schema:measuredProperty:\n    type: object\n    properties:\n      '@id':\n        type: string\n        description: reference to a skos concept for the property\n      '@type':\n        anyOf:\n        - type: string\n          const: schema:Property\n        - type: array\n          items:\n            type: string\n          contains:\n            const: schema:Property\n      schema:name:\n        anyOf:\n        - type: string\n        - type: object\n          properties:\n            '@id':\n              type: string\n        - $ref: '#/$defs/DefinedTerm'\nrequired:\n- '@type'\n- schema:name\n- schema:measuredProperty\n$defs:\n  DefinedTerm:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\n",
   "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
   "gitPath": "_sources/schemaorgProperties/statisticalVariable"

@@ -47,7 +47,7 @@ Import base schema.org SubjectOf, add requiremnet that dcterms:conformsTo has XA
     "schema:about": {"@id": "xas:485749"},
     "schema:description": "metadata about documentation for se_na2so4",
     "dcterms:conformsTo": [
-        {"@id": "https://w3id.org/cdif/bbr/metadata/cdifProperties/cdifMandatory"},
+        {"@id": "https://w3id.org/cdif/bbr/metadata/cdifProperties/cdifCore"},
         {"@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFxas"}
     ]
 }
@@ -98,7 +98,7 @@ Import base schema.org SubjectOf, add requiremnet that dcterms:conformsTo has XA
   "schema:description": "metadata about documentation for se_na2so4",
   "dcterms:conformsTo": [
     {
-      "@id": "https://w3id.org/cdif/bbr/metadata/cdifProperties/cdifMandatory"
+      "@id": "https://w3id.org/cdif/bbr/metadata/cdifProperties/cdifCore"
     },
     {
       "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFxas"
@@ -115,7 +115,7 @@ Import base schema.org SubjectOf, add requiremnet that dcterms:conformsTo has XA
 @prefix xas: <https://xas.org/dictionary/> .
 
 ex:subject-pz63 a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/bbr/metadata/cdifProperties/cdifMandatory>,
+    dcterms:conformsTo <https://w3id.org/cdif/bbr/metadata/cdifProperties/cdifCore>,
         <https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFxas> ;
     schema1:about xas:485749 ;
     schema1:additionalType "dcat:CatalogRecord" ;
@@ -143,7 +143,12 @@ allOf:
     dcterms:conformsTo:
       type: array
       items:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCatalogRecord/schema.yaml#/$defs/conformsTo_item
+        type: object
+        properties:
+          '@id':
+            type: string
+            description: uri for specifications that this metadata record conforms
+              to
       minItems: 2
       contains:
         type: object

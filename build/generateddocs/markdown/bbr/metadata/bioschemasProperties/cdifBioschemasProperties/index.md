@@ -78,6 +78,165 @@ The `bios:executesLabProtocol` property parallels `schema:actionProcess` — bot
 - [Bioschemas LabProtocol Profile](https://bioschemas.org/profiles/LabProtocol)
 - [Workflow Run RO-Crate](https://www.researchobject.org/workflow-run-crate/)
 
+## Examples
+
+### Example Bioschemas Properties
+Example showing Bioschemas lab protocol, equipment, tools, and parameter values.
+#### json
+```json
+{
+    "@context": {
+        "schema": "http://schema.org/",
+        "bios": "https://bioschemas.org/",
+        "ex": "https://example.org/"
+    },
+    "bios:executesLabProtocol": {
+        "@type": "bios:LabProtocol",
+        "@id": "ex:protocol-xrf-soil",
+        "schema:name": "XRF Soil Analysis Protocol",
+        "schema:description": "Standard protocol for X-ray fluorescence analysis of soil samples.",
+        "schema:url": "https://example.org/protocols/xrf-soil-v2",
+        "bios:labEquipment": [
+            {
+                "@type": ["schema:Thing", "schema:DefinedTerm"],
+                "@id": "ex:instrument-xrf-001",
+                "schema:name": "Bruker S8 Tiger WDXRF Spectrometer",
+                "schema:description": "Wavelength-dispersive X-ray fluorescence spectrometer"
+            }
+        ],
+        "bios:computationalTool": [
+            {
+                "@type": ["schema:SoftwareApplication"],
+                "@id": "ex:software-spectra-eval",
+                "schema:name": "SPECTRA.ELEMENTS",
+                "schema:version": "3.1.2",
+                "schema:url": "https://example.org/software/spectra-elements"
+            }
+        ],
+        "bios:reagent": [
+            "Lithium tetraborate flux (Li2B4O7)"
+        ]
+    },
+    "bios:parameterValue": [
+        {
+            "@type": "schema:PropertyValue",
+            "schema:name": "X-ray tube voltage",
+            "schema:value": 50,
+            "schema:unitText": "kV"
+        },
+        {
+            "@type": "schema:PropertyValue",
+            "schema:name": "X-ray tube current",
+            "schema:value": 40,
+            "schema:unitText": "mA"
+        }
+    ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "bios": "https://bioschemas.org/",
+      "schema": "http://schema.org/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "bios": "https://bioschemas.org/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "bios:executesLabProtocol": {
+    "@type": "bios:LabProtocol",
+    "@id": "ex:protocol-xrf-soil",
+    "schema:name": "XRF Soil Analysis Protocol",
+    "schema:description": "Standard protocol for X-ray fluorescence analysis of soil samples.",
+    "schema:url": "https://example.org/protocols/xrf-soil-v2",
+    "bios:labEquipment": [
+      {
+        "@type": [
+          "schema:Thing",
+          "schema:DefinedTerm"
+        ],
+        "@id": "ex:instrument-xrf-001",
+        "schema:name": "Bruker S8 Tiger WDXRF Spectrometer",
+        "schema:description": "Wavelength-dispersive X-ray fluorescence spectrometer"
+      }
+    ],
+    "bios:computationalTool": [
+      {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "@id": "ex:software-spectra-eval",
+        "schema:name": "SPECTRA.ELEMENTS",
+        "schema:version": "3.1.2",
+        "schema:url": "https://example.org/software/spectra-elements"
+      }
+    ],
+    "bios:reagent": [
+      "Lithium tetraborate flux (Li2B4O7)"
+    ]
+  },
+  "bios:parameterValue": [
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "X-ray tube voltage",
+      "schema:value": 50,
+      "schema:unitText": "kV"
+    },
+    {
+      "@type": "schema:PropertyValue",
+      "schema:name": "X-ray tube current",
+      "schema:value": 40,
+      "schema:unitText": "mA"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix bios: <https://bioschemas.org/> .
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:instrument-xrf-001 a schema1:DefinedTerm,
+        schema1:Thing ;
+    schema1:description "Wavelength-dispersive X-ray fluorescence spectrometer" ;
+    schema1:name "Bruker S8 Tiger WDXRF Spectrometer" .
+
+ex:protocol-xrf-soil a bios:LabProtocol ;
+    schema1:description "Standard protocol for X-ray fluorescence analysis of soil samples." ;
+    schema1:name "XRF Soil Analysis Protocol" ;
+    schema1:url "https://example.org/protocols/xrf-soil-v2" ;
+    bios:computationalTool ex:software-spectra-eval ;
+    bios:labEquipment ex:instrument-xrf-001 ;
+    bios:reagent "Lithium tetraborate flux (Li2B4O7)" .
+
+ex:software-spectra-eval a schema1:SoftwareApplication ;
+    schema1:name "SPECTRA.ELEMENTS" ;
+    schema1:url "https://example.org/software/spectra-elements" ;
+    schema1:version "3.1.2" .
+
+[] bios:executesLabProtocol ex:protocol-xrf-soil ;
+    bios:parameterValue [ a schema1:PropertyValue ;
+            schema1:name "X-ray tube voltage" ;
+            schema1:unitText "kV" ;
+            schema1:value 50 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "X-ray tube current" ;
+            schema1:unitText "mA" ;
+            schema1:value 40 ] .
+
+
+```
+
 ## Schema
 
 ```yaml

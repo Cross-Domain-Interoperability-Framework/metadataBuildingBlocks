@@ -251,11 +251,14 @@ properties:
   dcterms:conformsTo:
     type: array
     items:
-      $ref: '#/$defs/conformsTo_item'
+      type: object
+      properties:
+        '@id':
+          type: string
+          description: uri for specifications that this metadata record conforms to
     minItems: 1
     description: uri for specifications that this metadata record conforms to. Minimimally
-      should specify uri for CDIF discovery profile.  Implement as $def to facilitate
-      extension for profiles that need to add conformance statements
+      should specify uri for CDIF discovery profile.
   schema:maintainer:
     description: iSamples Registrant. identification of the agent that registered
       the sample, with contact information. Should include person name and affiliation,
@@ -312,12 +315,6 @@ $defs:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml
   Organization:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml
-  conformsTo_item:
-    type: object
-    properties:
-      '@id':
-        type: string
-        description: uri for specifications that this metadata record conforms to
 x-jsonld-prefixes:
   schema: http://schema.org/
   ex: https://example.org/

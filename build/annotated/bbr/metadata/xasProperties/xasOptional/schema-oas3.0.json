@@ -1,6 +1,6 @@
 {
   "x-defs": {
-    "cdif.bbr.metadata.cdifProperties.cdifMandatory": {
+    "cdif.bbr.metadata.cdifProperties.cdifCore": {
       "type": "object",
       "title": "Optional properties for CDIF Discovery metadata schema, with schema: prefixes",
       "description": "Building block specifies properties for minimal CDIF schama.org discovery record",
@@ -32,7 +32,8 @@
           },
           "required": [
             "schema",
-            "dcterms"
+            "dcterms",
+            "dcat"
           ]
         },
         "@id": {
@@ -75,7 +76,7 @@
           "description": "The primary identifier for the dataset; other identifiers should be listed in the sameAs field. Schema.org has three ways of encoding identifiers-- a text description, a URL, or by using the schema:PropertyValue field. The Science on Schema.org guidance strongly recommends using the PropertyValue approach. see https://github.com/ESIPFed/science-on-schema.org   .... Dataset.md#identifier.  Ideally, for any given data provided they would provide identifiers either all as strings or all as identifier_type.",
           "anyOf": [
             {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifMandatory/$defs/Identifier"
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCore/$defs/Identifier"
             },
             {
               "type": "string"
@@ -105,7 +106,7 @@
                 }
               },
               {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifMandatory/$defs/LabeledLink"
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCore/$defs/LabeledLink"
               }
             ]
           }
@@ -129,7 +130,7 @@
                 }
               },
               {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifMandatory/$defs/LabeledLink"
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCore/$defs/LabeledLink"
               }
             ]
           }
@@ -143,20 +144,13 @@
           "description": "specifies how to download the data in a specific format or access via a web API. This property describes where to get the data and in what format by using the schema:DataDownload type. If user must access data through a landing page, provide link to landing page in the 'url' property for the dataset",
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifMandatory/$defs/DataDownload"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifMandatory/$defs/WebAPI"
-              }
-            ]
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCore/$defs/DataDownload"
           }
         },
         "schema:subjectOf": {
           "allOf": [
             {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifMandatory/$defs/CdifCatalogRecord"
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCore/$defs/CdifCatalogRecord"
             },
             {
               "properties": {
@@ -252,7 +246,7 @@
       "x-jsonld-prefixes": {
         "schema": "http://schema.org/"
       },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifMandatory/schema.json",
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema.json",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.cdifProperties.cdifProvActivity": {
@@ -1157,7 +1151,13 @@
             "dcterms:conformsTo": {
               "type": "array",
               "items": {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCatalogRecord/$defs/conformsTo_item"
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "uri for specifications that this metadata record conforms to"
+                  }
+                }
               },
               "minItems": 2,
               "contains": {
@@ -1628,10 +1628,16 @@
         "dcterms:conformsTo": {
           "type": "array",
           "items": {
-            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCatalogRecord/$defs/conformsTo_item"
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string",
+                "description": "uri for specifications that this metadata record conforms to"
+              }
+            }
           },
           "minItems": 1,
-          "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile.  Implement as $def to facilitate extension for profiles that need to add conformance statements"
+          "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile."
         },
         "schema:maintainer": {
           "description": "iSamples Registrant. identification of the agent that registered the sample, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
@@ -1714,15 +1720,6 @@
         },
         "Organization": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization"
-        },
-        "conformsTo_item": {
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "uri for specifications that this metadata record conforms to"
-            }
-          }
         }
       },
       "x-jsonld-prefixes": {
@@ -3802,7 +3799,7 @@
   ],
   "$defs": {
     "CdifMandatory": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifMandatory"
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCore"
     },
     "CdifProvActivity": {
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity"

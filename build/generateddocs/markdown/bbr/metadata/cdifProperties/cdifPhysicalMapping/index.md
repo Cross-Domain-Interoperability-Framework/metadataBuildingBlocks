@@ -13,6 +13,69 @@ metadata to document the physical serialization of variables in a data structure
 
 Describes tabular/structured data files. Typed as `cdi:PhysicalDataSet` and `ada:tabularData`. Supports DDI-CDI WideDataStructure for column layout description, spatial registration, and various analytical technique-specific component types, hierarchical datastructures like JSON, and multidimensional data array structures serialized in data cube format like hdf5 or netCDF.
 
+## Examples
+
+### Example Physical Mapping
+Example physical mapping defining column format and data type for a variable.
+#### json
+```json
+{
+    "@context": {
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "ex": "https://example.org/"
+    },
+    "cdi:index": 0,
+    "cdi:format": "YYYY-MM-DD",
+    "cdi:physicalDataType": "Date",
+    "cdi:nullSequence": "NA",
+    "cdi:isRequired": true,
+    "cdi:formats_InstanceVariable": {
+        "@id": "ex:var-collection-date"
+    }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "cdi:index": 0,
+  "cdi:format": "YYYY-MM-DD",
+  "cdi:physicalDataType": "Date",
+  "cdi:nullSequence": "NA",
+  "cdi:isRequired": true,
+  "cdi:formats_InstanceVariable": {
+    "@id": "ex:var-collection-date"
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix ex: <https://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] cdi:format "YYYY-MM-DD" ;
+    cdi:formats_InstanceVariable ex:var-collection-date ;
+    cdi:index 0 ;
+    cdi:isRequired true ;
+    cdi:nullSequence "NA" ;
+    cdi:physicalDataType "Date" .
+
+
+```
+
 ## Schema
 
 ```yaml

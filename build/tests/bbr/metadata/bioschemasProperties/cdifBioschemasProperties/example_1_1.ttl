@@ -1,0 +1,33 @@
+@prefix bios: <https://bioschemas.org/> .
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:instrument-xrf-001 a schema1:DefinedTerm,
+        schema1:Thing ;
+    schema1:description "Wavelength-dispersive X-ray fluorescence spectrometer" ;
+    schema1:name "Bruker S8 Tiger WDXRF Spectrometer" .
+
+ex:protocol-xrf-soil a bios:LabProtocol ;
+    schema1:description "Standard protocol for X-ray fluorescence analysis of soil samples." ;
+    schema1:name "XRF Soil Analysis Protocol" ;
+    schema1:url "https://example.org/protocols/xrf-soil-v2" ;
+    bios:computationalTool ex:software-spectra-eval ;
+    bios:labEquipment ex:instrument-xrf-001 ;
+    bios:reagent "Lithium tetraborate flux (Li2B4O7)" .
+
+ex:software-spectra-eval a schema1:SoftwareApplication ;
+    schema1:name "SPECTRA.ELEMENTS" ;
+    schema1:url "https://example.org/software/spectra-elements" ;
+    schema1:version "3.1.2" .
+
+[] bios:executesLabProtocol ex:protocol-xrf-soil ;
+    bios:parameterValue [ a schema1:PropertyValue ;
+            schema1:name "X-ray tube voltage" ;
+            schema1:unitText "kV" ;
+            schema1:value 50 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "X-ray tube current" ;
+            schema1:unitText "mA" ;
+            schema1:value 40 ] .
+

@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.xasProperties.xasOptional` *v0.1*
 
-Optional XAS metadata extending CDIF mandatory with cdifProvActivity-based provenance. Includes XAS subject descriptors, instrument wrappers, XDI-conformant distribution, measurement technique DefinedTerms, and element/edge keywords. Defines properties: schema:subjectOf, prov:wasGeneratedBy, schema:distribution, schema:measurementTechnique, schema:keywords. Uses building blocks: cdifMandatory (cdifProperties), cdifProvActivity (cdifProperties), definedTerm (schemaorgProperties), additionalProperty (schemaorgProperties), dataDownload (schemaorgProperties), xasSample (xasProperties), xasSubject (xasProperties).
+Optional XAS metadata extending CDIF mandatory with cdifProvActivity-based provenance. Includes XAS subject descriptors, instrument wrappers, XDI-conformant distribution, measurement technique DefinedTerms, and element/edge keywords. Defines properties: schema:subjectOf, prov:wasGeneratedBy, schema:distribution, schema:measurementTechnique, schema:keywords. Uses building blocks: cdifCore (cdifProperties), cdifProvActivity (cdifProperties), definedTerm (schemaorgProperties), additionalProperty (schemaorgProperties), dataDownload (schemaorgProperties), xasSample (xasProperties), xasSubject (xasProperties).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -11,7 +11,7 @@ Optional XAS metadata extending CDIF mandatory with cdifProvActivity-based prove
 
 ## Optional Fields for XAS data
 
-Extends CDIF mandatory metadata with optional XAS-specific properties. Composes cdifMandatory with cdifProvActivity-based provenance (via xasGeneratedBy pattern), XAS subject descriptors, data distribution with XDI conformance, measurement technique DefinedTerms, and element/edge keywords.
+Extends CDIF mandatory metadata with optional XAS-specific properties. Composes cdifCore with cdifProvActivity-based provenance (via xasGeneratedBy pattern), XAS subject descriptors, data distribution with XDI conformance, measurement technique DefinedTerms, and element/edge keywords.
 
 ### Key properties
 
@@ -311,7 +311,7 @@ allOf:
           - schema:inDefinedTermSet
 $defs:
   CdifMandatory:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifMandatory/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema.yaml
   CdifProvActivity:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/schema.yaml
   DefinedTerm:
