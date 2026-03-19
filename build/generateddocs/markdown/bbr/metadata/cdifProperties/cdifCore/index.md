@@ -326,6 +326,15 @@ properties:
       by using the schema:DataDownload type. If user must access data through a landing
       page, provide link to landing page in the 'url' property for the dataset
     type: array
+    items:
+      if:
+        properties:
+          '@type':
+            contains:
+              const: schema:DataDownload
+      then:
+        required:
+        - schema:contentUrl
   schema:subjectOf:
     allOf:
     - $ref: '#/$defs/CdifCatalogRecord'
