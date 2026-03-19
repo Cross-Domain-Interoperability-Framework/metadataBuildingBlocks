@@ -255,7 +255,23 @@
     },
     "schema:distribution": {
       "description": "specifies how to download the data in a specific format or access via a web API. This property describes where to get the data and in what format by using the schema:DataDownload type. If user must access data through a landing page, provide link to landing page in the 'url' property for the dataset",
-      "type": "array"
+      "type": "array",
+      "items": {
+        "if": {
+          "properties": {
+            "@type": {
+              "contains": {
+                "const": "schema:DataDownload"
+              }
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "schema:contentUrl"
+          ]
+        }
+      }
     },
     "schema:subjectOf": {
       "allOf": [
