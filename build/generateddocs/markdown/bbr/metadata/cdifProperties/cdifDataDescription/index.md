@@ -188,17 +188,17 @@ ex:dataset_datadesc_001 a schema1:Dataset ;
     schema1:variableMeasured [ a cdi:InstanceVariable,
                 schema1:PropertyValue ;
             cdi:physicalDataType "Numeric" ;
-            schema1:description "Depth below sea surface at which temperature was recorded" ;
-            schema1:name "measurement_depth" ;
-            schema1:unitCode "MTR" ;
-            schema1:unitText "meters" ],
-        [ a cdi:InstanceVariable,
-                schema1:PropertyValue ;
-            cdi:physicalDataType "Numeric" ;
             schema1:description "Temperature of sea water at measurement depth" ;
             schema1:name "sea_water_temperature" ;
             schema1:unitCode "CEL" ;
-            schema1:unitText "degrees Celsius" ] .
+            schema1:unitText "degrees Celsius" ],
+        [ a cdi:InstanceVariable,
+                schema1:PropertyValue ;
+            cdi:physicalDataType "Numeric" ;
+            schema1:description "Depth below sea surface at which temperature was recorded" ;
+            schema1:name "measurement_depth" ;
+            schema1:unitCode "MTR" ;
+            schema1:unitText "meters" ] .
 
 ex:metadata_datadesc_001 a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/data_description/1.0/> ;

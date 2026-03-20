@@ -1,0 +1,75 @@
+
+
+{
+  "itemIdentifier": "cdif.bbr.metadata.skosProperties.skosCollection",
+  "$schema": "https://raw.githubusercontent.com/opengeospatial/bblocks-postprocess/refs/heads/master/ogc/bblocks/metadata-schema.yaml",
+  "name": "SKOS Collection",
+  "abstract": "JSON Schema for SKOS Collection and OrderedCollection in JSON-LD form. Collection groups concepts via skos:member; OrderedCollection preserves ordering via JSON-LD @list. References skosConcept building block for concept items and LanguageTaggedValue.",
+  "status": "under-development",
+  "dateTimeAddition": "2026-03-20T00:00:00Z",
+  "itemClass": "schema",
+  "register": "cdif-building-block-register",
+  "version": "0.1",
+  "dateOfLastChange": "2026-03-20",
+  "link": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "sources": [
+    {
+      "title": "W3C SKOS Reference",
+      "link": "https://www.w3.org/TR/skos-reference/"
+    }
+  ],
+  "maturity": "draft",
+  "scope": "unstable",
+  "tags": [
+    "skos",
+    "vocabulary",
+    "collection"
+  ],
+  "shaclShapes": {},
+  "dependsOn": [
+    "cdif.bbr.metadata.skosProperties.skosConcept"
+  ],
+  "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/context.jsonld",
+  "schema": {
+    "application/yaml": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema.yaml",
+    "application/json": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema.json"
+  },
+  "sourceSchema": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosCollection/schema.yaml",
+  "sourceLdContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosCollection/context.jsonld",
+  "resolvedSchemaProperties": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/resolvedProperties.json",
+  "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosCollection/",
+  "rdfData": [],
+  "validationPassed": true,
+  "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/skosProperties/skosCollection/",
+  "description": "## SKOS Collection\n\nJSON Schema for [SKOS Collection](https://www.w3.org/TR/skos-reference/#collections) and [OrderedCollection](https://www.w3.org/TR/skos-reference/#collections) in JSON-LD form.\n\n### Collection\n\nAn unordered grouping of concepts. Must have `@type` including `skos:Collection`, a `skos:prefLabel`, and at least one `skos:member`. Members can be inline concept objects, `@id` references, or nested collections.\n\n### OrderedCollection\n\nA subclass of Collection where member ordering is meaningful. Must have `@type` including `skos:OrderedCollection`, a `skos:prefLabel`, and `skos:memberList` using the JSON-LD `@list` construct.\n\nBoth types reference the `skosConcept` building block for concept items and `LanguageTaggedValue` for multilingual labels.\n",
+  "examples": [
+    {
+      "title": "SKOS Collection example",
+      "content": "Solid Earth Disciplines collection grouping geology, geophysics,\nand geochemistry concepts.",
+      "prefixes": {
+        "skos": "http://www.w3.org/2004/02/skos/core#"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "exampleSkosCollection.json",
+          "code": "{\n  \"@context\": {\n    \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n    \"ex\": \"https://example.org/vocab/\"\n  },\n  \"@id\": \"ex:solid-earth-disciplines\",\n  \"@type\": [\"skos:Collection\"],\n  \"skos:prefLabel\": [\n    {\"@value\": \"Solid Earth Disciplines\", \"@language\": \"en\"}\n  ],\n  \"skos:definition\": \"A grouping of Earth science concepts focused on solid Earth processes.\",\n  \"skos:member\": [\n    {\n      \"@id\": \"ex:geology\",\n      \"@type\": [\"skos:Concept\"],\n      \"skos:prefLabel\": \"Geology\",\n      \"skos:notation\": [\"01\"],\n      \"skos:inScheme\": {\"@id\": \"ex:earth-science-topics\"}\n    },\n    {\n      \"@id\": \"ex:geophysics\",\n      \"@type\": [\"skos:Concept\"],\n      \"skos:prefLabel\": \"Geophysics\",\n      \"skos:notation\": [\"03\"],\n      \"skos:inScheme\": {\"@id\": \"ex:earth-science-topics\"}\n    },\n    {\"@id\": \"ex:geochemistry\"}\n  ]\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/skosProperties/skosCollection/example_1_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"skos\": \"http://www.w3.org/2004/02/skos/core#\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/context.jsonld\",\n    {\n      \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n      \"ex\": \"https://example.org/vocab/\"\n    }\n  ],\n  \"@id\": \"ex:solid-earth-disciplines\",\n  \"@type\": [\n    \"skos:Collection\"\n  ],\n  \"skos:prefLabel\": [\n    {\n      \"@value\": \"Solid Earth Disciplines\",\n      \"@language\": \"en\"\n    }\n  ],\n  \"skos:definition\": \"A grouping of Earth science concepts focused on solid Earth processes.\",\n  \"skos:member\": [\n    {\n      \"@id\": \"ex:geology\",\n      \"@type\": [\n        \"skos:Concept\"\n      ],\n      \"skos:prefLabel\": \"Geology\",\n      \"skos:notation\": [\n        \"01\"\n      ],\n      \"skos:inScheme\": {\n        \"@id\": \"ex:earth-science-topics\"\n      }\n    },\n    {\n      \"@id\": \"ex:geophysics\",\n      \"@type\": [\n        \"skos:Concept\"\n      ],\n      \"skos:prefLabel\": \"Geophysics\",\n      \"skos:notation\": [\n        \"03\"\n      ],\n      \"skos:inScheme\": {\n        \"@id\": \"ex:earth-science-topics\"\n      }\n    },\n    {\n      \"@id\": \"ex:geochemistry\"\n    }\n  ]\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/skosProperties/skosCollection/example_1_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix ex: <https://example.org/vocab/> .\n@prefix skos: <http://www.w3.org/2004/02/skos/core#> .\n\nex:solid-earth-disciplines a skos:Collection ;\n    skos:definition \"A grouping of Earth science concepts focused on solid Earth processes.\" ;\n    skos:member ex:geochemistry,\n        ex:geology,\n        ex:geophysics ;\n    skos:prefLabel \"Solid Earth Disciplines\"@en .\n\nex:geology a skos:Concept ;\n    skos:inScheme ex:earth-science-topics ;\n    skos:notation \"01\" ;\n    skos:prefLabel \"Geology\" .\n\nex:geophysics a skos:Concept ;\n    skos:inScheme ex:earth-science-topics ;\n    skos:notation \"03\" ;\n    skos:prefLabel \"Geophysics\" .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/skosProperties/skosCollection/example_1_1.ttl"
+        }
+      ]
+    }
+  ],
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: SKOS Collection\ndescription: JSON Schema for SKOS Collection and OrderedCollection in JSON-LD form.\n  A Collection is a meaningful grouping of concepts; an OrderedCollection preserves\n  member ordering via the JSON-LD @list construct. Based on the W3C SKOS Reference\n  (https://www.w3.org/TR/skos-reference/).\nanyOf:\n- $ref: '#/$defs/Collection'\n- $ref: '#/$defs/OrderedCollection'\n$defs:\n  Collection:\n    type: object\n    description: A SKOS Collection -- a meaningful grouping of concepts. Disjoint\n      with Concept and ConceptScheme.\n    properties:\n      '@context':\n        description: JSON-LD context declaring the skos namespace prefix.\n        anyOf:\n        - type: object\n          properties:\n            skos:\n              const: http://www.w3.org/2004/02/skos/core#\n          required:\n          - skos\n        - type: array\n          items:\n            anyOf:\n            - type: string\n            - type: object\n          contains:\n            type: object\n            properties:\n              skos:\n                const: http://www.w3.org/2004/02/skos/core#\n            required:\n            - skos\n      '@id':\n        type: string\n        description: URI identifier for this collection.\n      '@type':\n        type: array\n        items:\n          type: string\n        contains:\n          const: skos:Collection\n        minItems: 1\n      skos:prefLabel:\n        description: Preferred lexical label for this collection.\n        anyOf:\n        - type: string\n        - type: array\n          items:\n            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/LanguageTaggedValue\n      skos:altLabel:\n        description: Alternative lexical labels.\n        anyOf:\n        - type: string\n        - type: array\n          items:\n            anyOf:\n            - type: string\n            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/LanguageTaggedValue\n      skos:notation:\n        description: Classification code for this collection.\n        anyOf:\n        - type: string\n        - type: array\n          items:\n            type: string\n      skos:definition:\n        description: Formal explanation of the purpose of this collection.\n        anyOf:\n        - type: string\n        - type: array\n          items:\n            anyOf:\n            - type: string\n            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/LanguageTaggedValue\n      skos:note:\n        description: General note about this collection.\n        anyOf:\n        - type: string\n        - type: array\n          items:\n            anyOf:\n            - type: string\n            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/LanguageTaggedValue\n      skos:member:\n        description: Members of this collection (concepts or nested collections, inline\n          or by @id reference).\n        type: array\n        minItems: 1\n        items:\n          anyOf:\n          - type: object\n            properties:\n              '@id':\n                type: string\n            required:\n            - '@id'\n          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml\n          - $ref: '#/$defs/Collection'\n    required:\n    - '@type'\n    - skos:prefLabel\n    - skos:member\n  OrderedCollection:\n    type: object\n    description: A SKOS OrderedCollection -- concepts where both grouping and ordering\n      are meaningful. Subclass of Collection. Uses JSON-LD @list for the member list.\n    properties:\n      '@context':\n        description: JSON-LD context declaring the skos namespace prefix.\n        anyOf:\n        - type: object\n          properties:\n            skos:\n              const: http://www.w3.org/2004/02/skos/core#\n          required:\n          - skos\n        - type: array\n          items:\n            anyOf:\n            - type: string\n            - type: object\n          contains:\n            type: object\n            properties:\n              skos:\n                const: http://www.w3.org/2004/02/skos/core#\n            required:\n            - skos\n      '@id':\n        type: string\n        description: URI identifier for this ordered collection.\n      '@type':\n        type: array\n        items:\n          type: string\n        contains:\n          const: skos:OrderedCollection\n        minItems: 1\n      skos:prefLabel:\n        description: Preferred lexical label for this ordered collection.\n        anyOf:\n        - type: string\n        - type: array\n          items:\n            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/LanguageTaggedValue\n      skos:altLabel:\n        description: Alternative lexical labels.\n        anyOf:\n        - type: string\n        - type: array\n          items:\n            anyOf:\n            - type: string\n            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/LanguageTaggedValue\n      skos:notation:\n        description: Classification code for this ordered collection.\n        anyOf:\n        - type: string\n        - type: array\n          items:\n            type: string\n      skos:memberList:\n        description: Ordered list of members using JSON-LD @list construct.\n        type: object\n        properties:\n          '@list':\n            type: array\n            minItems: 1\n            items:\n              anyOf:\n              - type: object\n                properties:\n                  '@id':\n                    type: string\n                required:\n                - '@id'\n              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml\n    required:\n    - '@type'\n    - skos:prefLabel\n    - skos:memberList\nx-jsonld-prefixes:\n  skos: http://www.w3.org/2004/02/skos/core#\n",
+  "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "gitPath": "_sources/skosProperties/skosCollection"
+}

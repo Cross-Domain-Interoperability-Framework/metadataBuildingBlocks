@@ -760,13 +760,13 @@ ex:xas-dataset-001 a schema1:Dataset,
     prov:wasGeneratedBy [ schema1:object [ a schema1:Product,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "Stoichiometry" ;
-                            schema1:propertyID "xas:stoichiometry" ;
-                            schema1:value "Na2SeO4" ],
-                        [ a schema1:PropertyValue ;
                             schema1:name "sample preparation method" ;
                             schema1:propertyID "https://example.org/vocab/sample-prep" ;
-                            schema1:value "powder on tape, 6 layers" ] ;
+                            schema1:value "powder on tape, 6 layers" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "Stoichiometry" ;
+                            schema1:propertyID "xas:stoichiometry" ;
+                            schema1:value "Na2SeO4" ] ;
                     schema1:additionalType "MaterialSample",
                         "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample" ;
                     schema1:description "Sodium selenate reference compound, powder" ;
@@ -780,23 +780,6 @@ ex:xas-dataset-001 a schema1:Dataset,
                             schema1:hasPart [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "d-spacing" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
-                                            schema1:unitText "Angstrom" ;
-                                            schema1:value "3.13550" ],
-                                        [ a schema1:PropertyValue ;
-                                            schema1:name "crystal type" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
-                                            schema1:value "Si(111)" ],
-                                        [ a schema1:PropertyValue ;
-                                            schema1:name "reflection plane (hkl)" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
-                                            schema1:value "1,1,1" ] ;
-                                    schema1:additionalType "nxs:BaseClass/NXmonochromator" ;
-                                    schema1:name "Si 111" ],
-                                [ a schema1:Product,
-                                        schema1:Thing ;
-                                    schema1:additionalProperty [ a schema1:PropertyValue ;
                                             schema1:name "x-ray source" ;
                                             schema1:propertyID "nxs:Field/NXsource/type" ;
                                             schema1:value "Synchrotron X-ray Source" ],
@@ -805,7 +788,24 @@ ex:xas-dataset-001 a schema1:Dataset,
                                             schema1:propertyID "nxs:Field/NXsource/probe" ;
                                             schema1:value "x-ray" ] ;
                                     schema1:additionalType "nxs:BaseClass/NXsource" ;
-                                    schema1:name "APS bending magnet source" ] ;
+                                    schema1:name "APS bending magnet source" ],
+                                [ a schema1:Product,
+                                        schema1:Thing ;
+                                    schema1:additionalProperty [ a schema1:PropertyValue ;
+                                            schema1:name "crystal type" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
+                                            schema1:value "Si(111)" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "reflection plane (hkl)" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
+                                            schema1:value "1,1,1" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "d-spacing" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
+                                            schema1:unitText "Angstrom" ;
+                                            schema1:value "3.13550" ] ;
+                                    schema1:additionalType "nxs:BaseClass/NXmonochromator" ;
+                                    schema1:name "Si 111" ] ;
                             schema1:name "APS Sector 20-BM beamline instrument" ] ] ] .
 
 <urn:uuid:xas-required-catalog-record> a schema1:Dataset ;

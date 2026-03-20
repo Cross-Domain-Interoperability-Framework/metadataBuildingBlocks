@@ -1,0 +1,458 @@
+x-defs:
+  cdif.bbr.metadata.skosProperties.skosConcept:
+    title: SKOS Concept
+    description: JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought
+      within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel),
+      notations, hierarchical relations (broader/narrower), associative relations
+      (related), cross-scheme mapping properties, scheme membership, and documentary
+      notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).
+    type: object
+    properties:
+      '@context':
+        description: JSON-LD context declaring the skos namespace prefix. May be a
+          single object or an array of strings and objects.
+        anyOf:
+        - type: object
+          properties:
+            skos:
+              enum:
+              - http://www.w3.org/2004/02/skos/core#
+          required:
+          - skos
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - type: object
+          contains:
+            type: object
+            properties:
+              skos:
+                enum:
+                - http://www.w3.org/2004/02/skos/core#
+            required:
+            - skos
+      '@id':
+        type: string
+        description: URI identifier for this concept.
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - skos:Concept
+        minItems: 1
+      skos:prefLabel:
+        description: Preferred lexical label for this concept. A single string, a
+          single language-tagged value, or an array of language-tagged values. Each
+          language should appear at most once.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:altLabel:
+        description: Alternative lexical labels (acronyms, abbreviations, variants).
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:hiddenLabel:
+        description: Labels accessible to free-text search but not displayed.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:notation:
+        description: Classification code for this concept within a scheme.
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            type: string
+      skos:definition:
+        description: Formal explanation of the meaning of this concept.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:scopeNote:
+        description: Note clarifying meaning and/or intended use.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:note:
+        description: General note about this concept.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:historyNote:
+        description: Note about past state or use.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:changeNote:
+        description: Note documenting a change.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:editorialNote:
+        description: Note for editors and maintainers.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:example:
+        description: Example of use of this concept.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:inScheme:
+        description: Concept scheme(s) this concept belongs to.
+        anyOf:
+        - type: object
+          properties:
+            '@id':
+              type: string
+          required:
+          - '@id'
+        - type: array
+          items:
+            type: object
+            properties:
+              '@id':
+                type: string
+            required:
+            - '@id'
+      skos:topConceptOf:
+        description: Concept scheme(s) for which this is a top concept.
+        anyOf:
+        - type: object
+          properties:
+            '@id':
+              type: string
+          required:
+          - '@id'
+        - type: array
+          items:
+            type: object
+            properties:
+              '@id':
+                type: string
+            required:
+            - '@id'
+      skos:broader:
+        description: Broader (parent) concepts in the hierarchy. Items are inline
+          concept objects or @id references.
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+      skos:narrower:
+        description: Narrower (child) concepts in the hierarchy. Items are inline
+          concept objects or @id references.
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+      skos:related:
+        description: Associatively related concepts.
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+      skos:exactMatch:
+        description: Concepts in other schemes with equivalent meaning.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+      skos:closeMatch:
+        description: Concepts in other schemes with similar meaning.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+      skos:broadMatch:
+        description: Broader concepts in other schemes.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+      skos:narrowMatch:
+        description: Narrower concepts in other schemes.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+      skos:relatedMatch:
+        description: Related concepts in other schemes.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+    required:
+    - '@type'
+    - skos:prefLabel
+    $defs:
+      ConceptRef:
+        type: object
+        description: A reference to a SKOS Concept by URI.
+        properties:
+          '@id':
+            type: string
+            description: URI of the referenced concept.
+        required:
+        - '@id'
+      LanguageTaggedValue:
+        type: object
+        description: An RDF literal value with a language tag, serialized as a JSON-LD
+          value object.
+        properties:
+          '@value':
+            type: string
+            description: The text content.
+          '@language':
+            type: string
+            description: BCP 47 language tag (e.g. en, fr, de).
+        required:
+        - '@value'
+        - '@language'
+    x-jsonld-prefixes:
+      skos: http://www.w3.org/2004/02/skos/core#
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+title: SKOS Collection
+description: JSON Schema for SKOS Collection and OrderedCollection in JSON-LD form.
+  A Collection is a meaningful grouping of concepts; an OrderedCollection preserves
+  member ordering via the JSON-LD @list construct. Based on the W3C SKOS Reference
+  (https://www.w3.org/TR/skos-reference/).
+anyOf:
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/$defs/Collection
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/$defs/OrderedCollection
+$defs:
+  Collection:
+    type: object
+    description: A SKOS Collection -- a meaningful grouping of concepts. Disjoint
+      with Concept and ConceptScheme.
+    properties:
+      '@context':
+        description: JSON-LD context declaring the skos namespace prefix.
+        anyOf:
+        - type: object
+          properties:
+            skos:
+              enum:
+              - http://www.w3.org/2004/02/skos/core#
+          required:
+          - skos
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - type: object
+          contains:
+            type: object
+            properties:
+              skos:
+                enum:
+                - http://www.w3.org/2004/02/skos/core#
+            required:
+            - skos
+      '@id':
+        type: string
+        description: URI identifier for this collection.
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - skos:Collection
+        minItems: 1
+      skos:prefLabel:
+        description: Preferred lexical label for this collection.
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:altLabel:
+        description: Alternative lexical labels.
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:notation:
+        description: Classification code for this collection.
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            type: string
+      skos:definition:
+        description: Formal explanation of the purpose of this collection.
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:note:
+        description: General note about this collection.
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:member:
+        description: Members of this collection (concepts or nested collections, inline
+          or by @id reference).
+        type: array
+        minItems: 1
+        items:
+          anyOf:
+          - type: object
+            properties:
+              '@id':
+                type: string
+            required:
+            - '@id'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/$defs/Collection
+    required:
+    - '@type'
+    - skos:prefLabel
+    - skos:member
+  OrderedCollection:
+    type: object
+    description: A SKOS OrderedCollection -- concepts where both grouping and ordering
+      are meaningful. Subclass of Collection. Uses JSON-LD @list for the member list.
+    properties:
+      '@context':
+        description: JSON-LD context declaring the skos namespace prefix.
+        anyOf:
+        - type: object
+          properties:
+            skos:
+              enum:
+              - http://www.w3.org/2004/02/skos/core#
+          required:
+          - skos
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - type: object
+          contains:
+            type: object
+            properties:
+              skos:
+                enum:
+                - http://www.w3.org/2004/02/skos/core#
+            required:
+            - skos
+      '@id':
+        type: string
+        description: URI identifier for this ordered collection.
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - skos:OrderedCollection
+        minItems: 1
+      skos:prefLabel:
+        description: Preferred lexical label for this ordered collection.
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:altLabel:
+        description: Alternative lexical labels.
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:notation:
+        description: Classification code for this ordered collection.
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            type: string
+      skos:memberList:
+        description: Ordered list of members using JSON-LD @list construct.
+        type: object
+        properties:
+          '@list':
+            type: array
+            minItems: 1
+            items:
+              anyOf:
+              - type: object
+                properties:
+                  '@id':
+                    type: string
+                required:
+                - '@id'
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosCollection/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+    required:
+    - '@type'
+    - skos:prefLabel
+    - skos:memberList
+x-jsonld-prefixes:
+  skos: http://www.w3.org/2004/02/skos/core#
+x-schema-version: https://json-schema.org/draft/2020-12/schema

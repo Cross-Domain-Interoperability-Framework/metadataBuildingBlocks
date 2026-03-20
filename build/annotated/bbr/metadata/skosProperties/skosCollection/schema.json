@@ -1,0 +1,342 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SKOS Collection",
+  "description": "JSON Schema for SKOS Collection and OrderedCollection in JSON-LD form. A Collection is a meaningful grouping of concepts; an OrderedCollection preserves member ordering via the JSON-LD @list construct. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/Collection"
+    },
+    {
+      "$ref": "#/$defs/OrderedCollection"
+    }
+  ],
+  "$defs": {
+    "Collection": {
+      "type": "object",
+      "description": "A SKOS Collection -- a meaningful grouping of concepts. Disjoint with Concept and ConceptScheme.",
+      "properties": {
+        "@context": {
+          "description": "JSON-LD context declaring the skos namespace prefix.",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "skos": {
+                  "const": "http://www.w3.org/2004/02/skos/core#"
+                }
+              },
+              "required": [
+                "skos"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object"
+                  }
+                ]
+              },
+              "contains": {
+                "type": "object",
+                "properties": {
+                  "skos": {
+                    "const": "http://www.w3.org/2004/02/skos/core#"
+                  }
+                },
+                "required": [
+                  "skos"
+                ]
+              }
+            }
+          ]
+        },
+        "@id": {
+          "type": "string",
+          "description": "URI identifier for this collection."
+        },
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "skos:Collection"
+          },
+          "minItems": 1
+        },
+        "skos:prefLabel": {
+          "description": "Preferred lexical label for this collection.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json#/$defs/LanguageTaggedValue"
+              }
+            }
+          ]
+        },
+        "skos:altLabel": {
+          "description": "Alternative lexical labels.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:notation": {
+          "description": "Classification code for this collection.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "skos:definition": {
+          "description": "Formal explanation of the purpose of this collection.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:note": {
+          "description": "General note about this collection.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:member": {
+          "description": "Members of this collection (concepts or nested collections, inline or by @id reference).",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json"
+              },
+              {
+                "$ref": "#/$defs/Collection"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "@type",
+        "skos:prefLabel",
+        "skos:member"
+      ]
+    },
+    "OrderedCollection": {
+      "type": "object",
+      "description": "A SKOS OrderedCollection -- concepts where both grouping and ordering are meaningful. Subclass of Collection. Uses JSON-LD @list for the member list.",
+      "properties": {
+        "@context": {
+          "description": "JSON-LD context declaring the skos namespace prefix.",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "skos": {
+                  "const": "http://www.w3.org/2004/02/skos/core#"
+                }
+              },
+              "required": [
+                "skos"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object"
+                  }
+                ]
+              },
+              "contains": {
+                "type": "object",
+                "properties": {
+                  "skos": {
+                    "const": "http://www.w3.org/2004/02/skos/core#"
+                  }
+                },
+                "required": [
+                  "skos"
+                ]
+              }
+            }
+          ]
+        },
+        "@id": {
+          "type": "string",
+          "description": "URI identifier for this ordered collection."
+        },
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "skos:OrderedCollection"
+          },
+          "minItems": 1
+        },
+        "skos:prefLabel": {
+          "description": "Preferred lexical label for this ordered collection.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json#/$defs/LanguageTaggedValue"
+              }
+            }
+          ]
+        },
+        "skos:altLabel": {
+          "description": "Alternative lexical labels.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:notation": {
+          "description": "Classification code for this ordered collection.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "skos:memberList": {
+          "description": "Ordered list of members using JSON-LD @list construct.",
+          "type": "object",
+          "properties": {
+            "@list": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "@id"
+                    ]
+                  },
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "@type",
+        "skos:prefLabel",
+        "skos:memberList"
+      ]
+    }
+  },
+  "x-jsonld-prefixes": {
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  }
+}
