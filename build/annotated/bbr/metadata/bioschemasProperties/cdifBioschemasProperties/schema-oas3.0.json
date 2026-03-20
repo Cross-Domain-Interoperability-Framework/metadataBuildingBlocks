@@ -163,25 +163,16 @@
       "description": "A Bioschemas LabProtocol describing how a lab process should be carried out. Includes equipment, reagents, computational tools, and expected parameters. Maps to schema:HowTo in the cdifProvActivity context.",
       "properties": {
         "@type": {
-          "anyOf": [
-            {
-              "type": "string",
-              "enum": [
-                "bios:LabProtocol"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "bios:LabProtocol"
-                ]
-              }
-            }
-          ]
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "bios:LabProtocol"
+            ]
+          },
+          "minItems": 1
         },
         "@id": {
           "type": "string"
@@ -355,7 +346,11 @@
               "type": "object",
               "properties": {
                 "@type": {
-                  "type": "string"
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 1
                 },
                 "schema:propertyID": {
                   "type": "string"
@@ -648,25 +643,16 @@
       "description": "A schema:PropertyValue recording an actual parameter setting used during a lab process execution. Contains the measured or configured value, units, and optionally a link back to the FormalParameter definition via schema:propertyID.",
       "properties": {
         "@type": {
-          "anyOf": [
-            {
-              "type": "string",
-              "enum": [
-                "schema:PropertyValue"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "schema:PropertyValue"
-                ]
-              }
-            }
-          ]
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "schema:PropertyValue"
+            ]
+          },
+          "minItems": 1
         },
         "@id": {
           "type": "string"

@@ -16,143 +16,199 @@ script and Parameters, ProcessingAgent, and ProductionEnvironment.
 #### json
 ```json
 {
-    "@context": {
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "ex": "https://example.org/"
-    },
-    "@id": "ex:activity-soil-chem-analysis",
-    "@type": "cdi:Activity",
-    "cdi:name": {
-        "@type": "cdi:ObjectName",
-        "cdi:name": "Soil Chemistry Analysis - Great Basin Transect 2025"
-    },
-    "cdi:description": "Major and trace element analysis of soil samples collected along a 200 km transect across the Great Basin, using ICP-MS and XRF spectrometry with certified reference materials.",
-    "cdi:displayLabel": {
-        "@type": "cdi:LabelForDisplay",
-        "cdi:languageSpecificString": {
-            "@type": "cdi:LanguageString",
-            "cdi:content": "GB Soil Chemistry 2025",
-            "cdi:language": "en"
-        }
-    },
-    "cdi:entityUsed": [
-        {
-            "@type": "cdi:Reference",
-            "cdi:uri": "https://vocab.nerc.ac.uk/collection/L05/current/LAB02",
-            "cdi:description": "NERC laboratory analysis technique vocabulary"
-        },
-        {
-            "@type": "cdi:Reference",
-            "cdi:description": "Soil core samples collected June 2025, sites GB-001 through GB-045"
-        },
-        {
-            "@type": "cdi:Reference",
-            "cdi:uri": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination",
-            "cdi:description": "EPA Method 6200 - XRF Analysis of Soils"
-        }
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:activity-soil-chem-analysis",
+  "@type": [
+    "cdi:Activity"
+  ],
+  "cdi:name": {
+    "@type": [
+      "cdi:ObjectName"
     ],
-    "cdi:entityProduced": [
-        {
-            "@type": "cdi:Reference",
-            "cdi:uri": "https://doi.org/10.5281/zenodo.example-soil-chem-gb-2025",
-            "cdi:description": "Output dataset: Great Basin soil geochemistry results"
-        }
+    "cdi:name": "Soil Chemistry Analysis - Great Basin Transect 2025"
+  },
+  "cdi:description": "Major and trace element analysis of soil samples collected along a 200 km transect across the Great Basin, using ICP-MS and XRF spectrometry with certified reference materials.",
+  "cdi:displayLabel": {
+    "@type": [
+      "cdi:LabelForDisplay"
     ],
-    "cdi:has_Step": [
-        {
-            "@id": "ex:step-sample-prep",
-            "@type": "cdi:Step",
-            "cdi:name": {
-                "@type": "cdi:ObjectName",
-                "cdi:name": "Sample preparation and acid digestion"
-            },
-            "cdi:description": "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels.",
-            "cdi:script": {
-                "@type": "cdi:CommandCode",
-                "cdi:commandFile": {
-                    "@type": "cdi:CommandFile",
-                    "cdi:uri": "https://www.epa.gov/hw-sw846/sw-846-test-method-3052-microwave-assisted-acid-digestion"
-                }
-            },
-            "cdi:scriptingLanguage": {
-                "@type": "cdi:ControlledVocabularyEntry",
-                "cdi:entryValue": "Laboratory protocol"
-            },
-            "cdi:receives": [
-                {
-                    "@id": "ex:param-soil-samples",
-                    "@type": "cdi:Parameter",
-                    "cdi:name": {
-                        "@type": "cdi:ObjectName",
-                        "cdi:name": "Soil samples"
-                    },
-                    "cdi:entityBound": {
-                        "@type": "cdi:Reference",
-                        "cdi:description": "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect, sites GB-001 through GB-045"
-                    }
-                }
-            ],
-            "cdi:produces": [
-                {
-                    "@id": "ex:param-digested-solutions",
-                    "@type": "cdi:Parameter",
-                    "cdi:name": {
-                        "@type": "cdi:ObjectName",
-                        "cdi:name": "Digested solutions"
-                    },
-                    "cdi:entityBound": {
-                        "@type": "cdi:Reference",
-                        "cdi:description": "Acid-digested soil solutions ready for ICP-MS analysis"
-                    }
-                }
-            ]
-        },
-        {
-            "@id": "ex:step-icpms-measurement",
-            "@type": "cdi:Step",
-            "cdi:name": {
-                "@type": "cdi:ObjectName",
-                "cdi:name": "ICP-MS measurement and calibration"
-            },
-            "cdi:description": "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards.",
-            "cdi:script": {
-                "@type": "cdi:CommandCode",
-                "cdi:commandFile": {
-                    "@type": "cdi:CommandFile",
-                    "cdi:uri": "https://www.epa.gov/hw-sw846/sw-846-test-method-6020b-inductively-coupled-plasma-mass-spectrometry"
-                }
-            },
-            "cdi:scriptingLanguage": {
-                "@type": "cdi:ControlledVocabularyEntry",
-                "cdi:entryValue": "Instrumental method"
-            },
-            "cdi:receives": [
-                {
-                    "@id": "ex:param-digested-solutions"
-                }
-            ],
-            "cdi:produces": [
-                {
-                    "@id": "ex:param-measurement-data",
-                    "@type": "cdi:Parameter",
-                    "cdi:name": {
-                        "@type": "cdi:ObjectName",
-                        "cdi:name": "Measurement data"
-                    },
-                    "cdi:entityBound": {
-                        "@type": "cdi:Reference",
-                        "cdi:uri": "https://doi.org/10.5281/zenodo.example-soil-chem-gb-2025",
-                        "cdi:description": "Raw ICP-MS measurement data with element concentrations"
-                    }
-                }
-            ]
-        }
-    ],
-    "cdi:standardModelMapping": {
-        "@type": "cdi:Reference",
-        "cdi:uri": "https://statswiki.unece.org/display/GSBPM/GSBPM+v5.1",
-        "cdi:description": "Generic Statistical Business Process Model v5.1"
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "GB Soil Chemistry 2025",
+      "cdi:language": "en"
     }
+  },
+  "cdi:entityUsed": [
+    {
+      "@type": [
+        "cdi:Reference"
+      ],
+      "cdi:uri": "https://vocab.nerc.ac.uk/collection/L05/current/LAB02",
+      "cdi:description": "NERC laboratory analysis technique vocabulary"
+    },
+    {
+      "@type": [
+        "cdi:Reference"
+      ],
+      "cdi:description": "Soil core samples collected June 2025, sites GB-001 through GB-045"
+    },
+    {
+      "@type": [
+        "cdi:Reference"
+      ],
+      "cdi:uri": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination",
+      "cdi:description": "EPA Method 6200 - XRF Analysis of Soils"
+    }
+  ],
+  "cdi:entityProduced": [
+    {
+      "@type": [
+        "cdi:Reference"
+      ],
+      "cdi:uri": "https://doi.org/10.5281/zenodo.example-soil-chem-gb-2025",
+      "cdi:description": "Output dataset: Great Basin soil geochemistry results"
+    }
+  ],
+  "cdi:has_Step": [
+    {
+      "@id": "ex:step-sample-prep",
+      "@type": [
+        "cdi:Step"
+      ],
+      "cdi:name": {
+        "@type": [
+          "cdi:ObjectName"
+        ],
+        "cdi:name": "Sample preparation and acid digestion"
+      },
+      "cdi:description": "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels.",
+      "cdi:script": {
+        "@type": [
+          "cdi:CommandCode"
+        ],
+        "cdi:commandFile": {
+          "@type": [
+            "cdi:CommandFile"
+          ],
+          "cdi:uri": "https://www.epa.gov/hw-sw846/sw-846-test-method-3052-microwave-assisted-acid-digestion"
+        }
+      },
+      "cdi:scriptingLanguage": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": "Laboratory protocol"
+      },
+      "cdi:receives": [
+        {
+          "@id": "ex:param-soil-samples",
+          "@type": [
+            "cdi:Parameter"
+          ],
+          "cdi:name": {
+            "@type": [
+              "cdi:ObjectName"
+            ],
+            "cdi:name": "Soil samples"
+          },
+          "cdi:entityBound": {
+            "@type": [
+              "cdi:Reference"
+            ],
+            "cdi:description": "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect, sites GB-001 through GB-045"
+          }
+        }
+      ],
+      "cdi:produces": [
+        {
+          "@id": "ex:param-digested-solutions",
+          "@type": [
+            "cdi:Parameter"
+          ],
+          "cdi:name": {
+            "@type": [
+              "cdi:ObjectName"
+            ],
+            "cdi:name": "Digested solutions"
+          },
+          "cdi:entityBound": {
+            "@type": [
+              "cdi:Reference"
+            ],
+            "cdi:description": "Acid-digested soil solutions ready for ICP-MS analysis"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "ex:step-icpms-measurement",
+      "@type": [
+        "cdi:Step"
+      ],
+      "cdi:name": {
+        "@type": [
+          "cdi:ObjectName"
+        ],
+        "cdi:name": "ICP-MS measurement and calibration"
+      },
+      "cdi:description": "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards.",
+      "cdi:script": {
+        "@type": [
+          "cdi:CommandCode"
+        ],
+        "cdi:commandFile": {
+          "@type": [
+            "cdi:CommandFile"
+          ],
+          "cdi:uri": "https://www.epa.gov/hw-sw846/sw-846-test-method-6020b-inductively-coupled-plasma-mass-spectrometry"
+        }
+      },
+      "cdi:scriptingLanguage": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": "Instrumental method"
+      },
+      "cdi:receives": [
+        {
+          "@id": "ex:param-digested-solutions"
+        }
+      ],
+      "cdi:produces": [
+        {
+          "@id": "ex:param-measurement-data",
+          "@type": [
+            "cdi:Parameter"
+          ],
+          "cdi:name": {
+            "@type": [
+              "cdi:ObjectName"
+            ],
+            "cdi:name": "Measurement data"
+          },
+          "cdi:entityBound": {
+            "@type": [
+              "cdi:Reference"
+            ],
+            "cdi:uri": "https://doi.org/10.5281/zenodo.example-soil-chem-gb-2025",
+            "cdi:description": "Raw ICP-MS measurement data with element concentrations"
+          }
+        }
+      ]
+    }
+  ],
+  "cdi:standardModelMapping": {
+    "@type": [
+      "cdi:Reference"
+    ],
+    "cdi:uri": "https://statswiki.unece.org/display/GSBPM/GSBPM+v5.1",
+    "cdi:description": "Generic Statistical Business Process Model v5.1"
+  }
 }
 
 ```
@@ -171,39 +227,55 @@ script and Parameters, ProcessingAgent, and ProductionEnvironment.
     }
   ],
   "@id": "ex:activity-soil-chem-analysis",
-  "@type": "cdi:Activity",
+  "@type": [
+    "cdi:Activity"
+  ],
   "cdi:name": {
-    "@type": "cdi:ObjectName",
+    "@type": [
+      "cdi:ObjectName"
+    ],
     "cdi:name": "Soil Chemistry Analysis - Great Basin Transect 2025"
   },
   "cdi:description": "Major and trace element analysis of soil samples collected along a 200 km transect across the Great Basin, using ICP-MS and XRF spectrometry with certified reference materials.",
   "cdi:displayLabel": {
-    "@type": "cdi:LabelForDisplay",
+    "@type": [
+      "cdi:LabelForDisplay"
+    ],
     "cdi:languageSpecificString": {
-      "@type": "cdi:LanguageString",
+      "@type": [
+        "cdi:LanguageString"
+      ],
       "cdi:content": "GB Soil Chemistry 2025",
       "cdi:language": "en"
     }
   },
   "cdi:entityUsed": [
     {
-      "@type": "cdi:Reference",
+      "@type": [
+        "cdi:Reference"
+      ],
       "cdi:uri": "https://vocab.nerc.ac.uk/collection/L05/current/LAB02",
       "cdi:description": "NERC laboratory analysis technique vocabulary"
     },
     {
-      "@type": "cdi:Reference",
+      "@type": [
+        "cdi:Reference"
+      ],
       "cdi:description": "Soil core samples collected June 2025, sites GB-001 through GB-045"
     },
     {
-      "@type": "cdi:Reference",
+      "@type": [
+        "cdi:Reference"
+      ],
       "cdi:uri": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination",
       "cdi:description": "EPA Method 6200 - XRF Analysis of Soils"
     }
   ],
   "cdi:entityProduced": [
     {
-      "@type": "cdi:Reference",
+      "@type": [
+        "cdi:Reference"
+      ],
       "cdi:uri": "https://doi.org/10.5281/zenodo.example-soil-chem-gb-2025",
       "cdi:description": "Output dataset: Great Basin soil geochemistry results"
     }
@@ -211,33 +283,49 @@ script and Parameters, ProcessingAgent, and ProductionEnvironment.
   "cdi:has_Step": [
     {
       "@id": "ex:step-sample-prep",
-      "@type": "cdi:Step",
+      "@type": [
+        "cdi:Step"
+      ],
       "cdi:name": {
-        "@type": "cdi:ObjectName",
+        "@type": [
+          "cdi:ObjectName"
+        ],
         "cdi:name": "Sample preparation and acid digestion"
       },
       "cdi:description": "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels.",
       "cdi:script": {
-        "@type": "cdi:CommandCode",
+        "@type": [
+          "cdi:CommandCode"
+        ],
         "cdi:commandFile": {
-          "@type": "cdi:CommandFile",
+          "@type": [
+            "cdi:CommandFile"
+          ],
           "cdi:uri": "https://www.epa.gov/hw-sw846/sw-846-test-method-3052-microwave-assisted-acid-digestion"
         }
       },
       "cdi:scriptingLanguage": {
-        "@type": "cdi:ControlledVocabularyEntry",
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
         "cdi:entryValue": "Laboratory protocol"
       },
       "cdi:receives": [
         {
           "@id": "ex:param-soil-samples",
-          "@type": "cdi:Parameter",
+          "@type": [
+            "cdi:Parameter"
+          ],
           "cdi:name": {
-            "@type": "cdi:ObjectName",
+            "@type": [
+              "cdi:ObjectName"
+            ],
             "cdi:name": "Soil samples"
           },
           "cdi:entityBound": {
-            "@type": "cdi:Reference",
+            "@type": [
+              "cdi:Reference"
+            ],
             "cdi:description": "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect, sites GB-001 through GB-045"
           }
         }
@@ -245,13 +333,19 @@ script and Parameters, ProcessingAgent, and ProductionEnvironment.
       "cdi:produces": [
         {
           "@id": "ex:param-digested-solutions",
-          "@type": "cdi:Parameter",
+          "@type": [
+            "cdi:Parameter"
+          ],
           "cdi:name": {
-            "@type": "cdi:ObjectName",
+            "@type": [
+              "cdi:ObjectName"
+            ],
             "cdi:name": "Digested solutions"
           },
           "cdi:entityBound": {
-            "@type": "cdi:Reference",
+            "@type": [
+              "cdi:Reference"
+            ],
             "cdi:description": "Acid-digested soil solutions ready for ICP-MS analysis"
           }
         }
@@ -259,21 +353,31 @@ script and Parameters, ProcessingAgent, and ProductionEnvironment.
     },
     {
       "@id": "ex:step-icpms-measurement",
-      "@type": "cdi:Step",
+      "@type": [
+        "cdi:Step"
+      ],
       "cdi:name": {
-        "@type": "cdi:ObjectName",
+        "@type": [
+          "cdi:ObjectName"
+        ],
         "cdi:name": "ICP-MS measurement and calibration"
       },
       "cdi:description": "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards.",
       "cdi:script": {
-        "@type": "cdi:CommandCode",
+        "@type": [
+          "cdi:CommandCode"
+        ],
         "cdi:commandFile": {
-          "@type": "cdi:CommandFile",
+          "@type": [
+            "cdi:CommandFile"
+          ],
           "cdi:uri": "https://www.epa.gov/hw-sw846/sw-846-test-method-6020b-inductively-coupled-plasma-mass-spectrometry"
         }
       },
       "cdi:scriptingLanguage": {
-        "@type": "cdi:ControlledVocabularyEntry",
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
         "cdi:entryValue": "Instrumental method"
       },
       "cdi:receives": [
@@ -284,13 +388,19 @@ script and Parameters, ProcessingAgent, and ProductionEnvironment.
       "cdi:produces": [
         {
           "@id": "ex:param-measurement-data",
-          "@type": "cdi:Parameter",
+          "@type": [
+            "cdi:Parameter"
+          ],
           "cdi:name": {
-            "@type": "cdi:ObjectName",
+            "@type": [
+              "cdi:ObjectName"
+            ],
             "cdi:name": "Measurement data"
           },
           "cdi:entityBound": {
-            "@type": "cdi:Reference",
+            "@type": [
+              "cdi:Reference"
+            ],
             "cdi:uri": "https://doi.org/10.5281/zenodo.example-soil-chem-gb-2025",
             "cdi:description": "Raw ICP-MS measurement data with element concentrations"
           }
@@ -299,7 +409,9 @@ script and Parameters, ProcessingAgent, and ProductionEnvironment.
     }
   ],
   "cdi:standardModelMapping": {
-    "@type": "cdi:Reference",
+    "@type": [
+      "cdi:Reference"
+    ],
     "cdi:uri": "https://statswiki.unece.org/display/GSBPM/GSBPM+v5.1",
     "cdi:description": "Generic Statistical Business Process Model v5.1"
   }
@@ -394,14 +506,12 @@ type: object
 properties:
   '@type':
     description: Must be or include cdi:Activity
-    anyOf:
-    - type: string
+    type: array
+    items:
+      type: string
+    contains:
       const: cdi:Activity
-    - type: array
-      items:
-        type: string
-      contains:
-        const: cdi:Activity
+    minItems: 1
   '@id':
     type: string
     description: Identifier for this activity node
@@ -473,14 +583,12 @@ $defs:
     description: DDI-CDI structured name wrapper (dt-ObjectName)
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: cdi:ObjectName
-        - type: array
-          items:
-            type: string
-          contains:
-            const: cdi:ObjectName
+        minItems: 1
       cdi:name:
         type: string
         description: The name string
@@ -494,14 +602,12 @@ $defs:
     description: DDI-CDI multilingual display label (dt-LabelForDisplay)
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: cdi:LabelForDisplay
-        - type: array
-          items:
-            type: string
-          contains:
-            const: cdi:LabelForDisplay
+        minItems: 1
       cdi:locationVariant:
         description: Geographic or locale variant
         $ref: '#/$defs/ControlledVocabularyEntry'
@@ -516,14 +622,12 @@ $defs:
     description: DDI-CDI language-tagged string (dt-LanguageString)
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: cdi:LanguageString
-        - type: array
-          items:
-            type: string
-          contains:
-            const: cdi:LanguageString
+        minItems: 1
       cdi:content:
         type: string
         description: The text content
@@ -537,14 +641,12 @@ $defs:
     description: DDI-CDI composite identifier (dt-Identifier)
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: cdi:Identifier
-        - type: array
-          items:
-            type: string
-          contains:
-            const: cdi:Identifier
+        minItems: 1
       cdi:ddiIdentifier:
         description: DDI-specific IRDI identifier
         $ref: '#/$defs/InternationalRegistrationDataIdentifier'
@@ -564,14 +666,12 @@ $defs:
     description: DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: cdi:InternationalRegistrationDataIdentifier
-        - type: array
-          items:
-            type: string
-          contains:
-            const: cdi:InternationalRegistrationDataIdentifier
+        minItems: 1
       cdi:dataIdentifier:
         type: string
       cdi:registrationAuthorityIdentifier:
@@ -587,14 +687,12 @@ $defs:
     description: Non-DDI identifier (dt-NonDdiIdentifier)
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: cdi:NonDdiIdentifier
-        - type: array
-          items:
-            type: string
-          contains:
-            const: cdi:NonDdiIdentifier
+        minItems: 1
       cdi:identifierContent:
         type: string
         description: The identifier value
@@ -608,14 +706,12 @@ $defs:
     description: DDI-CDI reference to an entity (dt-Reference)
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: cdi:Reference
-        - type: array
-          items:
-            type: string
-          contains:
-            const: cdi:Reference
+        minItems: 1
       cdi:uri:
         type: string
         format: uri
@@ -634,14 +730,12 @@ $defs:
     description: DDI-CDI Step within an Activity (cls-Step, extends Activity)
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: cdi:Step
-        - type: array
-          items:
-            type: string
-          contains:
-            const: cdi:Step
+        minItems: 1
       '@id':
         type: string
         description: Identifier for this step node
@@ -702,14 +796,12 @@ $defs:
     description: DDI-CDI executable code reference (dt-CommandCode)
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: cdi:CommandCode
-        - type: array
-          items:
-            type: string
-          contains:
-            const: cdi:CommandCode
+        minItems: 1
       cdi:description:
         type: string
         description: Description of the code
@@ -732,14 +824,12 @@ $defs:
     description: DDI-CDI individual command statement (dt-Command)
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: cdi:Command
-        - type: array
-          items:
-            type: string
-          contains:
-            const: cdi:Command
+        minItems: 1
       cdi:commandContent:
         type: string
         description: The command or code text
@@ -751,14 +841,12 @@ $defs:
     description: DDI-CDI external script file (dt-CommandFile)
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: cdi:CommandFile
-        - type: array
-          items:
-            type: string
-          contains:
-            const: cdi:CommandFile
+        minItems: 1
       cdi:uri:
         type: string
         format: uri
@@ -771,14 +859,12 @@ $defs:
     description: DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry)
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: cdi:ControlledVocabularyEntry
-        - type: array
-          items:
-            type: string
-          contains:
-            const: cdi:ControlledVocabularyEntry
+        minItems: 1
       cdi:entryValue:
         type: string
         description: The vocabulary code or value
@@ -793,14 +879,12 @@ $defs:
     description: DDI-CDI parameter for step data flow (cls-Parameter)
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: cdi:Parameter
-        - type: array
-          items:
-            type: string
-          contains:
-            const: cdi:Parameter
+        minItems: 1
       '@id':
         type: string
         description: Identifier for this parameter node
@@ -828,14 +912,12 @@ $defs:
     description: DDI-CDI agent that performs activities (cls-ProcessingAgent)
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: cdi:ProcessingAgent
-        - type: array
-          items:
-            type: string
-          contains:
-            const: cdi:ProcessingAgent
+        minItems: 1
       '@id':
         type: string
         description: Identifier for this agent node
@@ -864,14 +946,12 @@ $defs:
     description: DDI-CDI production environment (cls-ProductionEnvironment)
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: cdi:ProductionEnvironment
-        - type: array
-          items:
-            type: string
-          contains:
-            const: cdi:ProductionEnvironment
+        minItems: 1
       '@id':
         type: string
         description: Identifier for this environment node

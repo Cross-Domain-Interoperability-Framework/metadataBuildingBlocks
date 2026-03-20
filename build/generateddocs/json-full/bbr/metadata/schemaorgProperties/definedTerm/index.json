@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-03-19",
+  "dateOfLastChange": "2026-03-20",
   "link": "https://github.com/opengeospatial/bblock-template",
   "sources": [
     {
@@ -58,12 +58,12 @@
         {
           "language": "json",
           "ref": "exampleDefinedTerm.json",
-          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\",\n    \"xsd\": \"http://www.w3.org/2001/XMLSchema#\"\n  },\n  \"@id\": \"ex:definedTerm_zZc\",\n  \"@type\": \"schema:DefinedTerm\",\n  \"schema:name\": \"example defined term\",\n  \"schema:identifier\": {\n    \"@type\": \"schema:PropertyValue\",\n    \"schema:propertyID\": \"https://identifiers.org/scheme/rt45347278\",\n    \"schema:url\": \"http://ogc.org/defs/rt45347278\"\n  },\n  \"schema:inDefinedTermSet\": \"http://ogc.org/defs\",\n  \"schema:termCode\": \"TT\"\n}",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\",\n    \"xsd\": \"http://www.w3.org/2001/XMLSchema#\"\n  },\n  \"@id\": \"ex:definedTerm_zZc\",\n  \"@type\": [\n    \"schema:DefinedTerm\"\n  ],\n  \"schema:name\": \"example defined term\",\n  \"schema:identifier\": {\n    \"@type\": [\n      \"schema:PropertyValue\"\n    ],\n    \"schema:propertyID\": \"https://identifiers.org/scheme/rt45347278\",\n    \"schema:url\": \"http://ogc.org/defs/rt45347278\"\n  },\n  \"schema:inDefinedTermSet\": \"http://ogc.org/defs\",\n  \"schema:termCode\": \"TT\"\n}\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/definedTerm/example_1_1.json"
         },
         {
           "language": "jsonld",
-          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\",\n      \"xsd\": \"http://www.w3.org/2001/XMLSchema#\"\n    }\n  ],\n  \"@id\": \"ex:definedTerm_zZc\",\n  \"@type\": \"schema:DefinedTerm\",\n  \"schema:name\": \"example defined term\",\n  \"schema:identifier\": {\n    \"@type\": \"schema:PropertyValue\",\n    \"schema:propertyID\": \"https://identifiers.org/scheme/rt45347278\",\n    \"schema:url\": \"http://ogc.org/defs/rt45347278\"\n  },\n  \"schema:inDefinedTermSet\": \"http://ogc.org/defs\",\n  \"schema:termCode\": \"TT\"\n}",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\",\n      \"xsd\": \"http://www.w3.org/2001/XMLSchema#\"\n    }\n  ],\n  \"@id\": \"ex:definedTerm_zZc\",\n  \"@type\": [\n    \"schema:DefinedTerm\"\n  ],\n  \"schema:name\": \"example defined term\",\n  \"schema:identifier\": {\n    \"@type\": [\n      \"schema:PropertyValue\"\n    ],\n    \"schema:propertyID\": \"https://identifiers.org/scheme/rt45347278\",\n    \"schema:url\": \"http://ogc.org/defs/rt45347278\"\n  },\n  \"schema:inDefinedTermSet\": \"http://ogc.org/defs\",\n  \"schema:termCode\": \"TT\"\n}",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/definedTerm/example_1_1.jsonld"
         },
         {
@@ -74,7 +74,7 @@
       ]
     }
   ],
-  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: schema.org Defined Term schema\ntype: object\nproperties:\n  '@type':\n    anyOf:\n    - type: string\n      const: schema:DefinedTerm\n    - type: array\n      items:\n        type: string\n      contains:\n        const: schema:DefinedTerm\n  schema:name:\n    type: string\n    description: text label for the term that is useful to human user\n  schema:identifier:\n    anyOf:\n    - type: string\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml\n  schema:inDefinedTermSet:\n    type: string\n    description: Identifier for the controlled vocabulary responsible for this keyword.\n  schema:termCode:\n    type: string\n    description: A representative code for this keyword in the controlled vocabulary\n      (Optional).  Analogous to skos:Notation\nallOf:\n- required:\n  - '@type'\n- anyOf:\n  - required:\n    - schema:name\n  - required:\n    - schema:identifier\n  - required:\n    - schema:termCode\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: schema.org Defined Term schema\ntype: object\nproperties:\n  '@type':\n    type: array\n    items:\n      type: string\n    contains:\n      const: schema:DefinedTerm\n    minItems: 1\n  schema:name:\n    type: string\n    description: text label for the term that is useful to human user\n  schema:identifier:\n    anyOf:\n    - type: string\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml\n  schema:inDefinedTermSet:\n    type: string\n    description: Identifier for the controlled vocabulary responsible for this keyword.\n  schema:termCode:\n    type: string\n    description: A representative code for this keyword in the controlled vocabulary\n      (Optional).  Analogous to skos:Notation\nallOf:\n- required:\n  - '@type'\n- anyOf:\n  - required:\n    - schema:name\n  - required:\n    - schema:identifier\n  - required:\n    - schema:termCode\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
   "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
   "gitPath": "_sources/schemaorgProperties/definedTerm"
 }

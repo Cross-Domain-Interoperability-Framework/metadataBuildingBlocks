@@ -50,19 +50,25 @@ Defintion of properties to describe file-based distribution of a resource on the
     "text/csv"
   ],
   "spdx:checksum": {
-    "@type": "spdx:Checksum",
+    "@type": [
+      "spdx:Checksum"
+    ],
     "spdx:algorithm": "MD5",
     "spdx:checksumValue": "d41d8cd98f00b204e9800998ecf8427e"
   },
   "schema:provider": [
     {
       "@id": "https://orcid.org/3333-4444-5565",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Severus Data",
       "schema:alternateName": "the datameister",
       "schema:affiliation": {
         "@id": "https://ror.org/347237",
-        "@type": "schema:Organization",
+        "@type": [
+          "schema:Organization"
+        ],
         "schema:additionalType": [
           "Data repository"
         ],
@@ -70,19 +76,27 @@ Defintion of properties to describe file-based distribution of a resource on the
         "schema:identifier": "https://ror.org/347237"
       },
       "schema:contactPoint": {
-        "@type": "schema:ContactPoint",
+        "@type": [
+          "schema:ContactPoint"
+        ],
         "schema:email": "joe@email.org"
       },
       "schema:description": "Earth Science Data Custodian",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
         "schema:value": "3333-4444-5565",
         "schema:url": "https://orcid.org/3333-4444-5565"
       }
     }
   ],
-  "dcterms:conformsTo": [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}]
+  "dcterms:conformsTo": [
+    {
+      "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+    }
+  ]
 }
 
 ```
@@ -112,19 +126,25 @@ Defintion of properties to describe file-based distribution of a resource on the
     "text/csv"
   ],
   "spdx:checksum": {
-    "@type": "spdx:Checksum",
+    "@type": [
+      "spdx:Checksum"
+    ],
     "spdx:algorithm": "MD5",
     "spdx:checksumValue": "d41d8cd98f00b204e9800998ecf8427e"
   },
   "schema:provider": [
     {
       "@id": "https://orcid.org/3333-4444-5565",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Severus Data",
       "schema:alternateName": "the datameister",
       "schema:affiliation": {
         "@id": "https://ror.org/347237",
-        "@type": "schema:Organization",
+        "@type": [
+          "schema:Organization"
+        ],
         "schema:additionalType": [
           "Data repository"
         ],
@@ -132,12 +152,16 @@ Defintion of properties to describe file-based distribution of a resource on the
         "schema:identifier": "https://ror.org/347237"
       },
       "schema:contactPoint": {
-        "@type": "schema:ContactPoint",
+        "@type": [
+          "schema:ContactPoint"
+        ],
         "schema:email": "joe@email.org"
       },
       "schema:description": "Earth Science Data Custodian",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
         "schema:value": "3333-4444-5565",
         "schema:url": "https://orcid.org/3333-4444-5565"
@@ -229,14 +253,12 @@ properties:
       distribution/DataDownload.
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: spdx:Checksum
-        - type: array
-          items:
-            type: string
-          contains:
-            const: spdx:Checksum
+        minItems: 1
       spdx:algorithm:
         type: string
       spdx:checksumValue:

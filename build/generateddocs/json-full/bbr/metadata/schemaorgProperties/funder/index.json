@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-03-19",
+  "dateOfLastChange": "2026-03-20",
   "link": "https://github.com/opengeospatial/bblock-template",
   "sources": [
     {
@@ -31,9 +31,6 @@
     "cdif.bbr.metadata.schemaorgProperties.funder": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/funder/rules.shacl"
     ],
-    "cdif.bbr.metadata.schemaorgProperties.person": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/person/rules.shacl"
-    ],
     "cdif.bbr.metadata.schemaorgProperties.identifier": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
     ],
@@ -42,12 +39,15 @@
     ],
     "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.person": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/person/rules.shacl"
     ]
   },
   "dependsOn": [
-    "cdif.bbr.metadata.schemaorgProperties.person",
     "cdif.bbr.metadata.schemaorgProperties.identifier",
-    "cdif.bbr.metadata.schemaorgProperties.organization"
+    "cdif.bbr.metadata.schemaorgProperties.organization",
+    "cdif.bbr.metadata.schemaorgProperties.person"
   ],
   "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/context.jsonld",
   "schema": {
@@ -73,12 +73,12 @@
         {
           "language": "json",
           "ref": "exampleFunder.json",
-          "code": "{\n    \"@context\": {\n        \"schema\": \"http://schema.org/\",\n        \"ex\": \"https://example.org/\",\n        \"xsd\": \"http://www.w3.org/2001/XMLSchema#\"\n    },\n    \"@type\": \"schema:MonetaryGrant\",\n    \"schema:identifier\": {\n        \"@type\": \"schema:PropertyValue\",\n        \"schema:propertyID\": \"NSF award number\",\n        \"schema:value\": \"2227407\",\n        \"schema:url\": \"https://www.nsf.gov/awardsearch/showAward?AWD_ID=2227407\"\n    },\n    \"schema:name\": \"Big Bucks for Research\",\n    \"schema:funder\": {\"@id\": \"https://ror.org/021nxhr62\"}\n}",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\",\n    \"xsd\": \"http://www.w3.org/2001/XMLSchema#\"\n  },\n  \"@type\": [\n    \"schema:MonetaryGrant\"\n  ],\n  \"schema:identifier\": {\n    \"@type\": [\n      \"schema:PropertyValue\"\n    ],\n    \"schema:propertyID\": \"NSF award number\",\n    \"schema:value\": \"2227407\",\n    \"schema:url\": \"https://www.nsf.gov/awardsearch/showAward?AWD_ID=2227407\"\n  },\n  \"schema:name\": \"Big Bucks for Research\",\n  \"schema:funder\": {\n    \"@id\": \"https://ror.org/021nxhr62\"\n  }\n}\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/funder/example_1_1.json"
         },
         {
           "language": "jsonld",
-          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\",\n      \"xsd\": \"http://www.w3.org/2001/XMLSchema#\"\n    }\n  ],\n  \"@type\": \"schema:MonetaryGrant\",\n  \"schema:identifier\": {\n    \"@type\": \"schema:PropertyValue\",\n    \"schema:propertyID\": \"NSF award number\",\n    \"schema:value\": \"2227407\",\n    \"schema:url\": \"https://www.nsf.gov/awardsearch/showAward?AWD_ID=2227407\"\n  },\n  \"schema:name\": \"Big Bucks for Research\",\n  \"schema:funder\": {\n    \"@id\": \"https://ror.org/021nxhr62\"\n  }\n}",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\",\n      \"xsd\": \"http://www.w3.org/2001/XMLSchema#\"\n    }\n  ],\n  \"@type\": [\n    \"schema:MonetaryGrant\"\n  ],\n  \"schema:identifier\": {\n    \"@type\": [\n      \"schema:PropertyValue\"\n    ],\n    \"schema:propertyID\": \"NSF award number\",\n    \"schema:value\": \"2227407\",\n    \"schema:url\": \"https://www.nsf.gov/awardsearch/showAward?AWD_ID=2227407\"\n  },\n  \"schema:name\": \"Big Bucks for Research\",\n  \"schema:funder\": {\n    \"@id\": \"https://ror.org/021nxhr62\"\n  }\n}",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/funder/example_1_1.jsonld"
         },
         {
@@ -89,7 +89,7 @@
       ]
     }
   ],
-  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: Funding acknowledgement properties, profile of schema.org/MonetaryGrant\ntype: object\nproperties:\n  '@id':\n    type: string\n    description: URI identifier for this funding record\n  '@type':\n    default: schema:MonetaryGrant\n    anyOf:\n    - type: string\n      const: schema:MonetaryGrant\n    - type: array\n      items:\n        type: string\n      contains:\n        const: schema:MonetaryGrant\n  schema:identifier:\n    $ref: '#/$defs/Identifier'\n    description: identifier for a particular grant\n  schema:description:\n    type: string\n    description: description of the funding or grant\n  schema:name:\n    type: string\n    description: title of the grant\n  schema:funder:\n    anyOf:\n    - type: object\n      properties:\n        '@id':\n          type: string\n          description: a identifier for an agent defined in this metadata, or externally;\n            must be dereferenceable\n      required:\n      - '@id'\n    - $ref: '#/$defs/Person'\n    - $ref: '#/$defs/Organization'\nanyOf:\n- required:\n  - schema:funder\n- required:\n  - schema:identifier\n- required:\n  - schema:name\n$defs:\n  Person:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml\n  Organization:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml\n  Identifier:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: Funding acknowledgement properties, profile of schema.org/MonetaryGrant\ntype: object\nproperties:\n  '@id':\n    type: string\n    description: URI identifier for this funding record\n  '@type':\n    default: schema:MonetaryGrant\n    type: array\n    items:\n      type: string\n    contains:\n      const: schema:MonetaryGrant\n    minItems: 1\n  schema:identifier:\n    $ref: '#/$defs/Identifier'\n    description: identifier for a particular grant\n  schema:description:\n    type: string\n    description: description of the funding or grant\n  schema:name:\n    type: string\n    description: title of the grant\n  schema:funder:\n    anyOf:\n    - type: object\n      properties:\n        '@id':\n          type: string\n          description: a identifier for an agent defined in this metadata, or externally;\n            must be dereferenceable\n      required:\n      - '@id'\n    - $ref: '#/$defs/Person'\n    - $ref: '#/$defs/Organization'\nanyOf:\n- required:\n  - schema:funder\n- required:\n  - schema:identifier\n- required:\n  - schema:name\n$defs:\n  Person:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml\n  Organization:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml\n  Identifier:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
   "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
   "gitPath": "_sources/schemaorgProperties/funder"
 }

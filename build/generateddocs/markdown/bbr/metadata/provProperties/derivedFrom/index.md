@@ -19,25 +19,30 @@ very simple implementation for discovery-level citation of sources used to gener
 #### json
 ```json
 {
-    "@context": {
-        "schema": "http://schema.org/",
-        "prov": "http://www.w3.org/ns/prov#",
-        "nerc": "https://vocab.nerc.ac.uk/",
-        "ex": "https://example.org/"
+  "@context": {
+    "schema": "http://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "nerc": "https://vocab.nerc.ac.uk/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:generatedBy_345y254h",
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "http://doi.org/10.547/347848"
     },
-    "@id": "ex:generatedBy_345y254h",
-    "prov:wasDerivedFrom": [
-        {"@id": "http://doi.org/10.547/347848"},
-        "http://doi.org/10.3578/h5ls",
-        {
-            "@id": "ex:source_z536Zc",
-            "@type": "schema:CreativeWork",
-            "schema:name": "Title data source",
-            "schema:description": "short summary of source content",
-            "schema:url": "https://doi.org/20456/2342747"
-        }
-    ]
+    "http://doi.org/10.3578/h5ls",
+    {
+      "@id": "ex:source_z536Zc",
+      "@type": [
+        "schema:CreativeWork"
+      ],
+      "schema:name": "Title data source",
+      "schema:description": "short summary of source content",
+      "schema:url": "https://doi.org/20456/2342747"
+    }
+  ]
 }
+
 ```
 
 #### jsonld
@@ -66,7 +71,9 @@ very simple implementation for discovery-level citation of sources used to gener
     "http://doi.org/10.3578/h5ls",
     {
       "@id": "ex:source_z536Zc",
-      "@type": "schema:CreativeWork",
+      "@type": [
+        "schema:CreativeWork"
+      ],
       "schema:name": "Title data source",
       "schema:description": "short summary of source content",
       "schema:url": "https://doi.org/20456/2342747"

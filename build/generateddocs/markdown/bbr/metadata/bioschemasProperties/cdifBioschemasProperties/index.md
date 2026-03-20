@@ -85,73 +85,15 @@ Example showing Bioschemas lab protocol, equipment, tools, and parameter values.
 #### json
 ```json
 {
-    "@context": {
-        "schema": "http://schema.org/",
-        "bios": "https://bioschemas.org/",
-        "ex": "https://example.org/"
-    },
-    "bios:executesLabProtocol": {
-        "@type": "bios:LabProtocol",
-        "@id": "ex:protocol-xrf-soil",
-        "schema:name": "XRF Soil Analysis Protocol",
-        "schema:description": "Standard protocol for X-ray fluorescence analysis of soil samples.",
-        "schema:url": "https://example.org/protocols/xrf-soil-v2",
-        "bios:labEquipment": [
-            {
-                "@type": ["schema:Thing", "schema:DefinedTerm"],
-                "@id": "ex:instrument-xrf-001",
-                "schema:name": "Bruker S8 Tiger WDXRF Spectrometer",
-                "schema:description": "Wavelength-dispersive X-ray fluorescence spectrometer"
-            }
-        ],
-        "bios:computationalTool": [
-            {
-                "@type": ["schema:SoftwareApplication"],
-                "@id": "ex:software-spectra-eval",
-                "schema:name": "SPECTRA.ELEMENTS",
-                "schema:version": "3.1.2",
-                "schema:url": "https://example.org/software/spectra-elements"
-            }
-        ],
-        "bios:reagent": [
-            "Lithium tetraborate flux (Li2B4O7)"
-        ]
-    },
-    "bios:parameterValue": [
-        {
-            "@type": "schema:PropertyValue",
-            "schema:name": "X-ray tube voltage",
-            "schema:value": 50,
-            "schema:unitText": "kV"
-        },
-        {
-            "@type": "schema:PropertyValue",
-            "schema:name": "X-ray tube current",
-            "schema:value": 40,
-            "schema:unitText": "mA"
-        }
-    ]
-}
-
-```
-
-#### jsonld
-```jsonld
-{
-  "@context": [
-    {
-      "bios": "https://bioschemas.org/",
-      "schema": "http://schema.org/"
-    },
-    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/context.jsonld",
-    {
-      "schema": "http://schema.org/",
-      "bios": "https://bioschemas.org/",
-      "ex": "https://example.org/"
-    }
-  ],
+  "@context": {
+    "schema": "http://schema.org/",
+    "bios": "https://bioschemas.org/",
+    "ex": "https://example.org/"
+  },
   "bios:executesLabProtocol": {
-    "@type": "bios:LabProtocol",
+    "@type": [
+      "bios:LabProtocol"
+    ],
     "@id": "ex:protocol-xrf-soil",
     "schema:name": "XRF Soil Analysis Protocol",
     "schema:description": "Standard protocol for X-ray fluorescence analysis of soil samples.",
@@ -184,13 +126,88 @@ Example showing Bioschemas lab protocol, equipment, tools, and parameter values.
   },
   "bios:parameterValue": [
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:name": "X-ray tube voltage",
       "schema:value": 50,
       "schema:unitText": "kV"
     },
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:name": "X-ray tube current",
+      "schema:value": 40,
+      "schema:unitText": "mA"
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "bios": "https://bioschemas.org/",
+      "schema": "http://schema.org/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "bios": "https://bioschemas.org/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "bios:executesLabProtocol": {
+    "@type": [
+      "bios:LabProtocol"
+    ],
+    "@id": "ex:protocol-xrf-soil",
+    "schema:name": "XRF Soil Analysis Protocol",
+    "schema:description": "Standard protocol for X-ray fluorescence analysis of soil samples.",
+    "schema:url": "https://example.org/protocols/xrf-soil-v2",
+    "bios:labEquipment": [
+      {
+        "@type": [
+          "schema:Thing",
+          "schema:DefinedTerm"
+        ],
+        "@id": "ex:instrument-xrf-001",
+        "schema:name": "Bruker S8 Tiger WDXRF Spectrometer",
+        "schema:description": "Wavelength-dispersive X-ray fluorescence spectrometer"
+      }
+    ],
+    "bios:computationalTool": [
+      {
+        "@type": [
+          "schema:SoftwareApplication"
+        ],
+        "@id": "ex:software-spectra-eval",
+        "schema:name": "SPECTRA.ELEMENTS",
+        "schema:version": "3.1.2",
+        "schema:url": "https://example.org/software/spectra-elements"
+      }
+    ],
+    "bios:reagent": [
+      "Lithium tetraborate flux (Li2B4O7)"
+    ]
+  },
+  "bios:parameterValue": [
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:name": "X-ray tube voltage",
+      "schema:value": 50,
+      "schema:unitText": "kV"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:name": "X-ray tube current",
       "schema:value": 40,
       "schema:unitText": "mA"
@@ -226,13 +243,13 @@ ex:software-spectra-eval a schema1:SoftwareApplication ;
 
 [] bios:executesLabProtocol ex:protocol-xrf-soil ;
     bios:parameterValue [ a schema1:PropertyValue ;
-            schema1:name "X-ray tube current" ;
-            schema1:unitText "mA" ;
-            schema1:value 40 ],
-        [ a schema1:PropertyValue ;
             schema1:name "X-ray tube voltage" ;
             schema1:unitText "kV" ;
-            schema1:value 50 ] .
+            schema1:value 50 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "X-ray tube current" ;
+            schema1:unitText "mA" ;
+            schema1:value 40 ] .
 
 
 ```
@@ -357,14 +374,12 @@ $defs:
       Maps to schema:HowTo in the cdifProvActivity context.
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: bios:LabProtocol
-        - type: array
-          items:
-            type: string
-          contains:
-            const: bios:LabProtocol
+        minItems: 1
       '@id':
         type: string
       schema:name:
@@ -472,7 +487,10 @@ $defs:
         - type: object
           properties:
             '@type':
-              type: string
+              type: array
+              items:
+                type: string
+              minItems: 1
             schema:propertyID:
               type: string
             schema:value:
@@ -663,14 +681,12 @@ $defs:
       and optionally a link back to the FormalParameter definition via schema:propertyID.
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: schema:PropertyValue
-        - type: array
-          items:
-            type: string
-          contains:
-            const: schema:PropertyValue
+        minItems: 1
       '@id':
         type: string
       schema:name:

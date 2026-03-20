@@ -64,14 +64,12 @@ properties:
       type: object
       properties:
         '@type':
-          anyOf:
-          - type: string
+          type: array
+          items:
+            type: string
+          contains:
             const: schema:LinkRole
-          - type: array
-            items:
-              type: string
-            contains:
-              const: schema:LinkRole
+          minItems: 1
         schema:linkRelationship:
           anyOf:
           - $ref: '#/$defs/DefinedTerm'
@@ -80,14 +78,12 @@ properties:
           type: object
           properties:
             '@type':
-              anyOf:
-              - type: string
+              type: array
+              items:
+                type: string
+              contains:
                 const: schema:EntryPoint
-              - type: array
-                items:
-                  type: string
-                contains:
-                  const: schema:EntryPoint
+              minItems: 1
             schema:encodingFormat:
               type: string
               description: registered MIME types are expected

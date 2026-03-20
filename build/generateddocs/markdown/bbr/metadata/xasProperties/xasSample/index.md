@@ -19,78 +19,110 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
 #### json
 ```json
 {
-    "@context": {
-        "schema": "http://schema.org/",
-        "ex": "https://example.org/",
-        "xsd": "http://www.w3.org/2001/XMLSchema#",
-        "xas": "https://xas.org/dictionary/",
-        "nxs": "http://purl.org/nexusformat/definitions/"
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "xas": "https://xas.org/dictionary/",
+    "nxs": "http://purl.org/nexusformat/definitions/"
+  },
+  "@id": "ex:exampleSampel_357h",
+  "@type": [
+    "schema:Thing",
+    "schema:Product"
+  ],
+  "schema:additionalType": [
+    "MaterialSample",
+    "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample",
+    "https://www.wikidata.org/wiki/Q485146"
+  ],
+  "schema:name": "Na2SeO4",
+  "schema:identifier": "igsn:10.6620/357lkj",
+  "schema:description": "physical properties of sample: ph, eh, volume, porosity, density, concentration, resistivity, viscosity, crystal structure, opacity from xdi list...",
+  "schema:additionalProperty": [
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "xas:porosity"
+      ],
+      "schema:name": "porosity",
+      "schema:value": "27",
+      "schema:unitText": "percent"
     },
-    "@id": "ex:exampleSampel_357h",
-    "@type": [
-        "schema:Thing",
-        "schema:Product"
-    ],
-    "schema:additionalType": [
-        "MaterialSample",
-        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample",
-        "https://www.wikidata.org/wiki/Q485146"
-    ],
-    "schema:name": "Na2SeO4",
-    "schema:identifier": "igsn:10.6620/357lkj",
-    "schema:description": "physical properties of sample: ph, eh, volume, porosity, density, concentration, resistivity, viscosity, crystal structure, opacity from xdi list...",
-    "schema:additionalProperty": [
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": ["xas:porosity"],
-            "schema:name":"porosity",
-            "schema:value": "27",
-            "schema:unitText": "percent"
-        },
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": ["xas:stoichiometry"],
-            "schema:name":"stoichiometry",
-            "schema:value": "Na2SeO4"
-        },
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": ["xas:samplePreparation"],
-            "schema:name":"samplePreparation",
-            "schema:value": "powder on tape, 6 layers"
-        },
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": ["nxs:Field/NXsample/mass"],
-            "schema:value": "10",
-            "schema:name":"sample mass",
-            "schema:unitText": "mg"
-        },
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": ["nxs:Field/NXsample/point_group"],
-            "schema:name":"crystal point group",
-            "schema:value": "mm2"
-        },
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": ["nxs:Field/NXsample/unit_cell"],
-            "schema:name":"crystal unit cell",
-            "schema:value": "cubic; Z = 4; a = 5.46; V = 162.77"
-        },
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": ["xas:parentSample"],
-            "schema:name":"Parent sample",
-            "schema:value": "igsn:10.3476/342573"
-        },
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": ["xas:materialState"],
-            "schema:name":"sample material state",
-            "schema:value": "solid metal foil"
-        }
-    ]
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "xas:stoichiometry"
+      ],
+      "schema:name": "stoichiometry",
+      "schema:value": "Na2SeO4"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "xas:samplePreparation"
+      ],
+      "schema:name": "samplePreparation",
+      "schema:value": "powder on tape, 6 layers"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "nxs:Field/NXsample/mass"
+      ],
+      "schema:value": "10",
+      "schema:name": "sample mass",
+      "schema:unitText": "mg"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "nxs:Field/NXsample/point_group"
+      ],
+      "schema:name": "crystal point group",
+      "schema:value": "mm2"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "nxs:Field/NXsample/unit_cell"
+      ],
+      "schema:name": "crystal unit cell",
+      "schema:value": "cubic; Z = 4; a = 5.46; V = 162.77"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "xas:parentSample"
+      ],
+      "schema:name": "Parent sample",
+      "schema:value": "igsn:10.3476/342573"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "xas:materialState"
+      ],
+      "schema:name": "sample material state",
+      "schema:value": "solid metal foil"
+    }
+  ]
 }
 
 ```
@@ -130,7 +162,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
   "schema:description": "physical properties of sample: ph, eh, volume, porosity, density, concentration, resistivity, viscosity, crystal structure, opacity from xdi list...",
   "schema:additionalProperty": [
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": [
         "xas:porosity"
       ],
@@ -139,7 +173,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
       "schema:unitText": "percent"
     },
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": [
         "xas:stoichiometry"
       ],
@@ -147,7 +183,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
       "schema:value": "Na2SeO4"
     },
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": [
         "xas:samplePreparation"
       ],
@@ -155,7 +193,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
       "schema:value": "powder on tape, 6 layers"
     },
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": [
         "nxs:Field/NXsample/mass"
       ],
@@ -164,7 +204,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
       "schema:unitText": "mg"
     },
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": [
         "nxs:Field/NXsample/point_group"
       ],
@@ -172,7 +214,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
       "schema:value": "mm2"
     },
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": [
         "nxs:Field/NXsample/unit_cell"
       ],
@@ -180,7 +224,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
       "schema:value": "cubic; Z = 4; a = 5.46; V = 162.77"
     },
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": [
         "xas:parentSample"
       ],
@@ -188,7 +234,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
       "schema:value": "igsn:10.3476/342573"
     },
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": [
         "xas:materialState"
       ],
@@ -207,39 +255,39 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
 ex:exampleSampel_357h a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Parent sample" ;
-            schema1:propertyID "xas:parentSample" ;
-            schema1:value "igsn:10.3476/342573" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "crystal unit cell" ;
-            schema1:propertyID "nxs:Field/NXsample/unit_cell" ;
-            schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
+            schema1:name "porosity" ;
+            schema1:propertyID "xas:porosity" ;
+            schema1:unitText "percent" ;
+            schema1:value "27" ],
         [ a schema1:PropertyValue ;
             schema1:name "sample mass" ;
             schema1:propertyID "nxs:Field/NXsample/mass" ;
             schema1:unitText "mg" ;
             schema1:value "10" ],
         [ a schema1:PropertyValue ;
-            schema1:name "samplePreparation" ;
-            schema1:propertyID "xas:samplePreparation" ;
-            schema1:value "powder on tape, 6 layers" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "crystal point group" ;
-            schema1:propertyID "nxs:Field/NXsample/point_group" ;
-            schema1:value "mm2" ],
+            schema1:name "stoichiometry" ;
+            schema1:propertyID "xas:stoichiometry" ;
+            schema1:value "Na2SeO4" ],
         [ a schema1:PropertyValue ;
             schema1:name "sample material state" ;
             schema1:propertyID "xas:materialState" ;
             schema1:value "solid metal foil" ],
         [ a schema1:PropertyValue ;
-            schema1:name "porosity" ;
-            schema1:propertyID "xas:porosity" ;
-            schema1:unitText "percent" ;
-            schema1:value "27" ],
+            schema1:name "Parent sample" ;
+            schema1:propertyID "xas:parentSample" ;
+            schema1:value "igsn:10.3476/342573" ],
         [ a schema1:PropertyValue ;
-            schema1:name "stoichiometry" ;
-            schema1:propertyID "xas:stoichiometry" ;
-            schema1:value "Na2SeO4" ] ;
+            schema1:name "crystal point group" ;
+            schema1:propertyID "nxs:Field/NXsample/point_group" ;
+            schema1:value "mm2" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "samplePreparation" ;
+            schema1:propertyID "xas:samplePreparation" ;
+            schema1:value "powder on tape, 6 layers" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "crystal unit cell" ;
+            schema1:propertyID "nxs:Field/NXsample/unit_cell" ;
+            schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ] ;
     schema1:additionalType "MaterialSample",
         "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample",
         "https://www.wikidata.org/wiki/Q485146" ;

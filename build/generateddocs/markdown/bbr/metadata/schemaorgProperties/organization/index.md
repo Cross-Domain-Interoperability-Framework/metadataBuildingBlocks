@@ -19,28 +19,35 @@ Example organization instance.
 #### json
 ```json
 {
-    "@context": {
-        "schema": "http://schema.org/",
-        "ex": "https://example.org/",
-        "xsd": "http://www.w3.org/2001/XMLSchema#"
-    },
-    "@id": "ex:exampleOrg_fW",
-    "@type": "schema:Organization",
-    "schema:additionalType": [
-        "schema:ResearchOrganization",
-        "university"
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id": "ex:exampleOrg_fW",
+  "@type": [
+    "schema:Organization"
+  ],
+  "schema:additionalType": [
+    "schema:ResearchOrganization",
+    "university"
+  ],
+  "schema:name": "University of Arizona",
+  "schema:alternateName": "UAz",
+  "schema:description": "University in Tucson, Arizona",
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
     ],
-    "schema:name": "University of Arizona",
-    "schema:alternateName": "UAz",
-    "schema:description": "University in Tucson, Arizona",
-    "schema:identifier": {
-        "@type": "schema:PropertyValue",
-        "schema:propertyID": "https://registry.identifiers.org/registry/ror",
-        "schema:value": "03m2x1q45",
-        "schema:url": "https://ror.org/03m2x1q45"
-    },
-    "schema:sameAs": ["https://en.wikipedia.org/wiki/University_of_Arizona"]
+    "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+    "schema:value": "03m2x1q45",
+    "schema:url": "https://ror.org/03m2x1q45"
+  },
+  "schema:sameAs": [
+    "https://en.wikipedia.org/wiki/University_of_Arizona"
+  ]
 }
+
 ```
 
 #### jsonld
@@ -58,7 +65,9 @@ Example organization instance.
     }
   ],
   "@id": "ex:exampleOrg_fW",
-  "@type": "schema:Organization",
+  "@type": [
+    "schema:Organization"
+  ],
   "schema:additionalType": [
     "schema:ResearchOrganization",
     "university"
@@ -67,7 +76,9 @@ Example organization instance.
   "schema:alternateName": "UAz",
   "schema:description": "University in Tucson, Arizona",
   "schema:identifier": {
-    "@type": "schema:PropertyValue",
+    "@type": [
+      "schema:PropertyValue"
+    ],
     "schema:propertyID": "https://registry.identifiers.org/registry/ror",
     "schema:value": "03m2x1q45",
     "schema:url": "https://ror.org/03m2x1q45"
@@ -108,14 +119,12 @@ properties:
     type: string
   '@type':
     default: schema:Organization
-    anyOf:
-    - type: string
+    type: array
+    items:
+      type: string
+    contains:
       const: schema:Organization
-    - type: array
-      items:
-        type: string
-      contains:
-        const: schema:Organization
+    minItems: 1
   schema:additionalType:
     type: array
     items:

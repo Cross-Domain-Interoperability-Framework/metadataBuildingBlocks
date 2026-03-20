@@ -1,14 +1,41 @@
 Validation report for cdif.bbr.metadata.xasProperties.xasInstrument - XAS Instrument
-Generated 2026-03-20T16:37:30.292071+00:00
+Generated 2026-03-20T16:37:30.387420+00:00
 === Files ===
-Using exampleInstrument.json from examples
+Using alt_exampleXasInstrument.json from examples
 JSON-LD context is present - uplifting
-Output JSON-LD example_1_1.jsonld created
-Output Turtle example_1_1.ttl created
+Output JSON-LD example_1_2.jsonld created
+Output Turtle example_1_2.ttl created
 === End Files ===
 
 === JSON Schema ===
-Validation passed
+
+** Validation error **
+ValidationError: {'@type': ['schema:Thing', 'schema:Product'], 'schema:additionalType': ['nxs:BaseClass/NXsource', 'wd:Q3099911'], 'schema:name': 'source of x-ray excitation for analysis. Made up for this example', 'schema:identifier': 'should have a registry with URIs', 'schema:additionalProperty': [{'@type': 'schema:PropertyValue', 'schema:propertyID': ['nxs:Field/NXsource/type'], 'schema:name': 'X-ray source', 'schema:value': 'Synchrotron X-ray Source'}, {'@type': 'schema:PropertyValue', 'schema:propertyID': ['nxs:Field/NXsource/probe'], 'schema:name': 'Probe', 'schema:value': 'x-ray'}]} is not valid under any of the given schemas
+
+Failed validating 'anyOf' in schema['allOf'][0]['properties']['schema:hasPart']['items']:
+    {'anyOf': [{'$ref': '#/$defs/InstrumentComponent'},
+               {'properties': {'@id': {'description': 'Reference to a '
+                                                      'sub-component '
+                                                      'defined elsewhere.',
+                                       'type': 'string'}},
+                'required': ['@id'],
+                'type': 'object'}]}
+
+On instance['schema:hasPart'][0]:
+    {'@type': ['schema:Thing', 'schema:Product'],
+     'schema:additionalProperty': [{'@type': 'schema:PropertyValue',
+                                    'schema:name': 'X-ray source',
+                                    'schema:propertyID': ['nxs:Field/NXsource/type'],
+                                    'schema:value': 'Synchrotron X-ray '
+                                                    'Source'},
+                                   {'@type': 'schema:PropertyValue',
+                                    'schema:name': 'Probe',
+                                    'schema:propertyID': ['nxs:Field/NXsource/probe'],
+                                    'schema:value': 'x-ray'}],
+     'schema:additionalType': ['nxs:BaseClass/NXsource', 'wd:Q3099911'],
+     'schema:identifier': 'should have a registry with URIs',
+     'schema:name': 'source of x-ray excitation for analysis. Made up for '
+                    'this example'}
 === End JSON Schema ===
 
 === SHACL ===

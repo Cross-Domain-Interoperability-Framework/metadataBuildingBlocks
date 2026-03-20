@@ -25,16 +25,21 @@ Example Defined Term instance.
     "xsd": "http://www.w3.org/2001/XMLSchema#"
   },
   "@id": "ex:definedTerm_zZc",
-  "@type": "schema:DefinedTerm",
+  "@type": [
+    "schema:DefinedTerm"
+  ],
   "schema:name": "example defined term",
   "schema:identifier": {
-    "@type": "schema:PropertyValue",
+    "@type": [
+      "schema:PropertyValue"
+    ],
     "schema:propertyID": "https://identifiers.org/scheme/rt45347278",
     "schema:url": "http://ogc.org/defs/rt45347278"
   },
   "schema:inDefinedTermSet": "http://ogc.org/defs",
   "schema:termCode": "TT"
 }
+
 ```
 
 #### jsonld
@@ -52,10 +57,14 @@ Example Defined Term instance.
     }
   ],
   "@id": "ex:definedTerm_zZc",
-  "@type": "schema:DefinedTerm",
+  "@type": [
+    "schema:DefinedTerm"
+  ],
   "schema:name": "example defined term",
   "schema:identifier": {
-    "@type": "schema:PropertyValue",
+    "@type": [
+      "schema:PropertyValue"
+    ],
     "schema:propertyID": "https://identifiers.org/scheme/rt45347278",
     "schema:url": "http://ogc.org/defs/rt45347278"
   },
@@ -88,14 +97,12 @@ description: schema.org Defined Term schema
 type: object
 properties:
   '@type':
-    anyOf:
-    - type: string
+    type: array
+    items:
+      type: string
+    contains:
       const: schema:DefinedTerm
-    - type: array
-      items:
-        type: string
-      contains:
-        const: schema:DefinedTerm
+    minItems: 1
   schema:name:
     type: string
     description: text label for the term that is useful to human user

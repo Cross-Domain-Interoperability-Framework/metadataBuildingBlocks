@@ -5,14 +5,12 @@ properties:
   '@id':
     type: string
   '@type':
-    anyOf:
-    - type: string
+    type: array
+    items:
+      type: string
+    contains:
       const: schema:Person
-    - type: array
-      items:
-        type: string
-      contains:
-        const: schema:Person
+    minItems: 1
   schema:name:
     type: string
     description: string label for person that is meaningful for human users
@@ -34,14 +32,12 @@ properties:
     properties:
       '@type':
         default: schema:ContactPoint
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: schema:ContactPoint
-        - type: array
-          items:
-            type: string
-          contains:
-            const: schema:ContactPoint
+        minItems: 1
       schema:email:
         type: string
     description: restrict to email only. Schema.org allows telephone and postal contacts

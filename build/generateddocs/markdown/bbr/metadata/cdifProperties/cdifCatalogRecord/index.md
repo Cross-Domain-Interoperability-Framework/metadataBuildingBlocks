@@ -20,68 +20,91 @@ Example instance of properties for a catalog record describing information about
 #### json
 ```json
 {
-    "@context": {
-        "schema": "http://schema.org/",
-        "ex": "https://example.org/",
-        "xsd": "http://www.w3.org/2001/XMLSchema#",
-        "dcterms": "http://purl.org/dc/terms/",
-        "dcat": "http://www.w3.org/ns/dcat#"
-    },
-    "@type": ["schema:Dataset"],
-    "schema:additionalType": ["dcat:CatalogRecord"],
-    "@id": "ex:URIforMetadata3575",
-    "schema:about": {"@id": "ex:URIforNode2246"},
-    "dcterms:conformsTo": [
-        {"@id": "https://w3id.org/cdif/core/1.0/"}
-    ],
-    "schema:maintainer": {
-        "@id": "https://orcid.org/3333-4442-9456-9347",
-        "@type": "schema:Person",
-        "schema:name": "Goodge, Alice",
-        "schema:alternateName": "Metadata curator",
-        "schema:affiliation": {
-            "@id": "https://ror.org/04jpmwt24",
-            "@type": "schema:Organization",
-            "schema:additionalType": [
-                "schema:Consortium"
-            ],
-            "schema:name": "Big Wildlife Consortium",
-            "schema:alternateName": "BWC",
-            "schema:description": "Description of organizatioan BWC",
-            "schema:identifier": {
-                "@type": "schema:PropertyValue",
-                "schema:propertyID": "https://registry.identifiers.org/registry/ror",
-                "schema:url": "https://ror.org/04jpmwt24"
-            },
-            "schema:sameAs": [
-                "ISNI 0000 0000 9427 2533",
-                "Wikidata Q4904147"
-            ]
-        },
-        "schema:contactPoint": {
-            "@type": "schema:ContactPoint",
-            "schema:email": "goodgea@bwc.org"
-        },
-        "schema:identifier": {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
-            "schema:url": "https://orcid.org/3333-4442-9456-9347"
-        }
-    },
-    "schema:sdDatePublished": "2025-10-24",
-    "schema:includedInDataCatalog": {
-        "@id": "https://ror.org/04sfkyrt24",
-        "@type": "schema:DataCatalog",
-        "schema:name": "Global Wildlife Aggregator",
-        "schema:url": "http://example.com/wildlifecatalog",
-        "schema:identifier": {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": "https://registry.identifiers.org/registry/ror",
-            "schema:value": "04sfkyrt24",
-            "schema:url": "https://ror.org/04sfkyrt24"
-        }
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#"
+  },
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:additionalType": [
+    "dcat:CatalogRecord"
+  ],
+  "@id": "ex:URIforMetadata3575",
+  "schema:about": {
+    "@id": "ex:URIforNode2246"
+  },
+  "dcterms:conformsTo": [
+    {
+      "@id": "https://w3id.org/cdif/core/1.0/"
     }
+  ],
+  "schema:maintainer": {
+    "@id": "https://orcid.org/3333-4442-9456-9347",
+    "@type": [
+      "schema:Person"
+    ],
+    "schema:name": "Goodge, Alice",
+    "schema:alternateName": "Metadata curator",
+    "schema:affiliation": {
+      "@id": "https://ror.org/04jpmwt24",
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:additionalType": [
+        "schema:Consortium"
+      ],
+      "schema:name": "Big Wildlife Consortium",
+      "schema:alternateName": "BWC",
+      "schema:description": "Description of organizatioan BWC",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+        "schema:url": "https://ror.org/04jpmwt24"
+      },
+      "schema:sameAs": [
+        "ISNI 0000 0000 9427 2533",
+        "Wikidata Q4904147"
+      ]
+    },
+    "schema:contactPoint": {
+      "@type": [
+        "schema:ContactPoint"
+      ],
+      "schema:email": "goodgea@bwc.org"
+    },
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
+      "schema:url": "https://orcid.org/3333-4442-9456-9347"
+    }
+  },
+  "schema:sdDatePublished": "2025-10-24",
+  "schema:includedInDataCatalog": {
+    "@id": "https://ror.org/04sfkyrt24",
+    "@type": [
+      "schema:DataCatalog"
+    ],
+    "schema:name": "Global Wildlife Aggregator",
+    "schema:url": "http://example.com/wildlifecatalog",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+      "schema:value": "04sfkyrt24",
+      "schema:url": "https://ror.org/04sfkyrt24"
+    }
+  }
 }
+
 ```
 
 #### jsonld
@@ -119,12 +142,16 @@ Example instance of properties for a catalog record describing information about
   ],
   "schema:maintainer": {
     "@id": "https://orcid.org/3333-4442-9456-9347",
-    "@type": "schema:Person",
+    "@type": [
+      "schema:Person"
+    ],
     "schema:name": "Goodge, Alice",
     "schema:alternateName": "Metadata curator",
     "schema:affiliation": {
       "@id": "https://ror.org/04jpmwt24",
-      "@type": "schema:Organization",
+      "@type": [
+        "schema:Organization"
+      ],
       "schema:additionalType": [
         "schema:Consortium"
       ],
@@ -132,7 +159,9 @@ Example instance of properties for a catalog record describing information about
       "schema:alternateName": "BWC",
       "schema:description": "Description of organizatioan BWC",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "https://registry.identifiers.org/registry/ror",
         "schema:url": "https://ror.org/04jpmwt24"
       },
@@ -142,11 +171,15 @@ Example instance of properties for a catalog record describing information about
       ]
     },
     "schema:contactPoint": {
-      "@type": "schema:ContactPoint",
+      "@type": [
+        "schema:ContactPoint"
+      ],
       "schema:email": "goodgea@bwc.org"
     },
     "schema:identifier": {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
       "schema:url": "https://orcid.org/3333-4442-9456-9347"
     }
@@ -154,11 +187,15 @@ Example instance of properties for a catalog record describing information about
   "schema:sdDatePublished": "2025-10-24",
   "schema:includedInDataCatalog": {
     "@id": "https://ror.org/04sfkyrt24",
-    "@type": "schema:DataCatalog",
+    "@type": [
+      "schema:DataCatalog"
+    ],
     "schema:name": "Global Wildlife Aggregator",
     "schema:url": "http://example.com/wildlifecatalog",
     "schema:identifier": {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": "https://registry.identifiers.org/registry/ror",
       "schema:value": "04sfkyrt24",
       "schema:url": "https://ror.org/04sfkyrt24"
@@ -284,14 +321,12 @@ properties:
           puts identifier here
       '@type':
         default: schema:DataCatalog
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: schema:DataCatalog
-        - type: array
-          items:
-            type: string
-          contains:
-            const: schema:DataCatalog
+        minItems: 1
       schema:name:
         type: string
       schema:url:

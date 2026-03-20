@@ -19,52 +19,72 @@ Defintion of properties to describe structure of tabular data formatted followin
 #### json
 ```json
 {
-    "@context": {
-        "schema": "http://schema.org/",
-        "ex": "https://example.org/",
-        "xsd": "http://www.w3.org/2001/XMLSchema#",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "xas": "https://xas.org/dictionary/"
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "xas": "https://xas.org/dictionary/"
+  },
+  "@id": "ex:xasXDIdownload_23463h",
+  "@type": [
+    "cdi:WideDataStructure"
+  ],
+  "cdi:has_DataStructureComponent": [
+    {
+      "@type": [
+        "cdi:IdentifierComponent"
+      ],
+      "cdi:isDefinedBy_InstanceVariable": {
+        "@id": "xas:monochromatorEnergyVariable"
+      },
+      "cdi:has": {
+        "@type": [
+          "cdi:ValueMapping"
+        ],
+        "cdi:hasIndex": 1,
+        "cdi:haslength": 12
+      }
     },
-    "@id": "ex:xasXDIdownload_23463h",
-    "@type": "cdi:WideDataStructure",
-    "cdi:has_DataStructureComponent": [
-        {
-            "@type": "cdi:IdentifierComponent",
-            "cdi:isDefinedBy_InstanceVariable": {"@id": "xas:monochromatorEnergyVariable"},
-            "cdi:has": {
-                "@type": "cdi:ValueMapping",
-                "cdi:hasIndex": 1,
-                "cdi:haslength": 12
-            }
-        },
-        {
-            "@type": "cdi:MeasureComponent",
-            "cdi:isDefinedBy_InstanceVariable": {"@id": "xas:incidentIntensityVariable"},
-            "cdi:has": {
-                "@type": "cdi:ValueMapping",
-                "cdi:hasIndex": 3,
-                "cdi:haslength": 13
-            }
-        },
-        {
-            "@type": "cdi:MeasureComponent",
-            "cdi:isDefinedBy_InstanceVariable": {"@id": "xas:transmittedIntensityVariable"},
-            "cdi:has": {
-                "@type": "cdi:ValueMapping",
-                "cdi:hasIndex": 2,
-                "cdi:haslength": 12
-            }
-        }
-    ],
-    "cdi:allowsDuplicates": false,
-    "cdi:arrayBase": 1,
-    "cdi:commentPrefix": "#",
-    "cdi:hasHeader": true,
-    "cdi:headerRowCount": 27,
-    "cdi:skipInitialSpace": true,
-    "cdi:isDelimited": false,
-    "cdi:isFixedWidth": true
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "cdi:isDefinedBy_InstanceVariable": {
+        "@id": "xas:incidentIntensityVariable"
+      },
+      "cdi:has": {
+        "@type": [
+          "cdi:ValueMapping"
+        ],
+        "cdi:hasIndex": 3,
+        "cdi:haslength": 13
+      }
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "cdi:isDefinedBy_InstanceVariable": {
+        "@id": "xas:transmittedIntensityVariable"
+      },
+      "cdi:has": {
+        "@type": [
+          "cdi:ValueMapping"
+        ],
+        "cdi:hasIndex": 2,
+        "cdi:haslength": 12
+      }
+    }
+  ],
+  "cdi:allowsDuplicates": false,
+  "cdi:arrayBase": 1,
+  "cdi:commentPrefix": "#",
+  "cdi:hasHeader": true,
+  "cdi:headerRowCount": 27,
+  "cdi:skipInitialSpace": true,
+  "cdi:isDelimited": false,
+  "cdi:isFixedWidth": true
 }
 
 ```
@@ -86,37 +106,51 @@ Defintion of properties to describe structure of tabular data formatted followin
     }
   ],
   "@id": "ex:xasXDIdownload_23463h",
-  "@type": "cdi:WideDataStructure",
+  "@type": [
+    "cdi:WideDataStructure"
+  ],
   "cdi:has_DataStructureComponent": [
     {
-      "@type": "cdi:IdentifierComponent",
+      "@type": [
+        "cdi:IdentifierComponent"
+      ],
       "cdi:isDefinedBy_InstanceVariable": {
         "@id": "xas:monochromatorEnergyVariable"
       },
       "cdi:has": {
-        "@type": "cdi:ValueMapping",
+        "@type": [
+          "cdi:ValueMapping"
+        ],
         "cdi:hasIndex": 1,
         "cdi:haslength": 12
       }
     },
     {
-      "@type": "cdi:MeasureComponent",
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
       "cdi:isDefinedBy_InstanceVariable": {
         "@id": "xas:incidentIntensityVariable"
       },
       "cdi:has": {
-        "@type": "cdi:ValueMapping",
+        "@type": [
+          "cdi:ValueMapping"
+        ],
         "cdi:hasIndex": 3,
         "cdi:haslength": 13
       }
     },
     {
-      "@type": "cdi:MeasureComponent",
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
       "cdi:isDefinedBy_InstanceVariable": {
         "@id": "xas:transmittedIntensityVariable"
       },
       "cdi:has": {
-        "@type": "cdi:ValueMapping",
+        "@type": [
+          "cdi:ValueMapping"
+        ],
         "cdi:hasIndex": 2,
         "cdi:haslength": 12
       }
@@ -147,9 +181,9 @@ ex:xasXDIdownload_23463h a cdi:WideDataStructure ;
     cdi:hasHeader true ;
     cdi:has_DataStructureComponent [ a cdi:MeasureComponent ;
             cdi:has [ a cdi:ValueMapping ;
-                    cdi:hasIndex 3 ;
-                    cdi:haslength 13 ] ;
-            cdi:isDefinedBy_InstanceVariable xas:incidentIntensityVariable ],
+                    cdi:hasIndex 2 ;
+                    cdi:haslength 12 ] ;
+            cdi:isDefinedBy_InstanceVariable xas:transmittedIntensityVariable ],
         [ a cdi:IdentifierComponent ;
             cdi:has [ a cdi:ValueMapping ;
                     cdi:hasIndex 1 ;
@@ -157,9 +191,9 @@ ex:xasXDIdownload_23463h a cdi:WideDataStructure ;
             cdi:isDefinedBy_InstanceVariable xas:monochromatorEnergyVariable ],
         [ a cdi:MeasureComponent ;
             cdi:has [ a cdi:ValueMapping ;
-                    cdi:hasIndex 2 ;
-                    cdi:haslength 12 ] ;
-            cdi:isDefinedBy_InstanceVariable xas:transmittedIntensityVariable ] ;
+                    cdi:hasIndex 3 ;
+                    cdi:haslength 13 ] ;
+            cdi:isDefinedBy_InstanceVariable xas:incidentIntensityVariable ] ;
     cdi:headerRowCount 27 ;
     cdi:isDelimited false ;
     cdi:isFixedWidth true ;
@@ -176,37 +210,27 @@ title: definitions for roles used in XAS profile
 type: object
 properties:
   '@type':
-    anyOf:
-    - type: string
+    type: array
+    items:
+      type: string
+    contains:
       const: cdi:WideDataStructure
-    - type: array
-      items:
-        type: string
-      contains:
-        const: cdi:WideDataStructure
+    minItems: 1
   cdi:has_DataStructureComponent:
     type: array
     items:
       type: object
       properties:
         '@type':
+          type: array
+          items:
+            type: string
+          minItems: 1
           oneOf:
-          - anyOf:
-            - type: string
+          - contains:
               const: cdi:IdentifierComponent
-            - type: array
-              items:
-                type: string
-              contains:
-                const: cdi:IdentifierComponent
-          - anyOf:
-            - type: string
+          - contains:
               const: cdi:MeasureComponent
-            - type: array
-              items:
-                type: string
-              contains:
-                const: cdi:MeasureComponent
         cdi:isDefinedBy_InstanceVariable:
           type: object
           description: this must be a reference to a variable defined in the schema:variableMeasured
@@ -219,14 +243,12 @@ properties:
           type: object
           properties:
             '@type':
-              anyOf:
-              - type: string
+              type: array
+              items:
+                type: string
+              contains:
                 const: cdi:ValueMapping
-              - type: array
-                items:
-                  type: string
-                contains:
-                  const: cdi:ValueMapping
+              minItems: 1
             cdi:hasIndex:
               type: integer
             cdi:haslength:

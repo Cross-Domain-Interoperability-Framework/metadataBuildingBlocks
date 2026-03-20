@@ -19,29 +19,40 @@ Example temporal extent instance, interval defined by time positions in m.y.b.p.
 #### json
 ```json
 {
-    "@context": {
-        "time": "http://www.w3.org/2006/time#",
-        "schema": "http://schema.org/"
-    },
-    "@type": "time:ProperInterval",
-    "schema:description": "Description of the time interval",
-    "time:hasBeginning": {
-        "@type": "time:Instant",
-        "time:inTimePosition": {
-            "@type": "time:TimePosition",
-            "time:hasTRS": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime",
-            "time:numericPosition": 52
-        }
-    },
-    "time:hasEnd": {
-        "@type": "time:Instant",
-        "time:inTimePosition": {
-            "@type": "time:TimePosition",
-            "time:hasTRS": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime",
-            "time:numericPosition": 29
-        }
+  "@context": {
+    "time": "http://www.w3.org/2006/time#",
+    "schema": "http://schema.org/"
+  },
+  "@type": [
+    "time:ProperInterval"
+  ],
+  "schema:description": "Description of the time interval",
+  "time:hasBeginning": {
+    "@type": [
+      "time:Instant"
+    ],
+    "time:inTimePosition": {
+      "@type": [
+        "time:TimePosition"
+      ],
+      "time:hasTRS": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime",
+      "time:numericPosition": 52
     }
+  },
+  "time:hasEnd": {
+    "@type": [
+      "time:Instant"
+    ],
+    "time:inTimePosition": {
+      "@type": [
+        "time:TimePosition"
+      ],
+      "time:hasTRS": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime",
+      "time:numericPosition": 29
+    }
+  }
 }
+
 ```
 
 #### jsonld
@@ -58,20 +69,30 @@ Example temporal extent instance, interval defined by time positions in m.y.b.p.
       "schema": "http://schema.org/"
     }
   ],
-  "@type": "time:ProperInterval",
+  "@type": [
+    "time:ProperInterval"
+  ],
   "schema:description": "Description of the time interval",
   "time:hasBeginning": {
-    "@type": "time:Instant",
+    "@type": [
+      "time:Instant"
+    ],
     "time:inTimePosition": {
-      "@type": "time:TimePosition",
+      "@type": [
+        "time:TimePosition"
+      ],
       "time:hasTRS": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime",
       "time:numericPosition": 52
     }
   },
   "time:hasEnd": {
-    "@type": "time:Instant",
+    "@type": [
+      "time:Instant"
+    ],
     "time:inTimePosition": {
-      "@type": "time:TimePosition",
+      "@type": [
+        "time:TimePosition"
+      ],
       "time:hasTRS": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime",
       "time:numericPosition": 29
     }
@@ -116,14 +137,12 @@ anyOf:
   properties:
     '@type':
       default: time:ProperInterval
-      anyOf:
-      - type: string
+      type: array
+      items:
+        type: string
+      contains:
         const: time:ProperInterval
-      - type: array
-        items:
-          type: string
-        contains:
-          const: time:ProperInterval
+      minItems: 1
     schema:description:
       type: string
       description: free text description of the temporal interval
@@ -156,14 +175,12 @@ anyOf:
       description: Must exactly match the specified @context object.
     '@type':
       default: time:ProperInterval
-      anyOf:
-      - type: string
+      type: array
+      items:
+        type: string
+      contains:
         const: time:ProperInterval
-      - type: array
-        items:
-          type: string
-        contains:
-          const: time:ProperInterval
+      minItems: 1
     schema:description:
       type: string
       description: free text description of the temporal interval
@@ -171,28 +188,24 @@ anyOf:
       type: object
       properties:
         '@type':
-          anyOf:
-          - type: string
+          type: array
+          items:
+            type: string
+          contains:
             const: time:Instant
-          - type: array
-            items:
-              type: string
-            contains:
-              const: time:Instant
+          minItems: 1
         time:inTimePosition:
           $ref: '#/$defs/timePosition_type'
     time:hasEnd:
       type: object
       properties:
         '@type':
-          anyOf:
-          - type: string
+          type: array
+          items:
+            type: string
+          contains:
             const: time:Instant
-          - type: array
-            items:
-              type: string
-            contains:
-              const: time:Instant
+          minItems: 1
         time:inTimePosition:
           $ref: '#/$defs/timePosition_type'
 - type: string
@@ -204,14 +217,12 @@ $defs:
     properties:
       '@type':
         default: time:TimePosition
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: time:TimePosition
-        - type: array
-          items:
-            type: string
-          contains:
-            const: time:TimePosition
+        minItems: 1
       time:hasTRS:
         type: string
         description: identifier for a temporal reference system; default is million

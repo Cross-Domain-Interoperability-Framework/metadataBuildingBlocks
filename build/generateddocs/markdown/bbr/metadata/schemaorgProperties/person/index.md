@@ -25,22 +25,30 @@ Example person instance.
     "xsd": "http://www.w3.org/2001/XMLSchema#"
   },
   "@id": "ex:PersonExample_zZc",
-  "@type": "schema:Person",
+  "@type": [
+    "schema:Person"
+  ],
   "schema:name": "Joe Test",
   "schema:alternateName": "Test, Joe",
   "schema:affiliation": {
-    "@type": "schema:Organization",
+    "@type": [
+      "schema:Organization"
+    ],
     "schema:name": "Test organization"
   },
   "schema:description": "Metadata specialist, based in Portland, Maine",
   "schema:identifier": {
-    "@type": "schema:PropertyValue",
+    "@type": [
+      "schema:PropertyValue"
+    ],
     "schema:propertyID": "https://orcid.org",
     "schema:value": "0000-0001-2345-6789",
     "schema:url": "https://orcid.org/0000-0001-2345-6789"
   },
   "schema:contactPoint": {
-    "@type": "schema:ContactPoint",
+    "@type": [
+      "schema:ContactPoint"
+    ],
     "schema:email": "joe@bmanuco.org"
   },
   "schema:sameAs": [
@@ -48,6 +56,7 @@ Example person instance.
     "uri:test:43737"
   ]
 }
+
 ```
 
 #### jsonld
@@ -65,22 +74,30 @@ Example person instance.
     }
   ],
   "@id": "ex:PersonExample_zZc",
-  "@type": "schema:Person",
+  "@type": [
+    "schema:Person"
+  ],
   "schema:name": "Joe Test",
   "schema:alternateName": "Test, Joe",
   "schema:affiliation": {
-    "@type": "schema:Organization",
+    "@type": [
+      "schema:Organization"
+    ],
     "schema:name": "Test organization"
   },
   "schema:description": "Metadata specialist, based in Portland, Maine",
   "schema:identifier": {
-    "@type": "schema:PropertyValue",
+    "@type": [
+      "schema:PropertyValue"
+    ],
     "schema:propertyID": "https://orcid.org",
     "schema:value": "0000-0001-2345-6789",
     "schema:url": "https://orcid.org/0000-0001-2345-6789"
   },
   "schema:contactPoint": {
-    "@type": "schema:ContactPoint",
+    "@type": [
+      "schema:ContactPoint"
+    ],
     "schema:email": "joe@bmanuco.org"
   },
   "schema:sameAs": [
@@ -123,14 +140,12 @@ properties:
   '@id':
     type: string
   '@type':
-    anyOf:
-    - type: string
+    type: array
+    items:
+      type: string
+    contains:
       const: schema:Person
-    - type: array
-      items:
-        type: string
-      contains:
-        const: schema:Person
+    minItems: 1
   schema:name:
     type: string
     description: string label for person that is meaningful for human users
@@ -152,14 +167,12 @@ properties:
     properties:
       '@type':
         default: schema:ContactPoint
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: schema:ContactPoint
-        - type: array
-          items:
-            type: string
-          contains:
-            const: schema:ContactPoint
+        minItems: 1
       schema:email:
         type: string
     description: restrict to email only. Schema.org allows telephone and postal contacts

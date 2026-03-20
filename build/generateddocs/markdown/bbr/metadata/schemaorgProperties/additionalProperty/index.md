@@ -31,32 +31,39 @@ Example of soft-typed additional property implementation, based on schema.org Pr
 #### json
 ```json
 {
-    "@context": {
-        "schema": "http://schema.org/",
-        "ex": "https://example.org/",
-        "xsd": "http://www.w3.org/2001/XMLSchema#",
-        "nxs": "http://purl.org/nexusformat/definitions/"
-    },
-    "@id": "ex:exampleAdditionalProperty_lkj09",
-    "@type": "schema:PropertyValue",
-    "schema:propertyID": [
-        "nxs:Field/NXsource/probe",
-        {
-            "@id": "ex:addPropdefinedTerm_zZc",
-            "@type": "schema:DefinedTerm",
-            "schema:name":"probe",
-            "schema:identifier": {
-                "@id": "ex:addPropIDPropertyValue_53yh",
-                "@type": "schema:PropertyValue",
-                "schema:propertyID": "https://purl.org/nexusformat/definitions/Field/NXsource/probe",
-                "schema:url": "https://purl.org/nexusformat/definitions/Field/NXsource/probe"
-            },
-            "schema:inDefinedTermSet": "http://ogc.org/defs"
-        }
-    ],
-    "schema:name": "example additional property",
-    "schema:value": "x-ray"
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "nxs": "http://purl.org/nexusformat/definitions/"
+  },
+  "@id": "ex:exampleAdditionalProperty_lkj09",
+  "@type": [
+    "schema:PropertyValue"
+  ],
+  "schema:propertyID": [
+    "nxs:Field/NXsource/probe",
+    {
+      "@id": "ex:addPropdefinedTerm_zZc",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "probe",
+      "schema:identifier": {
+        "@id": "ex:addPropIDPropertyValue_53yh",
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "https://purl.org/nexusformat/definitions/Field/NXsource/probe",
+        "schema:url": "https://purl.org/nexusformat/definitions/Field/NXsource/probe"
+      },
+      "schema:inDefinedTermSet": "http://ogc.org/defs"
+    }
+  ],
+  "schema:name": "example additional property",
+  "schema:value": "x-ray"
 }
+
 ```
 
 #### jsonld
@@ -75,16 +82,22 @@ Example of soft-typed additional property implementation, based on schema.org Pr
     }
   ],
   "@id": "ex:exampleAdditionalProperty_lkj09",
-  "@type": "schema:PropertyValue",
+  "@type": [
+    "schema:PropertyValue"
+  ],
   "schema:propertyID": [
     "nxs:Field/NXsource/probe",
     {
       "@id": "ex:addPropdefinedTerm_zZc",
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "probe",
       "schema:identifier": {
         "@id": "ex:addPropIDPropertyValue_53yh",
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "https://purl.org/nexusformat/definitions/Field/NXsource/probe",
         "schema:url": "https://purl.org/nexusformat/definitions/Field/NXsource/probe"
       },
@@ -129,14 +142,12 @@ description: 'PropertyValue values required to define a soft-typed property with
   value. '
 properties:
   '@type':
-    anyOf:
-    - type: string
+    type: array
+    items:
+      type: string
+    contains:
       const: schema:PropertyValue
-    - type: array
-      items:
-        type: string
-      contains:
-        const: schema:PropertyValue
+    minItems: 1
   schema:propertyID:
     type: array
     items:

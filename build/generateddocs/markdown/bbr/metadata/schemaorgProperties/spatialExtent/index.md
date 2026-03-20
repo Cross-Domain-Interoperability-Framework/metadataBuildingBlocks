@@ -38,13 +38,18 @@ Example point location spatial extent instance.
     "geosparql": "http://www.opengis.net/ont/geosparql#"
   },
   "@id": "ex:SpatialExtentPoint_mdfd8",
-  "@type": "schema:Place",
+  "@type": [
+    "schema:Place"
+  ],
   "schema:geo": {
-    "@type": "schema:GeoCoordinates",
-    "schema:latitude": 39.3280,
+    "@type": [
+      "schema:GeoCoordinates"
+    ],
+    "schema:latitude": 39.328,
     "schema:longitude": 120.1633
   }
 }
+
 ```
 
 #### jsonld
@@ -65,9 +70,13 @@ Example point location spatial extent instance.
     }
   ],
   "@id": "ex:SpatialExtentPoint_mdfd8",
-  "@type": "schema:Place",
+  "@type": [
+    "schema:Place"
+  ],
   "schema:geo": {
-    "@type": "schema:GeoCoordinates",
+    "@type": [
+      "schema:GeoCoordinates"
+    ],
     "schema:latitude": 39.328,
     "schema:longitude": 120.1633
   }
@@ -101,40 +110,55 @@ Example place names spatial extent instance.
     "geosparql": "http://www.opengis.net/ont/geosparql#"
   },
   "@id": "ex:SpatialExtentPlaceName_45hwe6",
-  "@type": "schema:Place",
+  "@type": [
+    "schema:Place"
+  ],
   "schema:name": [
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "Harquahala Mountains",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
-        "schema:propertyID":"http uri",
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "http uri",
         "schema:url": "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/5573"
       },
       "schema:inDefinedTermSet": "https://www.usgs.gov/us-board-on-geographic-names/domestic-names"
     },
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "Socorro Peak",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
-        "schema:propertyID":"http uri",
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "http uri",
         "schema:url": "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/11520"
       },
       "schema:inDefinedTermSet": "https://www.usgs.gov/us-board-on-geographic-names/domestic-names"
     },
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "Hidden Treasure Mine",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
-        "schema:propertyID":"http uri",
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "http uri",
         "schema:url": "https://www.mindat.org/loc-33505.html"
       },
       "schema:inDefinedTermSet": "https://www.mindat.org/"
     }
   ]
 }
+
 ```
 
 #### jsonld
@@ -155,33 +179,47 @@ Example place names spatial extent instance.
     }
   ],
   "@id": "ex:SpatialExtentPlaceName_45hwe6",
-  "@type": "schema:Place",
+  "@type": [
+    "schema:Place"
+  ],
   "schema:name": [
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "Harquahala Mountains",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "http uri",
         "schema:url": "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/5573"
       },
       "schema:inDefinedTermSet": "https://www.usgs.gov/us-board-on-geographic-names/domestic-names"
     },
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "Socorro Peak",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "http uri",
         "schema:url": "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/11520"
       },
       "schema:inDefinedTermSet": "https://www.usgs.gov/us-board-on-geographic-names/domestic-names"
     },
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "Hidden Treasure Mine",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "http uri",
         "schema:url": "https://www.mindat.org/loc-33505.html"
       },
@@ -200,6 +238,12 @@ ex:SpatialExtentPlaceName_45hwe6 a schema1:Place ;
     schema1:name [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "http uri" ;
+                    schema1:url "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/5573" ] ;
+            schema1:inDefinedTermSet "https://www.usgs.gov/us-board-on-geographic-names/domestic-names" ;
+            schema1:name "Harquahala Mountains" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "http uri" ;
                     schema1:url "https://www.mindat.org/loc-33505.html" ] ;
             schema1:inDefinedTermSet "https://www.mindat.org/" ;
             schema1:name "Hidden Treasure Mine" ],
@@ -208,13 +252,7 @@ ex:SpatialExtentPlaceName_45hwe6 a schema1:Place ;
                     schema1:propertyID "http uri" ;
                     schema1:url "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/11520" ] ;
             schema1:inDefinedTermSet "https://www.usgs.gov/us-board-on-geographic-names/domestic-names" ;
-            schema1:name "Socorro Peak" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "http uri" ;
-                    schema1:url "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/5573" ] ;
-            schema1:inDefinedTermSet "https://www.usgs.gov/us-board-on-geographic-names/domestic-names" ;
-            schema1:name "Harquahala Mountains" ] .
+            schema1:name "Socorro Peak" ] .
 
 
 ```
@@ -232,12 +270,17 @@ Example curvilinear trace spatial extent instance.
     "geosparql": "http://www.opengis.net/ont/geosparql#"
   },
   "@id": "ex:SpatialExtentBox_my8",
-  "@type": "schema:Place",
+  "@type": [
+    "schema:Place"
+  ],
   "schema:geo": {
-    "@type": "schema:GeoShape",
+    "@type": [
+      "schema:GeoShape"
+    ],
     "schema:line": "39.33 120.77 40.44 123.96 41.00 121.34"
   }
 }
+
 ```
 
 #### jsonld
@@ -258,9 +301,13 @@ Example curvilinear trace spatial extent instance.
     }
   ],
   "@id": "ex:SpatialExtentBox_my8",
-  "@type": "schema:Place",
+  "@type": [
+    "schema:Place"
+  ],
   "schema:geo": {
-    "@type": "schema:GeoShape",
+    "@type": [
+      "schema:GeoShape"
+    ],
     "schema:line": "39.33 120.77 40.44 123.96 41.00 121.34"
   }
 }
@@ -291,12 +338,17 @@ Example bounding box spatial extent instance.
     "geosparql": "http://www.opengis.net/ont/geosparql#"
   },
   "@id": "ex:SpatialExtentBox_my8",
-  "@type": "schema:Place",
+  "@type": [
+    "schema:Place"
+  ],
   "schema:geo": {
-    "@type": "schema:GeoShape",
+    "@type": [
+      "schema:GeoShape"
+    ],
     "schema:box": "39.3280 120.1633 40.445 123.7878"
   }
 }
+
 ```
 
 #### jsonld
@@ -317,9 +369,13 @@ Example bounding box spatial extent instance.
     }
   ],
   "@id": "ex:SpatialExtentBox_my8",
-  "@type": "schema:Place",
+  "@type": [
+    "schema:Place"
+  ],
   "schema:geo": {
-    "@type": "schema:GeoShape",
+    "@type": [
+      "schema:GeoShape"
+    ],
     "schema:box": "39.3280 120.1633 40.445 123.7878"
   }
 }
@@ -348,14 +404,12 @@ type: object
 properties:
   '@type':
     default: schema:Place
-    anyOf:
-    - type: string
+    type: array
+    items:
+      type: string
+    contains:
       const: schema:Place
-    - type: array
-      items:
-        type: string
-      contains:
-        const: schema:Place
+    minItems: 1
   schema:name:
     description: multiple place names or DefinedTerms that have a place name and URI
       for the location
@@ -376,14 +430,12 @@ properties:
       properties:
         '@type':
           default: schema:GeoCoordinates
-          anyOf:
-          - type: string
+          type: array
+          items:
+            type: string
+          contains:
             const: schema:GeoCoordinates
-          - type: array
-            items:
-              type: string
-            contains:
-              const: schema:GeoCoordinates
+          minItems: 1
         schema:latitude:
           type: number
           minimum: -90
@@ -404,14 +456,12 @@ properties:
       properties:
         '@type':
           default: schema:GeoShape
-          anyOf:
-          - type: string
+          type: array
+          items:
+            type: string
+          contains:
             const: schema:GeoShape
-          - type: array
-            items:
-              type: string
-            contains:
-              const: schema:GeoShape
+          minItems: 1
         schema:box:
           type: string
           description: A GeoShape box defines an area on the surface of the earth
@@ -429,14 +479,12 @@ properties:
       properties:
         '@type':
           default: schema:GeoShape
-          anyOf:
-          - type: string
+          type: array
+          items:
+            type: string
+          contains:
             const: schema:GeoShape
-          - type: array
-            items:
-              type: string
-            contains:
-              const: schema:GeoShape
+          minItems: 1
         schema:line:
           type: string
           description: 'A GeoShape box defines a curvilinear geometry as a string
@@ -458,25 +506,22 @@ properties:
       within the specified bounding box.
     properties:
       '@type':
-        anyOf:
-        - type: string
-        - type: array
-          items:
-            type: string
+        type: array
+        items:
+          type: string
+        minItems: 1
         description: 'MUST be sf: (<http://www.opengis.net/ont/sf#>) SimpleFeature
           geometry type. See https://opengeospatial.github.io/ogc-geosparql/geosparql11/sf_geometries.ttl'
       geosparql:asWKT:
         type: object
         properties:
           '@type':
-            anyOf:
-            - type: string
+            type: array
+            items:
+              type: string
+            contains:
               const: geosparql:wktLiteral
-            - type: array
-              items:
-                type: string
-              contains:
-                const: geosparql:wktLiteral
+            minItems: 1
           '@value':
             type: string
             description: a WKT geometry description string, e.g. 'POINT(-76 -18)'

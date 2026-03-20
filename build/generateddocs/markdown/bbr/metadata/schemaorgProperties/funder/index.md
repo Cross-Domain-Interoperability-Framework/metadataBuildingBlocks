@@ -19,21 +19,28 @@ Example Funder instance.
 #### json
 ```json
 {
-    "@context": {
-        "schema": "http://schema.org/",
-        "ex": "https://example.org/",
-        "xsd": "http://www.w3.org/2001/XMLSchema#"
-    },
-    "@type": "schema:MonetaryGrant",
-    "schema:identifier": {
-        "@type": "schema:PropertyValue",
-        "schema:propertyID": "NSF award number",
-        "schema:value": "2227407",
-        "schema:url": "https://www.nsf.gov/awardsearch/showAward?AWD_ID=2227407"
-    },
-    "schema:name": "Big Bucks for Research",
-    "schema:funder": {"@id": "https://ror.org/021nxhr62"}
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@type": [
+    "schema:MonetaryGrant"
+  ],
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": "NSF award number",
+    "schema:value": "2227407",
+    "schema:url": "https://www.nsf.gov/awardsearch/showAward?AWD_ID=2227407"
+  },
+  "schema:name": "Big Bucks for Research",
+  "schema:funder": {
+    "@id": "https://ror.org/021nxhr62"
+  }
 }
+
 ```
 
 #### jsonld
@@ -50,9 +57,13 @@ Example Funder instance.
       "xsd": "http://www.w3.org/2001/XMLSchema#"
     }
   ],
-  "@type": "schema:MonetaryGrant",
+  "@type": [
+    "schema:MonetaryGrant"
+  ],
   "schema:identifier": {
-    "@type": "schema:PropertyValue",
+    "@type": [
+      "schema:PropertyValue"
+    ],
     "schema:propertyID": "NSF award number",
     "schema:value": "2227407",
     "schema:url": "https://www.nsf.gov/awardsearch/showAward?AWD_ID=2227407"
@@ -91,14 +102,12 @@ properties:
     description: URI identifier for this funding record
   '@type':
     default: schema:MonetaryGrant
-    anyOf:
-    - type: string
+    type: array
+    items:
+      type: string
+    contains:
       const: schema:MonetaryGrant
-    - type: array
-      items:
-        type: string
-      contains:
-        const: schema:MonetaryGrant
+    minItems: 1
   schema:identifier:
     $ref: '#/$defs/Identifier'
     description: identifier for a particular grant

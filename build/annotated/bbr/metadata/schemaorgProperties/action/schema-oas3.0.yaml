@@ -83,16 +83,13 @@ x-defs:
     type: object
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           enum:
           - schema:DefinedTerm
-        - type: array
-          items:
-            type: string
-          contains:
-            enum:
-            - schema:DefinedTerm
+        minItems: 1
       schema:name:
         type: string
         description: text label for the term that is useful to human user
@@ -127,16 +124,13 @@ x-defs:
     type: object
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           enum:
           - schema:PropertyValue
-        - type: array
-          items:
-            type: string
-          contains:
-            enum:
-            - schema:PropertyValue
+        minItems: 1
       schema:propertyID:
         type: string
         description: In this context for the schema:PropertyValue, this field is an
@@ -177,8 +171,10 @@ properties:
   '@type':
     description: The type of action. Must be schema:Action or one of its subtypes.
     default: schema:Action
-    anyOf:
-    - type: string
+    type: array
+    items:
+      type: string
+    contains:
       enum:
       - schema:Action
       - schema:AssessAction
@@ -193,24 +189,7 @@ properties:
       - schema:SearchAction
       - schema:TransferAction
       - schema:UpdateAction
-    - type: array
-      items:
-        type: string
-      contains:
-        enum:
-        - schema:Action
-        - schema:AssessAction
-        - schema:ConsumeAction
-        - schema:ControlAction
-        - schema:CreateAction
-        - schema:DeleteAction
-        - schema:FindAction
-        - schema:InteractAction
-        - schema:MoveAction
-        - schema:PlayAction
-        - schema:SearchAction
-        - schema:TransferAction
-        - schema:UpdateAction
+    minItems: 1
   schema:name:
     type: string
     description: text label for the action
@@ -244,16 +223,13 @@ $defs:
     properties:
       '@type':
         default: schema:EntryPoint
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           enum:
           - schema:EntryPoint
-        - type: array
-          items:
-            type: string
-          contains:
-            enum:
-            - schema:EntryPoint
+        minItems: 1
       schema:description:
         type: string
       schema:urlTemplate:
@@ -329,16 +305,13 @@ $defs:
           type: string
         '@type':
           default: schema:PropertyValueSpecification
-          anyOf:
-          - type: string
+          type: array
+          items:
+            type: string
+          contains:
             enum:
             - schema:PropertyValueSpecification
-          - type: array
-            items:
-              type: string
-            contains:
-              enum:
-              - schema:PropertyValueSpecification
+          minItems: 1
         schema:valueName:
           type: string
         schema:description:
@@ -357,16 +330,13 @@ $defs:
     properties:
       '@type':
         default: schema:DataFeed
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           enum:
           - schema:DataFeed
-        - type: array
-          items:
-            type: string
-          contains:
-            enum:
-            - schema:DataFeed
+        minItems: 1
       schema:description:
         type: string
       schema:encodingFormat-input:

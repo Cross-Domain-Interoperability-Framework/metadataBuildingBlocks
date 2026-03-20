@@ -42,714 +42,17 @@ physical mappings.
     "test data description"
   ],
   "schema:identifier": {
-    "@type": "schema:PropertyValue",
-    "schema:propertyID": "uSNzhqeEQPKhCj",
-    "schema:url": "http://identifiers.org/sandbox/uSNzhqeEQPKhCj"
-  },
-  "schema:sameAs": [
-    {
-      "@type": "schema:PropertyValue",
-      "schema:propertyID": "urn:idorg:test",
-      "schema:value": "urn:idorg:test:p45689"
-    }
-  ],
-  "schema:version": "OVVAYgJhmFkXyVyedlVo",
-  "schema:url": "http://example.com/resource?foo=bar#fragment",
-  "schema:inLanguage": "bYiJT",
-  "schema:dateModified": "2020-10-15",
-  "schema:datePublished": "2021-09-05",
-  "schema:conditionsOfAccess": [
-    "ihYojbwJyw",
-    "jNv",
-    "LCY",
-    "tfmbDGeiuEnuhfKBvk"
-  ],
-  "schema:license": [
-    "dXhuFoqL",
-    "Kmp"
-  ],
-  "schema:relatedLink": [
-    {
-      "@type": "schema:LinkRole",
-      "schema:linkRelationship": "lfCzUaoftdtTPAhMnpC",
-      "target": {
-        "@type": "schema:EntryPoint",
-        "schema:encodingFormat": "gompgHAN",
-        "schema:name": "oAuxEutsTEiB",
-        "schema:url": "http://example.com/resource?foo=bar#fragment"
-      }
-    },
-    {
-      "@type": "schema:LinkRole",
-      "schema:linkRelationship": "BOoRREnpDEUrdNaV",
-      "target": {
-        "@type": "schema:EntryPoint",
-        "schema:encodingFormat": "FNoslhw",
-        "schema:name": "atsDYJxuhHpivqLmw",
-        "schema:url": "http://example.com/resource?foo=bar#fragment"
-      }
-    }
-  ],
-  "schema:publishingPrinciples": [
-    "rxZsrPAbJrIGGgDVJ"
-  ],
-  "schema:keywords": [
-    {
-      "@type": "schema:DefinedTerm",
-      "schema:name": "MiSqvcp",
-      "schema:identifier": {
-        "@type": "schema:PropertyValue",
-        "schema:propertyID": "ex:rIPXjaCPQX",
-        "schema:value": "PVSajGtBPsLzeCTLv",
-        "schema:url": "http://example.com/resource/PVSajGtBPsLzeCTLvt"
-      },
-      "schema:inDefinedTermSet": "EfagQEQtAkwMBDvfKznc",
-      "schema:termCode": "bzOl"
-    },
-    {
-      "@type": "schema:DefinedTerm",
-      "schema:name": "TiMuawt",
-      "schema:identifier": {
-        "@type": "schema:PropertyValue",
-        "schema:propertyID": "https://resource.org/identifier",
-        "schema:value": "tdUMYBItIwdJe",
-        "schema:url": "http://example.com/resource/tdUMYBItIwdJe"
-      },
-      "schema:inDefinedTermSet": "sqH",
-      "schema:termCode": "RUUxHY"
-    }
-  ],
-  "schema:creator": {
-    "@list": [
-      {
-        "@id": "ex:mxxInaV",
-        "@type": "schema:Organization",
-        "schema:name": "AEbcNvM",
-        "schema:alternateName": "MwsoNGVEp",
-        "schema:affiliation": {
-          "@id": "ex:xblzSwEYJKBPpkK",
-          "@type": "schema:Organization",
-          "schema:additionalType": [
-            "schema:GovernmentOrganization",
-            "schema:ResearchOrganization",
-            "schema:ResearchOrganization",
-            "schema:Project"
-          ],
-          "schema:name": "mDjEBamofgiqGBqfQGfe",
-          "schema:alternateName": "TrAuXgjTOCmJVTaf",
-          "schema:description": "wwcOQoCbUe",
-          "schema:identifier": {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": "oyvigoDvYFCGEkFc",
-            "schema:value": "tMxtQyCUFptzpXj",
-            "schema:url": "http://example.com/resource?foo=bar#fragment"
-          },
-          "schema:sameAs": [
-            "K",
-            "AsoXEfDoLipcJw"
-          ]
-        },
-        "schema:contactPoint": {
-          "@type": "schema:ContactPoint",
-          "schema:email": "tready@email.ocm"
-        },
-        "schema:description": "ypZ",
-        "schema:identifier": {
-          "@type": "schema:PropertyValue",
-          "schema:propertyID": "ciZyuOzfhVSPdWi",
-          "schema:value": "JqLmJhoyFPhsmW",
-          "schema:url": "http://example.com/resource?foo=bar#fragment"
-        },
-        "schema:sameAs": [
-          "ex:pMPylNhiMvfC",
-          "ex:IgH"
-        ]
-      },
-      {
-        "@id": "ex:jP",
-        "@type": "schema:Person",
-        "schema:name": "Doe, Jane",
-        "schema:contactPoint": {
-          "@type": "schema:ContactPoint",
-          "schema:email": "jdoe@example.org"
-        }
-      }
-    ]
-  },
-  "schema:contributor": [
-    {
-      "@type": "schema:Role",
-      "schema:roleName": "editor",
-      "schema:contributor": {
-        "@id": "ex:PersonExample_zZc_asContributor",
-        "@type": "schema:Person",
-        "schema:name": "Joe B. Test",
-        "schema:alternateName": "Test, J. B.",
-        "schema:affiliation": {
-          "@type": "schema:Organization",
-          "schema:name": "The Big Manufacturing Co."
-        },
-        "schema:description": "Metadata specialist, based in Portland, Maine",
-        "schema:identifier": {
-          "@type": "schema:PropertyValue",
-          "schema:propertyID": "https://orcid.org",
-          "schema:value": "iY",
-          "schema:url": "https://orcid.org/iY"
-        },
-        "schema:contactPoint": {
-          "@type": "schema:ContactPoint",
-          "schema:email": "joe@bmanuco.org"
-        },
-        "schema:sameAs": [
-          "https://ark.org/46737",
-          "uri:test:43737"
-        ]
-      }
-    },
-    {
-      "@id": "ex:NyMWPlRtQizAFE"
-    }
-  ],
-  "schema:publisher": {
-    "@id": "ex:exampleOrg_fW",
-    "@type": "schema:Organization",
-    "schema:additionalType": [
-      "schema:ResearchOrganization",
-      "university"
-    ],
-    "schema:name": "University of Arizona",
-    "schema:alternateName": "UAz",
-    "schema:description": "University in Tucson, Arizona",
-    "schema:identifier": {
-      "@type": "schema:PropertyValue",
-      "schema:propertyID": "https://registry.identifiers.org/registry/ror",
-      "schema:value": "03m2x1q45",
-      "schema:url": "https://ror.org/03m2x1q45"
-    },
-    "schema:sameAs": [
-      "Wildcats"
-    ]
-  },
-  "schema:provider": [
-    {
-      "@id": "ex:gDiAxjl",
-      "@type": "schema:Organization",
-      "schema:name": "Example Data Center"
-    },
-    {
-      "@id": "ex:ihjJtFPNEKnGSFBcgS",
-      "@type": "schema:Person",
-      "schema:name": "Smith, Robert",
-      "schema:contactPoint": {
-        "@type": "schema:ContactPoint",
-        "schema:email": "rsmith@example.org"
-      }
-    },
-    {
-      "@id": "https://ada.org/person/5489",
-      "@type": "schema:Person",
-      "schema:contactPoint": {
-        "@type": "schema:ContactPoint",
-        "schema:email": "a.king@nhm.ac.uk"
-      },
-      "schema:identifier": {
-        "@type": "schema:PropertyValue",
-        "schema:propertyID": "https://orcid.org",
-        "schema:value": "0000-0001-6113-5417",
-        "schema:url": "https://orcid.org/0000-0001-6113-5417"
-      },
-      "schema:name": "King, Ashley"
-    }
-  ],
-  "schema:funding": [
-    {
-      "@type": "schema:MonetaryGrant",
-      "schema:identifier": {
-        "@type": "schema:PropertyValue",
-        "schema:propertyID": "grant-id",
-        "schema:value": "lieopgXuumP"
-      },
-      "schema:name": "fhhbzh",
-      "schema:funder": {
-        "@id": "https://ror.org/3572wjht"
-      }
-    },
-    {
-      "@type": "schema:MonetaryGrant",
-      "schema:identifier": {
-        "@type": "schema:PropertyValue",
-        "schema:propertyID": "grant-id",
-        "schema:value": "fMuiBjneudpV"
-      },
-      "schema:name": "MWoPQAqRYHobey",
-      "schema:funder": {
-        "@id": "https://ror.org/fnjrj68"
-      }
-    },
-    {
-      "@type": "schema:MonetaryGrant",
-      "schema:identifier": {
-        "@type": "schema:PropertyValue",
-        "schema:propertyID": "grant-id",
-        "schema:value": "LZpo"
-      },
-      "schema:name": "ekckpBtI",
-      "schema:funder": {
-        "@id": "https://ror.org/sejer4w6u8"
-      }
-    }
-  ],
-  "schema:distribution": [
-    {
-      "@type": [
-        "schema:DataDownload"
-      ],
-      "schema:name": "VwuIdrCrJSsrGATePg",
-      "schema:contentUrl": "http://example.com/resource?foo=bar#fragment",
-      "schema:encodingFormat": [
-        "text/csv"
-      ],
-      "spdx:checksum": {
-        "@type": "spdx:Checksum",
-        "spdx:algorithm": "MD5",
-        "spdx:checksumValue": "MITGLcmBjeFYWmjP"
-      },
-      "schema:provider": [
-        {
-          "@id": "ex:ABYcNWHKYhTiLLNEzJx",
-          "@type": "schema:Person",
-          "schema:name": "Walker, Longin",
-          "schema:alternateName": "LWH",
-          "schema:affiliation": {
-            "@id": "ex:corzCgjNrGcH",
-            "@type": "schema:Organization",
-            "schema:additionalType": [
-              "schema:NGO"
-            ],
-            "schema:name": "Some Data Repository",
-            "schema:alternateName": "leJqYoxQIH",
-            "schema:description": "vRzzUAmtNWLgZcgNIC",
-            "schema:identifier": {
-              "@type": "schema:PropertyValue",
-              "schema:propertyID": "KSgJJfyAuQPEX",
-              "schema:value": "iFSyBdjVAxHmFOZVFg"
-            },
-            "schema:sameAs": [
-              "ex:ITXGFU",
-              "urn:test:WWcBivQCAO"
-            ]
-          },
-          "schema:contactPoint": {
-            "@type": "schema:ContactPoint",
-            "schema:email": "tom@ngo.net"
-          },
-          "schema:description": "Data Curator",
-          "schema:identifier": {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": "https://identifiers.org/orcid",
-            "schema:value": "NfaMinUfHeMDEFNc",
-            "schema:url": "http://orcid.org/NfaMinUfHeMDEFNc"
-          }
-        }
-      ],
-      "dcterms:conformsTo": [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}]
-    },
-    {
-      "@type": [
-        "schema:DataDownload"
-      ],
-      "schema:name": "MVMpmnCGAggEnsoEgJXH",
-      "schema:contentUrl": "http://example.com/resource?foo=bar#fragment",
-      "schema:encodingFormat": [
-        "tNdpXaJgDeWbFkNM",
-        "kpZDvhyVo",
-        "sMUGwSqxWzJOYEb"
-      ],
-      "spdx:checksum": {
-        "@type": "spdx:Checksum",
-        "spdx:algorithm": "j",
-        "spdx:checksumValue": "h"
-      },
-      "schema:provider": [
-        {
-          "@id": "kNKPZsCSWMc",
-          "@type": "schema:Organization",
-          "schema:name": "SdeMvoPFxEaJOvQy",
-          "schema:alternateName": "WFcslOjvGZY",
-          "schema:description": "ztcLdOAkQTKSPLZ",
-          "schema:identifier": {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": "ex:oFIYAymjuGCPjDnSgmB",
-            "schema:url": "http://example.com/resource/WPfhCJyxiDcwgdHMemJd"
-          }
-        },
-        {
-          "@id": "ex:sr68lgy",
-          "@type": "schema:Organization",
-          "schema:name": "Another Provider Org"
-        }
-      ],
-      "dcterms:conformsTo": [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}]
-    },
-    {
-      "@type": [
-        "schema:DataDownload",
-        "cdi:TabularTextDataSet"
-      ],
-      "schema:name": "Geochemistry analysis results",
-      "schema:contentUrl": "http://example.com/data/geochem-results.csv",
-      "schema:encodingFormat": [
-        "text/csv"
-      ],
-      "spdx:checksum": {
-        "@type": "spdx:Checksum",
-        "spdx:algorithm": "SHA256",
-        "spdx:checksumValue": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
-      },
-      "cdi:isDelimited": true,
-      "csvw:delimiter": ",",
-      "csvw:header": true,
-      "csvw:headerRowCount": 1,
-      "csvw:commentPrefix": "#",
-      "csvw:skipRows": 0,
-      "csvw:skipBlankRows": true,
-      "csvw:quoteChar": "\"",
-      "countRows": 461,
-      "countColumns": 2,
-      "cdi:hasPhysicalMapping": [
-        {
-          "cdi:index": 0,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float64",
-          "cdi:nullSequence": "NA",
-          "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
-            "@id": "ex:KJTFKurNFu"
-          }
-        },
-        {
-          "cdi:index": 1,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float64",
-          "cdi:nullSequence": "-9999",
-          "cdi:defaultValue": "0.0",
-          "cdi:decimalPositions": 4,
-          "cdi:isRequired": false,
-          "cdi:formats_InstanceVariable": {
-            "@id": "ex:OjHgIDO"
-          }
-        }
-      ],
-      "dcterms:conformsTo": [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}]
-    },
-    {
-      "@type": [
-        "schema:DataDownload",
-        "cdi:StructuredDataSet"
-      ],
-      "schema:name": "Gridded measurement data cube",
-      "schema:contentUrl": "http://example.com/data/measurement-cube.nc",
-      "schema:encodingFormat": [
-        "application/x-netcdf"
-      ],
-      "spdx:checksum": {
-        "@type": "spdx:Checksum",
-        "spdx:algorithm": "SHA256",
-        "spdx:checksumValue": "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5"
-      },
-      "cdi:hasPhysicalMapping": [
-        {
-          "cdi:index": 0,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/measurements/wavelength",
-          "cdi:nullSequence": "NaN",
-          "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
-            "@id": "ex:KJTFKurNFu"
-          }
-        },
-        {
-          "cdi:index": 1,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/measurements/intensity",
-          "cdi:scale": 1000,
-          "cdi:decimalPositions": 6,
-          "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
-            "@id": "ex:OjHgIDO"
-          }
-        }
-      ],
-      "dcterms:conformsTo": [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}]
-    },
-    {
-      "@type": [
-        "schema:WebAPI"
-      ],
-      "schema:serviceType": {
-        "@type": "schema:DefinedTerm",
-        "schema:name": "OGC API - Features",
-        "schema:identifier": {
-          "@type": "schema:PropertyValue",
-          "schema:propertyID": "https://www.ogc.org/standards",
-          "schema:value": "ogcapi-features-1",
-          "schema:url": "https://www.ogc.org/standard/ogcapi-features/"
-        },
-        "schema:inDefinedTermSet": "https://www.ogc.org/standards",
-        "schema:termCode": "ogcapi-features"
-      },
-      "schema:termsOfService": "Open access, no authentication required",
-      "schema:documentation": {
-        "@type": "schema:CreativeWork",
-        "schema:name": "OpenAPI specification for geochemistry data service",
-        "schema:url": "http://example.com/api/v1/openapi.json"
-      },
-      "schema:potentialAction": [
-        {
-          "@type": "schema:Action",
-          "schema:name": "Query geochemistry features",
-          "schema:target": {
-            "@type": "schema:EntryPoint",
-            "schema:description": "OGC API Features endpoint returning geochemistry observations as CSV",
-            "schema:urlTemplate": "http://example.com/api/v1/collections/geochem/items?f={format}&limit={limit}&offset={offset}",
-            "schema:httpMethod": [
-              "GET"
-            ],
-            "schema:contentType": [
-              "text/csv",
-              "application/geo+json"
-            ]
-          },
-          "schema:result": {
-            "@type": [
-              "schema:DataDownload"
-            ],
-            "schema:name": "Geochemistry query results",
-            "schema:contentUrl": "http://example.com/api/v1/collections/geochem/items?f=csv",
-            "schema:encodingFormat": [
-              "text/csv"
-            ],
-            "cdi:isDelimited": true,
-            "csvw:delimiter": ",",
-            "csvw:header": true,
-            "csvw:headerRowCount": 1,
-            "cdi:hasPhysicalMapping": [
-              {
-                "cdi:index": 0,
-                "cdi:format": "decimal",
-                "cdi:physicalDataType": "float64",
-                "cdi:isRequired": true,
-                "cdi:formats_InstanceVariable": {
-                  "@id": "ex:KJTFKurNFu"
-                }
-              },
-              {
-                "cdi:index": 1,
-                "cdi:format": "decimal",
-                "cdi:physicalDataType": "float64",
-                "cdi:isRequired": false,
-                "cdi:formats_InstanceVariable": {
-                  "@id": "ex:OjHgIDO"
-                }
-              }
-            ],
-            "dcterms:conformsTo": [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}]
-          },
-          "schema:object": {
-            "@type": "schema:DataFeed",
-            "schema:description": "Geochemistry observations collection"
-          },
-          "schema:query-input": [
-            {
-              "@type": "schema:PropertyValueSpecification",
-              "schema:valueName": "format",
-              "schema:description": "Response format: csv or geojson",
-              "schema:valueRequired": false,
-              "schema:valuePattern": "csv|geojson"
-            },
-            {
-              "@type": "schema:PropertyValueSpecification",
-              "schema:valueName": "limit",
-              "schema:description": "Maximum number of features to return (default 100)",
-              "schema:valueRequired": false
-            },
-            {
-              "@type": "schema:PropertyValueSpecification",
-              "schema:valueName": "offset",
-              "schema:description": "Starting index for pagination",
-              "schema:valueRequired": false
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "schema:variableMeasured": [
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "ex:KJTFKurNFu",
-      "schema:name": "RbMivCtraTmzms",
-      "schema:description": "EcbPmKQnMCgWozw",
-      "schema:propertyID": [
-        "urn:test:GigjbPysIJ",
-        "https://ark.org/bXEOCTwvICRc"
-      ],
-      "schema:measurementTechnique": "some measurement technique",
-      "schema:unitText": "furlongs",
-      "schema:unitCode": "F",
-      "schema:minValue": 67.0,
-      "schema:maxValue": 98.0,
-      "schema:url": "http://example.com/resource?foo=bar#furlong",
-      "cdi:physicalDataType": "float64"
-    },
-    {
-      "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
-      ],
-      "@id": "ex:OjHgIDO",
-      "schema:name": "jzgZCegiTFYBSmsSh",
-      "schema:description": "RGKBMBkScTTNQ",
-      "schema:propertyID": [
-        "urn:properties:tzysaGTv",
-        "ex:CUXfWZLdRkEAG"
-      ],
-      "schema:measurementTechnique": {
-        "@type": "schema:DefinedTerm",
-        "schema:name": "a good technique",
-        "schema:identifier": {
-          "@type": "schema:PropertyValue",
-          "schema:propertyID": "https://identifiers.org",
-          "schema:value": "igcJkZMJiKehgkPjMCp",
-          "schema:url": "https://identifiers.org/technique/igcJkZMJiKehgkPjMCp"
-        },
-        "schema:inDefinedTermSet": "https://identifiers.org/technique/vocabulary",
-        "schema:termCode": "agt"
-      },
-      "schema:unitText": "stone",
-      "schema:unitCode": "S",
-      "schema:minValue": 36.0,
-      "schema:maxValue": 74.0,
-      "schema:url": "http://example.com/resource?foo=bar#stone",
-      "cdi:physicalDataType": "float32"
-    }
-  ],
-  "schema:subjectOf": {
     "@type": [
-      "schema:Dataset"
+      "schema:PropertyValue"
     ],
-    "schema:additionalType": [
-      "dcat:CatalogRecord"
-    ],
-    "@id": "ex:BAaR",
-    "schema:about": {
-      "@id": "ex:YOPx"
-    },
-    "dcterms:conformsTo": [
-      {
-        "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription"
-      },
-      {
-        "@id": "https://w3id.org/cdif/core/1.0/"
-      },
-      {
-        "@id": "https://w3id.org/cdif/discovery/1.0/"
-      },
-      {
-        "@id": "https://w3id.org/cdif/data_description/1.0/"
-      }
-    ],
-    "schema:maintainer": {
-      "@id": "ex:PersonExample_zZc",
-      "@type": "schema:Person",
-      "schema:name": "Joe Test",
-      "schema:alternateName": "Test, Joe",
-      "schema:affiliation": {
-        "@id": "ex:maintainerAffiliation_3456",
-        "@type": "schema:Organization",
-        "schema:name": "Test organization"
-      },
-      "schema:description": "Metadata specialist, based in Portland, Maine",
-      "schema:identifier": {
-        "@id": "ex:maintainerIdentifier_3456",
-        "@type": "schema:PropertyValue",
-        "schema:propertyID": "https://doi.org",
-        "schema:value": "iY",
-        "schema:url": "https://doi.org/iY"
-      },
-      "schema:contactPoint": {
-        "@id": "ex:maintainerContactPoint_3456",
-        "@type": "schema:ContactPoint",
-        "schema:email": "joe@bmanuco.org"
-      },
-      "schema:sameAs": [
-        "https://ark.org/46737",
-        "uri:test:43737"
-      ]
-    },
-    "schema:sdDatePublished": "2025-10-25",
-    "schema:includedInDataCatalog": {
-      "@id": "ex:lIZkH",
-      "@type": "schema:DataCatalog",
-      "schema:name": "naEEWHEjgvNFJy",
-      "schema:url": "http://example.com/resource?foo=bar#fragment",
-      "schema:identifier": {
-        "@type": "schema:PropertyValue",
-        "schema:propertyID": "ex:fGSg",
-        "schema:value": "vPADlYJkJuGgI",
-        "schema:url": "http://example.com/resource?foo=bar#fragment"
-      }
-    }
-  }
-}
-
-```
-
-#### jsonld
-```jsonld
-{
-  "@context": [
-    {
-      "schema": "http://schema.org/",
-      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "dcterms": "http://purl.org/dc/terms/",
-      "spdx": "http://spdx.org/rdf/terms#"
-    },
-    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/context.jsonld",
-    {
-      "schema": "http://schema.org/",
-      "dcterms": "http://purl.org/dc/terms/",
-      "geosparql": "http://www.opengis.net/ont/geosparql#",
-      "spdx": "http://spdx.org/rdf/terms#",
-      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "csvw": "http://www.w3.org/ns/csvw#",
-      "ex": "https://example.org/",
-      "xsd": "http://www.w3.org/2001/XMLSchema#",
-      "dcat": "http://www.w3.org/ns/dcat#"
-    }
-  ],
-  "@id": "ex:YOPx",
-  "@type": [
-    "schema:Dataset"
-  ],
-  "schema:name": "Test dataset",
-  "schema:description": "Auto generated from JSON schema, values are gobbledegoop. For testing",
-  "schema:additionalType": [
-    "test data description"
-  ],
-  "schema:identifier": {
-    "@type": "schema:PropertyValue",
     "schema:propertyID": "uSNzhqeEQPKhCj",
     "schema:url": "http://identifiers.org/sandbox/uSNzhqeEQPKhCj"
   },
   "schema:sameAs": [
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": "urn:idorg:test",
       "schema:value": "urn:idorg:test:p45689"
     }
@@ -771,20 +74,28 @@ physical mappings.
   ],
   "schema:relatedLink": [
     {
-      "@type": "schema:LinkRole",
+      "@type": [
+        "schema:LinkRole"
+      ],
       "schema:linkRelationship": "lfCzUaoftdtTPAhMnpC",
       "target": {
-        "@type": "schema:EntryPoint",
+        "@type": [
+          "schema:EntryPoint"
+        ],
         "schema:encodingFormat": "gompgHAN",
         "schema:name": "oAuxEutsTEiB",
         "schema:url": "http://example.com/resource?foo=bar#fragment"
       }
     },
     {
-      "@type": "schema:LinkRole",
+      "@type": [
+        "schema:LinkRole"
+      ],
       "schema:linkRelationship": "BOoRREnpDEUrdNaV",
       "target": {
-        "@type": "schema:EntryPoint",
+        "@type": [
+          "schema:EntryPoint"
+        ],
         "schema:encodingFormat": "FNoslhw",
         "schema:name": "atsDYJxuhHpivqLmw",
         "schema:url": "http://example.com/resource?foo=bar#fragment"
@@ -796,10 +107,14 @@ physical mappings.
   ],
   "schema:keywords": [
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "MiSqvcp",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "ex:rIPXjaCPQX",
         "schema:value": "PVSajGtBPsLzeCTLv",
         "schema:url": "http://example.com/resource/PVSajGtBPsLzeCTLvt"
@@ -808,10 +123,14 @@ physical mappings.
       "schema:termCode": "bzOl"
     },
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "TiMuawt",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "https://resource.org/identifier",
         "schema:value": "tdUMYBItIwdJe",
         "schema:url": "http://example.com/resource/tdUMYBItIwdJe"
@@ -824,12 +143,16 @@ physical mappings.
     "@list": [
       {
         "@id": "ex:mxxInaV",
-        "@type": "schema:Organization",
+        "@type": [
+          "schema:Organization"
+        ],
         "schema:name": "AEbcNvM",
         "schema:alternateName": "MwsoNGVEp",
         "schema:affiliation": {
           "@id": "ex:xblzSwEYJKBPpkK",
-          "@type": "schema:Organization",
+          "@type": [
+            "schema:Organization"
+          ],
           "schema:additionalType": [
             "schema:GovernmentOrganization",
             "schema:ResearchOrganization",
@@ -840,7 +163,9 @@ physical mappings.
           "schema:alternateName": "TrAuXgjTOCmJVTaf",
           "schema:description": "wwcOQoCbUe",
           "schema:identifier": {
-            "@type": "schema:PropertyValue",
+            "@type": [
+              "schema:PropertyValue"
+            ],
             "schema:propertyID": "oyvigoDvYFCGEkFc",
             "schema:value": "tMxtQyCUFptzpXj",
             "schema:url": "http://example.com/resource?foo=bar#fragment"
@@ -851,12 +176,16 @@ physical mappings.
           ]
         },
         "schema:contactPoint": {
-          "@type": "schema:ContactPoint",
+          "@type": [
+            "schema:ContactPoint"
+          ],
           "schema:email": "tready@email.ocm"
         },
         "schema:description": "ypZ",
         "schema:identifier": {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": "ciZyuOzfhVSPdWi",
           "schema:value": "JqLmJhoyFPhsmW",
           "schema:url": "http://example.com/resource?foo=bar#fragment"
@@ -868,10 +197,14 @@ physical mappings.
       },
       {
         "@id": "ex:jP",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Doe, Jane",
         "schema:contactPoint": {
-          "@type": "schema:ContactPoint",
+          "@type": [
+            "schema:ContactPoint"
+          ],
           "schema:email": "jdoe@example.org"
         }
       }
@@ -879,26 +212,36 @@ physical mappings.
   },
   "schema:contributor": [
     {
-      "@type": "schema:Role",
+      "@type": [
+        "schema:Role"
+      ],
       "schema:roleName": "editor",
       "schema:contributor": {
         "@id": "ex:PersonExample_zZc_asContributor",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Joe B. Test",
         "schema:alternateName": "Test, J. B.",
         "schema:affiliation": {
-          "@type": "schema:Organization",
+          "@type": [
+            "schema:Organization"
+          ],
           "schema:name": "The Big Manufacturing Co."
         },
         "schema:description": "Metadata specialist, based in Portland, Maine",
         "schema:identifier": {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": "https://orcid.org",
           "schema:value": "iY",
           "schema:url": "https://orcid.org/iY"
         },
         "schema:contactPoint": {
-          "@type": "schema:ContactPoint",
+          "@type": [
+            "schema:ContactPoint"
+          ],
           "schema:email": "joe@bmanuco.org"
         },
         "schema:sameAs": [
@@ -913,7 +256,9 @@ physical mappings.
   ],
   "schema:publisher": {
     "@id": "ex:exampleOrg_fW",
-    "@type": "schema:Organization",
+    "@type": [
+      "schema:Organization"
+    ],
     "schema:additionalType": [
       "schema:ResearchOrganization",
       "university"
@@ -922,7 +267,9 @@ physical mappings.
     "schema:alternateName": "UAz",
     "schema:description": "University in Tucson, Arizona",
     "schema:identifier": {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": "https://registry.identifiers.org/registry/ror",
       "schema:value": "03m2x1q45",
       "schema:url": "https://ror.org/03m2x1q45"
@@ -934,27 +281,39 @@ physical mappings.
   "schema:provider": [
     {
       "@id": "ex:gDiAxjl",
-      "@type": "schema:Organization",
+      "@type": [
+        "schema:Organization"
+      ],
       "schema:name": "Example Data Center"
     },
     {
       "@id": "ex:ihjJtFPNEKnGSFBcgS",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Smith, Robert",
       "schema:contactPoint": {
-        "@type": "schema:ContactPoint",
+        "@type": [
+          "schema:ContactPoint"
+        ],
         "schema:email": "rsmith@example.org"
       }
     },
     {
       "@id": "https://ada.org/person/5489",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:contactPoint": {
-        "@type": "schema:ContactPoint",
+        "@type": [
+          "schema:ContactPoint"
+        ],
         "schema:email": "a.king@nhm.ac.uk"
       },
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "https://orcid.org",
         "schema:value": "0000-0001-6113-5417",
         "schema:url": "https://orcid.org/0000-0001-6113-5417"
@@ -964,9 +323,13 @@ physical mappings.
   ],
   "schema:funding": [
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "grant-id",
         "schema:value": "lieopgXuumP"
       },
@@ -976,9 +339,13 @@ physical mappings.
       }
     },
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "grant-id",
         "schema:value": "fMuiBjneudpV"
       },
@@ -988,9 +355,13 @@ physical mappings.
       }
     },
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "grant-id",
         "schema:value": "LZpo"
       },
@@ -1011,19 +382,25 @@ physical mappings.
         "text/csv"
       ],
       "spdx:checksum": {
-        "@type": "spdx:Checksum",
+        "@type": [
+          "spdx:Checksum"
+        ],
         "spdx:algorithm": "MD5",
         "spdx:checksumValue": "MITGLcmBjeFYWmjP"
       },
       "schema:provider": [
         {
           "@id": "ex:ABYcNWHKYhTiLLNEzJx",
-          "@type": "schema:Person",
+          "@type": [
+            "schema:Person"
+          ],
           "schema:name": "Walker, Longin",
           "schema:alternateName": "LWH",
           "schema:affiliation": {
             "@id": "ex:corzCgjNrGcH",
-            "@type": "schema:Organization",
+            "@type": [
+              "schema:Organization"
+            ],
             "schema:additionalType": [
               "schema:NGO"
             ],
@@ -1031,7 +408,9 @@ physical mappings.
             "schema:alternateName": "leJqYoxQIH",
             "schema:description": "vRzzUAmtNWLgZcgNIC",
             "schema:identifier": {
-              "@type": "schema:PropertyValue",
+              "@type": [
+                "schema:PropertyValue"
+              ],
               "schema:propertyID": "KSgJJfyAuQPEX",
               "schema:value": "iFSyBdjVAxHmFOZVFg"
             },
@@ -1041,12 +420,16 @@ physical mappings.
             ]
           },
           "schema:contactPoint": {
-            "@type": "schema:ContactPoint",
+            "@type": [
+              "schema:ContactPoint"
+            ],
             "schema:email": "tom@ngo.net"
           },
           "schema:description": "Data Curator",
           "schema:identifier": {
-            "@type": "schema:PropertyValue",
+            "@type": [
+              "schema:PropertyValue"
+            ],
             "schema:propertyID": "https://identifiers.org/orcid",
             "schema:value": "NfaMinUfHeMDEFNc",
             "schema:url": "http://orcid.org/NfaMinUfHeMDEFNc"
@@ -1071,26 +454,34 @@ physical mappings.
         "sMUGwSqxWzJOYEb"
       ],
       "spdx:checksum": {
-        "@type": "spdx:Checksum",
+        "@type": [
+          "spdx:Checksum"
+        ],
         "spdx:algorithm": "j",
         "spdx:checksumValue": "h"
       },
       "schema:provider": [
         {
           "@id": "kNKPZsCSWMc",
-          "@type": "schema:Organization",
+          "@type": [
+            "schema:Organization"
+          ],
           "schema:name": "SdeMvoPFxEaJOvQy",
           "schema:alternateName": "WFcslOjvGZY",
           "schema:description": "ztcLdOAkQTKSPLZ",
           "schema:identifier": {
-            "@type": "schema:PropertyValue",
+            "@type": [
+              "schema:PropertyValue"
+            ],
             "schema:propertyID": "ex:oFIYAymjuGCPjDnSgmB",
             "schema:url": "http://example.com/resource/WPfhCJyxiDcwgdHMemJd"
           }
         },
         {
           "@id": "ex:sr68lgy",
-          "@type": "schema:Organization",
+          "@type": [
+            "schema:Organization"
+          ],
           "schema:name": "Another Provider Org"
         }
       ],
@@ -1111,7 +502,9 @@ physical mappings.
         "text/csv"
       ],
       "spdx:checksum": {
-        "@type": "spdx:Checksum",
+        "@type": [
+          "spdx:Checksum"
+        ],
         "spdx:algorithm": "SHA256",
         "spdx:checksumValue": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
       },
@@ -1166,7 +559,9 @@ physical mappings.
         "application/x-netcdf"
       ],
       "spdx:checksum": {
-        "@type": "spdx:Checksum",
+        "@type": [
+          "spdx:Checksum"
+        ],
         "spdx:algorithm": "SHA256",
         "spdx:checksumValue": "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5"
       },
@@ -1206,10 +601,14 @@ physical mappings.
         "schema:WebAPI"
       ],
       "schema:serviceType": {
-        "@type": "schema:DefinedTerm",
+        "@type": [
+          "schema:DefinedTerm"
+        ],
         "schema:name": "OGC API - Features",
         "schema:identifier": {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": "https://www.ogc.org/standards",
           "schema:value": "ogcapi-features-1",
           "schema:url": "https://www.ogc.org/standard/ogcapi-features/"
@@ -1219,16 +618,22 @@ physical mappings.
       },
       "schema:termsOfService": "Open access, no authentication required",
       "schema:documentation": {
-        "@type": "schema:CreativeWork",
+        "@type": [
+          "schema:CreativeWork"
+        ],
         "schema:name": "OpenAPI specification for geochemistry data service",
         "schema:url": "http://example.com/api/v1/openapi.json"
       },
       "schema:potentialAction": [
         {
-          "@type": "schema:Action",
+          "@type": [
+            "schema:Action"
+          ],
           "schema:name": "Query geochemistry features",
           "schema:target": {
-            "@type": "schema:EntryPoint",
+            "@type": [
+              "schema:EntryPoint"
+            ],
             "schema:description": "OGC API Features endpoint returning geochemistry observations as CSV",
             "schema:urlTemplate": "http://example.com/api/v1/collections/geochem/items?f={format}&limit={limit}&offset={offset}",
             "schema:httpMethod": [
@@ -1279,25 +684,33 @@ physical mappings.
             ]
           },
           "schema:object": {
-            "@type": "schema:DataFeed",
+            "@type": [
+              "schema:DataFeed"
+            ],
             "schema:description": "Geochemistry observations collection"
           },
           "schema:query-input": [
             {
-              "@type": "schema:PropertyValueSpecification",
+              "@type": [
+                "schema:PropertyValueSpecification"
+              ],
               "schema:valueName": "format",
               "schema:description": "Response format: csv or geojson",
               "schema:valueRequired": false,
               "schema:valuePattern": "csv|geojson"
             },
             {
-              "@type": "schema:PropertyValueSpecification",
+              "@type": [
+                "schema:PropertyValueSpecification"
+              ],
               "schema:valueName": "limit",
               "schema:description": "Maximum number of features to return (default 100)",
               "schema:valueRequired": false
             },
             {
-              "@type": "schema:PropertyValueSpecification",
+              "@type": [
+                "schema:PropertyValueSpecification"
+              ],
               "schema:valueName": "offset",
               "schema:description": "Starting index for pagination",
               "schema:valueRequired": false
@@ -1341,10 +754,14 @@ physical mappings.
         "ex:CUXfWZLdRkEAG"
       ],
       "schema:measurementTechnique": {
-        "@type": "schema:DefinedTerm",
+        "@type": [
+          "schema:DefinedTerm"
+        ],
         "schema:name": "a good technique",
         "schema:identifier": {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": "https://identifiers.org",
           "schema:value": "igcJkZMJiKehgkPjMCp",
           "schema:url": "https://identifiers.org/technique/igcJkZMJiKehgkPjMCp"
@@ -1387,25 +804,33 @@ physical mappings.
     ],
     "schema:maintainer": {
       "@id": "ex:PersonExample_zZc",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Joe Test",
       "schema:alternateName": "Test, Joe",
       "schema:affiliation": {
         "@id": "ex:maintainerAffiliation_3456",
-        "@type": "schema:Organization",
+        "@type": [
+          "schema:Organization"
+        ],
         "schema:name": "Test organization"
       },
       "schema:description": "Metadata specialist, based in Portland, Maine",
       "schema:identifier": {
         "@id": "ex:maintainerIdentifier_3456",
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "https://doi.org",
         "schema:value": "iY",
         "schema:url": "https://doi.org/iY"
       },
       "schema:contactPoint": {
         "@id": "ex:maintainerContactPoint_3456",
-        "@type": "schema:ContactPoint",
+        "@type": [
+          "schema:ContactPoint"
+        ],
         "schema:email": "joe@bmanuco.org"
       },
       "schema:sameAs": [
@@ -1416,11 +841,866 @@ physical mappings.
     "schema:sdDatePublished": "2025-10-25",
     "schema:includedInDataCatalog": {
       "@id": "ex:lIZkH",
-      "@type": "schema:DataCatalog",
+      "@type": [
+        "schema:DataCatalog"
+      ],
       "schema:name": "naEEWHEjgvNFJy",
       "schema:url": "http://example.com/resource?foo=bar#fragment",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "ex:fGSg",
+        "schema:value": "vPADlYJkJuGgI",
+        "schema:url": "http://example.com/resource?foo=bar#fragment"
+      }
+    }
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "spdx": "http://spdx.org/rdf/terms#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "geosparql": "http://www.opengis.net/ont/geosparql#",
+      "spdx": "http://spdx.org/rdf/terms#",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "csvw": "http://www.w3.org/ns/csvw#",
+      "ex": "https://example.org/",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "dcat": "http://www.w3.org/ns/dcat#"
+    }
+  ],
+  "@id": "ex:YOPx",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Test dataset",
+  "schema:description": "Auto generated from JSON schema, values are gobbledegoop. For testing",
+  "schema:additionalType": [
+    "test data description"
+  ],
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": "uSNzhqeEQPKhCj",
+    "schema:url": "http://identifiers.org/sandbox/uSNzhqeEQPKhCj"
+  },
+  "schema:sameAs": [
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "urn:idorg:test",
+      "schema:value": "urn:idorg:test:p45689"
+    }
+  ],
+  "schema:version": "OVVAYgJhmFkXyVyedlVo",
+  "schema:url": "http://example.com/resource?foo=bar#fragment",
+  "schema:inLanguage": "bYiJT",
+  "schema:dateModified": "2020-10-15",
+  "schema:datePublished": "2021-09-05",
+  "schema:conditionsOfAccess": [
+    "ihYojbwJyw",
+    "jNv",
+    "LCY",
+    "tfmbDGeiuEnuhfKBvk"
+  ],
+  "schema:license": [
+    "dXhuFoqL",
+    "Kmp"
+  ],
+  "schema:relatedLink": [
+    {
+      "@type": [
+        "schema:LinkRole"
+      ],
+      "schema:linkRelationship": "lfCzUaoftdtTPAhMnpC",
+      "target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:encodingFormat": "gompgHAN",
+        "schema:name": "oAuxEutsTEiB",
+        "schema:url": "http://example.com/resource?foo=bar#fragment"
+      }
+    },
+    {
+      "@type": [
+        "schema:LinkRole"
+      ],
+      "schema:linkRelationship": "BOoRREnpDEUrdNaV",
+      "target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:encodingFormat": "FNoslhw",
+        "schema:name": "atsDYJxuhHpivqLmw",
+        "schema:url": "http://example.com/resource?foo=bar#fragment"
+      }
+    }
+  ],
+  "schema:publishingPrinciples": [
+    "rxZsrPAbJrIGGgDVJ"
+  ],
+  "schema:keywords": [
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "MiSqvcp",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "ex:rIPXjaCPQX",
+        "schema:value": "PVSajGtBPsLzeCTLv",
+        "schema:url": "http://example.com/resource/PVSajGtBPsLzeCTLvt"
+      },
+      "schema:inDefinedTermSet": "EfagQEQtAkwMBDvfKznc",
+      "schema:termCode": "bzOl"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "TiMuawt",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "https://resource.org/identifier",
+        "schema:value": "tdUMYBItIwdJe",
+        "schema:url": "http://example.com/resource/tdUMYBItIwdJe"
+      },
+      "schema:inDefinedTermSet": "sqH",
+      "schema:termCode": "RUUxHY"
+    }
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "ex:mxxInaV",
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "AEbcNvM",
+        "schema:alternateName": "MwsoNGVEp",
+        "schema:affiliation": {
+          "@id": "ex:xblzSwEYJKBPpkK",
+          "@type": [
+            "schema:Organization"
+          ],
+          "schema:additionalType": [
+            "schema:GovernmentOrganization",
+            "schema:ResearchOrganization",
+            "schema:ResearchOrganization",
+            "schema:Project"
+          ],
+          "schema:name": "mDjEBamofgiqGBqfQGfe",
+          "schema:alternateName": "TrAuXgjTOCmJVTaf",
+          "schema:description": "wwcOQoCbUe",
+          "schema:identifier": {
+            "@type": [
+              "schema:PropertyValue"
+            ],
+            "schema:propertyID": "oyvigoDvYFCGEkFc",
+            "schema:value": "tMxtQyCUFptzpXj",
+            "schema:url": "http://example.com/resource?foo=bar#fragment"
+          },
+          "schema:sameAs": [
+            "K",
+            "AsoXEfDoLipcJw"
+          ]
+        },
+        "schema:contactPoint": {
+          "@type": [
+            "schema:ContactPoint"
+          ],
+          "schema:email": "tready@email.ocm"
+        },
+        "schema:description": "ypZ",
+        "schema:identifier": {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": "ciZyuOzfhVSPdWi",
+          "schema:value": "JqLmJhoyFPhsmW",
+          "schema:url": "http://example.com/resource?foo=bar#fragment"
+        },
+        "schema:sameAs": [
+          "ex:pMPylNhiMvfC",
+          "ex:IgH"
+        ]
+      },
+      {
+        "@id": "ex:jP",
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:name": "Doe, Jane",
+        "schema:contactPoint": {
+          "@type": [
+            "schema:ContactPoint"
+          ],
+          "schema:email": "jdoe@example.org"
+        }
+      }
+    ]
+  },
+  "schema:contributor": [
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": "editor",
+      "schema:contributor": {
+        "@id": "ex:PersonExample_zZc_asContributor",
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:name": "Joe B. Test",
+        "schema:alternateName": "Test, J. B.",
+        "schema:affiliation": {
+          "@type": [
+            "schema:Organization"
+          ],
+          "schema:name": "The Big Manufacturing Co."
+        },
+        "schema:description": "Metadata specialist, based in Portland, Maine",
+        "schema:identifier": {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": "https://orcid.org",
+          "schema:value": "iY",
+          "schema:url": "https://orcid.org/iY"
+        },
+        "schema:contactPoint": {
+          "@type": [
+            "schema:ContactPoint"
+          ],
+          "schema:email": "joe@bmanuco.org"
+        },
+        "schema:sameAs": [
+          "https://ark.org/46737",
+          "uri:test:43737"
+        ]
+      }
+    },
+    {
+      "@id": "ex:NyMWPlRtQizAFE"
+    }
+  ],
+  "schema:publisher": {
+    "@id": "ex:exampleOrg_fW",
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:additionalType": [
+      "schema:ResearchOrganization",
+      "university"
+    ],
+    "schema:name": "University of Arizona",
+    "schema:alternateName": "UAz",
+    "schema:description": "University in Tucson, Arizona",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+      "schema:value": "03m2x1q45",
+      "schema:url": "https://ror.org/03m2x1q45"
+    },
+    "schema:sameAs": [
+      "Wildcats"
+    ]
+  },
+  "schema:provider": [
+    {
+      "@id": "ex:gDiAxjl",
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "Example Data Center"
+    },
+    {
+      "@id": "ex:ihjJtFPNEKnGSFBcgS",
+      "@type": [
+        "schema:Person"
+      ],
+      "schema:name": "Smith, Robert",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "rsmith@example.org"
+      }
+    },
+    {
+      "@id": "https://ada.org/person/5489",
+      "@type": [
+        "schema:Person"
+      ],
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "a.king@nhm.ac.uk"
+      },
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "https://orcid.org",
+        "schema:value": "0000-0001-6113-5417",
+        "schema:url": "https://orcid.org/0000-0001-6113-5417"
+      },
+      "schema:name": "King, Ashley"
+    }
+  ],
+  "schema:funding": [
+    {
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "grant-id",
+        "schema:value": "lieopgXuumP"
+      },
+      "schema:name": "fhhbzh",
+      "schema:funder": {
+        "@id": "https://ror.org/3572wjht"
+      }
+    },
+    {
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "grant-id",
+        "schema:value": "fMuiBjneudpV"
+      },
+      "schema:name": "MWoPQAqRYHobey",
+      "schema:funder": {
+        "@id": "https://ror.org/fnjrj68"
+      }
+    },
+    {
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "grant-id",
+        "schema:value": "LZpo"
+      },
+      "schema:name": "ekckpBtI",
+      "schema:funder": {
+        "@id": "https://ror.org/sejer4w6u8"
+      }
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:name": "VwuIdrCrJSsrGATePg",
+      "schema:contentUrl": "http://example.com/resource?foo=bar#fragment",
+      "schema:encodingFormat": [
+        "text/csv"
+      ],
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:algorithm": "MD5",
+        "spdx:checksumValue": "MITGLcmBjeFYWmjP"
+      },
+      "schema:provider": [
+        {
+          "@id": "ex:ABYcNWHKYhTiLLNEzJx",
+          "@type": [
+            "schema:Person"
+          ],
+          "schema:name": "Walker, Longin",
+          "schema:alternateName": "LWH",
+          "schema:affiliation": {
+            "@id": "ex:corzCgjNrGcH",
+            "@type": [
+              "schema:Organization"
+            ],
+            "schema:additionalType": [
+              "schema:NGO"
+            ],
+            "schema:name": "Some Data Repository",
+            "schema:alternateName": "leJqYoxQIH",
+            "schema:description": "vRzzUAmtNWLgZcgNIC",
+            "schema:identifier": {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:propertyID": "KSgJJfyAuQPEX",
+              "schema:value": "iFSyBdjVAxHmFOZVFg"
+            },
+            "schema:sameAs": [
+              "ex:ITXGFU",
+              "urn:test:WWcBivQCAO"
+            ]
+          },
+          "schema:contactPoint": {
+            "@type": [
+              "schema:ContactPoint"
+            ],
+            "schema:email": "tom@ngo.net"
+          },
+          "schema:description": "Data Curator",
+          "schema:identifier": {
+            "@type": [
+              "schema:PropertyValue"
+            ],
+            "schema:propertyID": "https://identifiers.org/orcid",
+            "schema:value": "NfaMinUfHeMDEFNc",
+            "schema:url": "http://orcid.org/NfaMinUfHeMDEFNc"
+          }
+        }
+      ],
+      "dcterms:conformsTo": [
+        {
+          "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:name": "MVMpmnCGAggEnsoEgJXH",
+      "schema:contentUrl": "http://example.com/resource?foo=bar#fragment",
+      "schema:encodingFormat": [
+        "tNdpXaJgDeWbFkNM",
+        "kpZDvhyVo",
+        "sMUGwSqxWzJOYEb"
+      ],
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:algorithm": "j",
+        "spdx:checksumValue": "h"
+      },
+      "schema:provider": [
+        {
+          "@id": "kNKPZsCSWMc",
+          "@type": [
+            "schema:Organization"
+          ],
+          "schema:name": "SdeMvoPFxEaJOvQy",
+          "schema:alternateName": "WFcslOjvGZY",
+          "schema:description": "ztcLdOAkQTKSPLZ",
+          "schema:identifier": {
+            "@type": [
+              "schema:PropertyValue"
+            ],
+            "schema:propertyID": "ex:oFIYAymjuGCPjDnSgmB",
+            "schema:url": "http://example.com/resource/WPfhCJyxiDcwgdHMemJd"
+          }
+        },
+        {
+          "@id": "ex:sr68lgy",
+          "@type": [
+            "schema:Organization"
+          ],
+          "schema:name": "Another Provider Org"
+        }
+      ],
+      "dcterms:conformsTo": [
+        {
+          "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:DataDownload",
+        "cdi:TabularTextDataSet"
+      ],
+      "schema:name": "Geochemistry analysis results",
+      "schema:contentUrl": "http://example.com/data/geochem-results.csv",
+      "schema:encodingFormat": [
+        "text/csv"
+      ],
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:algorithm": "SHA256",
+        "spdx:checksumValue": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
+      },
+      "cdi:isDelimited": true,
+      "csvw:delimiter": ",",
+      "csvw:header": true,
+      "csvw:headerRowCount": 1,
+      "csvw:commentPrefix": "#",
+      "csvw:skipRows": 0,
+      "csvw:skipBlankRows": true,
+      "csvw:quoteChar": "\"",
+      "countRows": 461,
+      "countColumns": 2,
+      "cdi:hasPhysicalMapping": [
+        {
+          "cdi:index": 0,
+          "cdi:format": "decimal",
+          "cdi:physicalDataType": "float64",
+          "cdi:nullSequence": "NA",
+          "cdi:isRequired": true,
+          "cdi:formats_InstanceVariable": {
+            "@id": "ex:KJTFKurNFu"
+          }
+        },
+        {
+          "cdi:index": 1,
+          "cdi:format": "decimal",
+          "cdi:physicalDataType": "float64",
+          "cdi:nullSequence": "-9999",
+          "cdi:defaultValue": "0.0",
+          "cdi:decimalPositions": 4,
+          "cdi:isRequired": false,
+          "cdi:formats_InstanceVariable": {
+            "@id": "ex:OjHgIDO"
+          }
+        }
+      ],
+      "dcterms:conformsTo": [
+        {
+          "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:DataDownload",
+        "cdi:StructuredDataSet"
+      ],
+      "schema:name": "Gridded measurement data cube",
+      "schema:contentUrl": "http://example.com/data/measurement-cube.nc",
+      "schema:encodingFormat": [
+        "application/x-netcdf"
+      ],
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:algorithm": "SHA256",
+        "spdx:checksumValue": "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5"
+      },
+      "cdi:hasPhysicalMapping": [
+        {
+          "cdi:index": 0,
+          "cdi:format": "decimal",
+          "cdi:physicalDataType": "float32",
+          "cdi:locator": "/measurements/wavelength",
+          "cdi:nullSequence": "NaN",
+          "cdi:isRequired": true,
+          "cdi:formats_InstanceVariable": {
+            "@id": "ex:KJTFKurNFu"
+          }
+        },
+        {
+          "cdi:index": 1,
+          "cdi:format": "decimal",
+          "cdi:physicalDataType": "float32",
+          "cdi:locator": "/measurements/intensity",
+          "cdi:scale": 1000,
+          "cdi:decimalPositions": 6,
+          "cdi:isRequired": true,
+          "cdi:formats_InstanceVariable": {
+            "@id": "ex:OjHgIDO"
+          }
+        }
+      ],
+      "dcterms:conformsTo": [
+        {
+          "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:WebAPI"
+      ],
+      "schema:serviceType": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "OGC API - Features",
+        "schema:identifier": {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": "https://www.ogc.org/standards",
+          "schema:value": "ogcapi-features-1",
+          "schema:url": "https://www.ogc.org/standard/ogcapi-features/"
+        },
+        "schema:inDefinedTermSet": "https://www.ogc.org/standards",
+        "schema:termCode": "ogcapi-features"
+      },
+      "schema:termsOfService": "Open access, no authentication required",
+      "schema:documentation": {
+        "@type": [
+          "schema:CreativeWork"
+        ],
+        "schema:name": "OpenAPI specification for geochemistry data service",
+        "schema:url": "http://example.com/api/v1/openapi.json"
+      },
+      "schema:potentialAction": [
+        {
+          "@type": [
+            "schema:Action"
+          ],
+          "schema:name": "Query geochemistry features",
+          "schema:target": {
+            "@type": [
+              "schema:EntryPoint"
+            ],
+            "schema:description": "OGC API Features endpoint returning geochemistry observations as CSV",
+            "schema:urlTemplate": "http://example.com/api/v1/collections/geochem/items?f={format}&limit={limit}&offset={offset}",
+            "schema:httpMethod": [
+              "GET"
+            ],
+            "schema:contentType": [
+              "text/csv",
+              "application/geo+json"
+            ]
+          },
+          "schema:result": {
+            "@type": [
+              "schema:DataDownload"
+            ],
+            "schema:name": "Geochemistry query results",
+            "schema:contentUrl": "http://example.com/api/v1/collections/geochem/items?f=csv",
+            "schema:encodingFormat": [
+              "text/csv"
+            ],
+            "cdi:isDelimited": true,
+            "csvw:delimiter": ",",
+            "csvw:header": true,
+            "csvw:headerRowCount": 1,
+            "cdi:hasPhysicalMapping": [
+              {
+                "cdi:index": 0,
+                "cdi:format": "decimal",
+                "cdi:physicalDataType": "float64",
+                "cdi:isRequired": true,
+                "cdi:formats_InstanceVariable": {
+                  "@id": "ex:KJTFKurNFu"
+                }
+              },
+              {
+                "cdi:index": 1,
+                "cdi:format": "decimal",
+                "cdi:physicalDataType": "float64",
+                "cdi:isRequired": false,
+                "cdi:formats_InstanceVariable": {
+                  "@id": "ex:OjHgIDO"
+                }
+              }
+            ],
+            "dcterms:conformsTo": [
+              {
+                "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+              }
+            ]
+          },
+          "schema:object": {
+            "@type": [
+              "schema:DataFeed"
+            ],
+            "schema:description": "Geochemistry observations collection"
+          },
+          "schema:query-input": [
+            {
+              "@type": [
+                "schema:PropertyValueSpecification"
+              ],
+              "schema:valueName": "format",
+              "schema:description": "Response format: csv or geojson",
+              "schema:valueRequired": false,
+              "schema:valuePattern": "csv|geojson"
+            },
+            {
+              "@type": [
+                "schema:PropertyValueSpecification"
+              ],
+              "schema:valueName": "limit",
+              "schema:description": "Maximum number of features to return (default 100)",
+              "schema:valueRequired": false
+            },
+            {
+              "@type": [
+                "schema:PropertyValueSpecification"
+              ],
+              "schema:valueName": "offset",
+              "schema:description": "Starting index for pagination",
+              "schema:valueRequired": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "ex:KJTFKurNFu",
+      "schema:name": "RbMivCtraTmzms",
+      "schema:description": "EcbPmKQnMCgWozw",
+      "schema:propertyID": [
+        "urn:test:GigjbPysIJ",
+        "https://ark.org/bXEOCTwvICRc"
+      ],
+      "schema:measurementTechnique": "some measurement technique",
+      "schema:unitText": "furlongs",
+      "schema:unitCode": "F",
+      "schema:minValue": 67.0,
+      "schema:maxValue": 98.0,
+      "schema:url": "http://example.com/resource?foo=bar#furlong",
+      "cdi:physicalDataType": "float64"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "@id": "ex:OjHgIDO",
+      "schema:name": "jzgZCegiTFYBSmsSh",
+      "schema:description": "RGKBMBkScTTNQ",
+      "schema:propertyID": [
+        "urn:properties:tzysaGTv",
+        "ex:CUXfWZLdRkEAG"
+      ],
+      "schema:measurementTechnique": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "a good technique",
+        "schema:identifier": {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": "https://identifiers.org",
+          "schema:value": "igcJkZMJiKehgkPjMCp",
+          "schema:url": "https://identifiers.org/technique/igcJkZMJiKehgkPjMCp"
+        },
+        "schema:inDefinedTermSet": "https://identifiers.org/technique/vocabulary",
+        "schema:termCode": "agt"
+      },
+      "schema:unitText": "stone",
+      "schema:unitCode": "S",
+      "schema:minValue": 36.0,
+      "schema:maxValue": 74.0,
+      "schema:url": "http://example.com/resource?foo=bar#stone",
+      "cdi:physicalDataType": "float32"
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "@id": "ex:BAaR",
+    "schema:about": {
+      "@id": "ex:YOPx"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription"
+      },
+      {
+        "@id": "https://w3id.org/cdif/core/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.0/"
+      }
+    ],
+    "schema:maintainer": {
+      "@id": "ex:PersonExample_zZc",
+      "@type": [
+        "schema:Person"
+      ],
+      "schema:name": "Joe Test",
+      "schema:alternateName": "Test, Joe",
+      "schema:affiliation": {
+        "@id": "ex:maintainerAffiliation_3456",
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "Test organization"
+      },
+      "schema:description": "Metadata specialist, based in Portland, Maine",
+      "schema:identifier": {
+        "@id": "ex:maintainerIdentifier_3456",
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "https://doi.org",
+        "schema:value": "iY",
+        "schema:url": "https://doi.org/iY"
+      },
+      "schema:contactPoint": {
+        "@id": "ex:maintainerContactPoint_3456",
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "joe@bmanuco.org"
+      },
+      "schema:sameAs": [
+        "https://ark.org/46737",
+        "uri:test:43737"
+      ]
+    },
+    "schema:sdDatePublished": "2025-10-25",
+    "schema:includedInDataCatalog": {
+      "@id": "ex:lIZkH",
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "naEEWHEjgvNFJy",
+      "schema:url": "http://example.com/resource?foo=bar#fragment",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "ex:fGSg",
         "schema:value": "vPADlYJkJuGgI",
         "schema:url": "http://example.com/resource?foo=bar#fragment"
@@ -1523,73 +1803,6 @@ ex:YOPx a schema1:Dataset ;
     schema1:distribution [ a schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "kpZDvhyVo",
-                "sMUGwSqxWzJOYEb",
-                "tNdpXaJgDeWbFkNM" ;
-            schema1:name "MVMpmnCGAggEnsoEgJXH" ;
-            schema1:provider <file:///github/workspace/kNKPZsCSWMc>,
-                ex:sr68lgy ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "j" ;
-                    spdx:checksumValue "h" ] ],
-        [ a cdi:StructuredDataSet,
-                schema1:DataDownload ;
-            cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/measurements/wavelength" ;
-                    cdi:nullSequence "NaN" ;
-                    cdi:physicalDataType "float32" ],
-                [ cdi:decimalPositions 6 ;
-                    cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:OjHgIDO ;
-                    cdi:index 1 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/measurements/intensity" ;
-                    cdi:physicalDataType "float32" ;
-                    cdi:scale 1000 ] ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/data/measurement-cube.nc" ;
-            schema1:encodingFormat "application/x-netcdf" ;
-            schema1:name "Gridded measurement data cube" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5" ] ],
-        [ a cdi:TabularTextDataSet,
-                schema1:DataDownload ;
-            cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "NA" ;
-                    cdi:physicalDataType "float64" ],
-                [ cdi:decimalPositions 4 ;
-                    cdi:defaultValue "0.0" ;
-                    cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:OjHgIDO ;
-                    cdi:index 1 ;
-                    cdi:isRequired false ;
-                    cdi:nullSequence "-9999" ;
-                    cdi:physicalDataType "float64" ] ;
-            cdi:isDelimited true ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/data/geochem-results.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "Geochemistry analysis results" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ;
-            csvw:commentPrefix "#" ;
-            csvw:delimiter "," ;
-            csvw:header true ;
-            csvw:headerRowCount 1 ;
-            csvw:quoteChar "\"" ;
-            csvw:skipBlankRows true ;
-            csvw:skipRows 0 ],
-        [ a schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
             schema1:encodingFormat "text/csv" ;
             schema1:name "VwuIdrCrJSsrGATePg" ;
             schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
@@ -1605,17 +1818,17 @@ ex:YOPx a schema1:Dataset ;
                     schema1:object [ a schema1:DataFeed ;
                             schema1:description "Geochemistry observations collection" ] ;
                     schema1:query-input [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Response format: csv or geojson" ;
+                            schema1:valueName "format" ;
+                            schema1:valuePattern "csv|geojson" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Starting index for pagination" ;
                             schema1:valueName "offset" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
                             schema1:description "Maximum number of features to return (default 100)" ;
                             schema1:valueName "limit" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Response format: csv or geojson" ;
-                            schema1:valueName "format" ;
-                            schema1:valuePattern "csv|geojson" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a schema1:DataDownload ;
                             cdi:hasPhysicalMapping [ cdi:format "decimal" ;
@@ -1650,7 +1863,74 @@ ex:YOPx a schema1:Dataset ;
                     schema1:inDefinedTermSet "https://www.ogc.org/standards" ;
                     schema1:name "OGC API - Features" ;
                     schema1:termCode "ogcapi-features" ] ;
-            schema1:termsOfService "Open access, no authentication required" ] ;
+            schema1:termsOfService "Open access, no authentication required" ],
+        [ a cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            cdi:hasPhysicalMapping [ cdi:format "decimal" ;
+                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
+                    cdi:index 0 ;
+                    cdi:isRequired true ;
+                    cdi:locator "/measurements/wavelength" ;
+                    cdi:nullSequence "NaN" ;
+                    cdi:physicalDataType "float32" ],
+                [ cdi:decimalPositions 6 ;
+                    cdi:format "decimal" ;
+                    cdi:formats_InstanceVariable ex:OjHgIDO ;
+                    cdi:index 1 ;
+                    cdi:isRequired true ;
+                    cdi:locator "/measurements/intensity" ;
+                    cdi:physicalDataType "float32" ;
+                    cdi:scale 1000 ] ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/data/measurement-cube.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Gridded measurement data cube" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5" ] ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "kpZDvhyVo",
+                "sMUGwSqxWzJOYEb",
+                "tNdpXaJgDeWbFkNM" ;
+            schema1:name "MVMpmnCGAggEnsoEgJXH" ;
+            schema1:provider <file:///github/workspace/kNKPZsCSWMc>,
+                ex:sr68lgy ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "j" ;
+                    spdx:checksumValue "h" ] ],
+        [ a cdi:TabularTextDataSet,
+                schema1:DataDownload ;
+            cdi:hasPhysicalMapping [ cdi:decimalPositions 4 ;
+                    cdi:defaultValue "0.0" ;
+                    cdi:format "decimal" ;
+                    cdi:formats_InstanceVariable ex:OjHgIDO ;
+                    cdi:index 1 ;
+                    cdi:isRequired false ;
+                    cdi:nullSequence "-9999" ;
+                    cdi:physicalDataType "float64" ],
+                [ cdi:format "decimal" ;
+                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
+                    cdi:index 0 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "NA" ;
+                    cdi:physicalDataType "float64" ] ;
+            cdi:isDelimited true ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/data/geochem-results.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "Geochemistry analysis results" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ;
+            csvw:commentPrefix "#" ;
+            csvw:delimiter "," ;
+            csvw:header true ;
+            csvw:headerRowCount 1 ;
+            csvw:quoteChar "\"" ;
+            csvw:skipBlankRows true ;
+            csvw:skipRows 0 ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/sejer4w6u8> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -1698,9 +1978,9 @@ ex:YOPx a schema1:Dataset ;
     schema1:publisher ex:exampleOrg_fW ;
     schema1:publishingPrinciples "rxZsrPAbJrIGGgDVJ" ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "lfCzUaoftdtTPAhMnpC" ],
+            schema1:linkRelationship "BOoRREnpDEUrdNaV" ],
         [ a schema1:LinkRole ;
-            schema1:linkRelationship "BOoRREnpDEUrdNaV" ] ;
+            schema1:linkRelationship "lfCzUaoftdtTPAhMnpC" ] ;
     schema1:sameAs [ a schema1:PropertyValue ;
             schema1:propertyID "urn:idorg:test" ;
             schema1:value "urn:idorg:test:p45689" ] ;

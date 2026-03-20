@@ -19,16 +19,19 @@ Example identifier instance.
 #### json
 ```json
 {
-    "@context": {
-        "schema": "http://schema.org/",
-        "ex": "https://example.org/",
-        "xsd": "http://www.w3.org/2001/XMLSchema#"
-    },
-    "@type": "schema:PropertyValue",
-    "schema:propertyID": "example identifier",
-    "schema:value": "10.5281/zenodo.1234567",
-    "schema:url": "https://doi.org/10.5281/zenodo.1234567"
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@type": [
+    "schema:PropertyValue"
+  ],
+  "schema:propertyID": "example identifier",
+  "schema:value": "10.5281/zenodo.1234567",
+  "schema:url": "https://doi.org/10.5281/zenodo.1234567"
 }
+
 ```
 
 #### jsonld
@@ -45,7 +48,9 @@ Example identifier instance.
       "xsd": "http://www.w3.org/2001/XMLSchema#"
     }
   ],
-  "@type": "schema:PropertyValue",
+  "@type": [
+    "schema:PropertyValue"
+  ],
   "schema:propertyID": "example identifier",
   "schema:value": "10.5281/zenodo.1234567",
   "schema:url": "https://doi.org/10.5281/zenodo.1234567"
@@ -72,14 +77,12 @@ description: Properties for a schema.org identifier
 type: object
 properties:
   '@type':
-    anyOf:
-    - type: string
+    type: array
+    items:
+      type: string
+    contains:
       const: schema:PropertyValue
-    - type: array
-      items:
-        type: string
-      contains:
-        const: schema:PropertyValue
+    minItems: 1
   schema:propertyID:
     type: string
     description: In this context for the schema:PropertyValue, this field is an identifier

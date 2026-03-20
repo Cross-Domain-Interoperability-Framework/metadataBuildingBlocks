@@ -19,17 +19,20 @@ Example labeled link instance.
 #### json
 ```json
 {
-    "@context": {
-        "schema": "http://schema.org/",
-        "ex": "https://example.org/",
-        "xsd": "http://www.w3.org/2001/XMLSchema#"
-    },
-    "@id": "ex:LabeledLinkExample_zZc",
-    "@type": "schema:CreativeWork",
-    "schema:name": "Some related resource",
-    "schema:description": "URL to get the related resource",
-    "schema:url": "https://example.org/relatedresource/2342747"
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id": "ex:LabeledLinkExample_zZc",
+  "@type": [
+    "schema:CreativeWork"
+  ],
+  "schema:name": "Some related resource",
+  "schema:description": "URL to get the related resource",
+  "schema:url": "https://example.org/relatedresource/2342747"
 }
+
 ```
 
 #### jsonld
@@ -47,7 +50,9 @@ Example labeled link instance.
     }
   ],
   "@id": "ex:LabeledLinkExample_zZc",
-  "@type": "schema:CreativeWork",
+  "@type": [
+    "schema:CreativeWork"
+  ],
   "schema:name": "Some related resource",
   "schema:description": "URL to get the related resource",
   "schema:url": "https://example.org/relatedresource/2342747"
@@ -76,14 +81,12 @@ type: object
 properties:
   '@type':
     default: schema:CreativeWork
-    anyOf:
-    - type: string
+    type: array
+    items:
+      type: string
+    contains:
       const: schema:CreativeWork
-    - type: array
-      items:
-        type: string
-      contains:
-        const: schema:CreativeWork
+    minItems: 1
   schema:name:
     type: string
   schema:description:

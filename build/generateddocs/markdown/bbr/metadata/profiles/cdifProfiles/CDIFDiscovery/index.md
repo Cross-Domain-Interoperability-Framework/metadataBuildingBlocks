@@ -43,7 +43,9 @@ In **Markdown** format.
     "test data description"
   ],
   "schema:identifier": {
-    "@type": "schema:PropertyValue",
+    "@type": [
+      "schema:PropertyValue"
+    ],
     "schema:propertyID": "uSNzhqeEQPKhCj",
     "schema:url": "http://identifiers.org/sandbox/uSNzhqeEQPKhCj"
   },
@@ -68,20 +70,28 @@ In **Markdown** format.
   ],
   "schema:relatedLink": [
     {
-      "@type": "schema:LinkRole",
+      "@type": [
+        "schema:LinkRole"
+      ],
       "schema:linkRelationship": "lfCzUaoftdtTPAhMnpC",
       "target": {
-        "@type": "schema:EntryPoint",
+        "@type": [
+          "schema:EntryPoint"
+        ],
         "schema:encodingFormat": "gompgHAN",
         "schema:name": "oAuxEutsTEiB",
         "schema:url": "http://example.com/resource?foo=bar#fragment"
       }
     },
     {
-      "@type": "schema:LinkRole",
+      "@type": [
+        "schema:LinkRole"
+      ],
       "schema:linkRelationship": "BOoRREnpDEUrdNaV",
       "target": {
-        "@type": "schema:EntryPoint",
+        "@type": [
+          "schema:EntryPoint"
+        ],
         "schema:encodingFormat": "FNoslhw",
         "schema:name": "atsDYJxuhHpivqLmw",
         "schema:url": "http://example.com/resource?foo=bar#fragment"
@@ -90,17 +100,23 @@ In **Markdown** format.
   ],
   "schema:publishingPrinciples": [
     {
-      "@type": "schema:CreativeWork",
+      "@type": [
+        "schema:CreativeWork"
+      ],
       "schema:name": "Data retention and update policy",
       "schema:url": "https://example.org/policies/data-retention"
     }
   ],
   "schema:keywords": [
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "MiSqvcp",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "ex:rIPXjaCPQX",
         "schema:value": "PVSajGtBPsLzeCTLv",
         "schema:url": "http://example.com/resource/PVSajGtBPsLzeCTLvt"
@@ -109,10 +125,14 @@ In **Markdown** format.
       "schema:termCode": "bzOl"
     },
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "TiMuawt",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "https://resource.org/identifier",
         "schema:value": "tdUMYBItIwdJe",
         "schema:url": "http://example.com/resource/tdUMYBItIwdJe"
@@ -125,12 +145,16 @@ In **Markdown** format.
     "@list": [
       {
         "@id": "ex:mxxInaV",
-        "@type": "schema:Organization",
+        "@type": [
+          "schema:Organization"
+        ],
         "schema:name": "AEbcNvM",
         "schema:alternateName": "MwsoNGVEp",
         "schema:affiliation": {
           "@id": "ex:xblzSwEYJKBPpkK",
-          "@type": "schema:Organization",
+          "@type": [
+            "schema:Organization"
+          ],
           "schema:additionalType": [
             "schema:GovernmentOrganization",
             "schema:ResearchOrganization",
@@ -141,7 +165,9 @@ In **Markdown** format.
           "schema:alternateName": "TrAuXgjTOCmJVTaf",
           "schema:description": "wwcOQoCbUe",
           "schema:identifier": {
-            "@type": "schema:PropertyValue",
+            "@type": [
+              "schema:PropertyValue"
+            ],
             "schema:propertyID": "oyvigoDvYFCGEkFc",
             "schema:value": "tMxtQyCUFptzpXj",
             "schema:url": "http://example.com/resource?foo=bar#fragment"
@@ -152,12 +178,16 @@ In **Markdown** format.
           ]
         },
         "schema:contactPoint": {
-          "@type": "schema:ContactPoint",
+          "@type": [
+            "schema:ContactPoint"
+          ],
           "schema:email": "tready@email.ocm"
         },
         "schema:description": "ypZ",
         "schema:identifier": {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": "ciZyuOzfhVSPdWi",
           "schema:value": "JqLmJhoyFPhsmW",
           "schema:url": "http://example.com/resource?foo=bar#fragment"
@@ -169,10 +199,14 @@ In **Markdown** format.
       },
       {
         "@id": "ex:jP",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Doe, Jane",
         "schema:contactPoint": {
-          "@type": "schema:ContactPoint",
+          "@type": [
+            "schema:ContactPoint"
+          ],
           "schema:email": "jdoe@example.org"
         }
       }
@@ -180,26 +214,36 @@ In **Markdown** format.
   },
   "schema:contributor": [
     {
-      "@type": "schema:Role",
+      "@type": [
+        "schema:Role"
+      ],
       "schema:roleName": "editor",
       "schema:contributor": {
         "@id": "ex:PersonExample_zZc_asContributor",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Joe B. Test",
         "schema:alternateName": "Test, J. B.",
         "schema:affiliation": {
-          "@type": "schema:Organization",
+          "@type": [
+            "schema:Organization"
+          ],
           "schema:name": "The Big Manufacturing Co."
         },
         "schema:description": "Metadata specialist, based in Portland, Maine",
         "schema:identifier": {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": "https://orcid.org",
           "schema:value": "iY",
           "schema:url": "https://orcid.org/iY"
         },
         "schema:contactPoint": {
-          "@type": "schema:ContactPoint",
+          "@type": [
+            "schema:ContactPoint"
+          ],
           "schema:email": "joe@bmanuco.org"
         },
         "schema:sameAs": [
@@ -209,7 +253,9 @@ In **Markdown** format.
       }
     },
     {
-      "@type": "schema:Role",
+      "@type": [
+        "schema:Role"
+      ],
       "schema:roleName": "data steward",
       "schema:contributor": {
         "@id": "ex:NyMWPlRtQizAFE"
@@ -218,7 +264,9 @@ In **Markdown** format.
   ],
   "schema:publisher": {
     "@id": "ex:exampleOrg_fW",
-    "@type": "schema:Organization",
+    "@type": [
+      "schema:Organization"
+    ],
     "schema:additionalType": [
       "schema:ResearchOrganization",
       "university"
@@ -227,7 +275,9 @@ In **Markdown** format.
     "schema:alternateName": "UAz",
     "schema:description": "University in Tucson, Arizona",
     "schema:identifier": {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": "https://registry.identifiers.org/registry/ror",
       "schema:value": "03m2x1q45",
       "schema:url": "https://ror.org/03m2x1q45"
@@ -239,27 +289,39 @@ In **Markdown** format.
   "schema:provider": [
     {
       "@id": "ex:gDiAxjl",
-      "@type": "schema:Organization",
+      "@type": [
+        "schema:Organization"
+      ],
       "schema:name": "Example Data Center"
     },
     {
       "@id": "ex:ihjJtFPNEKnGSFBcgS",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Smith, Robert",
       "schema:contactPoint": {
-        "@type": "schema:ContactPoint",
+        "@type": [
+          "schema:ContactPoint"
+        ],
         "schema:email": "rsmith@example.org"
       }
     },
     {
       "@id": "https://ada.org/person/5489",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:contactPoint": {
-        "@type": "schema:ContactPoint",
+        "@type": [
+          "schema:ContactPoint"
+        ],
         "schema:email": "a.king@nhm.ac.uk"
       },
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "https://orcid.org",
         "schema:value": "0000-0001-6113-5417",
         "schema:url": "https://orcid.org/0000-0001-6113-5417"
@@ -269,9 +331,13 @@ In **Markdown** format.
   ],
   "schema:funding": [
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "grant-id",
         "schema:value": "lieopgXuumP"
       },
@@ -281,9 +347,13 @@ In **Markdown** format.
       }
     },
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "grant-id",
         "schema:value": "fMuiBjneudpV"
       },
@@ -293,9 +363,13 @@ In **Markdown** format.
       }
     },
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "grant-id",
         "schema:value": "LZpo"
       },
@@ -316,19 +390,25 @@ In **Markdown** format.
         "text/csv"
       ],
       "spdx:checksum": {
-        "@type": "spdx:Checksum",
+        "@type": [
+          "spdx:Checksum"
+        ],
         "spdx:algorithm": "MD5",
         "spdx:checksumValue": "MITGLcmBjeFYWmjP"
       },
       "schema:provider": [
         {
           "@id": "ex:ABYcNWHKYhTiLLNEzJx",
-          "@type": "schema:Person",
+          "@type": [
+            "schema:Person"
+          ],
           "schema:name": "Walker, Longin",
           "schema:alternateName": "LWH",
           "schema:affiliation": {
             "@id": "ex:corzCgjNrGcH",
-            "@type": "schema:Organization",
+            "@type": [
+              "schema:Organization"
+            ],
             "schema:additionalType": [
               "schema:NGO"
             ],
@@ -336,7 +416,9 @@ In **Markdown** format.
             "schema:alternateName": "leJqYoxQIH",
             "schema:description": "vRzzUAmtNWLgZcgNIC",
             "schema:identifier": {
-              "@type": "schema:PropertyValue",
+              "@type": [
+                "schema:PropertyValue"
+              ],
               "schema:propertyID": "KSgJJfyAuQPEX",
               "schema:value": "iFSyBdjVAxHmFOZVFg"
             },
@@ -346,19 +428,27 @@ In **Markdown** format.
             ]
           },
           "schema:contactPoint": {
-            "@type": "schema:ContactPoint",
+            "@type": [
+              "schema:ContactPoint"
+            ],
             "schema:email": "tom@ngo.net"
           },
           "schema:description": "Data Curator",
           "schema:identifier": {
-            "@type": "schema:PropertyValue",
+            "@type": [
+              "schema:PropertyValue"
+            ],
             "schema:propertyID": "https://identifiers.org/orcid",
             "schema:value": "NfaMinUfHeMDEFNc",
             "schema:url": "http://orcid.org/NfaMinUfHeMDEFNc"
           }
         }
       ],
-      "dcterms:conformsTo": [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}]
+      "dcterms:conformsTo": [
+        {
+          "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+        }
+      ]
     },
     {
       "@type": [
@@ -372,30 +462,42 @@ In **Markdown** format.
         "sMUGwSqxWzJOYEb"
       ],
       "spdx:checksum": {
-        "@type": "spdx:Checksum",
+        "@type": [
+          "spdx:Checksum"
+        ],
         "spdx:algorithm": "j",
         "spdx:checksumValue": "h"
       },
       "schema:provider": [
         {
           "@id": "kNKPZsCSWMc",
-          "@type": "schema:Organization",
+          "@type": [
+            "schema:Organization"
+          ],
           "schema:name": "SdeMvoPFxEaJOvQy",
           "schema:alternateName": "WFcslOjvGZY",
           "schema:description": "ztcLdOAkQTKSPLZ",
           "schema:identifier": {
-            "@type": "schema:PropertyValue",
+            "@type": [
+              "schema:PropertyValue"
+            ],
             "schema:propertyID": "ex:oFIYAymjuGCPjDnSgmB",
             "schema:url": "http://example.com/resource/WPfhCJyxiDcwgdHMemJd"
           }
         },
         {
           "@id": "ex:sr68lgy",
-          "@type": "schema:Organization",
+          "@type": [
+            "schema:Organization"
+          ],
           "schema:name": "Another Provider Org"
         }
       ],
-      "dcterms:conformsTo": [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}]
+      "dcterms:conformsTo": [
+        {
+          "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+        }
+      ]
     }
   ],
   "schema:variableMeasured": [
@@ -429,10 +531,14 @@ In **Markdown** format.
         "ex:CUXfWZLdRkEAG"
       ],
       "schema:measurementTechnique": {
-        "@type": "schema:DefinedTerm",
+        "@type": [
+          "schema:DefinedTerm"
+        ],
         "schema:name": "a good technique",
         "schema:identifier": {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": "https://identifiers.org",
           "schema:value": "igcJkZMJiKehgkPjMCp",
           "schema:url": "https://identifiers.org/technique/igcJkZMJiKehgkPjMCp"
@@ -471,25 +577,33 @@ In **Markdown** format.
     ],
     "schema:maintainer": {
       "@id": "ex:PersonExample_zZc",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Joe Test",
       "schema:alternateName": "Test, Joe",
       "schema:affiliation": {
         "@id": "ex:maintainerAffiliation_3456",
-        "@type": "schema:Organization",
+        "@type": [
+          "schema:Organization"
+        ],
         "schema:name": "Test organization"
       },
       "schema:description": "Metadata specialist, based in Portland, Maine",
       "schema:identifier": {
         "@id": "ex:maintainerIdentifier_3456",
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "https://doi.org",
         "schema:value": "iY",
         "schema:url": "https://doi.org/iY"
       },
       "schema:contactPoint": {
         "@id": "ex:maintainerContactPoint_3456",
-        "@type": "schema:ContactPoint",
+        "@type": [
+          "schema:ContactPoint"
+        ],
         "schema:email": "joe@bmanuco.org"
       },
       "schema:sameAs": [
@@ -500,11 +614,15 @@ In **Markdown** format.
     "schema:sdDatePublished": "2025-10-25",
     "schema:includedInDataCatalog": {
       "@id": "ex:lIZkH",
-      "@type": "schema:DataCatalog",
+      "@type": [
+        "schema:DataCatalog"
+      ],
       "schema:name": "naEEWHEjgvNFJy",
       "schema:url": "http://example.com/resource?foo=bar#fragment",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "ex:fGSg",
         "schema:value": "vPADlYJkJuGgI",
         "schema:url": "http://example.com/resource?foo=bar#fragment"
@@ -547,7 +665,9 @@ In **Markdown** format.
     "test data description"
   ],
   "schema:identifier": {
-    "@type": "schema:PropertyValue",
+    "@type": [
+      "schema:PropertyValue"
+    ],
     "schema:propertyID": "uSNzhqeEQPKhCj",
     "schema:url": "http://identifiers.org/sandbox/uSNzhqeEQPKhCj"
   },
@@ -572,20 +692,28 @@ In **Markdown** format.
   ],
   "schema:relatedLink": [
     {
-      "@type": "schema:LinkRole",
+      "@type": [
+        "schema:LinkRole"
+      ],
       "schema:linkRelationship": "lfCzUaoftdtTPAhMnpC",
       "target": {
-        "@type": "schema:EntryPoint",
+        "@type": [
+          "schema:EntryPoint"
+        ],
         "schema:encodingFormat": "gompgHAN",
         "schema:name": "oAuxEutsTEiB",
         "schema:url": "http://example.com/resource?foo=bar#fragment"
       }
     },
     {
-      "@type": "schema:LinkRole",
+      "@type": [
+        "schema:LinkRole"
+      ],
       "schema:linkRelationship": "BOoRREnpDEUrdNaV",
       "target": {
-        "@type": "schema:EntryPoint",
+        "@type": [
+          "schema:EntryPoint"
+        ],
         "schema:encodingFormat": "FNoslhw",
         "schema:name": "atsDYJxuhHpivqLmw",
         "schema:url": "http://example.com/resource?foo=bar#fragment"
@@ -594,17 +722,23 @@ In **Markdown** format.
   ],
   "schema:publishingPrinciples": [
     {
-      "@type": "schema:CreativeWork",
+      "@type": [
+        "schema:CreativeWork"
+      ],
       "schema:name": "Data retention and update policy",
       "schema:url": "https://example.org/policies/data-retention"
     }
   ],
   "schema:keywords": [
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "MiSqvcp",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "ex:rIPXjaCPQX",
         "schema:value": "PVSajGtBPsLzeCTLv",
         "schema:url": "http://example.com/resource/PVSajGtBPsLzeCTLvt"
@@ -613,10 +747,14 @@ In **Markdown** format.
       "schema:termCode": "bzOl"
     },
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "TiMuawt",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "https://resource.org/identifier",
         "schema:value": "tdUMYBItIwdJe",
         "schema:url": "http://example.com/resource/tdUMYBItIwdJe"
@@ -629,12 +767,16 @@ In **Markdown** format.
     "@list": [
       {
         "@id": "ex:mxxInaV",
-        "@type": "schema:Organization",
+        "@type": [
+          "schema:Organization"
+        ],
         "schema:name": "AEbcNvM",
         "schema:alternateName": "MwsoNGVEp",
         "schema:affiliation": {
           "@id": "ex:xblzSwEYJKBPpkK",
-          "@type": "schema:Organization",
+          "@type": [
+            "schema:Organization"
+          ],
           "schema:additionalType": [
             "schema:GovernmentOrganization",
             "schema:ResearchOrganization",
@@ -645,7 +787,9 @@ In **Markdown** format.
           "schema:alternateName": "TrAuXgjTOCmJVTaf",
           "schema:description": "wwcOQoCbUe",
           "schema:identifier": {
-            "@type": "schema:PropertyValue",
+            "@type": [
+              "schema:PropertyValue"
+            ],
             "schema:propertyID": "oyvigoDvYFCGEkFc",
             "schema:value": "tMxtQyCUFptzpXj",
             "schema:url": "http://example.com/resource?foo=bar#fragment"
@@ -656,12 +800,16 @@ In **Markdown** format.
           ]
         },
         "schema:contactPoint": {
-          "@type": "schema:ContactPoint",
+          "@type": [
+            "schema:ContactPoint"
+          ],
           "schema:email": "tready@email.ocm"
         },
         "schema:description": "ypZ",
         "schema:identifier": {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": "ciZyuOzfhVSPdWi",
           "schema:value": "JqLmJhoyFPhsmW",
           "schema:url": "http://example.com/resource?foo=bar#fragment"
@@ -673,10 +821,14 @@ In **Markdown** format.
       },
       {
         "@id": "ex:jP",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Doe, Jane",
         "schema:contactPoint": {
-          "@type": "schema:ContactPoint",
+          "@type": [
+            "schema:ContactPoint"
+          ],
           "schema:email": "jdoe@example.org"
         }
       }
@@ -684,26 +836,36 @@ In **Markdown** format.
   },
   "schema:contributor": [
     {
-      "@type": "schema:Role",
+      "@type": [
+        "schema:Role"
+      ],
       "schema:roleName": "editor",
       "schema:contributor": {
         "@id": "ex:PersonExample_zZc_asContributor",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Joe B. Test",
         "schema:alternateName": "Test, J. B.",
         "schema:affiliation": {
-          "@type": "schema:Organization",
+          "@type": [
+            "schema:Organization"
+          ],
           "schema:name": "The Big Manufacturing Co."
         },
         "schema:description": "Metadata specialist, based in Portland, Maine",
         "schema:identifier": {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": "https://orcid.org",
           "schema:value": "iY",
           "schema:url": "https://orcid.org/iY"
         },
         "schema:contactPoint": {
-          "@type": "schema:ContactPoint",
+          "@type": [
+            "schema:ContactPoint"
+          ],
           "schema:email": "joe@bmanuco.org"
         },
         "schema:sameAs": [
@@ -713,7 +875,9 @@ In **Markdown** format.
       }
     },
     {
-      "@type": "schema:Role",
+      "@type": [
+        "schema:Role"
+      ],
       "schema:roleName": "data steward",
       "schema:contributor": {
         "@id": "ex:NyMWPlRtQizAFE"
@@ -722,7 +886,9 @@ In **Markdown** format.
   ],
   "schema:publisher": {
     "@id": "ex:exampleOrg_fW",
-    "@type": "schema:Organization",
+    "@type": [
+      "schema:Organization"
+    ],
     "schema:additionalType": [
       "schema:ResearchOrganization",
       "university"
@@ -731,7 +897,9 @@ In **Markdown** format.
     "schema:alternateName": "UAz",
     "schema:description": "University in Tucson, Arizona",
     "schema:identifier": {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": "https://registry.identifiers.org/registry/ror",
       "schema:value": "03m2x1q45",
       "schema:url": "https://ror.org/03m2x1q45"
@@ -743,27 +911,39 @@ In **Markdown** format.
   "schema:provider": [
     {
       "@id": "ex:gDiAxjl",
-      "@type": "schema:Organization",
+      "@type": [
+        "schema:Organization"
+      ],
       "schema:name": "Example Data Center"
     },
     {
       "@id": "ex:ihjJtFPNEKnGSFBcgS",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Smith, Robert",
       "schema:contactPoint": {
-        "@type": "schema:ContactPoint",
+        "@type": [
+          "schema:ContactPoint"
+        ],
         "schema:email": "rsmith@example.org"
       }
     },
     {
       "@id": "https://ada.org/person/5489",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:contactPoint": {
-        "@type": "schema:ContactPoint",
+        "@type": [
+          "schema:ContactPoint"
+        ],
         "schema:email": "a.king@nhm.ac.uk"
       },
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "https://orcid.org",
         "schema:value": "0000-0001-6113-5417",
         "schema:url": "https://orcid.org/0000-0001-6113-5417"
@@ -773,9 +953,13 @@ In **Markdown** format.
   ],
   "schema:funding": [
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "grant-id",
         "schema:value": "lieopgXuumP"
       },
@@ -785,9 +969,13 @@ In **Markdown** format.
       }
     },
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "grant-id",
         "schema:value": "fMuiBjneudpV"
       },
@@ -797,9 +985,13 @@ In **Markdown** format.
       }
     },
     {
-      "@type": "schema:MonetaryGrant",
+      "@type": [
+        "schema:MonetaryGrant"
+      ],
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "grant-id",
         "schema:value": "LZpo"
       },
@@ -820,19 +1012,25 @@ In **Markdown** format.
         "text/csv"
       ],
       "spdx:checksum": {
-        "@type": "spdx:Checksum",
+        "@type": [
+          "spdx:Checksum"
+        ],
         "spdx:algorithm": "MD5",
         "spdx:checksumValue": "MITGLcmBjeFYWmjP"
       },
       "schema:provider": [
         {
           "@id": "ex:ABYcNWHKYhTiLLNEzJx",
-          "@type": "schema:Person",
+          "@type": [
+            "schema:Person"
+          ],
           "schema:name": "Walker, Longin",
           "schema:alternateName": "LWH",
           "schema:affiliation": {
             "@id": "ex:corzCgjNrGcH",
-            "@type": "schema:Organization",
+            "@type": [
+              "schema:Organization"
+            ],
             "schema:additionalType": [
               "schema:NGO"
             ],
@@ -840,7 +1038,9 @@ In **Markdown** format.
             "schema:alternateName": "leJqYoxQIH",
             "schema:description": "vRzzUAmtNWLgZcgNIC",
             "schema:identifier": {
-              "@type": "schema:PropertyValue",
+              "@type": [
+                "schema:PropertyValue"
+              ],
               "schema:propertyID": "KSgJJfyAuQPEX",
               "schema:value": "iFSyBdjVAxHmFOZVFg"
             },
@@ -850,12 +1050,16 @@ In **Markdown** format.
             ]
           },
           "schema:contactPoint": {
-            "@type": "schema:ContactPoint",
+            "@type": [
+              "schema:ContactPoint"
+            ],
             "schema:email": "tom@ngo.net"
           },
           "schema:description": "Data Curator",
           "schema:identifier": {
-            "@type": "schema:PropertyValue",
+            "@type": [
+              "schema:PropertyValue"
+            ],
             "schema:propertyID": "https://identifiers.org/orcid",
             "schema:value": "NfaMinUfHeMDEFNc",
             "schema:url": "http://orcid.org/NfaMinUfHeMDEFNc"
@@ -880,26 +1084,34 @@ In **Markdown** format.
         "sMUGwSqxWzJOYEb"
       ],
       "spdx:checksum": {
-        "@type": "spdx:Checksum",
+        "@type": [
+          "spdx:Checksum"
+        ],
         "spdx:algorithm": "j",
         "spdx:checksumValue": "h"
       },
       "schema:provider": [
         {
           "@id": "kNKPZsCSWMc",
-          "@type": "schema:Organization",
+          "@type": [
+            "schema:Organization"
+          ],
           "schema:name": "SdeMvoPFxEaJOvQy",
           "schema:alternateName": "WFcslOjvGZY",
           "schema:description": "ztcLdOAkQTKSPLZ",
           "schema:identifier": {
-            "@type": "schema:PropertyValue",
+            "@type": [
+              "schema:PropertyValue"
+            ],
             "schema:propertyID": "ex:oFIYAymjuGCPjDnSgmB",
             "schema:url": "http://example.com/resource/WPfhCJyxiDcwgdHMemJd"
           }
         },
         {
           "@id": "ex:sr68lgy",
-          "@type": "schema:Organization",
+          "@type": [
+            "schema:Organization"
+          ],
           "schema:name": "Another Provider Org"
         }
       ],
@@ -941,10 +1153,14 @@ In **Markdown** format.
         "ex:CUXfWZLdRkEAG"
       ],
       "schema:measurementTechnique": {
-        "@type": "schema:DefinedTerm",
+        "@type": [
+          "schema:DefinedTerm"
+        ],
         "schema:name": "a good technique",
         "schema:identifier": {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": "https://identifiers.org",
           "schema:value": "igcJkZMJiKehgkPjMCp",
           "schema:url": "https://identifiers.org/technique/igcJkZMJiKehgkPjMCp"
@@ -983,25 +1199,33 @@ In **Markdown** format.
     ],
     "schema:maintainer": {
       "@id": "ex:PersonExample_zZc",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Joe Test",
       "schema:alternateName": "Test, Joe",
       "schema:affiliation": {
         "@id": "ex:maintainerAffiliation_3456",
-        "@type": "schema:Organization",
+        "@type": [
+          "schema:Organization"
+        ],
         "schema:name": "Test organization"
       },
       "schema:description": "Metadata specialist, based in Portland, Maine",
       "schema:identifier": {
         "@id": "ex:maintainerIdentifier_3456",
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "https://doi.org",
         "schema:value": "iY",
         "schema:url": "https://doi.org/iY"
       },
       "schema:contactPoint": {
         "@id": "ex:maintainerContactPoint_3456",
-        "@type": "schema:ContactPoint",
+        "@type": [
+          "schema:ContactPoint"
+        ],
         "schema:email": "joe@bmanuco.org"
       },
       "schema:sameAs": [
@@ -1012,11 +1236,15 @@ In **Markdown** format.
     "schema:sdDatePublished": "2025-10-25",
     "schema:includedInDataCatalog": {
       "@id": "ex:lIZkH",
-      "@type": "schema:DataCatalog",
+      "@type": [
+        "schema:DataCatalog"
+      ],
       "schema:name": "naEEWHEjgvNFJy",
       "schema:url": "http://example.com/resource?foo=bar#fragment",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "ex:fGSg",
         "schema:value": "vPADlYJkJuGgI",
         "schema:url": "http://example.com/resource?foo=bar#fragment"
@@ -1042,25 +1270,16 @@ ex:YOPx123 a schema1:Dataset ;
         "jNv",
         "tfmbDGeiuEnuhfKBvk" ;
     schema1:contributor [ a schema1:Role ;
-            schema1:contributor ex:NyMWPlRtQizAFE ;
-            schema1:roleName "data steward" ],
-        [ a schema1:Role ;
             schema1:contributor ex:PersonExample_zZc_asContributor ;
-            schema1:roleName "editor" ] ;
+            schema1:roleName "editor" ],
+        [ a schema1:Role ;
+            schema1:contributor ex:NyMWPlRtQizAFE ;
+            schema1:roleName "data steward" ] ;
     schema1:creator ( ex:mxxInaV ex:jP ) ;
     schema1:dateModified "2020-10-15" ;
     schema1:datePublished "2021-09-05" ;
     schema1:description "Auto generated from JSON schema, values are gobbledegoop. For testing" ;
     schema1:distribution [ a schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "VwuIdrCrJSsrGATePg" ;
-            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "MD5" ;
-                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ],
-        [ a schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
             schema1:encodingFormat "kpZDvhyVo",
@@ -1071,8 +1290,23 @@ ex:YOPx123 a schema1:Dataset ;
                 ex:sr68lgy ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "j" ;
-                    spdx:checksumValue "h" ] ] ;
+                    spdx:checksumValue "h" ] ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "VwuIdrCrJSsrGATePg" ;
+            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "MD5" ;
+                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
+            schema1:funder <https://ror.org/sejer4w6u8> ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "grant-id" ;
+                    schema1:value "LZpo" ] ;
+            schema1:name "ekckpBtI" ],
+        [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
@@ -1083,33 +1317,27 @@ ex:YOPx123 a schema1:Dataset ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
                     schema1:value "fMuiBjneudpV" ] ;
-            schema1:name "MWoPQAqRYHobey" ],
-        [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/sejer4w6u8> ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "grant-id" ;
-                    schema1:value "LZpo" ] ;
-            schema1:name "ekckpBtI" ] ;
+            schema1:name "MWoPQAqRYHobey" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
     schema1:inLanguage "bYiJT" ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://resource.org/identifier" ;
-                    schema1:url "http://example.com/resource/tdUMYBItIwdJe" ;
-                    schema1:value "tdUMYBItIwdJe" ] ;
-            schema1:inDefinedTermSet "sqH" ;
-            schema1:name "TiMuawt" ;
-            schema1:termCode "RUUxHY" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "ex:rIPXjaCPQX" ;
                     schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
                     schema1:value "PVSajGtBPsLzeCTLv" ] ;
             schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
             schema1:name "MiSqvcp" ;
-            schema1:termCode "bzOl" ] ;
+            schema1:termCode "bzOl" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "https://resource.org/identifier" ;
+                    schema1:url "http://example.com/resource/tdUMYBItIwdJe" ;
+                    schema1:value "tdUMYBItIwdJe" ] ;
+            schema1:inDefinedTermSet "sqH" ;
+            schema1:name "TiMuawt" ;
+            schema1:termCode "RUUxHY" ] ;
     schema1:license "Kmp",
         "dXhuFoqL" ;
     schema1:name "Test dataset" ;

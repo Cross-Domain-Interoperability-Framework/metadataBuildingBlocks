@@ -19,40 +19,57 @@ Example documentation for x-ray absorption facility, based on schema.org Place
 #### json
 ```json
 {
-    "@context": {
-        "schema": "http://schema.org/",
-        "ex": "https://example.org/",
-        "xsd": "http://www.w3.org/2001/XMLSchema#",
-        "xas": "https://xas.org/dictionary/"
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "xas": "https://xas.org/dictionary/"
+  },
+  "@id": "ex:xasfacility_37yht",
+  "@type": [
+    "schema:Place"
+  ],
+  "schema:additionalType": [
+    "xas:Facility"
+  ],
+  "schema:identifier": "https://ror.org/aps",
+  "schema:name": "APS",
+  "schema:additionalProperty": [
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "xas:energy"
+      ],
+      "schema:name": "Facility energy",
+      "schema:value": "7.00",
+      "schema:unitText": "GeV"
     },
-    "@id": "ex:xasfacility_37yht",
-    "@type": "schema:Place",
-    "schema:additionalType": ["xas:Facility"],
-    "schema:identifier": "https://ror.org/aps",
-    "schema:name": "APS",
-    "schema:additionalProperty": [
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": ["xas:energy"],
-            "schema:name": "Facility energy",
-            "schema:value": "7.00",
-            "schema:unitText": "GeV"
-        },
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": ["xas:current"],
-            "schema:name": "Facility current",
-            "schema:value": "120",
-            "schema:unitText": "Amps"
-        },
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": ["xas:xray_source"],
-            "schema:name": "X-ray Source",
-            "schema:value": "APS bending magnet"
-        }
-    ]
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "xas:current"
+      ],
+      "schema:name": "Facility current",
+      "schema:value": "120",
+      "schema:unitText": "Amps"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "xas:xray_source"
+      ],
+      "schema:name": "X-ray Source",
+      "schema:value": "APS bending magnet"
+    }
+  ]
 }
+
 ```
 
 #### jsonld
@@ -72,7 +89,9 @@ Example documentation for x-ray absorption facility, based on schema.org Place
     }
   ],
   "@id": "ex:xasfacility_37yht",
-  "@type": "schema:Place",
+  "@type": [
+    "schema:Place"
+  ],
   "schema:additionalType": [
     "xas:Facility"
   ],
@@ -80,7 +99,9 @@ Example documentation for x-ray absorption facility, based on schema.org Place
   "schema:name": "APS",
   "schema:additionalProperty": [
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": [
         "xas:energy"
       ],
@@ -89,7 +110,9 @@ Example documentation for x-ray absorption facility, based on schema.org Place
       "schema:unitText": "GeV"
     },
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": [
         "xas:current"
       ],
@@ -98,7 +121,9 @@ Example documentation for x-ray absorption facility, based on schema.org Place
       "schema:unitText": "Amps"
     },
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": [
         "xas:xray_source"
       ],
@@ -116,6 +141,10 @@ Example documentation for x-ray absorption facility, based on schema.org Place
 
 ex:xasfacility_37yht a schema1:Place ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "X-ray Source" ;
+            schema1:propertyID "xas:xray_source" ;
+            schema1:value "APS bending magnet" ],
+        [ a schema1:PropertyValue ;
             schema1:name "Facility energy" ;
             schema1:propertyID "xas:energy" ;
             schema1:unitText "GeV" ;
@@ -124,11 +153,7 @@ ex:xasfacility_37yht a schema1:Place ;
             schema1:name "Facility current" ;
             schema1:propertyID "xas:current" ;
             schema1:unitText "Amps" ;
-            schema1:value "120" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "X-ray Source" ;
-            schema1:propertyID "xas:xray_source" ;
-            schema1:value "APS bending magnet" ] ;
+            schema1:value "120" ] ;
     schema1:additionalType "xas:Facility" ;
     schema1:identifier "https://ror.org/aps" ;
     schema1:name "APS" .
@@ -146,14 +171,12 @@ properties:
   '@id':
     type: string
   '@type':
-    anyOf:
-    - type: string
+    type: array
+    items:
+      type: string
+    contains:
       const: schema:Place
-    - type: array
-      items:
-        type: string
-      contains:
-        const: schema:Place
+    minItems: 1
   schema:additionalType:
     type: array
     items:

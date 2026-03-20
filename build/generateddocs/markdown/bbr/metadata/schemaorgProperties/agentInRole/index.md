@@ -23,28 +23,37 @@ In **Markdown** format.
 #### json
 ```json
 {
-    "@context": {
-        "schema": "http://schema.org/",
-        "ex": "https://example.org/",
-        "xsd": "http://www.w3.org/2001/XMLSchema#"
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@type": [
+    "schema:Role"
+  ],
+  "schema:roleName": "owner",
+  "schema:contributor": {
+    "@id": "ex:exampleOrg_fW",
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "University of Arizona",
+    "schema:alternateName": "UAz",
+    "schema:description": "University in Tucson, Arizona",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+      "schema:value": "03m2x1q45",
+      "schema:url": "https://ror.org/03m2x1q45"
     },
-    "@type": "schema:Role",
-    "schema:roleName": "owner",
-    "schema:contributor": {
-        "@id": "ex:exampleOrg_fW",
-        "@type": "schema:Organization",
-        "schema:name": "University of Arizona",
-        "schema:alternateName": "UAz",
-        "schema:description": "University in Tucson, Arizona",
-        "schema:identifier": {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": "https://registry.identifiers.org/registry/ror",
-            "schema:value": "03m2x1q45",
-            "schema:url": "https://ror.org/03m2x1q45"
-        },
-        "schema:sameAs": ["Wildcats"]
-    }
+    "schema:sameAs": [
+      "Wildcats"
+    ]
+  }
 }
+
 ```
 
 #### jsonld
@@ -61,16 +70,22 @@ In **Markdown** format.
       "xsd": "http://www.w3.org/2001/XMLSchema#"
     }
   ],
-  "@type": "schema:Role",
+  "@type": [
+    "schema:Role"
+  ],
   "schema:roleName": "owner",
   "schema:contributor": {
     "@id": "ex:exampleOrg_fW",
-    "@type": "schema:Organization",
+    "@type": [
+      "schema:Organization"
+    ],
     "schema:name": "University of Arizona",
     "schema:alternateName": "UAz",
     "schema:description": "University in Tucson, Arizona",
     "schema:identifier": {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": "https://registry.identifiers.org/registry/ror",
       "schema:value": "03m2x1q45",
       "schema:url": "https://ror.org/03m2x1q45"
@@ -110,38 +125,49 @@ Example person in role instance.
 #### json
 ```json
 {
-    "@context": {
-        "schema": "http://schema.org/",
-        "ex": "https://example.org/"
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/"
+  },
+  "@type": [
+    "schema:Role"
+  ],
+  "schema:roleName": "editor",
+  "schema:contributor": {
+    "@id": "ex:PersonExample_zZc",
+    "@type": [
+      "schema:Person"
+    ],
+    "schema:name": "Joe B. Test",
+    "schema:alternateName": "Test, J. B.",
+    "schema:affiliation": {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "The Big Manufacturing Co."
     },
-    "@type": "schema:Role",
-    "schema:roleName": "editor",
-    "schema:contributor": {
-        "@id": "ex:PersonExample_zZc",
-        "@type": "schema:Person",
-        "schema:name": "Joe B. Test",
-        "schema:alternateName": "Test, J. B.",
-        "schema:affiliation": {
-            "@type": "schema:Organization",
-            "schema:name": "The Big Manufacturing Co."
-        },
-        "schema:description": "Metadata specialist, based in Portland, Maine",
-        "schema:identifier": {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": "https://orcid.org",
-            "schema:value": "0000-0001-2345-6789",
-            "schema:url": "https://orcid.org/0000-0001-2345-6789"
-        },
-        "schema:contactPoint": {
-            "@type": "schema:ContactPoint",
-            "schema:email": "joe@bmanuco.org"
-        },
-        "schema:sameAs": [
-            "https://ark.org/46737",
-            "uri:test:43737"
-        ]
-    }
+    "schema:description": "Metadata specialist, based in Portland, Maine",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "https://orcid.org",
+      "schema:value": "0000-0001-2345-6789",
+      "schema:url": "https://orcid.org/0000-0001-2345-6789"
+    },
+    "schema:contactPoint": {
+      "@type": [
+        "schema:ContactPoint"
+      ],
+      "schema:email": "joe@bmanuco.org"
+    },
+    "schema:sameAs": [
+      "https://ark.org/46737",
+      "uri:test:43737"
+    ]
+  }
 }
+
 ```
 
 #### jsonld
@@ -157,26 +183,36 @@ Example person in role instance.
       "ex": "https://example.org/"
     }
   ],
-  "@type": "schema:Role",
+  "@type": [
+    "schema:Role"
+  ],
   "schema:roleName": "editor",
   "schema:contributor": {
     "@id": "ex:PersonExample_zZc",
-    "@type": "schema:Person",
+    "@type": [
+      "schema:Person"
+    ],
     "schema:name": "Joe B. Test",
     "schema:alternateName": "Test, J. B.",
     "schema:affiliation": {
-      "@type": "schema:Organization",
+      "@type": [
+        "schema:Organization"
+      ],
       "schema:name": "The Big Manufacturing Co."
     },
     "schema:description": "Metadata specialist, based in Portland, Maine",
     "schema:identifier": {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": "https://orcid.org",
       "schema:value": "0000-0001-2345-6789",
       "schema:url": "https://orcid.org/0000-0001-2345-6789"
     },
     "schema:contactPoint": {
-      "@type": "schema:ContactPoint",
+      "@type": [
+        "schema:ContactPoint"
+      ],
       "schema:email": "joe@bmanuco.org"
     },
     "schema:sameAs": [
@@ -226,14 +262,12 @@ type: object
 properties:
   '@type':
     default: schema:Role
-    anyOf:
-    - type: string
+    type: array
+    items:
+      type: string
+    contains:
       const: schema:Role
-    - type: array
-      items:
-        type: string
-      contains:
-        const: schema:Role
+    minItems: 1
   schema:roleName:
     anyOf:
     - type: string

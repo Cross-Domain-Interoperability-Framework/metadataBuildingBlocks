@@ -18,20 +18,24 @@ Example statistical variable defining a median household income measure.
 #### json
 ```json
 {
-    "@context": {
-        "schema": "http://schema.org/",
-        "ex": "https://example.org/"
-    },
-    "@id": "ex:statvar-median-income",
-    "@type": ["schema:StatisticalVariable"],
-    "schema:name": "Median Household Income",
-    "schema:description": "Median annual household income in US dollars, estimated from survey data.",
-    "schema:statType": "Median",
-    "schema:measuredProperty": {
-        "@type": "schema:Property",
-        "schema:name": "household income"
-    },
-    "schema:measurementTechnique": "American Community Survey 5-year estimates"
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:statvar-median-income",
+  "@type": [
+    "schema:StatisticalVariable"
+  ],
+  "schema:name": "Median Household Income",
+  "schema:description": "Median annual household income in US dollars, estimated from survey data.",
+  "schema:statType": "Median",
+  "schema:measuredProperty": {
+    "@type": [
+      "schema:Property"
+    ],
+    "schema:name": "household income"
+  },
+  "schema:measurementTechnique": "American Community Survey 5-year estimates"
 }
 
 ```
@@ -57,7 +61,9 @@ Example statistical variable defining a median household income measure.
   "schema:description": "Median annual household income in US dollars, estimated from survey data.",
   "schema:statType": "Median",
   "schema:measuredProperty": {
-    "@type": "schema:Property",
+    "@type": [
+      "schema:Property"
+    ],
     "schema:name": "household income"
   },
   "schema:measurementTechnique": "American Community Survey 5-year estimates"
@@ -133,14 +139,12 @@ properties:
         type: string
         description: reference to a skos concept for the property
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: schema:Property
-        - type: array
-          items:
-            type: string
-          contains:
-            const: schema:Property
+        minItems: 1
       schema:name:
         anyOf:
         - type: string

@@ -42,10 +42,16 @@ description extensions (TabularTextDataSet, StructuredDataSet).
   "schema:encodingFormat": [
     "application/zip"
   ],
-  "dcterms:conformsTo": [{"@id": "https://www.iana.org/assignments/media-types/application/zip"}],
+  "dcterms:conformsTo": [
+    {
+      "@id": "https://www.iana.org/assignments/media-types/application/zip"
+    }
+  ],
   "schema:description": "This data product is distributed as a zip archive; contents of the archive are listed as parts. The component files are not individually accessible.",
   "spdx:checksum": {
-    "@type": "spdx:Checksum",
+    "@type": [
+      "spdx:Checksum"
+    ],
     "spdx:algorithm": "SHA256",
     "spdx:checksumValue": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
   },
@@ -61,12 +67,16 @@ description extensions (TabularTextDataSet, StructuredDataSet).
         "text/csv"
       ],
       "schema:size": {
-        "@type": "schema:QuantitativeValue",
+        "@type": [
+          "schema:QuantitativeValue"
+        ],
         "schema:value": 10860,
         "schema:unitText": "byte"
       },
       "spdx:checksum": {
-        "@type": "spdx:Checksum",
+        "@type": [
+          "spdx:Checksum"
+        ],
         "spdx:algorithm": "SHA256",
         "spdx:checksumValue": "f962af0b2e2f02752aa258a58cede1263f05c7a78e3b9d162da960368f7dc54b"
       }
@@ -83,7 +93,9 @@ description extensions (TabularTextDataSet, StructuredDataSet).
         "text/csv"
       ],
       "schema:size": {
-        "@type": "schema:QuantitativeValue",
+        "@type": [
+          "schema:QuantitativeValue"
+        ],
         "schema:value": 6249,
         "schema:unitText": "byte"
       },
@@ -137,7 +149,9 @@ description extensions (TabularTextDataSet, StructuredDataSet).
         "application/x-netcdf"
       ],
       "schema:size": {
-        "@type": "schema:QuantitativeValue",
+        "@type": [
+          "schema:QuantitativeValue"
+        ],
         "schema:value": 13743003,
         "schema:unitText": "byte"
       },
@@ -175,7 +189,9 @@ description extensions (TabularTextDataSet, StructuredDataSet).
         "application/pdf"
       ],
       "schema:size": {
-        "@type": "schema:QuantitativeValue",
+        "@type": [
+          "schema:QuantitativeValue"
+        ],
         "schema:value": 56062,
         "schema:unitText": "byte"
       }
@@ -191,7 +207,9 @@ description extensions (TabularTextDataSet, StructuredDataSet).
         "application/yaml"
       ],
       "schema:size": {
-        "@type": "schema:QuantitativeValue",
+        "@type": [
+          "schema:QuantitativeValue"
+        ],
         "schema:value": 2281,
         "schema:unitText": "byte"
       },
@@ -234,7 +252,9 @@ description extensions (TabularTextDataSet, StructuredDataSet).
   ],
   "schema:description": "This data product is distributed as a zip archive; contents of the archive are listed as parts. The component files are not individually accessible.",
   "spdx:checksum": {
-    "@type": "spdx:Checksum",
+    "@type": [
+      "spdx:Checksum"
+    ],
     "spdx:algorithm": "SHA256",
     "spdx:checksumValue": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
   },
@@ -250,12 +270,16 @@ description extensions (TabularTextDataSet, StructuredDataSet).
         "text/csv"
       ],
       "schema:size": {
-        "@type": "schema:QuantitativeValue",
+        "@type": [
+          "schema:QuantitativeValue"
+        ],
         "schema:value": 10860,
         "schema:unitText": "byte"
       },
       "spdx:checksum": {
-        "@type": "spdx:Checksum",
+        "@type": [
+          "spdx:Checksum"
+        ],
         "spdx:algorithm": "SHA256",
         "spdx:checksumValue": "f962af0b2e2f02752aa258a58cede1263f05c7a78e3b9d162da960368f7dc54b"
       }
@@ -272,7 +296,9 @@ description extensions (TabularTextDataSet, StructuredDataSet).
         "text/csv"
       ],
       "schema:size": {
-        "@type": "schema:QuantitativeValue",
+        "@type": [
+          "schema:QuantitativeValue"
+        ],
         "schema:value": 6249,
         "schema:unitText": "byte"
       },
@@ -326,7 +352,9 @@ description extensions (TabularTextDataSet, StructuredDataSet).
         "application/x-netcdf"
       ],
       "schema:size": {
-        "@type": "schema:QuantitativeValue",
+        "@type": [
+          "schema:QuantitativeValue"
+        ],
         "schema:value": 13743003,
         "schema:unitText": "byte"
       },
@@ -364,7 +392,9 @@ description extensions (TabularTextDataSet, StructuredDataSet).
         "application/pdf"
       ],
       "schema:size": {
-        "@type": "schema:QuantitativeValue",
+        "@type": [
+          "schema:QuantitativeValue"
+        ],
         "schema:value": 56062,
         "schema:unitText": "byte"
       }
@@ -380,7 +410,9 @@ description extensions (TabularTextDataSet, StructuredDataSet).
         "application/yaml"
       ],
       "schema:size": {
-        "@type": "schema:QuantitativeValue",
+        "@type": [
+          "schema:QuantitativeValue"
+        ],
         "schema:value": 2281,
         "schema:unitText": "byte"
       },
@@ -413,13 +445,7 @@ description extensions (TabularTextDataSet, StructuredDataSet).
 
 <file:///github/workspace/#7c6ef03f6b0e88dec54d9897f591deab> a cdi:TabularTextDataSet,
         schema1:MediaObject ;
-    cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-uncertainty> ;
-            cdi:index 2 ;
-            cdi:isRequired false ;
-            cdi:nullSequence "NA" ;
-            cdi:physicalDataType "float64" ],
-        [ cdi:format "string" ;
+    cdi:hasPhysicalMapping [ cdi:format "string" ;
             cdi:formats_InstanceVariable <file:///github/workspace/#var-sample-id> ;
             cdi:index 0 ;
             cdi:isRequired true ;
@@ -428,6 +454,12 @@ description extensions (TabularTextDataSet, StructuredDataSet).
             cdi:formats_InstanceVariable <file:///github/workspace/#var-concentration> ;
             cdi:index 1 ;
             cdi:isRequired true ;
+            cdi:nullSequence "NA" ;
+            cdi:physicalDataType "float64" ],
+        [ cdi:format "decimal" ;
+            cdi:formats_InstanceVariable <file:///github/workspace/#var-uncertainty> ;
+            cdi:index 2 ;
+            cdi:isRequired false ;
             cdi:nullSequence "NA" ;
             cdi:physicalDataType "float64" ] ;
     cdi:isDelimited true ;
@@ -444,16 +476,16 @@ description extensions (TabularTextDataSet, StructuredDataSet).
 <file:///github/workspace/#a6143a557a62f78ae39fcb80578b74a3> a cdi:StructuredDataSet,
         schema1:MediaObject ;
     cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-intensity> ;
-            cdi:index 1 ;
-            cdi:isRequired true ;
-            cdi:locator "/spectra/intensity" ;
-            cdi:physicalDataType "float32" ],
-        [ cdi:format "decimal" ;
             cdi:formats_InstanceVariable <file:///github/workspace/#var-wavelength> ;
             cdi:index 0 ;
             cdi:isRequired true ;
             cdi:locator "/spectra/wavelength" ;
+            cdi:physicalDataType "float32" ],
+        [ cdi:format "decimal" ;
+            cdi:formats_InstanceVariable <file:///github/workspace/#var-intensity> ;
+            cdi:index 1 ;
+            cdi:isRequired true ;
+            cdi:locator "/spectra/intensity" ;
             cdi:physicalDataType "float32" ] ;
     schema1:description "Spectral data cube with wavelength and intensity dimensions." ;
     schema1:encodingFormat "application/x-netcdf" ;
@@ -559,14 +591,12 @@ allOf:
               description: File size as a QuantitativeValue.
               properties:
                 '@type':
-                  anyOf:
-                  - type: string
+                  type: array
+                  items:
+                    type: string
+                  contains:
                     const: schema:QuantitativeValue
-                  - type: array
-                    items:
-                      type: string
-                    contains:
-                      const: schema:QuantitativeValue
+                  minItems: 1
                 schema:value:
                   type: number
                   description: Numeric size value.
@@ -589,14 +619,12 @@ allOf:
               description: Checksum for integrity verification of this component file.
               properties:
                 '@type':
-                  anyOf:
-                  - type: string
+                  type: array
+                  items:
+                    type: string
+                  contains:
                     const: spdx:Checksum
-                  - type: array
-                    items:
-                      type: string
-                    contains:
-                      const: spdx:Checksum
+                  minItems: 1
                 spdx:algorithm:
                   type: string
                 spdx:checksumValue:

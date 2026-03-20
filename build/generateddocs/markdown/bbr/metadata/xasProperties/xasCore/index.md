@@ -49,293 +49,9 @@ XAS core properties: instrument components, XDI distribution, measurement techni
   ],
   "schema:name": "Se K-edge XANES of Na2SeO4 reference compound",
   "schema:identifier": {
-    "@type": "schema:PropertyValue",
-    "schema:propertyID": "https://doi.org",
-    "schema:value": "10.12345/xas.2024.001",
-    "schema:url": "http://example.com/resource?foo=bar#fragment"
-  },
-  "schema:dateModified": "2025-06-15",
-  "schema:conditionsOfAccess": [
-    "Public access, no restrictions"
-  ],
-  "schema:license": [
-    "https://creativecommons.org/licenses/by/4.0/"
-  ],
-  "schema:url": "http://example.com/resource?foo=bar#fragment",
-  "schema:distribution": [
-    {
-      "@id": "lMtIx",
-      "@type": [
-        "schema:DataDownload",
-        "cdi:PhysicalDataset"
-      ],
-      "schema:name": "XDI data file",
-      "schema:contentUrl": "http://example.com/resource/35uj46j",
-      "schema:encodingFormat": [
-        "application/x-xdi"
-      ],
-      "dcterms:conformsTo": [{"@id": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md"}],
-      "spdx:checksum": {
-        "@type": "spdx:Checksum",
-        "spdx:algorithm": "SHA-256",
-        "spdx:checksumValue": "a1b2c3d4e5f6..."
-      },
-      "schema:provider": [
-        {
-          "@id": "plTqxpHjBTESztfaDyI"
-        }
-      ]
-    },
-    {
-      "@id": "RNdlTIf",
-      "@type": [
-        "schema:DataDownload"
-      ],
-      "schema:name": "Processed spectrum CSV",
-      "schema:contentUrl": "http://example.com/resource/34h5ykl",
-      "schema:encodingFormat": [
-        "text/csv",
-        "application/zip"
-      ],
-      "spdx:checksum": {
-        "@type": "spdx:Checksum",
-        "spdx:algorithm": "MD5",
-        "spdx:checksumValue": "d41d8cd98f00b204e9800998ecf8427e"
-      },
-      "schema:provider": [
-        {
-          "@id": "EwHwOWWPjkVxr"
-        }
-      ],
-      "dcterms:conformsTo": [{"@id": "http://www.opengis.net/def/nil/OGC/0/missing"}]
-    }
-  ],
-  "schema:subjectOf": {
     "@type": [
-      "schema:Dataset"
+      "schema:PropertyValue"
     ],
-    "schema:additionalType": [
-      "dcat:CatalogRecord"
-    ],
-    "@id": "urn:uuid:xas-required-catalog-record",
-    "schema:about": {
-      "@id": "ex:xas-dataset-001"
-    },
-    "dcterms:conformsTo": [
-      {
-        "@id": "https://w3id.org/cdif/core/1.0/"
-      },
-      {
-        "@id": "https://w3id.org/cdif/discovery/1.0/"
-      },
-      {
-        "@id": "https://w3id.org/cdif/xasCore/1.0/"
-      },
-      {
-        "@id": "https://w3id.org/cdif/bbr/metadata/xasProperties/xasCore"
-      },
-      {
-        "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFxas"
-      }
-    ],
-    "schema:maintainer": {
-      "@id": "nKwywfsuBh",
-      "@type": "schema:Person",
-      "schema:name": "Cataloger, Example Data",
-      "schema:contactPoint": {
-        "@type": "schema:ContactPoint",
-        "schema:email": "cataloger@example.org"
-      }
-    },
-    "schema:sdDatePublished": "2025-08-15T06:45:40Z",
-    "schema:includedInDataCatalog": {
-      "@id": "nbUunSyw",
-      "@type": "schema:DataCatalog",
-      "schema:name": "XAS Data Library",
-      "schema:url": "http://example.com/resource?foo=bar#fragment"
-    }
-  },
-  "prov:wasGeneratedBy": [
-    {
-      "prov:used": [
-        {
-          "schema:instrument": {
-            "@type": ["schema:Thing", "schema:Product"],
-            "schema:name": "APS Sector 20-BM beamline instrument",
-            "schema:category": [{
-                "@type": "schema:DefinedTerm",
-                "schema:name": "X-ray absorption spectroscopy beamline",
-                "schema:termCode": "XAS-beamline"
-            }],
-            "schema:hasPart": [
-              {
-                "@type": [
-                  "schema:Thing",
-                  "schema:Product"
-                ],
-                "schema:additionalType": "nxs:BaseClass/NXsource",
-                "schema:name": "APS bending magnet source",
-                "schema:additionalProperty": [
-                  {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": [
-                      "nxs:Field/NXsource/type"
-                    ],
-                    "schema:name": "x-ray source",
-                    "schema:value": "Synchrotron X-ray Source"
-                  },
-                  {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": [
-                      "nxs:Field/NXsource/probe"
-                    ],
-                    "schema:name": "Probe",
-                    "schema:value": "x-ray"
-                  }
-                ]
-              },
-              {
-                "@type": [
-                  "schema:Thing",
-                  "schema:Product"
-                ],
-                "schema:additionalType": "nxs:BaseClass/NXmonochromator",
-                "schema:name": "Si 111",
-                "schema:additionalProperty": [
-                  {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": [
-                      "nxs:Field/NXcrystal/d_spacing"
-                    ],
-                    "schema:name": "d-spacing",
-                    "schema:value": "3.13550",
-                    "schema:unitText": "Angstrom"
-                  },
-                  {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": [
-                      "nxs:Field/NXcrystal/type"
-                    ],
-                    "schema:name": "crystal type",
-                    "schema:value": "Si(111)"
-                  },
-                  {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": [
-                      "nxs:Field/NXcrystal/reflection"
-                    ],
-                    "schema:name": "reflection plane (hkl)",
-                    "schema:value": "1,1,1"
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ],
-      "schema:object": {
-        "@type": [
-          "schema:Product",
-          "schema:Thing"
-        ],
-        "schema:additionalType": [
-          "MaterialSample",
-          "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-        ],
-        "schema:name": "Na2SeO4",
-        "schema:identifier": "igsn:10.6620/se-selenate-001",
-        "schema:description": "Sodium selenate reference compound, powder",
-        "schema:additionalProperty": [
-          {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": [
-              "https://example.org/vocab/sample-prep"
-            ],
-            "schema:name": "sample preparation method",
-            "schema:value": "powder on tape, 6 layers"
-          },
-          {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": [
-              "xas:stoichiometry"
-            ],
-            "schema:name": "Stoichiometry",
-            "schema:value": "Na2SeO4"
-          }
-        ]
-      }
-    }
-  ],
-  "schema:measurementTechnique": [
-    {
-      "@type": "schema:DefinedTerm",
-      "schema:name": "X-Ray Absorption Spectroscopy",
-      "schema:termCode": "XAS",
-      "schema:identifier": "http://purl.org/pan-science/PaNET/PaNET01196",
-      "schema:inDefinedTermSet": "http://purl.org/pan-science/PaNET/PaNET.owl"
-    },
-    {
-      "@type": "schema:DefinedTerm",
-      "schema:name": "Transmission",
-      "schema:identifier": "http://purl.org/pan-science/PaNET/PaNET01188",
-      "schema:inDefinedTermSet": "nxs:Field/NXxas/ENTRY/DATA/mode"
-    }
-  ],
-  "schema:keywords": [
-    {
-      "@type": "schema:DefinedTerm",
-      "schema:name": "K-edge",
-      "schema:identifier": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md#K",
-      "schema:termCode": "K",
-      "schema:inDefinedTermSet": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md"
-    },
-    {
-      "@type": "schema:DefinedTerm",
-      "schema:name": "Selenium",
-      "schema:identifier": "http://sweetontology.net/matrElement/Selenium",
-      "schema:termCode": "Se",
-      "schema:inDefinedTermSet": "http://sweetontology.net/matrElement"
-    }
-  ]
-}
-
-```
-
-#### jsonld
-```jsonld
-{
-  "@context": [
-    {
-      "schema": "http://schema.org/",
-      "dcterms": "http://purl.org/dc/terms/",
-      "dcat": "http://www.w3.org/ns/dcat#",
-      "prov": "http://www.w3.org/ns/prov#",
-      "nxs": "http://purl.org/nexusformat/definitions/",
-      "xas": "https://xas.org/dictionary/"
-    },
-    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/context.jsonld",
-    {
-      "schema": "http://schema.org/",
-      "dcterms": "http://purl.org/dc/terms/",
-      "dcat": "http://www.w3.org/ns/dcat#",
-      "geosparql": "http://www.opengis.net/ont/geosparql#",
-      "spdx": "http://spdx.org/rdf/terms#",
-      "ex": "https://example.org/",
-      "xsd": "http://www.w3.org/2001/XMLSchema#",
-      "xas": "https://xas.org/dictionary/",
-      "nxs": "http://purl.org/nexusformat/definitions/",
-      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "prov": "http://www.w3.org/ns/prov#"
-    }
-  ],
-  "@id": "ex:xas-dataset-001",
-  "@type": [
-    "schema:Dataset",
-    "schema:Product"
-  ],
-  "schema:name": "Se K-edge XANES of Na2SeO4 reference compound",
-  "schema:identifier": {
-    "@type": "schema:PropertyValue",
     "schema:propertyID": "https://doi.org",
     "schema:value": "10.12345/xas.2024.001",
     "schema:url": "http://example.com/resource?foo=bar#fragment"
@@ -366,7 +82,9 @@ XAS core properties: instrument components, XDI distribution, measurement techni
         }
       ],
       "spdx:checksum": {
-        "@type": "spdx:Checksum",
+        "@type": [
+          "spdx:Checksum"
+        ],
         "spdx:algorithm": "SHA-256",
         "spdx:checksumValue": "a1b2c3d4e5f6..."
       },
@@ -388,7 +106,9 @@ XAS core properties: instrument components, XDI distribution, measurement techni
         "application/zip"
       ],
       "spdx:checksum": {
-        "@type": "spdx:Checksum",
+        "@type": [
+          "spdx:Checksum"
+        ],
         "spdx:algorithm": "MD5",
         "spdx:checksumValue": "d41d8cd98f00b204e9800998ecf8427e"
       },
@@ -434,17 +154,23 @@ XAS core properties: instrument components, XDI distribution, measurement techni
     ],
     "schema:maintainer": {
       "@id": "nKwywfsuBh",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Cataloger, Example Data",
       "schema:contactPoint": {
-        "@type": "schema:ContactPoint",
+        "@type": [
+          "schema:ContactPoint"
+        ],
         "schema:email": "cataloger@example.org"
       }
     },
     "schema:sdDatePublished": "2025-08-15T06:45:40Z",
     "schema:includedInDataCatalog": {
       "@id": "nbUunSyw",
-      "@type": "schema:DataCatalog",
+      "@type": [
+        "schema:DataCatalog"
+      ],
       "schema:name": "XAS Data Library",
       "schema:url": "http://example.com/resource?foo=bar#fragment"
     }
@@ -461,7 +187,9 @@ XAS core properties: instrument components, XDI distribution, measurement techni
             "schema:name": "APS Sector 20-BM beamline instrument",
             "schema:category": [
               {
-                "@type": "schema:DefinedTerm",
+                "@type": [
+                  "schema:DefinedTerm"
+                ],
                 "schema:name": "X-ray absorption spectroscopy beamline",
                 "schema:termCode": "XAS-beamline"
               }
@@ -476,7 +204,9 @@ XAS core properties: instrument components, XDI distribution, measurement techni
                 "schema:name": "APS bending magnet source",
                 "schema:additionalProperty": [
                   {
-                    "@type": "schema:PropertyValue",
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
                     "schema:propertyID": [
                       "nxs:Field/NXsource/type"
                     ],
@@ -484,7 +214,9 @@ XAS core properties: instrument components, XDI distribution, measurement techni
                     "schema:value": "Synchrotron X-ray Source"
                   },
                   {
-                    "@type": "schema:PropertyValue",
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
                     "schema:propertyID": [
                       "nxs:Field/NXsource/probe"
                     ],
@@ -502,7 +234,9 @@ XAS core properties: instrument components, XDI distribution, measurement techni
                 "schema:name": "Si 111",
                 "schema:additionalProperty": [
                   {
-                    "@type": "schema:PropertyValue",
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
                     "schema:propertyID": [
                       "nxs:Field/NXcrystal/d_spacing"
                     ],
@@ -511,7 +245,9 @@ XAS core properties: instrument components, XDI distribution, measurement techni
                     "schema:unitText": "Angstrom"
                   },
                   {
-                    "@type": "schema:PropertyValue",
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
                     "schema:propertyID": [
                       "nxs:Field/NXcrystal/type"
                     ],
@@ -519,7 +255,9 @@ XAS core properties: instrument components, XDI distribution, measurement techni
                     "schema:value": "Si(111)"
                   },
                   {
-                    "@type": "schema:PropertyValue",
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
                     "schema:propertyID": [
                       "nxs:Field/NXcrystal/reflection"
                     ],
@@ -546,7 +284,9 @@ XAS core properties: instrument components, XDI distribution, measurement techni
         "schema:description": "Sodium selenate reference compound, powder",
         "schema:additionalProperty": [
           {
-            "@type": "schema:PropertyValue",
+            "@type": [
+              "schema:PropertyValue"
+            ],
             "schema:propertyID": [
               "https://example.org/vocab/sample-prep"
             ],
@@ -554,7 +294,9 @@ XAS core properties: instrument components, XDI distribution, measurement techni
             "schema:value": "powder on tape, 6 layers"
           },
           {
-            "@type": "schema:PropertyValue",
+            "@type": [
+              "schema:PropertyValue"
+            ],
             "schema:propertyID": [
               "xas:stoichiometry"
             ],
@@ -567,14 +309,18 @@ XAS core properties: instrument components, XDI distribution, measurement techni
   ],
   "schema:measurementTechnique": [
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "X-Ray Absorption Spectroscopy",
       "schema:termCode": "XAS",
       "schema:identifier": "http://purl.org/pan-science/PaNET/PaNET01196",
       "schema:inDefinedTermSet": "http://purl.org/pan-science/PaNET/PaNET.owl"
     },
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "Transmission",
       "schema:identifier": "http://purl.org/pan-science/PaNET/PaNET01188",
       "schema:inDefinedTermSet": "nxs:Field/NXxas/ENTRY/DATA/mode"
@@ -582,14 +328,353 @@ XAS core properties: instrument components, XDI distribution, measurement techni
   ],
   "schema:keywords": [
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "K-edge",
       "schema:identifier": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md#K",
       "schema:termCode": "K",
       "schema:inDefinedTermSet": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md"
     },
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Selenium",
+      "schema:identifier": "http://sweetontology.net/matrElement/Selenium",
+      "schema:termCode": "Se",
+      "schema:inDefinedTermSet": "http://sweetontology.net/matrElement"
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "prov": "http://www.w3.org/ns/prov#",
+      "nxs": "http://purl.org/nexusformat/definitions/",
+      "xas": "https://xas.org/dictionary/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "geosparql": "http://www.opengis.net/ont/geosparql#",
+      "spdx": "http://spdx.org/rdf/terms#",
+      "ex": "https://example.org/",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "xas": "https://xas.org/dictionary/",
+      "nxs": "http://purl.org/nexusformat/definitions/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "prov": "http://www.w3.org/ns/prov#"
+    }
+  ],
+  "@id": "ex:xas-dataset-001",
+  "@type": [
+    "schema:Dataset",
+    "schema:Product"
+  ],
+  "schema:name": "Se K-edge XANES of Na2SeO4 reference compound",
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": "https://doi.org",
+    "schema:value": "10.12345/xas.2024.001",
+    "schema:url": "http://example.com/resource?foo=bar#fragment"
+  },
+  "schema:dateModified": "2025-06-15",
+  "schema:conditionsOfAccess": [
+    "Public access, no restrictions"
+  ],
+  "schema:license": [
+    "https://creativecommons.org/licenses/by/4.0/"
+  ],
+  "schema:url": "http://example.com/resource?foo=bar#fragment",
+  "schema:distribution": [
+    {
+      "@id": "lMtIx",
+      "@type": [
+        "schema:DataDownload",
+        "cdi:PhysicalDataset"
+      ],
+      "schema:name": "XDI data file",
+      "schema:contentUrl": "http://example.com/resource/35uj46j",
+      "schema:encodingFormat": [
+        "application/x-xdi"
+      ],
+      "dcterms:conformsTo": [
+        {
+          "@id": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md"
+        }
+      ],
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:algorithm": "SHA-256",
+        "spdx:checksumValue": "a1b2c3d4e5f6..."
+      },
+      "schema:provider": [
+        {
+          "@id": "plTqxpHjBTESztfaDyI"
+        }
+      ]
+    },
+    {
+      "@id": "RNdlTIf",
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:name": "Processed spectrum CSV",
+      "schema:contentUrl": "http://example.com/resource/34h5ykl",
+      "schema:encodingFormat": [
+        "text/csv",
+        "application/zip"
+      ],
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:algorithm": "MD5",
+        "spdx:checksumValue": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "schema:provider": [
+        {
+          "@id": "EwHwOWWPjkVxr"
+        }
+      ],
+      "dcterms:conformsTo": [
+        {
+          "@id": "http://www.opengis.net/def/nil/OGC/0/missing"
+        }
+      ]
+    }
+  ],
+  "schema:subjectOf": {
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "@id": "urn:uuid:xas-required-catalog-record",
+    "schema:about": {
+      "@id": "ex:xas-dataset-001"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/xasCore/1.0/"
+      },
+      {
+        "@id": "https://w3id.org/cdif/bbr/metadata/xasProperties/xasCore"
+      },
+      {
+        "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFxas"
+      }
+    ],
+    "schema:maintainer": {
+      "@id": "nKwywfsuBh",
+      "@type": [
+        "schema:Person"
+      ],
+      "schema:name": "Cataloger, Example Data",
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "cataloger@example.org"
+      }
+    },
+    "schema:sdDatePublished": "2025-08-15T06:45:40Z",
+    "schema:includedInDataCatalog": {
+      "@id": "nbUunSyw",
+      "@type": [
+        "schema:DataCatalog"
+      ],
+      "schema:name": "XAS Data Library",
+      "schema:url": "http://example.com/resource?foo=bar#fragment"
+    }
+  },
+  "prov:wasGeneratedBy": [
+    {
+      "prov:used": [
+        {
+          "schema:instrument": {
+            "@type": [
+              "schema:Thing",
+              "schema:Product"
+            ],
+            "schema:name": "APS Sector 20-BM beamline instrument",
+            "schema:category": [
+              {
+                "@type": [
+                  "schema:DefinedTerm"
+                ],
+                "schema:name": "X-ray absorption spectroscopy beamline",
+                "schema:termCode": "XAS-beamline"
+              }
+            ],
+            "schema:hasPart": [
+              {
+                "@type": [
+                  "schema:Thing",
+                  "schema:Product"
+                ],
+                "schema:additionalType": "nxs:BaseClass/NXsource",
+                "schema:name": "APS bending magnet source",
+                "schema:additionalProperty": [
+                  {
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
+                    "schema:propertyID": [
+                      "nxs:Field/NXsource/type"
+                    ],
+                    "schema:name": "x-ray source",
+                    "schema:value": "Synchrotron X-ray Source"
+                  },
+                  {
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
+                    "schema:propertyID": [
+                      "nxs:Field/NXsource/probe"
+                    ],
+                    "schema:name": "Probe",
+                    "schema:value": "x-ray"
+                  }
+                ]
+              },
+              {
+                "@type": [
+                  "schema:Thing",
+                  "schema:Product"
+                ],
+                "schema:additionalType": "nxs:BaseClass/NXmonochromator",
+                "schema:name": "Si 111",
+                "schema:additionalProperty": [
+                  {
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
+                    "schema:propertyID": [
+                      "nxs:Field/NXcrystal/d_spacing"
+                    ],
+                    "schema:name": "d-spacing",
+                    "schema:value": "3.13550",
+                    "schema:unitText": "Angstrom"
+                  },
+                  {
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
+                    "schema:propertyID": [
+                      "nxs:Field/NXcrystal/type"
+                    ],
+                    "schema:name": "crystal type",
+                    "schema:value": "Si(111)"
+                  },
+                  {
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
+                    "schema:propertyID": [
+                      "nxs:Field/NXcrystal/reflection"
+                    ],
+                    "schema:name": "reflection plane (hkl)",
+                    "schema:value": "1,1,1"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "schema:object": {
+        "@type": [
+          "schema:Product",
+          "schema:Thing"
+        ],
+        "schema:additionalType": [
+          "MaterialSample",
+          "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+        ],
+        "schema:name": "Na2SeO4",
+        "schema:identifier": "igsn:10.6620/se-selenate-001",
+        "schema:description": "Sodium selenate reference compound, powder",
+        "schema:additionalProperty": [
+          {
+            "@type": [
+              "schema:PropertyValue"
+            ],
+            "schema:propertyID": [
+              "https://example.org/vocab/sample-prep"
+            ],
+            "schema:name": "sample preparation method",
+            "schema:value": "powder on tape, 6 layers"
+          },
+          {
+            "@type": [
+              "schema:PropertyValue"
+            ],
+            "schema:propertyID": [
+              "xas:stoichiometry"
+            ],
+            "schema:name": "Stoichiometry",
+            "schema:value": "Na2SeO4"
+          }
+        ]
+      }
+    }
+  ],
+  "schema:measurementTechnique": [
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "X-Ray Absorption Spectroscopy",
+      "schema:termCode": "XAS",
+      "schema:identifier": "http://purl.org/pan-science/PaNET/PaNET01196",
+      "schema:inDefinedTermSet": "http://purl.org/pan-science/PaNET/PaNET.owl"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Transmission",
+      "schema:identifier": "http://purl.org/pan-science/PaNET/PaNET01188",
+      "schema:inDefinedTermSet": "nxs:Field/NXxas/ENTRY/DATA/mode"
+    }
+  ],
+  "schema:keywords": [
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "K-edge",
+      "schema:identifier": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md#K",
+      "schema:termCode": "K",
+      "schema:inDefinedTermSet": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "Selenium",
       "schema:identifier": "http://sweetontology.net/matrElement/Selenium",
       "schema:termCode": "Se",
@@ -695,23 +780,6 @@ ex:xas-dataset-001 a schema1:Dataset,
                             schema1:hasPart [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "reflection plane (hkl)" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
-                                            schema1:value "1,1,1" ],
-                                        [ a schema1:PropertyValue ;
-                                            schema1:name "crystal type" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
-                                            schema1:value "Si(111)" ],
-                                        [ a schema1:PropertyValue ;
-                                            schema1:name "d-spacing" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
-                                            schema1:unitText "Angstrom" ;
-                                            schema1:value "3.13550" ] ;
-                                    schema1:additionalType "nxs:BaseClass/NXmonochromator" ;
-                                    schema1:name "Si 111" ],
-                                [ a schema1:Product,
-                                        schema1:Thing ;
-                                    schema1:additionalProperty [ a schema1:PropertyValue ;
                                             schema1:name "Probe" ;
                                             schema1:propertyID "nxs:Field/NXsource/probe" ;
                                             schema1:value "x-ray" ],
@@ -720,7 +788,24 @@ ex:xas-dataset-001 a schema1:Dataset,
                                             schema1:propertyID "nxs:Field/NXsource/type" ;
                                             schema1:value "Synchrotron X-ray Source" ] ;
                                     schema1:additionalType "nxs:BaseClass/NXsource" ;
-                                    schema1:name "APS bending magnet source" ] ;
+                                    schema1:name "APS bending magnet source" ],
+                                [ a schema1:Product,
+                                        schema1:Thing ;
+                                    schema1:additionalProperty [ a schema1:PropertyValue ;
+                                            schema1:name "crystal type" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
+                                            schema1:value "Si(111)" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "reflection plane (hkl)" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
+                                            schema1:value "1,1,1" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "d-spacing" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
+                                            schema1:unitText "Angstrom" ;
+                                            schema1:value "3.13550" ] ;
+                                    schema1:additionalType "nxs:BaseClass/NXmonochromator" ;
+                                    schema1:name "Si 111" ] ;
                             schema1:name "APS Sector 20-BM beamline instrument" ] ] ] .
 
 <urn:uuid:xas-required-catalog-record> a schema1:Dataset ;
@@ -994,14 +1079,12 @@ allOf:
         type: object
         properties:
           '@type':
-            anyOf:
-            - type: string
+            type: array
+            items:
+              type: string
+            contains:
               const: schema:DefinedTerm
-            - type: array
-              items:
-                type: string
-              contains:
-                const: schema:DefinedTerm
+            minItems: 1
           schema:name:
             type: string
           schema:identifier:

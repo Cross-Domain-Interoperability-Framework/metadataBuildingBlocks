@@ -19,27 +19,36 @@ Example quality measure
 #### json
 ```json
 {
-    "@type": "dqv:QualityMeasurement",
-    "dqv:isMeasurementOf": {
-        "@type": "schema:DefinedTerm",
-        "schema:name": "Positional Accuracy",
-        "schema:identifier": "https://standards.iso.org/iso/19157/qualityMeasure/28",
-        "schema:inDefinedTermSet": "https://standards.iso.org/iso/19157",
-        "schema:termCode": "DQ_AbsoluteExternalPositionalAccuracy"
+  "@type": [
+    "dqv:QualityMeasurement"
+  ],
+  "dqv:isMeasurementOf": {
+    "@type": [
+      "schema:DefinedTerm"
+    ],
+    "schema:name": "Positional Accuracy",
+    "schema:identifier": "https://standards.iso.org/iso/19157/qualityMeasure/28",
+    "schema:inDefinedTermSet": "https://standards.iso.org/iso/19157",
+    "schema:termCode": "DQ_AbsoluteExternalPositionalAccuracy"
+  },
+  "dqv:value": {
+    "@type": [
+      "schema:DefinedTerm"
+    ],
+    "schema:name": "Pass",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "https://standards.iso.org/iso/19157/qualityResult",
+      "schema:value": "conformant",
+      "schema:url": "http://example.com/resource?foo=bar#fragment"
     },
-    "dqv:value": {
-        "@type": "schema:DefinedTerm",
-        "schema:name": "Pass",
-        "schema:identifier": {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": "https://standards.iso.org/iso/19157/qualityResult",
-            "schema:value": "conformant",
-            "schema:url": "http://example.com/resource?foo=bar#fragment"
-        },
-        "schema:inDefinedTermSet": "https://standards.iso.org/iso/19157/conformanceResult",
-        "schema:termCode": "pass"
-    }
+    "schema:inDefinedTermSet": "https://standards.iso.org/iso/19157/conformanceResult",
+    "schema:termCode": "pass"
+  }
 }
+
 ```
 
 #### jsonld
@@ -51,19 +60,27 @@ Example quality measure
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityMeasure/context.jsonld"
   ],
-  "@type": "dqv:QualityMeasurement",
+  "@type": [
+    "dqv:QualityMeasurement"
+  ],
   "dqv:isMeasurementOf": {
-    "@type": "schema:DefinedTerm",
+    "@type": [
+      "schema:DefinedTerm"
+    ],
     "schema:name": "Positional Accuracy",
     "schema:identifier": "https://standards.iso.org/iso/19157/qualityMeasure/28",
     "schema:inDefinedTermSet": "https://standards.iso.org/iso/19157",
     "schema:termCode": "DQ_AbsoluteExternalPositionalAccuracy"
   },
   "dqv:value": {
-    "@type": "schema:DefinedTerm",
+    "@type": [
+      "schema:DefinedTerm"
+    ],
     "schema:name": "Pass",
     "schema:identifier": {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": "https://standards.iso.org/iso/19157/qualityResult",
       "schema:value": "conformant",
       "schema:url": "http://example.com/resource?foo=bar#fragment"
@@ -105,14 +122,12 @@ title: definitions for simple quality measure property
 type: object
 properties:
   '@type':
-    anyOf:
-    - type: string
+    type: array
+    items:
+      type: string
+    contains:
       const: dqv:QualityMeasurement
-    - type: array
-      items:
-        type: string
-      contains:
-        const: dqv:QualityMeasurement
+    minItems: 1
   dqv:isMeasurementOf:
     description: specify the quality measure that is reported, by name, with an ID
       ref, or as a Defined Term

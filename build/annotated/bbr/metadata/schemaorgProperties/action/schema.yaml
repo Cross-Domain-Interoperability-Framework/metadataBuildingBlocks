@@ -13,8 +13,10 @@ properties:
   '@type':
     description: The type of action. Must be schema:Action or one of its subtypes.
     default: schema:Action
-    anyOf:
-    - type: string
+    type: array
+    items:
+      type: string
+    contains:
       enum:
       - schema:Action
       - schema:AssessAction
@@ -29,24 +31,7 @@ properties:
       - schema:SearchAction
       - schema:TransferAction
       - schema:UpdateAction
-    - type: array
-      items:
-        type: string
-      contains:
-        enum:
-        - schema:Action
-        - schema:AssessAction
-        - schema:ConsumeAction
-        - schema:ControlAction
-        - schema:CreateAction
-        - schema:DeleteAction
-        - schema:FindAction
-        - schema:InteractAction
-        - schema:MoveAction
-        - schema:PlayAction
-        - schema:SearchAction
-        - schema:TransferAction
-        - schema:UpdateAction
+    minItems: 1
   schema:name:
     type: string
     description: text label for the action
@@ -76,14 +61,12 @@ $defs:
     properties:
       '@type':
         default: schema:EntryPoint
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: schema:EntryPoint
-        - type: array
-          items:
-            type: string
-          contains:
-            const: schema:EntryPoint
+        minItems: 1
       schema:description:
         type: string
       schema:urlTemplate:
@@ -158,14 +141,12 @@ $defs:
           type: string
         '@type':
           default: schema:PropertyValueSpecification
-          anyOf:
-          - type: string
+          type: array
+          items:
+            type: string
+          contains:
             const: schema:PropertyValueSpecification
-          - type: array
-            items:
-              type: string
-            contains:
-              const: schema:PropertyValueSpecification
+          minItems: 1
         schema:valueName:
           type: string
         schema:description:
@@ -184,14 +165,12 @@ $defs:
     properties:
       '@type':
         default: schema:DataFeed
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: schema:DataFeed
-        - type: array
-          items:
-            type: string
-          contains:
-            const: schema:DataFeed
+        minItems: 1
       schema:description:
         type: string
       schema:encodingFormat-input:

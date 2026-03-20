@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-03-19",
+  "dateOfLastChange": "2026-03-20",
   "sources": [
     {
       "title": "schema.org",
@@ -51,12 +51,12 @@
         {
           "language": "json",
           "ref": "exampleLabeledLink.json",
-          "code": "{\n    \"@context\": {\n        \"schema\": \"http://schema.org/\",\n        \"ex\": \"https://example.org/\",\n        \"xsd\": \"http://www.w3.org/2001/XMLSchema#\"\n    },\n    \"@id\": \"ex:LabeledLinkExample_zZc\",\n    \"@type\": \"schema:CreativeWork\",\n    \"schema:name\": \"Some related resource\",\n    \"schema:description\": \"URL to get the related resource\",\n    \"schema:url\": \"https://example.org/relatedresource/2342747\"\n}",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\",\n    \"xsd\": \"http://www.w3.org/2001/XMLSchema#\"\n  },\n  \"@id\": \"ex:LabeledLinkExample_zZc\",\n  \"@type\": [\n    \"schema:CreativeWork\"\n  ],\n  \"schema:name\": \"Some related resource\",\n  \"schema:description\": \"URL to get the related resource\",\n  \"schema:url\": \"https://example.org/relatedresource/2342747\"\n}\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/labeledLink/example_1_1.json"
         },
         {
           "language": "jsonld",
-          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\",\n      \"xsd\": \"http://www.w3.org/2001/XMLSchema#\"\n    }\n  ],\n  \"@id\": \"ex:LabeledLinkExample_zZc\",\n  \"@type\": \"schema:CreativeWork\",\n  \"schema:name\": \"Some related resource\",\n  \"schema:description\": \"URL to get the related resource\",\n  \"schema:url\": \"https://example.org/relatedresource/2342747\"\n}",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\",\n      \"xsd\": \"http://www.w3.org/2001/XMLSchema#\"\n    }\n  ],\n  \"@id\": \"ex:LabeledLinkExample_zZc\",\n  \"@type\": [\n    \"schema:CreativeWork\"\n  ],\n  \"schema:name\": \"Some related resource\",\n  \"schema:description\": \"URL to get the related resource\",\n  \"schema:url\": \"https://example.org/relatedresource/2342747\"\n}",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/labeledLink/example_1_1.jsonld"
         },
         {
@@ -67,7 +67,7 @@
       ]
     }
   ],
-  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: schema for a labeled link, a profile of schema.org/CreativeWork\ntype: object\nproperties:\n  '@type':\n    default: schema:CreativeWork\n    anyOf:\n    - type: string\n      const: schema:CreativeWork\n    - type: array\n      items:\n        type: string\n      contains:\n        const: schema:CreativeWork\n  schema:name:\n    type: string\n  schema:description:\n    type: string\n  schema:url:\n    type: string\n    format: uri\nrequired:\n- '@type'\n- schema:url\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: schema for a labeled link, a profile of schema.org/CreativeWork\ntype: object\nproperties:\n  '@type':\n    default: schema:CreativeWork\n    type: array\n    items:\n      type: string\n    contains:\n      const: schema:CreativeWork\n    minItems: 1\n  schema:name:\n    type: string\n  schema:description:\n    type: string\n  schema:url:\n    type: string\n    format: uri\nrequired:\n- '@type'\n- schema:url\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
   "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
   "gitPath": "_sources/schemaorgProperties/labeledLink"
 }

@@ -23,105 +23,138 @@ Example CDIF record with mandatory and optional properties.
 #### json
 ```json
 {
-    "@context": {
-        "schema": "http://schema.org/",
-        "ex": "https://example.org/",
-        "xsd": "http://www.w3.org/2001/XMLSchema#"
-    },
-    "@id": "ex:cdifOptional_23578",
-    "@type": ["schema:Dataset"],
-    "schema:name": "Bathymetry Bay of Biscay",
-    "schema:identifier":"https://doi.org/23566/aslry",
-    "schema:additionalType": [""],
-    "schema:description": "description of resource",
-    "schema:version": "1.0",
-    "schema:url": "https://example.org/landingPage254266",
-    "schema:inLanguage": "en",
-    "schema:dateModified": "2022-12-12",
-    "schema:datePublished": "2021-11-14",
-    "schema:license": ["https://creativecommons.org/publicdomain/zero/1.0/"],
-    "schema:conditionsOfAccess": [
-        {
-            "@id": "ex:LabeledLinkExample_qZc",
-            "@type": "schema:CreativeWork",
-            "schema:name": "conditions of access statement",
-            "schema:description": "URL to get the document",
-            "schema:url": "https://example.org/conditions/2342747"
-        }
-    ],
-    "schema:relatedLink": [
-        {
-            "@type": "schema:LinkRole",
-            "schema:linkRelationship": "related data",
-            "target": {
-                "@type": "schema:EntryPoint",
-                "schema:encodingFormat": "image/jpg",
-                "schema:name": "Image of seafloor geology map, bay of Biscay",
-                "schema:url": "https://example.org/geology/baybiscay"
-            }
-        },
-        {
-            "@type": "schema:LinkRole",
-            "schema:linkRelationship": {
-                "@type": "schema:DefinedTerm",
-                "schema:name": "related dataset",
-                "schema:inDefinedTermSet": "https://www.iana.org/assignments/link-relations/",
-                "schema:termCode": "related"
-            },
-            "target": {
-                "@type": "schema:EntryPoint",
-                "schema:name": "Bay of Biscay current velocity dataset",
-                "schema:url": "https://example.org/currents/baybiscay"
-            }
-        }
-    ],
-    "schema:publishingPrinciples": ["https://example.org/principles/3478"],
-    "schema:creator": {
-        "@list": [
-            {
-                "@type": "schema:Person",
-                "schema:name": "Example, Author",
-                "schema:identifier": "https://orcid.org/0000-0001-2345-6789",
-                "schema:contactPoint": {
-                    "@type": "schema:ContactPoint",
-                    "schema:email": "author@example.org"
-                }
-            }
-        ]
-    },
-    "schema:contributor": [
-        {
-            "@type": "schema:Role",
-            "schema:roleName": "editor",
-            "schema:contributor": {
-                "@id": "ex:PersonExample_zZc",
-                "@type": "schema:Person",
-                "schema:name": "Joe B. Test",
-                "schema:identifier": {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": "https://orcid.org",
-                    "schema:value": "0000-0002-9876-5432",
-                    "schema:url": "https://orcid.org/0000-0002-9876-5432"
-                },
-                "schema:contactPoint": {
-                    "@type": "schema:ContactPoint",
-                    "schema:email": "joe@example.org"
-                }
-            }
-        }
-    ],
-    "schema:keywords": [
-        "bathymetry",
-        "ocean floor"
-    ],
-    "schema:subjectOf": {
-        "dcterms:conformsTo": [
-            {
-                "@id": "https://w3id.org/cdif/discovery/1.0/"
-            }
-        ]
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id": "ex:cdifOptional_23578",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Bathymetry Bay of Biscay",
+  "schema:identifier": "https://doi.org/23566/aslry",
+  "schema:additionalType": [
+    ""
+  ],
+  "schema:description": "description of resource",
+  "schema:version": "1.0",
+  "schema:url": "https://example.org/landingPage254266",
+  "schema:inLanguage": "en",
+  "schema:dateModified": "2022-12-12",
+  "schema:datePublished": "2021-11-14",
+  "schema:license": [
+    "https://creativecommons.org/publicdomain/zero/1.0/"
+  ],
+  "schema:conditionsOfAccess": [
+    {
+      "@id": "ex:LabeledLinkExample_qZc",
+      "@type": [
+        "schema:CreativeWork"
+      ],
+      "schema:name": "conditions of access statement",
+      "schema:description": "URL to get the document",
+      "schema:url": "https://example.org/conditions/2342747"
     }
+  ],
+  "schema:relatedLink": [
+    {
+      "@type": [
+        "schema:LinkRole"
+      ],
+      "schema:linkRelationship": "related data",
+      "target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:encodingFormat": "image/jpg",
+        "schema:name": "Image of seafloor geology map, bay of Biscay",
+        "schema:url": "https://example.org/geology/baybiscay"
+      }
+    },
+    {
+      "@type": [
+        "schema:LinkRole"
+      ],
+      "schema:linkRelationship": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "related dataset",
+        "schema:inDefinedTermSet": "https://www.iana.org/assignments/link-relations/",
+        "schema:termCode": "related"
+      },
+      "target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:name": "Bay of Biscay current velocity dataset",
+        "schema:url": "https://example.org/currents/baybiscay"
+      }
+    }
+  ],
+  "schema:publishingPrinciples": [
+    "https://example.org/principles/3478"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:name": "Example, Author",
+        "schema:identifier": "https://orcid.org/0000-0001-2345-6789",
+        "schema:contactPoint": {
+          "@type": [
+            "schema:ContactPoint"
+          ],
+          "schema:email": "author@example.org"
+        }
+      }
+    ]
+  },
+  "schema:contributor": [
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": "editor",
+      "schema:contributor": {
+        "@id": "ex:PersonExample_zZc",
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:name": "Joe B. Test",
+        "schema:identifier": {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": "https://orcid.org",
+          "schema:value": "0000-0002-9876-5432",
+          "schema:url": "https://orcid.org/0000-0002-9876-5432"
+        },
+        "schema:contactPoint": {
+          "@type": [
+            "schema:ContactPoint"
+          ],
+          "schema:email": "joe@example.org"
+        }
+      }
+    }
+  ],
+  "schema:keywords": [
+    "bathymetry",
+    "ocean floor"
+  ],
+  "schema:subjectOf": {
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.0/"
+      }
+    ]
+  }
 }
+
 ```
 
 #### jsonld
@@ -159,7 +192,9 @@ Example CDIF record with mandatory and optional properties.
   "schema:conditionsOfAccess": [
     {
       "@id": "ex:LabeledLinkExample_qZc",
-      "@type": "schema:CreativeWork",
+      "@type": [
+        "schema:CreativeWork"
+      ],
       "schema:name": "conditions of access statement",
       "schema:description": "URL to get the document",
       "schema:url": "https://example.org/conditions/2342747"
@@ -167,25 +202,35 @@ Example CDIF record with mandatory and optional properties.
   ],
   "schema:relatedLink": [
     {
-      "@type": "schema:LinkRole",
+      "@type": [
+        "schema:LinkRole"
+      ],
       "schema:linkRelationship": "related data",
       "target": {
-        "@type": "schema:EntryPoint",
+        "@type": [
+          "schema:EntryPoint"
+        ],
         "schema:encodingFormat": "image/jpg",
         "schema:name": "Image of seafloor geology map, bay of Biscay",
         "schema:url": "https://example.org/geology/baybiscay"
       }
     },
     {
-      "@type": "schema:LinkRole",
+      "@type": [
+        "schema:LinkRole"
+      ],
       "schema:linkRelationship": {
-        "@type": "schema:DefinedTerm",
+        "@type": [
+          "schema:DefinedTerm"
+        ],
         "schema:name": "related dataset",
         "schema:inDefinedTermSet": "https://www.iana.org/assignments/link-relations/",
         "schema:termCode": "related"
       },
       "target": {
-        "@type": "schema:EntryPoint",
+        "@type": [
+          "schema:EntryPoint"
+        ],
         "schema:name": "Bay of Biscay current velocity dataset",
         "schema:url": "https://example.org/currents/baybiscay"
       }
@@ -197,11 +242,15 @@ Example CDIF record with mandatory and optional properties.
   "schema:creator": {
     "@list": [
       {
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Example, Author",
         "schema:identifier": "https://orcid.org/0000-0001-2345-6789",
         "schema:contactPoint": {
-          "@type": "schema:ContactPoint",
+          "@type": [
+            "schema:ContactPoint"
+          ],
           "schema:email": "author@example.org"
         }
       }
@@ -209,20 +258,28 @@ Example CDIF record with mandatory and optional properties.
   },
   "schema:contributor": [
     {
-      "@type": "schema:Role",
+      "@type": [
+        "schema:Role"
+      ],
       "schema:roleName": "editor",
       "schema:contributor": {
         "@id": "ex:PersonExample_zZc",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Joe B. Test",
         "schema:identifier": {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": "https://orcid.org",
           "schema:value": "0000-0002-9876-5432",
           "schema:url": "https://orcid.org/0000-0002-9876-5432"
         },
         "schema:contactPoint": {
-          "@type": "schema:ContactPoint",
+          "@type": [
+            "schema:ContactPoint"
+          ],
           "schema:email": "joe@example.org"
         }
       }
@@ -271,12 +328,12 @@ ex:cdifOptional_23578 a schema1:Dataset ;
     schema1:name "Bathymetry Bay of Biscay" ;
     schema1:publishingPrinciples "https://example.org/principles/3478" ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "related data" ],
-        [ a schema1:LinkRole ;
             schema1:linkRelationship [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://www.iana.org/assignments/link-relations/" ;
                     schema1:name "related dataset" ;
-                    schema1:termCode "related" ] ] ;
+                    schema1:termCode "related" ] ],
+        [ a schema1:LinkRole ;
+            schema1:linkRelationship "related data" ] ;
     schema1:subjectOf [ ns1:conformsTo <https://w3id.org/cdif/discovery/1.0/> ] ;
     schema1:url "https://example.org/landingPage254266" ;
     schema1:version "1.0" .
@@ -367,14 +424,12 @@ properties:
       type: object
       properties:
         '@type':
-          anyOf:
-          - type: string
+          type: array
+          items:
+            type: string
+          contains:
             const: schema:LinkRole
-          - type: array
-            items:
-              type: string
-            contains:
-              const: schema:LinkRole
+          minItems: 1
         schema:linkRelationship:
           anyOf:
           - $ref: '#/$defs/DefinedTerm'
@@ -383,14 +438,12 @@ properties:
           type: object
           properties:
             '@type':
-              anyOf:
-              - type: string
+              type: array
+              items:
+                type: string
+              contains:
                 const: schema:EntryPoint
-              - type: array
-                items:
-                  type: string
-                contains:
-                  const: schema:EntryPoint
+              minItems: 1
             schema:encodingFormat:
               type: string
               description: registered MIME types are expected

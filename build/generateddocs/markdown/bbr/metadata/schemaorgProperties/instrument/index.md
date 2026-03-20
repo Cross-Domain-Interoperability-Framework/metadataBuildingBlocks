@@ -60,333 +60,449 @@ each with their own manufacturer/model/properties), relatedLink
 #### json
 ```json
 {
-    "@context": {
-        "schema": "http://schema.org/",
-        "dcterms": "http://purl.org/dc/terms/",
-        "spdx": "http://spdx.org/rdf/terms#",
-        "wd": "https://www.wikidata.org/entity/",
-        "ex": "https://example.org/"
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "wd": "https://www.wikidata.org/entity/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:instrument-pygcmsms-gsfc-001",
+  "@type": [
+    "schema:Product",
+    "schema:Thing"
+  ],
+  "schema:additionalType": [
+    "wd:Q3099911",
+    "wd:Q420427"
+  ],
+  "schema:name": "Pyrolysis-GC-MS/MS System (NASA GSFC Astrobiology Analytical Lab)",
+  "schema:description": "Integrated pyrolysis-gas chromatography-tandem mass spectrometry instrument system used for characterization of complex organic mixtures in bulk solid samples. Combines a flash pyrolysis front-end (up to 1300°C at 10°C/ms) with gas chromatographic separation and triple-quadrupole mass spectrometry with simultaneous full scan and timed SRM/MRM acquisition. Primary application: direct microanalysis of extraterrestrial materials without chemical pretreatment.",
+  "schema:alternateName": [
+    "Py-GC-MS/MS",
+    "GSFC Astrobiology Lab Pyrolysis GC-MS System"
+  ],
+  "schema:identifier": [
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "https://doi.org",
+      "schema:value": "10.xxxx/instrument.pygcms.gsfc.001",
+      "schema:url": "https://doi.org/10.xxxx/instrument.pygcms.gsfc.001"
     },
-    "@id": "ex:instrument-pygcmsms-gsfc-001",
-    "@type": [
-        "schema:Product",
-        "schema:Thing"
-    ],
-    "schema:additionalType": [
-        "wd:Q3099911",
-        "wd:Q420427"
-    ],
-    "schema:name": "Pyrolysis-GC-MS/MS System (NASA GSFC Astrobiology Analytical Lab)",
-    "schema:description": "Integrated pyrolysis-gas chromatography-tandem mass spectrometry instrument system used for characterization of complex organic mixtures in bulk solid samples. Combines a flash pyrolysis front-end (up to 1300°C at 10°C/ms) with gas chromatographic separation and triple-quadrupole mass spectrometry with simultaneous full scan and timed SRM/MRM acquisition. Primary application: direct microanalysis of extraterrestrial materials without chemical pretreatment.",
-    "schema:alternateName": [
-        "Py-GC-MS/MS",
-        "GSFC Astrobiology Lab Pyrolysis GC-MS System"
-    ],
-    "schema:identifier": [
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": "https://doi.org",
-            "schema:value": "10.xxxx/instrument.pygcms.gsfc.001",
-            "schema:url": "https://doi.org/10.xxxx/instrument.pygcms.gsfc.001"
-        },
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": "inventoryNumber",
-            "schema:value": "GSFC-AAL-PYGCMS-001"
-        }
-    ],
-    "schema:url": "https://science.gsfc.nasa.gov/sed/bio/jason.p.dworkin",
-    "schema:manufacturer": {
-        "@type": "schema:Organization",
-        "schema:name": "Thermo Fisher Scientific",
-        "schema:identifier": {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": "https://ror.org",
-            "schema:value": "03x1z2w73",
-            "schema:url": "https://ror.org/03x1z2w73"
-        },
-        "schema:contactPoint": {
-            "@type": "schema:ContactPoint",
-            "schema:email": "info@thermofisher.com",
-            "schema:url": "https://www.thermofisher.com/contact-us.html"
-        }
-    },
-    "schema:model": {
-        "@type": "schema:ProductModel",
-        "schema:name": "TSQ 9000 Triple Quadrupole GC-MS/MS",
-        "schema:identifier": {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": "serialNumber",
-            "schema:value": "TSQ96CI2301004"
-        }
-    },
-    "schema:category": [
-        {
-            "@type": "schema:DefinedTerm",
-            "schema:name": "Gas Chromatography Mass Spectrometry",
-            "schema:termCode": "GCMS",
-            "schema:identifier": {
-                "@type": "schema:PropertyValue",
-                "schema:propertyID": "https://vocab.nerc.ac.uk/collection/L05/current/",
-                "schema:value": "LAB02",
-                "schema:url": "https://vocab.nerc.ac.uk/collection/L05/current/LAB02/"
-            },
-            "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
-        },
-        {
-            "@type": "schema:DefinedTerm",
-            "schema:name": "Pyrolysis Gas Chromatography Mass Spectrometry",
-            "schema:termCode": "Py-GC-MS",
-            "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
-        }
-    ],
-    "schema:owner": {
-        "@id": "https://ror.org/0171mag52",
-        "@type": "schema:Organization",
-        "schema:name": "NASA Goddard Space Flight Center",
-        "schema:identifier": {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": "https://ror.org",
-            "schema:value": "0171mag52",
-            "schema:url": "https://ror.org/0171mag52"
-        },
-        "schema:contactPoint": {
-            "@type": "schema:ContactPoint",
-            "schema:email": "gsfc-aal@nasa.gov"
-        }
-    },
-    "schema:contributor": [
-        {
-            "@type": "schema:Role",
-            "schema:roleName": {
-                "@type": "schema:DefinedTerm",
-                "schema:name": "Principal Investigator",
-                "schema:inDefinedTermSet": "https://credit.niso.org/",
-                "schema:termCode": "investigation"
-            },
-            "schema:contributor": {
-                "@id": "https://orcid.org/0000-0002-4805-7062",
-                "@type": "schema:Person",
-                "schema:name": "Dworkin, Jason P.",
-                "schema:identifier": {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": "https://orcid.org",
-                    "schema:value": "0000-0002-4805-7062",
-                    "schema:url": "https://orcid.org/0000-0002-4805-7062"
-                },
-                "schema:contactPoint": {
-                    "@type": "schema:ContactPoint",
-                    "schema:email": "jason.p.dworkin@nasa.gov"
-                }
-            }
-        },
-        {
-            "@type": "schema:Role",
-            "schema:roleName": "Operator",
-            "schema:contributor": {
-                "@id": "https://orcid.org/0000-0001-8898-3457",
-                "@type": "schema:Person",
-                "schema:name": "Mojarro, Angel",
-                "schema:identifier": {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": "https://orcid.org",
-                    "schema:value": "0000-0001-8898-3457",
-                    "schema:url": "https://orcid.org/0000-0001-8898-3457"
-                },
-                "schema:contactPoint": {
-                    "@type": "schema:ContactPoint",
-                    "schema:email": "angel.mojarro@nasa.gov"
-                }
-            }
-        }
-    ],
-    "schema:additionalProperty": [
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": ["MeasuredVariable"],
-            "schema:name": "Measured variables",
-            "schema:value": "mass-to-charge ratio (m/z); ion abundance; retention time"
-        },
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": ["detectionLimit"],
-            "schema:name": "Full scan detection limit",
-            "schema:value": "sub-nanogram",
-            "schema:unitText": "ng"
-        },
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": ["scanRange"],
-            "schema:name": "Full scan m/z range",
-            "schema:value": "50-500"
-        },
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": ["mrmCapability"],
-            "schema:name": "MRM target compounds",
-            "schema:value": 38
-        },
-        {
-            "@type": "schema:PropertyValue",
-            "schema:propertyID": ["ionizationMode"],
-            "schema:name": "Ionization mode",
-            "schema:value": "Electron Ionization (EI), positive polarity"
-        }
-    ],
-    "schema:validFrom": "2023-01-15",
-    "schema:hasPart": [
-        {
-            "@type": [
-                "schema:Thing",
-                "schema:Product"
-            ],
-            "@id": "ex:component-pyrolysis-oven",
-            "schema:name": "Pyrolysis Oven",
-            "schema:description": "Flash pyrolysis front-end interface coupled to GC-MS. Flash heats at 10°C/ms to temperatures up to 1300°C. Samples loaded in quartz tubes.",
-            "schema:additionalType": "wd:Q3099911",
-            "schema:manufacturer": {
-                "@type": "schema:Organization",
-                "schema:name": "CDS Analytical"
-            },
-            "schema:model": {
-                "@type": "schema:ProductModel",
-                "schema:name": "Pyroprobe 6150"
-            },
-            "schema:additionalProperty": [
-                {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": ["maxTemperature"],
-                    "schema:name": "Maximum temperature",
-                    "schema:value": 1300,
-                    "schema:unitText": "°C"
-                },
-                {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": ["heatingRate"],
-                    "schema:name": "Maximum heating rate",
-                    "schema:value": 10,
-                    "schema:unitText": "°C/ms"
-                }
-            ]
-        },
-        {
-            "@type": [
-                "schema:Thing",
-                "schema:Product"
-            ],
-            "@id": "ex:component-gas-chromatograph",
-            "schema:name": "Gas Chromatograph with Rtx-5ms column",
-            "schema:description": "GC with Rtx-5ms (5% diphenyl / 95% dimethyl polysiloxane) fused silica capillary column, 30 m × 0.250 mm × 0.50 µm, with 5 m × 0.250 mm guard column. Helium carrier gas at 1.500 mL/min.",
-            "schema:additionalType": "wd:Q848143",
-            "schema:manufacturer": {
-                "@type": "schema:Organization",
-                "schema:name": "Thermo Fisher Scientific"
-            },
-            "schema:model": {
-                "@type": "schema:ProductModel",
-                "schema:name": "TRACE 1310"
-            },
-            "schema:additionalProperty": [
-                {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": ["columnType"],
-                    "schema:name": "Column",
-                    "schema:value": "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard"
-                },
-                {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": ["carrierGas"],
-                    "schema:name": "Carrier gas",
-                    "schema:value": "Helium"
-                },
-                {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": ["carrierGasFlow"],
-                    "schema:name": "Carrier gas flow rate",
-                    "schema:value": 1.5,
-                    "schema:unitText": "mL/min"
-                }
-            ]
-        },
-        {
-            "@type": [
-                "schema:Thing",
-                "schema:Product"
-            ],
-            "@id": "ex:component-mass-spectrometer",
-            "schema:name": "Thermo Scientific TSQ Triple-Quadrupole Mass Spectrometer",
-            "schema:description": "TSQ triple-quadrupole MS operated in EI mode, positive polarity, with simultaneous full scan (m/z 50-500) and timed SRM/MRM capability targeting 38 organic compounds.",
-            "schema:additionalType": "wd:Q180809",
-            "schema:identifier": {
-                "@type": "schema:PropertyValue",
-                "schema:propertyID": "serialNumber",
-                "schema:value": "TSQ96CI2301004"
-            },
-            "schema:manufacturer": {
-                "@type": "schema:Organization",
-                "schema:name": "Thermo Fisher Scientific"
-            },
-            "schema:model": {
-                "@type": "schema:ProductModel",
-                "schema:name": "TSQ 9000"
-            },
-            "schema:additionalProperty": [
-                {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": ["detectorGain"],
-                    "schema:name": "Detector gain",
-                    "schema:value": 100000
-                },
-                {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": ["scanTime"],
-                    "schema:name": "Full scan time",
-                    "schema:value": 0.1,
-                    "schema:unitText": "s"
-                },
-                {
-                    "@type": "schema:PropertyValue",
-                    "schema:propertyID": ["ionSourceTemperature"],
-                    "schema:name": "Ion source temperature",
-                    "schema:value": 300,
-                    "schema:unitText": "°C"
-                }
-            ]
-        }
-    ],
-    "schema:relatedLink": [
-        {
-            "@type": "schema:CreativeWork",
-            "schema:name": "TSQ 9000 User Guide",
-            "schema:url": "https://www.thermofisher.com/document-connect/document-connect.html?url=https://assets.thermofisher.com/TFS-Assets/CMD/manuals/man-80000-97071-tsq-9000-user-guide.pdf",
-            "schema:description": "User manual for the TSQ 9000 triple quadrupole GC-MS/MS system"
-        },
-        {
-            "@type": "schema:CreativeWork",
-            "schema:name": "Dworkin et al. (2024) — Organic compounds in asteroid Bennu samples",
-            "schema:url": "https://doi.org/10.1038/s41586-024-08335-1"
-        },
-        {
-            "@type": "schema:CreativeWork",
-            "schema:name": "2023 annual calibration report",
-            "schema:url": "https://example.org/calibration/pygcms-gsfc-2023.pdf"
-        }
-    ],
-    "schema:subjectOf": {
-        "@id": "ex:metadata-instrument-pygcms-001",
-        "@type": [
-            "schema:DigitalDocument"
-        ],
-        "schema:dateModified": "2026-03-15",
-        "schema:about": {
-            "@id": "ex:instrument-pygcmsms-gsfc-001"
-        },
-        "dcterms:conformsTo": [
-            {
-                "@id": "https://w3id.org/cdif/bbr/metadata/instrumentDescription/v0.1"
-            }
-        ]
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "inventoryNumber",
+      "schema:value": "GSFC-AAL-PYGCMS-001"
     }
+  ],
+  "schema:url": "https://science.gsfc.nasa.gov/sed/bio/jason.p.dworkin",
+  "schema:manufacturer": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "Thermo Fisher Scientific",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "https://ror.org",
+      "schema:value": "03x1z2w73",
+      "schema:url": "https://ror.org/03x1z2w73"
+    },
+    "schema:contactPoint": {
+      "@type": [
+        "schema:ContactPoint"
+      ],
+      "schema:email": "info@thermofisher.com",
+      "schema:url": "https://www.thermofisher.com/contact-us.html"
+    }
+  },
+  "schema:model": {
+    "@type": [
+      "schema:ProductModel"
+    ],
+    "schema:name": "TSQ 9000 Triple Quadrupole GC-MS/MS",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "serialNumber",
+      "schema:value": "TSQ96CI2301004"
+    }
+  },
+  "schema:category": [
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Gas Chromatography Mass Spectrometry",
+      "schema:termCode": "GCMS",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "https://vocab.nerc.ac.uk/collection/L05/current/",
+        "schema:value": "LAB02",
+        "schema:url": "https://vocab.nerc.ac.uk/collection/L05/current/LAB02/"
+      },
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Pyrolysis Gas Chromatography Mass Spectrometry",
+      "schema:termCode": "Py-GC-MS",
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+    }
+  ],
+  "schema:owner": {
+    "@id": "https://ror.org/0171mag52",
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "NASA Goddard Space Flight Center",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "https://ror.org",
+      "schema:value": "0171mag52",
+      "schema:url": "https://ror.org/0171mag52"
+    },
+    "schema:contactPoint": {
+      "@type": [
+        "schema:ContactPoint"
+      ],
+      "schema:email": "gsfc-aal@nasa.gov"
+    }
+  },
+  "schema:contributor": [
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "Principal Investigator",
+        "schema:inDefinedTermSet": "https://credit.niso.org/",
+        "schema:termCode": "investigation"
+      },
+      "schema:contributor": {
+        "@id": "https://orcid.org/0000-0002-4805-7062",
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:name": "Dworkin, Jason P.",
+        "schema:identifier": {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": "https://orcid.org",
+          "schema:value": "0000-0002-4805-7062",
+          "schema:url": "https://orcid.org/0000-0002-4805-7062"
+        },
+        "schema:contactPoint": {
+          "@type": [
+            "schema:ContactPoint"
+          ],
+          "schema:email": "jason.p.dworkin@nasa.gov"
+        }
+      }
+    },
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": "Operator",
+      "schema:contributor": {
+        "@id": "https://orcid.org/0000-0001-8898-3457",
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:name": "Mojarro, Angel",
+        "schema:identifier": {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": "https://orcid.org",
+          "schema:value": "0000-0001-8898-3457",
+          "schema:url": "https://orcid.org/0000-0001-8898-3457"
+        },
+        "schema:contactPoint": {
+          "@type": [
+            "schema:ContactPoint"
+          ],
+          "schema:email": "angel.mojarro@nasa.gov"
+        }
+      }
+    }
+  ],
+  "schema:additionalProperty": [
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "MeasuredVariable"
+      ],
+      "schema:name": "Measured variables",
+      "schema:value": "mass-to-charge ratio (m/z); ion abundance; retention time"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "detectionLimit"
+      ],
+      "schema:name": "Full scan detection limit",
+      "schema:value": "sub-nanogram",
+      "schema:unitText": "ng"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "scanRange"
+      ],
+      "schema:name": "Full scan m/z range",
+      "schema:value": "50-500"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "mrmCapability"
+      ],
+      "schema:name": "MRM target compounds",
+      "schema:value": 38
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "ionizationMode"
+      ],
+      "schema:name": "Ionization mode",
+      "schema:value": "Electron Ionization (EI), positive polarity"
+    }
+  ],
+  "schema:validFrom": "2023-01-15",
+  "schema:hasPart": [
+    {
+      "@type": [
+        "schema:Thing",
+        "schema:Product"
+      ],
+      "@id": "ex:component-pyrolysis-oven",
+      "schema:name": "Pyrolysis Oven",
+      "schema:description": "Flash pyrolysis front-end interface coupled to GC-MS. Flash heats at 10°C/ms to temperatures up to 1300°C. Samples loaded in quartz tubes.",
+      "schema:additionalType": "wd:Q3099911",
+      "schema:manufacturer": {
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "CDS Analytical"
+      },
+      "schema:model": {
+        "@type": [
+          "schema:ProductModel"
+        ],
+        "schema:name": "Pyroprobe 6150"
+      },
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "maxTemperature"
+          ],
+          "schema:name": "Maximum temperature",
+          "schema:value": 1300,
+          "schema:unitText": "°C"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "heatingRate"
+          ],
+          "schema:name": "Maximum heating rate",
+          "schema:value": 10,
+          "schema:unitText": "°C/ms"
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:Thing",
+        "schema:Product"
+      ],
+      "@id": "ex:component-gas-chromatograph",
+      "schema:name": "Gas Chromatograph with Rtx-5ms column",
+      "schema:description": "GC with Rtx-5ms (5% diphenyl / 95% dimethyl polysiloxane) fused silica capillary column, 30 m × 0.250 mm × 0.50 µm, with 5 m × 0.250 mm guard column. Helium carrier gas at 1.500 mL/min.",
+      "schema:additionalType": "wd:Q848143",
+      "schema:manufacturer": {
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "Thermo Fisher Scientific"
+      },
+      "schema:model": {
+        "@type": [
+          "schema:ProductModel"
+        ],
+        "schema:name": "TRACE 1310"
+      },
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "columnType"
+          ],
+          "schema:name": "Column",
+          "schema:value": "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "carrierGas"
+          ],
+          "schema:name": "Carrier gas",
+          "schema:value": "Helium"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "carrierGasFlow"
+          ],
+          "schema:name": "Carrier gas flow rate",
+          "schema:value": 1.5,
+          "schema:unitText": "mL/min"
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:Thing",
+        "schema:Product"
+      ],
+      "@id": "ex:component-mass-spectrometer",
+      "schema:name": "Thermo Scientific TSQ Triple-Quadrupole Mass Spectrometer",
+      "schema:description": "TSQ triple-quadrupole MS operated in EI mode, positive polarity, with simultaneous full scan (m/z 50-500) and timed SRM/MRM capability targeting 38 organic compounds.",
+      "schema:additionalType": "wd:Q180809",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "serialNumber",
+        "schema:value": "TSQ96CI2301004"
+      },
+      "schema:manufacturer": {
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "Thermo Fisher Scientific"
+      },
+      "schema:model": {
+        "@type": [
+          "schema:ProductModel"
+        ],
+        "schema:name": "TSQ 9000"
+      },
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "detectorGain"
+          ],
+          "schema:name": "Detector gain",
+          "schema:value": 100000
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "scanTime"
+          ],
+          "schema:name": "Full scan time",
+          "schema:value": 0.1,
+          "schema:unitText": "s"
+        },
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "ionSourceTemperature"
+          ],
+          "schema:name": "Ion source temperature",
+          "schema:value": 300,
+          "schema:unitText": "°C"
+        }
+      ]
+    }
+  ],
+  "schema:relatedLink": [
+    {
+      "@type": [
+        "schema:CreativeWork"
+      ],
+      "schema:name": "TSQ 9000 User Guide",
+      "schema:url": "https://www.thermofisher.com/document-connect/document-connect.html?url=https://assets.thermofisher.com/TFS-Assets/CMD/manuals/man-80000-97071-tsq-9000-user-guide.pdf",
+      "schema:description": "User manual for the TSQ 9000 triple quadrupole GC-MS/MS system"
+    },
+    {
+      "@type": [
+        "schema:CreativeWork"
+      ],
+      "schema:name": "Dworkin et al. (2024) — Organic compounds in asteroid Bennu samples",
+      "schema:url": "https://doi.org/10.1038/s41586-024-08335-1"
+    },
+    {
+      "@type": [
+        "schema:CreativeWork"
+      ],
+      "schema:name": "2023 annual calibration report",
+      "schema:url": "https://example.org/calibration/pygcms-gsfc-2023.pdf"
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ex:metadata-instrument-pygcms-001",
+    "@type": [
+      "schema:DigitalDocument"
+    ],
+    "schema:dateModified": "2026-03-15",
+    "schema:about": {
+      "@id": "ex:instrument-pygcmsms-gsfc-001"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/bbr/metadata/instrumentDescription/v0.1"
+      }
+    ]
+  }
 }
 
 ```
@@ -426,49 +542,67 @@ each with their own manufacturer/model/properties), relatedLink
   ],
   "schema:identifier": [
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": "https://doi.org",
       "schema:value": "10.xxxx/instrument.pygcms.gsfc.001",
       "schema:url": "https://doi.org/10.xxxx/instrument.pygcms.gsfc.001"
     },
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": "inventoryNumber",
       "schema:value": "GSFC-AAL-PYGCMS-001"
     }
   ],
   "schema:url": "https://science.gsfc.nasa.gov/sed/bio/jason.p.dworkin",
   "schema:manufacturer": {
-    "@type": "schema:Organization",
+    "@type": [
+      "schema:Organization"
+    ],
     "schema:name": "Thermo Fisher Scientific",
     "schema:identifier": {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": "https://ror.org",
       "schema:value": "03x1z2w73",
       "schema:url": "https://ror.org/03x1z2w73"
     },
     "schema:contactPoint": {
-      "@type": "schema:ContactPoint",
+      "@type": [
+        "schema:ContactPoint"
+      ],
       "schema:email": "info@thermofisher.com",
       "schema:url": "https://www.thermofisher.com/contact-us.html"
     }
   },
   "schema:model": {
-    "@type": "schema:ProductModel",
+    "@type": [
+      "schema:ProductModel"
+    ],
     "schema:name": "TSQ 9000 Triple Quadrupole GC-MS/MS",
     "schema:identifier": {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": "serialNumber",
       "schema:value": "TSQ96CI2301004"
     }
   },
   "schema:category": [
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "Gas Chromatography Mass Spectrometry",
       "schema:termCode": "GCMS",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "https://vocab.nerc.ac.uk/collection/L05/current/",
         "schema:value": "LAB02",
         "schema:url": "https://vocab.nerc.ac.uk/collection/L05/current/LAB02/"
@@ -476,7 +610,9 @@ each with their own manufacturer/model/properties), relatedLink
       "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
     },
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "Pyrolysis Gas Chromatography Mass Spectrometry",
       "schema:termCode": "Py-GC-MS",
       "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
@@ -484,59 +620,83 @@ each with their own manufacturer/model/properties), relatedLink
   ],
   "schema:owner": {
     "@id": "https://ror.org/0171mag52",
-    "@type": "schema:Organization",
+    "@type": [
+      "schema:Organization"
+    ],
     "schema:name": "NASA Goddard Space Flight Center",
     "schema:identifier": {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": "https://ror.org",
       "schema:value": "0171mag52",
       "schema:url": "https://ror.org/0171mag52"
     },
     "schema:contactPoint": {
-      "@type": "schema:ContactPoint",
+      "@type": [
+        "schema:ContactPoint"
+      ],
       "schema:email": "gsfc-aal@nasa.gov"
     }
   },
   "schema:contributor": [
     {
-      "@type": "schema:Role",
+      "@type": [
+        "schema:Role"
+      ],
       "schema:roleName": {
-        "@type": "schema:DefinedTerm",
+        "@type": [
+          "schema:DefinedTerm"
+        ],
         "schema:name": "Principal Investigator",
         "schema:inDefinedTermSet": "https://credit.niso.org/",
         "schema:termCode": "investigation"
       },
       "schema:contributor": {
         "@id": "https://orcid.org/0000-0002-4805-7062",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Dworkin, Jason P.",
         "schema:identifier": {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": "https://orcid.org",
           "schema:value": "0000-0002-4805-7062",
           "schema:url": "https://orcid.org/0000-0002-4805-7062"
         },
         "schema:contactPoint": {
-          "@type": "schema:ContactPoint",
+          "@type": [
+            "schema:ContactPoint"
+          ],
           "schema:email": "jason.p.dworkin@nasa.gov"
         }
       }
     },
     {
-      "@type": "schema:Role",
+      "@type": [
+        "schema:Role"
+      ],
       "schema:roleName": "Operator",
       "schema:contributor": {
         "@id": "https://orcid.org/0000-0001-8898-3457",
-        "@type": "schema:Person",
+        "@type": [
+          "schema:Person"
+        ],
         "schema:name": "Mojarro, Angel",
         "schema:identifier": {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": "https://orcid.org",
           "schema:value": "0000-0001-8898-3457",
           "schema:url": "https://orcid.org/0000-0001-8898-3457"
         },
         "schema:contactPoint": {
-          "@type": "schema:ContactPoint",
+          "@type": [
+            "schema:ContactPoint"
+          ],
           "schema:email": "angel.mojarro@nasa.gov"
         }
       }
@@ -544,7 +704,9 @@ each with their own manufacturer/model/properties), relatedLink
   ],
   "schema:additionalProperty": [
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": [
         "MeasuredVariable"
       ],
@@ -552,7 +714,9 @@ each with their own manufacturer/model/properties), relatedLink
       "schema:value": "mass-to-charge ratio (m/z); ion abundance; retention time"
     },
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": [
         "detectionLimit"
       ],
@@ -561,7 +725,9 @@ each with their own manufacturer/model/properties), relatedLink
       "schema:unitText": "ng"
     },
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": [
         "scanRange"
       ],
@@ -569,7 +735,9 @@ each with their own manufacturer/model/properties), relatedLink
       "schema:value": "50-500"
     },
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": [
         "mrmCapability"
       ],
@@ -577,7 +745,9 @@ each with their own manufacturer/model/properties), relatedLink
       "schema:value": 38
     },
     {
-      "@type": "schema:PropertyValue",
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:propertyID": [
         "ionizationMode"
       ],
@@ -597,16 +767,22 @@ each with their own manufacturer/model/properties), relatedLink
       "schema:description": "Flash pyrolysis front-end interface coupled to GC-MS. Flash heats at 10\u00b0C/ms to temperatures up to 1300\u00b0C. Samples loaded in quartz tubes.",
       "schema:additionalType": "wd:Q3099911",
       "schema:manufacturer": {
-        "@type": "schema:Organization",
+        "@type": [
+          "schema:Organization"
+        ],
         "schema:name": "CDS Analytical"
       },
       "schema:model": {
-        "@type": "schema:ProductModel",
+        "@type": [
+          "schema:ProductModel"
+        ],
         "schema:name": "Pyroprobe 6150"
       },
       "schema:additionalProperty": [
         {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": [
             "maxTemperature"
           ],
@@ -615,7 +791,9 @@ each with their own manufacturer/model/properties), relatedLink
           "schema:unitText": "\u00b0C"
         },
         {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": [
             "heatingRate"
           ],
@@ -635,16 +813,22 @@ each with their own manufacturer/model/properties), relatedLink
       "schema:description": "GC with Rtx-5ms (5% diphenyl / 95% dimethyl polysiloxane) fused silica capillary column, 30 m \u00d7 0.250 mm \u00d7 0.50 \u00b5m, with 5 m \u00d7 0.250 mm guard column. Helium carrier gas at 1.500 mL/min.",
       "schema:additionalType": "wd:Q848143",
       "schema:manufacturer": {
-        "@type": "schema:Organization",
+        "@type": [
+          "schema:Organization"
+        ],
         "schema:name": "Thermo Fisher Scientific"
       },
       "schema:model": {
-        "@type": "schema:ProductModel",
+        "@type": [
+          "schema:ProductModel"
+        ],
         "schema:name": "TRACE 1310"
       },
       "schema:additionalProperty": [
         {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": [
             "columnType"
           ],
@@ -652,7 +836,9 @@ each with their own manufacturer/model/properties), relatedLink
           "schema:value": "Rtx-5ms, 30 m \u00d7 0.250 mm \u00d7 0.50 \u00b5m + 5 m guard"
         },
         {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": [
             "carrierGas"
           ],
@@ -660,7 +846,9 @@ each with their own manufacturer/model/properties), relatedLink
           "schema:value": "Helium"
         },
         {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": [
             "carrierGasFlow"
           ],
@@ -680,21 +868,29 @@ each with their own manufacturer/model/properties), relatedLink
       "schema:description": "TSQ triple-quadrupole MS operated in EI mode, positive polarity, with simultaneous full scan (m/z 50-500) and timed SRM/MRM capability targeting 38 organic compounds.",
       "schema:additionalType": "wd:Q180809",
       "schema:identifier": {
-        "@type": "schema:PropertyValue",
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "serialNumber",
         "schema:value": "TSQ96CI2301004"
       },
       "schema:manufacturer": {
-        "@type": "schema:Organization",
+        "@type": [
+          "schema:Organization"
+        ],
         "schema:name": "Thermo Fisher Scientific"
       },
       "schema:model": {
-        "@type": "schema:ProductModel",
+        "@type": [
+          "schema:ProductModel"
+        ],
         "schema:name": "TSQ 9000"
       },
       "schema:additionalProperty": [
         {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": [
             "detectorGain"
           ],
@@ -702,7 +898,9 @@ each with their own manufacturer/model/properties), relatedLink
           "schema:value": 100000
         },
         {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": [
             "scanTime"
           ],
@@ -711,7 +909,9 @@ each with their own manufacturer/model/properties), relatedLink
           "schema:unitText": "s"
         },
         {
-          "@type": "schema:PropertyValue",
+          "@type": [
+            "schema:PropertyValue"
+          ],
           "schema:propertyID": [
             "ionSourceTemperature"
           ],
@@ -724,18 +924,24 @@ each with their own manufacturer/model/properties), relatedLink
   ],
   "schema:relatedLink": [
     {
-      "@type": "schema:CreativeWork",
+      "@type": [
+        "schema:CreativeWork"
+      ],
       "schema:name": "TSQ 9000 User Guide",
       "schema:url": "https://www.thermofisher.com/document-connect/document-connect.html?url=https://assets.thermofisher.com/TFS-Assets/CMD/manuals/man-80000-97071-tsq-9000-user-guide.pdf",
       "schema:description": "User manual for the TSQ 9000 triple quadrupole GC-MS/MS system"
     },
     {
-      "@type": "schema:CreativeWork",
+      "@type": [
+        "schema:CreativeWork"
+      ],
       "schema:name": "Dworkin et al. (2024) \u2014 Organic compounds in asteroid Bennu samples",
       "schema:url": "https://doi.org/10.1038/s41586-024-08335-1"
     },
     {
-      "@type": "schema:CreativeWork",
+      "@type": [
+        "schema:CreativeWork"
+      ],
       "schema:name": "2023 annual calibration report",
       "schema:url": "https://example.org/calibration/pygcms-gsfc-2023.pdf"
     }
@@ -768,18 +974,18 @@ each with their own manufacturer/model/properties), relatedLink
 ex:component-gas-chromatograph a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Column" ;
-            schema1:propertyID "columnType" ;
-            schema1:value "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard" ],
+            schema1:name "Carrier gas flow rate" ;
+            schema1:propertyID "carrierGasFlow" ;
+            schema1:unitText "mL/min" ;
+            schema1:value 1.5e+00 ],
         [ a schema1:PropertyValue ;
             schema1:name "Carrier gas" ;
             schema1:propertyID "carrierGas" ;
             schema1:value "Helium" ],
         [ a schema1:PropertyValue ;
-            schema1:name "Carrier gas flow rate" ;
-            schema1:propertyID "carrierGasFlow" ;
-            schema1:unitText "mL/min" ;
-            schema1:value 1.5e+00 ] ;
+            schema1:name "Column" ;
+            schema1:propertyID "columnType" ;
+            schema1:value "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard" ] ;
     schema1:additionalType "wd:Q848143" ;
     schema1:description "GC with Rtx-5ms (5% diphenyl / 95% dimethyl polysiloxane) fused silica capillary column, 30 m × 0.250 mm × 0.50 µm, with 5 m × 0.250 mm guard column. Helium carrier gas at 1.500 mL/min." ;
     schema1:manufacturer [ a schema1:Organization ;
@@ -791,6 +997,10 @@ ex:component-gas-chromatograph a schema1:Product,
 ex:component-mass-spectrometer a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "Detector gain" ;
+            schema1:propertyID "detectorGain" ;
+            schema1:value 100000 ],
+        [ a schema1:PropertyValue ;
             schema1:name "Ion source temperature" ;
             schema1:propertyID "ionSourceTemperature" ;
             schema1:unitText "°C" ;
@@ -799,11 +1009,7 @@ ex:component-mass-spectrometer a schema1:Product,
             schema1:name "Full scan time" ;
             schema1:propertyID "scanTime" ;
             schema1:unitText "s" ;
-            schema1:value 1e-01 ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Detector gain" ;
-            schema1:propertyID "detectorGain" ;
-            schema1:value 100000 ] ;
+            schema1:value 1e-01 ] ;
     schema1:additionalType "wd:Q180809" ;
     schema1:description "TSQ triple-quadrupole MS operated in EI mode, positive polarity, with simultaneous full scan (m/z 50-500) and timed SRM/MRM capability targeting 38 organic compounds." ;
     schema1:identifier [ a schema1:PropertyValue ;
@@ -838,42 +1044,42 @@ ex:component-pyrolysis-oven a schema1:Product,
 ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Full scan m/z range" ;
-            schema1:propertyID "scanRange" ;
-            schema1:value "50-500" ],
-        [ a schema1:PropertyValue ;
             schema1:name "Full scan detection limit" ;
             schema1:propertyID "detectionLimit" ;
             schema1:unitText "ng" ;
             schema1:value "sub-nanogram" ],
         [ a schema1:PropertyValue ;
+            schema1:name "Full scan m/z range" ;
+            schema1:propertyID "scanRange" ;
+            schema1:value "50-500" ],
+        [ a schema1:PropertyValue ;
             schema1:name "MRM target compounds" ;
             schema1:propertyID "mrmCapability" ;
             schema1:value 38 ],
         [ a schema1:PropertyValue ;
-            schema1:name "Measured variables" ;
-            schema1:propertyID "MeasuredVariable" ;
-            schema1:value "mass-to-charge ratio (m/z); ion abundance; retention time" ],
-        [ a schema1:PropertyValue ;
             schema1:name "Ionization mode" ;
             schema1:propertyID "ionizationMode" ;
-            schema1:value "Electron Ionization (EI), positive polarity" ] ;
+            schema1:value "Electron Ionization (EI), positive polarity" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Measured variables" ;
+            schema1:propertyID "MeasuredVariable" ;
+            schema1:value "mass-to-charge ratio (m/z); ion abundance; retention time" ] ;
     schema1:additionalType "wd:Q3099911",
         "wd:Q420427" ;
     schema1:alternateName "GSFC Astrobiology Lab Pyrolysis GC-MS System",
         "Py-GC-MS/MS" ;
     schema1:category [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+            schema1:name "Pyrolysis Gas Chromatography Mass Spectrometry" ;
+            schema1:termCode "Py-GC-MS" ],
+        [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "https://vocab.nerc.ac.uk/collection/L05/current/" ;
                     schema1:url "https://vocab.nerc.ac.uk/collection/L05/current/LAB02/" ;
                     schema1:value "LAB02" ] ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
             schema1:name "Gas Chromatography Mass Spectrometry" ;
-            schema1:termCode "GCMS" ],
-        [ a schema1:DefinedTerm ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
-            schema1:name "Pyrolysis Gas Chromatography Mass Spectrometry" ;
-            schema1:termCode "Py-GC-MS" ] ;
+            schema1:termCode "GCMS" ] ;
     schema1:contributor [ a schema1:Role ;
             schema1:contributor <https://orcid.org/0000-0002-4805-7062> ;
             schema1:roleName [ a schema1:DefinedTerm ;
@@ -911,15 +1117,15 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
     schema1:name "Pyrolysis-GC-MS/MS System (NASA GSFC Astrobiology Analytical Lab)" ;
     schema1:owner <https://ror.org/0171mag52> ;
     schema1:relatedLink [ a schema1:CreativeWork ;
+            schema1:name "2023 annual calibration report" ;
+            schema1:url "https://example.org/calibration/pygcms-gsfc-2023.pdf" ],
+        [ a schema1:CreativeWork ;
             schema1:description "User manual for the TSQ 9000 triple quadrupole GC-MS/MS system" ;
             schema1:name "TSQ 9000 User Guide" ;
             schema1:url "https://www.thermofisher.com/document-connect/document-connect.html?url=https://assets.thermofisher.com/TFS-Assets/CMD/manuals/man-80000-97071-tsq-9000-user-guide.pdf" ],
         [ a schema1:CreativeWork ;
             schema1:name "Dworkin et al. (2024) — Organic compounds in asteroid Bennu samples" ;
-            schema1:url "https://doi.org/10.1038/s41586-024-08335-1" ],
-        [ a schema1:CreativeWork ;
-            schema1:name "2023 annual calibration report" ;
-            schema1:url "https://example.org/calibration/pygcms-gsfc-2023.pdf" ] ;
+            schema1:url "https://doi.org/10.1038/s41586-024-08335-1" ] ;
     schema1:subjectOf ex:metadata-instrument-pygcms-001 ;
     schema1:url "https://science.gsfc.nasa.gov/sed/bio/jason.p.dworkin" ;
     schema1:validFrom "2023-01-15" .
@@ -1039,14 +1245,12 @@ properties:
     description: Product model information for this instrument.
     properties:
       '@type':
-        anyOf:
-        - type: string
+        type: array
+        items:
+          type: string
+        contains:
           const: schema:ProductModel
-        - type: array
-          items:
-            type: string
-          contains:
-            const: schema:ProductModel
+        minItems: 1
       schema:name:
         type: string
         description: Model name or number.
@@ -1198,14 +1402,12 @@ $defs:
         type: object
         properties:
           '@type':
-            anyOf:
-            - type: string
+            type: array
+            items:
+              type: string
+            contains:
               const: schema:ProductModel
-            - type: array
-              items:
-                type: string
-              contains:
-                const: schema:ProductModel
+            minItems: 1
           schema:name:
             type: string
           schema:identifier:

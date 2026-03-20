@@ -46,7 +46,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
   ],
   "schema:name": "XAS measurement of Fe K-edge in magnetite sample",
   "schema:identifier": {
-    "@type": "schema:PropertyValue",
+    "@type": [
+      "schema:PropertyValue"
+    ],
     "schema:propertyID": "https://doi.org",
     "schema:value": "10.12345/xas-optional-test",
     "schema:url": "https://doi.org/10.12345/xas-optional-test"
@@ -67,9 +69,15 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
       "schema:encodingFormat": [
         "text/plain"
       ],
-      "dcterms:conformsTo": [{"@id": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md"}],
+      "dcterms:conformsTo": [
+        {
+          "@id": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md"
+        }
+      ],
       "spdx:checksum": {
-        "@type": "spdx:Checksum",
+        "@type": [
+          "spdx:Checksum"
+        ],
         "spdx:algorithm": "SHA256",
         "spdx:checksumValue": "a1b2c3d4e5f6"
       }
@@ -105,10 +113,14 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
     ],
     "schema:maintainer": {
       "@id": "ex:person_jdoe",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Doe, Jane",
       "schema:contactPoint": {
-        "@type": "schema:ContactPoint",
+        "@type": [
+          "schema:ContactPoint"
+        ],
         "schema:email": "jane.doe@example.org"
       }
     },
@@ -119,13 +131,20 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
       "prov:used": [
         {
           "schema:instrument": {
-            "@type": ["schema:Thing", "schema:Product"],
+            "@type": [
+              "schema:Thing",
+              "schema:Product"
+            ],
             "schema:name": "APS Sector 20-BM beamline instrument",
-            "schema:category": [{
-                "@type": "schema:DefinedTerm",
+            "schema:category": [
+              {
+                "@type": [
+                  "schema:DefinedTerm"
+                ],
                 "schema:name": "X-ray absorption spectroscopy beamline",
                 "schema:termCode": "XAS-beamline"
-            }],
+              }
+            ],
             "schema:hasPart": [
               {
                 "@type": [
@@ -136,7 +155,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
                 "schema:name": "APS Undulator A",
                 "schema:additionalProperty": [
                   {
-                    "@type": "schema:PropertyValue",
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
                     "schema:propertyID": [
                       "nxs:Field/NXsource/type"
                     ],
@@ -144,7 +165,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
                     "schema:value": "Synchrotron X-ray Source"
                   },
                   {
-                    "@type": "schema:PropertyValue",
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
                     "schema:propertyID": [
                       "nxs:Field/NXsource/probe"
                     ],
@@ -162,7 +185,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
                 "schema:name": "Si 311",
                 "schema:additionalProperty": [
                   {
-                    "@type": "schema:PropertyValue",
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
                     "schema:propertyID": [
                       "nxs:Field/NXcrystal/d_spacing"
                     ],
@@ -171,7 +196,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
                     "schema:unitText": "Angstrom"
                   },
                   {
-                    "@type": "schema:PropertyValue",
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
                     "schema:propertyID": [
                       "nxs:Field/NXcrystal/type"
                     ],
@@ -179,7 +206,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
                     "schema:value": "channel-cut"
                   },
                   {
-                    "@type": "schema:PropertyValue",
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
                     "schema:propertyID": [
                       "nxs:Field/NXcrystal/reflection"
                     ],
@@ -206,7 +235,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
         "schema:description": "Synthetic magnetite powder, 99.5% purity",
         "schema:additionalProperty": [
           {
-            "@type": "schema:PropertyValue",
+            "@type": [
+              "schema:PropertyValue"
+            ],
             "schema:propertyID": [
               "xas:stoichiometry"
             ],
@@ -214,7 +245,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
             "schema:value": "Fe3O4"
           },
           {
-            "@type": "schema:PropertyValue",
+            "@type": [
+              "schema:PropertyValue"
+            ],
             "schema:propertyID": [
               "xas:samplePreparation"
             ],
@@ -227,14 +260,18 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
   ],
   "schema:measurementTechnique": [
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "X-Ray Absorption Spectroscopy",
       "schema:termCode": "XAS",
       "schema:identifier": "http://purl.org/pan-science/PaNET/PaNET01196",
       "schema:inDefinedTermSet": "http://purl.org/pan-science/PaNET/PaNET.owl"
     },
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "Transmission",
       "schema:identifier": "xas:transmissionMode",
       "schema:inDefinedTermSet": "nxs:Field/NXxas/ENTRY/DATA/mode"
@@ -242,14 +279,18 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
   ],
   "schema:keywords": [
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "K-edge",
       "schema:identifier": "xas:K-edge",
       "schema:termCode": "K",
       "schema:inDefinedTermSet": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md"
     },
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "Iron",
       "schema:identifier": "http://sweetontology.net/matrElement/Iron",
       "schema:termCode": "Fe",
@@ -292,7 +333,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
   ],
   "schema:name": "XAS measurement of Fe K-edge in magnetite sample",
   "schema:identifier": {
-    "@type": "schema:PropertyValue",
+    "@type": [
+      "schema:PropertyValue"
+    ],
     "schema:propertyID": "https://doi.org",
     "schema:value": "10.12345/xas-optional-test",
     "schema:url": "https://doi.org/10.12345/xas-optional-test"
@@ -319,7 +362,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
         }
       ],
       "spdx:checksum": {
-        "@type": "spdx:Checksum",
+        "@type": [
+          "spdx:Checksum"
+        ],
         "spdx:algorithm": "SHA256",
         "spdx:checksumValue": "a1b2c3d4e5f6"
       }
@@ -355,10 +400,14 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
     ],
     "schema:maintainer": {
       "@id": "ex:person_jdoe",
-      "@type": "schema:Person",
+      "@type": [
+        "schema:Person"
+      ],
       "schema:name": "Doe, Jane",
       "schema:contactPoint": {
-        "@type": "schema:ContactPoint",
+        "@type": [
+          "schema:ContactPoint"
+        ],
         "schema:email": "jane.doe@example.org"
       }
     },
@@ -376,7 +425,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
             "schema:name": "APS Sector 20-BM beamline instrument",
             "schema:category": [
               {
-                "@type": "schema:DefinedTerm",
+                "@type": [
+                  "schema:DefinedTerm"
+                ],
                 "schema:name": "X-ray absorption spectroscopy beamline",
                 "schema:termCode": "XAS-beamline"
               }
@@ -391,7 +442,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
                 "schema:name": "APS Undulator A",
                 "schema:additionalProperty": [
                   {
-                    "@type": "schema:PropertyValue",
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
                     "schema:propertyID": [
                       "nxs:Field/NXsource/type"
                     ],
@@ -399,7 +452,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
                     "schema:value": "Synchrotron X-ray Source"
                   },
                   {
-                    "@type": "schema:PropertyValue",
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
                     "schema:propertyID": [
                       "nxs:Field/NXsource/probe"
                     ],
@@ -417,7 +472,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
                 "schema:name": "Si 311",
                 "schema:additionalProperty": [
                   {
-                    "@type": "schema:PropertyValue",
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
                     "schema:propertyID": [
                       "nxs:Field/NXcrystal/d_spacing"
                     ],
@@ -426,7 +483,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
                     "schema:unitText": "Angstrom"
                   },
                   {
-                    "@type": "schema:PropertyValue",
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
                     "schema:propertyID": [
                       "nxs:Field/NXcrystal/type"
                     ],
@@ -434,7 +493,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
                     "schema:value": "channel-cut"
                   },
                   {
-                    "@type": "schema:PropertyValue",
+                    "@type": [
+                      "schema:PropertyValue"
+                    ],
                     "schema:propertyID": [
                       "nxs:Field/NXcrystal/reflection"
                     ],
@@ -461,7 +522,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
         "schema:description": "Synthetic magnetite powder, 99.5% purity",
         "schema:additionalProperty": [
           {
-            "@type": "schema:PropertyValue",
+            "@type": [
+              "schema:PropertyValue"
+            ],
             "schema:propertyID": [
               "xas:stoichiometry"
             ],
@@ -469,7 +532,9 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
             "schema:value": "Fe3O4"
           },
           {
-            "@type": "schema:PropertyValue",
+            "@type": [
+              "schema:PropertyValue"
+            ],
             "schema:propertyID": [
               "xas:samplePreparation"
             ],
@@ -482,14 +547,18 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
   ],
   "schema:measurementTechnique": [
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "X-Ray Absorption Spectroscopy",
       "schema:termCode": "XAS",
       "schema:identifier": "http://purl.org/pan-science/PaNET/PaNET01196",
       "schema:inDefinedTermSet": "http://purl.org/pan-science/PaNET/PaNET.owl"
     },
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "Transmission",
       "schema:identifier": "xas:transmissionMode",
       "schema:inDefinedTermSet": "nxs:Field/NXxas/ENTRY/DATA/mode"
@@ -497,14 +566,18 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
   ],
   "schema:keywords": [
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "K-edge",
       "schema:identifier": "xas:K-edge",
       "schema:termCode": "K",
       "schema:inDefinedTermSet": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md"
     },
     {
-      "@type": "schema:DefinedTerm",
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "Iron",
       "schema:identifier": "http://sweetontology.net/matrElement/Iron",
       "schema:termCode": "Fe",
@@ -558,15 +631,15 @@ ex:xasOptionalExample_001 a schema1:Dataset,
             schema1:url "https://doi.org/10.12345/xas-optional-test" ;
             schema1:value "10.12345/xas-optional-test" ] ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "http://sweetontology.net/matrElement/Iron" ;
-            schema1:inDefinedTermSet "http://sweetontology.net/matrElement" ;
-            schema1:name "Iron" ;
-            schema1:termCode "Fe" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "xas:K-edge" ;
             schema1:inDefinedTermSet "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md" ;
             schema1:name "K-edge" ;
-            schema1:termCode "K" ] ;
+            schema1:termCode "K" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "http://sweetontology.net/matrElement/Iron" ;
+            schema1:inDefinedTermSet "http://sweetontology.net/matrElement" ;
+            schema1:name "Iron" ;
+            schema1:termCode "Fe" ] ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
             schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01196" ;
@@ -602,6 +675,18 @@ ex:xasOptionalExample_001 a schema1:Dataset,
                             schema1:hasPart [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
+                                            schema1:name "x-ray source type" ;
+                                            schema1:propertyID "nxs:Field/NXsource/type" ;
+                                            schema1:value "Synchrotron X-ray Source" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "Probe" ;
+                                            schema1:propertyID "nxs:Field/NXsource/probe" ;
+                                            schema1:value "x-ray" ] ;
+                                    schema1:additionalType "nxs:BaseClass/NXsource" ;
+                                    schema1:name "APS Undulator A" ],
+                                [ a schema1:Product,
+                                        schema1:Thing ;
+                                    schema1:additionalProperty [ a schema1:PropertyValue ;
                                             schema1:name "crystal type" ;
                                             schema1:propertyID "nxs:Field/NXcrystal/type" ;
                                             schema1:value "channel-cut" ],
@@ -615,19 +700,7 @@ ex:xasOptionalExample_001 a schema1:Dataset,
                                             schema1:unitText "Angstrom" ;
                                             schema1:value "1.63747" ] ;
                                     schema1:additionalType "nxs:BaseClass/NXmonochromator" ;
-                                    schema1:name "Si 311" ],
-                                [ a schema1:Product,
-                                        schema1:Thing ;
-                                    schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "Probe" ;
-                                            schema1:propertyID "nxs:Field/NXsource/probe" ;
-                                            schema1:value "x-ray" ],
-                                        [ a schema1:PropertyValue ;
-                                            schema1:name "x-ray source type" ;
-                                            schema1:propertyID "nxs:Field/NXsource/type" ;
-                                            schema1:value "Synchrotron X-ray Source" ] ;
-                                    schema1:additionalType "nxs:BaseClass/NXsource" ;
-                                    schema1:name "APS Undulator A" ] ;
+                                    schema1:name "Si 311" ] ;
                             schema1:name "APS Sector 20-BM beamline instrument" ] ] ] .
 
 
@@ -882,14 +955,12 @@ allOf:
         type: object
         properties:
           '@type':
-            anyOf:
-            - type: string
+            type: array
+            items:
+              type: string
+            contains:
               const: schema:DefinedTerm
-            - type: array
-              items:
-                type: string
-              contains:
-                const: schema:DefinedTerm
+            minItems: 1
           schema:name:
             type: string
           schema:identifier:
