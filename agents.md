@@ -30,8 +30,9 @@ metadataBuildingBlocks/
 │   │   └── agentInRole/             # schema:Role wrapping Person/Org
 │   ├── cdifProperties/              # CDIF-specific property types
 │   │   ├── cdifCatalogRecord/       # dcat:CatalogRecord metadata-about-metadata
-│   │   ├── cdifCore/                # CDIF core property group (all resource-universal properties)
-│   │   ├── cdifProvActivity/        # CDIF provenance activity (extends generatedBy)
+│   │   ├── cdifCore/           # CDIF core property group
+│   │   ├── cdifOptional/            # CDIF optional property group
+│   │   ├── cdifProvActivity/         # CDIF provenance activity (extends generatedBy)
 │   │   ├── cdifProvenance/          # CDIF provenance (prov:wasGeneratedBy wrapper)
 │   │   ├── cdifTabularData/         # CDIF tabular data description
 │   │   ├── cdifDataCube/            # CDIF data cube description
@@ -47,10 +48,6 @@ metadataBuildingBlocks/
 │   │   └── ddicdiProv/              # DDI-CDI native provenance activity
 │   ├── qualityProperties/           # Data quality types
 │   │   └── qualityMeasure/          # Quality measure definitions
-│   ├── skosProperties/               # SKOS vocabulary types
-│   │   ├── skosConcept/             # skos:Concept (labels, hierarchy, mappings)
-│   │   ├── skosConceptScheme/       # skos:ConceptScheme
-│   │   └── skosCollection/          # skos:Collection, skos:OrderedCollection
 │   ├── bioschemasProperties/         # Bioschemas vocabulary types
 │   │   └── cdifBioschemasProperties/  # Lab protocols, samples, workflows
 │   ├── xasProperties/               # X-ray Absorption Spectroscopy types
@@ -64,11 +61,10 @@ metadataBuildingBlocks/
 │   │   └── xasOptional/             # XAS optional property group
 │   └── profiles/                    # Top-level profiles that compose BBs
 │       └── cdifProfiles/
-│           ├── CDIFDiscovery/       # CDIF Discovery profile (cdifCore + discovery properties)
-│           ├── CDIFDataDescription/ # CDIF Data Description profile (cdifCore + discovery + data description)
-│           ├── CDIFcomplete/        # CDIF Complete profile (cdifCore + discovery + data desc + archive + provenance)
-│           ├── CDIFxas/             # CDIF XAS profile (cdifCore + discovery + XAS properties)
-│           └── CDIFCodelist/        # CDIF Codelist profile (skosConceptScheme + codelist constraints)
+│           ├── CDIFDiscovery/       # CDIF Discovery profile
+│           ├── CDIFcomplete/        # CDIF Complete profile (discovery + data description + provenance + archive)
+│           ├── CDIFDataDescription/ # CDIF Data Description profile
+│           └── CDIFxas/             # CDIF XAS profile
 ├── tools/
 │   ├── resolve_schema.py            # Schema resolver (see below)
 │   ├── convert_for_jsonforms.py     # JSON Forms converter (see below)
@@ -76,8 +72,7 @@ metadataBuildingBlocks/
 │   ├── validate_instance.py         # Profile-aware validation tool
 │   ├── validate_examples.py         # Validates all examples against resolved schemas
 │   ├── augment_register.py          # Adds resolvedSchema URLs to register.json
-│   ├── regenerate_schema_json.py    # Generates *Schema.json from schema.yaml (YAML→JSON + ref rewrite)
-│   ├── sync_resolve_schema.py      # Syncs shared tools to domain repos (dde, ecrr, geochem)
+│   ├── regenerate_schema_json.py    # Regenerates schema.json files from resolvedSchema.json
 │   ├── test_redirects.py            # Tests w3id.org redirect rules for building block URIs
 │   ├── update_conformsto_uris.py    # Updates conformsTo URIs in building block schemas
 │   └── cors_server.py               # CORS dev server for local testing
@@ -91,7 +86,7 @@ Domain-specific building blocks (moved to separate repositories):
 
 ## Building Block Composition
 
-Each profile is defined as `allOf: [cdifCore, {inline profile-specific properties}]`. Profiles do not inherit from other profiles — each is self-contained. The `cdifCore` building block defines all properties applicable to any resource (identifier, title, description, creator, distribution, provenance links, etc.). Profile-specific properties (e.g. spatial/temporal coverage for discovery, data description extensions) are defined inline in the profile schema.
+Profiles are defined as pure `allOf` compositions of building block `$ref`s, with no inline property definitions. All properties come from building block components.
 
 Some building blocks define **item-level schemas** (e.g., a provenance activity object, an archive distribution item) rather than root-level dataset properties. Placing these directly in a profile's `allOf` would apply their constraints to the root object. **Wrapper building blocks** solve this by defining the root-level property (e.g., `prov:wasGeneratedBy`, `schema:distribution`) whose items reference the item-level building block.
 
@@ -104,17 +99,17 @@ Some building blocks define **item-level schemas** (e.g., a provenance activity 
 
 Building blocks that represent CDIF specification components declare required `dcterms:conformsTo` URIs in the metadata catalog record (`schema:subjectOf`). Each building block's `schema.yaml` adds a `contains` constraint on `schema:subjectOf` → `dcterms:conformsTo` requiring its specific URI. Corresponding SHACL shapes enforce the same constraint via `sh:hasValue`.
 
-| Scope | Conformance URI | SHACL Shape |
+| Building Block | Conformance URI | SHACL Shape |
 |---|---|---|
 | `cdifCore` | `https://w3id.org/cdif/core/1.0/` | `sh:hasValue` on existing `metadataProfileProperty` |
-| CDIFDiscovery profile | `https://w3id.org/cdif/discovery/1.0/` | `CDIFDiscoveryConformsToShape` |
-| CDIFDataDescription profile | `https://w3id.org/cdif/data_description/1.0/` | `CDIFDataDescriptionConformsToShape` |
-| CDIFcomplete (archive) | `https://w3id.org/cdif/manifest/1.0/` | *(JSON Schema only)* |
-| CDIFcomplete (provenance) | `https://w3id.org/cdif/provenance/1.0/` | *(JSON Schema only)* |
-| CDIFxas (xasOptional) | `https://w3id.org/cdif/xasDiscovery/1.0/` | `XasDiscoveryConformsToShape` |
-| CDIFxas (xasCore) | `https://w3id.org/cdif/xasCore/1.0/` | `XasCoreConformsToShape` |
+| `cdifOptional` | `https://w3id.org/cdif/discovery/1.0/` | `CDIFDiscoveryConformsToShape` |
+| `cdifDataDescription` | `https://w3id.org/cdif/data_description/1.0/` | `CDIFDataDescriptionConformsToShape` |
+| `cdifArchiveDistribution` | `https://w3id.org/cdif/manifest/1.0/` | *(no rules.shacl — JSON Schema only)* |
+| `cdifProvenance` | `https://w3id.org/cdif/provenance/1.0/` | *(no rules.shacl — JSON Schema only)* |
+| `xasOptional` | `https://w3id.org/cdif/xasDiscovery/1.0/` | `XasDiscoveryConformsToShape` |
+| `xasCore` | `https://w3id.org/cdif/xasCore/1.0/` | `XasCoreConformsToShape` |
 
-The `cdifCore` building block adds a `contains` constraint for `core/1.0/`. Each profile adds conformsTo constraints inline for its own scope. The conformsTo array must include URIs for the core and all applicable profile components:
+**Profile rollup:** When building blocks are composed into profiles via `allOf`, the `contains` constraints combine — the conformsTo array must include URIs for all constituent building blocks. For example:
 
 | Profile | Required conformsTo URIs |
 |---|---|
@@ -282,7 +277,6 @@ If the workflow fails, check the error log for:
 | `dcat` | `http://www.w3.org/ns/dcat#` | Catalog record typing (cdifCatalogRecord) |
 | `geosparql` | `http://www.opengis.net/ont/geosparql#` | Spatial geometry types |
 | `bios` | `https://bioschemas.org/` | Bioschemas lab protocols, samples, workflows |
-| `skos` | `http://www.w3.org/2004/02/skos/core#` | SKOS concept schemes, concepts, collections |
 
 ## Domain-Specific Building Blocks (Moved)
 

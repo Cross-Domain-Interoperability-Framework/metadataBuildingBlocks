@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-# resolve_schema.py — canonical copy lives in metadataBuildingBlocks/tools/
-# Sync to domain repos via: python tools/sync_resolve_schema.py
-# VERSION: 2026-03-20
 """
 Resolve OGC Building Block schemas into a single complete JSON Schema.
 
@@ -89,27 +86,6 @@ def _fetch_url_schema(url: str) -> Path:
 
     _URL_CACHE[url] = cache_path
     return cache_path
-
-
-def _try_fetch_relative_from_cache(file_path: Path) -> Path:
-    """If file_path is inside the URL cache but doesn't exist, reconstruct
-    the full URL from a previously cached URL's scheme+host and fetch it.
-    Returns the (possibly updated) file_path."""
-    try:
-        file_path.relative_to(_URL_CACHE_DIR)  # only proceed if in cache
-    except ValueError:
-        return file_path
-    for cached_url, cached_path in _URL_CACHE.items():
-        try:
-            file_rel = file_path.relative_to(_URL_CACHE_DIR)
-            parsed = urlparse(cached_url if not cached_url.startswith("//") else "https:" + cached_url)
-            target_url = f"{parsed.scheme}://{parsed.netloc}/{str(file_rel).replace(os.sep, '/')}"
-            local_path = _fetch_url_schema(target_url)
-            if local_path is not None:
-                return local_path
-        except (ValueError, Exception):
-            continue
-    return file_path
 
 
 # ---------------------------------------------------------------------------
@@ -392,8 +368,6 @@ def _resolve_ref(ref: str, base_dir: Path, defs: dict, seen: set) -> Any:
     else:
         file_path = (base_dir / file_part).resolve()
 
-    if not file_path.exists():
-        file_path = _try_fetch_relative_from_cache(file_path)
     if not file_path.exists():
         return {"$comment": f"file not found: {file_path}"}
 
@@ -708,8 +682,6 @@ def _resolve_ref_structured(ref: str, base_dir: Path, local_defs: dict,
     else:
         file_path = (base_dir / file_part).resolve()
 
-    if not file_path.exists():
-        file_path = _try_fetch_relative_from_cache(file_path)
     if not file_path.exists():
         return {"$comment": f"file not found: {file_path}"}
 

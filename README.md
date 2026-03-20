@@ -63,28 +63,6 @@ python tools/validate_examples.py --filter person
 
 **Requirements:** Python 3.6+ with `pyyaml`, `jsonschema` (`pip install pyyaml jsonschema`)
 
-### Regenerate Schema JSON (`regenerate_schema_json.py`)
-
-Generates `*Schema.json` files from `schema.yaml` sources. Converts YAML to JSON and rewrites `$ref` paths from `schema.yaml` to `*Schema.json` endings (e.g. `../identifier/schema.yaml` → `../identifier/identifierSchema.json`). These unresolved JSON files are the OGC building blocks convention used by the postprocessor and viewer.
-
-```bash
-python tools/regenerate_schema_json.py -v
-```
-
-### Sync Shared Tools (`sync_resolve_schema.py`)
-
-Syncs `resolve_schema.py` and `regenerate_schema_json.py` from this canonical repo to all domain building block repositories (ddeBuildingBlocks, ecrrBuildingBlocks, geochemBuildingBlocks).
-
-```bash
-# Dry-run (show what would be copied)
-python tools/sync_resolve_schema.py
-
-# Actually copy
-python tools/sync_resolve_schema.py --apply
-```
-
-The canonical copies live in this repo's `tools/` directory. Domain repos should not edit these files directly — changes should be made here and synced out.
-
 ### Step 2: Convert for JSON Forms (`convert_for_jsonforms.py`)
 
 Reads `resolvedSchema.json` and converts to JSON Forms-compatible Draft 7:
@@ -117,11 +95,10 @@ CDIF profiles are in `_sources/profiles/cdifProfiles/`:
 
 | Profile | Description |
 |---|---|
-| `CDIFDiscovery` | CDIF Discovery profile (allOf: cdifCore + inline discovery properties) |
-| `CDIFDataDescription` | CDIF Data Description profile (allOf: cdifCore + inline discovery + data description properties) |
-| `CDIFcomplete` | CDIF Complete profile (allOf: cdifCore + inline discovery + data description + archive + provenance) |
-| `CDIFxas` | CDIF XAS profile (allOf: cdifCore + inline discovery properties + xasOptional + xasCore) |
-| `CDIFCodelist` | CDIF Codelist profile (allOf: skosConceptScheme + inline CDIF codelist constraints) |
+| `CDIFDiscovery` | CDIF Discovery profile (allOf: cdifCore + cdifOptional) |
+| `CDIFDataDescription` | CDIF Data Description profile (allOf: cdifCore + cdifOptional + cdifDataDescription) |
+| `CDIFcomplete` | CDIF Complete profile (allOf: cdifCore + cdifOptional + cdifDataDescription + cdifArchiveDistribution + cdifProvenance) |
+| `CDIFxas` | CDIF XAS profile (allOf: cdifCore + cdifOptional + xasOptional + xasCore) |
 
 See [agents.md](agents.md) for the full building block structure, authoring rules, and composition hierarchy.
 
@@ -129,26 +106,21 @@ See [agents.md](agents.md) for the full building block structure, authoring rule
 
 Some building blocks define *item-level* schemas (e.g., a single provenance activity, or a single archive distribution item) rather than root-level dataset properties. These cannot be placed directly in a profile's `allOf` because their constraints would apply to the root dataset object instead of to items within a property array.
 
-**Wrapper building blocks** solve this by defining a root-level property whose items reference the item-level building block.
+**Wrapper building blocks** solve this by defining a root-level property whose items reference the item-level building block. This keeps profiles as pure `allOf` compositions of building block refs, with no inline property definitions.
 
 | Wrapper | Root Property | Item Building Block |
 |---------|--------------|---------------------|
 | `cdifProvenance` | `prov:wasGeneratedBy` (array) | `cdifProvActivity` |
 | `cdifArchiveDistribution` | `schema:distribution` (array, adds archive option) | `cdifArchive` |
 
-For example, `cdifProvActivity` defines the schema for a single provenance Activity object. The `cdifProvenance` wrapper defines `prov:wasGeneratedBy` as an array of `cdifProvActivity` items. Similarly, `cdifArchive` defines the schema for a single archive DataDownload item (with `schema:hasPart` component files), and `cdifArchiveDistribution` adds it as a valid `schema:distribution` item type alongside the DataDownload and WebAPI options already provided by `cdifCore`.
-
-### Profile structure
-
-Each profile is defined as `allOf: [cdifCore, {inline profile-specific properties}]`. Profiles do not inherit from other profiles. Properties specific to a profile (e.g. spatial/temporal coverage for discovery, data description extensions) are defined inline in the profile schema alongside the cdifCore `$ref`. This makes each profile self-contained and independently understandable.
+For example, `cdifProvActivity` defines the schema for a single provenance Activity object. The `cdifProvenance` wrapper defines `prov:wasGeneratedBy` as an array of `cdifProvActivity` items, making it composable at the profile level. Similarly, `cdifArchive` defines the schema for a single archive DataDownload item (with `schema:hasPart` component files), and `cdifArchiveDistribution` adds it as a valid `schema:distribution` item type alongside the DataDownload and WebAPI options already provided by `cdifOptional`.
 
 ## Building Block Categories
 
 | Category | Directory | Description |
 |----------|-----------|-------------|
 | schemaorgProperties | `_sources/schemaorgProperties/` | schema.org vocabulary building blocks (person, organization, identifier, definedTerm, instrument, etc.) |
-| cdifProperties | `_sources/cdifProperties/` | CDIF-specific properties (core, provenance, tabular data, long data, etc.) |
-| skosProperties | `_sources/skosProperties/` | SKOS vocabulary building blocks (ConceptScheme, Concept, Collection) |
+| cdifProperties | `_sources/cdifProperties/` | CDIF-specific properties (core, optional, provenance, tabular data, long data, etc.) |
 | ddiProperties | `_sources/ddiProperties/` | DDI-CDI vocabulary building blocks |
 | provProperties | `_sources/provProperties/` | PROV-O provenance (generatedBy, derivedFrom, provActivity) |
 | qualityProperties | `_sources/qualityProperties/` | DQV data quality measures |
@@ -188,8 +160,8 @@ The repository implements a three-tier provenance architecture:
 
 | Tier | Building Block | Introduced At | Description |
 |------|---------------|---------------|-------------|
-| 1 (simple) | `generatedBy` (provProperties) | `cdifCore` | Minimal `prov:Activity` — `prov:used` accepts only string names or `@id` references |
-| 2 (extended) | `cdifProvActivity` (cdifProperties) | `CDIFcomplete` profile | Extends `generatedBy` with schema.org Action properties (`schema:agent`, `schema:actionProcess`, `schema:object`, `schema:result`, temporal bounds, location). Requires `@type: ["schema:Action", "prov:Activity"]`. Instruments nested in `prov:used` via `schema:instrument` sub-key. |
+| 1 (simple) | `generatedBy` (provProperties) | `cdifOptional` | Minimal `prov:Activity` — `prov:used` accepts only string names or `@id` references |
+| 2 (extended) | `cdifProvActivity` (cdifProperties) | `CDIFcomplete` (via `cdifProvenance`) | Extends `generatedBy` with schema.org Action properties (`schema:agent`, `schema:actionProcess`, `schema:object`, `schema:result`, temporal bounds, location). Requires `@type: ["schema:Action", "prov:Activity"]`. Instruments nested in `prov:used` via `schema:instrument` sub-key. The `cdifProvenance` building block wraps `cdifProvActivity` items in the `prov:wasGeneratedBy` root property. |
 | 3 (domain) | `xasGeneratedBy`, etc. | Domain-specific profiles | Extend `cdifProvActivity` with domain-specific instrument types, agents, and additional properties (see [ddeBuildingBlocks](https://github.com/usgin/ddeBuildingBlocks), [geochemBuildingBlocks](https://github.com/usgin/geochemBuildingBlocks)) |
 
 ### xasProperties
@@ -205,21 +177,21 @@ The repository implements a three-tier provenance architecture:
 
 Each building block that represents a CDIF specification component declares a required `dcterms:conformsTo` URI in the metadata catalog record (`schema:subjectOf`). This constraint ensures that metadata records explicitly identify which specification components they implement.
 
-| Scope | Conformance URI |
+| Building Block | Conformance URI |
 |---|---|
 | `cdifCore` | `https://w3id.org/cdif/core/1.0/` |
-| CDIFDiscovery profile | `https://w3id.org/cdif/discovery/1.0/` |
-| CDIFDataDescription profile | `https://w3id.org/cdif/data_description/1.0/` |
-| CDIFcomplete profile (archive) | `https://w3id.org/cdif/manifest/1.0/` |
-| CDIFcomplete profile (provenance) | `https://w3id.org/cdif/provenance/1.0/` |
-| CDIFxas profile (xasOptional) | `https://w3id.org/cdif/xasDiscovery/1.0/` |
-| CDIFxas profile (xasCore) | `https://w3id.org/cdif/xasCore/1.0/` |
+| `cdifOptional` | `https://w3id.org/cdif/discovery/1.0/` |
+| `cdifDataDescription` | `https://w3id.org/cdif/data_description/1.0/` |
+| `cdifArchiveDistribution` | `https://w3id.org/cdif/manifest/1.0/` |
+| `cdifProvenance` | `https://w3id.org/cdif/provenance/1.0/` |
+| `xasOptional` | `https://w3id.org/cdif/xasDiscovery/1.0/` |
+| `xasCore` | `https://w3id.org/cdif/xasCore/1.0/` |
 
 ### How it works
 
-The `cdifCore` building block adds a `contains` constraint on `schema:subjectOf` → `dcterms:conformsTo` requiring `core/1.0/`. Each profile adds additional conformsTo constraints inline for its scope. The conformsTo array must include URIs for the core and all applicable profile components.
+Each building block's `schema.yaml` adds a `contains` constraint on `schema:subjectOf` → `dcterms:conformsTo` requiring its specific URI. When building blocks are composed into profiles via `allOf`, these constraints roll up automatically — the conformsTo array must include URIs for **all** constituent building blocks.
 
-For example, the **CDIFDiscovery** profile requires conformsTo to contain both `w3id.org/cdif/core/1.0/` and `w3id.org/cdif/discovery/1.0/`.
+For example, the **CDIFDiscovery** profile (cdifCore + cdifOptional) requires conformsTo to contain both `w3id.org/cdif/core/1.0/` and `w3id.org/cdif/discovery/1.0/`.
 
 These conformance URIs are distinct from the OGC building block identifiers (e.g., `https://w3id.org/cdif/bbr/metadata/cdifProperties/cdifCore`), which identify the building block artifacts themselves. Both may appear in a record's conformsTo array.
 
@@ -233,7 +205,7 @@ Each building block has a persistent HTTP URI under `https://w3id.org/cdif/bbr/m
 https://w3id.org/cdif/bbr/metadata/{category}/{name}
 ```
 
-where `{category}` is one of `schemaorgProperties`, `cdifProperties`, `provProperties`, `qualityProperties`, `ddiProperties`, `xasProperties`, `skosProperties`, `bioschemasProperties` and `{name}` is the building block directory name (e.g., `person`, `cdifProvActivity`, `xasGeneratedBy`).
+where `{category}` is one of `schemaorgProperties`, `cdifProperties`, `provProperties`, `qualityProperties`, `ddiProperties`, `xasProperties` and `{name}` is the building block directory name (e.g., `person`, `cdifProvActivity`, `xasGeneratedBy`).
 
 Examples:
 - `https://w3id.org/cdif/bbr/metadata/schemaorgProperties/person`
