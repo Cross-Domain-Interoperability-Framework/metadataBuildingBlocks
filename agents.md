@@ -48,6 +48,8 @@ metadataBuildingBlocks/
 │   │   └── ddicdiProv/              # DDI-CDI native provenance activity
 │   ├── qualityProperties/           # Data quality types
 │   │   └── qualityMeasure/          # Quality measure definitions
+│   ├── bioschemasProperties/         # Bioschemas vocabulary types
+│   │   └── cdifBioschemasProperties/  # Lab protocols, samples, workflows
 │   ├── xasProperties/               # X-ray Absorption Spectroscopy types
 │   │   ├── xasSample/               # XAS sample (extends schema:Product)
 │   │   ├── xasInstrument/           # XAS instrument (beamline, synchrotron)
@@ -68,6 +70,7 @@ metadataBuildingBlocks/
 │   ├── convert_for_jsonforms.py     # JSON Forms converter (see below)
 │   ├── compare_schemas.py           # Schema comparison tool
 │   ├── validate_instance.py         # Profile-aware validation tool
+│   ├── validate_examples.py         # Validates all examples against resolved schemas
 │   ├── augment_register.py          # Adds resolvedSchema URLs to register.json
 │   ├── regenerate_schema_json.py    # Regenerates schema.json files from resolvedSchema.json
 │   ├── test_redirects.py            # Tests w3id.org redirect rules for building block URIs
@@ -190,7 +193,28 @@ $defs:
 
 **Critical rules:**
 
-1. **Always reference `schema.yaml`, never standalone `.json` files.** The postprocess tool resolves `$ref` to GitHub Pages URLs. References to `.json` files cause 404 errors because only `schema.yaml` files are published to GitHub Pages.
+1. **`@type` must always be an array of strings.** All building blocks use the array-only pattern with `contains: const:` to require specific types. Examples must also use array `@type` values (e.g. `["schema:Person"]`, not `"schema:Person"`).
+
+   ```yaml
+   # CORRECT
+   '@type':
+     type: array
+     items:
+       type: string
+     contains:
+       const: schema:Person
+     minItems: 1
+
+   # WRONG — do not use anyOf with string alternative
+   '@type':
+     anyOf:
+     - type: string
+       const: schema:Person
+     - type: array
+       ...
+   ```
+
+2. **Always reference `schema.yaml`, never standalone `.json` files.** The postprocess tool resolves `$ref` to GitHub Pages URLs. References to `.json` files cause 404 errors because only `schema.yaml` files are published to GitHub Pages.
 
    ```yaml
    # CORRECT
@@ -252,6 +276,7 @@ If the workflow fails, check the error log for:
 | `dcterms` | `http://purl.org/dc/terms/` | Conformance declarations |
 | `dcat` | `http://www.w3.org/ns/dcat#` | Catalog record typing (cdifCatalogRecord) |
 | `geosparql` | `http://www.opengis.net/ont/geosparql#` | Spatial geometry types |
+| `bios` | `https://bioschemas.org/` | Bioschemas lab protocols, samples, workflows |
 
 ## Domain-Specific Building Blocks (Moved)
 
@@ -396,11 +421,34 @@ python generate_property_table.py path/to/_sources/profiles/cdifProfiles/CDIFDis
 
 **Requirements:** `openpyxl`, `pyyaml`. Optionally uses `CDIF-metadata-crosswalks-merged.xlsx` for CDIF Content Model lookups.
 
+## validate_examples.py
+
+Validates all example JSON files against their resolved schemas. Uses `resolve_file()` from `resolve_schema.py` so `$defs`, cross-file `$ref`, and fragment references are handled correctly.
+
+**Usage:**
+```bash
+# Validate all examples
+python tools/validate_examples.py
+
+# Verbose output (shows pass/fail for each)
+python tools/validate_examples.py --verbose
+
+# Filter to specific building blocks
+python tools/validate_examples.py --filter spatialExtent
+```
+
+**CLI options:** `--verbose`/`-v` (show pass/fail for each example), `--filter`/`-f` (only validate paths containing this string).
+
+**Requirements:** `pyyaml`, `jsonschema`
+
 ## Verification
 
 ```bash
 # Verify all schemas resolve without errors
 python tools/resolve_schema.py --all --flatten-allof
+
+# Verify all examples validate against their schemas
+python tools/validate_examples.py --verbose
 ```
 
 ## License

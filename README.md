@@ -46,6 +46,23 @@ python tools/resolve_schema.py --file path/to/any/schema.yaml
 
 **Requirements:** Python 3.6+ with `pyyaml` (`pip install pyyaml`)
 
+### Validate Examples (`validate_examples.py`)
+
+Validates all example JSON files against their resolved schemas. Uses `resolve_schema.py`'s resolver for proper `$defs` and cross-file `$ref` handling.
+
+```bash
+# Validate all examples
+python tools/validate_examples.py
+
+# Verbose output (shows pass/fail for each)
+python tools/validate_examples.py --verbose
+
+# Filter to specific building blocks
+python tools/validate_examples.py --filter person
+```
+
+**Requirements:** Python 3.6+ with `pyyaml`, `jsonschema` (`pip install pyyaml jsonschema`)
+
 ### Step 2: Convert for JSON Forms (`convert_for_jsonforms.py`)
 
 Reads `resolvedSchema.json` and converts to JSON Forms-compatible Draft 7:
@@ -108,6 +125,7 @@ For example, `cdifProvActivity` defines the schema for a single provenance Activ
 | provProperties | `_sources/provProperties/` | PROV-O provenance (generatedBy, derivedFrom, provActivity) |
 | qualityProperties | `_sources/qualityProperties/` | DQV data quality measures |
 | xasProperties | `_sources/xasProperties/` | X-ray Absorption Spectroscopy domain properties |
+| bioschemasProperties | `_sources/bioschemasProperties/` | Bioschemas vocabulary building blocks (lab protocols, samples, computational workflows) |
 | profiles | `_sources/profiles/cdifProfiles/` | CDIF profiles |
 
 ### ddiProperties
