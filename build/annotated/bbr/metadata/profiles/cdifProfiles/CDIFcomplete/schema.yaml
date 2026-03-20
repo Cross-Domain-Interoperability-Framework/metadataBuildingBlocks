@@ -1,16 +1,138 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 type: object
 title: CDIF complete metadata schema
-description: JSON schema for JSON-LD documents that describe science datasets for
-  the CDIF complete profile, combining discovery metadata with data description, distribution
-  (DataDownload, archive, WebAPI), and provenance extensions. Composes cdifCore, cdifOptional,
-  cdifDataDescription, cdifArchiveDistribution, and cdifProvenance building blocks.
+description: CDIF complete profile combining core metadata with discovery properties,
+  data description, archive distribution, and provenance extensions.
 allOf:
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema.yaml
-- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.yaml
-- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.yaml
-- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema.yaml
-- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema.yaml
+- type: object
+  properties:
+    '@context':
+      type: object
+      description: Additional JSON-LD namespace prefixes for complete profile.
+      properties:
+        geosparql:
+          const: http://www.opengis.net/ont/geosparql#
+        dqv:
+          const: http://www.w3.org/ns/dqv#
+        cdi:
+          const: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+        csvw:
+          const: http://www.w3.org/ns/csvw#
+    schema:measurementTechnique:
+      description: The technique, technology, or methodology used for measurement
+        or determination of the dataset values.
+      anyOf:
+      - type: string
+      - $ref: '#/$defs/DefinedTerm'
+      - type: array
+        items:
+          anyOf:
+          - type: string
+          - $ref: '#/$defs/DefinedTerm'
+    schema:variableMeasured:
+      description: Variables in the dataset. At data description level, PropertyValue
+        variables must include cdi:InstanceVariable typing and cdi:physicalDataType.
+      type: array
+      items:
+        anyOf:
+        - type: object
+          properties:
+            '@type':
+              type: array
+              items:
+                type: string
+              contains:
+                const: cdi:InstanceVariable
+              minItems: 2
+          required:
+          - cdi:physicalDataType
+        - $ref: '#/$defs/StatisticalVariable'
+    schema:spatialCoverage:
+      description: Geographic extent of resource content.
+      type: array
+      items:
+        $ref: '#/$defs/SpatialExtent'
+    schema:temporalCoverage:
+      description: Temporal extent of resource content.
+      type: array
+      items:
+        $ref: '#/$defs/TemporalExtent'
+    dqv:hasQualityMeasurement:
+      description: Quality measurements reported to assess the resource.
+      type: array
+      items:
+        $ref: '#/$defs/QualityMeasure'
+    schema:distribution:
+      type: array
+      items:
+        anyOf:
+        - $ref: '#/$defs/CdifArchive'
+        - type: object
+          properties:
+            cdi:characterSet:
+              type: string
+            cdi:fileSize:
+              type: number
+            cdi:fileSizeUofM:
+              type: string
+        - {}
+    prov:wasGeneratedBy:
+      description: Provenance activities describing how the resource was generated.
+      type: array
+      items:
+        $ref: '#/$defs/CdifProvActivity'
+    schema:subjectOf:
+      properties:
+        dcterms:conformsTo:
+          contains:
+            type: object
+            properties:
+              '@id':
+                const: https://w3id.org/cdif/discovery/1.0/
+  allOf:
+  - properties:
+      schema:subjectOf:
+        properties:
+          dcterms:conformsTo:
+            contains:
+              type: object
+              properties:
+                '@id':
+                  const: https://w3id.org/cdif/data_description/1.0/
+  - properties:
+      schema:subjectOf:
+        properties:
+          dcterms:conformsTo:
+            contains:
+              type: object
+              properties:
+                '@id':
+                  const: https://w3id.org/cdif/manifest/1.0/
+  - properties:
+      schema:subjectOf:
+        properties:
+          dcterms:conformsTo:
+            contains:
+              type: object
+              properties:
+                '@id':
+                  const: https://w3id.org/cdif/provenance/1.0/
+$defs:
+  DefinedTerm:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+  StatisticalVariable:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/schema.yaml
+  SpatialExtent:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
+  TemporalExtent:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/temporalExtent/schema.yaml
+  QualityMeasure:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityMeasure/schema.yaml
+  CdifArchive:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema.yaml
+  CdifProvActivity:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/

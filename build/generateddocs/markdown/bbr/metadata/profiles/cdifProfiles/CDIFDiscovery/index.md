@@ -31,7 +31,8 @@ In **Markdown** format.
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "uri": "urn:"
+    "uri": "urn:",
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "ex:YOPx123",
   "@type": [
@@ -652,7 +653,8 @@ In **Markdown** format.
       "ex": "https://example.org/",
       "xsd": "http://www.w3.org/2001/XMLSchema#",
       "dcat": "http://www.w3.org/ns/dcat#",
-      "uri": "urn:"
+      "uri": "urn:",
+      "prov": "http://www.w3.org/ns/prov#"
     }
   ],
   "@id": "ex:YOPx123",
@@ -1301,12 +1303,6 @@ ex:YOPx123 a schema1:Dataset ;
                     spdx:algorithm "j" ;
                     spdx:checksumValue "h" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/3572wjht> ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "grant-id" ;
-                    schema1:value "lieopgXuumP" ] ;
-            schema1:name "fhhbzh" ],
-        [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/fnjrj68> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
@@ -1317,7 +1313,13 @@ ex:YOPx123 a schema1:Dataset ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
                     schema1:value "LZpo" ] ;
-            schema1:name "ekckpBtI" ] ;
+            schema1:name "ekckpBtI" ],
+        [ a schema1:MonetaryGrant ;
+            schema1:funder <https://ror.org/3572wjht> ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "grant-id" ;
+                    schema1:value "lieopgXuumP" ] ;
+            schema1:name "fhhbzh" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
@@ -1349,9 +1351,9 @@ ex:YOPx123 a schema1:Dataset ;
             schema1:name "Data retention and update policy" ;
             schema1:url "https://example.org/policies/data-retention" ] ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "lfCzUaoftdtTPAhMnpC" ],
+            schema1:linkRelationship "BOoRREnpDEUrdNaV" ],
         [ a schema1:LinkRole ;
-            schema1:linkRelationship "BOoRREnpDEUrdNaV" ] ;
+            schema1:linkRelationship "lfCzUaoftdtTPAhMnpC" ] ;
     schema1:sameAs "https://example.org/alt-id/YOPx123",
         "urn:idorg:test:p45689" ;
     schema1:subjectOf ex:BAaR ;
@@ -1549,27 +1551,78 @@ ex:xblzSwEYJKBPpkK a schema1:Organization ;
 ```yaml
 $schema: https://json-schema.org/draft/2020-12/schema
 type: object
-title: 'CDIF discovery metadata schema, with schema: prefixes'
-description: 'JSON schema for JSON-LD documents that describe science datasets for
-  the CDIF DataDiscovery profile. See https://cdif.codata.org/, USING OGC building
-  blocks modularization.  Content based on Google guide for publishers (https://developers.google.com/search/docs/data-types/dataset),
-  and the Earth Science Information Partners (ESIP) Science on Schema.org recommendations
-  v1.3 prerelease (see https://doi.org/10.5281/zenodo.2628755 dataset.md for current
-  recommendations document). The context is not specified in the schema, but must
-  be added in instance documents. ''"@context": {"schema":"http://schema.org/", "dcterms":
-  "http://purl.org/dc/terms/", "geosparql": "http://www.opengis.net/ont/geosparql#",
-  "spdx": "http://spdx.org/rdf/terms#" }'' 2024-07-24, SMR change handling of registration
-  information to align with current proposal for cross-domain interoperability (CDIF).
-  Created by Stephen Richard 2024-07-30 based on NSF GeoCODES dataset and iSamples
-  draft2 schema.org JSON schema. 2025-07-24. NOTE-- assumes that schema:http://schema.org
-  is declared in context, so schema: namespace prefix is required as prefix for all
-  schema.org elements.  SMR 2025-10-23 update schema version to https://json-schema.org/draft/2020-12/schema;
-  add additionalType on organization with the alt schema.org types as one option,
-  additional required constraints in various places; update constraint on @type to
-  require schema:Dataset. Implement using OGC building blocks approach. '
+title: CDIF Discovery metadata profile
+description: 'CDIF Discovery profile for dataset metadata. Composes cdifCore with
+  discovery-oriented properties: measurement technique, variables, spatial and temporal
+  coverage, quality measurements.'
 allOf:
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema.yaml
-- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.yaml
+- type: object
+  properties:
+    '@context':
+      type: object
+      description: Additional JSON-LD namespace prefixes for discovery properties.
+      properties:
+        geosparql:
+          const: http://www.opengis.net/ont/geosparql#
+        dqv:
+          const: http://www.w3.org/ns/dqv#
+        cdi:
+          const: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    schema:measurementTechnique:
+      description: The technique, technology, or methodology used for measurement
+        or determination of the dataset values.
+      anyOf:
+      - type: string
+      - $ref: '#/$defs/DefinedTerm'
+      - type: array
+        items:
+          anyOf:
+          - type: string
+          - $ref: '#/$defs/DefinedTerm'
+    schema:variableMeasured:
+      description: What does the dataset measure? (e.g., temperature, pressure)
+      type: array
+      items:
+        anyOf:
+        - $ref: '#/$defs/VariableMeasured'
+        - $ref: '#/$defs/StatisticalVariable'
+    schema:spatialCoverage:
+      description: Geographic extent of resource content.
+      type: array
+      items:
+        $ref: '#/$defs/SpatialExtent'
+    schema:temporalCoverage:
+      description: Temporal extent of resource content.
+      type: array
+      items:
+        $ref: '#/$defs/TemporalExtent'
+    dqv:hasQualityMeasurement:
+      description: Quality measurements reported to assess the resource.
+      type: array
+      items:
+        $ref: '#/$defs/QualityMeasure'
+    schema:subjectOf:
+      properties:
+        dcterms:conformsTo:
+          contains:
+            type: object
+            properties:
+              '@id':
+                const: https://w3id.org/cdif/discovery/1.0/
+$defs:
+  DefinedTerm:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+  VariableMeasured:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml
+  StatisticalVariable:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/schema.yaml
+  SpatialExtent:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
+  TemporalExtent:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/temporalExtent/schema.yaml
+  QualityMeasure:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityMeasure/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
@@ -1596,6 +1649,7 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
@@ -1607,7 +1661,6 @@ Links to the schema:
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "xas": "https://xas.org/dictionary/",
     "nxs": "http://purl.org/nexusformat/definitions/",
-    "prov": "http://www.w3.org/ns/prov#",
     "@version": 1.1
   }
 }

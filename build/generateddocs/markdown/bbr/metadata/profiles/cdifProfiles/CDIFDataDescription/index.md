@@ -30,7 +30,8 @@ physical mappings.
     "csvw": "http://www.w3.org/ns/csvw#",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "dcat": "http://www.w3.org/ns/dcat#"
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#"
   },
   "@id": "ex:YOPx",
   "@type": [
@@ -880,7 +881,8 @@ physical mappings.
       "csvw": "http://www.w3.org/ns/csvw#",
       "ex": "https://example.org/",
       "xsd": "http://www.w3.org/2001/XMLSchema#",
-      "dcat": "http://www.w3.org/ns/dcat#"
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "prov": "http://www.w3.org/ns/prov#"
     }
   ],
   "@id": "ex:YOPx",
@@ -1800,7 +1802,28 @@ ex:YOPx a schema1:Dataset ;
     schema1:dateModified "2020-10-15" ;
     schema1:datePublished "2021-09-05" ;
     schema1:description "Auto generated from JSON schema, values are gobbledegoop. For testing" ;
-    schema1:distribution [ a schema1:WebAPI ;
+    schema1:distribution [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "VwuIdrCrJSsrGATePg" ;
+            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "MD5" ;
+                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "kpZDvhyVo",
+                "sMUGwSqxWzJOYEb",
+                "tNdpXaJgDeWbFkNM" ;
+            schema1:name "MVMpmnCGAggEnsoEgJXH" ;
+            schema1:provider <file:///github/workspace/kNKPZsCSWMc>,
+                ex:sr68lgy ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "j" ;
+                    spdx:checksumValue "h" ] ],
+        [ a schema1:WebAPI ;
             schema1:documentation [ a schema1:CreativeWork ;
                     schema1:name "OpenAPI specification for geochemistry data service" ;
                     schema1:url "http://example.com/api/v1/openapi.json" ] ;
@@ -1823,14 +1846,14 @@ ex:YOPx a schema1:Dataset ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a schema1:DataDownload ;
                             cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-                                    cdi:formats_InstanceVariable ex:OjHgIDO ;
-                                    cdi:index 1 ;
-                                    cdi:isRequired false ;
-                                    cdi:physicalDataType "float64" ],
-                                [ cdi:format "decimal" ;
                                     cdi:formats_InstanceVariable ex:KJTFKurNFu ;
                                     cdi:index 0 ;
                                     cdi:isRequired true ;
+                                    cdi:physicalDataType "float64" ],
+                                [ cdi:format "decimal" ;
+                                    cdi:formats_InstanceVariable ex:OjHgIDO ;
+                                    cdi:index 1 ;
+                                    cdi:isRequired false ;
                                     cdi:physicalDataType "float64" ] ;
                             cdi:isDelimited true ;
                             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
@@ -1855,33 +1878,21 @@ ex:YOPx a schema1:Dataset ;
                     schema1:name "OGC API - Features" ;
                     schema1:termCode "ogcapi-features" ] ;
             schema1:termsOfService "Open access, no authentication required" ],
-        [ a schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "kpZDvhyVo",
-                "sMUGwSqxWzJOYEb",
-                "tNdpXaJgDeWbFkNM" ;
-            schema1:name "MVMpmnCGAggEnsoEgJXH" ;
-            schema1:provider <file:///github/workspace/kNKPZsCSWMc>,
-                ex:sr68lgy ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "j" ;
-                    spdx:checksumValue "h" ] ],
         [ a cdi:TabularTextDataSet,
                 schema1:DataDownload ;
-            cdi:hasPhysicalMapping [ cdi:decimalPositions 4 ;
+            cdi:hasPhysicalMapping [ cdi:format "decimal" ;
+                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
+                    cdi:index 0 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "NA" ;
+                    cdi:physicalDataType "float64" ],
+                [ cdi:decimalPositions 4 ;
                     cdi:defaultValue "0.0" ;
                     cdi:format "decimal" ;
                     cdi:formats_InstanceVariable ex:OjHgIDO ;
                     cdi:index 1 ;
                     cdi:isRequired false ;
                     cdi:nullSequence "-9999" ;
-                    cdi:physicalDataType "float64" ],
-                [ cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "NA" ;
                     cdi:physicalDataType "float64" ] ;
             cdi:isDelimited true ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
@@ -1898,32 +1909,23 @@ ex:YOPx a schema1:Dataset ;
             csvw:quoteChar "\"" ;
             csvw:skipBlankRows true ;
             csvw:skipRows 0 ],
-        [ a schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "VwuIdrCrJSsrGATePg" ;
-            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "MD5" ;
-                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ],
         [ a cdi:StructuredDataSet,
                 schema1:DataDownload ;
-            cdi:hasPhysicalMapping [ cdi:decimalPositions 6 ;
+            cdi:hasPhysicalMapping [ cdi:format "decimal" ;
+                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
+                    cdi:index 0 ;
+                    cdi:isRequired true ;
+                    cdi:locator "/measurements/wavelength" ;
+                    cdi:nullSequence "NaN" ;
+                    cdi:physicalDataType "float32" ],
+                [ cdi:decimalPositions 6 ;
                     cdi:format "decimal" ;
                     cdi:formats_InstanceVariable ex:OjHgIDO ;
                     cdi:index 1 ;
                     cdi:isRequired true ;
                     cdi:locator "/measurements/intensity" ;
                     cdi:physicalDataType "float32" ;
-                    cdi:scale 1000 ],
-                [ cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/measurements/wavelength" ;
-                    cdi:nullSequence "NaN" ;
-                    cdi:physicalDataType "float32" ] ;
+                    cdi:scale 1000 ] ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "http://example.com/data/measurement-cube.nc" ;
             schema1:encodingFormat "application/x-netcdf" ;
@@ -1938,17 +1940,17 @@ ex:YOPx a schema1:Dataset ;
                     schema1:value "lieopgXuumP" ] ;
             schema1:name "fhhbzh" ],
         [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/sejer4w6u8> ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "grant-id" ;
-                    schema1:value "LZpo" ] ;
-            schema1:name "ekckpBtI" ],
-        [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/fnjrj68> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
                     schema1:value "fMuiBjneudpV" ] ;
-            schema1:name "MWoPQAqRYHobey" ] ;
+            schema1:name "MWoPQAqRYHobey" ],
+        [ a schema1:MonetaryGrant ;
+            schema1:funder <https://ror.org/sejer4w6u8> ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "grant-id" ;
+                    schema1:value "LZpo" ] ;
+            schema1:name "ekckpBtI" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
@@ -2119,28 +2121,113 @@ ex:OjHgIDO a cdi:InstanceVariable,
 ```yaml
 $schema: https://json-schema.org/draft/2020-12/schema
 type: object
-title: 'CDIF discovery metadata schema, with schema: prefixes'
-description: 'JSON schema for JSON-LD documents that describe science datasets for
-  the CDIF DataDiscovery profile. See https://cdif.codata.org/, USING OGC building
-  blocks modularization.  Content based on Google guide for publishers (https://developers.google.com/search/docs/data-types/dataset),
-  and the Earth Science Information Partners (ESIP) Science on Schema.org recommendations
-  v1.3 prerelease (see https://doi.org/10.5281/zenodo.2628755 dataset.md for current
-  recommendations document). The context is not specified in the schema, but must
-  be added in instance documents. ''"@context": {"schema":"http://schema.org/", "dcterms":
-  "http://purl.org/dc/terms/", "geosparql": "http://www.opengis.net/ont/geosparql#",
-  "spdx": "http://spdx.org/rdf/terms#" }'' 2024-07-24, SMR change handling of registration
-  information to align with current proposal for cross-domain interoperability (CDIF).
-  Created by Stephen Richard 2024-07-30 based on NSF GeoCODES dataset and iSamples
-  draft2 schema.org JSON schema. 2025-07-24. NOTE-- assumes that schema:http://schema.org
-  is declared in context, so schema: namespace prefix is required as prefix for all
-  schema.org elements.  SMR 2025-10-23 update schema version to https://json-schema.org/draft/2020-12/schema;
-  add additionalType on organization with the alt schema.org types as one option,
-  additional required constraints in various places; update constraint on @type to
-  require schema:Dataset. Implement using OGC building blocks approach. '
+title: CDIF Data Description metadata profile
+description: CDIF Data Description profile. Composes cdifCore with discovery properties
+  and data description extensions for detailed variable and structure documentation.
 allOf:
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema.yaml
-- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.yaml
-- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.yaml
+- type: object
+  properties:
+    '@context':
+      type: object
+      description: Additional JSON-LD namespace prefixes for discovery and data description.
+      properties:
+        geosparql:
+          const: http://www.opengis.net/ont/geosparql#
+        dqv:
+          const: http://www.w3.org/ns/dqv#
+        cdi:
+          const: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+        csvw:
+          const: http://www.w3.org/ns/csvw#
+    schema:measurementTechnique:
+      description: The technique, technology, or methodology used for measurement
+        or determination of the dataset values.
+      anyOf:
+      - type: string
+      - $ref: '#/$defs/DefinedTerm'
+      - type: array
+        items:
+          anyOf:
+          - type: string
+          - $ref: '#/$defs/DefinedTerm'
+    schema:variableMeasured:
+      description: Variables in the dataset. At data description level, PropertyValue
+        variables must include cdi:InstanceVariable typing and cdi:physicalDataType.
+      type: array
+      items:
+        anyOf:
+        - type: object
+          properties:
+            '@type':
+              type: array
+              items:
+                type: string
+              contains:
+                const: cdi:InstanceVariable
+              minItems: 2
+          required:
+          - cdi:physicalDataType
+        - $ref: '#/$defs/StatisticalVariable'
+    schema:spatialCoverage:
+      description: Geographic extent of resource content.
+      type: array
+      items:
+        $ref: '#/$defs/SpatialExtent'
+    schema:temporalCoverage:
+      description: Temporal extent of resource content.
+      type: array
+      items:
+        $ref: '#/$defs/TemporalExtent'
+    dqv:hasQualityMeasurement:
+      description: Quality measurements reported to assess the resource.
+      type: array
+      items:
+        $ref: '#/$defs/QualityMeasure'
+    schema:distribution:
+      type: array
+      items:
+        type: object
+        properties:
+          cdi:characterSet:
+            type: string
+            description: The character set used in the distribution (e.g., UTF-8,
+              ASCII).
+          cdi:fileSize:
+            type: number
+            description: The size of the distribution file.
+          cdi:fileSizeUofM:
+            type: string
+            description: Unit of measure for the file size (e.g., bytes, KB, MB, GB).
+    schema:subjectOf:
+      properties:
+        dcterms:conformsTo:
+          contains:
+            type: object
+            properties:
+              '@id':
+                const: https://w3id.org/cdif/discovery/1.0/
+  allOf:
+  - properties:
+      schema:subjectOf:
+        properties:
+          dcterms:conformsTo:
+            contains:
+              type: object
+              properties:
+                '@id':
+                  const: https://w3id.org/cdif/data_description/1.0/
+$defs:
+  DefinedTerm:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+  StatisticalVariable:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/schema.yaml
+  SpatialExtent:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
+  TemporalExtent:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/temporalExtent/schema.yaml
+  QualityMeasure:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityMeasure/schema.yaml
 x-jsonld-extra-terms:
   csvw: {}
 x-jsonld-prefixes:
@@ -2169,6 +2256,7 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
@@ -2180,7 +2268,6 @@ Links to the schema:
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "xas": "https://xas.org/dictionary/",
     "nxs": "http://purl.org/nexusformat/definitions/",
-    "prov": "http://www.w3.org/ns/prov#",
     "@version": 1.1
   }
 }

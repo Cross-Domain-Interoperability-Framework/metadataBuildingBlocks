@@ -1,19 +1,181 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "title": "CDIF discovery metadata schema, with schema: prefixes",
-  "description": "JSON schema for JSON-LD documents that describe science datasets for the CDIF DataDiscovery profile. See https://cdif.codata.org/, USING OGC building blocks modularization.  Content based on Google guide for publishers (https://developers.google.com/search/docs/data-types/dataset), and the Earth Science Information Partners (ESIP) Science on Schema.org recommendations v1.3 prerelease (see https://doi.org/10.5281/zenodo.2628755 dataset.md for current recommendations document). The context is not specified in the schema, but must be added in instance documents. '\"@context\": {\"schema\":\"http://schema.org/\", \"dcterms\": \"http://purl.org/dc/terms/\", \"geosparql\": \"http://www.opengis.net/ont/geosparql#\", \"spdx\": \"http://spdx.org/rdf/terms#\" }' 2024-07-24, SMR change handling of registration information to align with current proposal for cross-domain interoperability (CDIF). Created by Stephen Richard 2024-07-30 based on NSF GeoCODES dataset and iSamples draft2 schema.org JSON schema. 2025-07-24. NOTE-- assumes that schema:http://schema.org is declared in context, so schema: namespace prefix is required as prefix for all schema.org elements.  SMR 2025-10-23 update schema version to https://json-schema.org/draft/2020-12/schema; add additionalType on organization with the alt schema.org types as one option, additional required constraints in various places; update constraint on @type to require schema:Dataset. Implement using OGC building blocks approach. ",
+  "title": "CDIF Data Description metadata profile",
+  "description": "CDIF Data Description profile. Composes cdifCore with discovery properties and data description extensions for detailed variable and structure documentation.",
   "allOf": [
     {
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema.json"
     },
     {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifOptional/schema.json"
-    },
-    {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.json"
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "object",
+          "description": "Additional JSON-LD namespace prefixes for discovery and data description.",
+          "properties": {
+            "geosparql": {
+              "const": "http://www.opengis.net/ont/geosparql#"
+            },
+            "dqv": {
+              "const": "http://www.w3.org/ns/dqv#"
+            },
+            "cdi": {
+              "const": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+            },
+            "csvw": {
+              "const": "http://www.w3.org/ns/csvw#"
+            }
+          }
+        },
+        "schema:measurementTechnique": {
+          "description": "The technique, technology, or methodology used for measurement or determination of the dataset values.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/DefinedTerm"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/DefinedTerm"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "schema:variableMeasured": {
+          "description": "Variables in the dataset. At data description level, PropertyValue variables must include cdi:InstanceVariable typing and cdi:physicalDataType.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:InstanceVariable"
+                    },
+                    "minItems": 2
+                  }
+                },
+                "required": [
+                  "cdi:physicalDataType"
+                ]
+              },
+              {
+                "$ref": "#/$defs/StatisticalVariable"
+              }
+            ]
+          }
+        },
+        "schema:spatialCoverage": {
+          "description": "Geographic extent of resource content.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SpatialExtent"
+          }
+        },
+        "schema:temporalCoverage": {
+          "description": "Temporal extent of resource content.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TemporalExtent"
+          }
+        },
+        "dqv:hasQualityMeasurement": {
+          "description": "Quality measurements reported to assess the resource.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/QualityMeasure"
+          }
+        },
+        "schema:distribution": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "cdi:characterSet": {
+                "type": "string",
+                "description": "The character set used in the distribution (e.g., UTF-8, ASCII)."
+              },
+              "cdi:fileSize": {
+                "type": "number",
+                "description": "The size of the distribution file."
+              },
+              "cdi:fileSizeUofM": {
+                "type": "string",
+                "description": "Unit of measure for the file size (e.g., bytes, KB, MB, GB)."
+              }
+            }
+          }
+        },
+        "schema:subjectOf": {
+          "properties": {
+            "dcterms:conformsTo": {
+              "contains": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "const": "https://w3id.org/cdif/discovery/1.0/"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "properties": {
+            "schema:subjectOf": {
+              "properties": {
+                "dcterms:conformsTo": {
+                  "contains": {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "const": "https://w3id.org/cdif/data_description/1.0/"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   ],
+  "$defs": {
+    "DefinedTerm": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.json"
+    },
+    "StatisticalVariable": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/schema.json"
+    },
+    "SpatialExtent": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.json"
+    },
+    "TemporalExtent": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/temporalExtent/schema.json"
+    },
+    "QualityMeasure": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityMeasure/schema.json"
+    }
+  },
   "x-jsonld-extra-terms": {
     "csvw": {}
   },

@@ -1,8 +1,8 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 type: object
-title: 'Optional properties for CDIF Discovery metadata schema, with schema: prefixes'
-description: Building block specifies properties for minimal CDIF schama.org discovery
-  record
+title: 'Core properties for CDIF metadata schema, with schema: prefixes'
+description: Building block specifies core properties for CDIF schema.org metadata
+  record, applicable to any resource type.
 properties:
   '@context':
     type: object
@@ -17,10 +17,13 @@ properties:
         const: http://spdx.org/rdf/terms#
       dcat:
         const: http://www.w3.org/ns/dcat#
+      prov:
+        const: http://www.w3.org/ns/prov#
     required:
     - schema
     - dcterms
     - dcat
+    - prov
   '@id':
     type: string
     description: 'The URI for the resource should be the @id value for the root of
@@ -57,6 +60,10 @@ properties:
     description: A descriptive name of a dataset (e.g., 'Snow depth in Northern Hemisphere').
       The name should uniquely identify the described resource for human use, in the
       scope of the metadata catalog containing this metadata record.
+  schema:description:
+    type: string
+    description: A short summary describing a dataset. This text will be indexed by
+      search applications, so the more information here, the better.
   schema:identifier:
     description: The primary identifier for the dataset; other identifiers should
       be listed in the sameAs field. Schema.org has three ways of encoding identifiers--
@@ -68,10 +75,47 @@ properties:
     anyOf:
     - $ref: '#/$defs/Identifier'
     - type: string
+  schema:additionalType:
+    description: identifiers for datatypes from other vocabularies (not schema.org)
+      that apply to this metadata.
+    type: array
+    minItems: 0
+    items:
+      anyOf:
+      - type: string
+      - $ref: '#/$defs/DefinedTerm'
+  schema:sameAs:
+    description: Other identifiers for the dataset, as IRI references, literal strings,
+      or structured identifiers using schema:PropertyValue.
+    type: array
+    minItems: 1
+    items:
+      anyOf:
+      - type: string
+      - type: object
+        properties:
+          '@id':
+            type: string
+            description: IRI for an equivalent resource or alternate identifier
+      - $ref: '#/$defs/Identifier'
+  schema:version:
+    type:
+    - string
+    - number
+    description: The version number or identifier for this dataset (text or numeric).
+      The values should sort from oldest to newest using an alphanumeric sort on version
+      strings
+  schema:inLanguage:
+    type: string
+    description: the language of the dataset content
   schema:dateModified:
     type: string
     description: ISO8601 formatted date (and optional time if relevant) when Dataset
       was last updated
+  schema:datePublished:
+    type: string
+    description: ISO8601 formatted date (and optional time if relevant) when Dataset
+      was made public.
   schema:conditionsOfAccess:
     description: 'text statement of conditions for use and access; if an online resource
       documents the restrictions or a URI is used to identify the conditions, recommend
@@ -119,14 +163,155 @@ properties:
       page, provide link to landing page in the 'url' property for the dataset
     type: array
     items:
-      if:
+      anyOf:
+      - $ref: '#/$defs/DataDownload'
+      - $ref: '#/$defs/WebAPI'
+  schema:relatedLink:
+    type: array
+    description: links to related resources; linkRelationship specifies how the resource
+      is related.
+    items:
+      type: object
+      properties:
+        '@type':
+          type: array
+          items:
+            type: string
+          contains:
+            const: schema:LinkRole
+          minItems: 1
+        schema:linkRelationship:
+          anyOf:
+          - $ref: '#/$defs/DefinedTerm'
+          - type: string
+        schema:target:
+          type: object
+          properties:
+            '@type':
+              type: array
+              items:
+                type: string
+              contains:
+                const: schema:EntryPoint
+              minItems: 1
+            schema:encodingFormat:
+              type: string
+              description: registered MIME types are expected
+            schema:name:
+              type: string
+            schema:url:
+              type: string
+              format: uri
+  schema:publishingPrinciples:
+    description: FDOF digitalObjectMutability, RDA digitalObjectPolicy, FDOF PersistencyPolicy.
+      Policies related to maintenance, update, expected time to live. If an online
+      resource documents the policies or a URI is used to identify the conditions,
+      recommend using schema:CreativeWork to provide a label (name) and an identifier
+      (URI or URL).
+    type: array
+    minItems: 0
+    items:
+      anyOf:
+      - type: string
+      - type: object
         properties:
-          '@type':
-            contains:
-              const: schema:DataDownload
-      then:
+          '@id':
+            type: string
+            description: a reference to a publishing principles statement
+      - $ref: '#/$defs/LabeledLink'
+  schema:keywords:
+    description: Keywords are an array of strings, an array of schema:DefinedTerms,
+      or some combination of these. If you have information about a controlled vocabulary
+      from which keywords come from, use schema:DefinedTerm to descibe that keyword.
+      This allowed variability makes parsing metadata hard; recommend using DefinedTerm
+      for all keywords if any of them are from a known vocabulary, otherwise an array
+      of strings.
+    type: array
+    items:
+      anyOf:
+      - $ref: '#/$defs/DefinedTerm'
+      - type: string
+  schema:creator:
+    description: author or orginator of intellectual content of dataset. Uset the
+      JSON-LD @list construct to preserve author order. Use contributor with the Role
+      property to specify other roles related to creation or stewardship of the resource.
+    type: object
+    properties:
+      '@list':
+        type: array
+        items:
+          anyOf:
+          - type: object
+            properties:
+              '@id':
+                type: string
+                description: a identifier for an agent defined in this metadata, or
+                  externally; must be dereferenceable
+            required:
+            - '@id'
+          - $ref: '#/$defs/Person'
+          - $ref: '#/$defs/Organization'
+  schema:contributor:
+    description: other parties who played a role in production of dataset
+    type: array
+    items:
+      anyOf:
+      - type: object
+        properties:
+          '@id':
+            type: string
+            description: a identifier for an agent defined in this metadata, or externally;
+              must be dereferenceable
         required:
-        - schema:contentUrl
+        - '@id'
+      - $ref: '#/$defs/Person'
+      - $ref: '#/$defs/Organization'
+      - $ref: '#/$defs/Contributor'
+  schema:publisher:
+    description: Party who made the dataset publicly available
+    anyOf:
+    - type: object
+      properties:
+        '@id':
+          type: string
+          description: a identifier for an agent defined in this metadata, or externally;
+            must be dereferenceable
+      required:
+      - '@id'
+    - $ref: '#/$defs/Person'
+    - $ref: '#/$defs/Organization'
+  schema:provider:
+    description: Party who maintains the distribution options for the dataset. If
+      there are multiple distributions from different providers, use the provider
+      property on distribution/DataDownload
+    type: array
+    items:
+      anyOf:
+      - type: object
+        properties:
+          '@id':
+            type: string
+            description: a identifier for an agent defined in this metadata, or externally;
+              must be dereferenceable
+        required:
+        - '@id'
+      - $ref: '#/$defs/Person'
+      - $ref: '#/$defs/Organization'
+  schema:funding:
+    type: array
+    items:
+      $ref: '#/$defs/Funder'
+  prov:wasGeneratedBy:
+    description: Brief information about instruments, software or experimental protocols
+      used
+    type: array
+    items:
+      $ref: '#/$defs/GeneratedBy'
+  prov:wasDerivedFrom:
+    description: Brief information about sources of data used in aggregate datasets
+    type: array
+    items:
+      $ref: '#/$defs/DerivedFrom'
   schema:subjectOf:
     $ref: '#/$defs/CdifCatalogRecord'
 allOf:
@@ -168,6 +353,18 @@ $defs:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml
   WebAPI:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema.yaml
+  Person:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml
+  Organization:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml
+  Contributor:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/agentInRole/schema.yaml
+  Funder:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema.yaml
+  GeneratedBy:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/generatedBy/schema.yaml
+  DerivedFrom:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/derivedFrom/schema.yaml
   CdifCatalogRecord:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCatalogRecord/schema.yaml
 x-jsonld-prefixes:
