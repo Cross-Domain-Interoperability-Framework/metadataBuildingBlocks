@@ -845,7 +845,7 @@ quality measurements.
       "schema:propertyID": [
         "urn:example:property:sampleID"
       ],
-      "cdi:physicalDataType": "string"
+      "cdi:physicalDataType": ["string"]
     },
     {
       "@type": [
@@ -868,7 +868,7 @@ quality measurements.
       "schema:unitCode": "59",
       "schema:minValue": 0.01,
       "schema:maxValue": 5000,
-      "cdi:physicalDataType": "float64"
+      "cdi:physicalDataType": ["float64"]
     },
     {
       "@type": [
@@ -883,7 +883,7 @@ quality measurements.
       ],
       "schema:unitText": "ppm",
       "schema:unitCode": "59",
-      "cdi:physicalDataType": "float64"
+      "cdi:physicalDataType": ["float64"]
     },
     {
       "@type": [
@@ -899,7 +899,7 @@ quality measurements.
       "schema:unitText": "nm",
       "schema:minValue": 200,
       "schema:maxValue": 2500,
-      "cdi:physicalDataType": "float64"
+      "cdi:physicalDataType": ["float64"]
     },
     {
       "@type": [
@@ -913,7 +913,7 @@ quality measurements.
         "urn:example:property:intensity"
       ],
       "schema:unitText": "counts",
-      "cdi:physicalDataType": "float32"
+      "cdi:physicalDataType": ["float32"]
     }
   ],
   "prov:wasGeneratedBy": [
@@ -1976,7 +1976,9 @@ quality measurements.
       "schema:propertyID": [
         "urn:example:property:sampleID"
       ],
-      "cdi:physicalDataType": "string"
+      "cdi:physicalDataType": [
+        "string"
+      ]
     },
     {
       "@type": [
@@ -1999,7 +2001,9 @@ quality measurements.
       "schema:unitCode": "59",
       "schema:minValue": 0.01,
       "schema:maxValue": 5000,
-      "cdi:physicalDataType": "float64"
+      "cdi:physicalDataType": [
+        "float64"
+      ]
     },
     {
       "@type": [
@@ -2014,7 +2018,9 @@ quality measurements.
       ],
       "schema:unitText": "ppm",
       "schema:unitCode": "59",
-      "cdi:physicalDataType": "float64"
+      "cdi:physicalDataType": [
+        "float64"
+      ]
     },
     {
       "@type": [
@@ -2030,7 +2036,9 @@ quality measurements.
       "schema:unitText": "nm",
       "schema:minValue": 200,
       "schema:maxValue": 2500,
-      "cdi:physicalDataType": "float64"
+      "cdi:physicalDataType": [
+        "float64"
+      ]
     },
     {
       "@type": [
@@ -2044,7 +2052,9 @@ quality measurements.
         "urn:example:property:intensity"
       ],
       "schema:unitText": "counts",
-      "cdi:physicalDataType": "float32"
+      "cdi:physicalDataType": [
+        "float32"
+      ]
     }
   ],
   "prov:wasGeneratedBy": [
@@ -2428,11 +2438,11 @@ ex:activity-geochem-analysis a schema1:Action,
                             schema1:name "Inductively coupled plasma mass spectrometer" ;
                             schema1:termCode "LAB21" ] ;
                     schema1:hasPart [ a schema1:Thing ;
-                            schema1:alternateName "CETAC ASX-560" ;
-                            schema1:name "Autosampler" ],
-                        [ a schema1:Thing ;
                             schema1:alternateName "Peltier-cooled cyclonic" ;
-                            schema1:name "Spray chamber" ] ;
+                            schema1:name "Spray chamber" ],
+                        [ a schema1:Thing ;
+                            schema1:alternateName "CETAC ASX-560" ;
+                            schema1:name "Autosampler" ] ;
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
                     schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
                     schema1:termCode "ICP-MS" ] ],
@@ -2493,43 +2503,7 @@ ex:complete-dataset-001 a schema1:Dataset ;
     schema1:dateModified "2026-02-15" ;
     schema1:datePublished "2026-02-01" ;
     schema1:description "Comprehensive geochemistry dataset demonstrating the CDIF complete profile with single-file downloads, archive distribution with component files, and WebAPI access. Includes tabular CSV results, NetCDF data cubes, and an OGC API Features endpoint." ;
-    schema1:distribution [ a cdi:StructuredDataSet,
-                schema1:DataDownload ;
-            cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:var-intensity ;
-                    cdi:index 1 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/spectra/intensity" ;
-                    cdi:physicalDataType "float32" ;
-                    cdi:scale 1000 ],
-                [ cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:var-wavelength ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/spectra/wavelength" ;
-                    cdi:physicalDataType "float32" ] ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/spectra-cube.nc" ;
-            schema1:encodingFormat "application/x-netcdf" ;
-            schema1:name "Spectral data cube" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4" ] ],
-        [ a schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/geochem-package.zip" ;
-            schema1:description "Archive containing all data files. Component files are listed as parts and are not individually accessible." ;
-            schema1:encodingFormat "application/zip" ;
-            schema1:hasPart <file:///github/workspace/#part-measurements-csv>,
-                <file:///github/workspace/#part-metadata-yaml>,
-                <file:///github/workspace/#part-method-pdf>,
-                <file:///github/workspace/#part-results-csv>,
-                <file:///github/workspace/#part-spectra-nc> ;
-            schema1:name "Complete data package" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5" ] ],
-        [ a cdi:TabularTextDataSet,
+    schema1:distribution [ a cdi:TabularTextDataSet,
                 schema1:DataDownload ;
             cdi:arrayBase 0 ;
             cdi:escapeCharacter "\\" ;
@@ -2582,6 +2556,42 @@ ex:complete-dataset-001 a schema1:Dataset ;
             csvw:trim "true" ],
         [ a schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "https://example.org/data/geochem-package.zip" ;
+            schema1:description "Archive containing all data files. Component files are listed as parts and are not individually accessible." ;
+            schema1:encodingFormat "application/zip" ;
+            schema1:hasPart <file:///github/workspace/#part-measurements-csv>,
+                <file:///github/workspace/#part-metadata-yaml>,
+                <file:///github/workspace/#part-method-pdf>,
+                <file:///github/workspace/#part-results-csv>,
+                <file:///github/workspace/#part-spectra-nc> ;
+            schema1:name "Complete data package" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5" ] ],
+        [ a cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            cdi:hasPhysicalMapping [ cdi:format "decimal" ;
+                    cdi:formats_InstanceVariable ex:var-wavelength ;
+                    cdi:index 0 ;
+                    cdi:isRequired true ;
+                    cdi:locator "/spectra/wavelength" ;
+                    cdi:physicalDataType "float32" ],
+                [ cdi:format "decimal" ;
+                    cdi:formats_InstanceVariable ex:var-intensity ;
+                    cdi:index 1 ;
+                    cdi:isRequired true ;
+                    cdi:locator "/spectra/intensity" ;
+                    cdi:physicalDataType "float32" ;
+                    cdi:scale 1000 ] ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "https://example.org/data/spectra-cube.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Spectral data cube" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4" ] ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "https://example.org/data/geochem-summary.csv" ;
             schema1:encodingFormat "text/csv" ;
             schema1:name "Geochemistry summary results" ;
@@ -2612,14 +2622,14 @@ ex:complete-dataset-001 a schema1:Dataset ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a schema1:DataDownload ;
                             cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-                                    cdi:formats_InstanceVariable ex:var-concentration ;
-                                    cdi:index 0 ;
-                                    cdi:isRequired true ;
-                                    cdi:physicalDataType "float64" ],
-                                [ cdi:format "decimal" ;
                                     cdi:formats_InstanceVariable ex:var-uncertainty ;
                                     cdi:index 1 ;
                                     cdi:isRequired false ;
+                                    cdi:physicalDataType "float64" ],
+                                [ cdi:format "decimal" ;
+                                    cdi:formats_InstanceVariable ex:var-concentration ;
+                                    cdi:index 0 ;
+                                    cdi:isRequired true ;
                                     cdi:physicalDataType "float64" ] ;
                             cdi:isDelimited true ;
                             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
@@ -2831,6 +2841,9 @@ description: CDIF complete profile combining core metadata with discovery proper
   data description, archive distribution, and provenance extensions.
 allOf:
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema.yaml
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.yaml
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema.yaml
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema.yaml
 - type: object
   properties:
     '@context':
@@ -2843,8 +2856,6 @@ allOf:
           const: http://www.w3.org/ns/dqv#
         cdi:
           const: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-        csvw:
-          const: http://www.w3.org/ns/csvw#
     schema:measurementTechnique:
       description: The technique, technology, or methodology used for measurement
         or determination of the dataset values.
@@ -2856,24 +2867,6 @@ allOf:
           anyOf:
           - type: string
           - $ref: '#/$defs/DefinedTerm'
-    schema:variableMeasured:
-      description: Variables in the dataset. At data description level, PropertyValue
-        variables must include cdi:InstanceVariable typing and cdi:physicalDataType.
-      type: array
-      items:
-        anyOf:
-        - type: object
-          properties:
-            '@type':
-              type: array
-              items:
-                type: string
-              contains:
-                const: cdi:InstanceVariable
-              minItems: 2
-          required:
-          - cdi:physicalDataType
-        - $ref: '#/$defs/StatisticalVariable'
     schema:spatialCoverage:
       description: Geographic extent of resource content.
       type: array
@@ -2889,57 +2882,26 @@ allOf:
       type: array
       items:
         $ref: '#/$defs/QualityMeasure'
-    schema:distribution:
-      type: array
-      items:
-        anyOf:
-        - $ref: '#/$defs/CdifArchive'
-        - type: object
-          properties:
-            cdi:characterSet:
-              type: string
-            cdi:fileSize:
-              type: number
-            cdi:fileSizeUofM:
-              type: string
-        - {}
-    prov:wasGeneratedBy:
-      description: Provenance activities describing how the resource was generated.
-      type: array
-      items:
-        $ref: '#/$defs/CdifProvActivity'
     schema:subjectOf:
       properties:
         dcterms:conformsTo:
-          contains:
-            type: object
-            properties:
-              '@id':
-                const: https://w3id.org/cdif/discovery/1.0/
-  allOf:
-  - properties:
-      schema:subjectOf:
-        properties:
-          dcterms:conformsTo:
-            contains:
+          allOf:
+          - contains:
+              type: object
+              properties:
+                '@id':
+                  const: https://w3id.org/cdif/discovery/1.0/
+          - contains:
               type: object
               properties:
                 '@id':
                   const: https://w3id.org/cdif/dataDescription/1.0/
-  - properties:
-      schema:subjectOf:
-        properties:
-          dcterms:conformsTo:
-            contains:
+          - contains:
               type: object
               properties:
                 '@id':
                   const: https://w3id.org/cdif/manifest/1.0/
-  - properties:
-      schema:subjectOf:
-        properties:
-          dcterms:conformsTo:
-            contains:
+          - contains:
               type: object
               properties:
                 '@id':
@@ -2947,18 +2909,12 @@ allOf:
 $defs:
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
-  StatisticalVariable:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/schema.yaml
   SpatialExtent:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
   TemporalExtent:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/temporalExtent/schema.yaml
   QualityMeasure:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityMeasure/schema.yaml
-  CdifArchive:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema.yaml
-  CdifProvActivity:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
@@ -2995,8 +2951,9 @@ Links to the schema:
     "time": "http://www.w3.org/2006/time#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "csvw": "http://www.w3.org/ns/csvw#",
-    "ada": "https://ada.astromat.org/metadata/",
+    "xas": "https://xas.org/dictionary/",
     "nxs": "http://purl.org/nexusformat/definitions/",
+    "ada": "https://ada.astromat.org/metadata/",
     "@version": 1.1
   }
 }

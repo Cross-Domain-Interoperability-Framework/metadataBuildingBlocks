@@ -386,6 +386,148 @@ x-defs:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.cdifProperties.cdifDataDescription:
+    title: CDIF Data Description properties
+    description: Additional constraints for CDIF data description level. Adds cdi:physicalDataType
+      requirement on variableMeasured items and distribution-level cdi properties
+      for file characterization (characterSet, fileSize, fileSizeUofM).
+    type: object
+    properties:
+      schema:subjectOf:
+        properties:
+          dcterms:conformsTo:
+            type: array
+            items:
+              type: object
+              properties:
+                '@id':
+                  type: string
+                  description: uri for specifications that this metadata record conforms
+                    to
+            minItems: 1
+            contains:
+              type: object
+              properties:
+                '@id':
+                  enum:
+                  - https://w3id.org/cdif/dataDescription/1.0/
+      '@context':
+        type: object
+        description: Additional namespace prefix for data description properties.
+        properties:
+          csvw:
+            enum:
+            - http://www.w3.org/ns/csvw#
+      schema:variableMeasured:
+        type: array
+        items:
+          allOf:
+          - type: object
+            description: All variableMeasured items at data description level must
+              have an @id and cdi:physicalDataType so physical mappings can reference
+              them.
+            properties:
+              '@id':
+                type: string
+                description: URI identifier for this variable, used as the target
+                  of cdi:formats_InstanceVariable references in physical mappings.
+            required:
+            - '@id'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifDataDescription/$defs/cdifVariableMeasured
+      schema:distribution:
+        type: array
+        items:
+          allOf:
+          - type: object
+            properties:
+              cdi:characterSet:
+                type: string
+                description: The character set used in the distribution (e.g., UTF-8,
+                  ASCII).
+              cdi:fileSize:
+                type: number
+                description: The size of the distribution file.
+              cdi:fileSizeUofM:
+                type: string
+                description: Unit of measure for the file size (e.g., bytes, KB, MB,
+                  GB).
+          - anyOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifDataCube
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifTabularData
+            - {}
+    $defs:
+      cdifVariableMeasured:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.cdifProperties.cdifArchiveDistribution:
+    title: CDIF Archive Distribution
+    description: Building block that adds archive distribution as a valid distribution
+      item type. cdifOptional already defines schema:distribution with DataDownload
+      and WebAPI options; this building block extends that with the cdifArchive option
+      (DataDownload with schema:hasPart component files).
+    type: object
+    properties:
+      schema:subjectOf:
+        properties:
+          dcterms:conformsTo:
+            type: array
+            items:
+              type: object
+              properties:
+                '@id':
+                  type: string
+                  description: uri for specifications that this metadata record conforms
+                    to
+            minItems: 1
+            contains:
+              type: object
+              properties:
+                '@id':
+                  enum:
+                  - https://w3id.org/cdif/manifest/1.0/
+      schema:distribution:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifArchive
+          - {}
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.cdifProperties.cdifProvenance:
+    title: CDIF Provenance
+    description: Building block that defines the prov:wasGeneratedBy property for
+      CDIF metadata records. Wraps the cdifProvActivity building block as an array
+      of provenance activities that describe how the described resource was generated.
+    type: object
+    properties:
+      schema:subjectOf:
+        properties:
+          dcterms:conformsTo:
+            type: array
+            items:
+              type: object
+              properties:
+                '@id':
+                  type: string
+                  description: uri for specifications that this metadata record conforms
+                    to
+            minItems: 1
+            contains:
+              type: object
+              properties:
+                '@id':
+                  enum:
+                  - https://w3id.org/cdif/provenance/1.0/
+      prov:wasGeneratedBy:
+        description: Provenance activities describing how the resource was generated,
+          including agents, instruments, methodology, temporal bounds, and action
+          chaining.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.definedTerm:
     description: schema.org Defined Term schema
     type: object
@@ -426,81 +568,6 @@ x-defs:
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.statisticalVariable:
-    description: A statistical variable description using schema.org/StatisticalVariable.
-      Defines a variable that represents a statistical measure, such as median income
-      or unemployment rate.
-    type: object
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          enum:
-          - schema:StatisticalVariable
-        minItems: 1
-      '@id':
-        type: string
-      schema:name:
-        type: string
-        description: string label for the statistical variable
-      schema:description:
-        type: string
-      schema:alternateName:
-        type: array
-        items:
-          type: string
-          description: human intelligible name for variable that conveys semantics
-      schema:measurementTechnique:
-        anyOf:
-        - type: string
-        - type: object
-          properties:
-            '@id':
-              type: string
-              description: reference to a skos concept
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.statisticalVariable/$defs/DefinedTerm
-        description: Text description or URI identifying the measurement method.
-      schema:statType:
-        anyOf:
-        - type: string
-        - type: object
-          properties:
-            '@id':
-              type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.statisticalVariable/$defs/DefinedTerm
-      schema:measuredProperty:
-        type: object
-        properties:
-          '@id':
-            type: string
-            description: reference to a skos concept for the property
-          '@type':
-            type: array
-            items:
-              type: string
-            contains:
-              enum:
-              - schema:Property
-            minItems: 1
-          schema:name:
-            anyOf:
-            - type: string
-            - type: object
-              properties:
-                '@id':
-                  type: string
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.statisticalVariable/$defs/DefinedTerm
-    required:
-    - '@type'
-    - schema:name
-    - schema:measuredProperty
-    $defs:
-      DefinedTerm:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.spatialExtent:
     description: 'Spatial Extent description for CDIF discovery profile.  Note required
@@ -809,391 +876,6 @@ x-defs:
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityMeasure/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.cdifProperties.cdifArchive:
-    title: CDIF Archive Distribution
-    description: A DataDownload distribution that is an archive file (e.g. ZIP) containing
-      multiple component files described in schema:hasPart. The archive itself is
-      typed as schema:DataDownload; each component file is typed as schema:MediaObject
-      (not DataDownload, since they are not independently accessible via URL). Components
-      may optionally include CDIF data description extensions (cdifTabularData, cdifDataCube)
-      to describe their internal data structure.
-    type: object
-    allOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.dataDownload
-    - type: object
-      properties:
-        schema:hasPart:
-          type: array
-          description: Array describing the files contained in the archive. Each item
-            represents a component file that is part of the archive and is not independently
-            accessible.
-          items:
-            allOf:
-            - type: object
-              properties:
-                '@id':
-                  type: string
-                  description: Identifier for this file, typically a hash-based anchor
-                    (e.g. '#abc123'). Used for cross-references from schema:about
-                    in metadata sidecar files.
-                '@type':
-                  type: array
-                  description: Must include schema:MediaObject. Must NOT include schema:DataDownload
-                    since this file is not independently accessible. May include additional
-                    types for categorization.
-                  items:
-                    type: string
-                  contains:
-                    enum:
-                    - schema:MediaObject
-                  not:
-                    contains:
-                      enum:
-                      - schema:DataDownload
-                  minItems: 1
-                schema:name:
-                  type: string
-                  description: Filename of the component file within the archive.
-                schema:description:
-                  type: string
-                  description: Description of the file content. May include checksum
-                    information.
-                schema:encodingFormat:
-                  type: array
-                  description: MIME type(s) for this file.
-                  items:
-                    type: string
-                schema:size:
-                  type: object
-                  description: File size as a QuantitativeValue.
-                  properties:
-                    '@type':
-                      type: array
-                      items:
-                        type: string
-                      contains:
-                        enum:
-                        - schema:QuantitativeValue
-                      minItems: 1
-                    schema:value:
-                      type: number
-                      description: Numeric size value.
-                    schema:unitText:
-                      type: string
-                      description: Unit of measure for size (e.g. 'byte').
-                schema:about:
-                  type: array
-                  description: For metadata sidecar files, references the data file
-                    this metadata describes.
-                  items:
-                    type: object
-                    properties:
-                      '@id':
-                        type: string
-                        description: Reference to the @id of the data file described
-                          by this sidecar.
-                spdx:checksum:
-                  type: object
-                  description: Checksum for integrity verification of this component
-                    file.
-                  properties:
-                    '@type':
-                      type: array
-                      items:
-                        type: string
-                      contains:
-                        enum:
-                        - spdx:Checksum
-                      minItems: 1
-                    spdx:algorithm:
-                      type: string
-                    spdx:checksumValue:
-                      type: string
-                  required:
-                  - '@type'
-              required:
-              - '@type'
-              - schema:name
-              - schema:encodingFormat
-            - anyOf:
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifDataCube
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifTabularData
-              - {}
-    x-jsonld-prefixes:
-      schema: http://schema.org/
-      spdx: http://spdx.org/rdf/terms#
-      cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-      csvw: http://www.w3.org/ns/csvw#
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.cdifProperties.cdifProvActivity:
-    title: CDIF Provenance Activity
-    description: Extended provenance activity building block for CDIF. Extends the
-      minimal prov:Activity (generatedBy) with schema.org Action properties for comprehensive
-      provenance documentation including agents, instruments, methodology, temporal
-      bounds, action chaining, and more.
-    type: object
-    allOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.provProperties.generatedBy
-    - type: object
-      properties:
-        '@type':
-          type: array
-          items:
-            type: string
-          minItems: 2
-          contains:
-            enum:
-            - schema:Action
-          description: Must include both schema:Action and prov:Activity (prov:Activity
-            required by base generatedBy schema)
-        prov:used:
-          type: array
-          items:
-            anyOf:
-            - type: string
-            - type: object
-              properties:
-                '@id':
-                  type: string
-                  description: a resolvable reference to a representation of the software
-                    or instrument used
-            - type: object
-              description: an item used by the activity that includes a schema:instrument
-                sub-key
-              properties:
-                schema:instrument:
-                  $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Instrument
-              required:
-              - schema:instrument
-        schema:name:
-          type: string
-          description: Human-readable name for the activity
-        schema:description:
-          type: string
-          description: Text description of what this activity did
-        schema:identifier:
-          description: Formal identifier for this activity
-          anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Identifier
-          - type: string
-        schema:agent:
-          description: Primary responsible agent for this activity (maps to PROV wasAssociatedWith)
-          anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Person
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Organization
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/AgentInRole
-          - type: object
-            properties:
-              '@id':
-                type: string
-                description: reference to an agent defined elsewhere
-            required:
-            - '@id'
-        schema:participant:
-          description: Other participants in this activity
-          type: array
-          items:
-            anyOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Person
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Organization
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/AgentInRole
-            - type: object
-              properties:
-                '@id':
-                  type: string
-                  description: reference to a participant defined elsewhere
-              required:
-              - '@id'
-        schema:object:
-          description: Input entity for this activity (for action chaining, references
-            the result of a prior activity)
-          anyOf:
-          - type: string
-          - type: object
-            properties:
-              '@id':
-                type: string
-                description: reference to an input entity
-        schema:result:
-          description: Output entity produced by this activity (for action chaining,
-            can be referenced as object of a subsequent activity)
-          anyOf:
-          - type: string
-          - type: object
-            properties:
-              '@id':
-                type: string
-                description: reference to an output entity
-        schema:actionStatus:
-          type: string
-          description: Status of this activity
-          enum:
-          - schema:CompletedActionStatus
-          - schema:ActiveActionStatus
-          - schema:PotentialActionStatus
-          - schema:FailedActionStatus
-        schema:startTime:
-          type: string
-          description: ISO8601 date-time when the activity started (maps to PROV startedAtTime)
-        schema:endTime:
-          type: string
-          description: ISO8601 date-time when the activity ended (maps to PROV endedAtTime)
-        schema:location:
-          description: Where the activity occurred
-          anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/SpatialExtent
-          - type: string
-          - type: object
-            properties:
-              '@id':
-                type: string
-                description: reference to a place defined elsewhere
-        schema:actionProcess:
-          description: Methodology or protocol for this activity
-          anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/HowTo
-          - type: string
-          - type: object
-            properties:
-              '@id':
-                type: string
-                description: reference to a methodology defined elsewhere
-        schema:error:
-          type: string
-          description: Error description for failed activities
-        schema:additionalProperty:
-          description: Domain-specific extension properties
-          type: array
-          items:
-            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/AdditionalProperty
-    $defs:
-      Person:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
-      Organization:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
-      AgentInRole:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.agentInRole
-      Identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
-      Instrument:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument
-      DefinedTerm:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
-      LabeledLink:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
-      SpatialExtent:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent
-      AdditionalProperty:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
-      HowTo:
-        type: object
-        description: A methodology or protocol described as a HowTo with optional
-          steps
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            contains:
-              enum:
-              - schema:HowTo
-            minItems: 1
-          '@id':
-            type: string
-          schema:name:
-            type: string
-            description: Name of the methodology or protocol
-          schema:description:
-            type: string
-            description: Description of the methodology
-          schema:url:
-            type: string
-            format: uri
-            description: URL to a published methodology or protocol document
-          schema:step:
-            type: array
-            description: Ordered steps in this methodology
-            items:
-              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/HowToStep
-        required:
-        - '@type'
-        anyOf:
-        - required:
-          - schema:name
-        - required:
-          - schema:url
-      HowToStep:
-        type: object
-        description: A single step in a HowTo methodology
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            contains:
-              enum:
-              - schema:HowToStep
-            minItems: 1
-          schema:name:
-            type: string
-            description: Name of this step
-          schema:description:
-            type: string
-            description: Description of what this step involves
-          schema:url:
-            type: string
-            format: uri
-            description: URL to documentation for this step
-          schema:position:
-            type: integer
-            description: Ordinal position of this step
-        required:
-        - '@type'
-        - schema:name
-      Claim:
-        type: object
-        description: A statement or assertion about the dataset, such as a quality
-          claim
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            contains:
-              enum:
-              - schema:Claim
-            minItems: 1
-          '@id':
-            type: string
-          schema:claimReviewed:
-            type: string
-            description: The claim being reviewed or asserted
-          schema:author:
-            description: Author of this claim
-            anyOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Person
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Organization
-            - type: object
-              properties:
-                '@id':
-                  type: string
-          schema:datePublished:
-            type: string
-            description: ISO8601 date when this claim was published
-          schema:appearance:
-            description: Where this claim appears
-            anyOf:
-            - type: string
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/LabeledLink
-        required:
-        - '@type'
-        - schema:claimReviewed
-    x-jsonld-prefixes:
-      schema: http://schema.org/
-      prov: http://www.w3.org/ns/prov#
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.labeledLink:
     description: schema for a labeled link, a profile of schema.org/CreativeWork
@@ -1982,323 +1664,486 @@ x-defs:
       cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularData/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.instrument:
-    title: Instrument Description
-    description: Schema for describing laboratory instruments and instrument systems.
-      Supports ownership, manufacturer, model, commissioning dates, hierarchical sub-components
-      via schema:hasPart, and domain-specific typing. Instruments may be standalone
-      devices or complex systems with sub-components.
+  cdif.bbr.metadata.cdifProperties.cdifVariableMeasured:
+    description: Extends cdif variableMeasured with properties for DDI-CDI InstanceVariable
     type: object
-    properties:
-      '@context':
-        type: object
-        description: JSON-LD context declaring namespace prefixes.
-        properties:
-          schema:
-            enum:
-            - http://schema.org/
-          dcterms:
-            enum:
-            - http://purl.org/dc/terms/
-        required:
-        - schema
-      '@id':
-        type: string
-        description: Persistent identifier URI for this instrument metadata record.
-      '@type':
-        type: array
-        items:
-          type: string
-        minItems: 2
-        description: Must include schema:Product and schema:Thing. May include additional
-          types.
-        allOf:
-        - contains:
-            enum:
-            - schema:Product
-        - contains:
-            enum:
-            - schema:Thing
-      schema:additionalType:
-        description: Domain-specific type classifications. Should include a scientific
-          instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).
-        type: array
-        items:
-          type: string
-        minItems: 1
-      schema:name:
-        type: string
-        minLength: 3
-        description: Human-readable name for this instrument.
-      schema:description:
-        type: string
-        description: Text description of this instrument, its purpose, and capabilities.
-      schema:alternateName:
-        description: Alternate name(s), e.g. specific make/model designation, common
-          abbreviation.
-        anyOf:
-        - type: string
-        - type: array
-          items:
-            type: string
-      schema:identifier:
-        description: Formal identifier(s) for this instrument. Use PropertyValue for
-          structured identifiers (e.g. PIDINST, serial number, inventory number).
-        anyOf:
-        - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
-        - type: array
-          items:
-            anyOf:
-            - type: string
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
-      schema:url:
-        type: string
-        format: uri
-        description: Landing page URL for this instrument.
-      schema:manufacturer:
-        description: Organization that manufactured this instrument.
-        allOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Organization
-      schema:model:
-        type: object
-        description: Product model information for this instrument.
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            contains:
-              enum:
-              - schema:ProductModel
-            minItems: 1
-          schema:name:
-            type: string
-            description: Model name or number.
-          schema:identifier:
-            description: Model identifier.
-            anyOf:
-            - type: string
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
-        required:
-        - schema:name
-      schema:category:
-        description: Instrument type classification(s) from a controlled vocabulary.
-        type: array
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/DefinedTerm
-      schema:owner:
-        description: Organization that owns this instrument.
-        allOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Organization
-      schema:contributor:
-        description: Agents associated with this instrument in specific roles (e.g.
-          operator, custodian, principal investigator). Use schema:owner for the owning
-          organization.
-        type: array
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/AgentInRole
-      schema:additionalProperty:
-        type: array
-        description: Instrument-specific properties (measured variables, detection
-          limits, calibration information, operating parameters, etc.).
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/AdditionalProperty
-      schema:validFrom:
-        type: string
-        description: Date the instrument was commissioned (ISO 8601).
-      schema:validThrough:
-        type: string
-        description: Date the instrument was decommissioned (ISO 8601). Absent if
-          still operational.
-      schema:hasPart:
-        type: array
-        description: Sub-components of this instrument system. Each item is either
-          an inline instrument description or an @id reference.
-        items:
-          anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/InstrumentComponent
-          - type: object
-            properties:
-              '@id':
-                type: string
-                description: Reference to a sub-component defined elsewhere.
-            required:
-            - '@id'
-      schema:relatedLink:
-        type: array
-        description: Links to related resources (manuals, datasheets, calibration
-          records, related instruments).
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/LabeledLink
-      schema:subjectOf:
-        description: Catalog record metadata-about-metadata for this instrument description.
-        type: object
-        properties:
-          '@id':
-            type: string
-          '@type':
-            type: array
-            items:
-              type: string
-          schema:dateModified:
-            type: string
-            description: Date this metadata record was last modified (ISO 8601).
-          schema:about:
-            type: object
-            properties:
-              '@id':
-                type: string
-                description: Reference back to the instrument @id.
-          dcterms:conformsTo:
-            description: Schema or profile this metadata record conforms to.
-            type: array
-            items:
-              anyOf:
-              - type: string
-              - type: object
-                properties:
-                  '@id':
-                    type: string
-    required:
-    - '@type'
-    - schema:name
-    - schema:identifier
-    $defs:
-      Identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
-      Organization:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
-      Person:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
-      DefinedTerm:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
-      AgentInRole:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.agentInRole
-      AdditionalProperty:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
-      LabeledLink:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
-      InstrumentComponent:
-        type: object
-        description: A sub-component of an instrument system. Uses the same structure
-          as the parent instrument but without nesting (single level of hasPart).
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            minItems: 1
-            contains:
-              enum:
-              - schema:Thing
-          '@id':
-            type: string
-          schema:name:
-            type: string
-            minLength: 3
-          schema:description:
-            type: string
-          schema:alternateName:
-            anyOf:
-            - type: string
-            - type: array
-              items:
-                type: string
-          schema:identifier:
-            anyOf:
-            - type: string
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
-          schema:additionalType:
-            description: Component type classification.
-            anyOf:
-            - type: string
-            - type: array
-              items:
-                type: string
-          schema:additionalProperty:
-            type: array
-            items:
-              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/AdditionalProperty
-          schema:manufacturer:
-            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Organization
-          schema:model:
-            type: object
-            properties:
-              '@type':
-                type: array
-                items:
-                  type: string
-                contains:
-                  enum:
-                  - schema:ProductModel
-                minItems: 1
-              schema:name:
-                type: string
-              schema:identifier:
-                anyOf:
-                - type: string
-                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
-        required:
-        - schema:name
-    x-jsonld-prefixes:
-      schema: http://schema.org/
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.additionalProperty:
-    type: object
-    title: additionalProperty PropertyValue
-    description: 'PropertyValue values required to define a soft-typed property with
-      a value. '
     properties:
       '@type':
         type: array
+        description: Must include both schema:PropertyValue and cdi:InstanceVariable.
+          Additional types may be included.
         items:
           type: string
         contains:
           enum:
-          - schema:PropertyValue
-        minItems: 1
-      schema:propertyID:
+          - cdi:InstanceVariable
+      cdi:identifier:
+        type: string
+      cdi:physicalDataType:
         type: array
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/propertyID_item
-        minItems: 1
-        description: identifier or name for the property concept quantified by the
-          values in this variable slot. Multiple values can specify the property at
-          different levels of granularity.
-      schema:name:
+          anyOf:
+          - type: string
+          - type: object
+            properties:
+              '@id':
+                type: string
+                description: reference to a skos concept for the data type
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/DefinedTerm
+        description: identifier or name for the data type concept.
+      cdi:intendedDataType:
         type: string
-      schema:value:
-        anyOf:
-        - type: string
-        - type: number
-        - type: boolean
-        - type: object
-      schema:unitCode:
-        anyOf:
-        - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm
-      schema:unitText:
+        description: The intended data type for values of this variable, from DDI-CDI
+          RepresentedVariable.hasIntendedDataType. Recommended values are XML Schema
+          datatypes (e.g. https://www.w3.org/TR/xmlschema-2/#decimal).
+      cdi:role:
         type: string
-    required:
-    - schema:name
-    - schema:value
-    $defs:
-      DefinedTerm:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
-      propertyID_item:
+        enum:
+        - MeasureComponent
+        - AttributeComponent
+        - DimensionComponent
+        - DescriptorComponent
+        - ReferenceValueComponent
+        description: Specifies the relation of the variable to the data structure,
+          corresponding to DDI-CDI DataStructureComponent subtypes.
+      cdi:describedUnitOfMeasure:
+        description: A structured unit of measure from a controlled vocabulary, from
+          DDI-CDI RepresentedVariable.describedUnitOfMeasure.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/DefinedTerm
+      cdi:simpleUnitOfMeasure:
         anyOf:
         - type: string
         - type: object
           properties:
             '@id':
               type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm
+              description: reference to a skos concept for the data type
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/DefinedTerm
+      cdi:uses:
+        type: array
+        items:
+          anyOf:
+          - type: string
+          - type: object
+            properties:
+              '@id':
+                type: string
+                description: reference to a skos concept for the property
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/DefinedTerm
+        description: Essentially the same as schema:propertyID. References to concepts
+          that this variable measures or represents.
+      cdi:name:
+        type: string
+        description: DDI-CDI Concept.name. The name of this variable in the DDI-CDI
+          model.
+      cdi:displayLabel:
+        type: string
+        description: DDI-CDI Concept.displayLabel. A human-readable label for display
+          purposes.
+    $defs:
+      DefinedTerm:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+    allOf:
+    - required:
+      - '@type'
+    - anyOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.statisticalVariable
     x-jsonld-prefixes:
       schema: http://schema.org/
+      spdx: http://spdx.org/rdf/terms#
+      cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+      skos: http://www.w3.org/2004/02/skos/core#
+      xas: https://xas.org/dictionary/
       nxs: http://purl.org/nexusformat/definitions/
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
+      prov: http://www.w3.org/ns/prov#
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifVariableMeasured/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.cdifProperties.cdifArchive:
+    title: CDIF Archive Distribution
+    description: A DataDownload distribution that is an archive file (e.g. ZIP) containing
+      multiple component files described in schema:hasPart. The archive itself is
+      typed as schema:DataDownload; each component file is typed as schema:MediaObject
+      (not DataDownload, since they are not independently accessible via URL). Components
+      may optionally include CDIF data description extensions (cdifTabularData, cdifDataCube)
+      to describe their internal data structure.
+    type: object
+    allOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.dataDownload
+    - type: object
+      properties:
+        schema:hasPart:
+          type: array
+          description: Array describing the files contained in the archive. Each item
+            represents a component file that is part of the archive and is not independently
+            accessible.
+          items:
+            allOf:
+            - type: object
+              properties:
+                '@id':
+                  type: string
+                  description: Identifier for this file, typically a hash-based anchor
+                    (e.g. '#abc123'). Used for cross-references from schema:about
+                    in metadata sidecar files.
+                '@type':
+                  type: array
+                  description: Must include schema:MediaObject. Must NOT include schema:DataDownload
+                    since this file is not independently accessible. May include additional
+                    types for categorization.
+                  items:
+                    type: string
+                  contains:
+                    enum:
+                    - schema:MediaObject
+                  not:
+                    contains:
+                      enum:
+                      - schema:DataDownload
+                  minItems: 1
+                schema:name:
+                  type: string
+                  description: Filename of the component file within the archive.
+                schema:description:
+                  type: string
+                  description: Description of the file content. May include checksum
+                    information.
+                schema:encodingFormat:
+                  type: array
+                  description: MIME type(s) for this file.
+                  items:
+                    type: string
+                schema:size:
+                  type: object
+                  description: File size as a QuantitativeValue.
+                  properties:
+                    '@type':
+                      type: array
+                      items:
+                        type: string
+                      contains:
+                        enum:
+                        - schema:QuantitativeValue
+                      minItems: 1
+                    schema:value:
+                      type: number
+                      description: Numeric size value.
+                    schema:unitText:
+                      type: string
+                      description: Unit of measure for size (e.g. 'byte').
+                schema:about:
+                  type: array
+                  description: For metadata sidecar files, references the data file
+                    this metadata describes.
+                  items:
+                    type: object
+                    properties:
+                      '@id':
+                        type: string
+                        description: Reference to the @id of the data file described
+                          by this sidecar.
+                spdx:checksum:
+                  type: object
+                  description: Checksum for integrity verification of this component
+                    file.
+                  properties:
+                    '@type':
+                      type: array
+                      items:
+                        type: string
+                      contains:
+                        enum:
+                        - spdx:Checksum
+                      minItems: 1
+                    spdx:algorithm:
+                      type: string
+                    spdx:checksumValue:
+                      type: string
+                  required:
+                  - '@type'
+              required:
+              - '@type'
+              - schema:name
+              - schema:encodingFormat
+            - anyOf:
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifDataCube
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifTabularData
+              - {}
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+      spdx: http://spdx.org/rdf/terms#
+      cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+      csvw: http://www.w3.org/ns/csvw#
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.cdifProperties.cdifProvActivity:
+    title: CDIF Provenance Activity
+    description: Extended provenance activity building block for CDIF. Extends the
+      minimal prov:Activity (generatedBy) with schema.org Action properties for comprehensive
+      provenance documentation including agents, instruments, methodology, temporal
+      bounds, action chaining, and more.
+    type: object
+    allOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.provProperties.generatedBy
+    - type: object
+      properties:
+        '@type':
+          type: array
+          items:
+            type: string
+          minItems: 2
+          contains:
+            enum:
+            - schema:Action
+          description: Must include both schema:Action and prov:Activity (prov:Activity
+            required by base generatedBy schema)
+        prov:used:
+          type: array
+          items:
+            anyOf:
+            - type: string
+            - type: object
+              properties:
+                '@id':
+                  type: string
+                  description: a resolvable reference to a representation of the software
+                    or instrument used
+            - type: object
+              description: an item used by the activity that includes a schema:instrument
+                sub-key
+              properties:
+                schema:instrument:
+                  $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Instrument
+              required:
+              - schema:instrument
+        schema:name:
+          type: string
+          description: Human-readable name for the activity
+        schema:description:
+          type: string
+          description: Text description of what this activity did
+        schema:identifier:
+          description: Formal identifier for this activity
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Identifier
+          - type: string
+        schema:agent:
+          description: Primary responsible agent for this activity (maps to PROV wasAssociatedWith)
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Person
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Organization
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/AgentInRole
+          - type: object
+            properties:
+              '@id':
+                type: string
+                description: reference to an agent defined elsewhere
+            required:
+            - '@id'
+        schema:participant:
+          description: Other participants in this activity
+          type: array
+          items:
+            anyOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Person
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Organization
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/AgentInRole
+            - type: object
+              properties:
+                '@id':
+                  type: string
+                  description: reference to a participant defined elsewhere
+              required:
+              - '@id'
+        schema:object:
+          description: Input entity for this activity (for action chaining, references
+            the result of a prior activity)
+          anyOf:
+          - type: string
+          - type: object
+            properties:
+              '@id':
+                type: string
+                description: reference to an input entity
+        schema:result:
+          description: Output entity produced by this activity (for action chaining,
+            can be referenced as object of a subsequent activity)
+          anyOf:
+          - type: string
+          - type: object
+            properties:
+              '@id':
+                type: string
+                description: reference to an output entity
+        schema:actionStatus:
+          type: string
+          description: Status of this activity
+          enum:
+          - schema:CompletedActionStatus
+          - schema:ActiveActionStatus
+          - schema:PotentialActionStatus
+          - schema:FailedActionStatus
+        schema:startTime:
+          type: string
+          description: ISO8601 date-time when the activity started (maps to PROV startedAtTime)
+        schema:endTime:
+          type: string
+          description: ISO8601 date-time when the activity ended (maps to PROV endedAtTime)
+        schema:location:
+          description: Where the activity occurred
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/SpatialExtent
+          - type: string
+          - type: object
+            properties:
+              '@id':
+                type: string
+                description: reference to a place defined elsewhere
+        schema:actionProcess:
+          description: Methodology or protocol for this activity
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/HowTo
+          - type: string
+          - type: object
+            properties:
+              '@id':
+                type: string
+                description: reference to a methodology defined elsewhere
+        schema:error:
+          type: string
+          description: Error description for failed activities
+        schema:additionalProperty:
+          description: Domain-specific extension properties
+          type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/AdditionalProperty
+    $defs:
+      Person:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
+      Organization:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
+      AgentInRole:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.agentInRole
+      Identifier:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+      Instrument:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument
+      DefinedTerm:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+      LabeledLink:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
+      SpatialExtent:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent
+      AdditionalProperty:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
+      HowTo:
+        type: object
+        description: A methodology or protocol described as a HowTo with optional
+          steps
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - schema:HowTo
+            minItems: 1
+          '@id':
+            type: string
+          schema:name:
+            type: string
+            description: Name of the methodology or protocol
+          schema:description:
+            type: string
+            description: Description of the methodology
+          schema:url:
+            type: string
+            format: uri
+            description: URL to a published methodology or protocol document
+          schema:step:
+            type: array
+            description: Ordered steps in this methodology
+            items:
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/HowToStep
+        required:
+        - '@type'
+        anyOf:
+        - required:
+          - schema:name
+        - required:
+          - schema:url
+      HowToStep:
+        type: object
+        description: A single step in a HowTo methodology
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - schema:HowToStep
+            minItems: 1
+          schema:name:
+            type: string
+            description: Name of this step
+          schema:description:
+            type: string
+            description: Description of what this step involves
+          schema:url:
+            type: string
+            format: uri
+            description: URL to documentation for this step
+          schema:position:
+            type: integer
+            description: Ordinal position of this step
+        required:
+        - '@type'
+        - schema:name
+      Claim:
+        type: object
+        description: A statement or assertion about the dataset, such as a quality
+          claim
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - schema:Claim
+            minItems: 1
+          '@id':
+            type: string
+          schema:claimReviewed:
+            type: string
+            description: The claim being reviewed or asserted
+          schema:author:
+            description: Author of this claim
+            anyOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Person
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Organization
+            - type: object
+              properties:
+                '@id':
+                  type: string
+          schema:datePublished:
+            type: string
+            description: ISO8601 date when this claim was published
+          schema:appearance:
+            description: Where this claim appears
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/LabeledLink
+        required:
+        - '@type'
+        - schema:claimReviewed
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+      prov: http://www.w3.org/ns/prov#
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.action:
     title: 'Action '
@@ -2633,12 +2478,408 @@ x-defs:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.statisticalVariable:
+    description: A statistical variable description using schema.org/StatisticalVariable.
+      Defines a variable that represents a statistical measure, such as median income
+      or unemployment rate.
+    type: object
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:StatisticalVariable
+        minItems: 1
+      '@id':
+        type: string
+      schema:name:
+        type: string
+        description: string label for the statistical variable
+      schema:description:
+        type: string
+      schema:alternateName:
+        type: array
+        items:
+          type: string
+          description: human intelligible name for variable that conveys semantics
+      schema:measurementTechnique:
+        anyOf:
+        - type: string
+        - type: object
+          properties:
+            '@id':
+              type: string
+              description: reference to a skos concept
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.statisticalVariable/$defs/DefinedTerm
+        description: Text description or URI identifying the measurement method.
+      schema:statType:
+        anyOf:
+        - type: string
+        - type: object
+          properties:
+            '@id':
+              type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.statisticalVariable/$defs/DefinedTerm
+      schema:measuredProperty:
+        type: object
+        properties:
+          '@id':
+            type: string
+            description: reference to a skos concept for the property
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - schema:Property
+            minItems: 1
+          schema:name:
+            anyOf:
+            - type: string
+            - type: object
+              properties:
+                '@id':
+                  type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.statisticalVariable/$defs/DefinedTerm
+    required:
+    - '@type'
+    - schema:name
+    - schema:measuredProperty
+    $defs:
+      DefinedTerm:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.instrument:
+    title: Instrument Description
+    description: Schema for describing laboratory instruments and instrument systems.
+      Supports ownership, manufacturer, model, commissioning dates, hierarchical sub-components
+      via schema:hasPart, and domain-specific typing. Instruments may be standalone
+      devices or complex systems with sub-components.
+    type: object
+    properties:
+      '@context':
+        type: object
+        description: JSON-LD context declaring namespace prefixes.
+        properties:
+          schema:
+            enum:
+            - http://schema.org/
+          dcterms:
+            enum:
+            - http://purl.org/dc/terms/
+        required:
+        - schema
+      '@id':
+        type: string
+        description: Persistent identifier URI for this instrument metadata record.
+      '@type':
+        type: array
+        items:
+          type: string
+        minItems: 2
+        description: Must include schema:Product and schema:Thing. May include additional
+          types.
+        allOf:
+        - contains:
+            enum:
+            - schema:Product
+        - contains:
+            enum:
+            - schema:Thing
+      schema:additionalType:
+        description: Domain-specific type classifications. Should include a scientific
+          instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).
+        type: array
+        items:
+          type: string
+        minItems: 1
+      schema:name:
+        type: string
+        minLength: 3
+        description: Human-readable name for this instrument.
+      schema:description:
+        type: string
+        description: Text description of this instrument, its purpose, and capabilities.
+      schema:alternateName:
+        description: Alternate name(s), e.g. specific make/model designation, common
+          abbreviation.
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            type: string
+      schema:identifier:
+        description: Formal identifier(s) for this instrument. Use PropertyValue for
+          structured identifiers (e.g. PIDINST, serial number, inventory number).
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
+      schema:url:
+        type: string
+        format: uri
+        description: Landing page URL for this instrument.
+      schema:manufacturer:
+        description: Organization that manufactured this instrument.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Organization
+      schema:model:
+        type: object
+        description: Product model information for this instrument.
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - schema:ProductModel
+            minItems: 1
+          schema:name:
+            type: string
+            description: Model name or number.
+          schema:identifier:
+            description: Model identifier.
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
+        required:
+        - schema:name
+      schema:category:
+        description: Instrument type classification(s) from a controlled vocabulary.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/DefinedTerm
+      schema:owner:
+        description: Organization that owns this instrument.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Organization
+      schema:contributor:
+        description: Agents associated with this instrument in specific roles (e.g.
+          operator, custodian, principal investigator). Use schema:owner for the owning
+          organization.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/AgentInRole
+      schema:additionalProperty:
+        type: array
+        description: Instrument-specific properties (measured variables, detection
+          limits, calibration information, operating parameters, etc.).
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/AdditionalProperty
+      schema:validFrom:
+        type: string
+        description: Date the instrument was commissioned (ISO 8601).
+      schema:validThrough:
+        type: string
+        description: Date the instrument was decommissioned (ISO 8601). Absent if
+          still operational.
+      schema:hasPart:
+        type: array
+        description: Sub-components of this instrument system. Each item is either
+          an inline instrument description or an @id reference.
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/InstrumentComponent
+          - type: object
+            properties:
+              '@id':
+                type: string
+                description: Reference to a sub-component defined elsewhere.
+            required:
+            - '@id'
+      schema:relatedLink:
+        type: array
+        description: Links to related resources (manuals, datasheets, calibration
+          records, related instruments).
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/LabeledLink
+      schema:subjectOf:
+        description: Catalog record metadata-about-metadata for this instrument description.
+        type: object
+        properties:
+          '@id':
+            type: string
+          '@type':
+            type: array
+            items:
+              type: string
+          schema:dateModified:
+            type: string
+            description: Date this metadata record was last modified (ISO 8601).
+          schema:about:
+            type: object
+            properties:
+              '@id':
+                type: string
+                description: Reference back to the instrument @id.
+          dcterms:conformsTo:
+            description: Schema or profile this metadata record conforms to.
+            type: array
+            items:
+              anyOf:
+              - type: string
+              - type: object
+                properties:
+                  '@id':
+                    type: string
+    required:
+    - '@type'
+    - schema:name
+    - schema:identifier
+    $defs:
+      Identifier:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+      Organization:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
+      Person:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
+      DefinedTerm:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+      AgentInRole:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.agentInRole
+      AdditionalProperty:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
+      LabeledLink:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
+      InstrumentComponent:
+        type: object
+        description: A sub-component of an instrument system. Uses the same structure
+          as the parent instrument but without nesting (single level of hasPart).
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            minItems: 1
+            contains:
+              enum:
+              - schema:Thing
+          '@id':
+            type: string
+          schema:name:
+            type: string
+            minLength: 3
+          schema:description:
+            type: string
+          schema:alternateName:
+            anyOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          schema:identifier:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
+          schema:additionalType:
+            description: Component type classification.
+            anyOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          schema:additionalProperty:
+            type: array
+            items:
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/AdditionalProperty
+          schema:manufacturer:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Organization
+          schema:model:
+            type: object
+            properties:
+              '@type':
+                type: array
+                items:
+                  type: string
+                contains:
+                  enum:
+                  - schema:ProductModel
+                minItems: 1
+              schema:name:
+                type: string
+              schema:identifier:
+                anyOf:
+                - type: string
+                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
+        required:
+        - schema:name
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.additionalProperty:
+    type: object
+    title: additionalProperty PropertyValue
+    description: 'PropertyValue values required to define a soft-typed property with
+      a value. '
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:PropertyValue
+        minItems: 1
+      schema:propertyID:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/propertyID_item
+        minItems: 1
+        description: identifier or name for the property concept quantified by the
+          values in this variable slot. Multiple values can specify the property at
+          different levels of granularity.
+      schema:name:
+        type: string
+      schema:value:
+        anyOf:
+        - type: string
+        - type: number
+        - type: boolean
+        - type: object
+      schema:unitCode:
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm
+      schema:unitText:
+        type: string
+    required:
+    - schema:name
+    - schema:value
+    $defs:
+      DefinedTerm:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+      propertyID_item:
+        anyOf:
+        - type: string
+        - type: object
+          properties:
+            '@id':
+              type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+      nxs: http://purl.org/nexusformat/definitions/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
 type: object
 title: CDIF complete metadata schema
 description: CDIF complete profile combining core metadata with discovery properties,
   data description, archive distribution, and provenance extensions.
 allOf:
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCore
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifDataDescription
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifArchiveDistribution
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvenance
 - type: object
   properties:
     '@context':
@@ -2654,9 +2895,6 @@ allOf:
         cdi:
           enum:
           - http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-        csvw:
-          enum:
-          - http://www.w3.org/ns/csvw#
     schema:measurementTechnique:
       description: The technique, technology, or methodology used for measurement
         or determination of the dataset values.
@@ -2668,25 +2906,6 @@ allOf:
           anyOf:
           - type: string
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/$defs/DefinedTerm
-    schema:variableMeasured:
-      description: Variables in the dataset. At data description level, PropertyValue
-        variables must include cdi:InstanceVariable typing and cdi:physicalDataType.
-      type: array
-      items:
-        anyOf:
-        - type: object
-          properties:
-            '@type':
-              type: array
-              items:
-                type: string
-              contains:
-                enum:
-                - cdi:InstanceVariable
-              minItems: 2
-          required:
-          - cdi:physicalDataType
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/$defs/StatisticalVariable
     schema:spatialCoverage:
       description: Geographic extent of resource content.
       type: array
@@ -2702,60 +2921,29 @@ allOf:
       type: array
       items:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/$defs/QualityMeasure
-    schema:distribution:
-      type: array
-      items:
-        anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/$defs/CdifArchive
-        - type: object
-          properties:
-            cdi:characterSet:
-              type: string
-            cdi:fileSize:
-              type: number
-            cdi:fileSizeUofM:
-              type: string
-        - {}
-    prov:wasGeneratedBy:
-      description: Provenance activities describing how the resource was generated.
-      type: array
-      items:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/$defs/CdifProvActivity
     schema:subjectOf:
       properties:
         dcterms:conformsTo:
-          contains:
-            type: object
-            properties:
-              '@id':
-                enum:
-                - https://w3id.org/cdif/discovery/1.0/
-  allOf:
-  - properties:
-      schema:subjectOf:
-        properties:
-          dcterms:conformsTo:
-            contains:
+          allOf:
+          - contains:
+              type: object
+              properties:
+                '@id':
+                  enum:
+                  - https://w3id.org/cdif/discovery/1.0/
+          - contains:
               type: object
               properties:
                 '@id':
                   enum:
                   - https://w3id.org/cdif/dataDescription/1.0/
-  - properties:
-      schema:subjectOf:
-        properties:
-          dcterms:conformsTo:
-            contains:
+          - contains:
               type: object
               properties:
                 '@id':
                   enum:
                   - https://w3id.org/cdif/manifest/1.0/
-  - properties:
-      schema:subjectOf:
-        properties:
-          dcterms:conformsTo:
-            contains:
+          - contains:
               type: object
               properties:
                 '@id':
@@ -2764,18 +2952,12 @@ allOf:
 $defs:
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
-  StatisticalVariable:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.statisticalVariable
   SpatialExtent:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent
   TemporalExtent:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.temporalExtent
   QualityMeasure:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.qualityProperties.qualityMeasure
-  CdifArchive:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifArchive
-  CdifProvActivity:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity
 x-jsonld-prefixes:
   schema: http://schema.org/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
