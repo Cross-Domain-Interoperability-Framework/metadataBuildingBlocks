@@ -8,12 +8,8 @@ properties:
       Additional types may be included.
     items:
       type: string
-    minItems: 2
-    allOf:
-    - contains:
-        const: schema:PropertyValue
-    - contains:
-        const: cdi:InstanceVariable
+    contains:
+      const: cdi:InstanceVariable
   cdi:identifier:
     type: string
   cdi:physicalDataType:
@@ -82,7 +78,9 @@ $defs:
 allOf:
 - required:
   - '@type'
-- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml
+- anyOf:
+  - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml
+  - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
   spdx: http://spdx.org/rdf/terms#

@@ -1,0 +1,76 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+type: object
+title: CDIF Data Description metadata profile
+description: CDIF Data Description profile. Composes cdifCore with discovery properties
+  and data description extensions for detailed variable and structure documentation.
+allOf:
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema.yaml
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.yaml
+- type: object
+  properties:
+    '@context':
+      type: object
+      description: Additional JSON-LD namespace prefixes for discovery and data description.
+      properties:
+        geosparql:
+          const: http://www.opengis.net/ont/geosparql#
+        dqv:
+          const: http://www.w3.org/ns/dqv#
+        cdi:
+          const: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    schema:measurementTechnique:
+      description: The technique, technology, or methodology used for measurement
+        or determination of the dataset values.
+      anyOf:
+      - type: string
+      - $ref: '#/$defs/DefinedTerm'
+      - type: array
+        items:
+          anyOf:
+          - type: string
+          - $ref: '#/$defs/DefinedTerm'
+    schema:spatialCoverage:
+      description: Geographic extent of resource content.
+      type: array
+      items:
+        $ref: '#/$defs/SpatialExtent'
+    schema:temporalCoverage:
+      description: Temporal extent of resource content.
+      type: array
+      items:
+        $ref: '#/$defs/TemporalExtent'
+    dqv:hasQualityMeasurement:
+      description: Quality measurements reported to assess the resource.
+      type: array
+      items:
+        $ref: '#/$defs/QualityMeasure'
+    schema:subjectOf:
+      properties:
+        dcterms:conformsTo:
+          contains:
+            type: object
+            properties:
+              '@id':
+                const: https://w3id.org/cdif/dataDescription/1.0/
+$defs:
+  DefinedTerm:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+  SpatialExtent:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
+  TemporalExtent:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/temporalExtent/schema.yaml
+  QualityMeasure:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityMeasure/schema.yaml
+x-jsonld-extra-terms:
+  csvw: {}
+x-jsonld-prefixes:
+  schema: http://schema.org/
+  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+  dcterms: http://purl.org/dc/terms/
+  geosparql: http://www.opengis.net/ont/geosparql#
+  spdx: http://spdx.org/rdf/terms#
+  time: http://www.w3.org/2006/time#
+  skos: http://www.w3.org/2004/02/skos/core#
+  xas: https://xas.org/dictionary/
+  nxs: http://purl.org/nexusformat/definitions/
+  prov: http://www.w3.org/ns/prov#

@@ -9,19 +9,9 @@
       "items": {
         "type": "string"
       },
-      "minItems": 2,
-      "allOf": [
-        {
-          "contains": {
-            "const": "schema:PropertyValue"
-          }
-        },
-        {
-          "contains": {
-            "const": "cdi:InstanceVariable"
-          }
-        }
-      ]
+      "contains": {
+        "const": "cdi:InstanceVariable"
+      }
     },
     "cdi:identifier": {
       "type": "string"
@@ -131,7 +121,14 @@
       ]
     },
     {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.json"
+      "anyOf": [
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.json"
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/schema.json"
+        }
+      ]
     }
   ],
   "x-jsonld-prefixes": {

@@ -31,38 +31,106 @@
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/data_description/1.0/"
+        "@id": "https://w3id.org/cdif/dataDescription/1.0/"
       }
     ]
   },
   "schema:variableMeasured": [
     {
+      "@id": "ex:var_sea_water_temp",
       "@type": [
         "schema:PropertyValue",
         "cdi:InstanceVariable"
       ],
       "schema:name": "sea_water_temperature",
       "schema:description": "Temperature of sea water at measurement depth",
+      "schema:propertyID": [
+        {
+          "@type": [
+            "schema:DefinedTerm"
+          ],
+          "schema:name": "Sea Water Temperature",
+          "schema:identifier": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/",
+          "schema:inDefinedTermSet": "http://vocab.nerc.ac.uk/collection/P01/"
+        }
+      ],
       "schema:unitText": "degrees Celsius",
       "schema:unitCode": "CEL",
-      "cdi:physicalDataType": "Numeric"
+      "schema:minValue": -2.0,
+      "schema:maxValue": 35.5,
+      "schema:measurementTechnique": "CTD sensor",
+      "cdi:physicalDataType": [
+        "Numeric"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdi:role": "MeasureComponent",
+      "cdi:name": "sea_water_temperature",
+      "cdi:displayLabel": "Water Temperature",
+      "cdi:describedUnitOfMeasure": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "degree Celsius",
+        "schema:identifier": "http://qudt.org/vocab/unit/DEG_C"
+      },
+      "cdi:uses": [
+        {
+          "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+        }
+      ]
     },
     {
+      "@id": "ex:var_measurement_depth",
       "@type": [
         "schema:PropertyValue",
         "cdi:InstanceVariable"
       ],
       "schema:name": "measurement_depth",
       "schema:description": "Depth below sea surface at which temperature was recorded",
+      "schema:propertyID": [
+        {
+          "@type": [
+            "schema:DefinedTerm"
+          ],
+          "schema:name": "Depth",
+          "schema:identifier": "http://vocab.nerc.ac.uk/collection/P01/current/ADEPZZ01/"
+        }
+      ],
       "schema:unitText": "meters",
       "schema:unitCode": "MTR",
-      "cdi:physicalDataType": "Numeric"
+      "schema:minValue": 0,
+      "schema:maxValue": 5000,
+      "cdi:physicalDataType": [
+        "Numeric"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdi:role": "DimensionComponent",
+      "cdi:name": "measurement_depth",
+      "cdi:displayLabel": "Measurement Depth",
+      "cdi:simpleUnitOfMeasure": "m"
+    },
+    {
+      "@id": "ex:var_station_id",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "station_id",
+      "schema:description": "Identifier for the monitoring station",
+      "cdi:physicalDataType": [
+        "String"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#string",
+      "cdi:role": "DescriptorComponent",
+      "cdi:name": "station_id",
+      "cdi:identifier": "ex:var_station_id"
     }
   ],
   "schema:distribution": [
     {
       "@type": [
-        "schema:DataDownload"
+        "schema:DataDownload",
+        "cdi:TabularTextDataSet"
       ],
       "schema:name": "Ocean temperature CSV",
       "schema:contentUrl": "https://example.org/downloads/ocean-temp-2025.csv",
@@ -71,7 +139,54 @@
       ],
       "cdi:characterSet": "UTF-8",
       "cdi:fileSize": 1.2,
-      "cdi:fileSizeUofM": "MB"
+      "cdi:fileSizeUofM": "MB",
+      "cdi:isDelimited": true,
+      "csvw:delimiter": ",",
+      "csvw:header": true,
+      "csvw:headerRowCount": 1,
+      "csvw:skipRows": 0,
+      "csvw:skipBlankRows": true,
+      "csvw:commentPrefix": "#",
+      "csvw:quoteChar": "\"",
+      "csvw:trim": "true",
+      "cdi:hasPhysicalMapping": [
+        {
+          "cdi:index": 0,
+          "cdi:physicalDataType": "String",
+          "cdi:length": 20,
+          "cdi:isRequired": true,
+          "cdi:formats_InstanceVariable": {
+            "@id": "ex:var_station_id"
+          }
+        },
+        {
+          "cdi:index": 1,
+          "cdi:physicalDataType": "Numeric",
+          "cdi:format": "0.0",
+          "cdi:scale": 1,
+          "cdi:decimalPositions": 1,
+          "cdi:nullSequence": "-999.9",
+          "cdi:isRequired": true,
+          "cdi:formats_InstanceVariable": {
+            "@id": "ex:var_measurement_depth"
+          }
+        },
+        {
+          "cdi:index": 2,
+          "cdi:physicalDataType": "Numeric",
+          "cdi:format": "0.00",
+          "cdi:scale": 2,
+          "cdi:decimalPositions": 2,
+          "cdi:nullSequence": "-999.99",
+          "cdi:defaultValue": "NaN",
+          "cdi:minimumLength": 1,
+          "cdi:maximumLength": 10,
+          "cdi:isRequired": false,
+          "cdi:formats_InstanceVariable": {
+            "@id": "ex:var_sea_water_temp"
+          }
+        }
+      ]
     }
   ]
 }

@@ -1,4 +1,5 @@
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
@@ -6,35 +7,109 @@
 
 ex:dataset_datadesc_001 a schema1:Dataset ;
     schema1:dateModified "2025-09-01" ;
-    schema1:distribution [ a schema1:DataDownload ;
+    schema1:distribution [ a cdi:TabularTextDataSet,
+                schema1:DataDownload ;
             cdi:characterSet "UTF-8" ;
             cdi:fileSize 1.2e+00 ;
             cdi:fileSizeUofM "MB" ;
+            cdi:hasPhysicalMapping [ cdi:decimalPositions 1 ;
+                    cdi:format "0.0" ;
+                    cdi:formats_InstanceVariable ex:var_measurement_depth ;
+                    cdi:index 1 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "-999.9" ;
+                    cdi:physicalDataType "Numeric" ;
+                    cdi:scale 1 ],
+                [ cdi:formats_InstanceVariable ex:var_station_id ;
+                    cdi:index 0 ;
+                    cdi:isRequired true ;
+                    cdi:length 20 ;
+                    cdi:physicalDataType "String" ],
+                [ cdi:decimalPositions 2 ;
+                    cdi:defaultValue "NaN" ;
+                    cdi:format "0.00" ;
+                    cdi:formats_InstanceVariable ex:var_sea_water_temp ;
+                    cdi:index 2 ;
+                    cdi:isRequired false ;
+                    cdi:maximumLength 10 ;
+                    cdi:minimumLength 1 ;
+                    cdi:nullSequence "-999.99" ;
+                    cdi:physicalDataType "Numeric" ;
+                    cdi:scale 2 ] ;
+            cdi:isDelimited true ;
             schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.csv" ;
             schema1:encodingFormat "text/csv" ;
-            schema1:name "Ocean temperature CSV" ] ;
+            schema1:name "Ocean temperature CSV" ;
+            csvw:commentPrefix "#" ;
+            csvw:delimiter "," ;
+            csvw:header true ;
+            csvw:headerRowCount 1 ;
+            csvw:quoteChar "\"" ;
+            csvw:skipBlankRows true ;
+            csvw:skipRows 0 ;
+            csvw:trim "true" ] ;
     schema1:identifier "https://doi.org/10.1234/ocean-temp-2025" ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:name "Ocean Temperature Monitoring Data" ;
     schema1:subjectOf ex:metadata_datadesc_001 ;
     schema1:url "https://example.org/datasets/ocean-temp-2025" ;
-    schema1:variableMeasured [ a cdi:InstanceVariable,
-                schema1:PropertyValue ;
-            cdi:physicalDataType "Numeric" ;
-            schema1:description "Depth below sea surface at which temperature was recorded" ;
-            schema1:name "measurement_depth" ;
-            schema1:unitCode "MTR" ;
-            schema1:unitText "meters" ],
-        [ a cdi:InstanceVariable,
-                schema1:PropertyValue ;
-            cdi:physicalDataType "Numeric" ;
-            schema1:description "Temperature of sea water at measurement depth" ;
-            schema1:name "sea_water_temperature" ;
-            schema1:unitCode "CEL" ;
-            schema1:unitText "degrees Celsius" ] .
+    schema1:variableMeasured ex:var_measurement_depth,
+        ex:var_sea_water_temp,
+        ex:var_station_id .
 
 ex:metadata_datadesc_001 a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/data_description/1.0/> ;
+    dcterms:conformsTo <https://w3id.org/cdif/dataDescription/1.0/> ;
     schema1:about ex:dataset_datadesc_001 ;
     schema1:additionalType "dcat:CatalogRecord" .
+
+ex:var_measurement_depth a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "Measurement Depth" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
+    cdi:name "measurement_depth" ;
+    cdi:physicalDataType "Numeric" ;
+    cdi:role "DimensionComponent" ;
+    cdi:simpleUnitOfMeasure "m" ;
+    schema1:description "Depth below sea surface at which temperature was recorded" ;
+    schema1:maxValue 5000 ;
+    schema1:minValue 0 ;
+    schema1:name "measurement_depth" ;
+    schema1:propertyID [ a schema1:DefinedTerm ;
+            schema1:identifier "http://vocab.nerc.ac.uk/collection/P01/current/ADEPZZ01/" ;
+            schema1:name "Depth" ] ;
+    schema1:unitCode "MTR" ;
+    schema1:unitText "meters" .
+
+ex:var_sea_water_temp a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
+            schema1:identifier "http://qudt.org/vocab/unit/DEG_C" ;
+            schema1:name "degree Celsius" ] ;
+    cdi:displayLabel "Water Temperature" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
+    cdi:name "sea_water_temperature" ;
+    cdi:physicalDataType "Numeric" ;
+    cdi:role "MeasureComponent" ;
+    cdi:uses <http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/> ;
+    schema1:description "Temperature of sea water at measurement depth" ;
+    schema1:maxValue 3.55e+01 ;
+    schema1:measurementTechnique "CTD sensor" ;
+    schema1:minValue -2e+00 ;
+    schema1:name "sea_water_temperature" ;
+    schema1:propertyID [ a schema1:DefinedTerm ;
+            schema1:identifier "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/" ;
+            schema1:inDefinedTermSet "http://vocab.nerc.ac.uk/collection/P01/" ;
+            schema1:name "Sea Water Temperature" ] ;
+    schema1:unitCode "CEL" ;
+    schema1:unitText "degrees Celsius" .
+
+ex:var_station_id a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:identifier "ex:var_station_id" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#string" ;
+    cdi:name "station_id" ;
+    cdi:physicalDataType "String" ;
+    cdi:role "DescriptorComponent" ;
+    schema1:description "Identifier for the monitoring station" ;
+    schema1:name "station_id" .
 

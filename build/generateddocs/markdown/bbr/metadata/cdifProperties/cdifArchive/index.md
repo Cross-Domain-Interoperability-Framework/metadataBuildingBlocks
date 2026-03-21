@@ -446,9 +446,9 @@ description extensions (TabularTextDataSet, StructuredDataSet).
 <file:///github/workspace/#7c6ef03f6b0e88dec54d9897f591deab> a cdi:TabularTextDataSet,
         schema1:MediaObject ;
     cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-uncertainty> ;
-            cdi:index 2 ;
-            cdi:isRequired false ;
+            cdi:formats_InstanceVariable <file:///github/workspace/#var-concentration> ;
+            cdi:index 1 ;
+            cdi:isRequired true ;
             cdi:nullSequence "NA" ;
             cdi:physicalDataType "float64" ],
         [ cdi:format "string" ;
@@ -457,9 +457,9 @@ description extensions (TabularTextDataSet, StructuredDataSet).
             cdi:isRequired true ;
             cdi:physicalDataType "string" ],
         [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-concentration> ;
-            cdi:index 1 ;
-            cdi:isRequired true ;
+            cdi:formats_InstanceVariable <file:///github/workspace/#var-uncertainty> ;
+            cdi:index 2 ;
+            cdi:isRequired false ;
             cdi:nullSequence "NA" ;
             cdi:physicalDataType "float64" ] ;
     cdi:isDelimited true ;
