@@ -364,9 +364,9 @@ def main():
 
     targets = [
         (os.path.join(BB_ROOT, 'profiles', 'cdifProfiles', 'CDIFDiscoveryProfile', 'schema.yaml'),
-         os.path.join(BB_ROOT, 'profiles', 'cdifProfiles', 'CDIFDiscoveryProfile', 'CDIFDiscoveryProfile_properties.xlsx')),
+         os.path.join(BB_ROOT, 'profiles', 'cdifProfiles', 'CDIFDiscoveryProfile', 'CDIFDiscovery_properties.xlsx')),
         (os.path.join(BB_ROOT, 'profiles', 'cdifProfiles', 'CDIFDataDescriptionProfile', 'schema.yaml'),
-         os.path.join(BB_ROOT, 'profiles', 'cdifProfiles', 'CDIFDataDescriptionProfile', 'CDIFDataDescriptionProfile_properties.xlsx')),
+         os.path.join(BB_ROOT, 'profiles', 'cdifProfiles', 'CDIFDataDescriptionProfile', 'CDIFDataDescription_properties.xlsx')),
     ]
 
     for schema_path, wb_path in targets:
