@@ -433,13 +433,13 @@ ex:activity-soil-chem-analysis a cdi:Activity ;
             cdi:description "Output dataset: Great Basin soil geochemistry results" ;
             cdi:uri "https://doi.org/10.5281/zenodo.example-soil-chem-gb-2025" ] ;
     cdi:entityUsed [ a cdi:Reference ;
-            cdi:description "NERC laboratory analysis technique vocabulary" ;
-            cdi:uri "https://vocab.nerc.ac.uk/collection/L05/current/LAB02" ],
-        [ a cdi:Reference ;
             cdi:description "EPA Method 6200 - XRF Analysis of Soils" ;
             cdi:uri "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
         [ a cdi:Reference ;
-            cdi:description "Soil core samples collected June 2025, sites GB-001 through GB-045" ] ;
+            cdi:description "Soil core samples collected June 2025, sites GB-001 through GB-045" ],
+        [ a cdi:Reference ;
+            cdi:description "NERC laboratory analysis technique vocabulary" ;
+            cdi:uri "https://vocab.nerc.ac.uk/collection/L05/current/LAB02" ] ;
     cdi:has_Step ex:step-icpms-measurement,
         ex:step-sample-prep ;
     cdi:name [ a cdi:ObjectName ;

@@ -3,15 +3,43 @@
 
 `cdif.bbr.metadata.cdifProperties.cdifCore` *v0.1*
 
-Definition of metadata elements that are required for CDIF core metadata. Defines properties: @id, @type, schema:name, schema:identifier, schema:dateModified, schema:conditionsOfAccess, schema:license, schema:url, schema:distribution, schema:subjectOf. Uses building blocks: labeledLink (schemaorgProperties), identifier (schemaorgProperties), definedTerm (schemaorgProperties), dataDownload (schemaorgProperties), webAPI (schemaorgProperties), cdifCatalogRecord (cdifProperties).
+Core properties for CDIF metadata, applicable to any resource type. Required properties: @id, @type, schema:name, schema:identifier, schema:dateModified, schema:conditionsOfAccess or schema:license, schema:url or schema:distribution, schema:subjectOf. Optional core properties: schema:description, schema:additionalType, schema:sameAs, schema:version, schema:inLanguage, schema:datePublished, schema:relatedLink, schema:publishingPrinciples, schema:keywords, schema:creator, schema:contributor, schema:publisher, schema:provider, schema:funding, prov:wasGeneratedBy, prov:wasDerivedFrom. Uses building blocks: labeledLink, identifier, definedTerm, dataDownload, webAPI, person, organization, agentInRole, funder, generatedBy, derivedFrom, cdifCatalogRecord.
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
 ## Description
 
-## Base Metadata properties
+## CDIF Core Metadata Properties
 
-Defines simple properties included in CDIF discvoery metadata for the schema.org implementation of the [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) discovery profile.
+Defines the core properties for any CDIF metadata record, implementing the schema.org-based [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) metadata model.
+
+### Required properties
+- `@id`, `@type`, `@context` (JSON-LD structural)
+- `schema:name` -- descriptive name for the resource
+- `schema:identifier` -- primary identifier (string or PropertyValue)
+- `schema:dateModified` -- last update date (ISO 8601)
+- `schema:license` or `schema:conditionsOfAccess` -- access/use terms
+- `schema:url` or `schema:distribution` -- how to obtain the resource
+- `schema:subjectOf` -- metadata catalog record with `dcterms:conformsTo`
+
+### Optional core properties
+- `schema:description` -- summary text
+- `schema:additionalType` -- non-schema.org type identifiers
+- `schema:sameAs` -- alternate identifiers
+- `schema:version` -- version number/string
+- `schema:inLanguage` -- content language
+- `schema:datePublished` -- publication date
+- `schema:relatedLink` -- typed links to related resources
+- `schema:publishingPrinciples` -- maintenance/persistence policies
+- `schema:keywords` -- subject keywords (strings or DefinedTerms)
+- `schema:creator` -- authors (ordered `@list`)
+- `schema:contributor` -- other contributing parties (with roles via agentInRole)
+- `schema:publisher` -- publishing party
+- `schema:provider` -- distribution provider
+- `schema:funding` -- funding sources
+- `prov:wasGeneratedBy` -- provenance: how the resource was created
+- `prov:wasDerivedFrom` -- provenance: source datasets
+
 ## Examples
 
 ### Example CDIF discovery, Minimal.
