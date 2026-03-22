@@ -109,7 +109,7 @@ Example dataset with data description level properties including variable types 
             "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
             "schema:name": "station_id",
             "schema:description": "Identifier for the monitoring station",
-            "schema:propertyID": "station_id",
+            "schema:propertyID": ["station_id"],
             "cdi:physicalDataType": ["String"],
             "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#string",
             "cdi:role": "DescriptorComponent",
@@ -303,7 +303,9 @@ Example dataset with data description level properties including variable types 
       ],
       "schema:name": "station_id",
       "schema:description": "Identifier for the monitoring station",
-      "schema:propertyID": "station_id",
+      "schema:propertyID": [
+        "station_id"
+      ],
       "cdi:physicalDataType": [
         "String"
       ],
@@ -395,7 +397,15 @@ ex:dataset_datadesc_001 a schema1:Dataset ;
             cdi:characterSet "UTF-8" ;
             cdi:fileSize 1.2e+00 ;
             cdi:fileSizeUofM "MB" ;
-            cdi:hasPhysicalMapping [ cdi:decimalPositions 2 ;
+            cdi:hasPhysicalMapping [ cdi:decimalPositions 1 ;
+                    cdi:format "0.0" ;
+                    cdi:formats_InstanceVariable ex:var_measurement_depth ;
+                    cdi:index 1 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "-999.9" ;
+                    cdi:physicalDataType "Numeric" ;
+                    cdi:scale 1 ],
+                [ cdi:decimalPositions 2 ;
                     cdi:defaultValue "NaN" ;
                     cdi:format "0.00" ;
                     cdi:formats_InstanceVariable ex:var_sea_water_temp ;
@@ -410,15 +420,7 @@ ex:dataset_datadesc_001 a schema1:Dataset ;
                     cdi:index 0 ;
                     cdi:isRequired true ;
                     cdi:length 20 ;
-                    cdi:physicalDataType "String" ],
-                [ cdi:decimalPositions 1 ;
-                    cdi:format "0.0" ;
-                    cdi:formats_InstanceVariable ex:var_measurement_depth ;
-                    cdi:index 1 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "-999.9" ;
-                    cdi:physicalDataType "Numeric" ;
-                    cdi:scale 1 ] ;
+                    cdi:physicalDataType "String" ] ;
             cdi:isDelimited true ;
             schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.csv" ;
             schema1:encodingFormat "text/csv" ;

@@ -631,15 +631,15 @@ ex:xasOptionalExample_001 a schema1:Dataset,
             schema1:url "https://doi.org/10.12345/xas-optional-test" ;
             schema1:value "10.12345/xas-optional-test" ] ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "http://sweetontology.net/matrElement/Iron" ;
-            schema1:inDefinedTermSet "http://sweetontology.net/matrElement" ;
-            schema1:name "Iron" ;
-            schema1:termCode "Fe" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "xas:K-edge" ;
             schema1:inDefinedTermSet "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md" ;
             schema1:name "K-edge" ;
-            schema1:termCode "K" ] ;
+            schema1:termCode "K" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "http://sweetontology.net/matrElement/Iron" ;
+            schema1:inDefinedTermSet "http://sweetontology.net/matrElement" ;
+            schema1:name "Iron" ;
+            schema1:termCode "Fe" ] ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
             schema1:identifier "xas:transmissionMode" ;
@@ -687,14 +687,14 @@ ex:xasOptionalExample_001 a schema1:Dataset,
                                 [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "crystal type" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
-                                            schema1:value "channel-cut" ],
-                                        [ a schema1:PropertyValue ;
                                             schema1:name "d-spacing" ;
                                             schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
                                             schema1:unitText "Angstrom" ;
                                             schema1:value "1.63747" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "crystal type" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
+                                            schema1:value "channel-cut" ],
                                         [ a schema1:PropertyValue ;
                                             schema1:name "reflection plane (hkl)" ;
                                             schema1:propertyID "nxs:Field/NXcrystal/reflection" ;

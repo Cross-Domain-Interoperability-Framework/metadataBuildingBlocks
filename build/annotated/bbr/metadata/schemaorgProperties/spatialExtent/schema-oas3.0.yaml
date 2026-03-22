@@ -92,6 +92,12 @@ properties:
       enum:
       - schema:Place
     minItems: 1
+  schema:additionalType:
+    description: Domain-specific type classifications for this place (e.g. facility
+      type, laboratory classification).
+    type: array
+    items:
+      type: string
   schema:name:
     description: multiple place names or DefinedTerms that have a place name and URI
       for the location
@@ -100,6 +106,20 @@ properties:
       anyOf:
       - type: string
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema-oas3.0.yaml#/$defs/DefinedTerm
+  schema:identifier:
+    description: Formal identifier for this place (e.g. ROR identifier for a facility).
+    anyOf:
+    - type: string
+    - type: array
+      items:
+        type: string
+  schema:alternateName:
+    description: Alternate or abbreviated name(s) for this place.
+    anyOf:
+    - type: string
+    - type: array
+      items:
+        type: string
   schema:geo:
     description: Either a bounding box or a point location.
     anyOf:

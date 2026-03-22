@@ -41,6 +41,11 @@ Example point location spatial extent instance.
   "@type": [
     "schema:Place"
   ],
+  "schema:additionalType": [
+    "ex:SamplingStation"
+  ],
+  "schema:identifier": "https://ror.org/03m2x1q45",
+  "schema:alternateName": "LPL Lab",
   "schema:geo": {
     "@type": [
       "schema:GeoCoordinates"
@@ -73,6 +78,11 @@ Example point location spatial extent instance.
   "@type": [
     "schema:Place"
   ],
+  "schema:additionalType": [
+    "ex:SamplingStation"
+  ],
+  "schema:identifier": "https://ror.org/03m2x1q45",
+  "schema:alternateName": "LPL Lab",
   "schema:geo": {
     "@type": [
       "schema:GeoCoordinates"
@@ -90,9 +100,12 @@ Example point location spatial extent instance.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:SpatialExtentPoint_mdfd8 a schema1:Place ;
+    schema1:additionalType "ex:SamplingStation" ;
+    schema1:alternateName "LPL Lab" ;
     schema1:geo [ a schema1:GeoCoordinates ;
             schema1:latitude 3.9328e+01 ;
-            schema1:longitude 1.201633e+02 ] .
+            schema1:longitude 1.201633e+02 ] ;
+    schema1:identifier "https://ror.org/03m2x1q45" .
 
 
 ```
@@ -238,15 +251,15 @@ ex:SpatialExtentPlaceName_45hwe6 a schema1:Place ;
     schema1:name [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "http uri" ;
-                    schema1:url "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/5573" ] ;
-            schema1:inDefinedTermSet "https://www.usgs.gov/us-board-on-geographic-names/domestic-names" ;
-            schema1:name "Harquahala Mountains" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "http uri" ;
                     schema1:url "https://www.mindat.org/loc-33505.html" ] ;
             schema1:inDefinedTermSet "https://www.mindat.org/" ;
             schema1:name "Hidden Treasure Mine" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "http uri" ;
+                    schema1:url "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/5573" ] ;
+            schema1:inDefinedTermSet "https://www.usgs.gov/us-board-on-geographic-names/domestic-names" ;
+            schema1:name "Harquahala Mountains" ],
         [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "http uri" ;
@@ -410,6 +423,12 @@ properties:
     contains:
       const: schema:Place
     minItems: 1
+  schema:additionalType:
+    description: Domain-specific type classifications for this place (e.g. facility
+      type, laboratory classification).
+    type: array
+    items:
+      type: string
   schema:name:
     description: multiple place names or DefinedTerms that have a place name and URI
       for the location
@@ -418,6 +437,20 @@ properties:
       anyOf:
       - type: string
       - $ref: '#/$defs/DefinedTerm'
+  schema:identifier:
+    description: Formal identifier for this place (e.g. ROR identifier for a facility).
+    anyOf:
+    - type: string
+    - type: array
+      items:
+        type: string
+  schema:alternateName:
+    description: Alternate or abbreviated name(s) for this place.
+    anyOf:
+    - type: string
+    - type: array
+      items:
+        type: string
   schema:geo:
     description: Either a bounding box or a point location.
     anyOf:

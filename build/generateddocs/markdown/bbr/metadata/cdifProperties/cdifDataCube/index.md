@@ -99,14 +99,14 @@ Example multi-dimensional data cube structure with physical mappings.
 
 [] a cdi:StructuredDataSet ;
     cdi:hasPhysicalMapping [ cdi:format "float64" ;
-            cdi:formats_InstanceVariable ex:var-pressure ;
-            cdi:index 1 ;
-            cdi:locator "/pressure[*][*]" ;
-            cdi:physicalDataType "Numeric" ],
-        [ cdi:format "float64" ;
             cdi:formats_InstanceVariable ex:var-temperature ;
             cdi:index 0 ;
             cdi:locator "/temperature[*][*]" ;
+            cdi:physicalDataType "Numeric" ],
+        [ cdi:format "float64" ;
+            cdi:formats_InstanceVariable ex:var-pressure ;
+            cdi:index 1 ;
+            cdi:locator "/pressure[*][*]" ;
             cdi:physicalDataType "Numeric" ] .
 
 
