@@ -9,19 +9,9 @@
             "items": {
                 "type": "string"
             },
-            "minItems": 2,
-            "allOf": [
-                {
-                    "contains": {
-                        "const": "schema:PropertyValue"
-                    }
-                },
-                {
-                    "contains": {
-                        "const": "cdi:InstanceVariable"
-                    }
-                }
-            ]
+            "contains": {
+                "const": "cdi:InstanceVariable"
+            }
         },
         "cdi:identifier": {
             "type": "string"
@@ -131,7 +121,14 @@
             ]
         },
         {
-            "$ref": "../../schemaorgProperties/variableMeasured/variableMeasuredSchema.json"
+            "anyOf": [
+                {
+                    "$ref": "../../schemaorgProperties/variableMeasured/variableMeasuredSchema.json"
+                },
+                {
+                    "$ref": "../../schemaorgProperties/statisticalVariable/statisticalVariableSchema.json"
+                }
+            ]
         }
     ]
 }

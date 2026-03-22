@@ -1,0 +1,144 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "title": "CDIF Codelist profile",
+    "description": "CDIF profile for controlled vocabulary codelists implemented as SKOS ConceptSchemes. Composes skosConceptScheme and skosConcept building blocks with additional constraints: concepts must have resolvable @id identifiers, skos:inScheme, and skos:definition; the scheme must identify top concepts via skos:hasTopConcept; hierarchical concepts must declare skos:broader.",
+    "allOf": [
+        {
+            "$ref": "../../../skosProperties/skosConceptScheme/skosConceptSchemeSchema.json"
+        },
+        {
+            "type": "object",
+            "properties": {
+                "@id": {
+                    "type": "string",
+                    "description": "Globally unique, resolvable URI for the concept scheme."
+                },
+                "skos:hasTopConcept": {
+                    "description": "Top-level concepts that have no skos:broader in this scheme. Required for hierarchical codelists.",
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/CdifCodelistConcept"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "@id"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "@id",
+                "skos:hasTopConcept"
+            ]
+        }
+    ],
+    "$defs": {
+        "CdifCodelistConcept": {
+            "description": "A SKOS Concept constrained for CDIF codelist use. Must have a resolvable @id, skos:inScheme, skos:definition, and skos:prefLabel.",
+            "allOf": [
+                {
+                    "$ref": "../../../skosProperties/skosConcept/skosConceptSchema.json"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "type": "string",
+                            "description": "Globally unique, resolvable URI for this concept."
+                        },
+                        "skos:inScheme": {
+                            "description": "The concept scheme this concept belongs to. Required for CDIF codelist concepts.",
+                            "anyOf": [
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "@id": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "@id"
+                                    ]
+                                },
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "@id": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "@id"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        "skos:definition": {
+                            "description": "Formal definition of this concept. Required for CDIF codelist concepts. String or language-tagged values.",
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "anyOf": [
+                                            {
+                                                "type": "string"
+                                            },
+                                            {
+                                                "$ref": "../../../skosProperties/skosConcept/schema.yaml#/$defs/LanguageTaggedValue"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        "skos:narrower": {
+                            "description": "Narrower (child) concepts. If present, items must also conform to CdifCodelistConcept constraints.",
+                            "type": "array",
+                            "items": {
+                                "anyOf": [
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "@id": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "@id"
+                                        ]
+                                    },
+                                    {
+                                        "$ref": "#/$defs/CdifCodelistConcept"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "required": [
+                        "@id",
+                        "skos:inScheme",
+                        "skos:definition"
+                    ]
+                }
+            ]
+        }
+    }
+}
