@@ -61,7 +61,11 @@ Implementation of Schema.org PropertyValue as value for variableMeasured propert
     "cdi:simpleUnitOfMeasure": "eV",
     "cdi:uses": ["xas:monochromatorEnergyConcept"],
     "cdi:name": "energy",
-    "cdi:displayLabel": "monochromator energy"
+    "cdi:displayLabel": "monochromator energy",
+    "cdi:role": "AttributeComponent",
+    "cdi:qualifies": {
+        "@id": "ex:temperatureVariable"
+    }
 }
 ```
 
@@ -107,13 +111,18 @@ Implementation of Schema.org PropertyValue as value for variableMeasured propert
     "xas:monochromatorEnergyConcept"
   ],
   "cdi:name": "energy",
-  "cdi:displayLabel": "monochromator energy"
+  "cdi:displayLabel": "monochromator energy",
+  "cdi:role": "AttributeComponent",
+  "cdi:qualifies": {
+    "@id": "ex:temperatureVariable"
+  }
 }
 ```
 
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
 @prefix xas: <https://xas.org/dictionary/> .
 
@@ -123,6 +132,8 @@ xas:monochromatorEnergy a cdi:InstanceVariable,
     cdi:identifier "should be URI from nexusFormat organization" ;
     cdi:name "energy" ;
     cdi:physicalDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
+    cdi:qualifies ex:temperatureVariable ;
+    cdi:role "AttributeComponent" ;
     cdi:simpleUnitOfMeasure "eV" ;
     cdi:uses "xas:monochromatorEnergyConcept" ;
     schema1:alternateName "Monochromator energy" ;
@@ -211,6 +222,12 @@ properties:
     type: string
     description: DDI-CDI Concept.displayLabel. A human-readable label for display
       purposes.
+  cdi:qualifies:
+    type: object
+    properties:
+      '@id':
+        type: string
+    description: reference to an instance variable defined for this dataset
 $defs:
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml

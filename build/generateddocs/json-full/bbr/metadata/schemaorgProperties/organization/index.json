@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-03-22",
+  "dateOfLastChange": "2026-03-26",
   "sources": [
     {
       "title": "schema.org",
@@ -26,16 +26,16 @@
     "cdif.bbr.metadata.schemaorgProperties.organization": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/organization/rules.shacl"
     ],
-    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
-    ],
     "cdif.bbr.metadata.schemaorgProperties.identifier": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
     ]
   },
   "dependsOn": [
-    "cdif.bbr.metadata.schemaorgProperties.definedTerm",
-    "cdif.bbr.metadata.schemaorgProperties.identifier"
+    "cdif.bbr.metadata.schemaorgProperties.identifier",
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm"
   ],
   "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/context.jsonld",
   "schema": {
@@ -77,7 +77,7 @@
       ]
     }
   ],
-  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntype: object\nproperties:\n  '@id':\n    type: string\n  '@type':\n    default: schema:Organization\n    type: array\n    items:\n      type: string\n    contains:\n      const: schema:Organization\n    minItems: 1\n  schema:additionalType:\n    type: array\n    items:\n      anyOf:\n      - type: string\n        enum:\n        - schema:FundingAgency\n        - schema:Consortium\n        - schema:Corporation\n        - schema:EducationalOrganization\n        - schema:FundingScheme\n        - schema:GovernmentOrganization\n        - schema:NGO\n        - schema:Project\n        - schema:ResearchOrganization\n      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\n      - type: string\n  schema:name:\n    type: string\n    description: string label for organization that is meaningful for human users\n  schema:alternateName:\n    type: string\n    description: other labels by which the organization might be known\n  schema:description:\n    type: string\n  schema:identifier:\n    description: identifier for organization\n    anyOf:\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml\n    - type: string\n  schema:sameAs:\n    type: array\n    description: other identifiers for the organization\n    items:\n      anyOf:\n      - type: string\n      - type: object\n        properties:\n          '@id':\n            type: string\n      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml\nallOf:\n- required:\n  - '@type'\n- anyOf:\n  - required:\n    - schema:name\n  - required:\n    - schema:identifier\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntype: object\nproperties:\n  '@id':\n    type: string\n  '@type':\n    default: schema:Organization\n    type: array\n    items:\n      type: string\n    contains:\n      const: schema:Organization\n    minItems: 1\n  schema:additionalType:\n    type: array\n    items:\n      anyOf:\n      - type: string\n        enum:\n        - schema:FundingAgency\n        - schema:Consortium\n        - schema:Corporation\n        - schema:EducationalOrganization\n        - schema:FundingScheme\n        - schema:GovernmentOrganization\n        - schema:NGO\n        - schema:Project\n        - schema:ResearchOrganization\n      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\n      - type: string\n  schema:name:\n    type: string\n    description: string label for organization that is meaningful for human users\n  schema:alternateName:\n    type: string\n    description: other labels by which the organization might be known\n  schema:description:\n    type: string\n  schema:identifier:\n    description: identifier for organization\n    anyOf:\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml\n    - type: string\n  schema:sameAs:\n    type: array\n    description: other identifiers for the organization\n    items:\n      anyOf:\n      - type: string\n      - type: object\n        properties:\n          '@id':\n            type: string\nallOf:\n- required:\n  - '@type'\n- anyOf:\n  - required:\n    - schema:name\n  - required:\n    - schema:identifier\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
   "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
   "gitPath": "_sources/schemaorgProperties/organization"
 }

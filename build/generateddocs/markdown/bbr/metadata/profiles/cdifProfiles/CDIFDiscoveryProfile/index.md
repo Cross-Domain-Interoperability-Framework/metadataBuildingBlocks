@@ -1318,17 +1318,17 @@ ex:YOPx123 a schema1:Dataset ;
                     spdx:algorithm "MD5" ;
                     spdx:checksumValue "MITGLcmBjeFYWmjP" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/fnjrj68> ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "grant-id" ;
-                    schema1:value "fMuiBjneudpV" ] ;
-            schema1:name "MWoPQAqRYHobey" ],
-        [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/sejer4w6u8> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
                     schema1:value "LZpo" ] ;
             schema1:name "ekckpBtI" ],
+        [ a schema1:MonetaryGrant ;
+            schema1:funder <https://ror.org/fnjrj68> ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "grant-id" ;
+                    schema1:value "fMuiBjneudpV" ] ;
+            schema1:name "MWoPQAqRYHobey" ],
         [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;

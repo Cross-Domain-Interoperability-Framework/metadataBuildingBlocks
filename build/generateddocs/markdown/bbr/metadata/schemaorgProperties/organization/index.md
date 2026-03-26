@@ -165,7 +165,6 @@ properties:
         properties:
           '@id':
             type: string
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
 allOf:
 - required:
   - '@type'
