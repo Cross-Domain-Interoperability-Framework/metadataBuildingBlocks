@@ -128,22 +128,24 @@ Building blocks that represent CDIF specification components declare required `d
 
 | Building Block | Conformance URI | SHACL Shape |
 |---|---|---|
-| `cdifCore` | `https://w3id.org/cdif/core/1.0/` | `sh:hasValue` on existing `metadataProfileProperty` |
-| `CDIFDiscoveryProfile` | `https://w3id.org/cdif/discovery/1.0/` | `CDIFDiscoveryProfileConformsToShape` |
-| `cdifDataDescription` | `https://w3id.org/cdif/dataDescription/1.0/` | `CDIFDataDescriptionProfileConformsToShape` |
-| `cdifArchiveDistribution` | `https://w3id.org/cdif/manifest/1.0/` | *(no rules.shacl — JSON Schema only)* |
-| `cdifProvenance` | `https://w3id.org/cdif/provenance/1.0/` | *(no rules.shacl — JSON Schema only)* |
-| `xasOptional` | `https://w3id.org/cdif/xasDiscovery/1.0/` | `XasDiscoveryConformsToShape` |
-| `xasCore` | `https://w3id.org/cdif/xasCore/1.0/` | `XasCoreConformsToShape` |
+| `cdifCore` | `https://w3id.org/cdif/core/1.0` | `sh:hasValue` on existing `metadataProfileProperty` |
+| `CDIFDiscoveryProfile` | `https://w3id.org/cdif/discovery/1.0` | `CDIFDiscoveryProfileConformsToShape` |
+| `cdifDataDescription` | `https://w3id.org/cdif/data_description/1.0` | `CDIFDataDescriptionProfileConformsToShape` |
+| `cdifArchiveDistribution` | `https://w3id.org/cdif/manifest/1.0` | *(no rules.shacl — JSON Schema only)* |
+| `cdifProvenance` | `https://w3id.org/cdif/provenance/1.0` | *(no rules.shacl — JSON Schema only)* |
+| `xasOptional` | `https://w3id.org/cdif/xasDiscovery/1.0` | `XasDiscoveryConformsToShape` |
+| `xasCore` | `https://w3id.org/cdif/xasCore/1.0` | `XasCoreConformsToShape` |
+
+**URI convention:** Conformance URIs must NOT have a trailing `/` character.
 
 **Profile rollup:** When building blocks are composed into profiles via `allOf`, the `contains` constraints combine — the conformsTo array must include URIs for all constituent building blocks. For example:
 
 | Profile | Required conformsTo URIs |
 |---|---|
-| CDIFDiscoveryProfile | `core/1.0/` + `discovery/1.0/` |
-| CDIFDataDescriptionProfile | `core/1.0/` + `discovery/1.0/` + `dataDescription/1.0/` |
-| CDIFcompleteProfile | `core/1.0/` + `discovery/1.0/` + `dataDescription/1.0/` + `manifest/1.0/` + `provenance/1.0/` |
-| CDIFxasProfile | `core/1.0/` + `discovery/1.0/` + `xasDiscovery/1.0/` + `xasCore/1.0/` |
+| CDIFDiscoveryProfile | `core/1.0` + `discovery/1.0` |
+| CDIFDataDescriptionProfile | `core/1.0` + `discovery/1.0` + `data_description/1.0` |
+| CDIFcompleteProfile | `core/1.0` + `discovery/1.0` + `data_description/1.0` + `manifest/1.0` + `provenance/1.0` |
+| CDIFxasProfile | `core/1.0` + `discovery/1.0` + `xasDiscovery/1.0` + `xasCore/1.0` |
 
 These conformance URIs are distinct from the OGC building block identifiers (`https://w3id.org/cdif/bbr/metadata/...`). Both may appear in a record's conformsTo array.
 
