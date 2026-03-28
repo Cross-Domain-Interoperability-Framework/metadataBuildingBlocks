@@ -55,7 +55,7 @@ Example dataset with an archive distribution containing component files.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/manifest/1.0/"
+        "@id": "https://w3id.org/cdif/manifest/1.0"
       }
     ]
   },
@@ -71,7 +71,7 @@ Example dataset with an archive distribution containing component files.
       ],
       "dcterms:conformsTo": [
         {
-          "@id": "https://w3id.org/cdif/manifest/1.0/"
+          "@id": "https://w3id.org/cdif/manifest/1.0"
         }
       ],
       "schema:hasPart": [
@@ -160,7 +160,7 @@ Example dataset with an archive distribution containing component files.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/manifest/1.0/"
+        "@id": "https://w3id.org/cdif/manifest/1.0"
       }
     ]
   },
@@ -176,7 +176,7 @@ Example dataset with an archive distribution containing component files.
       ],
       "dcterms:conformsTo": [
         {
-          "@id": "https://w3id.org/cdif/manifest/1.0/"
+          "@id": "https://w3id.org/cdif/manifest/1.0"
         }
       ],
       "schema:hasPart": [
@@ -244,7 +244,7 @@ Example dataset with an archive distribution containing component files.
 ex:dataset_archive_001 a schema1:Dataset ;
     schema1:dateModified "2025-08-01" ;
     schema1:distribution [ a schema1:DataDownload ;
-            dcterms:conformsTo <https://w3id.org/cdif/manifest/1.0/> ;
+            dcterms:conformsTo <https://w3id.org/cdif/manifest/1.0> ;
             schema1:contentUrl "https://example.org/downloads/geochem-results-2025.zip" ;
             schema1:encodingFormat "application/zip" ;
             schema1:hasPart <file:///github/workspace/#data-csv>,
@@ -257,7 +257,7 @@ ex:dataset_archive_001 a schema1:Dataset ;
     schema1:url "https://example.org/datasets/geochem-archive-2025" .
 
 ex:metadata_archive_001 a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/manifest/1.0/> ;
+    dcterms:conformsTo <https://w3id.org/cdif/manifest/1.0> ;
     schema1:about ex:dataset_archive_001 ;
     schema1:additionalType "dcat:CatalogRecord" .
 
@@ -302,7 +302,7 @@ properties:
           type: object
           properties:
             '@id':
-              const: https://w3id.org/cdif/manifest/1.0/
+              const: https://w3id.org/cdif/manifest/1.0
   schema:distribution:
     type: array
     items:

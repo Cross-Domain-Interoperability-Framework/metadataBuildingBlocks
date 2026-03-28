@@ -42,7 +42,7 @@ Example dataset with data description level properties including variable types 
         },
         "dcterms:conformsTo": [
             {
-                "@id": "https://w3id.org/cdif/dataDescription/1.0/"
+                "@id": "https://w3id.org/cdif/data_description/1.0"
             }
         ]
     },
@@ -217,7 +217,7 @@ Example dataset with data description level properties including variable types 
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/dataDescription/1.0/"
+        "@id": "https://w3id.org/cdif/data_description/1.0"
       }
     ]
   },
@@ -397,7 +397,12 @@ ex:dataset_datadesc_001 a schema1:Dataset ;
             cdi:characterSet "UTF-8" ;
             cdi:fileSize 1.2e+00 ;
             cdi:fileSizeUofM "MB" ;
-            cdi:hasPhysicalMapping [ cdi:decimalPositions 2 ;
+            cdi:hasPhysicalMapping [ cdi:formats_InstanceVariable ex:var_station_id ;
+                    cdi:index 0 ;
+                    cdi:isRequired true ;
+                    cdi:length 20 ;
+                    cdi:physicalDataType "String" ],
+                [ cdi:decimalPositions 2 ;
                     cdi:defaultValue "NaN" ;
                     cdi:format "0.00" ;
                     cdi:formats_InstanceVariable ex:var_sea_water_temp ;
@@ -408,11 +413,6 @@ ex:dataset_datadesc_001 a schema1:Dataset ;
                     cdi:nullSequence "-999.99" ;
                     cdi:physicalDataType "Numeric" ;
                     cdi:scale 2 ],
-                [ cdi:formats_InstanceVariable ex:var_station_id ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:length 20 ;
-                    cdi:physicalDataType "String" ],
                 [ cdi:decimalPositions 1 ;
                     cdi:format "0.0" ;
                     cdi:formats_InstanceVariable ex:var_measurement_depth ;
@@ -443,7 +443,7 @@ ex:dataset_datadesc_001 a schema1:Dataset ;
         ex:var_station_id .
 
 ex:metadata_datadesc_001 a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/dataDescription/1.0/> ;
+    dcterms:conformsTo <https://w3id.org/cdif/data_description/1.0> ;
     schema1:about ex:dataset_datadesc_001 ;
     schema1:additionalType "dcat:CatalogRecord" .
 
@@ -528,7 +528,7 @@ properties:
           type: object
           properties:
             '@id':
-              const: https://w3id.org/cdif/dataDescription/1.0/
+              const: https://w3id.org/cdif/data_description/1.0
   '@context':
     type: object
     description: Additional namespace prefix for data description properties.

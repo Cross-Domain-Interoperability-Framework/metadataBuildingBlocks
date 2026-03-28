@@ -59,7 +59,7 @@ Example dataset with provenance activity describing how the resource was generat
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/provenance/1.0/"
+        "@id": "https://w3id.org/cdif/provenance/1.0"
       }
     ]
   },
@@ -151,7 +151,7 @@ Example dataset with provenance activity describing how the resource was generat
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/provenance/1.0/"
+        "@id": "https://w3id.org/cdif/provenance/1.0"
       }
     ]
   },
@@ -240,7 +240,7 @@ ex:dataset_with_provenance_001 a schema1:Dataset ;
                             schema1:version "44R27" ] ] ] .
 
 ex:metadata_provenance_001 a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/provenance/1.0/> ;
+    dcterms:conformsTo <https://w3id.org/cdif/provenance/1.0> ;
     schema1:about ex:dataset_with_provenance_001 ;
     schema1:additionalType "dcat:CatalogRecord" .
 
@@ -273,7 +273,7 @@ properties:
           type: object
           properties:
             '@id':
-              const: https://w3id.org/cdif/provenance/1.0/
+              const: https://w3id.org/cdif/provenance/1.0
   prov:wasGeneratedBy:
     description: Provenance activities describing how the resource was generated,
       including agents, instruments, methodology, temporal bounds, and action chaining.
