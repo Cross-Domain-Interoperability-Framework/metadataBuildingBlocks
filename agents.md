@@ -98,6 +98,30 @@ Some building blocks define **item-level schemas** (e.g., a provenance activity 
 | `cdifProvenance` | `prov:wasGeneratedBy` (array) | `cdifProvActivity` |
 | `cdifArchiveDistribution` | `schema:distribution` (adds archive option) | `cdifArchive` |
 
+## Distribution Composition Pattern
+
+Building blocks that add properties to `schema:distribution` items must use partial property patches (no `type`, `anyOf`, `allOf`, or `$ref` at the distribution level) so the resolver's `deep_merge` merges them with cdifCore's `anyOf: [DataDownload, WebAPI]` rather than replacing it.
+
+**Correct** — adds CDI properties without replacing base types:
+```yaml
+'schema:distribution':
+    items:
+      properties:
+        'cdi:characterSet':
+          type: string
+```
+
+**Wrong** — `type: array` triggers full replacement, losing DataDownload/WebAPI:
+```yaml
+'schema:distribution':
+    type: array
+    items:
+      allOf:
+        - type: object
+          properties: ...
+        - anyOf: [...]
+```
+
 ## Building Block Conformance URIs
 
 Building blocks that represent CDIF specification components declare required `dcterms:conformsTo` URIs in the metadata catalog record (`schema:subjectOf`). Each building block's `schema.yaml` adds a `contains` constraint on `schema:subjectOf` → `dcterms:conformsTo` requiring its specific URI. Corresponding SHACL shapes enforce the same constraint via `sh:hasValue`.
@@ -236,7 +260,9 @@ $defs:
 
 ### `examples.yaml` Rules
 
-1. **`ref:` must match the actual filename** in the building block directory. Copy-paste errors referencing files from other BBs (e.g., `exampleWebAPI.json` in a non-webAPI BB) will cause validation failures.
+1. **Provide minimal + complete examples.** Each building block and profile should have at least a minimal example (required properties only) and a complete example (exercising every property in the schema). Name them `example<Name>Minimal.json` and `example<Name>Complete.json`.
+
+2. **`ref:` must match the actual filename** in the building block directory. Copy-paste errors referencing files from other BBs (e.g., `exampleWebAPI.json` in a non-webAPI BB) will cause validation failures.
 
 2. **Schema prefix must use `http`, not `https`**, with a trailing slash:
    ```yaml

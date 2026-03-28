@@ -120,6 +120,18 @@ python tools/augment_register.py
 
 The `generate-jsonforms` workflow runs this automatically after schema conversion.
 
+## Examples
+
+Each building block and profile includes example JSON-LD instances:
+- **Minimal** (`*Minimal.json`) — only required properties, simplest valid record
+- **Complete** (`*Complete.json`) — exercises every property allowed by the schema
+
+Validate examples with:
+```bash
+python tools/validate_examples.py --verbose
+python tools/validate_examples.py --filter CDIFDiscovery --verbose
+```
+
 ## Profiles
 
 CDIF profiles are in `_sources/profiles/cdifProfiles/`:
