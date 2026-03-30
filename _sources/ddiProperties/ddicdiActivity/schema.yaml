@@ -9,109 +9,100 @@ description: >-
 
 type: object
 
-properties:
-  "@type":
-    description: Must be or include cdi:Activity
-    type: array
-    items:
-      type: string
-    contains:
-      const: "cdi:Activity"
-    minItems: 1
-
-  "@id":
-    type: string
-    description: Identifier for this activity node
-
-  "cdi:name":
-    description: Structured name for the activity (ObjectName)
-    anyOf:
-      - $ref: "#/$defs/ObjectName"
-      - type: array
-        items:
-          $ref: "#/$defs/ObjectName"
-
-  "cdi:description":
-    type: string
-    description: Plain text description of the activity
-
-  "cdi:definition":
-    description: Formal multilingual definition (InternationalString)
-    anyOf:
-      - $ref: "#/$defs/InternationalString"
-      - type: array
-        items:
-          $ref: "#/$defs/InternationalString"
-
-  "cdi:displayLabel":
-    description: Multilingual display label
-    anyOf:
-      - $ref: "#/$defs/LabelForDisplay"
-      - type: array
-        items:
-          $ref: "#/$defs/LabelForDisplay"
-
-  "cdi:identifier":
-    description: Formal identifier for this activity
-    $ref: "#/$defs/Identifier"
-
-  "cdi:entityUsed":
-    description: Entities used as inputs by this activity
-    type: array
-    items:
-      $ref: "#/$defs/Reference"
-
-  "cdi:entityProduced":
-    description: Entities produced as outputs by this activity
-    type: array
-    items:
-      $ref: "#/$defs/Reference"
-
-  "cdi:standardModelMapping":
-    description: Reference to a standard process model (e.g. GSBPM)
-    anyOf:
-      - $ref: "#/$defs/Reference"
-      - type: array
-        items:
-          $ref: "#/$defs/Reference"
-
-  "cdi:start":
-    type: string
-    format: date-time
-    description: Start date-time of the activity (xsd:dateTime)
-
-  "cdi:end":
-    type: string
-    format: date-time
-    description: End date-time of the activity (xsd:dateTime)
-
-  "cdi:hasSubActivity":
-    description: Nested sub-activities within this activity (cdi:Activity).
-      Use @id references to Activity nodes defined elsewhere in the graph.
-    type: array
-    items:
-      $ref: "#/$defs/id-reference"
-
-  "cdi:has_Step":
-    description: Ordered steps within this activity (cdi:Step)
-    type: array
-    items:
-      anyOf:
-        - $ref: "#/$defs/Step"
-        - $ref: "#/$defs/id-reference"
-
-  "cdi:hasInternal":
-    description: Internal control logic elements (cdi:ControlLogic).
-      Use @id references to ControlLogic nodes defined elsewhere in the graph.
-    type: array
-    items:
-      $ref: "#/$defs/id-reference"
-
-required:
-  - "@type"
-  - "cdi:name"
+anyOf:
+  - $ref: "#/$defs/Activity"
+  - $ref: "#/$defs/Step"
+  - $ref: "#/$defs/Parameter"
 
 $defs:
+  Activity:
+    type: object
+    description: "DDI-CDI Activity (cls-Activity) — task described at a conceptual level"
+    properties:
+      "@type":
+        description: Must be or include cdi:Activity
+        type: array
+        items:
+          type: string
+        contains:
+          const: "cdi:Activity"
+        minItems: 1
+      "@id":
+        type: string
+        description: Identifier for this activity node
+      "cdi:name":
+        description: Structured name for the activity (ObjectName)
+        anyOf:
+          - $ref: "#/$defs/ObjectName"
+          - type: array
+            items:
+              $ref: "#/$defs/ObjectName"
+      "cdi:description":
+        type: string
+        description: Plain text description of the activity
+      "cdi:definition":
+        description: Formal multilingual definition (InternationalString)
+        anyOf:
+          - $ref: "#/$defs/InternationalString"
+          - type: array
+            items:
+              $ref: "#/$defs/InternationalString"
+      "cdi:displayLabel":
+        description: Multilingual display label
+        anyOf:
+          - $ref: "#/$defs/LabelForDisplay"
+          - type: array
+            items:
+              $ref: "#/$defs/LabelForDisplay"
+      "cdi:identifier":
+        description: Formal identifier for this activity
+        $ref: "#/$defs/Identifier"
+      "cdi:entityUsed":
+        description: Entities used as inputs by this activity
+        type: array
+        items:
+          $ref: "#/$defs/Reference"
+      "cdi:entityProduced":
+        description: Entities produced as outputs by this activity
+        type: array
+        items:
+          $ref: "#/$defs/Reference"
+      "cdi:standardModelMapping":
+        description: Reference to a standard process model (e.g. GSBPM)
+        anyOf:
+          - $ref: "#/$defs/Reference"
+          - type: array
+            items:
+              $ref: "#/$defs/Reference"
+      "cdi:start":
+        type: string
+        format: date-time
+        description: Start date-time of the activity (xsd:dateTime)
+      "cdi:end":
+        type: string
+        format: date-time
+        description: End date-time of the activity (xsd:dateTime)
+      "cdi:hasSubActivity":
+        description: Nested sub-activities (cdi:Activity). @id references.
+        type: array
+        items:
+          $ref: "#/$defs/id-reference"
+      "cdi:has_Step":
+        description: Ordered steps within this activity (cdi:Step)
+        type: array
+        items:
+          anyOf:
+            - $ref: "#/$defs/Step"
+            - $ref: "#/$defs/id-reference"
+      "cdi:hasInternal":
+        description: Internal control logic elements (cdi:ControlLogic). @id references.
+        type: array
+        items:
+          $ref: "#/$defs/id-reference"
+    required:
+      - "@type"
+      - "cdi:name"
+
   id-reference:
     type: object
     description: "JSON-LD @id reference to a node defined elsewhere in the graph"
