@@ -625,17 +625,17 @@ ex:activity-statistical-compilation a cdi:Activity ;
             cdi:description "Harmonized regional employment dataset 2025" ;
             cdi:uri "https://doi.org/10.5281/zenodo.example-regional-employment-2025" ] ;
     cdi:entityUsed [ a cdi:Reference ;
-            cdi:description "Swiss Labour Force Survey 2024 microdata" ;
-            cdi:uri "https://example.org/datasets/national-lfs-2024-CH" ],
-        [ a cdi:Reference ;
             cdi:description "German Labour Force Survey 2024 microdata" ;
             cdi:uri "https://example.org/datasets/national-lfs-2024-DE" ],
+        [ a cdi:Reference ;
+            cdi:description "French Labour Force Survey 2024 microdata" ;
+            cdi:uri "https://example.org/datasets/national-lfs-2024-FR" ],
         [ a cdi:Reference ;
             cdi:description "Austrian Labour Force Survey 2024 microdata" ;
             cdi:uri "https://example.org/datasets/national-lfs-2024-AT" ],
         [ a cdi:Reference ;
-            cdi:description "French Labour Force Survey 2024 microdata" ;
-            cdi:uri "https://example.org/datasets/national-lfs-2024-FR" ] ;
+            cdi:description "Swiss Labour Force Survey 2024 microdata" ;
+            cdi:uri "https://example.org/datasets/national-lfs-2024-CH" ] ;
     cdi:has_Step ex:step-data-integration,
         ex:step-variable-harmonization ;
     cdi:identifier [ a cdi:Identifier ;
@@ -722,11 +722,18 @@ description: DDI-CDI Activity class (DDICDILibrary/Classes/Process/Activity). De
   tasks at a conceptual level using cdi:Activity, cdi:Step, and cdi:Parameter vocabulary
   from the DDI Cross-Domain Integration specification. Includes definition, start/end
   timestamps, hasInternal (ControlLogic), and full Step/Parameter support.
-type: object
 anyOf:
-- $ref: '#/$defs/Activity'
-- $ref: '#/$defs/Step'
-- $ref: '#/$defs/Parameter'
+- type: object
+  anyOf:
+  - $ref: '#/$defs/Activity'
+  - $ref: '#/$defs/Step'
+  - $ref: '#/$defs/Parameter'
+- type: array
+  items:
+    anyOf:
+    - $ref: '#/$defs/Activity'
+    - $ref: '#/$defs/Step'
+    - $ref: '#/$defs/Parameter'
 $defs:
   Activity:
     type: object

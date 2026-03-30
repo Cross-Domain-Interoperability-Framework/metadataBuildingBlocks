@@ -4,11 +4,18 @@ description: DDI-CDI Activity class (DDICDILibrary/Classes/Process/Activity). De
   tasks at a conceptual level using cdi:Activity, cdi:Step, and cdi:Parameter vocabulary
   from the DDI Cross-Domain Integration specification. Includes definition, start/end
   timestamps, hasInternal (ControlLogic), and full Step/Parameter support.
-type: object
 anyOf:
-- $ref: '#/$defs/Activity'
-- $ref: '#/$defs/Step'
-- $ref: '#/$defs/Parameter'
+- type: object
+  anyOf:
+  - $ref: '#/$defs/Activity'
+  - $ref: '#/$defs/Step'
+  - $ref: '#/$defs/Parameter'
+- type: array
+  items:
+    anyOf:
+    - $ref: '#/$defs/Activity'
+    - $ref: '#/$defs/Step'
+    - $ref: '#/$defs/Parameter'
 $defs:
   Activity:
     type: object

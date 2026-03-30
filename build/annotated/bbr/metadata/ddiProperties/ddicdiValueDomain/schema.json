@@ -2,93 +2,107 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "DDI-CDI Value Domain",
   "description": "Unified DDI-CDI ValueDomain building block covering both SubstantiveValueDomain (subject-matter values) and SentinelValueDomain (processing/missing-value codes). Both inherit from ValueDomain. SentinelValueDomain adds an optional cdi:platformType property. Supports described domains (ValueAndConceptDescription), enumerated domains (EnumerationDomain), and conceptual domain references.",
-  "type": "object",
-  "properties": {
-    "@type": {
-      "description": "Must include either cdi:SubstantiveValueDomain or cdi:SentinelValueDomain",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/ValueDomainNode"
+    },
+    {
       "type": "array",
       "items": {
-        "type": "string"
-      },
-      "anyOf": [
-        {
-          "contains": {
-            "const": "cdi:SubstantiveValueDomain"
-          }
-        },
-        {
-          "contains": {
-            "const": "cdi:SentinelValueDomain"
-          }
-        }
-      ],
-      "minItems": 1
-    },
-    "@id": {
-      "type": "string",
-      "description": "Identifier for this value domain node"
-    },
-    "cdi:catalogDetails": {
-      "description": "Administrative catalog metadata for this value domain",
-      "$ref": "#/$defs/CatalogDetails"
-    },
-    "cdi:displayLabel": {
-      "description": "Multilingual display label",
-      "anyOf": [
-        {
-          "$ref": "#/$defs/LabelForDisplay"
-        },
-        {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/LabelForDisplay"
-          }
-        }
-      ]
-    },
-    "cdi:identifier": {
-      "description": "Formal identifier for this value domain",
-      "$ref": "#/$defs/Identifier"
-    },
-    "cdi:recommendedDataType": {
-      "description": "Recommended physical data type for values in this domain",
-      "$ref": "#/$defs/ControlledVocabularyEntry"
-    },
-    "cdi:isDescribedBy": {
-      "description": "Description of the value domain constraints (0..1). Inline ValueAndConceptDescription or @id reference.",
-      "anyOf": [
-        {
-          "$ref": "#/$defs/ValueAndConceptDescription"
-        },
-        {
-          "$ref": "#/$defs/id-reference"
-        }
-      ]
-    },
-    "cdi:takesValuesFrom": {
-      "description": "Enumeration domain providing the set of permissible coded values (0..1). Inline EnumerationDomain or @id reference.",
-      "anyOf": [
-        {
-          "$ref": "#/$defs/EnumerationDomain"
-        },
-        {
-          "$ref": "#/$defs/id-reference"
-        }
-      ]
-    },
-    "cdi:takesConceptsFrom": {
-      "description": "Reference to a conceptual domain (SubstantiveConceptualDomain or SentinelConceptualDomain) that provides conceptual grounding for this value domain (0..1). @id reference only.",
-      "$ref": "#/$defs/id-reference"
-    },
-    "cdi:platformType": {
-      "description": "(SentinelValueDomain only) The type of software platform under which sentinel codes will be used. Statistical software platforms use different sets of codes to indicate missing values. Example values: SASNumeric, SPSSstyle, Rstyle, StataNumeric, BlankString, EmptyString, Unrestricted.",
-      "$ref": "#/$defs/ControlledVocabularyEntry"
+        "$ref": "#/$defs/ValueDomainNode"
+      }
     }
-  },
-  "required": [
-    "@type"
   ],
   "$defs": {
+    "ValueDomainNode": {
+      "type": "object",
+      "description": "A single ValueDomain node (SubstantiveValueDomain or SentinelValueDomain)",
+      "properties": {
+        "@type": {
+          "description": "Must include either cdi:SubstantiveValueDomain or cdi:SentinelValueDomain",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "anyOf": [
+            {
+              "contains": {
+                "const": "cdi:SubstantiveValueDomain"
+              }
+            },
+            {
+              "contains": {
+                "const": "cdi:SentinelValueDomain"
+              }
+            }
+          ],
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this value domain node"
+        },
+        "cdi:catalogDetails": {
+          "description": "Administrative catalog metadata for this value domain",
+          "$ref": "#/$defs/CatalogDetails"
+        },
+        "cdi:displayLabel": {
+          "description": "Multilingual display label",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LabelForDisplay"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/LabelForDisplay"
+              }
+            }
+          ]
+        },
+        "cdi:identifier": {
+          "description": "Formal identifier for this value domain",
+          "$ref": "#/$defs/Identifier"
+        },
+        "cdi:recommendedDataType": {
+          "description": "Recommended physical data type for values in this domain",
+          "$ref": "#/$defs/ControlledVocabularyEntry"
+        },
+        "cdi:isDescribedBy": {
+          "description": "Description of the value domain constraints (0..1). Inline ValueAndConceptDescription or @id reference.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ValueAndConceptDescription"
+            },
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:takesValuesFrom": {
+          "description": "Enumeration domain providing the set of permissible coded values (0..1). Inline EnumerationDomain or @id reference.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnumerationDomain"
+            },
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:takesConceptsFrom": {
+          "description": "Reference to a conceptual domain (SubstantiveConceptualDomain or SentinelConceptualDomain) that provides conceptual grounding for this value domain (0..1). @id reference only.",
+          "$ref": "#/$defs/id-reference"
+        },
+        "cdi:platformType": {
+          "description": "(SentinelValueDomain only) The type of software platform under which sentinel codes will be used. Statistical software platforms use different sets of codes to indicate missing values. Example values: SASNumeric, SPSSstyle, Rstyle, StataNumeric, BlankString, EmptyString, Unrestricted.",
+          "$ref": "#/$defs/ControlledVocabularyEntry"
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
     "id-reference": {
       "type": "object",
       "description": "JSON-LD @id reference to a node defined elsewhere in the graph",

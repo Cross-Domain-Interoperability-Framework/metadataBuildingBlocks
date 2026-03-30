@@ -2,16 +2,36 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "DDI-CDI Activity",
   "description": "DDI-CDI Activity class (DDICDILibrary/Classes/Process/Activity). Describes tasks at a conceptual level using cdi:Activity, cdi:Step, and cdi:Parameter vocabulary from the DDI Cross-Domain Integration specification. Includes definition, start/end timestamps, hasInternal (ControlLogic), and full Step/Parameter support.",
-  "type": "object",
   "anyOf": [
     {
-      "$ref": "#/$defs/Activity"
+      "type": "object",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Activity"
+        },
+        {
+          "$ref": "#/$defs/Step"
+        },
+        {
+          "$ref": "#/$defs/Parameter"
+        }
+      ]
     },
     {
-      "$ref": "#/$defs/Step"
-    },
-    {
-      "$ref": "#/$defs/Parameter"
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/Activity"
+          },
+          {
+            "$ref": "#/$defs/Step"
+          },
+          {
+            "$ref": "#/$defs/Parameter"
+          }
+        ]
+      }
     }
   ],
   "$defs": {

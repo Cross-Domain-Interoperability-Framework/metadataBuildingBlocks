@@ -2,19 +2,42 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "DDI-CDI Agent",
   "description": "DDI-CDI Agent class hierarchy. Covers Individual (person), Machine (software/hardware), Organization (group/institution), and ProcessingAgent (orchestrates production activities) using DDI Cross-Domain Integration vocabulary.",
-  "type": "object",
   "anyOf": [
     {
-      "$ref": "#/$defs/Individual"
+      "type": "object",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Individual"
+        },
+        {
+          "$ref": "#/$defs/Machine"
+        },
+        {
+          "$ref": "#/$defs/Organization"
+        },
+        {
+          "$ref": "#/$defs/ProcessingAgent"
+        }
+      ]
     },
     {
-      "$ref": "#/$defs/Machine"
-    },
-    {
-      "$ref": "#/$defs/Organization"
-    },
-    {
-      "$ref": "#/$defs/ProcessingAgent"
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/Individual"
+          },
+          {
+            "$ref": "#/$defs/Machine"
+          },
+          {
+            "$ref": "#/$defs/Organization"
+          },
+          {
+            "$ref": "#/$defs/ProcessingAgent"
+          }
+        ]
+      }
     }
   ],
   "$defs": {

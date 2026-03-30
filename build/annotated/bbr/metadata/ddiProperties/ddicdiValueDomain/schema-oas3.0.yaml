@@ -5,71 +5,78 @@ description: Unified DDI-CDI ValueDomain building block covering both Substantiv
   Both inherit from ValueDomain. SentinelValueDomain adds an optional cdi:platformType
   property. Supports described domains (ValueAndConceptDescription), enumerated domains
   (EnumerationDomain), and conceptual domain references.
-type: object
-properties:
-  '@type':
-    description: Must include either cdi:SubstantiveValueDomain or cdi:SentinelValueDomain
-    type: array
-    items:
-      type: string
-    anyOf:
-    - contains:
-        enum:
-        - cdi:SubstantiveValueDomain
-    - contains:
-        enum:
-        - cdi:SentinelValueDomain
-    minItems: 1
-  '@id':
-    type: string
-    description: Identifier for this value domain node
-  cdi:catalogDetails:
-    description: Administrative catalog metadata for this value domain
-    allOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/CatalogDetails
-  cdi:displayLabel:
-    description: Multilingual display label
-    anyOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/LabelForDisplay
-    - type: array
-      items:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/LabelForDisplay
-  cdi:identifier:
-    description: Formal identifier for this value domain
-    allOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/Identifier
-  cdi:recommendedDataType:
-    description: Recommended physical data type for values in this domain
-    allOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
-  cdi:isDescribedBy:
-    description: Description of the value domain constraints (0..1). Inline ValueAndConceptDescription
-      or @id reference.
-    anyOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/ValueAndConceptDescription
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/id-reference
-  cdi:takesValuesFrom:
-    description: Enumeration domain providing the set of permissible coded values
-      (0..1). Inline EnumerationDomain or @id reference.
-    anyOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/EnumerationDomain
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/id-reference
-  cdi:takesConceptsFrom:
-    description: Reference to a conceptual domain (SubstantiveConceptualDomain or
-      SentinelConceptualDomain) that provides conceptual grounding for this value
-      domain (0..1). @id reference only.
-    allOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/id-reference
-  cdi:platformType:
-    description: '(SentinelValueDomain only) The type of software platform under which
-      sentinel codes will be used. Statistical software platforms use different sets
-      of codes to indicate missing values. Example values: SASNumeric, SPSSstyle,
-      Rstyle, StataNumeric, BlankString, EmptyString, Unrestricted.'
-    allOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
-required:
-- '@type'
+anyOf:
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/ValueDomainNode
+- type: array
+  items:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/ValueDomainNode
 $defs:
+  ValueDomainNode:
+    type: object
+    description: A single ValueDomain node (SubstantiveValueDomain or SentinelValueDomain)
+    properties:
+      '@type':
+        description: Must include either cdi:SubstantiveValueDomain or cdi:SentinelValueDomain
+        type: array
+        items:
+          type: string
+        anyOf:
+        - contains:
+            enum:
+            - cdi:SubstantiveValueDomain
+        - contains:
+            enum:
+            - cdi:SentinelValueDomain
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this value domain node
+      cdi:catalogDetails:
+        description: Administrative catalog metadata for this value domain
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/CatalogDetails
+      cdi:displayLabel:
+        description: Multilingual display label
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/LabelForDisplay
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/LabelForDisplay
+      cdi:identifier:
+        description: Formal identifier for this value domain
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/Identifier
+      cdi:recommendedDataType:
+        description: Recommended physical data type for values in this domain
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+      cdi:isDescribedBy:
+        description: Description of the value domain constraints (0..1). Inline ValueAndConceptDescription
+          or @id reference.
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/ValueAndConceptDescription
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/id-reference
+      cdi:takesValuesFrom:
+        description: Enumeration domain providing the set of permissible coded values
+          (0..1). Inline EnumerationDomain or @id reference.
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/EnumerationDomain
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/id-reference
+      cdi:takesConceptsFrom:
+        description: Reference to a conceptual domain (SubstantiveConceptualDomain
+          or SentinelConceptualDomain) that provides conceptual grounding for this
+          value domain (0..1). @id reference only.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/id-reference
+      cdi:platformType:
+        description: '(SentinelValueDomain only) The type of software platform under
+          which sentinel codes will be used. Statistical software platforms use different
+          sets of codes to indicate missing values. Example values: SASNumeric, SPSSstyle,
+          Rstyle, StataNumeric, BlankString, EmptyString, Unrestricted.'
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+    required:
+    - '@type'
   id-reference:
     type: object
     description: JSON-LD @id reference to a node defined elsewhere in the graph
