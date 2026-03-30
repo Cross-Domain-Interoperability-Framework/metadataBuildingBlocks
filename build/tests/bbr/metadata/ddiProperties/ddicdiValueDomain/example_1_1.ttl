@@ -1,0 +1,52 @@
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<urn:example:sentinel:height-missing-sas> a cdi:SentinelValueDomain ;
+    cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Height missing value codes (SAS)" ;
+                    cdi:language "en" ] ] ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "urn:example:sentinel:height-missing-sas" ] ;
+    cdi:isDescribedBy <urn:example:vcd:height-sentinel-description> ;
+    cdi:platformType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "SASNumeric" ;
+            cdi:name "SAS Numeric Missing Values" ;
+            cdi:vocabulary [ a cdi:Reference ;
+                    cdi:description "DDI-CDI platform type vocabulary" ;
+                    cdi:uri "urn:ddi-cdi:cv:platformType" ] ] ;
+    cdi:takesConceptsFrom <urn:example:sentinel-conceptual-domain:missing-reasons> .
+
+<urn:example:svd:height-meters> a cdi:SubstantiveValueDomain ;
+    cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Height in meters" ;
+                    cdi:language "en" ] ] ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "urn:example:svd:height-meters" ] ;
+    cdi:isDescribedBy <urn:example:vcd:height-description> ;
+    cdi:recommendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:decimal" ;
+            cdi:vocabulary [ a cdi:Reference ;
+                    cdi:description "W3C XML Schema Definition Language datatypes" ;
+                    cdi:uri "http://www.w3.org/2001/XMLSchema#" ] ] .
+
+<urn:example:vcd:height-description> a cdi:ValueAndConceptDescription ;
+    cdi:classificationLevel "Ratio" ;
+    cdi:description [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Real number between 0 and 3 representing height in meters" ;
+                    cdi:language "en" ] ] ;
+    cdi:maximumValueInclusive "3" ;
+    cdi:minimumValueInclusive "0" .
+
+<urn:example:vcd:height-sentinel-description> a cdi:ValueAndConceptDescription ;
+    cdi:classificationLevel "Nominal" ;
+    cdi:description [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "SAS missing value codes: . (system missing), .R (refused), .N (not recorded)" ;
+                    cdi:language "en" ] ] ;
+    cdi:regularExpression [ a cdi:TypedString ;
+            cdi:content "^\\.[RN_]?$" ;
+            cdi:typeOfContent [ a cdi:ControlledVocabularyEntry ;
+                    cdi:entryValue "PCRE" ] ] .
+

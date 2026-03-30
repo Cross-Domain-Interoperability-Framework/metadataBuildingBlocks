@@ -1,0 +1,106 @@
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix ex: <https://example.org/> .
+
+ex:activity-statistical-compilation a cdi:Activity ;
+    cdi:definition [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "A statistical data compilation activity that integrates employment survey microdata from multiple national sources into a harmonized cross-country dataset following GSBPM standards." ;
+                    cdi:language "en" ],
+                [ a cdi:LanguageString ;
+                    cdi:content "Une activite de compilation de donnees statistiques qui integre les microdonnees d'enquetes sur l'emploi de plusieurs sources nationales en un ensemble de donnees harmonise." ;
+                    cdi:language "fr" ] ] ;
+    cdi:description "Compilation and harmonization of regional employment survey microdata from four national statistical offices, producing a cross-country comparable dataset." ;
+    cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Regional Employment Compilation 2025" ;
+                    cdi:language "en" ] ] ;
+    cdi:end "2025-06-15T17:00:00Z" ;
+    cdi:entityProduced [ a cdi:Reference ;
+            cdi:description "Harmonized regional employment dataset 2025" ;
+            cdi:uri "https://doi.org/10.5281/zenodo.example-regional-employment-2025" ] ;
+    cdi:entityUsed [ a cdi:Reference ;
+            cdi:description "German Labour Force Survey 2024 microdata" ;
+            cdi:uri "https://example.org/datasets/national-lfs-2024-DE" ],
+        [ a cdi:Reference ;
+            cdi:description "Swiss Labour Force Survey 2024 microdata" ;
+            cdi:uri "https://example.org/datasets/national-lfs-2024-CH" ],
+        [ a cdi:Reference ;
+            cdi:description "Austrian Labour Force Survey 2024 microdata" ;
+            cdi:uri "https://example.org/datasets/national-lfs-2024-AT" ],
+        [ a cdi:Reference ;
+            cdi:description "French Labour Force Survey 2024 microdata" ;
+            cdi:uri "https://example.org/datasets/national-lfs-2024-FR" ] ;
+    cdi:has_Step ex:step-data-integration,
+        ex:step-variable-harmonization ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:nonDdiIdentifier [ a cdi:NonDdiIdentifier ;
+                    cdi:identifierContent "REC-2025-001" ;
+                    cdi:managingAgency "Regional Statistical Consortium" ] ;
+            cdi:uri "https://example.org/activities/regional-employment-compilation-2025" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "Statistical data compilation - Regional Employment Survey 2025" ] ;
+    cdi:standardModelMapping [ a cdi:Reference ;
+            cdi:description "Generic Statistical Business Process Model v5.1 - Phase 5: Process" ;
+            cdi:semantic [ a cdi:ControlledVocabularyEntry ;
+                    cdi:entryValue "5" ;
+                    cdi:name "Process" ] ;
+            cdi:uri "https://statswiki.unece.org/display/GSBPM/GSBPM+v5.1" ] ;
+    cdi:start "2025-03-01T09:00:00Z" .
+
+ex:param-integrated-dataset a cdi:Parameter ;
+    cdi:entityBound [ a cdi:Reference ;
+            cdi:description "Final harmonized and integrated regional employment dataset" ;
+            cdi:uri "https://doi.org/10.5281/zenodo.example-regional-employment-2025" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "Integrated cross-country dataset" ] .
+
+ex:param-raw-microdata a cdi:Parameter ;
+    cdi:entityBound [ a cdi:Reference ;
+            cdi:description "National labour force survey microdata files from AT, DE, CH, FR" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "Raw national microdata" ] .
+
+ex:step-data-integration a cdi:Step ;
+    cdi:description "Merge harmonized national datasets into a single cross-country file with consistent weighting and stratification variables." ;
+    cdi:end "2025-06-15T17:00:00Z" ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "Cross-country data integration" ] ;
+    cdi:produces ex:param-integrated-dataset ;
+    cdi:receives ex:param-harmonized-variables ;
+    cdi:script [ a cdi:CommandCode ;
+            cdi:commandFile [ a cdi:CommandFile ;
+                    cdi:location "scripts/integrate_datasets.py" ;
+                    cdi:uri "https://example.org/scripts/integrate_datasets.py" ] ;
+            cdi:description "Python script for dataset integration and weight calibration" ] ;
+    cdi:scriptingLanguage [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "Python" ;
+            cdi:name "Python programming language" ] ;
+    cdi:start "2025-05-01T09:00:00Z" .
+
+ex:step-variable-harmonization a cdi:Step ;
+    cdi:definition [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Harmonization step that maps national occupation and education classification variables to international standards." ;
+                    cdi:language "en" ] ] ;
+    cdi:description "Recode national variable classifications to common ISCO-08 occupation and ISCED-2011 education coding schemes." ;
+    cdi:end "2025-04-30T17:00:00Z" ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "Variable harmonization and recoding" ] ;
+    cdi:produces ex:param-harmonized-variables ;
+    cdi:receives ex:param-raw-microdata ;
+    cdi:script [ a cdi:CommandCode ;
+            cdi:commandFile [ a cdi:CommandFile ;
+                    cdi:location "scripts/harmonize_variables.R" ;
+                    cdi:uri "https://example.org/scripts/harmonize_variables.R" ] ;
+            cdi:description "R script for variable recoding and harmonization" ] ;
+    cdi:scriptingLanguage [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "R" ;
+            cdi:name "R statistical language" ] ;
+    cdi:start "2025-03-15T09:00:00Z" .
+
+ex:param-harmonized-variables a cdi:Parameter ;
+    cdi:entityBound [ a cdi:Reference ;
+            cdi:description "National microdata with recoded occupation (ISCO-08) and education (ISCED-2011) variables" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "Harmonized variables" ] .
+

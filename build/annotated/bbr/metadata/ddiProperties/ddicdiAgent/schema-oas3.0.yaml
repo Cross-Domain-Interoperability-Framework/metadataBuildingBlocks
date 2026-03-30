@@ -1,0 +1,834 @@
+x-defs: {}
+title: DDI-CDI Agent
+description: DDI-CDI Agent class hierarchy. Covers Individual (person), Machine (software/hardware),
+  Organization (group/institution), and ProcessingAgent (orchestrates production activities)
+  using DDI Cross-Domain Integration vocabulary.
+type: object
+anyOf:
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/Individual
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/Machine
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/Organization
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ProcessingAgent
+$defs:
+  Individual:
+    type: object
+    description: DDI-CDI Individual agent (cls-Individual, extends Agent). Represents
+      a person.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:Individual
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this individual node
+      cdi:individualName:
+        description: Name(s) of this individual
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/IndividualName
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/IndividualName
+      cdi:contactInformation:
+        description: Contact details for this individual
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ContactInformation
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ContactInformation
+      cdi:catalogDetails:
+        description: Catalog metadata for this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/CatalogDetails
+      cdi:identifier:
+        description: Formal identifier for this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/Identifier
+      cdi:image:
+        description: Image associated with this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/PrivateImage
+      cdi:purpose:
+        description: Purpose or role of this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/InternationalString
+    required:
+    - '@type'
+  Machine:
+    type: object
+    description: DDI-CDI Machine agent (cls-Machine, extends Agent). Represents software
+      or hardware.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:Machine
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this machine node
+      cdi:accessLocation:
+        description: Network or physical access point for this machine
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/AccessLocation
+      cdi:function:
+        description: Function performed by this machine
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+      cdi:machineInterface:
+        description: Interface type for this machine
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+      cdi:name:
+        description: Name(s) of this machine
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ObjectName
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ObjectName
+      cdi:ownerOperatorContact:
+        description: Contact information for the owner or operator
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ContactInformation
+      cdi:typeOfMachine:
+        description: Classification of this machine
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+      cdi:catalogDetails:
+        description: Catalog metadata for this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/CatalogDetails
+      cdi:identifier:
+        description: Formal identifier for this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/Identifier
+      cdi:image:
+        description: Image associated with this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/PrivateImage
+      cdi:purpose:
+        description: Purpose or role of this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/InternationalString
+    required:
+    - '@type'
+  Organization:
+    type: object
+    description: DDI-CDI Organization agent (cls-Organization, extends Agent). Represents
+      a group or institution.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:Organization
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this organization node
+      cdi:organizationName:
+        description: Name(s) of this organization
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/OrganizationName
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/OrganizationName
+      cdi:contactInformation:
+        description: Contact details for this organization
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ContactInformation
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ContactInformation
+      cdi:catalogDetails:
+        description: Catalog metadata for this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/CatalogDetails
+      cdi:identifier:
+        description: Formal identifier for this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/Identifier
+      cdi:image:
+        description: Image associated with this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/PrivateImage
+      cdi:purpose:
+        description: Purpose or role of this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/InternationalString
+    required:
+    - '@type'
+  ProcessingAgent:
+    type: object
+    description: DDI-CDI ProcessingAgent (cls-ProcessingAgent, extends Agent). Orchestrates
+      production activities.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:ProcessingAgent
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this processing agent node
+      cdi:performs:
+        description: Activities this agent performs (cdi:Activity). Use @id references
+          to Activity nodes defined elsewhere in the graph.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/id-reference
+      cdi:operatesOn:
+        description: Production environments this agent operates on (cdi:ProductionEnvironment)
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/id-reference
+      cdi:catalogDetails:
+        description: Catalog metadata for this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/CatalogDetails
+      cdi:identifier:
+        description: Formal identifier for this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/Identifier
+      cdi:image:
+        description: Image associated with this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/PrivateImage
+      cdi:purpose:
+        description: Purpose or role of this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/InternationalString
+    required:
+    - '@type'
+  id-reference:
+    type: object
+    description: JSON-LD @id reference to a node defined elsewhere in the graph
+    properties:
+      '@id':
+        type: string
+        description: IRI or blank node identifier of the referenced node
+    required:
+    - '@id'
+  ObjectName:
+    type: object
+    description: DDI-CDI structured name wrapper (dt-ObjectName)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:ObjectName
+        minItems: 1
+      cdi:name:
+        type: string
+        description: The name string
+      cdi:context:
+        description: Context or usage of this name
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+    required:
+    - cdi:name
+  OrganizationName:
+    type: object
+    description: DDI-CDI organization name (dt-OrganizationName, extends ObjectName)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:OrganizationName
+        minItems: 1
+      cdi:name:
+        type: string
+        description: The name string
+      cdi:context:
+        description: Context or usage of this name
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+      cdi:abbreviation:
+        description: Abbreviated form of the name
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/InternationalString
+      cdi:effectiveDates:
+        description: Date range when this name is/was effective
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/DateRange
+      cdi:isFormal:
+        type: boolean
+        default: true
+        description: Whether this is the formal/legal name
+      cdi:typeOfOrganizationName:
+        description: Classification of this name (e.g. legal, trade, acronym)
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+    required:
+    - cdi:name
+  IndividualName:
+    type: object
+    description: DDI-CDI individual name (dt-IndividualName)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:IndividualName
+        minItems: 1
+      cdi:firstGiven:
+        type: string
+        description: First or given name
+      cdi:lastFamily:
+        type: string
+        description: Last or family name
+      cdi:middle:
+        type: string
+        description: Middle name(s)
+      cdi:prefix:
+        type: string
+        description: Name prefix (e.g. Dr., Prof.)
+      cdi:suffix:
+        type: string
+        description: Name suffix (e.g. Jr., III)
+      cdi:fullName:
+        description: Full name as a single internationalized string
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/InternationalString
+      cdi:abbreviation:
+        description: Abbreviated form of the name
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/InternationalString
+      cdi:isFormal:
+        type: boolean
+        default: true
+        description: Whether this is a formal name
+      cdi:isPreferred:
+        type: boolean
+        default: false
+        description: Whether this is the preferred name
+      cdi:effectiveDates:
+        description: Date range when this name is/was effective
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/DateRange
+      cdi:context:
+        description: Context or usage of this name
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+      cdi:typeOfIndividualName:
+        description: Classification of this name (e.g. birth, married, pen)
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+      cdi:sex:
+        description: Sex specification associated with this name
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/SexSpecification
+  SexSpecification:
+    type: object
+    description: DDI-CDI sex specification (dt-SexSpecification)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:SexSpecification
+        minItems: 1
+      cdi:sexCode:
+        type: string
+        description: Code identifying sex (e.g. ISO 5218 values)
+  ContactInformation:
+    type: object
+    description: DDI-CDI contact information (dt-ContactInformation)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:ContactInformation
+        minItems: 1
+      cdi:address:
+        description: Postal address(es)
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/Address
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/Address
+      cdi:email:
+        description: Email address(es)
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/Email
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/Email
+      cdi:emessaging:
+        description: Electronic messaging contact(s)
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ElectronicMessageSystem
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ElectronicMessageSystem
+      cdi:telephone:
+        description: Telephone number(s)
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/Telephone
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/Telephone
+      cdi:website:
+        description: Website link(s)
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/WebLink
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/WebLink
+  Address:
+    type: object
+    description: DDI-CDI postal address (dt-Address)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:Address
+        minItems: 1
+      cdi:line:
+        description: Address line(s)
+        anyOf:
+        - type: string
+        - type: array
+          items:
+            type: string
+      cdi:cityPlaceLocal:
+        type: string
+        description: City, town, or locality
+      cdi:stateProvince:
+        type: string
+        description: State, province, or region
+      cdi:postalCode:
+        type: string
+        description: Postal or ZIP code
+      cdi:countryCode:
+        description: Country code
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+      cdi:typeOfAddress:
+        description: Type of address (e.g. home, work, mailing)
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+      cdi:isPreferred:
+        type: boolean
+        default: false
+        description: Whether this is the preferred address
+  Email:
+    type: object
+    description: DDI-CDI email address (dt-Email)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:Email
+        minItems: 1
+      cdi:internetEmail:
+        type: string
+        description: Email address string
+      cdi:typeOfEmail:
+        description: Type of email (e.g. personal, work)
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+      cdi:isPreferred:
+        type: boolean
+        default: false
+        description: Whether this is the preferred email
+  Telephone:
+    type: object
+    description: DDI-CDI telephone number (dt-Telephone)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:Telephone
+        minItems: 1
+      cdi:telephoneNumber:
+        type: string
+        description: Telephone number string
+      cdi:typeOfTelephone:
+        description: Type of telephone (e.g. mobile, office, fax)
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+      cdi:isPreferred:
+        type: boolean
+        default: false
+        description: Whether this is the preferred telephone
+  WebLink:
+    type: object
+    description: DDI-CDI website link (dt-WebLink)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:WebLink
+        minItems: 1
+      cdi:uri:
+        type: string
+        format: uri
+        description: URI of the website
+      cdi:typeOfWebsite:
+        description: Type of website (e.g. homepage, documentation)
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+      cdi:isPreferred:
+        type: boolean
+        default: false
+        description: Whether this is the preferred website
+  ElectronicMessageSystem:
+    type: object
+    description: DDI-CDI electronic messaging system contact (dt-ElectronicMessageSystem)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:ElectronicMessageSystem
+        minItems: 1
+      cdi:contactAddress:
+        type: string
+        description: Messaging address or handle
+      cdi:typeOfService:
+        description: Type of messaging service (e.g. Slack, Teams)
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+      cdi:isPreferred:
+        type: boolean
+        default: false
+        description: Whether this is the preferred messaging service
+  AccessLocation:
+    type: object
+    description: DDI-CDI access location for a machine (dt-AccessLocation)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:AccessLocation
+        minItems: 1
+      cdi:uri:
+        type: string
+        format: uri
+        description: URI of the access endpoint
+      cdi:mimeType:
+        description: MIME type of the resource at this location
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+      cdi:physicalLocation:
+        description: Physical location description
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/InternationalString
+  PrivateImage:
+    type: object
+    description: DDI-CDI private image (dt-PrivateImage)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:PrivateImage
+        minItems: 1
+      cdi:effectiveDates:
+        description: Date range when this image is effective
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/DateRange
+      cdi:privacy:
+        description: Privacy classification
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+  CatalogDetails:
+    type: object
+    description: DDI-CDI catalog details (dt-CatalogDetails)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:CatalogDetails
+        minItems: 1
+      cdi:title:
+        description: Title for the catalog entry
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/InternationalString
+      cdi:summary:
+        description: Summary description
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/InternationalString
+      cdi:identifier:
+        description: Catalog identifier
+        type: object
+        properties:
+          cdi:identifierContent:
+            type: string
+          cdi:isUri:
+            type: boolean
+      cdi:creator:
+        description: Creator of the catalog entry
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/AgentInRole
+  AgentInRole:
+    type: object
+    description: DDI-CDI agent in a role (dt-AgentInRole)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:AgentInRole
+        minItems: 1
+      cdi:agentName:
+        description: Name of the agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/InternationalString
+      cdi:reference:
+        description: Reference to the agent entity
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/Reference
+      cdi:role:
+        description: Role of the agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+  Identifier:
+    type: object
+    description: DDI-CDI composite identifier (dt-Identifier)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:Identifier
+        minItems: 1
+      cdi:ddiIdentifier:
+        description: DDI-specific IRDI identifier
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/InternationalRegistrationDataIdentifier
+      cdi:uri:
+        type: string
+        format: uri
+        description: URI form of the identifier
+      cdi:nonDdiIdentifier:
+        description: Non-DDI identifier
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/NonDdiIdentifier
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/NonDdiIdentifier
+  InternationalRegistrationDataIdentifier:
+    type: object
+    description: DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:InternationalRegistrationDataIdentifier
+        minItems: 1
+      cdi:dataIdentifier:
+        type: string
+      cdi:registrationAuthorityIdentifier:
+        type: string
+      cdi:versionIdentifier:
+        type: string
+    required:
+    - cdi:dataIdentifier
+    - cdi:registrationAuthorityIdentifier
+    - cdi:versionIdentifier
+  NonDdiIdentifier:
+    type: object
+    description: Non-DDI identifier (dt-NonDdiIdentifier)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:NonDdiIdentifier
+        minItems: 1
+      cdi:identifierContent:
+        type: string
+        description: The identifier value
+      cdi:managingAgency:
+        type: string
+        description: Agency managing this identifier scheme
+    required:
+    - cdi:identifierContent
+  Reference:
+    type: object
+    description: DDI-CDI reference to an entity (dt-Reference)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:Reference
+        minItems: 1
+      cdi:uri:
+        type: string
+        format: uri
+        description: URI of the referenced entity
+      cdi:description:
+        type: string
+        description: Human-readable description of the reference
+      cdi:ddiReference:
+        description: DDI IRDI reference
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/InternationalRegistrationDataIdentifier
+      cdi:semantic:
+        description: Semantic role of this reference
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/ControlledVocabularyEntry
+  ControlledVocabularyEntry:
+    type: object
+    description: DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:ControlledVocabularyEntry
+        minItems: 1
+      cdi:entryValue:
+        type: string
+        description: The vocabulary code or value
+      cdi:name:
+        type: string
+        description: Human-readable name
+      cdi:vocabulary:
+        description: Reference to the vocabulary scheme
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/Reference
+  InternationalString:
+    type: object
+    description: DDI-CDI internationalized string (dt-InternationalString)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:InternationalString
+        minItems: 1
+      cdi:languageSpecificString:
+        description: Language-tagged string value(s)
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/LanguageString
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/LanguageString
+  LanguageString:
+    type: object
+    description: DDI-CDI language-tagged string (dt-LanguageString)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:LanguageString
+        minItems: 1
+      cdi:content:
+        type: string
+        description: The text content
+      cdi:language:
+        type: string
+        description: ISO language code (e.g. en, fr, de)
+    required:
+    - cdi:content
+  DateRange:
+    type: object
+    description: DDI-CDI date range (dt-DateRange)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:DateRange
+        minItems: 1
+      cdi:startDate:
+        description: Start date of the range
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/CombinedDate
+      cdi:endDate:
+        description: End date of the range
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema-oas3.0.yaml#/$defs/CombinedDate
+  CombinedDate:
+    type: object
+    description: DDI-CDI combined date (dt-CombinedDate)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:CombinedDate
+        minItems: 1
+      cdi:isoDate:
+        type: string
+        format: date-time
+        description: ISO 8601 date-time value
+      cdi:historicDate:
+        type: string
+        description: Free-text historic date
+x-jsonld-prefixes:
+  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+x-schema-version: https://json-schema.org/draft/2020-12/schema

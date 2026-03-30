@@ -314,13 +314,13 @@ ex:activity-soil-chem-analysis a schema1:Action,
             schema1:description "Combined XRF screening and ICP-MS confirmatory analysis for major and trace elements in soil matrices." ;
             schema1:name "EPA 6200 / ICP-MS Soil Geochemistry Protocol" ;
             schema1:step [ a schema1:HowToStep ;
-                    schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards." ;
-                    schema1:name "ICP-MS measurement and calibration" ;
-                    schema1:position 2 ],
-                [ a schema1:HowToStep ;
                     schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels." ;
                     schema1:name "Sample preparation and acid digestion" ;
-                    schema1:position 1 ] ] ;
+                    schema1:position 1 ],
+                [ a schema1:HowToStep ;
+                    schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards." ;
+                    schema1:name "ICP-MS measurement and calibration" ;
+                    schema1:position 2 ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:agent [ a schema1:Person ;
             schema1:contactPoint <mailto:maria.chen@unr.edu> ;
@@ -339,10 +339,7 @@ ex:activity-soil-chem-analysis a schema1:Action,
     schema1:object "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect" ;
     schema1:result ex:dataset-soil-chem-gb-2025 ;
     schema1:startTime "2025-07-15T08:00:00Z" ;
-    prov:used [ a schema1:CreativeWork ;
-            schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
-            schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
-        [ schema1:instrument [ a schema1:DefinedTerm,
+    prov:used [ schema1:instrument [ a schema1:DefinedTerm,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
                             schema1:name "Typical Detection Limit" ;
@@ -356,6 +353,9 @@ ex:activity-soil-chem-analysis a schema1:Action,
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
                     schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
                     schema1:termCode "ICP-MS" ] ],
+        [ a schema1:CreativeWork ;
+            schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
+            schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
         "Soil core samples collected June 2025, sites GB-001 through GB-045",
         "https://vocab.nerc.ac.uk/collection/L05/current/LAB02" .
 
