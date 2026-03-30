@@ -6,10 +6,23 @@ description: Unified DDI-CDI ValueDomain building block covering both Substantiv
   property. Supports described domains (ValueAndConceptDescription), enumerated domains
   (EnumerationDomain), and conceptual domain references.
 anyOf:
-- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/ValueDomainNode
-- type: array
+- description: Single ValueDomain node
+  allOf:
+  - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/ValueDomainNode
+- description: Unwrapped @graph array of nodes
+  type: array
   items:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/ValueDomainNode
+- description: JSON-LD document with @context and @graph
+  type: object
+  properties:
+    '@context': {}
+    '@graph':
+      type: array
+      items:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema-oas3.0.yaml#/$defs/ValueDomainNode
+  required:
+  - '@graph'
 $defs:
   ValueDomainNode:
     type: object

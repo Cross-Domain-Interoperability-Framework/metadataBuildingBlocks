@@ -330,10 +330,22 @@ description: Unified DDI-CDI ValueDomain building block covering both Substantiv
   property. Supports described domains (ValueAndConceptDescription), enumerated domains
   (EnumerationDomain), and conceptual domain references.
 anyOf:
-- $ref: '#/$defs/ValueDomainNode'
-- type: array
+- description: Single ValueDomain node
+  $ref: '#/$defs/ValueDomainNode'
+- description: Unwrapped @graph array of nodes
+  type: array
   items:
     $ref: '#/$defs/ValueDomainNode'
+- description: JSON-LD document with @context and @graph
+  type: object
+  properties:
+    '@context': {}
+    '@graph':
+      type: array
+      items:
+        $ref: '#/$defs/ValueDomainNode'
+  required:
+  - '@graph'
 $defs:
   ValueDomainNode:
     type: object
