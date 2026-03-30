@@ -4,35 +4,33 @@
     "description": "DDI-CDI Activity class (DDICDILibrary/Classes/Process/Activity). Describes tasks at a conceptual level using cdi:Activity, cdi:Step, and cdi:Parameter vocabulary from the DDI Cross-Domain Integration specification. Includes definition, start/end timestamps, hasInternal (ControlLogic), and full Step/Parameter support.",
     "anyOf": [
         {
-            "description": "Single graph node (Activity, Step, or Parameter)",
-            "type": "object",
-            "anyOf": [
-                {
-                    "$ref": "#/$defs/Activity"
-                },
-                {
-                    "$ref": "#/$defs/Step"
-                },
-                {
-                    "$ref": "#/$defs/Parameter"
-                }
-            ]
+            "description": "Single Activity node",
+            "$ref": "#/$defs/Activity"
         },
         {
-            "description": "Unwrapped @graph array of nodes",
+            "description": "Unwrapped @graph array of nodes (OGC pipeline)",
             "type": "array",
+            "contains": {
+                "$ref": "#/$defs/Activity"
+            },
             "items": {
-                "anyOf": [
-                    {
-                        "$ref": "#/$defs/Activity"
+                "if": {
+                    "type": "object",
+                    "properties": {
+                        "@type": {
+                            "type": "array",
+                            "contains": {
+                                "const": "cdi:Activity"
+                            }
+                        }
                     },
-                    {
-                        "$ref": "#/$defs/Step"
-                    },
-                    {
-                        "$ref": "#/$defs/Parameter"
-                    }
-                ]
+                    "required": [
+                        "@type"
+                    ]
+                },
+                "then": {
+                    "$ref": "#/$defs/Activity"
+                }
             }
         },
         {
@@ -42,18 +40,27 @@
                 "@context": {},
                 "@graph": {
                     "type": "array",
+                    "contains": {
+                        "$ref": "#/$defs/Activity"
+                    },
                     "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/$defs/Activity"
+                        "if": {
+                            "type": "object",
+                            "properties": {
+                                "@type": {
+                                    "type": "array",
+                                    "contains": {
+                                        "const": "cdi:Activity"
+                                    }
+                                }
                             },
-                            {
-                                "$ref": "#/$defs/Step"
-                            },
-                            {
-                                "$ref": "#/$defs/Parameter"
-                            }
-                        ]
+                            "required": [
+                                "@type"
+                            ]
+                        },
+                        "then": {
+                            "$ref": "#/$defs/Activity"
+                        }
                     }
                 }
             },
