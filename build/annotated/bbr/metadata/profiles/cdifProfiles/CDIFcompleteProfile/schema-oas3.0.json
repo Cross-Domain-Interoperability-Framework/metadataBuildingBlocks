@@ -2211,57 +2211,39 @@
       "description": "Extends cdif variableMeasured with properties for DDI-CDI InstanceVariable",
       "anyOf": [
         {
-          "description": "Single node (InstanceVariable or Dataset)",
-          "type": "object",
-          "anyOf": [
+          "description": "Single InstanceVariable node",
+          "allOf": [
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/CdifVariableMeasuredNode"
-            },
-            {
-              "type": "object",
-              "description": "Dataset node referencing variableMeasured items",
-              "properties": {
-                "@type": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "enum": [
-                      "schema:Dataset"
-                    ]
-                  }
-                }
-              }
             }
           ]
         },
         {
-          "description": "Unwrapped @graph array of nodes",
+          "description": "Unwrapped @graph array of nodes (OGC pipeline)",
           "type": "array",
+          "contains": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/CdifVariableMeasuredNode"
+          },
           "items": {
-            "anyOf": [
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/CdifVariableMeasuredNode"
-              },
-              {
-                "type": "object",
-                "description": "Dataset node referencing variableMeasured items",
-                "properties": {
-                  "@type": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "contains": {
-                      "enum": [
-                        "schema:Dataset"
-                      ]
-                    }
+            "if": {
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "contains": {
+                    "enum": [
+                      "cdi:InstanceVariable"
+                    ]
                   }
                 }
-              }
-            ]
+              },
+              "required": [
+                "@type"
+              ]
+            },
+            "then": {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/CdifVariableMeasuredNode"
+            }
           }
         },
         {
@@ -2271,29 +2253,29 @@
             "@context": {},
             "@graph": {
               "type": "array",
+              "contains": {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/CdifVariableMeasuredNode"
+              },
               "items": {
-                "anyOf": [
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/CdifVariableMeasuredNode"
-                  },
-                  {
-                    "type": "object",
-                    "description": "Dataset node referencing variableMeasured items",
-                    "properties": {
-                      "@type": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        },
-                        "contains": {
-                          "enum": [
-                            "schema:Dataset"
-                          ]
-                        }
+                "if": {
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "contains": {
+                        "enum": [
+                          "cdi:InstanceVariable"
+                        ]
                       }
                     }
-                  }
-                ]
+                  },
+                  "required": [
+                    "@type"
+                  ]
+                },
+                "then": {
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/CdifVariableMeasuredNode"
+                }
               }
             }
           },

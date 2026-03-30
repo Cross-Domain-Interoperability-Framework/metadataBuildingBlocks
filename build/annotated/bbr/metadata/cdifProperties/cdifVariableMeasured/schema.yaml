@@ -1,51 +1,44 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 description: Extends cdif variableMeasured with properties for DDI-CDI InstanceVariable
 anyOf:
-- description: Single node (InstanceVariable or Dataset)
-  type: object
-  anyOf:
-  - $ref: '#/$defs/CdifVariableMeasuredNode'
-  - type: object
-    description: Dataset node referencing variableMeasured items
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: schema:Dataset
-- description: Unwrapped @graph array of nodes
+- description: Single InstanceVariable node
+  $ref: '#/$defs/CdifVariableMeasuredNode'
+- description: Unwrapped @graph array of nodes (OGC pipeline)
   type: array
+  contains:
+    $ref: '#/$defs/CdifVariableMeasuredNode'
   items:
-    anyOf:
-    - $ref: '#/$defs/CdifVariableMeasuredNode'
-    - type: object
-      description: Dataset node referencing variableMeasured items
+    if:
+      type: object
       properties:
         '@type':
           type: array
-          items:
-            type: string
           contains:
-            const: schema:Dataset
+            const: cdi:InstanceVariable
+      required:
+      - '@type'
+    then:
+      $ref: '#/$defs/CdifVariableMeasuredNode'
 - description: JSON-LD document with @context and @graph
   type: object
   properties:
     '@context': {}
     '@graph':
       type: array
+      contains:
+        $ref: '#/$defs/CdifVariableMeasuredNode'
       items:
-        anyOf:
-        - $ref: '#/$defs/CdifVariableMeasuredNode'
-        - type: object
-          description: Dataset node referencing variableMeasured items
+        if:
+          type: object
           properties:
             '@type':
               type: array
-              items:
-                type: string
               contains:
-                const: schema:Dataset
+                const: cdi:InstanceVariable
+          required:
+          - '@type'
+        then:
+          $ref: '#/$defs/CdifVariableMeasuredNode'
   required:
   - '@graph'
 $defs:
