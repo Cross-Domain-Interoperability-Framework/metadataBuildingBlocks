@@ -4,6 +4,7 @@
   "description": "DDI-CDI Agent class hierarchy. Covers Individual (person), Machine (software/hardware), Organization (group/institution), and ProcessingAgent (orchestrates production activities) using DDI Cross-Domain Integration vocabulary.",
   "anyOf": [
     {
+      "description": "Single graph node (Individual, Machine, Organization, or ProcessingAgent)",
       "type": "object",
       "anyOf": [
         {
@@ -21,6 +22,7 @@
       ]
     },
     {
+      "description": "Unwrapped @graph array of nodes",
       "type": "array",
       "items": {
         "anyOf": [
@@ -38,6 +40,35 @@
           }
         ]
       }
+    },
+    {
+      "description": "JSON-LD document with @context and @graph",
+      "type": "object",
+      "properties": {
+        "@context": {},
+        "@graph": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Individual"
+              },
+              {
+                "$ref": "#/$defs/Machine"
+              },
+              {
+                "$ref": "#/$defs/Organization"
+              },
+              {
+                "$ref": "#/$defs/ProcessingAgent"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "@graph"
+      ]
     }
   ],
   "$defs": {
