@@ -46,7 +46,12 @@ metadataBuildingBlocks/
 │   │   └── derivedFrom/             # prov:wasDerivedFrom
 │   ├── ddiProperties/               # DDI-CDI data description types
 │   │   ├── ddicdiActivity/          # DDI-CDI Activity (Process package)
-│   │   ├── ddicdiAgent/             # DDI-CDI Agent hierarchy (Individual, Machine, Organization, ProcessingAgent)
+│   │   ├── ddicdiAgent/             # DDI-CDI Agent (umbrella: refs 4 agent sub-BBs)
+│   │   ├── ddicdiIndividual/        # DDI-CDI Individual (person)
+│   │   ├── ddicdiMachine/           # DDI-CDI Machine (software/hardware)
+│   │   ├── ddicdiOrganization/      # DDI-CDI Organization (group/institution)
+│   │   ├── ddicdiProcessingAgent/   # DDI-CDI ProcessingAgent (orchestrates activities)
+│   │   ├── ddicdiDataTypes/          # DDI-CDI structured data types (from DDICDILibrary/DataTypes)
 │   │   └── ddicdiValueDomain/       # DDI-CDI Value Domain (SubstantiveValueDomain + SentinelValueDomain)
 │   ├── qualityProperties/           # Data quality types
 │   │   └── qualityMeasure/          # Quality measure definitions

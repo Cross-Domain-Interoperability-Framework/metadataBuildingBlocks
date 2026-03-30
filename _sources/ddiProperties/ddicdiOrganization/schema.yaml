@@ -1,0 +1,46 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: DDI-CDI Organization
+description: >-
+  DDI-CDI Organization agent (cls-Organization, extends Agent).
+  Represents a group or institution with structured name,
+  contact information, and identification.
+
+type: object
+properties:
+  "@type":
+    type: array
+    items:
+      type: string
+    contains:
+      const: "cdi:Organization"
+    minItems: 1
+  "@id":
+    type: string
+    description: Identifier for this organization node
+  "cdi:organizationName":
+    description: Name(s) of this organization
+    anyOf:
+      - $ref: "../ddicdiDataTypes/schema.yaml#/$defs/OrganizationName"
+      - type: array
+        items:
+          $ref: "../ddicdiDataTypes/schema.yaml#/$defs/OrganizationName"
+  "cdi:contactInformation":
+    description: Contact details for this organization
+    anyOf:
+      - $ref: "../ddicdiDataTypes/schema.yaml#/$defs/ContactInformation"
+      - type: array
+        items:
+          $ref: "../ddicdiDataTypes/schema.yaml#/$defs/ContactInformation"
+  "cdi:catalogDetails":
+    description: Catalog metadata for this agent
+    $ref: "../ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails"
+  "cdi:identifier":
+    description: Formal identifier for this agent
+    $ref: "../ddicdiDataTypes/schema.yaml#/$defs/Identifier"
+  "cdi:image":
+    description: Image associated with this agent
+    $ref: "../ddicdiDataTypes/schema.yaml#/$defs/PrivateImage"
+  "cdi:purpose":
+    description: Purpose or role of this agent
+    $ref: "../ddicdiDataTypes/schema.yaml#/$defs/InternationalString"
+required: ["@type"]
