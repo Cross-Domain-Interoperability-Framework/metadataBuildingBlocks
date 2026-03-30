@@ -64,12 +64,16 @@ properties:
     type: number
     description: maximum numeric value in the dataset
   schema:url:
-    type: string
-    format: uri
-    description: link to a web page useful for interpreting the variable
+    anyOf:
+    - type: string
+      format: uri
+      description: link to a web page useful for interpreting the variable
+    - $ref: '#/$defs/LabeledLink'
 required:
 - '@type'
 - schema:name
 $defs:
   DefinedTerm:
     $ref: ../definedTerm/schema.yaml
+  LabeledLink:
+    $ref: ../labeledLink/schema.yaml

@@ -1830,9 +1830,44 @@
                                 "description": "maximum numeric value in the dataset"
                               },
                               "schema:url": {
-                                "type": "string",
-                                "format": "uri",
-                                "description": "link to a web page useful for interpreting the variable"
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "description": "link to a web page useful for interpreting the variable"
+                                  },
+                                  {
+                                    "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+                                    "type": "object",
+                                    "properties": {
+                                      "@type": {
+                                        "default": "schema:CreativeWork",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string"
+                                        },
+                                        "contains": {
+                                          "const": "schema:CreativeWork"
+                                        },
+                                        "minItems": 1
+                                      },
+                                      "schema:name": {
+                                        "type": "string"
+                                      },
+                                      "schema:description": {
+                                        "type": "string"
+                                      },
+                                      "schema:url": {
+                                        "type": "string",
+                                        "format": "uri"
+                                      }
+                                    },
+                                    "required": [
+                                      "@type",
+                                      "schema:url"
+                                    ]
+                                  }
+                                ]
                               }
                             },
                             "required": [
@@ -7725,9 +7760,44 @@
                 "description": "maximum numeric value in the dataset"
               },
               "schema:url": {
-                "type": "string",
-                "format": "uri",
-                "description": "link to a web page useful for interpreting the variable"
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "link to a web page useful for interpreting the variable"
+                  },
+                  {
+                    "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+                    "type": "object",
+                    "properties": {
+                      "@type": {
+                        "default": "schema:CreativeWork",
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "schema:CreativeWork"
+                        },
+                        "minItems": 1
+                      },
+                      "schema:name": {
+                        "type": "string"
+                      },
+                      "schema:description": {
+                        "type": "string"
+                      },
+                      "schema:url": {
+                        "type": "string",
+                        "format": "uri"
+                      }
+                    },
+                    "required": [
+                      "@type",
+                      "schema:url"
+                    ]
+                  }
+                ]
               }
             },
             "required": [
