@@ -1287,11 +1287,11 @@ ex:YOPx123 a schema1:Dataset ;
         "jNv",
         "tfmbDGeiuEnuhfKBvk" ;
     schema1:contributor [ a schema1:Role ;
-            schema1:contributor ex:NyMWPlRtQizAFE ;
-            schema1:roleName "data steward" ],
-        [ a schema1:Role ;
             schema1:contributor ex:PersonExample_zZc_asContributor ;
-            schema1:roleName "editor" ] ;
+            schema1:roleName "editor" ],
+        [ a schema1:Role ;
+            schema1:contributor ex:NyMWPlRtQizAFE ;
+            schema1:roleName "data steward" ] ;
     schema1:creator ( ex:mxxInaV ex:jP ) ;
     schema1:dateModified "2020-10-15" ;
     schema1:datePublished "2021-09-05" ;
@@ -3067,15 +3067,15 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:identifier ex:datasetDOI42 ;
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "https://vocab.nerc.ac.uk/collection/P02/current/DOXY/" ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
-            schema1:name "North Atlantic Deep Water" ;
-            schema1:termCode "P02:DOXY" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
             schema1:name "Sea water temperature" ;
             schema1:termCode "TEMPPR01" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "https://vocab.nerc.ac.uk/collection/P02/current/DOXY/" ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
+            schema1:name "North Atlantic Deep Water" ;
+            schema1:termCode "P02:DOXY" ],
         "Labrador Sea",
         "deep water formation" ;
     schema1:license [ a schema1:CreativeWork ;
@@ -3094,12 +3094,6 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
             schema1:name "DFO Open Data Policy" ;
             schema1:url "https://example.org/policies/dfo-open-data" ] ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "service" ;
-            schema1:target [ a schema1:EntryPoint ;
-                    schema1:encodingFormat "application/x-netcdf" ;
-                    schema1:name "OPeNDAP access" ;
-                    schema1:url "https://example.org/opendap/nadw-ctd" ] ],
-        [ a schema1:LinkRole ;
             schema1:linkRelationship "documentation" ;
             schema1:target [ a schema1:EntryPoint ;
                     schema1:contentType "text/html" ;
@@ -3108,10 +3102,21 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
                     schema1:httpMethod "GET" ;
                     schema1:name "NADW Cruise Reports" ;
                     schema1:url "https://example.org/docs/nadw-cruise-reports" ;
-                    schema1:urlTemplate "https://example.org/docs/nadw-cruise-reports/{year}" ] ] ;
+                    schema1:urlTemplate "https://example.org/docs/nadw-cruise-reports/{year}" ] ],
+        [ a schema1:LinkRole ;
+            schema1:linkRelationship "service" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:encodingFormat "application/x-netcdf" ;
+                    schema1:name "OPeNDAP access" ;
+                    schema1:url "https://example.org/opendap/nadw-ctd" ] ] ;
     schema1:sameAs <https://n2t.net/ark:/99999/fk4nadw2024>,
         "https://doi.org/10.5281/zenodo.42042042" ;
     schema1:spatialCoverage [ a schema1:Place ;
+            schema1:geo [ a schema1:GeoCoordinates ;
+                    schema1:latitude 5.655e+01 ;
+                    schema1:longitude -5.258e+01 ] ;
+            schema1:name "AR7W Transect Station 12" ],
+        [ a schema1:Place ;
             schema1:additionalType "ocean basin" ;
             schema1:alternateName "Mer du Labrador" ;
             schema1:geo [ a schema1:GeoShape ;
@@ -3125,12 +3130,7 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
                 "Labrador Sea" ;
             geosparql:hasGeometry [ a sf:Polygon ;
                     geosparql:asWKT "POLYGON((-60 53, -45 53, -45 65, -60 65, -60 53))"^^<['geosparql:wktLiteral']> ;
-                    geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] ],
-        [ a schema1:Place ;
-            schema1:geo [ a schema1:GeoCoordinates ;
-                    schema1:latitude 5.655e+01 ;
-                    schema1:longitude -5.258e+01 ] ;
-            schema1:name "AR7W Transect Station 12" ] ;
+                    geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] ] ;
     schema1:subjectOf ex:metadataRecord42 ;
     schema1:temporalCoverage [ a time:ProperInterval ;
             schema1:description "Observation period spanning 10 winter convection seasons" ;
