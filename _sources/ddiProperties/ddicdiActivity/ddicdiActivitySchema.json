@@ -93,12 +93,12 @@
                     "description": "Structured name for the activity (ObjectName)",
                     "anyOf": [
                         {
-                            "$ref": "#/$defs/ObjectName"
+                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ObjectName"
                         },
                         {
                             "type": "array",
                             "items": {
-                                "$ref": "#/$defs/ObjectName"
+                                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ObjectName"
                             }
                         }
                     ]
@@ -111,12 +111,12 @@
                     "description": "Formal multilingual definition (InternationalString)",
                     "anyOf": [
                         {
-                            "$ref": "#/$defs/InternationalString"
+                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/InternationalString"
                         },
                         {
                             "type": "array",
                             "items": {
-                                "$ref": "#/$defs/InternationalString"
+                                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/InternationalString"
                             }
                         }
                     ]
@@ -125,44 +125,44 @@
                     "description": "Multilingual display label",
                     "anyOf": [
                         {
-                            "$ref": "#/$defs/LabelForDisplay"
+                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay"
                         },
                         {
                             "type": "array",
                             "items": {
-                                "$ref": "#/$defs/LabelForDisplay"
+                                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay"
                             }
                         }
                     ]
                 },
                 "cdi:identifier": {
                     "description": "Formal identifier for this activity",
-                    "$ref": "#/$defs/Identifier"
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Identifier"
                 },
                 "cdi:entityUsed": {
                     "description": "Entities used as inputs by this activity",
                     "type": "array",
                     "items": {
-                        "$ref": "#/$defs/Reference"
+                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Reference"
                     }
                 },
                 "cdi:entityProduced": {
                     "description": "Entities produced as outputs by this activity",
                     "type": "array",
                     "items": {
-                        "$ref": "#/$defs/Reference"
+                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Reference"
                     }
                 },
                 "cdi:standardModelMapping": {
                     "description": "Reference to a standard process model (e.g. GSBPM)",
                     "anyOf": [
                         {
-                            "$ref": "#/$defs/Reference"
+                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Reference"
                         },
                         {
                             "type": "array",
                             "items": {
-                                "$ref": "#/$defs/Reference"
+                                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Reference"
                             }
                         }
                     ]
@@ -181,7 +181,7 @@
                     "description": "Nested sub-activities (cdi:Activity). @id references.",
                     "type": "array",
                     "items": {
-                        "$ref": "#/$defs/id-reference"
+                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
                     }
                 },
                 "cdi:has_Step": {
@@ -193,7 +193,7 @@
                                 "$ref": "#/$defs/Step"
                             },
                             {
-                                "$ref": "#/$defs/id-reference"
+                                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
                             }
                         ]
                     }
@@ -202,7 +202,7 @@
                     "description": "Internal control logic elements (cdi:ControlLogic). @id references.",
                     "type": "array",
                     "items": {
-                        "$ref": "#/$defs/id-reference"
+                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
                     }
                 }
             },
@@ -210,260 +210,6 @@
                 "@type",
                 "cdi:name"
             ]
-        },
-        "id-reference": {
-            "type": "object",
-            "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
-            "properties": {
-                "@id": {
-                    "type": "string",
-                    "description": "IRI or blank node identifier of the referenced node"
-                }
-            },
-            "required": [
-                "@id"
-            ]
-        },
-        "ObjectName": {
-            "type": "object",
-            "description": "DDI-CDI structured name wrapper (dt-ObjectName)",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "cdi:ObjectName"
-                    },
-                    "minItems": 1
-                },
-                "cdi:name": {
-                    "type": "string",
-                    "description": "The name string"
-                },
-                "cdi:context": {
-                    "description": "Context or usage of this name",
-                    "$ref": "#/$defs/ControlledVocabularyEntry"
-                }
-            },
-            "required": [
-                "cdi:name"
-            ]
-        },
-        "LabelForDisplay": {
-            "type": "object",
-            "description": "DDI-CDI multilingual display label (dt-LabelForDisplay)",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "cdi:LabelForDisplay"
-                    },
-                    "minItems": 1
-                },
-                "cdi:locationVariant": {
-                    "description": "Geographic or locale variant",
-                    "$ref": "#/$defs/ControlledVocabularyEntry"
-                },
-                "cdi:maxLength": {
-                    "type": "integer",
-                    "description": "Maximum display length"
-                },
-                "cdi:languageSpecificString": {
-                    "description": "The label text with language tag",
-                    "$ref": "#/$defs/LanguageString"
-                }
-            }
-        },
-        "LanguageString": {
-            "type": "object",
-            "description": "DDI-CDI language-tagged string (dt-LanguageString)",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "cdi:LanguageString"
-                    },
-                    "minItems": 1
-                },
-                "cdi:content": {
-                    "type": "string",
-                    "description": "The text content"
-                },
-                "cdi:language": {
-                    "type": "string",
-                    "description": "ISO language code (e.g. en, fr, de)"
-                }
-            },
-            "required": [
-                "cdi:content"
-            ]
-        },
-        "InternationalString": {
-            "type": "object",
-            "description": "DDI-CDI multilingual string (dt-InternationalString)",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "cdi:InternationalString"
-                    },
-                    "minItems": 1
-                },
-                "cdi:languageSpecificString": {
-                    "description": "Language-tagged content strings",
-                    "anyOf": [
-                        {
-                            "$ref": "#/$defs/LanguageString"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/$defs/LanguageString"
-                            }
-                        }
-                    ]
-                }
-            }
-        },
-        "Identifier": {
-            "type": "object",
-            "description": "DDI-CDI composite identifier (dt-Identifier)",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "cdi:Identifier"
-                    },
-                    "minItems": 1
-                },
-                "cdi:ddiIdentifier": {
-                    "description": "DDI-specific IRDI identifier",
-                    "$ref": "#/$defs/InternationalRegistrationDataIdentifier"
-                },
-                "cdi:uri": {
-                    "type": "string",
-                    "format": "uri",
-                    "description": "URI form of the identifier"
-                },
-                "cdi:nonDdiIdentifier": {
-                    "description": "Non-DDI identifier",
-                    "anyOf": [
-                        {
-                            "$ref": "#/$defs/NonDdiIdentifier"
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/$defs/NonDdiIdentifier"
-                            }
-                        }
-                    ]
-                }
-            }
-        },
-        "InternationalRegistrationDataIdentifier": {
-            "type": "object",
-            "description": "DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "cdi:InternationalRegistrationDataIdentifier"
-                    },
-                    "minItems": 1
-                },
-                "cdi:dataIdentifier": {
-                    "type": "string"
-                },
-                "cdi:registrationAuthorityIdentifier": {
-                    "type": "string"
-                },
-                "cdi:versionIdentifier": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "cdi:dataIdentifier",
-                "cdi:registrationAuthorityIdentifier",
-                "cdi:versionIdentifier"
-            ]
-        },
-        "NonDdiIdentifier": {
-            "type": "object",
-            "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "cdi:NonDdiIdentifier"
-                    },
-                    "minItems": 1
-                },
-                "cdi:identifierContent": {
-                    "type": "string",
-                    "description": "The identifier value"
-                },
-                "cdi:managingAgency": {
-                    "type": "string",
-                    "description": "Agency managing this identifier scheme"
-                }
-            },
-            "required": [
-                "cdi:identifierContent"
-            ]
-        },
-        "Reference": {
-            "type": "object",
-            "description": "DDI-CDI reference to an entity (dt-Reference)",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "cdi:Reference"
-                    },
-                    "minItems": 1
-                },
-                "cdi:uri": {
-                    "type": "string",
-                    "format": "uri",
-                    "description": "URI of the referenced entity"
-                },
-                "cdi:description": {
-                    "type": "string",
-                    "description": "Human-readable description of the reference"
-                },
-                "cdi:ddiReference": {
-                    "description": "DDI IRDI reference",
-                    "$ref": "#/$defs/InternationalRegistrationDataIdentifier"
-                },
-                "cdi:semantic": {
-                    "description": "Semantic role of this reference",
-                    "$ref": "#/$defs/ControlledVocabularyEntry"
-                }
-            }
         },
         "Step": {
             "type": "object",
@@ -487,12 +233,12 @@
                     "description": "Structured name for the step",
                     "anyOf": [
                         {
-                            "$ref": "#/$defs/ObjectName"
+                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ObjectName"
                         },
                         {
                             "type": "array",
                             "items": {
-                                "$ref": "#/$defs/ObjectName"
+                                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ObjectName"
                             }
                         }
                     ]
@@ -505,18 +251,18 @@
                     "description": "Formal multilingual definition (InternationalString)",
                     "anyOf": [
                         {
-                            "$ref": "#/$defs/InternationalString"
+                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/InternationalString"
                         },
                         {
                             "type": "array",
                             "items": {
-                                "$ref": "#/$defs/InternationalString"
+                                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/InternationalString"
                             }
                         }
                     ]
                 },
                 "cdi:identifier": {
-                    "$ref": "#/$defs/Identifier"
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Identifier"
                 },
                 "cdi:start": {
                     "type": "string",
@@ -534,7 +280,7 @@
                 },
                 "cdi:scriptingLanguage": {
                     "description": "Programming or scripting language used",
-                    "$ref": "#/$defs/ControlledVocabularyEntry"
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry"
                 },
                 "cdi:receives": {
                     "description": "Input parameters received by this step (cdi:Parameter)",
@@ -545,7 +291,7 @@
                                 "$ref": "#/$defs/Parameter"
                             },
                             {
-                                "$ref": "#/$defs/id-reference"
+                                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
                             }
                         ]
                     }
@@ -559,7 +305,7 @@
                                 "$ref": "#/$defs/Parameter"
                             },
                             {
-                                "$ref": "#/$defs/id-reference"
+                                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
                             }
                         ]
                     }
@@ -568,14 +314,14 @@
                     "description": "Entities used as inputs by this step",
                     "type": "array",
                     "items": {
-                        "$ref": "#/$defs/Reference"
+                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Reference"
                     }
                 },
                 "cdi:entityProduced": {
                     "description": "Entities produced as outputs by this step",
                     "type": "array",
                     "items": {
-                        "$ref": "#/$defs/Reference"
+                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Reference"
                     }
                 },
                 "cdi:hasSubStep": {
@@ -587,7 +333,7 @@
                                 "$ref": "#/$defs/Step"
                             },
                             {
-                                "$ref": "#/$defs/id-reference"
+                                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
                             }
                         ]
                     }
@@ -666,7 +412,7 @@
                 },
                 "cdi:programLanguage": {
                     "description": "Language of this command",
-                    "$ref": "#/$defs/ControlledVocabularyEntry"
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry"
                 }
             }
         },
@@ -695,34 +441,6 @@
                 }
             }
         },
-        "ControlledVocabularyEntry": {
-            "type": "object",
-            "description": "DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry)",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "cdi:ControlledVocabularyEntry"
-                    },
-                    "minItems": 1
-                },
-                "cdi:entryValue": {
-                    "type": "string",
-                    "description": "The vocabulary code or value"
-                },
-                "cdi:name": {
-                    "type": "string",
-                    "description": "Human-readable name"
-                },
-                "cdi:vocabulary": {
-                    "description": "Reference to the vocabulary scheme",
-                    "$ref": "#/$defs/Reference"
-                }
-            }
-        },
         "Parameter": {
             "type": "object",
             "description": "DDI-CDI parameter for step data flow (cls-Parameter)",
@@ -745,29 +463,29 @@
                     "description": "Structured name for the parameter",
                     "anyOf": [
                         {
-                            "$ref": "#/$defs/ObjectName"
+                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ObjectName"
                         },
                         {
                             "type": "array",
                             "items": {
-                                "$ref": "#/$defs/ObjectName"
+                                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ObjectName"
                             }
                         }
                     ]
                 },
                 "cdi:identifier": {
-                    "$ref": "#/$defs/Identifier"
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Identifier"
                 },
                 "cdi:entityBound": {
                     "description": "Reference to the entity this parameter is bound to",
                     "anyOf": [
                         {
-                            "$ref": "#/$defs/Reference"
+                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Reference"
                         },
                         {
                             "type": "array",
                             "items": {
-                                "$ref": "#/$defs/Reference"
+                                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Reference"
                             }
                         }
                     ]

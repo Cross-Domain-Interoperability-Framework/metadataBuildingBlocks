@@ -49,40 +49,40 @@ $defs:
         description: Identifier for this value domain node
       "cdi:catalogDetails":
         description: Administrative catalog metadata for this value domain
-        $ref: "#/$defs/CatalogDetails"
+        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails"
       "cdi:displayLabel":
         description: Multilingual display label
         anyOf:
-          - $ref: "#/$defs/LabelForDisplay"
+          - $ref: "../ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay"
           - type: array
             items:
-              $ref: "#/$defs/LabelForDisplay"
+              $ref: "../ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay"
       "cdi:identifier":
         description: Formal identifier for this value domain
-        $ref: "#/$defs/Identifier"
+        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/Identifier"
       "cdi:recommendedDataType":
         description: Recommended physical data type for values in this domain
-        $ref: "#/$defs/ControlledVocabularyEntry"
+        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry"
       "cdi:isDescribedBy":
         description: >-
           Description of the value domain constraints (0..1).
           Inline ValueAndConceptDescription or @id reference.
         anyOf:
           - $ref: "#/$defs/ValueAndConceptDescription"
-          - $ref: "#/$defs/id-reference"
+          - $ref: "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
       "cdi:takesValuesFrom":
         description: >-
           Enumeration domain providing the set of permissible coded values (0..1).
           Inline EnumerationDomain or @id reference.
         anyOf:
           - $ref: "#/$defs/EnumerationDomain"
-          - $ref: "#/$defs/id-reference"
+          - $ref: "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
       "cdi:takesConceptsFrom":
         description: >-
           Reference to a conceptual domain (SubstantiveConceptualDomain or
           SentinelConceptualDomain) that provides conceptual grounding for
           this value domain (0..1). @id reference only.
-        $ref: "#/$defs/id-reference"
+        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
       "cdi:platformType":
         description: >-
           (SentinelValueDomain only) The type of software platform under
@@ -90,267 +90,9 @@ $defs:
           use different sets of codes to indicate missing values. Example
           values: SASNumeric, SPSSstyle, Rstyle, StataNumeric, BlankString,
           EmptyString, Unrestricted.
-        $ref: "#/$defs/ControlledVocabularyEntry"
+        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry"
     required:
       - "@type"
-  id-reference:
-    type: object
-    description: "JSON-LD @id reference to a node defined elsewhere in the graph"
-    properties:
-      "@id":
-        type: string
-        description: IRI or blank node identifier of the referenced node
-    required: ["@id"]
-
-  ObjectName:
-    type: object
-    description: "DDI-CDI structured name wrapper (dt-ObjectName)"
-    properties:
-      "@type":
-        type: array
-        items:
-          type: string
-        contains:
-          const: "cdi:ObjectName"
-        minItems: 1
-      "cdi:name":
-        type: string
-        description: The name string
-      "cdi:context":
-        description: Context or usage of this name
-        $ref: "#/$defs/ControlledVocabularyEntry"
-    required: ["cdi:name"]
-
-  LabelForDisplay:
-    type: object
-    description: "DDI-CDI multilingual display label (dt-LabelForDisplay)"
-    properties:
-      "@type":
-        type: array
-        items:
-          type: string
-        contains:
-          const: "cdi:LabelForDisplay"
-        minItems: 1
-      "cdi:locationVariant":
-        description: Geographic or locale variant
-        $ref: "#/$defs/ControlledVocabularyEntry"
-      "cdi:maxLength":
-        type: integer
-        description: Maximum display length
-      "cdi:languageSpecificString":
-        description: The label text with language tag
-        $ref: "#/$defs/LanguageString"
-
-  LanguageString:
-    type: object
-    description: "DDI-CDI language-tagged string (dt-LanguageString)"
-    properties:
-      "@type":
-        type: array
-        items:
-          type: string
-        contains:
-          const: "cdi:LanguageString"
-        minItems: 1
-      "cdi:content":
-        type: string
-        description: The text content
-      "cdi:language":
-        type: string
-        description: "ISO language code (e.g. en, fr, de)"
-    required: ["cdi:content"]
-
-  InternationalString:
-    type: object
-    description: "DDI-CDI multilingual string wrapper (dt-InternationalString)"
-    properties:
-      "@type":
-        type: array
-        items:
-          type: string
-        contains:
-          const: "cdi:InternationalString"
-        minItems: 1
-      "cdi:languageSpecificString":
-        description: Language-tagged string content
-        anyOf:
-          - $ref: "#/$defs/LanguageString"
-          - type: array
-            items:
-              $ref: "#/$defs/LanguageString"
-
-  Identifier:
-    type: object
-    description: "DDI-CDI composite identifier (dt-Identifier)"
-    properties:
-      "@type":
-        type: array
-        items:
-          type: string
-        contains:
-          const: "cdi:Identifier"
-        minItems: 1
-      "cdi:ddiIdentifier":
-        description: DDI-specific IRDI identifier
-        $ref: "#/$defs/InternationalRegistrationDataIdentifier"
-      "cdi:uri":
-        type: string
-        format: uri
-        description: URI form of the identifier
-      "cdi:nonDdiIdentifier":
-        description: Non-DDI identifier
-        anyOf:
-          - $ref: "#/$defs/NonDdiIdentifier"
-          - type: array
-            items:
-              $ref: "#/$defs/NonDdiIdentifier"
-
-  InternationalRegistrationDataIdentifier:
-    type: object
-    description: "DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)"
-    properties:
-      "@type":
-        type: array
-        items:
-          type: string
-        contains:
-          const: "cdi:InternationalRegistrationDataIdentifier"
-        minItems: 1
-      "cdi:dataIdentifier":
-        type: string
-      "cdi:registrationAuthorityIdentifier":
-        type: string
-      "cdi:versionIdentifier":
-        type: string
-    required:
-      - "cdi:dataIdentifier"
-      - "cdi:registrationAuthorityIdentifier"
-      - "cdi:versionIdentifier"
-
-  NonDdiIdentifier:
-    type: object
-    description: "Non-DDI identifier (dt-NonDdiIdentifier)"
-    properties:
-      "@type":
-        type: array
-        items:
-          type: string
-        contains:
-          const: "cdi:NonDdiIdentifier"
-        minItems: 1
-      "cdi:identifierContent":
-        type: string
-        description: The identifier value
-      "cdi:managingAgency":
-        type: string
-        description: Agency managing this identifier scheme
-    required: ["cdi:identifierContent"]
-
-  Reference:
-    type: object
-    description: "DDI-CDI reference to an entity (dt-Reference)"
-    properties:
-      "@type":
-        type: array
-        items:
-          type: string
-        contains:
-          const: "cdi:Reference"
-        minItems: 1
-      "cdi:uri":
-        type: string
-        format: uri
-        description: URI of the referenced entity
-      "cdi:description":
-        type: string
-        description: Human-readable description of the reference
-      "cdi:ddiReference":
-        description: DDI IRDI reference
-        $ref: "#/$defs/InternationalRegistrationDataIdentifier"
-      "cdi:semantic":
-        description: Semantic role of this reference
-        $ref: "#/$defs/ControlledVocabularyEntry"
-
-  ControlledVocabularyEntry:
-    type: object
-    description: "DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry)"
-    properties:
-      "@type":
-        type: array
-        items:
-          type: string
-        contains:
-          const: "cdi:ControlledVocabularyEntry"
-        minItems: 1
-      "cdi:entryValue":
-        type: string
-        description: The vocabulary code or value
-      "cdi:name":
-        type: string
-        description: Human-readable name
-      "cdi:vocabulary":
-        description: Reference to the vocabulary scheme
-        $ref: "#/$defs/Reference"
-
-  CatalogDetails:
-    type: object
-    description: "DDI-CDI administrative catalog metadata (dt-CatalogDetails)"
-    properties:
-      "@type":
-        type: array
-        items:
-          type: string
-        contains:
-          const: "cdi:CatalogDetails"
-        minItems: 1
-      "cdi:title":
-        description: Title of the cataloged resource
-        $ref: "#/$defs/InternationalString"
-      "cdi:summary":
-        description: Summary description
-        $ref: "#/$defs/InternationalString"
-      "cdi:identifier":
-        description: Identifier for catalog entry
-        type: object
-        properties:
-          "@type":
-            type: array
-            items:
-              type: string
-            contains:
-              const: "cdi:InternationalIdentifier"
-            minItems: 1
-          "cdi:identifierContent":
-            type: string
-            description: The identifier value
-          "cdi:isUri":
-            type: boolean
-            description: Whether the identifier is a URI
-      "cdi:creator":
-        description: Agent responsible for creation
-        $ref: "#/$defs/AgentInRole"
-
-  AgentInRole:
-    type: object
-    description: "DDI-CDI agent with a role (cls-AgentInRole)"
-    properties:
-      "@type":
-        type: array
-        items:
-          type: string
-        contains:
-          const: "cdi:AgentInRole"
-        minItems: 1
-      "cdi:agentName":
-        description: Name of the agent
-        $ref: "#/$defs/InternationalString"
-      "cdi:reference":
-        description: Reference to an external agent record
-        $ref: "#/$defs/Reference"
-      "cdi:role":
-        description: Role of this agent
-        $ref: "#/$defs/ControlledVocabularyEntry"
 
   ValueAndConceptDescription:
     type: object
@@ -379,16 +121,16 @@ $defs:
           - "Ratio"
       "cdi:description":
         description: Textual description of the value domain constraints
-        $ref: "#/$defs/InternationalString"
+        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/InternationalString"
       "cdi:formatPattern":
         description: Expected format pattern for values
-        $ref: "#/$defs/ControlledVocabularyEntry"
+        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry"
       "cdi:identifier":
         description: Formal identifier
-        $ref: "#/$defs/Identifier"
+        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/Identifier"
       "cdi:logicalExpression":
         description: Logical expression constraining valid values
-        $ref: "#/$defs/ControlledVocabularyEntry"
+        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry"
       "cdi:maximumValueExclusive":
         type: string
         description: Exclusive upper bound for valid values
@@ -421,7 +163,7 @@ $defs:
         description: The string content
       "cdi:typeOfContent":
         description: Type or format of the content
-        $ref: "#/$defs/ControlledVocabularyEntry"
+        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry"
 
   EnumerationDomain:
     type: object
@@ -441,31 +183,31 @@ $defs:
         description: Identifier for this enumeration domain node
       "cdi:identifier":
         description: Formal identifier
-        $ref: "#/$defs/Identifier"
+        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/Identifier"
       "cdi:name":
         description: Structured name for this enumeration domain
         anyOf:
-          - $ref: "#/$defs/ObjectName"
+          - $ref: "../ddicdiDataTypes/schema.yaml#/$defs/ObjectName"
           - type: array
             items:
-              $ref: "#/$defs/ObjectName"
+              $ref: "../ddicdiDataTypes/schema.yaml#/$defs/ObjectName"
       "cdi:purpose":
         description: Purpose of this enumeration domain
-        $ref: "#/$defs/InternationalString"
+        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/InternationalString"
       "cdi:uses":
         description: >-
           Reference to a LevelStructure that organizes the enumeration.
           @id reference only.
-        $ref: "#/$defs/id-reference"
+        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
       "cdi:isDefinedBy":
         description: >-
           References to Concepts that define the enumerated values.
           Array of @id references.
         type: array
         items:
-          $ref: "#/$defs/id-reference"
+          $ref: "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
       "cdi:references":
         description: >-
           Reference to the CategorySet providing the value categories.
           @id reference only.
-        $ref: "#/$defs/id-reference"
+        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
