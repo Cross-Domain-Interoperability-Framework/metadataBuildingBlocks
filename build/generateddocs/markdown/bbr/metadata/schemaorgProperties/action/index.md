@@ -77,29 +77,6 @@ Implementation of schema.org Action as described in blog post at https://schema.
       "schema:DataFeed"
     ],
     "schema:description": "description of the structure of the api result data",
-    "schema:variableMeasured": [
-      {
-        "@type": [
-          "schema:PropertyValue"
-        ],
-        "schema:name": "temperature",
-        "schema:description": "temperature of the sample",
-        "schema:propertyID": [
-          "http://qudt.org/defs/temperature"
-        ]
-      },
-      {
-        "@id": "ex:definedTerm_zZc",
-        "@type": [
-          "schema:PropertyValue"
-        ],
-        "schema:name": "Viscosity",
-        "schema:propertyID": [
-          "http://ogc.org/defs/g35408y"
-        ],
-        "schema:description": "a quantity expressing the magnitude of internal friction"
-      }
-    ],
     "schema:encodingFormat-input": [
       "application/json",
       "text/csv"
@@ -205,29 +182,6 @@ Implementation of schema.org Action as described in blog post at https://schema.
       "schema:DataFeed"
     ],
     "schema:description": "description of the structure of the api result data",
-    "schema:variableMeasured": [
-      {
-        "@type": [
-          "schema:PropertyValue"
-        ],
-        "schema:name": "temperature",
-        "schema:description": "temperature of the sample",
-        "schema:propertyID": [
-          "http://qudt.org/defs/temperature"
-        ]
-      },
-      {
-        "@id": "ex:definedTerm_zZc",
-        "@type": [
-          "schema:PropertyValue"
-        ],
-        "schema:name": "Viscosity",
-        "schema:propertyID": [
-          "http://ogc.org/defs/g35408y"
-        ],
-        "schema:description": "a quantity expressing the magnitude of internal friction"
-      }
-    ],
     "schema:encodingFormat-input": [
       "application/json",
       "text/csv"
@@ -290,12 +244,7 @@ ex:exampleAction_37467 a schema1:Action ;
     schema1:object [ a schema1:DataFeed ;
             schema1:description "description of the structure of the api result data" ;
             schema1:encodingFormat-input "application/json",
-                "text/csv" ;
-            schema1:variableMeasured [ a schema1:PropertyValue ;
-                    schema1:description "temperature of the sample" ;
-                    schema1:name "temperature" ;
-                    schema1:propertyID "http://qudt.org/defs/temperature" ],
-                ex:definedTerm_zZc ] ;
+                "text/csv" ] ;
     schema1:query-input ex:input_encoding,
         ex:input_end,
         ex:input_instruments,
@@ -310,11 +259,6 @@ ex:exampleAction_37467 a schema1:Action ;
             schema1:description "endpoint URL to invoke the action; content type spcifies the supported content type(s) for an EntryPoint response" ;
             schema1:httpMethod "GET" ;
             schema1:urlTemplate "http://portal.chordsrt.com/api/v1/data.{encoding}?instruments={instruments}&start={start}&end={end}" ] .
-
-ex:definedTerm_zZc a schema1:PropertyValue ;
-    schema1:description "a quantity expressing the magnitude of internal friction" ;
-    schema1:name "Viscosity" ;
-    schema1:propertyID "http://ogc.org/defs/g35408y" .
 
 ex:input_encoding a schema1:PropertyValueSpecification ;
     schema1:description "format of requested result" ;
@@ -509,7 +453,8 @@ $defs:
       - schema:description
   object_type:
     type: object
-    description: description of the data structure of the return object
+    description: Object specifies the information model for the resource that is the
+      object of the action
     properties:
       '@type':
         default: schema:DataFeed
@@ -526,12 +471,6 @@ $defs:
         items:
           type: string
         description: MIME types accepted as input encoding formats for the action.
-      schema:variableMeasured:
-        type: array
-        items:
-          $ref: '#/$defs/VariableMeasured'
-  VariableMeasured:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
 

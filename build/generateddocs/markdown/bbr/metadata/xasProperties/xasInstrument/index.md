@@ -465,11 +465,6 @@ xas:487y54 a schema1:Product,
     schema1:hasPart [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:alternateName "transmitted flux measurement method" ;
-                    schema1:name "detector mode it" ;
-                    schema1:propertyID "xas:detector.it" ;
-                    schema1:value "10cm  N2" ],
-                [ a schema1:PropertyValue ;
                     schema1:alternateName "incident flux measurement method" ;
                     schema1:name "detector mode i0" ;
                     schema1:propertyID "xas:detector.i0" ;
@@ -479,11 +474,30 @@ xas:487y54 a schema1:Product,
                     schema1:propertyID "nxs:Field/NXmonitor/preset" ;
                     schema1:value "N.A." ],
                 [ a schema1:PropertyValue ;
+                    schema1:alternateName "transmitted flux measurement method" ;
+                    schema1:name "detector mode it" ;
+                    schema1:propertyID "xas:detector.it" ;
+                    schema1:value "10cm  N2" ],
+                [ a schema1:PropertyValue ;
                     schema1:name "monitor mode" ;
                     schema1:propertyID "nxs:Field/NXmonitor/mode" ;
                     schema1:value "monitor" ] ;
             schema1:additionalType "nxs:BaseClass/NXmonitor" ;
             schema1:name "Beam monitor and detectors" ],
+        [ a schema1:Product,
+                schema1:Thing ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "X-ray source" ;
+                    schema1:propertyID "nxs:Field/NXsource/type" ;
+                    schema1:value "Synchrotron X-ray Source" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "Probe" ;
+                    schema1:propertyID "nxs:Field/NXsource/probe" ;
+                    schema1:value "x-ray" ] ;
+            schema1:additionalType "nxs:BaseClass/NXsource",
+                "wd:Q3099911" ;
+            schema1:identifier "should have a registry with URIs" ;
+            schema1:name "source of x-ray excitation for analysis. Made up for this example" ],
         [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
@@ -505,27 +519,9 @@ xas:487y54 a schema1:Product,
         [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "Probe" ;
-                    schema1:propertyID "nxs:Field/NXsource/probe" ;
-                    schema1:value "x-ray" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "X-ray source" ;
-                    schema1:propertyID "nxs:Field/NXsource/type" ;
-                    schema1:value "Synchrotron X-ray Source" ] ;
-            schema1:additionalType "nxs:BaseClass/NXsource",
-                "wd:Q3099911" ;
-            schema1:identifier "should have a registry with URIs" ;
-            schema1:name "source of x-ray excitation for analysis. Made up for this example" ],
-        [ a schema1:Product,
-                schema1:Thing ;
-            schema1:additionalProperty [ a schema1:PropertyValue ;
                     schema1:name "chemical formula" ;
                     schema1:propertyID "nxs:Field/NXcrystal/chemical_formula" ;
                     schema1:value "Si" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "crystal type" ;
-                    schema1:propertyID "nxs:Field/NXcrystal/type" ;
-                    schema1:value "channel-cut" ],
                 [ a schema1:PropertyValue ;
                     schema1:name "reflection plane (hkl)" ;
                     schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
@@ -534,7 +530,11 @@ xas:487y54 a schema1:Product,
                     schema1:name "d-spacing" ;
                     schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
                     schema1:unitText "Angstrom" ;
-                    schema1:value "3.13550" ] ;
+                    schema1:value "3.13550" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "crystal type" ;
+                    schema1:propertyID "nxs:Field/NXcrystal/type" ;
+                    schema1:value "channel-cut" ] ;
             schema1:additionalType "nxs:BaseClass/NXmonochromator",
                 "wd:Q3099911" ;
             schema1:name "Si 111" ] ;

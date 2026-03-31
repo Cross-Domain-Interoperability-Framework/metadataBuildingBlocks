@@ -819,7 +819,8 @@ x-defs:
           - schema:description
       object_type:
         type: object
-        description: description of the data structure of the return object
+        description: Object specifies the information model for the resource that
+          is the object of the action
         properties:
           '@type':
             default: schema:DataFeed
@@ -837,98 +838,9 @@ x-defs:
             items:
               type: string
             description: MIME types accepted as input encoding formats for the action.
-          schema:variableMeasured:
-            type: array
-            items:
-              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.action/$defs/VariableMeasured
-      VariableMeasured:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/action/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.variableMeasured:
-    description: Schema.org PropertyValue-based variableMeasured. Defines properties
-      for a measured variable in a dataset, typed as schema:PropertyValue.
-    type: object
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          enum:
-          - schema:PropertyValue
-        minItems: 1
-      '@id':
-        type: string
-      schema:name:
-        type: string
-        description: string label associated with the variable in the dataset serialization
-      schema:description:
-        type: string
-        default: missing
-      schema:alternateName:
-        type: array
-        items:
-          type: string
-          description: human intelligible name for variable that conveys semantics
-      schema:measurementTechnique:
-        anyOf:
-        - type: string
-        - type: object
-          properties:
-            '@id':
-              type: string
-              description: reference to a skos concept
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured/$defs/DefinedTerm
-        description: Text description or URI identifying the measurement method.
-      schema:propertyID:
-        type: array
-        items:
-          anyOf:
-          - type: string
-          - type: object
-            properties:
-              '@id':
-                type: string
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured/$defs/DefinedTerm
-        description: identifier or name for the property concept
-      schema:unitText:
-        type: string
-        description: unit of measurement as text
-      schema:unitCode:
-        anyOf:
-        - type: string
-        - type: object
-          properties:
-            '@id':
-              type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured/$defs/DefinedTerm
-        description: URI or code identifying the unit of measure
-      schema:minValue:
-        type: number
-        description: minimum numeric value in the dataset
-      schema:maxValue:
-        type: number
-        description: maximum numeric value in the dataset
-      schema:url:
-        anyOf:
-        - type: string
-          format: uri
-          description: link to a web page useful for interpreting the variable
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured/$defs/LabeledLink
-    required:
-    - '@type'
-    - schema:name
-    $defs:
-      DefinedTerm:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
-      LabeledLink:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
-    x-jsonld-prefixes:
-      schema: http://schema.org/
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
 type: object
 title: 'Core properties for CDIF metadata schema, with schema: prefixes'

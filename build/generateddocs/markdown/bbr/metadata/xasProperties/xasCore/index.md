@@ -760,13 +760,13 @@ ex:xas-dataset-001 a schema1:Dataset,
     prov:wasGeneratedBy [ schema1:object [ a schema1:Product,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "Stoichiometry" ;
-                            schema1:propertyID "xas:stoichiometry" ;
-                            schema1:value "Na2SeO4" ],
-                        [ a schema1:PropertyValue ;
                             schema1:name "sample preparation method" ;
                             schema1:propertyID "https://example.org/vocab/sample-prep" ;
-                            schema1:value "powder on tape, 6 layers" ] ;
+                            schema1:value "powder on tape, 6 layers" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "Stoichiometry" ;
+                            schema1:propertyID "xas:stoichiometry" ;
+                            schema1:value "Na2SeO4" ] ;
                     schema1:additionalType "MaterialSample",
                         "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample" ;
                     schema1:description "Sodium selenate reference compound, powder" ;
@@ -797,13 +797,13 @@ ex:xas-dataset-001 a schema1:Dataset,
                                 [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "x-ray source" ;
-                                            schema1:propertyID "nxs:Field/NXsource/type" ;
-                                            schema1:value "Synchrotron X-ray Source" ],
-                                        [ a schema1:PropertyValue ;
                                             schema1:name "Probe" ;
                                             schema1:propertyID "nxs:Field/NXsource/probe" ;
-                                            schema1:value "x-ray" ] ;
+                                            schema1:value "x-ray" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "x-ray source" ;
+                                            schema1:propertyID "nxs:Field/NXsource/type" ;
+                                            schema1:value "Synchrotron X-ray Source" ] ;
                                     schema1:additionalType "nxs:BaseClass/NXsource" ;
                                     schema1:name "APS bending magnet source" ] ;
                             schema1:name "APS Sector 20-BM beamline instrument" ] ] ] .
