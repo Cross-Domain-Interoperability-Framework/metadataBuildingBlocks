@@ -1505,7 +1505,29 @@
                               }
                             }
                           }
-                        }
+                        },
+                        "anyOf": [
+                          {
+                            "required": [
+                              "schema:name"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "schema:identifier"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "schema:geo"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "geosparql:hasGeometry"
+                            ]
+                          }
+                        ]
                       },
                       {
                         "type": "string"
@@ -2922,7 +2944,29 @@
                   }
                 }
               }
-            }
+            },
+            "anyOf": [
+              {
+                "required": [
+                  "schema:name"
+                ]
+              },
+              {
+                "required": [
+                  "schema:identifier"
+                ]
+              },
+              {
+                "required": [
+                  "schema:geo"
+                ]
+              },
+              {
+                "required": [
+                  "geosparql:hasGeometry"
+                ]
+              }
+            ]
           }
         },
         "schema:temporalCoverage": {
@@ -2960,7 +3004,19 @@
                     "format": "uri",
                     "description": "identifier for a named time ordinal era that is younger bound of time interval, e.g. 'isc:LowerDevonian' "
                   }
-                }
+                },
+                "anyOf": [
+                  {
+                    "required": [
+                      "time:intervalStartedBy"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "time:intervalFinishedBy"
+                    ]
+                  }
+                ]
               },
               {
                 "type": "object",
@@ -3035,7 +3091,12 @@
                           "time:numericPosition": {
                             "type": "number"
                           }
-                        }
+                        },
+                        "required": [
+                          "@type",
+                          "time:hasTRS",
+                          "time:numericPosition"
+                        ]
                       }
                     }
                   },
@@ -3074,11 +3135,28 @@
                           "time:numericPosition": {
                             "type": "number"
                           }
-                        }
+                        },
+                        "required": [
+                          "@type",
+                          "time:hasTRS",
+                          "time:numericPosition"
+                        ]
                       }
                     }
                   }
-                }
+                },
+                "anyOf": [
+                  {
+                    "required": [
+                      "time:hasBeginning"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "time:hasEnd"
+                    ]
+                  }
+                ]
               },
               {
                 "type": "string",
