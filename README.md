@@ -243,19 +243,19 @@ Each building block that represents a CDIF specification component declares a re
 
 | Building Block | Conformance URI |
 |---|---|
-| `cdifCore` | `https://w3id.org/cdif/core/1.0/` |
-| `CDIFDiscoveryProfile` | `https://w3id.org/cdif/discovery/1.0/` |
-| `cdifDataDescription` | `https://w3id.org/cdif/dataDescription/1.0/` |
-| `cdifArchiveDistribution` | `https://w3id.org/cdif/manifest/1.0/` |
-| `cdifProvenance` | `https://w3id.org/cdif/provenance/1.0/` |
-| `xasOptional` | `https://w3id.org/cdif/xasDiscovery/1.0/` |
-| `xasCore` | `https://w3id.org/cdif/xasCore/1.0/` |
+| `cdifCore` | `https://w3id.org/cdif/core/1.0` |
+| `CDIFDiscoveryProfile` | `https://w3id.org/cdif/discovery/1.0` |
+| `cdifDataDescription` | `https://w3id.org/cdif/data_description/1.0` |
+| `cdifArchiveDistribution` | `https://w3id.org/cdif/manifest/1.0` |
+| `cdifProvenance` | `https://w3id.org/cdif/provenance/1.0` |
+| `xasOptional` | `https://w3id.org/cdif/xasDiscovery/1.0` |
+| `xasCore` | `https://w3id.org/cdif/xasCore/1.0` |
 
 ### How it works
 
 Each building block's `schema.yaml` adds a `contains` constraint on `schema:subjectOf` → `dcterms:conformsTo` requiring its specific URI. When building blocks are composed into profiles via `allOf`, these constraints roll up automatically — the conformsTo array must include URIs for **all** constituent building blocks.
 
-For example, the **CDIFDiscoveryProfile** profile (cdifCore + discovery properties) requires conformsTo to contain both `w3id.org/cdif/core/1.0/` and `w3id.org/cdif/discovery/1.0/`.
+For example, the **CDIFDiscoveryProfile** profile (cdifCore + discovery properties) requires conformsTo to contain both `w3id.org/cdif/core/1.0` and `w3id.org/cdif/discovery/1.0`.
 
 These conformance URIs are distinct from the OGC building block identifiers (e.g., `https://w3id.org/cdif/bbr/metadata/cdifProperties/cdifCore`), which identify the building block artifacts themselves. Both may appear in a record's conformsTo array.
 

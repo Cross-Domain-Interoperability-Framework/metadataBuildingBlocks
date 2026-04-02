@@ -7,7 +7,7 @@ Profile for the schema.org implementation of the [Cross Domain Interoperability 
 - **cdifCore** -- all required and optional core metadata properties
 - **Discovery properties** (defined inline):
   - `schema:measurementTechnique` -- technique used for measurement (string or DefinedTerm)
-  - `schema:variableMeasured` -- what the dataset measures (VariableMeasured or StatisticalVariable)
+  - `schema:variableMeasured` -- what the dataset measures (VariableMeasured)
   - `schema:spatialCoverage` -- geographic extent (SpatialExtent)
   - `schema:temporalCoverage` -- temporal extent (TemporalExtent)
   - `dqv:hasQualityMeasurement` -- quality measurements (QualityMeasure)
