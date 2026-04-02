@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-03-31",
+  "dateOfLastChange": "2026-04-02",
   "link": "https://github.com/opengeospatial/bblock-template",
   "sources": [
     {
@@ -27,9 +27,6 @@
     "cdif.bbr.metadata.schemaorgProperties.agentInRole": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/agentInRole/rules.shacl"
     ],
-    "cdif.bbr.metadata.schemaorgProperties.organization": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/organization/rules.shacl"
-    ],
     "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
     ],
@@ -38,12 +35,15 @@
     ],
     "cdif.bbr.metadata.schemaorgProperties.person": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/person/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.organization": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/organization/rules.shacl"
     ]
   },
   "dependsOn": [
-    "cdif.bbr.metadata.schemaorgProperties.organization",
     "cdif.bbr.metadata.schemaorgProperties.definedTerm",
-    "cdif.bbr.metadata.schemaorgProperties.person"
+    "cdif.bbr.metadata.schemaorgProperties.person",
+    "cdif.bbr.metadata.schemaorgProperties.organization"
   ],
   "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/agentInRole/context.jsonld",
   "schema": {
@@ -106,6 +106,31 @@
           "language": "ttl",
           "code": "@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n\nex:PersonExample_zZc a schema1:Person ;\n    schema1:affiliation [ a schema1:Organization ;\n            schema1:name \"The Big Manufacturing Co.\" ] ;\n    schema1:alternateName \"Test, J. B.\" ;\n    schema1:contactPoint [ a schema1:ContactPoint ;\n            schema1:email \"joe@bmanuco.org\" ] ;\n    schema1:description \"Metadata specialist, based in Portland, Maine\" ;\n    schema1:identifier [ a schema1:PropertyValue ;\n            schema1:propertyID \"https://orcid.org\" ;\n            schema1:url \"https://orcid.org/0000-0001-2345-6789\" ;\n            schema1:value \"0000-0001-2345-6789\" ] ;\n    schema1:name \"Joe B. Test\" ;\n    schema1:sameAs \"https://ark.org/46737\",\n        \"uri:test:43737\" .\n\n[] a schema1:Role ;\n    schema1:contributor ex:PersonExample_zZc ;\n    schema1:roleName \"editor\" .\n\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/agentInRole/example_2_1.ttl"
+        }
+      ]
+    },
+    {
+      "title": "Complete agent in role example.",
+      "content": "AgentInRole instance exercising all properties: roleName (DefinedTerm with\ninDefinedTermSet and termCode), and contributor (inline Person with all\nPerson properties including affiliation, contactPoint, sameAs).",
+      "prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "exampleAgentInRoleComplete.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@type\": [\"schema:Role\"],\n  \"schema:roleName\": {\n    \"@type\": [\"schema:DefinedTerm\"],\n    \"schema:name\": \"Principal Investigator\",\n    \"schema:inDefinedTermSet\": \"https://credit.niso.org/\",\n    \"schema:termCode\": \"investigation\"\n  },\n  \"schema:contributor\": {\n    \"@id\": \"ex:PersonComplete_PI\",\n    \"@type\": [\"schema:Person\"],\n    \"schema:name\": \"Elena Volcanova\",\n    \"schema:description\": \"Volcanologist and principal investigator for the Cascades Monitoring Network\",\n    \"schema:alternateName\": \"Volcanova, E.\",\n    \"schema:identifier\": {\n      \"@type\": [\"schema:PropertyValue\"],\n      \"schema:propertyID\": \"https://orcid.org\",\n      \"schema:value\": \"0000-0003-4567-8901\",\n      \"schema:url\": \"https://orcid.org/0000-0003-4567-8901\"\n    },\n    \"schema:affiliation\": {\n      \"@type\": [\"schema:Organization\"],\n      \"schema:name\": \"USGS Cascades Volcano Observatory\",\n      \"schema:identifier\": {\n        \"@type\": [\"schema:PropertyValue\"],\n        \"schema:propertyID\": \"https://ror.org\",\n        \"schema:value\": \"035a68863\",\n        \"schema:url\": \"https://ror.org/035a68863\"\n      }\n    },\n    \"schema:contactPoint\": {\n      \"@type\": [\"schema:ContactPoint\"],\n      \"schema:email\": \"evolcanova@usgs.gov\"\n    },\n    \"schema:sameAs\": [\n      \"https://www.usgs.gov/staff-profiles/elena-volcanova\"\n    ]\n  }\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/agentInRole/example_3_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/agentInRole/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@type\": [\n    \"schema:Role\"\n  ],\n  \"schema:roleName\": {\n    \"@type\": [\n      \"schema:DefinedTerm\"\n    ],\n    \"schema:name\": \"Principal Investigator\",\n    \"schema:inDefinedTermSet\": \"https://credit.niso.org/\",\n    \"schema:termCode\": \"investigation\"\n  },\n  \"schema:contributor\": {\n    \"@id\": \"ex:PersonComplete_PI\",\n    \"@type\": [\n      \"schema:Person\"\n    ],\n    \"schema:name\": \"Elena Volcanova\",\n    \"schema:description\": \"Volcanologist and principal investigator for the Cascades Monitoring Network\",\n    \"schema:alternateName\": \"Volcanova, E.\",\n    \"schema:identifier\": {\n      \"@type\": [\n        \"schema:PropertyValue\"\n      ],\n      \"schema:propertyID\": \"https://orcid.org\",\n      \"schema:value\": \"0000-0003-4567-8901\",\n      \"schema:url\": \"https://orcid.org/0000-0003-4567-8901\"\n    },\n    \"schema:affiliation\": {\n      \"@type\": [\n        \"schema:Organization\"\n      ],\n      \"schema:name\": \"USGS Cascades Volcano Observatory\",\n      \"schema:identifier\": {\n        \"@type\": [\n          \"schema:PropertyValue\"\n        ],\n        \"schema:propertyID\": \"https://ror.org\",\n        \"schema:value\": \"035a68863\",\n        \"schema:url\": \"https://ror.org/035a68863\"\n      }\n    },\n    \"schema:contactPoint\": {\n      \"@type\": [\n        \"schema:ContactPoint\"\n      ],\n      \"schema:email\": \"evolcanova@usgs.gov\"\n    },\n    \"schema:sameAs\": [\n      \"https://www.usgs.gov/staff-profiles/elena-volcanova\"\n    ]\n  }\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/agentInRole/example_3_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n\nex:PersonComplete_PI a schema1:Person ;\n    schema1:affiliation [ a schema1:Organization ;\n            schema1:identifier [ a schema1:PropertyValue ;\n                    schema1:propertyID \"https://ror.org\" ;\n                    schema1:url \"https://ror.org/035a68863\" ;\n                    schema1:value \"035a68863\" ] ;\n            schema1:name \"USGS Cascades Volcano Observatory\" ] ;\n    schema1:alternateName \"Volcanova, E.\" ;\n    schema1:contactPoint [ a schema1:ContactPoint ;\n            schema1:email \"evolcanova@usgs.gov\" ] ;\n    schema1:description \"Volcanologist and principal investigator for the Cascades Monitoring Network\" ;\n    schema1:identifier [ a schema1:PropertyValue ;\n            schema1:propertyID \"https://orcid.org\" ;\n            schema1:url \"https://orcid.org/0000-0003-4567-8901\" ;\n            schema1:value \"0000-0003-4567-8901\" ] ;\n    schema1:name \"Elena Volcanova\" ;\n    schema1:sameAs \"https://www.usgs.gov/staff-profiles/elena-volcanova\" .\n\n[] a schema1:Role ;\n    schema1:contributor ex:PersonComplete_PI ;\n    schema1:roleName [ a schema1:DefinedTerm ;\n            schema1:inDefinedTermSet \"https://credit.niso.org/\" ;\n            schema1:name \"Principal Investigator\" ;\n            schema1:termCode \"investigation\" ] .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/agentInRole/example_3_1.ttl"
         }
       ]
     }

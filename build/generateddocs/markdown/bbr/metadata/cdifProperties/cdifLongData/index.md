@@ -105,12 +105,12 @@ Example long (narrow) data structure with delimiter and header settings.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 [] a cdi:LongStructureDataSet ;
-    cdi:hasPhysicalMapping [ cdi:formats_InstanceVariable ex:var-value ;
-            cdi:index 1 ;
-            cdi:physicalDataType "Numeric" ],
-        [ cdi:formats_InstanceVariable ex:var-descriptor ;
+    cdi:hasPhysicalMapping [ cdi:formats_InstanceVariable ex:var-descriptor ;
             cdi:index 0 ;
-            cdi:physicalDataType "String" ] ;
+            cdi:physicalDataType "String" ],
+        [ cdi:formats_InstanceVariable ex:var-value ;
+            cdi:index 1 ;
+            cdi:physicalDataType "Numeric" ] ;
     cdi:isDelimited true ;
     csvw:delimiter "," ;
     csvw:header true ;

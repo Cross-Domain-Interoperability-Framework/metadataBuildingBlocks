@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-03-31",
+  "dateOfLastChange": "2026-04-02",
   "link": "https://github.com/opengeospatial/bblock-template",
   "sources": [
     {
@@ -31,8 +31,8 @@
     "cdif.bbr.metadata.schemaorgProperties.funder": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/funder/rules.shacl"
     ],
-    "cdif.bbr.metadata.schemaorgProperties.identifier": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
+    "cdif.bbr.metadata.schemaorgProperties.person": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/person/rules.shacl"
     ],
     "cdif.bbr.metadata.schemaorgProperties.organization": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/organization/rules.shacl"
@@ -40,14 +40,14 @@
     "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
     ],
-    "cdif.bbr.metadata.schemaorgProperties.person": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/person/rules.shacl"
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
     ]
   },
   "dependsOn": [
-    "cdif.bbr.metadata.schemaorgProperties.identifier",
+    "cdif.bbr.metadata.schemaorgProperties.person",
     "cdif.bbr.metadata.schemaorgProperties.organization",
-    "cdif.bbr.metadata.schemaorgProperties.person"
+    "cdif.bbr.metadata.schemaorgProperties.identifier"
   ],
   "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/context.jsonld",
   "schema": {
@@ -85,6 +85,31 @@
           "language": "ttl",
           "code": "@prefix schema1: <http://schema.org/> .\n\n[] a schema1:MonetaryGrant ;\n    schema1:funder <https://ror.org/021nxhr62> ;\n    schema1:identifier [ a schema1:PropertyValue ;\n            schema1:propertyID \"NSF award number\" ;\n            schema1:url \"https://www.nsf.gov/awardsearch/showAward?AWD_ID=2227407\" ;\n            schema1:value \"2227407\" ] ;\n    schema1:name \"Big Bucks for Research\" .\n\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/funder/example_1_1.ttl"
+        }
+      ]
+    },
+    {
+      "title": "Complete funder example.",
+      "content": "Funder instance exercising all properties: name, description, identifier (NSF\naward), and funder (inline Organization with additionalType, ROR identifier).",
+      "prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "exampleFunderComplete.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@id\": \"ex:FunderComplete_001\",\n  \"@type\": [\"schema:MonetaryGrant\"],\n  \"schema:name\": \"Collaborative Research: Ocean Carbon Cycling and Geochemical Tracers\",\n  \"schema:description\": \"Three-year collaborative research grant supporting field campaigns and laboratory analysis of ocean carbon cycling using novel geochemical tracers\",\n  \"schema:identifier\": {\n    \"@type\": [\"schema:PropertyValue\"],\n    \"schema:propertyID\": \"NSF award number\",\n    \"schema:value\": \"2345678\",\n    \"schema:url\": \"https://www.nsf.gov/awardsearch/showAward?AWD_ID=2345678\"\n  },\n  \"schema:funder\": {\n    \"@id\": \"https://ror.org/021nxhr62\",\n    \"@type\": [\"schema:Organization\"],\n    \"schema:additionalType\": [\"schema:FundingAgency\"],\n    \"schema:name\": \"National Science Foundation\",\n    \"schema:alternateName\": \"NSF\",\n    \"schema:identifier\": {\n      \"@type\": [\"schema:PropertyValue\"],\n      \"schema:propertyID\": \"https://registry.identifiers.org/registry/ror\",\n      \"schema:value\": \"021nxhr62\",\n      \"schema:url\": \"https://ror.org/021nxhr62\"\n    }\n  }\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/funder/example_2_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@id\": \"ex:FunderComplete_001\",\n  \"@type\": [\n    \"schema:MonetaryGrant\"\n  ],\n  \"schema:name\": \"Collaborative Research: Ocean Carbon Cycling and Geochemical Tracers\",\n  \"schema:description\": \"Three-year collaborative research grant supporting field campaigns and laboratory analysis of ocean carbon cycling using novel geochemical tracers\",\n  \"schema:identifier\": {\n    \"@type\": [\n      \"schema:PropertyValue\"\n    ],\n    \"schema:propertyID\": \"NSF award number\",\n    \"schema:value\": \"2345678\",\n    \"schema:url\": \"https://www.nsf.gov/awardsearch/showAward?AWD_ID=2345678\"\n  },\n  \"schema:funder\": {\n    \"@id\": \"https://ror.org/021nxhr62\",\n    \"@type\": [\n      \"schema:Organization\"\n    ],\n    \"schema:additionalType\": [\n      \"schema:FundingAgency\"\n    ],\n    \"schema:name\": \"National Science Foundation\",\n    \"schema:alternateName\": \"NSF\",\n    \"schema:identifier\": {\n      \"@type\": [\n        \"schema:PropertyValue\"\n      ],\n      \"schema:propertyID\": \"https://registry.identifiers.org/registry/ror\",\n      \"schema:value\": \"021nxhr62\",\n      \"schema:url\": \"https://ror.org/021nxhr62\"\n    }\n  }\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/funder/example_2_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n\nex:FunderComplete_001 a schema1:MonetaryGrant ;\n    schema1:description \"Three-year collaborative research grant supporting field campaigns and laboratory analysis of ocean carbon cycling using novel geochemical tracers\" ;\n    schema1:funder <https://ror.org/021nxhr62> ;\n    schema1:identifier [ a schema1:PropertyValue ;\n            schema1:propertyID \"NSF award number\" ;\n            schema1:url \"https://www.nsf.gov/awardsearch/showAward?AWD_ID=2345678\" ;\n            schema1:value \"2345678\" ] ;\n    schema1:name \"Collaborative Research: Ocean Carbon Cycling and Geochemical Tracers\" .\n\n<https://ror.org/021nxhr62> a schema1:Organization ;\n    schema1:additionalType \"schema:FundingAgency\" ;\n    schema1:alternateName \"NSF\" ;\n    schema1:identifier [ a schema1:PropertyValue ;\n            schema1:propertyID \"https://registry.identifiers.org/registry/ror\" ;\n            schema1:url \"https://ror.org/021nxhr62\" ;\n            schema1:value \"021nxhr62\" ] ;\n    schema1:name \"National Science Foundation\" .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/funder/example_2_1.ttl"
         }
       ]
     }

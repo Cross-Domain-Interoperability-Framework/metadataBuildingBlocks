@@ -90,6 +90,119 @@ Example Funder instance.
 
 ```
 
+
+### Complete funder example.
+Funder instance exercising all properties: name, description, identifier (NSF
+award), and funder (inline Organization with additionalType, ROR identifier).
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:FunderComplete_001",
+  "@type": ["schema:MonetaryGrant"],
+  "schema:name": "Collaborative Research: Ocean Carbon Cycling and Geochemical Tracers",
+  "schema:description": "Three-year collaborative research grant supporting field campaigns and laboratory analysis of ocean carbon cycling using novel geochemical tracers",
+  "schema:identifier": {
+    "@type": ["schema:PropertyValue"],
+    "schema:propertyID": "NSF award number",
+    "schema:value": "2345678",
+    "schema:url": "https://www.nsf.gov/awardsearch/showAward?AWD_ID=2345678"
+  },
+  "schema:funder": {
+    "@id": "https://ror.org/021nxhr62",
+    "@type": ["schema:Organization"],
+    "schema:additionalType": ["schema:FundingAgency"],
+    "schema:name": "National Science Foundation",
+    "schema:alternateName": "NSF",
+    "schema:identifier": {
+      "@type": ["schema:PropertyValue"],
+      "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+      "schema:value": "021nxhr62",
+      "schema:url": "https://ror.org/021nxhr62"
+    }
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:FunderComplete_001",
+  "@type": [
+    "schema:MonetaryGrant"
+  ],
+  "schema:name": "Collaborative Research: Ocean Carbon Cycling and Geochemical Tracers",
+  "schema:description": "Three-year collaborative research grant supporting field campaigns and laboratory analysis of ocean carbon cycling using novel geochemical tracers",
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": "NSF award number",
+    "schema:value": "2345678",
+    "schema:url": "https://www.nsf.gov/awardsearch/showAward?AWD_ID=2345678"
+  },
+  "schema:funder": {
+    "@id": "https://ror.org/021nxhr62",
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:additionalType": [
+      "schema:FundingAgency"
+    ],
+    "schema:name": "National Science Foundation",
+    "schema:alternateName": "NSF",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+      "schema:value": "021nxhr62",
+      "schema:url": "https://ror.org/021nxhr62"
+    }
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+
+ex:FunderComplete_001 a schema1:MonetaryGrant ;
+    schema1:description "Three-year collaborative research grant supporting field campaigns and laboratory analysis of ocean carbon cycling using novel geochemical tracers" ;
+    schema1:funder <https://ror.org/021nxhr62> ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "NSF award number" ;
+            schema1:url "https://www.nsf.gov/awardsearch/showAward?AWD_ID=2345678" ;
+            schema1:value "2345678" ] ;
+    schema1:name "Collaborative Research: Ocean Carbon Cycling and Geochemical Tracers" .
+
+<https://ror.org/021nxhr62> a schema1:Organization ;
+    schema1:additionalType "schema:FundingAgency" ;
+    schema1:alternateName "NSF" ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "https://registry.identifiers.org/registry/ror" ;
+            schema1:url "https://ror.org/021nxhr62" ;
+            schema1:value "021nxhr62" ] ;
+    schema1:name "National Science Foundation" .
+
+
+```
+
 ## Schema
 
 ```yaml

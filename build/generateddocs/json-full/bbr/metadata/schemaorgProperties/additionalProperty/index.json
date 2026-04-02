@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-03-31",
+  "dateOfLastChange": "2026-04-02",
   "link": "https://github.com/opengeospatial/bblock-template",
   "sources": [
     {
@@ -74,6 +74,31 @@
           "language": "ttl",
           "code": "@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n\nex:exampleAdditionalProperty_lkj09 a schema1:PropertyValue ;\n    schema1:name \"example additional property\" ;\n    schema1:propertyID ex:addPropdefinedTerm_zZc,\n        \"nxs:Field/NXsource/probe\" ;\n    schema1:value \"x-ray\" .\n\nex:addPropIDPropertyValue_53yh a schema1:PropertyValue ;\n    schema1:propertyID \"https://purl.org/nexusformat/definitions/Field/NXsource/probe\" ;\n    schema1:url \"https://purl.org/nexusformat/definitions/Field/NXsource/probe\" .\n\nex:addPropdefinedTerm_zZc a schema1:DefinedTerm ;\n    schema1:identifier ex:addPropIDPropertyValue_53yh ;\n    schema1:inDefinedTermSet \"http://ogc.org/defs\" ;\n    schema1:name \"probe\" .\n\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/additionalProperty/example_1_1.ttl"
+        }
+      ]
+    },
+    {
+      "title": "Complete additional property example.",
+      "content": "AdditionalProperty instance exercising all properties: propertyID (string and\nDefinedTerm), name, value, unitCode (DefinedTerm), and unitText.",
+      "prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "exampleAdditionalPropertyComplete.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@id\": \"ex:additionalPropertyComplete_001\",\n  \"@type\": [\"schema:PropertyValue\"],\n  \"schema:propertyID\": [\n    \"ex:samplePreparationMethod\",\n    {\n      \"@type\": [\"schema:DefinedTerm\"],\n      \"schema:name\": \"Sample Preparation Method\",\n      \"schema:identifier\": {\n        \"@type\": [\"schema:PropertyValue\"],\n        \"schema:propertyID\": \"https://vocab.nerc.ac.uk/collection/Q01/current/\",\n        \"schema:value\": \"Q0100002\",\n        \"schema:url\": \"https://vocab.nerc.ac.uk/collection/Q01/current/Q0100002/\"\n      },\n      \"schema:inDefinedTermSet\": \"https://vocab.nerc.ac.uk/collection/Q01/current/\"\n    }\n  ],\n  \"schema:name\": \"Sample preparation method\",\n  \"schema:value\": \"acid digestion with HF-HNO3\",\n  \"schema:unitCode\": {\n    \"@type\": [\"schema:DefinedTerm\"],\n    \"schema:name\": \"not applicable\",\n    \"schema:termCode\": \"NA\"\n  },\n  \"schema:unitText\": \"not applicable\"\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/additionalProperty/example_2_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@id\": \"ex:additionalPropertyComplete_001\",\n  \"@type\": [\n    \"schema:PropertyValue\"\n  ],\n  \"schema:propertyID\": [\n    \"ex:samplePreparationMethod\",\n    {\n      \"@type\": [\n        \"schema:DefinedTerm\"\n      ],\n      \"schema:name\": \"Sample Preparation Method\",\n      \"schema:identifier\": {\n        \"@type\": [\n          \"schema:PropertyValue\"\n        ],\n        \"schema:propertyID\": \"https://vocab.nerc.ac.uk/collection/Q01/current/\",\n        \"schema:value\": \"Q0100002\",\n        \"schema:url\": \"https://vocab.nerc.ac.uk/collection/Q01/current/Q0100002/\"\n      },\n      \"schema:inDefinedTermSet\": \"https://vocab.nerc.ac.uk/collection/Q01/current/\"\n    }\n  ],\n  \"schema:name\": \"Sample preparation method\",\n  \"schema:value\": \"acid digestion with HF-HNO3\",\n  \"schema:unitCode\": {\n    \"@type\": [\n      \"schema:DefinedTerm\"\n    ],\n    \"schema:name\": \"not applicable\",\n    \"schema:termCode\": \"NA\"\n  },\n  \"schema:unitText\": \"not applicable\"\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/additionalProperty/example_2_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n\nex:additionalPropertyComplete_001 a schema1:PropertyValue ;\n    schema1:name \"Sample preparation method\" ;\n    schema1:propertyID [ a schema1:DefinedTerm ;\n            schema1:identifier [ a schema1:PropertyValue ;\n                    schema1:propertyID \"https://vocab.nerc.ac.uk/collection/Q01/current/\" ;\n                    schema1:url \"https://vocab.nerc.ac.uk/collection/Q01/current/Q0100002/\" ;\n                    schema1:value \"Q0100002\" ] ;\n            schema1:inDefinedTermSet \"https://vocab.nerc.ac.uk/collection/Q01/current/\" ;\n            schema1:name \"Sample Preparation Method\" ],\n        \"ex:samplePreparationMethod\" ;\n    schema1:unitCode [ a schema1:DefinedTerm ;\n            schema1:name \"not applicable\" ;\n            schema1:termCode \"NA\" ] ;\n    schema1:unitText \"not applicable\" ;\n    schema1:value \"acid digestion with HF-HNO3\" .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/additionalProperty/example_2_1.ttl"
         }
       ]
     }

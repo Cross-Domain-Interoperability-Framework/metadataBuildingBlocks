@@ -212,6 +212,217 @@ Defintion of properties to describe file-based distribution of a resource on the
 
 ```
 
+
+### Complete data download example.
+DataDownload instance exercising all properties: name, description, contentUrl,
+encodingFormat (multiple), spdx:checksum (SHA256), provider (Person and Organization),
+and dcterms:conformsTo (multiple).
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "dcterms": "http://purl.org/dc/terms/"
+  },
+  "@id": "ex:DataDownloadComplete_001",
+  "@type": ["schema:DataDownload"],
+  "schema:name": "Arctic Sea Ice Extent Monthly Averages 1979-2024",
+  "schema:description": "CSV file containing monthly average Arctic sea ice extent values derived from satellite passive microwave observations. Columns include date, extent in million km², and anomaly from 1981-2010 mean.",
+  "schema:contentUrl": "https://data.example.org/sea-ice/arctic-monthly-extent-1979-2024.csv",
+  "schema:encodingFormat": ["text/csv", "application/zip"],
+  "spdx:checksum": {
+    "@type": ["spdx:Checksum"],
+    "spdx:algorithm": "SHA256",
+    "spdx:checksumValue": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "schema:provider": [
+    {
+      "@id": "https://orcid.org/0000-0002-5678-1234",
+      "@type": ["schema:Person"],
+      "schema:name": "Maria Icewatch",
+      "schema:affiliation": {
+        "@type": ["schema:Organization"],
+        "schema:name": "National Snow and Ice Data Center",
+        "schema:identifier": {
+          "@type": ["schema:PropertyValue"],
+          "schema:propertyID": "https://ror.org",
+          "schema:value": "0559x5c32",
+          "schema:url": "https://ror.org/0559x5c32"
+        }
+      },
+      "schema:contactPoint": {
+        "@type": ["schema:ContactPoint"],
+        "schema:email": "data@nsidc.org"
+      },
+      "schema:identifier": {
+        "@type": ["schema:PropertyValue"],
+        "schema:propertyID": "https://orcid.org",
+        "schema:value": "0000-0002-5678-1234",
+        "schema:url": "https://orcid.org/0000-0002-5678-1234"
+      }
+    },
+    {
+      "@type": ["schema:Organization"],
+      "schema:name": "National Snow and Ice Data Center",
+      "schema:identifier": {
+        "@type": ["schema:PropertyValue"],
+        "schema:propertyID": "https://ror.org",
+        "schema:value": "0559x5c32",
+        "schema:url": "https://ror.org/0559x5c32"
+      }
+    }
+  ],
+  "dcterms:conformsTo": [
+    {"@id": "https://www.ietf.org/rfc/rfc4180.txt"},
+    {"@id": "https://www.w3.org/TR/tabular-data-primer/"}
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "spdx": "http://spdx.org/rdf/terms#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "ex": "https://example.org/",
+      "spdx": "http://spdx.org/rdf/terms#",
+      "dcterms": "http://purl.org/dc/terms/"
+    }
+  ],
+  "@id": "ex:DataDownloadComplete_001",
+  "@type": [
+    "schema:DataDownload"
+  ],
+  "schema:name": "Arctic Sea Ice Extent Monthly Averages 1979-2024",
+  "schema:description": "CSV file containing monthly average Arctic sea ice extent values derived from satellite passive microwave observations. Columns include date, extent in million km\u00b2, and anomaly from 1981-2010 mean.",
+  "schema:contentUrl": "https://data.example.org/sea-ice/arctic-monthly-extent-1979-2024.csv",
+  "schema:encodingFormat": [
+    "text/csv",
+    "application/zip"
+  ],
+  "spdx:checksum": {
+    "@type": [
+      "spdx:Checksum"
+    ],
+    "spdx:algorithm": "SHA256",
+    "spdx:checksumValue": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "schema:provider": [
+    {
+      "@id": "https://orcid.org/0000-0002-5678-1234",
+      "@type": [
+        "schema:Person"
+      ],
+      "schema:name": "Maria Icewatch",
+      "schema:affiliation": {
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "National Snow and Ice Data Center",
+        "schema:identifier": {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": "https://ror.org",
+          "schema:value": "0559x5c32",
+          "schema:url": "https://ror.org/0559x5c32"
+        }
+      },
+      "schema:contactPoint": {
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "schema:email": "data@nsidc.org"
+      },
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "https://orcid.org",
+        "schema:value": "0000-0002-5678-1234",
+        "schema:url": "https://orcid.org/0000-0002-5678-1234"
+      }
+    },
+    {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "National Snow and Ice Data Center",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "https://ror.org",
+        "schema:value": "0559x5c32",
+        "schema:url": "https://ror.org/0559x5c32"
+      }
+    }
+  ],
+  "dcterms:conformsTo": [
+    {
+      "@id": "https://www.ietf.org/rfc/rfc4180.txt"
+    },
+    {
+      "@id": "https://www.w3.org/TR/tabular-data-primer/"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+@prefix spdx: <http://spdx.org/rdf/terms#> .
+
+ex:DataDownloadComplete_001 a schema1:DataDownload ;
+    dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180.txt>,
+        <https://www.w3.org/TR/tabular-data-primer/> ;
+    schema1:contentUrl "https://data.example.org/sea-ice/arctic-monthly-extent-1979-2024.csv" ;
+    schema1:description "CSV file containing monthly average Arctic sea ice extent values derived from satellite passive microwave observations. Columns include date, extent in million km², and anomaly from 1981-2010 mean." ;
+    schema1:encodingFormat "application/zip",
+        "text/csv" ;
+    schema1:name "Arctic Sea Ice Extent Monthly Averages 1979-2024" ;
+    schema1:provider [ a schema1:Organization ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "https://ror.org" ;
+                    schema1:url "https://ror.org/0559x5c32" ;
+                    schema1:value "0559x5c32" ] ;
+            schema1:name "National Snow and Ice Data Center" ],
+        <https://orcid.org/0000-0002-5678-1234> ;
+    spdx:checksum [ a spdx:Checksum ;
+            spdx:algorithm "SHA256" ;
+            spdx:checksumValue "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" ] .
+
+<https://orcid.org/0000-0002-5678-1234> a schema1:Person ;
+    schema1:affiliation [ a schema1:Organization ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "https://ror.org" ;
+                    schema1:url "https://ror.org/0559x5c32" ;
+                    schema1:value "0559x5c32" ] ;
+            schema1:name "National Snow and Ice Data Center" ] ;
+    schema1:contactPoint [ a schema1:ContactPoint ;
+            schema1:email "data@nsidc.org" ] ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "https://orcid.org" ;
+            schema1:url "https://orcid.org/0000-0002-5678-1234" ;
+            schema1:value "0000-0002-5678-1234" ] ;
+    schema1:name "Maria Icewatch" .
+
+
+```
+
 ## Schema
 
 ```yaml

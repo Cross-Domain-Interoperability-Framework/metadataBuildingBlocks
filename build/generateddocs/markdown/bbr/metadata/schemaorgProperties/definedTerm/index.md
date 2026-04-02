@@ -89,6 +89,80 @@ ex:definedTerm_zZc a schema1:DefinedTerm ;
 
 ```
 
+
+### Complete defined term example.
+DefinedTerm instance exercising all properties: name, identifier (structured),
+inDefinedTermSet, and termCode.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:definedTermComplete_001",
+  "@type": ["schema:DefinedTerm"],
+  "schema:name": "Marine Sediment Geochemistry",
+  "schema:identifier": {
+    "@type": ["schema:PropertyValue"],
+    "schema:propertyID": "https://vocab.nerc.ac.uk/collection/P02/current/",
+    "schema:value": "MSDG",
+    "schema:url": "https://vocab.nerc.ac.uk/collection/P02/current/MSDG/"
+  },
+  "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/P02/current/",
+  "schema:termCode": "MSDG"
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:definedTermComplete_001",
+  "@type": [
+    "schema:DefinedTerm"
+  ],
+  "schema:name": "Marine Sediment Geochemistry",
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": "https://vocab.nerc.ac.uk/collection/P02/current/",
+    "schema:value": "MSDG",
+    "schema:url": "https://vocab.nerc.ac.uk/collection/P02/current/MSDG/"
+  },
+  "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/P02/current/",
+  "schema:termCode": "MSDG"
+}
+```
+
+#### ttl
+```ttl
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+
+ex:definedTermComplete_001 a schema1:DefinedTerm ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "https://vocab.nerc.ac.uk/collection/P02/current/" ;
+            schema1:url "https://vocab.nerc.ac.uk/collection/P02/current/MSDG/" ;
+            schema1:value "MSDG" ] ;
+    schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
+    schema1:name "Marine Sediment Geochemistry" ;
+    schema1:termCode "MSDG" .
+
+
+```
+
 ## Schema
 
 ```yaml

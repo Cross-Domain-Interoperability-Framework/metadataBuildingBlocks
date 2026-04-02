@@ -1,0 +1,57 @@
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:ActionComplete_001 a schema1:SearchAction ;
+    schema1:name "Search and Download Geochemical Data" ;
+    schema1:object [ a schema1:DataFeed ;
+            schema1:description "Geochemical analysis database containing major and trace element concentrations from rock and sediment samples" ;
+            schema1:encodingFormat-input "application/json" ] ;
+    schema1:query-input ex:input_element,
+        ex:input_end_date,
+        ex:input_format,
+        ex:input_sample_type,
+        ex:input_start_date ;
+    schema1:result [ a schema1:DataDownload ;
+            schema1:description "Tabular geochemical analysis results with sample metadata, element concentrations, and measurement uncertainties" ;
+            schema1:encodingFormat "application/json",
+                "text/csv" ] ;
+    schema1:target [ a schema1:EntryPoint ;
+            schema1:contentType "application/json",
+                "application/xml",
+                "text/csv" ;
+            schema1:description "REST endpoint for querying geochemical analysis results by element, sample type, and date range" ;
+            schema1:httpMethod "GET",
+                "POST" ;
+            schema1:urlTemplate "https://geochem.example.org/api/v2/analyses?element={element}&sample_type={sample_type}&start={start_date}&end={end_date}&format={format}" ] .
+
+ex:input_element a schema1:PropertyValueSpecification ;
+    schema1:description "Chemical element symbol or comma-separated list of elements to query (e.g., Fe, Si, Al)" ;
+    schema1:valueName "element" ;
+    schema1:valuePattern "^[A-Z][a-z]?(,[A-Z][a-z]?)*$" ;
+    schema1:valueRequired true .
+
+ex:input_end_date a schema1:PropertyValueSpecification ;
+    schema1:description "End date for analysis date range filter in ISO 8601 format" ;
+    schema1:valueName "end_date" ;
+    schema1:valuePattern "^\\d{4}-\\d{2}-\\d{2}$" ;
+    schema1:valueRequired false .
+
+ex:input_format a schema1:PropertyValueSpecification ;
+    schema1:description "Desired output format for query results" ;
+    schema1:valueName "format" ;
+    schema1:valuePattern "^(json|csv|xml)$" ;
+    schema1:valueRequired false .
+
+ex:input_sample_type a schema1:PropertyValueSpecification ;
+    schema1:description "Type of sample material (e.g., rock, sediment, soil, water)" ;
+    schema1:valueName "sample_type" ;
+    schema1:valuePattern "^[a-z]+$" ;
+    schema1:valueRequired false .
+
+ex:input_start_date a schema1:PropertyValueSpecification ;
+    schema1:description "Start date for analysis date range filter in ISO 8601 format" ;
+    schema1:valueName "start_date" ;
+    schema1:valuePattern "^\\d{4}-\\d{2}-\\d{2}$" ;
+    schema1:valueRequired false .
+

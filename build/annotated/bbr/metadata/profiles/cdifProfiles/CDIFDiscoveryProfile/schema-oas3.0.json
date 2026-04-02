@@ -763,130 +763,6 @@
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.json",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
-    "cdif.bbr.metadata.schemaorgProperties.statisticalVariable": {
-      "description": "A statistical variable description using schema.org/StatisticalVariable. Defines a variable that represents a statistical measure, such as median income or unemployment rate.",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:StatisticalVariable"
-            ]
-          },
-          "minItems": 1
-        },
-        "@id": {
-          "type": "string"
-        },
-        "schema:name": {
-          "type": "string",
-          "description": "string label for the statistical variable"
-        },
-        "schema:description": {
-          "type": "string"
-        },
-        "schema:alternateName": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "description": "human intelligible name for variable that conveys semantics"
-          }
-        },
-        "schema:measurementTechnique": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string",
-                  "description": "reference to a skos concept"
-                }
-              }
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDiscoveryProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.statisticalVariable/$defs/DefinedTerm"
-            }
-          ],
-          "description": "Text description or URI identifying the measurement method."
-        },
-        "schema:statType": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              }
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDiscoveryProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.statisticalVariable/$defs/DefinedTerm"
-            }
-          ]
-        },
-        "schema:measuredProperty": {
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "reference to a skos concept for the property"
-            },
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "schema:Property"
-                ]
-              },
-              "minItems": 1
-            },
-            "schema:name": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "type": "string"
-                    }
-                  }
-                },
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDiscoveryProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.statisticalVariable/$defs/DefinedTerm"
-                }
-              ]
-            }
-          }
-        }
-      },
-      "required": [
-        "@type",
-        "schema:name",
-        "schema:measuredProperty"
-      ],
-      "$defs": {
-        "DefinedTerm": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDiscoveryProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm_1"
-        }
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
     "cdif.bbr.metadata.schemaorgProperties.spatialExtent": {
       "description": "Spatial Extent description for CDIF discovery profile.  Note required prefix declaration for geoSparql ( http://www.opengis.net/ont/geosparql#) and OGC simple features (sf: http://www.opengis.net/ont/sf#)",
       "type": "object",
@@ -2582,14 +2458,7 @@
           "description": "What does the dataset measure? (e.g., temperature, pressure)",
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDiscoveryProfile/schema-oas3.0.json#/$defs/VariableMeasured"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDiscoveryProfile/schema-oas3.0.json#/$defs/StatisticalVariable"
-              }
-            ]
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDiscoveryProfile/schema-oas3.0.json#/$defs/VariableMeasured"
           }
         },
         "schema:spatialCoverage": {
@@ -2638,9 +2507,6 @@
     },
     "VariableMeasured": {
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDiscoveryProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured"
-    },
-    "StatisticalVariable": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDiscoveryProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.statisticalVariable"
     },
     "SpatialExtent": {
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDiscoveryProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent"

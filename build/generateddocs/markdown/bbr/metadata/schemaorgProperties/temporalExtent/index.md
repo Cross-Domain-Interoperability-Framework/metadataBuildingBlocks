@@ -12,6 +12,8 @@ Schema defining metadata elements to document the temporal extent applicable to 
 ## Temporal extent properties
 
 Defines a set of properties for use describing a the temporal extent related to a resource, for the schema.org implementation of the [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) discovery profile. The schema allows a string value (consistent with expected type for schema.org temporalCoverage), or use of w3c time temporalInterval. The temporalInterval implemenation adds a schema:description property to allow text description of the interval, including information about determination method and uncertainty. 
+
+If a document declares conformance with a profile that includes a schema:temporalCoverage property, and a schema:temporalCoverage property is present in the document, the processor should look for an ISO8601 string value, or a  time:ProperInterval object, and if that's present, then look for a description (string), or either time:intervalStartedBy/intervalEndedBy (with URIs that mean something) or time:hasBeginning/hasEnd, with numeric values and a reference system so they know how to interpret the values.  Lots of other owl time elements might be floating around, and if the processor is inclined, they might try and do something with those, but by default they just ignore them. If a temporalCoverage value object is not rdf:typed time:ProperInterval, the json validator will throw an error. Currently there isn't a regex in the schema to test ISO8601 conformance for the string, so any string will validate.
 ## Examples
 
 ### Example Temporal extent.
@@ -116,6 +118,111 @@ Example temporal extent instance, interval defined by time positions in m.y.b.p.
             time:inTimePosition [ a time:TimePosition ;
                     time:hasTRS "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime" ;
                     time:numericPosition 29 ] ] .
+
+
+```
+
+
+### Complete temporal extent example.
+Temporal extent instance exercising all properties across the ordinal era
+and numeric age options: description, intervalStartedBy, intervalFinishedBy,
+hasBeginning/hasEnd with TimePosition (hasTRS, numericPosition).
+#### json
+```json
+{
+  "@context": {
+    "time": "http://www.w3.org/2006/time#",
+    "schema": "http://schema.org/"
+  },
+  "@type": ["time:ProperInterval"],
+  "schema:description": "Late Cretaceous to early Paleogene interval, approximately 72 to 56 million years before present",
+  "time:intervalStartedBy": "http://resource.geosciml.org/classifier/ics/ischart/Maastrichtian",
+  "time:intervalFinishedBy": "http://resource.geosciml.org/classifier/ics/ischart/Thanetian",
+  "time:hasBeginning": {
+    "@type": ["time:Instant"],
+    "time:inTimePosition": {
+      "@type": ["time:TimePosition"],
+      "time:hasTRS": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime",
+      "time:numericPosition": 72.1
+    }
+  },
+  "time:hasEnd": {
+    "@type": ["time:Instant"],
+    "time:inTimePosition": {
+      "@type": ["time:TimePosition"],
+      "time:hasTRS": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime",
+      "time:numericPosition": 56.0
+    }
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "time": "http://www.w3.org/2006/time#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/temporalExtent/context.jsonld",
+    {
+      "time": "http://www.w3.org/2006/time#",
+      "schema": "http://schema.org/"
+    }
+  ],
+  "@type": [
+    "time:ProperInterval"
+  ],
+  "schema:description": "Late Cretaceous to early Paleogene interval, approximately 72 to 56 million years before present",
+  "time:intervalStartedBy": "http://resource.geosciml.org/classifier/ics/ischart/Maastrichtian",
+  "time:intervalFinishedBy": "http://resource.geosciml.org/classifier/ics/ischart/Thanetian",
+  "time:hasBeginning": {
+    "@type": [
+      "time:Instant"
+    ],
+    "time:inTimePosition": {
+      "@type": [
+        "time:TimePosition"
+      ],
+      "time:hasTRS": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime",
+      "time:numericPosition": 72.1
+    }
+  },
+  "time:hasEnd": {
+    "@type": [
+      "time:Instant"
+    ],
+    "time:inTimePosition": {
+      "@type": [
+        "time:TimePosition"
+      ],
+      "time:hasTRS": "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime",
+      "time:numericPosition": 56.0
+    }
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix schema1: <http://schema.org/> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] a time:ProperInterval ;
+    schema1:description "Late Cretaceous to early Paleogene interval, approximately 72 to 56 million years before present" ;
+    time:hasBeginning [ a time:Instant ;
+            time:inTimePosition [ a time:TimePosition ;
+                    time:hasTRS "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime" ;
+                    time:numericPosition 7.21e+01 ] ] ;
+    time:hasEnd [ a time:Instant ;
+            time:inTimePosition [ a time:TimePosition ;
+                    time:hasTRS "http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime" ;
+                    time:numericPosition 5.6e+01 ] ] ;
+    time:intervalFinishedBy "http://resource.geosciml.org/classifier/ics/ischart/Thanetian" ;
+    time:intervalStartedBy "http://resource.geosciml.org/classifier/ics/ischart/Maastrichtian" .
 
 
 ```

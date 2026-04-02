@@ -979,13 +979,13 @@ ex:component-gas-chromatograph a schema1:Product,
             schema1:unitText "mL/min" ;
             schema1:value 1.5e+00 ],
         [ a schema1:PropertyValue ;
-            schema1:name "Carrier gas" ;
-            schema1:propertyID "carrierGas" ;
-            schema1:value "Helium" ],
-        [ a schema1:PropertyValue ;
             schema1:name "Column" ;
             schema1:propertyID "columnType" ;
-            schema1:value "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard" ] ;
+            schema1:value "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Carrier gas" ;
+            schema1:propertyID "carrierGas" ;
+            schema1:value "Helium" ] ;
     schema1:additionalType "wd:Q848143" ;
     schema1:description "GC with Rtx-5ms (5% diphenyl / 95% dimethyl polysiloxane) fused silica capillary column, 30 m × 0.250 mm × 0.50 µm, with 5 m × 0.250 mm guard column. Helium carrier gas at 1.500 mL/min." ;
     schema1:manufacturer [ a schema1:Organization ;
@@ -1002,14 +1002,14 @@ ex:component-mass-spectrometer a schema1:Product,
             schema1:unitText "s" ;
             schema1:value 1e-01 ],
         [ a schema1:PropertyValue ;
+            schema1:name "Detector gain" ;
+            schema1:propertyID "detectorGain" ;
+            schema1:value 100000 ],
+        [ a schema1:PropertyValue ;
             schema1:name "Ion source temperature" ;
             schema1:propertyID "ionSourceTemperature" ;
             schema1:unitText "°C" ;
-            schema1:value 300 ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Detector gain" ;
-            schema1:propertyID "detectorGain" ;
-            schema1:value 100000 ] ;
+            schema1:value 300 ] ;
     schema1:additionalType "wd:Q180809" ;
     schema1:description "TSQ triple-quadrupole MS operated in EI mode, positive polarity, with simultaneous full scan (m/z 50-500) and timed SRM/MRM capability targeting 38 organic compounds." ;
     schema1:identifier [ a schema1:PropertyValue ;
@@ -1024,15 +1024,15 @@ ex:component-mass-spectrometer a schema1:Product,
 ex:component-pyrolysis-oven a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Maximum temperature" ;
-            schema1:propertyID "maxTemperature" ;
-            schema1:unitText "°C" ;
-            schema1:value 1300 ],
-        [ a schema1:PropertyValue ;
             schema1:name "Maximum heating rate" ;
             schema1:propertyID "heatingRate" ;
             schema1:unitText "°C/ms" ;
-            schema1:value 10 ] ;
+            schema1:value 10 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Maximum temperature" ;
+            schema1:propertyID "maxTemperature" ;
+            schema1:unitText "°C" ;
+            schema1:value 1300 ] ;
     schema1:additionalType "wd:Q3099911" ;
     schema1:description "Flash pyrolysis front-end interface coupled to GC-MS. Flash heats at 10°C/ms to temperatures up to 1300°C. Samples loaded in quartz tubes." ;
     schema1:manufacturer [ a schema1:Organization ;
@@ -1044,14 +1044,14 @@ ex:component-pyrolysis-oven a schema1:Product,
 ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "Measured variables" ;
+            schema1:propertyID "MeasuredVariable" ;
+            schema1:value "mass-to-charge ratio (m/z); ion abundance; retention time" ],
+        [ a schema1:PropertyValue ;
             schema1:name "Full scan detection limit" ;
             schema1:propertyID "detectionLimit" ;
             schema1:unitText "ng" ;
             schema1:value "sub-nanogram" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Ionization mode" ;
-            schema1:propertyID "ionizationMode" ;
-            schema1:value "Electron Ionization (EI), positive polarity" ],
         [ a schema1:PropertyValue ;
             schema1:name "MRM target compounds" ;
             schema1:propertyID "mrmCapability" ;
@@ -1061,34 +1061,34 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
             schema1:propertyID "scanRange" ;
             schema1:value "50-500" ],
         [ a schema1:PropertyValue ;
-            schema1:name "Measured variables" ;
-            schema1:propertyID "MeasuredVariable" ;
-            schema1:value "mass-to-charge ratio (m/z); ion abundance; retention time" ] ;
+            schema1:name "Ionization mode" ;
+            schema1:propertyID "ionizationMode" ;
+            schema1:value "Electron Ionization (EI), positive polarity" ] ;
     schema1:additionalType "wd:Q3099911",
         "wd:Q420427" ;
     schema1:alternateName "GSFC Astrobiology Lab Pyrolysis GC-MS System",
         "Py-GC-MS/MS" ;
     schema1:category [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+            schema1:name "Pyrolysis Gas Chromatography Mass Spectrometry" ;
+            schema1:termCode "Py-GC-MS" ],
+        [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "https://vocab.nerc.ac.uk/collection/L05/current/" ;
                     schema1:url "https://vocab.nerc.ac.uk/collection/L05/current/LAB02/" ;
                     schema1:value "LAB02" ] ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
             schema1:name "Gas Chromatography Mass Spectrometry" ;
-            schema1:termCode "GCMS" ],
-        [ a schema1:DefinedTerm ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
-            schema1:name "Pyrolysis Gas Chromatography Mass Spectrometry" ;
-            schema1:termCode "Py-GC-MS" ] ;
+            schema1:termCode "GCMS" ] ;
     schema1:contributor [ a schema1:Role ;
+            schema1:contributor <https://orcid.org/0000-0001-8898-3457> ;
+            schema1:roleName "Operator" ],
+        [ a schema1:Role ;
             schema1:contributor <https://orcid.org/0000-0002-4805-7062> ;
             schema1:roleName [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://credit.niso.org/" ;
                     schema1:name "Principal Investigator" ;
-                    schema1:termCode "investigation" ] ],
-        [ a schema1:Role ;
-            schema1:contributor <https://orcid.org/0000-0001-8898-3457> ;
-            schema1:roleName "Operator" ] ;
+                    schema1:termCode "investigation" ] ] ;
     schema1:description "Integrated pyrolysis-gas chromatography-tandem mass spectrometry instrument system used for characterization of complex organic mixtures in bulk solid samples. Combines a flash pyrolysis front-end (up to 1300°C at 10°C/ms) with gas chromatographic separation and triple-quadrupole mass spectrometry with simultaneous full scan and timed SRM/MRM acquisition. Primary application: direct microanalysis of extraterrestrial materials without chemical pretreatment." ;
     schema1:hasPart ex:component-gas-chromatograph,
         ex:component-mass-spectrometer,
@@ -1117,11 +1117,11 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
     schema1:name "Pyrolysis-GC-MS/MS System (NASA GSFC Astrobiology Analytical Lab)" ;
     schema1:owner <https://ror.org/0171mag52> ;
     schema1:relatedLink [ a schema1:CreativeWork ;
-            schema1:name "Dworkin et al. (2024) — Organic compounds in asteroid Bennu samples" ;
-            schema1:url "https://doi.org/10.1038/s41586-024-08335-1" ],
-        [ a schema1:CreativeWork ;
             schema1:name "2023 annual calibration report" ;
             schema1:url "https://example.org/calibration/pygcms-gsfc-2023.pdf" ],
+        [ a schema1:CreativeWork ;
+            schema1:name "Dworkin et al. (2024) — Organic compounds in asteroid Bennu samples" ;
+            schema1:url "https://doi.org/10.1038/s41586-024-08335-1" ],
         [ a schema1:CreativeWork ;
             schema1:description "User manual for the TSQ 9000 triple quadrupole GC-MS/MS system" ;
             schema1:name "TSQ 9000 User Guide" ;
@@ -1161,6 +1161,558 @@ ex:metadata-instrument-pygcms-001 a schema1:DigitalDocument ;
             schema1:url "https://ror.org/0171mag52" ;
             schema1:value "0171mag52" ] ;
     schema1:name "NASA Goddard Space Flight Center" .
+
+
+```
+
+
+### Complete ICP-MS instrument with decommissioning and @id sub-component reference.
+Instrument instance exercising all properties including validThrough
+(decommissioned instrument) and hasPart with both inline component
+and @id-only reference. Covers: additionalType, name, description,
+alternateName, identifier (multiple), url, manufacturer, model,
+category, owner, contributor (with DefinedTerm roleName),
+additionalProperty, validFrom, validThrough, hasPart (inline +
+reference), relatedLink, and subjectOf catalog record.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "wd": "https://www.wikidata.org/entity/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:instrument-icpms-lab42",
+  "@type": ["schema:Product", "schema:Thing"],
+  "schema:additionalType": ["wd:Q223767"],
+  "schema:name": "ICP-MS System (Stable Isotope Geochemistry Lab)",
+  "schema:description": "Inductively coupled plasma mass spectrometer for trace element and isotope ratio analysis of geological and environmental samples. Equipped with collision/reaction cell for polyatomic interference removal. Typical applications include REE patterns, U-Pb geochronology screening, and water quality trace metals.",
+  "schema:alternateName": ["ICP-MS", "Lab 42 Quadrupole ICP-MS"],
+  "schema:identifier": [
+    {
+      "@type": ["schema:PropertyValue"],
+      "schema:propertyID": "https://doi.org",
+      "schema:value": "10.xxxx/instrument.icpms.lab42",
+      "schema:url": "https://doi.org/10.xxxx/instrument.icpms.lab42"
+    },
+    {
+      "@type": ["schema:PropertyValue"],
+      "schema:propertyID": "inventoryNumber",
+      "schema:value": "GEOL-LAB42-ICPMS-003"
+    }
+  ],
+  "schema:url": "https://example.org/facilities/lab42/icpms",
+  "schema:manufacturer": {
+    "@type": ["schema:Organization"],
+    "schema:name": "Agilent Technologies",
+    "schema:identifier": {
+      "@type": ["schema:PropertyValue"],
+      "schema:propertyID": "https://ror.org",
+      "schema:value": "03kbsn367",
+      "schema:url": "https://ror.org/03kbsn367"
+    }
+  },
+  "schema:model": {
+    "@type": ["schema:ProductModel"],
+    "schema:name": "Agilent 7900 ICP-MS",
+    "schema:identifier": {
+      "@type": ["schema:PropertyValue"],
+      "schema:propertyID": "serialNumber",
+      "schema:value": "JP19200456"
+    }
+  },
+  "schema:category": [
+    {
+      "@type": ["schema:DefinedTerm"],
+      "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
+      "schema:termCode": "LAB21",
+      "schema:identifier": {
+        "@type": ["schema:PropertyValue"],
+        "schema:propertyID": "https://vocab.nerc.ac.uk/collection/L05/current/",
+        "schema:value": "LAB21",
+        "schema:url": "https://vocab.nerc.ac.uk/collection/L05/current/LAB21/"
+      },
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+    }
+  ],
+  "schema:owner": {
+    "@id": "https://ror.org/03m2x1q45",
+    "@type": ["schema:Organization"],
+    "schema:name": "University of Arizona",
+    "schema:identifier": {
+      "@type": ["schema:PropertyValue"],
+      "schema:propertyID": "https://ror.org",
+      "schema:value": "03m2x1q45",
+      "schema:url": "https://ror.org/03m2x1q45"
+    }
+  },
+  "schema:contributor": [
+    {
+      "@type": ["schema:Role"],
+      "schema:roleName": {
+        "@type": ["schema:DefinedTerm"],
+        "schema:name": "Laboratory Manager",
+        "schema:inDefinedTermSet": "https://credit.niso.org/",
+        "schema:termCode": "resources"
+      },
+      "schema:contributor": {
+        "@id": "https://orcid.org/0000-0001-9876-5432",
+        "@type": ["schema:Person"],
+        "schema:name": "Park, Soo-Jin",
+        "schema:identifier": {
+          "@type": ["schema:PropertyValue"],
+          "schema:propertyID": "https://orcid.org",
+          "schema:value": "0000-0001-9876-5432",
+          "schema:url": "https://orcid.org/0000-0001-9876-5432"
+        },
+        "schema:contactPoint": {
+          "@type": ["schema:ContactPoint"],
+          "schema:email": "spark@arizona.edu"
+        }
+      }
+    }
+  ],
+  "schema:additionalProperty": [
+    {
+      "@type": ["schema:PropertyValue"],
+      "schema:propertyID": ["detectionLimit"],
+      "schema:name": "Detection limit (most elements)",
+      "schema:value": "sub-ppt",
+      "schema:unitText": "parts per trillion"
+    },
+    {
+      "@type": ["schema:PropertyValue"],
+      "schema:propertyID": ["massRange"],
+      "schema:name": "Mass range",
+      "schema:value": "2-260",
+      "schema:unitText": "amu"
+    }
+  ],
+  "schema:validFrom": "2019-06-01",
+  "schema:validThrough": "2026-01-15",
+  "schema:hasPart": [
+    {
+      "@type": ["schema:Thing"],
+      "@id": "ex:component-autosampler-lab42",
+      "schema:name": "Autosampler for ICP-MS",
+      "schema:description": "Automated sample introduction system with 240-position sample tray and integrated rinse station",
+      "schema:alternateName": "ASX-560 Autosampler",
+      "schema:identifier": {
+        "@type": ["schema:PropertyValue"],
+        "schema:propertyID": "serialNumber",
+        "schema:value": "ASX-2019-0789"
+      },
+      "schema:additionalType": "wd:Q16653419",
+      "schema:manufacturer": {
+        "@type": ["schema:Organization"],
+        "schema:name": "Agilent Technologies"
+      },
+      "schema:model": {
+        "@type": ["schema:ProductModel"],
+        "schema:name": "ASX-560"
+      },
+      "schema:additionalProperty": [
+        {
+          "@type": ["schema:PropertyValue"],
+          "schema:propertyID": ["capacity"],
+          "schema:name": "Sample capacity",
+          "schema:value": 240
+        }
+      ]
+    },
+    {
+      "@id": "ex:component-chiller-lab42"
+    }
+  ],
+  "schema:relatedLink": [
+    {
+      "@type": ["schema:CreativeWork"],
+      "schema:name": "Agilent 7900 ICP-MS User Manual",
+      "schema:description": "Complete user and maintenance manual for the Agilent 7900 quadrupole ICP-MS system",
+      "schema:url": "https://www.agilent.com/cs/library/usermanuals/public/7900-icpms-manual.pdf"
+    },
+    {
+      "@type": ["schema:CreativeWork"],
+      "schema:name": "2025 Annual Calibration Report",
+      "schema:url": "https://example.org/calibration/icpms-lab42-2025.pdf"
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ex:metadata-instrument-icpms-lab42",
+    "@type": ["schema:DigitalDocument"],
+    "schema:dateModified": "2026-03-31",
+    "schema:about": {
+      "@id": "ex:instrument-icpms-lab42"
+    },
+    "dcterms:conformsTo": [
+      {"@id": "https://w3id.org/cdif/bbr/metadata/instrumentDescription/v0.1"}
+    ]
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "wd": "https://www.wikidata.org/entity/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "wd": "https://www.wikidata.org/entity/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:instrument-icpms-lab42",
+  "@type": [
+    "schema:Product",
+    "schema:Thing"
+  ],
+  "schema:additionalType": [
+    "wd:Q223767"
+  ],
+  "schema:name": "ICP-MS System (Stable Isotope Geochemistry Lab)",
+  "schema:description": "Inductively coupled plasma mass spectrometer for trace element and isotope ratio analysis of geological and environmental samples. Equipped with collision/reaction cell for polyatomic interference removal. Typical applications include REE patterns, U-Pb geochronology screening, and water quality trace metals.",
+  "schema:alternateName": [
+    "ICP-MS",
+    "Lab 42 Quadrupole ICP-MS"
+  ],
+  "schema:identifier": [
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "https://doi.org",
+      "schema:value": "10.xxxx/instrument.icpms.lab42",
+      "schema:url": "https://doi.org/10.xxxx/instrument.icpms.lab42"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "inventoryNumber",
+      "schema:value": "GEOL-LAB42-ICPMS-003"
+    }
+  ],
+  "schema:url": "https://example.org/facilities/lab42/icpms",
+  "schema:manufacturer": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "Agilent Technologies",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "https://ror.org",
+      "schema:value": "03kbsn367",
+      "schema:url": "https://ror.org/03kbsn367"
+    }
+  },
+  "schema:model": {
+    "@type": [
+      "schema:ProductModel"
+    ],
+    "schema:name": "Agilent 7900 ICP-MS",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "serialNumber",
+      "schema:value": "JP19200456"
+    }
+  },
+  "schema:category": [
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
+      "schema:termCode": "LAB21",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "https://vocab.nerc.ac.uk/collection/L05/current/",
+        "schema:value": "LAB21",
+        "schema:url": "https://vocab.nerc.ac.uk/collection/L05/current/LAB21/"
+      },
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+    }
+  ],
+  "schema:owner": {
+    "@id": "https://ror.org/03m2x1q45",
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "University of Arizona",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "https://ror.org",
+      "schema:value": "03m2x1q45",
+      "schema:url": "https://ror.org/03m2x1q45"
+    }
+  },
+  "schema:contributor": [
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "Laboratory Manager",
+        "schema:inDefinedTermSet": "https://credit.niso.org/",
+        "schema:termCode": "resources"
+      },
+      "schema:contributor": {
+        "@id": "https://orcid.org/0000-0001-9876-5432",
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:name": "Park, Soo-Jin",
+        "schema:identifier": {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": "https://orcid.org",
+          "schema:value": "0000-0001-9876-5432",
+          "schema:url": "https://orcid.org/0000-0001-9876-5432"
+        },
+        "schema:contactPoint": {
+          "@type": [
+            "schema:ContactPoint"
+          ],
+          "schema:email": "spark@arizona.edu"
+        }
+      }
+    }
+  ],
+  "schema:additionalProperty": [
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "detectionLimit"
+      ],
+      "schema:name": "Detection limit (most elements)",
+      "schema:value": "sub-ppt",
+      "schema:unitText": "parts per trillion"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "massRange"
+      ],
+      "schema:name": "Mass range",
+      "schema:value": "2-260",
+      "schema:unitText": "amu"
+    }
+  ],
+  "schema:validFrom": "2019-06-01",
+  "schema:validThrough": "2026-01-15",
+  "schema:hasPart": [
+    {
+      "@type": [
+        "schema:Thing"
+      ],
+      "@id": "ex:component-autosampler-lab42",
+      "schema:name": "Autosampler for ICP-MS",
+      "schema:description": "Automated sample introduction system with 240-position sample tray and integrated rinse station",
+      "schema:alternateName": "ASX-560 Autosampler",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "serialNumber",
+        "schema:value": "ASX-2019-0789"
+      },
+      "schema:additionalType": "wd:Q16653419",
+      "schema:manufacturer": {
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "Agilent Technologies"
+      },
+      "schema:model": {
+        "@type": [
+          "schema:ProductModel"
+        ],
+        "schema:name": "ASX-560"
+      },
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "capacity"
+          ],
+          "schema:name": "Sample capacity",
+          "schema:value": 240
+        }
+      ]
+    },
+    {
+      "@id": "ex:component-chiller-lab42"
+    }
+  ],
+  "schema:relatedLink": [
+    {
+      "@type": [
+        "schema:CreativeWork"
+      ],
+      "schema:name": "Agilent 7900 ICP-MS User Manual",
+      "schema:description": "Complete user and maintenance manual for the Agilent 7900 quadrupole ICP-MS system",
+      "schema:url": "https://www.agilent.com/cs/library/usermanuals/public/7900-icpms-manual.pdf"
+    },
+    {
+      "@type": [
+        "schema:CreativeWork"
+      ],
+      "schema:name": "2025 Annual Calibration Report",
+      "schema:url": "https://example.org/calibration/icpms-lab42-2025.pdf"
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ex:metadata-instrument-icpms-lab42",
+    "@type": [
+      "schema:DigitalDocument"
+    ],
+    "schema:dateModified": "2026-03-31",
+    "schema:about": {
+      "@id": "ex:instrument-icpms-lab42"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/bbr/metadata/instrumentDescription/v0.1"
+      }
+    ]
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:component-autosampler-lab42 a schema1:Thing ;
+    schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "Sample capacity" ;
+            schema1:propertyID "capacity" ;
+            schema1:value 240 ] ;
+    schema1:additionalType "wd:Q16653419" ;
+    schema1:alternateName "ASX-560 Autosampler" ;
+    schema1:description "Automated sample introduction system with 240-position sample tray and integrated rinse station" ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "serialNumber" ;
+            schema1:value "ASX-2019-0789" ] ;
+    schema1:manufacturer [ a schema1:Organization ;
+            schema1:name "Agilent Technologies" ] ;
+    schema1:model [ a schema1:ProductModel ;
+            schema1:name "ASX-560" ] ;
+    schema1:name "Autosampler for ICP-MS" .
+
+ex:instrument-icpms-lab42 a schema1:Product,
+        schema1:Thing ;
+    schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "Detection limit (most elements)" ;
+            schema1:propertyID "detectionLimit" ;
+            schema1:unitText "parts per trillion" ;
+            schema1:value "sub-ppt" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Mass range" ;
+            schema1:propertyID "massRange" ;
+            schema1:unitText "amu" ;
+            schema1:value "2-260" ] ;
+    schema1:additionalType "wd:Q223767" ;
+    schema1:alternateName "ICP-MS",
+        "Lab 42 Quadrupole ICP-MS" ;
+    schema1:category [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+                    schema1:url "https://vocab.nerc.ac.uk/collection/L05/current/LAB21/" ;
+                    schema1:value "LAB21" ] ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+            schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
+            schema1:termCode "LAB21" ] ;
+    schema1:contributor [ a schema1:Role ;
+            schema1:contributor <https://orcid.org/0000-0001-9876-5432> ;
+            schema1:roleName [ a schema1:DefinedTerm ;
+                    schema1:inDefinedTermSet "https://credit.niso.org/" ;
+                    schema1:name "Laboratory Manager" ;
+                    schema1:termCode "resources" ] ] ;
+    schema1:description "Inductively coupled plasma mass spectrometer for trace element and isotope ratio analysis of geological and environmental samples. Equipped with collision/reaction cell for polyatomic interference removal. Typical applications include REE patterns, U-Pb geochronology screening, and water quality trace metals." ;
+    schema1:hasPart ex:component-autosampler-lab42,
+        ex:component-chiller-lab42 ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "https://doi.org" ;
+            schema1:url "https://doi.org/10.xxxx/instrument.icpms.lab42" ;
+            schema1:value "10.xxxx/instrument.icpms.lab42" ],
+        [ a schema1:PropertyValue ;
+            schema1:propertyID "inventoryNumber" ;
+            schema1:value "GEOL-LAB42-ICPMS-003" ] ;
+    schema1:manufacturer [ a schema1:Organization ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "https://ror.org" ;
+                    schema1:url "https://ror.org/03kbsn367" ;
+                    schema1:value "03kbsn367" ] ;
+            schema1:name "Agilent Technologies" ] ;
+    schema1:model [ a schema1:ProductModel ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "serialNumber" ;
+                    schema1:value "JP19200456" ] ;
+            schema1:name "Agilent 7900 ICP-MS" ] ;
+    schema1:name "ICP-MS System (Stable Isotope Geochemistry Lab)" ;
+    schema1:owner <https://ror.org/03m2x1q45> ;
+    schema1:relatedLink [ a schema1:CreativeWork ;
+            schema1:name "2025 Annual Calibration Report" ;
+            schema1:url "https://example.org/calibration/icpms-lab42-2025.pdf" ],
+        [ a schema1:CreativeWork ;
+            schema1:description "Complete user and maintenance manual for the Agilent 7900 quadrupole ICP-MS system" ;
+            schema1:name "Agilent 7900 ICP-MS User Manual" ;
+            schema1:url "https://www.agilent.com/cs/library/usermanuals/public/7900-icpms-manual.pdf" ] ;
+    schema1:subjectOf ex:metadata-instrument-icpms-lab42 ;
+    schema1:url "https://example.org/facilities/lab42/icpms" ;
+    schema1:validFrom "2019-06-01" ;
+    schema1:validThrough "2026-01-15" .
+
+ex:metadata-instrument-icpms-lab42 a schema1:DigitalDocument ;
+    dcterms:conformsTo <https://w3id.org/cdif/bbr/metadata/instrumentDescription/v0.1> ;
+    schema1:about ex:instrument-icpms-lab42 ;
+    schema1:dateModified "2026-03-31" .
+
+<https://orcid.org/0000-0001-9876-5432> a schema1:Person ;
+    schema1:contactPoint [ a schema1:ContactPoint ;
+            schema1:email "spark@arizona.edu" ] ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "https://orcid.org" ;
+            schema1:url "https://orcid.org/0000-0001-9876-5432" ;
+            schema1:value "0000-0001-9876-5432" ] ;
+    schema1:name "Park, Soo-Jin" .
+
+<https://ror.org/03m2x1q45> a schema1:Organization ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "https://ror.org" ;
+            schema1:url "https://ror.org/03m2x1q45" ;
+            schema1:value "03m2x1q45" ] ;
+    schema1:name "University of Arizona" .
 
 
 ```

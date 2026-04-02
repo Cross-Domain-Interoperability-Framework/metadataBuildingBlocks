@@ -109,6 +109,102 @@ ex:exampleOrg_fW a schema1:Organization ;
 
 ```
 
+
+### Complete organization example.
+Organization instance exercising all properties: additionalType (multiple),
+name, alternateName, description, identifier (ROR), and sameAs (string and object).
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:OrgComplete_001",
+  "@type": ["schema:Organization"],
+  "schema:additionalType": [
+    "schema:ResearchOrganization",
+    "schema:EducationalOrganization"
+  ],
+  "schema:name": "Massachusetts Institute of Technology",
+  "schema:alternateName": "MIT",
+  "schema:description": "Private research university in Cambridge, Massachusetts, founded in 1861",
+  "schema:identifier": {
+    "@type": ["schema:PropertyValue"],
+    "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+    "schema:value": "042nb2s44",
+    "schema:url": "https://ror.org/042nb2s44"
+  },
+  "schema:sameAs": [
+    "https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology",
+    {"@id": "https://www.wikidata.org/entity/Q49108"}
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:OrgComplete_001",
+  "@type": [
+    "schema:Organization"
+  ],
+  "schema:additionalType": [
+    "schema:ResearchOrganization",
+    "schema:EducationalOrganization"
+  ],
+  "schema:name": "Massachusetts Institute of Technology",
+  "schema:alternateName": "MIT",
+  "schema:description": "Private research university in Cambridge, Massachusetts, founded in 1861",
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+    "schema:value": "042nb2s44",
+    "schema:url": "https://ror.org/042nb2s44"
+  },
+  "schema:sameAs": [
+    "https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology",
+    {
+      "@id": "https://www.wikidata.org/entity/Q49108"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+
+ex:OrgComplete_001 a schema1:Organization ;
+    schema1:additionalType "schema:EducationalOrganization",
+        "schema:ResearchOrganization" ;
+    schema1:alternateName "MIT" ;
+    schema1:description "Private research university in Cambridge, Massachusetts, founded in 1861" ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "https://registry.identifiers.org/registry/ror" ;
+            schema1:url "https://ror.org/042nb2s44" ;
+            schema1:value "042nb2s44" ] ;
+    schema1:name "Massachusetts Institute of Technology" ;
+    schema1:sameAs <https://www.wikidata.org/entity/Q49108>,
+        "https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology" .
+
+
+```
+
 ## Schema
 
 ```yaml

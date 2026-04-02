@@ -171,6 +171,171 @@ ex:tempTerm_246u a schema1:PropertyValue ;
 
 ```
 
+
+### Complete variable measured example.
+VariableMeasured instance exercising all properties: name, description,
+alternateName, measurementTechnique (DefinedTerm), propertyID (DefinedTerm),
+unitText, unitCode (DefinedTerm), minValue, maxValue, and url (LabeledLink).
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:variableMeasuredComplete_001",
+  "@type": ["schema:PropertyValue"],
+  "schema:name": "sea_water_temperature",
+  "schema:description": "In situ temperature of sea water measured by CTD sensor at depth",
+  "schema:alternateName": ["Sea Water Temperature", "Ocean Temperature"],
+  "schema:measurementTechnique": {
+    "@type": ["schema:DefinedTerm"],
+    "schema:name": "CTD - conductivity, temperature, depth",
+    "schema:termCode": "CTD",
+    "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+  },
+  "schema:propertyID": [
+    {
+      "@type": ["schema:DefinedTerm"],
+      "schema:name": "Temperature of the water body",
+      "schema:identifier": {
+        "@type": ["schema:PropertyValue"],
+        "schema:propertyID": "https://vocab.nerc.ac.uk/collection/P01/current/",
+        "schema:value": "TEMPPR01",
+        "schema:url": "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/"
+      },
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/P01/current/",
+      "schema:termCode": "TEMPPR01"
+    }
+  ],
+  "schema:unitText": "degrees Celsius",
+  "schema:unitCode": {
+    "@type": ["schema:DefinedTerm"],
+    "schema:name": "Degrees Celsius",
+    "schema:termCode": "degC",
+    "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/P06/current/"
+  },
+  "schema:minValue": -2.1,
+  "schema:maxValue": 35.4,
+  "schema:url": {
+    "@type": ["schema:CreativeWork"],
+    "schema:name": "TEOS-10 Manual — Temperature",
+    "schema:description": "Thermodynamic Equation of Seawater documentation on temperature definitions",
+    "schema:url": "http://www.teos-10.org/pubs/TEOS-10_Manual.pdf"
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:variableMeasuredComplete_001",
+  "@type": [
+    "schema:PropertyValue"
+  ],
+  "schema:name": "sea_water_temperature",
+  "schema:description": "In situ temperature of sea water measured by CTD sensor at depth",
+  "schema:alternateName": [
+    "Sea Water Temperature",
+    "Ocean Temperature"
+  ],
+  "schema:measurementTechnique": {
+    "@type": [
+      "schema:DefinedTerm"
+    ],
+    "schema:name": "CTD - conductivity, temperature, depth",
+    "schema:termCode": "CTD",
+    "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+  },
+  "schema:propertyID": [
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Temperature of the water body",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "https://vocab.nerc.ac.uk/collection/P01/current/",
+        "schema:value": "TEMPPR01",
+        "schema:url": "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/"
+      },
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/P01/current/",
+      "schema:termCode": "TEMPPR01"
+    }
+  ],
+  "schema:unitText": "degrees Celsius",
+  "schema:unitCode": {
+    "@type": [
+      "schema:DefinedTerm"
+    ],
+    "schema:name": "Degrees Celsius",
+    "schema:termCode": "degC",
+    "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/P06/current/"
+  },
+  "schema:minValue": -2.1,
+  "schema:maxValue": 35.4,
+  "schema:url": {
+    "@type": [
+      "schema:CreativeWork"
+    ],
+    "schema:name": "TEOS-10 Manual \u2014 Temperature",
+    "schema:description": "Thermodynamic Equation of Seawater documentation on temperature definitions",
+    "schema:url": "http://www.teos-10.org/pubs/TEOS-10_Manual.pdf"
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:variableMeasuredComplete_001 a schema1:PropertyValue ;
+    schema1:alternateName "Ocean Temperature",
+        "Sea Water Temperature" ;
+    schema1:description "In situ temperature of sea water measured by CTD sensor at depth" ;
+    schema1:maxValue 3.54e+01 ;
+    schema1:measurementTechnique [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+            schema1:name "CTD - conductivity, temperature, depth" ;
+            schema1:termCode "CTD" ] ;
+    schema1:minValue -2.1e+00 ;
+    schema1:name "sea_water_temperature" ;
+    schema1:propertyID [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "https://vocab.nerc.ac.uk/collection/P01/current/" ;
+                    schema1:url "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
+                    schema1:value "TEMPPR01" ] ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
+            schema1:name "Temperature of the water body" ;
+            schema1:termCode "TEMPPR01" ] ;
+    schema1:unitCode [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P06/current/" ;
+            schema1:name "Degrees Celsius" ;
+            schema1:termCode "degC" ] ;
+    schema1:unitText "degrees Celsius" ;
+    schema1:url [ a schema1:CreativeWork ;
+            schema1:description "Thermodynamic Equation of Seawater documentation on temperature definitions" ;
+            schema1:name "TEOS-10 Manual — Temperature" ;
+            schema1:url "http://www.teos-10.org/pubs/TEOS-10_Manual.pdf" ] .
+
+
+```
+
 ## Schema
 
 ```yaml

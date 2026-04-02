@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-03-31",
+  "dateOfLastChange": "2026-04-02",
   "link": "https://github.com/opengeospatial/bblock-template",
   "sources": [
     {
@@ -27,6 +27,9 @@
     "cdif.bbr.metadata.schemaorgProperties.dataDownload": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/dataDownload/rules.shacl"
     ],
+    "cdif.bbr.metadata.schemaorgProperties.person": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/person/rules.shacl"
+    ],
     "cdif.bbr.metadata.schemaorgProperties.organization": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/organization/rules.shacl"
     ],
@@ -35,14 +38,11 @@
     ],
     "cdif.bbr.metadata.schemaorgProperties.identifier": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
-    ],
-    "cdif.bbr.metadata.schemaorgProperties.person": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/person/rules.shacl"
     ]
   },
   "dependsOn": [
-    "cdif.bbr.metadata.schemaorgProperties.organization",
-    "cdif.bbr.metadata.schemaorgProperties.person"
+    "cdif.bbr.metadata.schemaorgProperties.person",
+    "cdif.bbr.metadata.schemaorgProperties.organization"
   ],
   "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/context.jsonld",
   "schema": {
@@ -81,6 +81,33 @@
           "language": "ttl",
           "code": "@prefix dcterms: <http://purl.org/dc/terms/> .\n@prefix ns1: <spdx:> .\n@prefix schema1: <http://schema.org/> .\n\n<https://orcid.org/3333-4444-5565> a schema1:Person ;\n    schema1:affiliation <https://ror.org/347237> ;\n    schema1:alternateName \"the datameister\" ;\n    schema1:contactPoint [ a schema1:ContactPoint ;\n            schema1:email \"joe@email.org\" ] ;\n    schema1:description \"Earth Science Data Custodian\" ;\n    schema1:identifier [ a schema1:PropertyValue ;\n            schema1:propertyID \"https://registry.identifiers.org/registry/orcid\" ;\n            schema1:url \"https://orcid.org/3333-4444-5565\" ;\n            schema1:value \"3333-4444-5565\" ] ;\n    schema1:name \"Severus Data\" .\n\n<https://ror.org/347237> a schema1:Organization ;\n    schema1:additionalType \"Data repository\" ;\n    schema1:identifier \"https://ror.org/347237\" ;\n    schema1:name \"Houndstooth Data Repository\" .\n\n[] a schema1:DataDownload ;\n    dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;\n    schema1:contentUrl \"https://hounddata.org/354277.csv\" ;\n    schema1:encodingFormat \"text/csv\" ;\n    schema1:name \"Water levels in Beartooth reservoir, 1992-2020\" ;\n    schema1:provider <https://orcid.org/3333-4444-5565> ;\n    ns1:checksum [ a ns1:Checksum ;\n            ns1:algorithm \"MD5\" ;\n            ns1:checksumValue \"d41d8cd98f00b204e9800998ecf8427e\" ] .\n\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/dataDownload/example_1_1.ttl"
+        }
+      ]
+    },
+    {
+      "title": "Complete data download example.",
+      "content": "DataDownload instance exercising all properties: name, description, contentUrl,\nencodingFormat (multiple), spdx:checksum (SHA256), provider (Person and Organization),\nand dcterms:conformsTo (multiple).",
+      "prefixes": {
+        "schema": "http://schema.org/",
+        "dcterms": "http://purl.org/dc/terms/",
+        "spdx": "http://spdx.org/rdf/terms#"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "exampleDataDownloadComplete.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\",\n    \"spdx\": \"http://spdx.org/rdf/terms#\",\n    \"dcterms\": \"http://purl.org/dc/terms/\"\n  },\n  \"@id\": \"ex:DataDownloadComplete_001\",\n  \"@type\": [\"schema:DataDownload\"],\n  \"schema:name\": \"Arctic Sea Ice Extent Monthly Averages 1979-2024\",\n  \"schema:description\": \"CSV file containing monthly average Arctic sea ice extent values derived from satellite passive microwave observations. Columns include date, extent in million km\u00b2, and anomaly from 1981-2010 mean.\",\n  \"schema:contentUrl\": \"https://data.example.org/sea-ice/arctic-monthly-extent-1979-2024.csv\",\n  \"schema:encodingFormat\": [\"text/csv\", \"application/zip\"],\n  \"spdx:checksum\": {\n    \"@type\": [\"spdx:Checksum\"],\n    \"spdx:algorithm\": \"SHA256\",\n    \"spdx:checksumValue\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n  },\n  \"schema:provider\": [\n    {\n      \"@id\": \"https://orcid.org/0000-0002-5678-1234\",\n      \"@type\": [\"schema:Person\"],\n      \"schema:name\": \"Maria Icewatch\",\n      \"schema:affiliation\": {\n        \"@type\": [\"schema:Organization\"],\n        \"schema:name\": \"National Snow and Ice Data Center\",\n        \"schema:identifier\": {\n          \"@type\": [\"schema:PropertyValue\"],\n          \"schema:propertyID\": \"https://ror.org\",\n          \"schema:value\": \"0559x5c32\",\n          \"schema:url\": \"https://ror.org/0559x5c32\"\n        }\n      },\n      \"schema:contactPoint\": {\n        \"@type\": [\"schema:ContactPoint\"],\n        \"schema:email\": \"data@nsidc.org\"\n      },\n      \"schema:identifier\": {\n        \"@type\": [\"schema:PropertyValue\"],\n        \"schema:propertyID\": \"https://orcid.org\",\n        \"schema:value\": \"0000-0002-5678-1234\",\n        \"schema:url\": \"https://orcid.org/0000-0002-5678-1234\"\n      }\n    },\n    {\n      \"@type\": [\"schema:Organization\"],\n      \"schema:name\": \"National Snow and Ice Data Center\",\n      \"schema:identifier\": {\n        \"@type\": [\"schema:PropertyValue\"],\n        \"schema:propertyID\": \"https://ror.org\",\n        \"schema:value\": \"0559x5c32\",\n        \"schema:url\": \"https://ror.org/0559x5c32\"\n      }\n    }\n  ],\n  \"dcterms:conformsTo\": [\n    {\"@id\": \"https://www.ietf.org/rfc/rfc4180.txt\"},\n    {\"@id\": \"https://www.w3.org/TR/tabular-data-primer/\"}\n  ]\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/dataDownload/example_2_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\",\n      \"dcterms\": \"http://purl.org/dc/terms/\",\n      \"spdx\": \"http://spdx.org/rdf/terms#\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\",\n      \"spdx\": \"http://spdx.org/rdf/terms#\",\n      \"dcterms\": \"http://purl.org/dc/terms/\"\n    }\n  ],\n  \"@id\": \"ex:DataDownloadComplete_001\",\n  \"@type\": [\n    \"schema:DataDownload\"\n  ],\n  \"schema:name\": \"Arctic Sea Ice Extent Monthly Averages 1979-2024\",\n  \"schema:description\": \"CSV file containing monthly average Arctic sea ice extent values derived from satellite passive microwave observations. Columns include date, extent in million km\\u00b2, and anomaly from 1981-2010 mean.\",\n  \"schema:contentUrl\": \"https://data.example.org/sea-ice/arctic-monthly-extent-1979-2024.csv\",\n  \"schema:encodingFormat\": [\n    \"text/csv\",\n    \"application/zip\"\n  ],\n  \"spdx:checksum\": {\n    \"@type\": [\n      \"spdx:Checksum\"\n    ],\n    \"spdx:algorithm\": \"SHA256\",\n    \"spdx:checksumValue\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n  },\n  \"schema:provider\": [\n    {\n      \"@id\": \"https://orcid.org/0000-0002-5678-1234\",\n      \"@type\": [\n        \"schema:Person\"\n      ],\n      \"schema:name\": \"Maria Icewatch\",\n      \"schema:affiliation\": {\n        \"@type\": [\n          \"schema:Organization\"\n        ],\n        \"schema:name\": \"National Snow and Ice Data Center\",\n        \"schema:identifier\": {\n          \"@type\": [\n            \"schema:PropertyValue\"\n          ],\n          \"schema:propertyID\": \"https://ror.org\",\n          \"schema:value\": \"0559x5c32\",\n          \"schema:url\": \"https://ror.org/0559x5c32\"\n        }\n      },\n      \"schema:contactPoint\": {\n        \"@type\": [\n          \"schema:ContactPoint\"\n        ],\n        \"schema:email\": \"data@nsidc.org\"\n      },\n      \"schema:identifier\": {\n        \"@type\": [\n          \"schema:PropertyValue\"\n        ],\n        \"schema:propertyID\": \"https://orcid.org\",\n        \"schema:value\": \"0000-0002-5678-1234\",\n        \"schema:url\": \"https://orcid.org/0000-0002-5678-1234\"\n      }\n    },\n    {\n      \"@type\": [\n        \"schema:Organization\"\n      ],\n      \"schema:name\": \"National Snow and Ice Data Center\",\n      \"schema:identifier\": {\n        \"@type\": [\n          \"schema:PropertyValue\"\n        ],\n        \"schema:propertyID\": \"https://ror.org\",\n        \"schema:value\": \"0559x5c32\",\n        \"schema:url\": \"https://ror.org/0559x5c32\"\n      }\n    }\n  ],\n  \"dcterms:conformsTo\": [\n    {\n      \"@id\": \"https://www.ietf.org/rfc/rfc4180.txt\"\n    },\n    {\n      \"@id\": \"https://www.w3.org/TR/tabular-data-primer/\"\n    }\n  ]\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/dataDownload/example_2_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix dcterms: <http://purl.org/dc/terms/> .\n@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n@prefix spdx: <http://spdx.org/rdf/terms#> .\n\nex:DataDownloadComplete_001 a schema1:DataDownload ;\n    dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180.txt>,\n        <https://www.w3.org/TR/tabular-data-primer/> ;\n    schema1:contentUrl \"https://data.example.org/sea-ice/arctic-monthly-extent-1979-2024.csv\" ;\n    schema1:description \"CSV file containing monthly average Arctic sea ice extent values derived from satellite passive microwave observations. Columns include date, extent in million km\u00b2, and anomaly from 1981-2010 mean.\" ;\n    schema1:encodingFormat \"application/zip\",\n        \"text/csv\" ;\n    schema1:name \"Arctic Sea Ice Extent Monthly Averages 1979-2024\" ;\n    schema1:provider [ a schema1:Organization ;\n            schema1:identifier [ a schema1:PropertyValue ;\n                    schema1:propertyID \"https://ror.org\" ;\n                    schema1:url \"https://ror.org/0559x5c32\" ;\n                    schema1:value \"0559x5c32\" ] ;\n            schema1:name \"National Snow and Ice Data Center\" ],\n        <https://orcid.org/0000-0002-5678-1234> ;\n    spdx:checksum [ a spdx:Checksum ;\n            spdx:algorithm \"SHA256\" ;\n            spdx:checksumValue \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\" ] .\n\n<https://orcid.org/0000-0002-5678-1234> a schema1:Person ;\n    schema1:affiliation [ a schema1:Organization ;\n            schema1:identifier [ a schema1:PropertyValue ;\n                    schema1:propertyID \"https://ror.org\" ;\n                    schema1:url \"https://ror.org/0559x5c32\" ;\n                    schema1:value \"0559x5c32\" ] ;\n            schema1:name \"National Snow and Ice Data Center\" ] ;\n    schema1:contactPoint [ a schema1:ContactPoint ;\n            schema1:email \"data@nsidc.org\" ] ;\n    schema1:identifier [ a schema1:PropertyValue ;\n            schema1:propertyID \"https://orcid.org\" ;\n            schema1:url \"https://orcid.org/0000-0002-5678-1234\" ;\n            schema1:value \"0000-0002-5678-1234\" ] ;\n    schema1:name \"Maria Icewatch\" .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/dataDownload/example_2_1.ttl"
         }
       ]
     }

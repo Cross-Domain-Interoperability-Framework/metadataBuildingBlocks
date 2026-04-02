@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-03-31",
+  "dateOfLastChange": "2026-04-02",
   "link": "https://github.com/opengeospatial/bblock-template",
   "sources": [
     {
@@ -77,6 +77,31 @@
           "language": "ttl",
           "code": "@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n\nex:PersonExample_zZc a schema1:Person ;\n    schema1:affiliation [ a schema1:Organization ;\n            schema1:name \"Test organization\" ] ;\n    schema1:alternateName \"Test, Joe\" ;\n    schema1:contactPoint [ a schema1:ContactPoint ;\n            schema1:email \"joe@bmanuco.org\" ] ;\n    schema1:description \"Metadata specialist, based in Portland, Maine\" ;\n    schema1:identifier [ a schema1:PropertyValue ;\n            schema1:propertyID \"https://orcid.org\" ;\n            schema1:url \"https://orcid.org/0000-0001-2345-6789\" ;\n            schema1:value \"0000-0001-2345-6789\" ] ;\n    schema1:name \"Joe Test\" ;\n    schema1:sameAs \"https://ark.org/46737\",\n        \"uri:test:43737\" .\n\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/person/example_1_1.ttl"
+        }
+      ]
+    },
+    {
+      "title": "Complete person example.",
+      "content": "Person instance exercising all properties: name, description, alternateName,\nidentifier (ORCID), affiliation, contactPoint, and sameAs (string and object).",
+      "prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "examplePersonComplete.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@id\": \"ex:PersonComplete_001\",\n  \"@type\": [\"schema:Person\"],\n  \"schema:name\": \"Jane A. Researcher\",\n  \"schema:description\": \"Marine geochemist specializing in isotope analysis, based at Woods Hole Oceanographic Institution\",\n  \"schema:alternateName\": \"Researcher, J.A.\",\n  \"schema:identifier\": {\n    \"@type\": [\"schema:PropertyValue\"],\n    \"schema:propertyID\": \"https://orcid.org\",\n    \"schema:value\": \"0000-0002-1825-0097\",\n    \"schema:url\": \"https://orcid.org/0000-0002-1825-0097\"\n  },\n  \"schema:affiliation\": {\n    \"@type\": [\"schema:Organization\"],\n    \"schema:name\": \"Woods Hole Oceanographic Institution\",\n    \"schema:identifier\": {\n      \"@type\": [\"schema:PropertyValue\"],\n      \"schema:propertyID\": \"https://ror.org\",\n      \"schema:value\": \"03zbnzt98\",\n      \"schema:url\": \"https://ror.org/03zbnzt98\"\n    }\n  },\n  \"schema:contactPoint\": {\n    \"@type\": [\"schema:ContactPoint\"],\n    \"schema:email\": \"jresearcher@whoi.edu\"\n  },\n  \"schema:sameAs\": [\n    \"https://scholar.google.com/citations?user=abc123\",\n    {\"@id\": \"https://www.wikidata.org/entity/Q12345678\"}\n  ]\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/person/example_2_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@id\": \"ex:PersonComplete_001\",\n  \"@type\": [\n    \"schema:Person\"\n  ],\n  \"schema:name\": \"Jane A. Researcher\",\n  \"schema:description\": \"Marine geochemist specializing in isotope analysis, based at Woods Hole Oceanographic Institution\",\n  \"schema:alternateName\": \"Researcher, J.A.\",\n  \"schema:identifier\": {\n    \"@type\": [\n      \"schema:PropertyValue\"\n    ],\n    \"schema:propertyID\": \"https://orcid.org\",\n    \"schema:value\": \"0000-0002-1825-0097\",\n    \"schema:url\": \"https://orcid.org/0000-0002-1825-0097\"\n  },\n  \"schema:affiliation\": {\n    \"@type\": [\n      \"schema:Organization\"\n    ],\n    \"schema:name\": \"Woods Hole Oceanographic Institution\",\n    \"schema:identifier\": {\n      \"@type\": [\n        \"schema:PropertyValue\"\n      ],\n      \"schema:propertyID\": \"https://ror.org\",\n      \"schema:value\": \"03zbnzt98\",\n      \"schema:url\": \"https://ror.org/03zbnzt98\"\n    }\n  },\n  \"schema:contactPoint\": {\n    \"@type\": [\n      \"schema:ContactPoint\"\n    ],\n    \"schema:email\": \"jresearcher@whoi.edu\"\n  },\n  \"schema:sameAs\": [\n    \"https://scholar.google.com/citations?user=abc123\",\n    {\n      \"@id\": \"https://www.wikidata.org/entity/Q12345678\"\n    }\n  ]\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/person/example_2_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n\nex:PersonComplete_001 a schema1:Person ;\n    schema1:affiliation [ a schema1:Organization ;\n            schema1:identifier [ a schema1:PropertyValue ;\n                    schema1:propertyID \"https://ror.org\" ;\n                    schema1:url \"https://ror.org/03zbnzt98\" ;\n                    schema1:value \"03zbnzt98\" ] ;\n            schema1:name \"Woods Hole Oceanographic Institution\" ] ;\n    schema1:alternateName \"Researcher, J.A.\" ;\n    schema1:contactPoint [ a schema1:ContactPoint ;\n            schema1:email \"jresearcher@whoi.edu\" ] ;\n    schema1:description \"Marine geochemist specializing in isotope analysis, based at Woods Hole Oceanographic Institution\" ;\n    schema1:identifier [ a schema1:PropertyValue ;\n            schema1:propertyID \"https://orcid.org\" ;\n            schema1:url \"https://orcid.org/0000-0002-1825-0097\" ;\n            schema1:value \"0000-0002-1825-0097\" ] ;\n    schema1:name \"Jane A. Researcher\" ;\n    schema1:sameAs <https://www.wikidata.org/entity/Q12345678>,\n        \"https://scholar.google.com/citations?user=abc123\" .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/person/example_2_1.ttl"
         }
       ]
     }

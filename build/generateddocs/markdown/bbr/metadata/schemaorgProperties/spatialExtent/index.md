@@ -251,6 +251,12 @@ ex:SpatialExtentPlaceName_45hwe6 a schema1:Place ;
     schema1:name [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "http uri" ;
+                    schema1:url "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/5573" ] ;
+            schema1:inDefinedTermSet "https://www.usgs.gov/us-board-on-geographic-names/domestic-names" ;
+            schema1:name "Harquahala Mountains" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "http uri" ;
                     schema1:url "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/11520" ] ;
             schema1:inDefinedTermSet "https://www.usgs.gov/us-board-on-geographic-names/domestic-names" ;
             schema1:name "Socorro Peak" ],
@@ -259,13 +265,7 @@ ex:SpatialExtentPlaceName_45hwe6 a schema1:Place ;
                     schema1:propertyID "http uri" ;
                     schema1:url "https://www.mindat.org/loc-33505.html" ] ;
             schema1:inDefinedTermSet "https://www.mindat.org/" ;
-            schema1:name "Hidden Treasure Mine" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "http uri" ;
-                    schema1:url "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/5573" ] ;
-            schema1:inDefinedTermSet "https://www.usgs.gov/us-board-on-geographic-names/domestic-names" ;
-            schema1:name "Harquahala Mountains" ] .
+            schema1:name "Hidden Treasure Mine" ] .
 
 
 ```
@@ -402,6 +402,152 @@ Example bounding box spatial extent instance.
 ex:SpatialExtentBox_my8 a schema1:Place ;
     schema1:geo [ a schema1:GeoShape ;
             schema1:box "39.3280 120.1633 40.445 123.7878" ] .
+
+
+```
+
+
+### Complete spatial extent example.
+Spatial extent instance exercising all properties: additionalType, name
+(string and DefinedTerm), identifier, alternateName, geo (bounding box),
+and geosparql:hasGeometry with WKT polygon and CRS.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/",
+    "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "sf": "http://www.opengis.net/ont/sf#"
+  },
+  "@id": "ex:SpatialExtentComplete_001",
+  "@type": ["schema:Place"],
+  "schema:additionalType": ["ex:FieldSamplingArea"],
+  "schema:name": [
+    "Monterey Bay",
+    {
+      "@type": ["schema:DefinedTerm"],
+      "schema:name": "Monterey Bay National Marine Sanctuary",
+      "schema:identifier": {
+        "@type": ["schema:PropertyValue"],
+        "schema:propertyID": "https://www.geonames.org",
+        "schema:value": "5374363",
+        "schema:url": "https://www.geonames.org/5374363"
+      },
+      "schema:inDefinedTermSet": "https://www.geonames.org"
+    }
+  ],
+  "schema:identifier": "https://marineregions.org/mrgid/4260",
+  "schema:alternateName": "MBNMS",
+  "schema:geo": {
+    "@type": ["schema:GeoShape"],
+    "schema:box": "36.5000 -122.5000 37.0000 -121.8000"
+  },
+  "geosparql:hasGeometry": {
+    "@type": ["sf:Polygon"],
+    "geosparql:asWKT": {
+      "@type": ["geosparql:wktLiteral"],
+      "@value": "POLYGON((-122.5 36.5, -121.8 36.5, -121.8 37.0, -122.5 37.0, -122.5 36.5))"
+    },
+    "geosparql:crs": {
+      "@id": "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+    }
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "geosparql": "http://www.opengis.net/ont/geosparql#",
+      "sf": "http://www.opengis.net/ont/sf#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "ex": "https://example.org/",
+      "geosparql": "http://www.opengis.net/ont/geosparql#",
+      "sf": "http://www.opengis.net/ont/sf#"
+    }
+  ],
+  "@id": "ex:SpatialExtentComplete_001",
+  "@type": [
+    "schema:Place"
+  ],
+  "schema:additionalType": [
+    "ex:FieldSamplingArea"
+  ],
+  "schema:name": [
+    "Monterey Bay",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Monterey Bay National Marine Sanctuary",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "https://www.geonames.org",
+        "schema:value": "5374363",
+        "schema:url": "https://www.geonames.org/5374363"
+      },
+      "schema:inDefinedTermSet": "https://www.geonames.org"
+    }
+  ],
+  "schema:identifier": "https://marineregions.org/mrgid/4260",
+  "schema:alternateName": "MBNMS",
+  "schema:geo": {
+    "@type": [
+      "schema:GeoShape"
+    ],
+    "schema:box": "36.5000 -122.5000 37.0000 -121.8000"
+  },
+  "geosparql:hasGeometry": {
+    "@type": [
+      "sf:Polygon"
+    ],
+    "geosparql:asWKT": {
+      "@type": [
+        "geosparql:wktLiteral"
+      ],
+      "@value": "POLYGON((-122.5 36.5, -121.8 36.5, -121.8 37.0, -122.5 37.0, -122.5 36.5))"
+    },
+    "geosparql:crs": {
+      "@id": "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+    }
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix ex: <https://example.org/> .
+@prefix geosparql: <http://www.opengis.net/ont/geosparql#> .
+@prefix schema1: <http://schema.org/> .
+@prefix sf: <http://www.opengis.net/ont/sf#> .
+
+ex:SpatialExtentComplete_001 a schema1:Place ;
+    schema1:additionalType "ex:FieldSamplingArea" ;
+    schema1:alternateName "MBNMS" ;
+    schema1:geo [ a schema1:GeoShape ;
+            schema1:box "36.5000 -122.5000 37.0000 -121.8000" ] ;
+    schema1:identifier "https://marineregions.org/mrgid/4260" ;
+    schema1:name [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "https://www.geonames.org" ;
+                    schema1:url "https://www.geonames.org/5374363" ;
+                    schema1:value "5374363" ] ;
+            schema1:inDefinedTermSet "https://www.geonames.org" ;
+            schema1:name "Monterey Bay National Marine Sanctuary" ],
+        "Monterey Bay" ;
+    geosparql:hasGeometry [ a sf:Polygon ;
+            geosparql:asWKT "POLYGON((-122.5 36.5, -121.8 36.5, -121.8 37.0, -122.5 37.0, -122.5 36.5))"^^<['geosparql:wktLiteral']> ;
+            geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] .
 
 
 ```

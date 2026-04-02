@@ -18,7 +18,7 @@ Profile for the schema.org implementation of the [Cross Domain Interoperability 
 - **cdifCore** -- all required and optional core metadata properties
 - **Discovery properties** (defined inline):
   - `schema:measurementTechnique` -- technique used for measurement (string or DefinedTerm)
-  - `schema:variableMeasured` -- what the dataset measures (VariableMeasured or StatisticalVariable)
+  - `schema:variableMeasured` -- what the dataset measures (VariableMeasured)
   - `schema:spatialCoverage` -- geographic extent (SpatialExtent)
   - `schema:temporalCoverage` -- temporal extent (TemporalExtent)
   - `dqv:hasQualityMeasurement` -- quality measurements (QualityMeasure)
@@ -1299,6 +1299,15 @@ ex:YOPx123 a schema1:Dataset ;
     schema1:distribution [ a schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "VwuIdrCrJSsrGATePg" ;
+            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "MD5" ;
+                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
             schema1:encodingFormat "kpZDvhyVo",
                 "sMUGwSqxWzJOYEb",
                 "tNdpXaJgDeWbFkNM" ;
@@ -1307,23 +1316,8 @@ ex:YOPx123 a schema1:Dataset ;
                 ex:sr68lgy ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "j" ;
-                    spdx:checksumValue "h" ] ],
-        [ a schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "VwuIdrCrJSsrGATePg" ;
-            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "MD5" ;
-                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ] ;
+                    spdx:checksumValue "h" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/3572wjht> ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "grant-id" ;
-                    schema1:value "lieopgXuumP" ] ;
-            schema1:name "fhhbzh" ],
-        [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/fnjrj68> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
@@ -1334,27 +1328,33 @@ ex:YOPx123 a schema1:Dataset ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
                     schema1:value "LZpo" ] ;
-            schema1:name "ekckpBtI" ] ;
+            schema1:name "ekckpBtI" ],
+        [ a schema1:MonetaryGrant ;
+            schema1:funder <https://ror.org/3572wjht> ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "grant-id" ;
+                    schema1:value "lieopgXuumP" ] ;
+            schema1:name "fhhbzh" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
     schema1:inLanguage "bYiJT" ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "ex:rIPXjaCPQX" ;
-                    schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
-                    schema1:value "PVSajGtBPsLzeCTLv" ] ;
-            schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
-            schema1:name "MiSqvcp" ;
-            schema1:termCode "bzOl" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "https://resource.org/identifier" ;
                     schema1:url "http://example.com/resource/tdUMYBItIwdJe" ;
                     schema1:value "tdUMYBItIwdJe" ] ;
             schema1:inDefinedTermSet "sqH" ;
             schema1:name "TiMuawt" ;
-            schema1:termCode "RUUxHY" ] ;
+            schema1:termCode "RUUxHY" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "ex:rIPXjaCPQX" ;
+                    schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
+                    schema1:value "PVSajGtBPsLzeCTLv" ] ;
+            schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
+            schema1:name "MiSqvcp" ;
+            schema1:termCode "bzOl" ] ;
     schema1:license "Kmp",
         "dXhuFoqL" ;
     schema1:name "Test dataset" ;
@@ -1697,7 +1697,7 @@ Simplest valid CDIF Discovery metadata with only required properties.
 
 ### CDIF Discovery profile, All properties.
 CDIF Discovery metadata exercising every property allowed by the profile:
-measurement technique, variables measured (PropertyValue and StatisticalVariable),
+measurement technique, variables measured (PropertyValue),
 spatial coverage (bounding box with GeoSPARQL, point locations), temporal coverage
 (ISO 8601 string and W3C time:ProperInterval with numeric positions), quality
 measurements, provenance, full distribution with checksums, related links, and
@@ -2108,28 +2108,6 @@ complete CatalogRecord metadata.
       "schema:unitText": "umol/kg",
       "schema:minValue": 180.0,
       "schema:maxValue": 340.0
-    },
-    {
-      "@type": [
-        "schema:StatisticalVariable"
-      ],
-      "@id": "ex:varMeanMLDWinter",
-      "schema:name": "Winter mixed layer depth mean",
-      "schema:description": "Mean mixed layer depth during February-March convection period",
-      "schema:alternateName": [
-        "Mean winter MLD"
-      ],
-      "schema:statType": {
-        "@id": "http://purl.org/linked-data/sdmx/2009/code#mean"
-      },
-      "schema:measuredProperty": {
-        "@type": [
-          "schema:Property"
-        ],
-        "@id": "https://vocab.nerc.ac.uk/collection/P01/current/MXLDPR01/",
-        "schema:name": "Mixed layer depth"
-      },
-      "schema:measurementTechnique": "Density threshold criterion (0.03 kg/m3 from 10m reference)"
     }
   ],
   "schema:spatialCoverage": [
@@ -2762,28 +2740,6 @@ complete CatalogRecord metadata.
       "schema:unitText": "umol/kg",
       "schema:minValue": 180.0,
       "schema:maxValue": 340.0
-    },
-    {
-      "@type": [
-        "schema:StatisticalVariable"
-      ],
-      "@id": "ex:varMeanMLDWinter",
-      "schema:name": "Winter mixed layer depth mean",
-      "schema:description": "Mean mixed layer depth during February-March convection period",
-      "schema:alternateName": [
-        "Mean winter MLD"
-      ],
-      "schema:statType": {
-        "@id": "http://purl.org/linked-data/sdmx/2009/code#mean"
-      },
-      "schema:measuredProperty": {
-        "@type": [
-          "schema:Property"
-        ],
-        "@id": "https://vocab.nerc.ac.uk/collection/P01/current/MXLDPR01/",
-        "schema:name": "Mixed layer depth"
-      },
-      "schema:measurementTechnique": "Density threshold criterion (0.03 kg/m3 from 10m reference)"
     }
   ],
   "schema:spatialCoverage": [
@@ -3043,11 +2999,6 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:datePublished "2024-09-01" ;
     schema1:description "Hydrographic observations from repeat transects across the Labrador Sea measuring temperature, salinity, and dissolved oxygen profiles to 4000m depth. Data collected from annual winter cruises documenting deep water formation processes." ;
     schema1:distribution [ a schema1:DataDownload ;
-            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
-            schema1:contentUrl "https://example.org/data/nadw-ctd-2015-2024.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "CSV profiles export" ],
-        [ a schema1:DataDownload ;
             dcterms:conformsTo <https://cfconventions.org/> ;
             schema1:contentUrl "https://example.org/data/nadw-ctd-2015-2024.nc" ;
             schema1:description "CF-compliant NetCDF4 with all CTD profiles" ;
@@ -3056,7 +3007,12 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
             schema1:provider <https://ror.org/007hqnf44> ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "checksumAlgorithm_sha256" ;
-                    spdx:checksumValue "b3e4f5a6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4" ] ] ;
+                    spdx:checksumValue "b3e4f5a6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4" ] ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
+            schema1:contentUrl "https://example.org/data/nadw-ctd-2015-2024.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "CSV profiles export" ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:description "Long-term monitoring of physical and biological oceanographic conditions in the NW Atlantic" ;
             schema1:funder [ a schema1:Organization ;
@@ -3094,12 +3050,6 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
             schema1:name "DFO Open Data Policy" ;
             schema1:url "https://example.org/policies/dfo-open-data" ] ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "service" ;
-            schema1:target [ a schema1:EntryPoint ;
-                    schema1:encodingFormat "application/x-netcdf" ;
-                    schema1:name "OPeNDAP access" ;
-                    schema1:url "https://example.org/opendap/nadw-ctd" ] ],
-        [ a schema1:LinkRole ;
             schema1:linkRelationship "documentation" ;
             schema1:target [ a schema1:EntryPoint ;
                     schema1:contentType "text/html" ;
@@ -3108,7 +3058,13 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
                     schema1:httpMethod "GET" ;
                     schema1:name "NADW Cruise Reports" ;
                     schema1:url "https://example.org/docs/nadw-cruise-reports" ;
-                    schema1:urlTemplate "https://example.org/docs/nadw-cruise-reports/{year}" ] ] ;
+                    schema1:urlTemplate "https://example.org/docs/nadw-cruise-reports/{year}" ] ],
+        [ a schema1:LinkRole ;
+            schema1:linkRelationship "service" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:encodingFormat "application/x-netcdf" ;
+                    schema1:name "OPeNDAP access" ;
+                    schema1:url "https://example.org/opendap/nadw-ctd" ] ] ;
     schema1:sameAs <https://n2t.net/ark:/99999/fk4nadw2024>,
         "https://doi.org/10.5281/zenodo.42042042" ;
     schema1:spatialCoverage [ a schema1:Place ;
@@ -3144,8 +3100,7 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
                             time:numericPosition 2.02425e+03 ] ] ],
         "2015-02-01/2024-03-31" ;
     schema1:url "https://example.org/datasets/nadw-observations" ;
-    schema1:variableMeasured ex:varMeanMLDWinter,
-        ex:varOxygen,
+    schema1:variableMeasured ex:varOxygen,
         ex:varSalinity,
         ex:varTemperature ;
     schema1:version "2.1" ;
@@ -3201,14 +3156,6 @@ ex:metadataRecord42 a schema1:Dataset ;
 ex:rawCTDCasts a schema1:Dataset ;
     schema1:name "AR7W Raw CTD Cast Data" ;
     schema1:url "https://example.org/data/ar7w-raw" .
-
-ex:varMeanMLDWinter a schema1:StatisticalVariable ;
-    schema1:alternateName "Mean winter MLD" ;
-    schema1:description "Mean mixed layer depth during February-March convection period" ;
-    schema1:measuredProperty <https://vocab.nerc.ac.uk/collection/P01/current/MXLDPR01/> ;
-    schema1:measurementTechnique "Density threshold criterion (0.03 kg/m3 from 10m reference)" ;
-    schema1:name "Winter mixed layer depth mean" ;
-    schema1:statType <http://purl.org/linked-data/sdmx/2009/code#mean> .
 
 ex:varOxygen a schema1:PropertyValue ;
     schema1:description "Dissolved oxygen concentration from SBE 43 sensor" ;
@@ -3282,9 +3229,6 @@ ex:yashayaevOrcid a schema1:PropertyValue ;
     schema1:alternateName "BIO" ;
     schema1:name "Bedford Institute of Oceanography" .
 
-<https://vocab.nerc.ac.uk/collection/P01/current/MXLDPR01/> a schema1:Property ;
-    schema1:name "Mixed layer depth" .
-
 <https://ror.org/007hqnf44> a schema1:Organization ;
     schema1:name "Ocean Sciences Division, DFO Canada" ;
     schema1:url "https://www.dfo-mpo.gc.ca" .
@@ -3330,9 +3274,7 @@ allOf:
       description: What does the dataset measure? (e.g., temperature, pressure)
       type: array
       items:
-        anyOf:
-        - $ref: '#/$defs/VariableMeasured'
-        - $ref: '#/$defs/StatisticalVariable'
+        $ref: '#/$defs/VariableMeasured'
     schema:spatialCoverage:
       description: Geographic extent of resource content.
       type: array
@@ -3361,8 +3303,6 @@ $defs:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
   VariableMeasured:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml
-  StatisticalVariable:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/schema.yaml
   SpatialExtent:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
   TemporalExtent:

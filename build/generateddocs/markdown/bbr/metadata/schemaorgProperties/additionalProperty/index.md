@@ -132,6 +132,117 @@ ex:addPropdefinedTerm_zZc a schema1:DefinedTerm ;
 
 ```
 
+
+### Complete additional property example.
+AdditionalProperty instance exercising all properties: propertyID (string and
+DefinedTerm), name, value, unitCode (DefinedTerm), and unitText.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:additionalPropertyComplete_001",
+  "@type": ["schema:PropertyValue"],
+  "schema:propertyID": [
+    "ex:samplePreparationMethod",
+    {
+      "@type": ["schema:DefinedTerm"],
+      "schema:name": "Sample Preparation Method",
+      "schema:identifier": {
+        "@type": ["schema:PropertyValue"],
+        "schema:propertyID": "https://vocab.nerc.ac.uk/collection/Q01/current/",
+        "schema:value": "Q0100002",
+        "schema:url": "https://vocab.nerc.ac.uk/collection/Q01/current/Q0100002/"
+      },
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/Q01/current/"
+    }
+  ],
+  "schema:name": "Sample preparation method",
+  "schema:value": "acid digestion with HF-HNO3",
+  "schema:unitCode": {
+    "@type": ["schema:DefinedTerm"],
+    "schema:name": "not applicable",
+    "schema:termCode": "NA"
+  },
+  "schema:unitText": "not applicable"
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:additionalPropertyComplete_001",
+  "@type": [
+    "schema:PropertyValue"
+  ],
+  "schema:propertyID": [
+    "ex:samplePreparationMethod",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Sample Preparation Method",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "https://vocab.nerc.ac.uk/collection/Q01/current/",
+        "schema:value": "Q0100002",
+        "schema:url": "https://vocab.nerc.ac.uk/collection/Q01/current/Q0100002/"
+      },
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/Q01/current/"
+    }
+  ],
+  "schema:name": "Sample preparation method",
+  "schema:value": "acid digestion with HF-HNO3",
+  "schema:unitCode": {
+    "@type": [
+      "schema:DefinedTerm"
+    ],
+    "schema:name": "not applicable",
+    "schema:termCode": "NA"
+  },
+  "schema:unitText": "not applicable"
+}
+```
+
+#### ttl
+```ttl
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+
+ex:additionalPropertyComplete_001 a schema1:PropertyValue ;
+    schema1:name "Sample preparation method" ;
+    schema1:propertyID [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "https://vocab.nerc.ac.uk/collection/Q01/current/" ;
+                    schema1:url "https://vocab.nerc.ac.uk/collection/Q01/current/Q0100002/" ;
+                    schema1:value "Q0100002" ] ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/Q01/current/" ;
+            schema1:name "Sample Preparation Method" ],
+        "ex:samplePreparationMethod" ;
+    schema1:unitCode [ a schema1:DefinedTerm ;
+            schema1:name "not applicable" ;
+            schema1:termCode "NA" ] ;
+    schema1:unitText "not applicable" ;
+    schema1:value "acid digestion with HF-HNO3" .
+
+
+```
+
 ## Schema
 
 ```yaml

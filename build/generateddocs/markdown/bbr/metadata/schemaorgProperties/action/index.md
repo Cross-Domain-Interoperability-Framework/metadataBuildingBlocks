@@ -287,6 +287,258 @@ ex:input_start a schema1:PropertyValueSpecification ;
 
 ```
 
+
+### Complete Action example.
+Action instance exercising all properties: @type (SearchAction subtype), name,
+target (urlTemplate, httpMethod with multiple methods, contentType), result
+(encodingFormat), object (DataFeed with encodingFormat-input), and query-input
+(multiple parameters with valueName, description, valueRequired, valuePattern).
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/",
+    "dcterms": "http://purl.org/dc/terms/"
+  },
+  "@id": "ex:ActionComplete_001",
+  "@type": ["schema:SearchAction"],
+  "schema:name": "Search and Download Geochemical Data",
+  "schema:target": {
+    "@type": ["schema:EntryPoint"],
+    "schema:description": "REST endpoint for querying geochemical analysis results by element, sample type, and date range",
+    "schema:urlTemplate": "https://geochem.example.org/api/v2/analyses?element={element}&sample_type={sample_type}&start={start_date}&end={end_date}&format={format}",
+    "schema:httpMethod": ["GET", "POST"],
+    "schema:contentType": ["application/json", "text/csv", "application/xml"]
+  },
+  "schema:result": {
+    "@type": ["schema:DataDownload"],
+    "schema:encodingFormat": ["application/json", "text/csv"],
+    "schema:description": "Tabular geochemical analysis results with sample metadata, element concentrations, and measurement uncertainties"
+  },
+  "schema:object": {
+    "@type": ["schema:DataFeed"],
+    "schema:description": "Geochemical analysis database containing major and trace element concentrations from rock and sediment samples",
+    "schema:encodingFormat-input": ["application/json"]
+  },
+  "schema:query-input": [
+    {
+      "@id": "ex:input_element",
+      "@type": ["schema:PropertyValueSpecification"],
+      "schema:valueName": "element",
+      "schema:description": "Chemical element symbol or comma-separated list of elements to query (e.g., Fe, Si, Al)",
+      "schema:valueRequired": true,
+      "schema:valuePattern": "^[A-Z][a-z]?(,[A-Z][a-z]?)*$"
+    },
+    {
+      "@id": "ex:input_sample_type",
+      "@type": ["schema:PropertyValueSpecification"],
+      "schema:valueName": "sample_type",
+      "schema:description": "Type of sample material (e.g., rock, sediment, soil, water)",
+      "schema:valueRequired": false,
+      "schema:valuePattern": "^[a-z]+$"
+    },
+    {
+      "@id": "ex:input_start_date",
+      "@type": ["schema:PropertyValueSpecification"],
+      "schema:valueName": "start_date",
+      "schema:description": "Start date for analysis date range filter in ISO 8601 format",
+      "schema:valueRequired": false,
+      "schema:valuePattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    {
+      "@id": "ex:input_end_date",
+      "@type": ["schema:PropertyValueSpecification"],
+      "schema:valueName": "end_date",
+      "schema:description": "End date for analysis date range filter in ISO 8601 format",
+      "schema:valueRequired": false,
+      "schema:valuePattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    {
+      "@id": "ex:input_format",
+      "@type": ["schema:PropertyValueSpecification"],
+      "schema:valueName": "format",
+      "schema:description": "Desired output format for query results",
+      "schema:valueRequired": false,
+      "schema:valuePattern": "^(json|csv|xml)$"
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/action/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "ex": "https://example.org/",
+      "dcterms": "http://purl.org/dc/terms/"
+    }
+  ],
+  "@id": "ex:ActionComplete_001",
+  "@type": [
+    "schema:SearchAction"
+  ],
+  "schema:name": "Search and Download Geochemical Data",
+  "schema:target": {
+    "@type": [
+      "schema:EntryPoint"
+    ],
+    "schema:description": "REST endpoint for querying geochemical analysis results by element, sample type, and date range",
+    "schema:urlTemplate": "https://geochem.example.org/api/v2/analyses?element={element}&sample_type={sample_type}&start={start_date}&end={end_date}&format={format}",
+    "schema:httpMethod": [
+      "GET",
+      "POST"
+    ],
+    "schema:contentType": [
+      "application/json",
+      "text/csv",
+      "application/xml"
+    ]
+  },
+  "schema:result": {
+    "@type": [
+      "schema:DataDownload"
+    ],
+    "schema:encodingFormat": [
+      "application/json",
+      "text/csv"
+    ],
+    "schema:description": "Tabular geochemical analysis results with sample metadata, element concentrations, and measurement uncertainties"
+  },
+  "schema:object": {
+    "@type": [
+      "schema:DataFeed"
+    ],
+    "schema:description": "Geochemical analysis database containing major and trace element concentrations from rock and sediment samples",
+    "schema:encodingFormat-input": [
+      "application/json"
+    ]
+  },
+  "schema:query-input": [
+    {
+      "@id": "ex:input_element",
+      "@type": [
+        "schema:PropertyValueSpecification"
+      ],
+      "schema:valueName": "element",
+      "schema:description": "Chemical element symbol or comma-separated list of elements to query (e.g., Fe, Si, Al)",
+      "schema:valueRequired": true,
+      "schema:valuePattern": "^[A-Z][a-z]?(,[A-Z][a-z]?)*$"
+    },
+    {
+      "@id": "ex:input_sample_type",
+      "@type": [
+        "schema:PropertyValueSpecification"
+      ],
+      "schema:valueName": "sample_type",
+      "schema:description": "Type of sample material (e.g., rock, sediment, soil, water)",
+      "schema:valueRequired": false,
+      "schema:valuePattern": "^[a-z]+$"
+    },
+    {
+      "@id": "ex:input_start_date",
+      "@type": [
+        "schema:PropertyValueSpecification"
+      ],
+      "schema:valueName": "start_date",
+      "schema:description": "Start date for analysis date range filter in ISO 8601 format",
+      "schema:valueRequired": false,
+      "schema:valuePattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    {
+      "@id": "ex:input_end_date",
+      "@type": [
+        "schema:PropertyValueSpecification"
+      ],
+      "schema:valueName": "end_date",
+      "schema:description": "End date for analysis date range filter in ISO 8601 format",
+      "schema:valueRequired": false,
+      "schema:valuePattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    {
+      "@id": "ex:input_format",
+      "@type": [
+        "schema:PropertyValueSpecification"
+      ],
+      "schema:valueName": "format",
+      "schema:description": "Desired output format for query results",
+      "schema:valueRequired": false,
+      "schema:valuePattern": "^(json|csv|xml)$"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:ActionComplete_001 a schema1:SearchAction ;
+    schema1:name "Search and Download Geochemical Data" ;
+    schema1:object [ a schema1:DataFeed ;
+            schema1:description "Geochemical analysis database containing major and trace element concentrations from rock and sediment samples" ;
+            schema1:encodingFormat-input "application/json" ] ;
+    schema1:query-input ex:input_element,
+        ex:input_end_date,
+        ex:input_format,
+        ex:input_sample_type,
+        ex:input_start_date ;
+    schema1:result [ a schema1:DataDownload ;
+            schema1:description "Tabular geochemical analysis results with sample metadata, element concentrations, and measurement uncertainties" ;
+            schema1:encodingFormat "application/json",
+                "text/csv" ] ;
+    schema1:target [ a schema1:EntryPoint ;
+            schema1:contentType "application/json",
+                "application/xml",
+                "text/csv" ;
+            schema1:description "REST endpoint for querying geochemical analysis results by element, sample type, and date range" ;
+            schema1:httpMethod "GET",
+                "POST" ;
+            schema1:urlTemplate "https://geochem.example.org/api/v2/analyses?element={element}&sample_type={sample_type}&start={start_date}&end={end_date}&format={format}" ] .
+
+ex:input_element a schema1:PropertyValueSpecification ;
+    schema1:description "Chemical element symbol or comma-separated list of elements to query (e.g., Fe, Si, Al)" ;
+    schema1:valueName "element" ;
+    schema1:valuePattern "^[A-Z][a-z]?(,[A-Z][a-z]?)*$" ;
+    schema1:valueRequired true .
+
+ex:input_end_date a schema1:PropertyValueSpecification ;
+    schema1:description "End date for analysis date range filter in ISO 8601 format" ;
+    schema1:valueName "end_date" ;
+    schema1:valuePattern "^\\d{4}-\\d{2}-\\d{2}$" ;
+    schema1:valueRequired false .
+
+ex:input_format a schema1:PropertyValueSpecification ;
+    schema1:description "Desired output format for query results" ;
+    schema1:valueName "format" ;
+    schema1:valuePattern "^(json|csv|xml)$" ;
+    schema1:valueRequired false .
+
+ex:input_sample_type a schema1:PropertyValueSpecification ;
+    schema1:description "Type of sample material (e.g., rock, sediment, soil, water)" ;
+    schema1:valueName "sample_type" ;
+    schema1:valuePattern "^[a-z]+$" ;
+    schema1:valueRequired false .
+
+ex:input_start_date a schema1:PropertyValueSpecification ;
+    schema1:description "Start date for analysis date range filter in ISO 8601 format" ;
+    schema1:valueName "start_date" ;
+    schema1:valuePattern "^\\d{4}-\\d{2}-\\d{2}$" ;
+    schema1:valueRequired false .
+
+
+```
+
 ## Schema
 
 ```yaml

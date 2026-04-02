@@ -69,6 +69,58 @@ Example identifier instance.
 
 ```
 
+
+### Complete identifier example.
+Identifier instance exercising all properties: propertyID, value, and url.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["schema:PropertyValue"],
+  "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+  "schema:value": "10.5281/zenodo.1234567",
+  "schema:url": "https://doi.org/10.5281/zenodo.1234567"
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "schema:PropertyValue"
+  ],
+  "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+  "schema:value": "10.5281/zenodo.1234567",
+  "schema:url": "https://doi.org/10.5281/zenodo.1234567"
+}
+```
+
+#### ttl
+```ttl
+@prefix schema1: <http://schema.org/> .
+
+[] a schema1:PropertyValue ;
+    schema1:propertyID "https://registry.identifiers.org/registry/doi" ;
+    schema1:url "https://doi.org/10.5281/zenodo.1234567" ;
+    schema1:value "10.5281/zenodo.1234567" .
+
+
+```
+
 ## Schema
 
 ```yaml

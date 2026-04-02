@@ -86,6 +86,134 @@ ex:statvar-median-income a schema1:StatisticalVariable ;
 
 ```
 
+
+### Complete statistical variable example.
+StatisticalVariable instance exercising all properties: name, description,
+alternateName, measuredProperty (with DefinedTerm name), statType
+(DefinedTerm), and measurementTechnique (DefinedTerm).
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:StatVarComplete_001",
+  "@type": ["schema:StatisticalVariable"],
+  "schema:name": "Annual Mean Surface Air Temperature",
+  "schema:description": "Spatially averaged annual mean surface air temperature computed from hourly station observations within each grid cell, quality-controlled and homogenized",
+  "schema:alternateName": ["Annual Mean SAT", "Mean Surface Temperature"],
+  "schema:measuredProperty": {
+    "@id": "https://www.wikidata.org/entity/Q11466",
+    "@type": ["schema:Property"],
+    "schema:name": {
+      "@type": ["schema:DefinedTerm"],
+      "schema:name": "Surface Air Temperature",
+      "schema:termCode": "SAT",
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/P07/current/"
+    }
+  },
+  "schema:statType": {
+    "@type": ["schema:DefinedTerm"],
+    "schema:name": "Arithmetic Mean",
+    "schema:termCode": "mean",
+    "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/S06/current/"
+  },
+  "schema:measurementTechnique": {
+    "@type": ["schema:DefinedTerm"],
+    "schema:name": "Automatic Weather Station",
+    "schema:termCode": "AWS",
+    "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:StatVarComplete_001",
+  "@type": [
+    "schema:StatisticalVariable"
+  ],
+  "schema:name": "Annual Mean Surface Air Temperature",
+  "schema:description": "Spatially averaged annual mean surface air temperature computed from hourly station observations within each grid cell, quality-controlled and homogenized",
+  "schema:alternateName": [
+    "Annual Mean SAT",
+    "Mean Surface Temperature"
+  ],
+  "schema:measuredProperty": {
+    "@id": "https://www.wikidata.org/entity/Q11466",
+    "@type": [
+      "schema:Property"
+    ],
+    "schema:name": {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Surface Air Temperature",
+      "schema:termCode": "SAT",
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/P07/current/"
+    }
+  },
+  "schema:statType": {
+    "@type": [
+      "schema:DefinedTerm"
+    ],
+    "schema:name": "Arithmetic Mean",
+    "schema:termCode": "mean",
+    "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/S06/current/"
+  },
+  "schema:measurementTechnique": {
+    "@type": [
+      "schema:DefinedTerm"
+    ],
+    "schema:name": "Automatic Weather Station",
+    "schema:termCode": "AWS",
+    "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+
+ex:StatVarComplete_001 a schema1:StatisticalVariable ;
+    schema1:alternateName "Annual Mean SAT",
+        "Mean Surface Temperature" ;
+    schema1:description "Spatially averaged annual mean surface air temperature computed from hourly station observations within each grid cell, quality-controlled and homogenized" ;
+    schema1:measuredProperty <https://www.wikidata.org/entity/Q11466> ;
+    schema1:measurementTechnique [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+            schema1:name "Automatic Weather Station" ;
+            schema1:termCode "AWS" ] ;
+    schema1:name "Annual Mean Surface Air Temperature" ;
+    schema1:statType [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/S06/current/" ;
+            schema1:name "Arithmetic Mean" ;
+            schema1:termCode "mean" ] .
+
+<https://www.wikidata.org/entity/Q11466> a schema1:Property ;
+    schema1:name [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P07/current/" ;
+            schema1:name "Surface Air Temperature" ;
+            schema1:termCode "SAT" ] .
+
+
+```
+
 ## Schema
 
 ```yaml

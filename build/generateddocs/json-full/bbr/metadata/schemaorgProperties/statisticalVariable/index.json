@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-03-31",
+  "dateOfLastChange": "2026-04-02",
   "link": "https://github.com/usgin/metadataBuildingBlocks",
   "sources": [
     {
@@ -72,6 +72,31 @@
           "language": "ttl",
           "code": "@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n\nex:statvar-median-income a schema1:StatisticalVariable ;\n    schema1:description \"Median annual household income in US dollars, estimated from survey data.\" ;\n    schema1:measuredProperty [ a schema1:Property ;\n            schema1:name \"household income\" ] ;\n    schema1:measurementTechnique \"American Community Survey 5-year estimates\" ;\n    schema1:name \"Median Household Income\" ;\n    schema1:statType \"Median\" .\n\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/statisticalVariable/example_1_1.ttl"
+        }
+      ]
+    },
+    {
+      "title": "Complete statistical variable example.",
+      "content": "StatisticalVariable instance exercising all properties: name, description,\nalternateName, measuredProperty (with DefinedTerm name), statType\n(DefinedTerm), and measurementTechnique (DefinedTerm).",
+      "prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "exampleStatisticalVariableComplete.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@id\": \"ex:StatVarComplete_001\",\n  \"@type\": [\"schema:StatisticalVariable\"],\n  \"schema:name\": \"Annual Mean Surface Air Temperature\",\n  \"schema:description\": \"Spatially averaged annual mean surface air temperature computed from hourly station observations within each grid cell, quality-controlled and homogenized\",\n  \"schema:alternateName\": [\"Annual Mean SAT\", \"Mean Surface Temperature\"],\n  \"schema:measuredProperty\": {\n    \"@id\": \"https://www.wikidata.org/entity/Q11466\",\n    \"@type\": [\"schema:Property\"],\n    \"schema:name\": {\n      \"@type\": [\"schema:DefinedTerm\"],\n      \"schema:name\": \"Surface Air Temperature\",\n      \"schema:termCode\": \"SAT\",\n      \"schema:inDefinedTermSet\": \"https://vocab.nerc.ac.uk/collection/P07/current/\"\n    }\n  },\n  \"schema:statType\": {\n    \"@type\": [\"schema:DefinedTerm\"],\n    \"schema:name\": \"Arithmetic Mean\",\n    \"schema:termCode\": \"mean\",\n    \"schema:inDefinedTermSet\": \"https://vocab.nerc.ac.uk/collection/S06/current/\"\n  },\n  \"schema:measurementTechnique\": {\n    \"@type\": [\"schema:DefinedTerm\"],\n    \"schema:name\": \"Automatic Weather Station\",\n    \"schema:termCode\": \"AWS\",\n    \"schema:inDefinedTermSet\": \"https://vocab.nerc.ac.uk/collection/L05/current/\"\n  }\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/statisticalVariable/example_2_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/statisticalVariable/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@id\": \"ex:StatVarComplete_001\",\n  \"@type\": [\n    \"schema:StatisticalVariable\"\n  ],\n  \"schema:name\": \"Annual Mean Surface Air Temperature\",\n  \"schema:description\": \"Spatially averaged annual mean surface air temperature computed from hourly station observations within each grid cell, quality-controlled and homogenized\",\n  \"schema:alternateName\": [\n    \"Annual Mean SAT\",\n    \"Mean Surface Temperature\"\n  ],\n  \"schema:measuredProperty\": {\n    \"@id\": \"https://www.wikidata.org/entity/Q11466\",\n    \"@type\": [\n      \"schema:Property\"\n    ],\n    \"schema:name\": {\n      \"@type\": [\n        \"schema:DefinedTerm\"\n      ],\n      \"schema:name\": \"Surface Air Temperature\",\n      \"schema:termCode\": \"SAT\",\n      \"schema:inDefinedTermSet\": \"https://vocab.nerc.ac.uk/collection/P07/current/\"\n    }\n  },\n  \"schema:statType\": {\n    \"@type\": [\n      \"schema:DefinedTerm\"\n    ],\n    \"schema:name\": \"Arithmetic Mean\",\n    \"schema:termCode\": \"mean\",\n    \"schema:inDefinedTermSet\": \"https://vocab.nerc.ac.uk/collection/S06/current/\"\n  },\n  \"schema:measurementTechnique\": {\n    \"@type\": [\n      \"schema:DefinedTerm\"\n    ],\n    \"schema:name\": \"Automatic Weather Station\",\n    \"schema:termCode\": \"AWS\",\n    \"schema:inDefinedTermSet\": \"https://vocab.nerc.ac.uk/collection/L05/current/\"\n  }\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/statisticalVariable/example_2_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n\nex:StatVarComplete_001 a schema1:StatisticalVariable ;\n    schema1:alternateName \"Annual Mean SAT\",\n        \"Mean Surface Temperature\" ;\n    schema1:description \"Spatially averaged annual mean surface air temperature computed from hourly station observations within each grid cell, quality-controlled and homogenized\" ;\n    schema1:measuredProperty <https://www.wikidata.org/entity/Q11466> ;\n    schema1:measurementTechnique [ a schema1:DefinedTerm ;\n            schema1:inDefinedTermSet \"https://vocab.nerc.ac.uk/collection/L05/current/\" ;\n            schema1:name \"Automatic Weather Station\" ;\n            schema1:termCode \"AWS\" ] ;\n    schema1:name \"Annual Mean Surface Air Temperature\" ;\n    schema1:statType [ a schema1:DefinedTerm ;\n            schema1:inDefinedTermSet \"https://vocab.nerc.ac.uk/collection/S06/current/\" ;\n            schema1:name \"Arithmetic Mean\" ;\n            schema1:termCode \"mean\" ] .\n\n<https://www.wikidata.org/entity/Q11466> a schema1:Property ;\n    schema1:name [ a schema1:DefinedTerm ;\n            schema1:inDefinedTermSet \"https://vocab.nerc.ac.uk/collection/P07/current/\" ;\n            schema1:name \"Surface Air Temperature\" ;\n            schema1:termCode \"SAT\" ] .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/statisticalVariable/example_2_1.ttl"
         }
       ]
     }

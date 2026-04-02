@@ -1,0 +1,56 @@
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:WebAPIComplete_001 a schema1:WebAPI ;
+    schema1:documentation [ a schema1:CreativeWork ;
+            schema1:description "Machine-readable API description in OpenAPI 3.1 format for the geochemical data query service" ;
+            schema1:name "Geochemistry Data Service OpenAPI Specification" ;
+            schema1:url "https://geochem.example.org/api/v2/openapi.json" ] ;
+    schema1:potentialAction ex:WebAPIAction_search ;
+    schema1:serviceType [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://www.opengis.net/def/serviceType/ogc/" ;
+            schema1:name "OGC Web Feature Service" ;
+            schema1:termCode "WFS" ] ;
+    schema1:termsOfService [ a schema1:CreativeWork ;
+            schema1:description "Open access with CC-BY 4.0 attribution requirement; rate limited to 1000 requests per hour" ;
+            schema1:name "Data Portal Terms of Use" ;
+            schema1:url "https://geochem.example.org/terms-of-use" ] .
+
+ex:WebAPIAction_search a schema1:SearchAction ;
+    schema1:name "Search Geochemical Analyses" ;
+    schema1:object [ a schema1:DataFeed ;
+            schema1:description "Global geochemical reference database with major and trace element data from 50,000+ samples" ;
+            schema1:encodingFormat-input "application/json" ] ;
+    schema1:query-input ex:WebAPIInput_bbox,
+        ex:WebAPIInput_element,
+        ex:WebAPIInput_format ;
+    schema1:result [ a schema1:DataDownload ;
+            schema1:description "Tabular geochemical analysis results with sample metadata and element concentrations" ;
+            schema1:encodingFormat "application/json",
+                "text/csv" ] ;
+    schema1:target [ a schema1:EntryPoint ;
+            schema1:contentType "application/json",
+                "text/csv" ;
+            schema1:description "Query endpoint for geochemical analysis data with filtering by element, location, and date" ;
+            schema1:httpMethod "GET" ;
+            schema1:urlTemplate "https://geochem.example.org/api/v2/analyses?element={element}&bbox={bbox}&format={format}" ] .
+
+ex:WebAPIInput_bbox a schema1:PropertyValueSpecification ;
+    schema1:description "Bounding box filter as west,south,east,north in WGS84 decimal degrees" ;
+    schema1:valueName "bbox" ;
+    schema1:valuePattern "^-?\\d+\\.?\\d*,-?\\d+\\.?\\d*,-?\\d+\\.?\\d*,-?\\d+\\.?\\d*$" ;
+    schema1:valueRequired false .
+
+ex:WebAPIInput_element a schema1:PropertyValueSpecification ;
+    schema1:description "Chemical element symbol(s) to query" ;
+    schema1:valueName "element" ;
+    schema1:valuePattern "^[A-Z][a-z]?(,[A-Z][a-z]?)*$" ;
+    schema1:valueRequired true .
+
+ex:WebAPIInput_format a schema1:PropertyValueSpecification ;
+    schema1:description "Output format for query results" ;
+    schema1:valueName "format" ;
+    schema1:valuePattern "^(json|csv)$" ;
+    schema1:valueRequired false .
+

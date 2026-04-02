@@ -250,6 +250,159 @@ ex:PersonExample_zZc a schema1:Person ;
 
 ```
 
+
+### Complete agent in role example.
+AgentInRole instance exercising all properties: roleName (DefinedTerm with
+inDefinedTermSet and termCode), and contributor (inline Person with all
+Person properties including affiliation, contactPoint, sameAs).
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["schema:Role"],
+  "schema:roleName": {
+    "@type": ["schema:DefinedTerm"],
+    "schema:name": "Principal Investigator",
+    "schema:inDefinedTermSet": "https://credit.niso.org/",
+    "schema:termCode": "investigation"
+  },
+  "schema:contributor": {
+    "@id": "ex:PersonComplete_PI",
+    "@type": ["schema:Person"],
+    "schema:name": "Elena Volcanova",
+    "schema:description": "Volcanologist and principal investigator for the Cascades Monitoring Network",
+    "schema:alternateName": "Volcanova, E.",
+    "schema:identifier": {
+      "@type": ["schema:PropertyValue"],
+      "schema:propertyID": "https://orcid.org",
+      "schema:value": "0000-0003-4567-8901",
+      "schema:url": "https://orcid.org/0000-0003-4567-8901"
+    },
+    "schema:affiliation": {
+      "@type": ["schema:Organization"],
+      "schema:name": "USGS Cascades Volcano Observatory",
+      "schema:identifier": {
+        "@type": ["schema:PropertyValue"],
+        "schema:propertyID": "https://ror.org",
+        "schema:value": "035a68863",
+        "schema:url": "https://ror.org/035a68863"
+      }
+    },
+    "schema:contactPoint": {
+      "@type": ["schema:ContactPoint"],
+      "schema:email": "evolcanova@usgs.gov"
+    },
+    "schema:sameAs": [
+      "https://www.usgs.gov/staff-profiles/elena-volcanova"
+    ]
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/agentInRole/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "schema:Role"
+  ],
+  "schema:roleName": {
+    "@type": [
+      "schema:DefinedTerm"
+    ],
+    "schema:name": "Principal Investigator",
+    "schema:inDefinedTermSet": "https://credit.niso.org/",
+    "schema:termCode": "investigation"
+  },
+  "schema:contributor": {
+    "@id": "ex:PersonComplete_PI",
+    "@type": [
+      "schema:Person"
+    ],
+    "schema:name": "Elena Volcanova",
+    "schema:description": "Volcanologist and principal investigator for the Cascades Monitoring Network",
+    "schema:alternateName": "Volcanova, E.",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "https://orcid.org",
+      "schema:value": "0000-0003-4567-8901",
+      "schema:url": "https://orcid.org/0000-0003-4567-8901"
+    },
+    "schema:affiliation": {
+      "@type": [
+        "schema:Organization"
+      ],
+      "schema:name": "USGS Cascades Volcano Observatory",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "https://ror.org",
+        "schema:value": "035a68863",
+        "schema:url": "https://ror.org/035a68863"
+      }
+    },
+    "schema:contactPoint": {
+      "@type": [
+        "schema:ContactPoint"
+      ],
+      "schema:email": "evolcanova@usgs.gov"
+    },
+    "schema:sameAs": [
+      "https://www.usgs.gov/staff-profiles/elena-volcanova"
+    ]
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+
+ex:PersonComplete_PI a schema1:Person ;
+    schema1:affiliation [ a schema1:Organization ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "https://ror.org" ;
+                    schema1:url "https://ror.org/035a68863" ;
+                    schema1:value "035a68863" ] ;
+            schema1:name "USGS Cascades Volcano Observatory" ] ;
+    schema1:alternateName "Volcanova, E." ;
+    schema1:contactPoint [ a schema1:ContactPoint ;
+            schema1:email "evolcanova@usgs.gov" ] ;
+    schema1:description "Volcanologist and principal investigator for the Cascades Monitoring Network" ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "https://orcid.org" ;
+            schema1:url "https://orcid.org/0000-0003-4567-8901" ;
+            schema1:value "0000-0003-4567-8901" ] ;
+    schema1:name "Elena Volcanova" ;
+    schema1:sameAs "https://www.usgs.gov/staff-profiles/elena-volcanova" .
+
+[] a schema1:Role ;
+    schema1:contributor ex:PersonComplete_PI ;
+    schema1:roleName [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://credit.niso.org/" ;
+            schema1:name "Principal Investigator" ;
+            schema1:termCode "investigation" ] .
+
+
+```
+
 ## Schema
 
 ```yaml

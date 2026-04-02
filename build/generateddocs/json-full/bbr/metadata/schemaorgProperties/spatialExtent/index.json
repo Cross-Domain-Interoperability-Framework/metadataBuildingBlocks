@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-03-31",
+  "dateOfLastChange": "2026-04-02",
   "link": "https://github.com/opengeospatial/bblock-template",
   "sources": [
     {
@@ -100,7 +100,7 @@
         },
         {
           "language": "ttl",
-          "code": "@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n\nex:SpatialExtentPlaceName_45hwe6 a schema1:Place ;\n    schema1:name [ a schema1:DefinedTerm ;\n            schema1:identifier [ a schema1:PropertyValue ;\n                    schema1:propertyID \"http uri\" ;\n                    schema1:url \"https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/11520\" ] ;\n            schema1:inDefinedTermSet \"https://www.usgs.gov/us-board-on-geographic-names/domestic-names\" ;\n            schema1:name \"Socorro Peak\" ],\n        [ a schema1:DefinedTerm ;\n            schema1:identifier [ a schema1:PropertyValue ;\n                    schema1:propertyID \"http uri\" ;\n                    schema1:url \"https://www.mindat.org/loc-33505.html\" ] ;\n            schema1:inDefinedTermSet \"https://www.mindat.org/\" ;\n            schema1:name \"Hidden Treasure Mine\" ],\n        [ a schema1:DefinedTerm ;\n            schema1:identifier [ a schema1:PropertyValue ;\n                    schema1:propertyID \"http uri\" ;\n                    schema1:url \"https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/5573\" ] ;\n            schema1:inDefinedTermSet \"https://www.usgs.gov/us-board-on-geographic-names/domestic-names\" ;\n            schema1:name \"Harquahala Mountains\" ] .\n\n",
+          "code": "@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n\nex:SpatialExtentPlaceName_45hwe6 a schema1:Place ;\n    schema1:name [ a schema1:DefinedTerm ;\n            schema1:identifier [ a schema1:PropertyValue ;\n                    schema1:propertyID \"http uri\" ;\n                    schema1:url \"https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/5573\" ] ;\n            schema1:inDefinedTermSet \"https://www.usgs.gov/us-board-on-geographic-names/domestic-names\" ;\n            schema1:name \"Harquahala Mountains\" ],\n        [ a schema1:DefinedTerm ;\n            schema1:identifier [ a schema1:PropertyValue ;\n                    schema1:propertyID \"http uri\" ;\n                    schema1:url \"https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/11520\" ] ;\n            schema1:inDefinedTermSet \"https://www.usgs.gov/us-board-on-geographic-names/domestic-names\" ;\n            schema1:name \"Socorro Peak\" ],\n        [ a schema1:DefinedTerm ;\n            schema1:identifier [ a schema1:PropertyValue ;\n                    schema1:propertyID \"http uri\" ;\n                    schema1:url \"https://www.mindat.org/loc-33505.html\" ] ;\n            schema1:inDefinedTermSet \"https://www.mindat.org/\" ;\n            schema1:name \"Hidden Treasure Mine\" ] .\n\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/spatialExtent/example_2_1.ttl"
         }
       ]
@@ -156,6 +156,33 @@
           "language": "ttl",
           "code": "@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n\nex:SpatialExtentBox_my8 a schema1:Place ;\n    schema1:geo [ a schema1:GeoShape ;\n            schema1:box \"39.3280 120.1633 40.445 123.7878\" ] .\n\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/spatialExtent/example_4_1.ttl"
+        }
+      ]
+    },
+    {
+      "title": "Complete spatial extent example.",
+      "content": "Spatial extent instance exercising all properties: additionalType, name\n(string and DefinedTerm), identifier, alternateName, geo (bounding box),\nand geosparql:hasGeometry with WKT polygon and CRS.",
+      "prefixes": {
+        "schema": "http://schema.org/",
+        "geosparql": "http://www.opengis.net/ont/geosparql#",
+        "sf": "http://www.opengis.net/ont/sf#"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "exampleSpatialExtentComplete.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\",\n    \"geosparql\": \"http://www.opengis.net/ont/geosparql#\",\n    \"sf\": \"http://www.opengis.net/ont/sf#\"\n  },\n  \"@id\": \"ex:SpatialExtentComplete_001\",\n  \"@type\": [\"schema:Place\"],\n  \"schema:additionalType\": [\"ex:FieldSamplingArea\"],\n  \"schema:name\": [\n    \"Monterey Bay\",\n    {\n      \"@type\": [\"schema:DefinedTerm\"],\n      \"schema:name\": \"Monterey Bay National Marine Sanctuary\",\n      \"schema:identifier\": {\n        \"@type\": [\"schema:PropertyValue\"],\n        \"schema:propertyID\": \"https://www.geonames.org\",\n        \"schema:value\": \"5374363\",\n        \"schema:url\": \"https://www.geonames.org/5374363\"\n      },\n      \"schema:inDefinedTermSet\": \"https://www.geonames.org\"\n    }\n  ],\n  \"schema:identifier\": \"https://marineregions.org/mrgid/4260\",\n  \"schema:alternateName\": \"MBNMS\",\n  \"schema:geo\": {\n    \"@type\": [\"schema:GeoShape\"],\n    \"schema:box\": \"36.5000 -122.5000 37.0000 -121.8000\"\n  },\n  \"geosparql:hasGeometry\": {\n    \"@type\": [\"sf:Polygon\"],\n    \"geosparql:asWKT\": {\n      \"@type\": [\"geosparql:wktLiteral\"],\n      \"@value\": \"POLYGON((-122.5 36.5, -121.8 36.5, -121.8 37.0, -122.5 37.0, -122.5 36.5))\"\n    },\n    \"geosparql:crs\": {\n      \"@id\": \"http://www.opengis.net/def/crs/OGC/1.3/CRS84\"\n    }\n  }\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/spatialExtent/example_5_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\",\n      \"geosparql\": \"http://www.opengis.net/ont/geosparql#\",\n      \"sf\": \"http://www.opengis.net/ont/sf#\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\",\n      \"geosparql\": \"http://www.opengis.net/ont/geosparql#\",\n      \"sf\": \"http://www.opengis.net/ont/sf#\"\n    }\n  ],\n  \"@id\": \"ex:SpatialExtentComplete_001\",\n  \"@type\": [\n    \"schema:Place\"\n  ],\n  \"schema:additionalType\": [\n    \"ex:FieldSamplingArea\"\n  ],\n  \"schema:name\": [\n    \"Monterey Bay\",\n    {\n      \"@type\": [\n        \"schema:DefinedTerm\"\n      ],\n      \"schema:name\": \"Monterey Bay National Marine Sanctuary\",\n      \"schema:identifier\": {\n        \"@type\": [\n          \"schema:PropertyValue\"\n        ],\n        \"schema:propertyID\": \"https://www.geonames.org\",\n        \"schema:value\": \"5374363\",\n        \"schema:url\": \"https://www.geonames.org/5374363\"\n      },\n      \"schema:inDefinedTermSet\": \"https://www.geonames.org\"\n    }\n  ],\n  \"schema:identifier\": \"https://marineregions.org/mrgid/4260\",\n  \"schema:alternateName\": \"MBNMS\",\n  \"schema:geo\": {\n    \"@type\": [\n      \"schema:GeoShape\"\n    ],\n    \"schema:box\": \"36.5000 -122.5000 37.0000 -121.8000\"\n  },\n  \"geosparql:hasGeometry\": {\n    \"@type\": [\n      \"sf:Polygon\"\n    ],\n    \"geosparql:asWKT\": {\n      \"@type\": [\n        \"geosparql:wktLiteral\"\n      ],\n      \"@value\": \"POLYGON((-122.5 36.5, -121.8 36.5, -121.8 37.0, -122.5 37.0, -122.5 36.5))\"\n    },\n    \"geosparql:crs\": {\n      \"@id\": \"http://www.opengis.net/def/crs/OGC/1.3/CRS84\"\n    }\n  }\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/spatialExtent/example_5_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix ex: <https://example.org/> .\n@prefix geosparql: <http://www.opengis.net/ont/geosparql#> .\n@prefix schema1: <http://schema.org/> .\n@prefix sf: <http://www.opengis.net/ont/sf#> .\n\nex:SpatialExtentComplete_001 a schema1:Place ;\n    schema1:additionalType \"ex:FieldSamplingArea\" ;\n    schema1:alternateName \"MBNMS\" ;\n    schema1:geo [ a schema1:GeoShape ;\n            schema1:box \"36.5000 -122.5000 37.0000 -121.8000\" ] ;\n    schema1:identifier \"https://marineregions.org/mrgid/4260\" ;\n    schema1:name [ a schema1:DefinedTerm ;\n            schema1:identifier [ a schema1:PropertyValue ;\n                    schema1:propertyID \"https://www.geonames.org\" ;\n                    schema1:url \"https://www.geonames.org/5374363\" ;\n                    schema1:value \"5374363\" ] ;\n            schema1:inDefinedTermSet \"https://www.geonames.org\" ;\n            schema1:name \"Monterey Bay National Marine Sanctuary\" ],\n        \"Monterey Bay\" ;\n    geosparql:hasGeometry [ a sf:Polygon ;\n            geosparql:asWKT \"POLYGON((-122.5 36.5, -121.8 36.5, -121.8 37.0, -122.5 37.0, -122.5 36.5))\"^^<['geosparql:wktLiteral']> ;\n            geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/spatialExtent/example_5_1.ttl"
         }
       ]
     }

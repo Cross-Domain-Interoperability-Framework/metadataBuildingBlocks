@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-03-31",
+  "dateOfLastChange": "2026-04-02",
   "sources": [
     {
       "title": "schema.org",
@@ -73,6 +73,31 @@
           "language": "ttl",
           "code": "@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n\nex:exampleOrg_fW a schema1:Organization ;\n    schema1:additionalType \"schema:ResearchOrganization\",\n        \"university\" ;\n    schema1:alternateName \"UAz\" ;\n    schema1:description \"University in Tucson, Arizona\" ;\n    schema1:identifier [ a schema1:PropertyValue ;\n            schema1:propertyID \"https://registry.identifiers.org/registry/ror\" ;\n            schema1:url \"https://ror.org/03m2x1q45\" ;\n            schema1:value \"03m2x1q45\" ] ;\n    schema1:name \"University of Arizona\" ;\n    schema1:sameAs \"https://en.wikipedia.org/wiki/University_of_Arizona\" .\n\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/organization/example_1_1.ttl"
+        }
+      ]
+    },
+    {
+      "title": "Complete organization example.",
+      "content": "Organization instance exercising all properties: additionalType (multiple),\nname, alternateName, description, identifier (ROR), and sameAs (string and object).",
+      "prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "exampleOrganizationComplete.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@id\": \"ex:OrgComplete_001\",\n  \"@type\": [\"schema:Organization\"],\n  \"schema:additionalType\": [\n    \"schema:ResearchOrganization\",\n    \"schema:EducationalOrganization\"\n  ],\n  \"schema:name\": \"Massachusetts Institute of Technology\",\n  \"schema:alternateName\": \"MIT\",\n  \"schema:description\": \"Private research university in Cambridge, Massachusetts, founded in 1861\",\n  \"schema:identifier\": {\n    \"@type\": [\"schema:PropertyValue\"],\n    \"schema:propertyID\": \"https://registry.identifiers.org/registry/ror\",\n    \"schema:value\": \"042nb2s44\",\n    \"schema:url\": \"https://ror.org/042nb2s44\"\n  },\n  \"schema:sameAs\": [\n    \"https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology\",\n    {\"@id\": \"https://www.wikidata.org/entity/Q49108\"}\n  ]\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/organization/example_2_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@id\": \"ex:OrgComplete_001\",\n  \"@type\": [\n    \"schema:Organization\"\n  ],\n  \"schema:additionalType\": [\n    \"schema:ResearchOrganization\",\n    \"schema:EducationalOrganization\"\n  ],\n  \"schema:name\": \"Massachusetts Institute of Technology\",\n  \"schema:alternateName\": \"MIT\",\n  \"schema:description\": \"Private research university in Cambridge, Massachusetts, founded in 1861\",\n  \"schema:identifier\": {\n    \"@type\": [\n      \"schema:PropertyValue\"\n    ],\n    \"schema:propertyID\": \"https://registry.identifiers.org/registry/ror\",\n    \"schema:value\": \"042nb2s44\",\n    \"schema:url\": \"https://ror.org/042nb2s44\"\n  },\n  \"schema:sameAs\": [\n    \"https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology\",\n    {\n      \"@id\": \"https://www.wikidata.org/entity/Q49108\"\n    }\n  ]\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/organization/example_2_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n\nex:OrgComplete_001 a schema1:Organization ;\n    schema1:additionalType \"schema:EducationalOrganization\",\n        \"schema:ResearchOrganization\" ;\n    schema1:alternateName \"MIT\" ;\n    schema1:description \"Private research university in Cambridge, Massachusetts, founded in 1861\" ;\n    schema1:identifier [ a schema1:PropertyValue ;\n            schema1:propertyID \"https://registry.identifiers.org/registry/ror\" ;\n            schema1:url \"https://ror.org/042nb2s44\" ;\n            schema1:value \"042nb2s44\" ] ;\n    schema1:name \"Massachusetts Institute of Technology\" ;\n    schema1:sameAs <https://www.wikidata.org/entity/Q49108>,\n        \"https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology\" .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/organization/example_2_1.ttl"
         }
       ]
     }

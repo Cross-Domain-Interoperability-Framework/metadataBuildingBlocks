@@ -72,6 +72,61 @@ ex:LabeledLinkExample_zZc a schema1:CreativeWork ;
 
 ```
 
+
+### Complete labeled link example.
+LabeledLink instance exercising all properties: name, description, and url.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:LabeledLinkComplete_001",
+  "@type": ["schema:CreativeWork"],
+  "schema:name": "Data Quality Assessment Report",
+  "schema:description": "Detailed report documenting the quality control procedures, flagging criteria, and validation results for this dataset",
+  "schema:url": "https://example.org/reports/quality-assessment-2024.pdf"
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:LabeledLinkComplete_001",
+  "@type": [
+    "schema:CreativeWork"
+  ],
+  "schema:name": "Data Quality Assessment Report",
+  "schema:description": "Detailed report documenting the quality control procedures, flagging criteria, and validation results for this dataset",
+  "schema:url": "https://example.org/reports/quality-assessment-2024.pdf"
+}
+```
+
+#### ttl
+```ttl
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+
+ex:LabeledLinkComplete_001 a schema1:CreativeWork ;
+    schema1:description "Detailed report documenting the quality control procedures, flagging criteria, and validation results for this dataset" ;
+    schema1:name "Data Quality Assessment Report" ;
+    schema1:url "https://example.org/reports/quality-assessment-2024.pdf" .
+
+
+```
+
 ## Schema
 
 ```yaml
