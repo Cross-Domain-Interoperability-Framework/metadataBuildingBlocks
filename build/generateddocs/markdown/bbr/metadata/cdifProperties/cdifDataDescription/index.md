@@ -397,7 +397,12 @@ ex:dataset_datadesc_001 a schema1:Dataset ;
             cdi:characterSet "UTF-8" ;
             cdi:fileSize 1.2e+00 ;
             cdi:fileSizeUofM "MB" ;
-            cdi:hasPhysicalMapping [ cdi:decimalPositions 2 ;
+            cdi:hasPhysicalMapping [ cdi:formats_InstanceVariable ex:var_station_id ;
+                    cdi:index 0 ;
+                    cdi:isRequired true ;
+                    cdi:length 20 ;
+                    cdi:physicalDataType "String" ],
+                [ cdi:decimalPositions 2 ;
                     cdi:defaultValue "NaN" ;
                     cdi:format "0.00" ;
                     cdi:formats_InstanceVariable ex:var_sea_water_temp ;
@@ -415,12 +420,7 @@ ex:dataset_datadesc_001 a schema1:Dataset ;
                     cdi:isRequired true ;
                     cdi:nullSequence "-999.9" ;
                     cdi:physicalDataType "Numeric" ;
-                    cdi:scale 1 ],
-                [ cdi:formats_InstanceVariable ex:var_station_id ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:length 20 ;
-                    cdi:physicalDataType "String" ] ;
+                    cdi:scale 1 ] ;
             cdi:isDelimited true ;
             schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.csv" ;
             schema1:encodingFormat "text/csv" ;

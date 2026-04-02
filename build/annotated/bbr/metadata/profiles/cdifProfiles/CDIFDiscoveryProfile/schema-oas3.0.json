@@ -967,6 +967,28 @@
           }
         }
       },
+      "anyOf": [
+        {
+          "required": [
+            "schema:name"
+          ]
+        },
+        {
+          "required": [
+            "schema:identifier"
+          ]
+        },
+        {
+          "required": [
+            "schema:geo"
+          ]
+        },
+        {
+          "required": [
+            "geosparql:hasGeometry"
+          ]
+        }
+      ],
       "$defs": {
         "DefinedTerm": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDiscoveryProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm_1"
@@ -1012,7 +1034,19 @@
               "format": "uri",
               "description": "identifier for a named time ordinal era that is younger bound of time interval, e.g. 'isc:LowerDevonian' "
             }
-          }
+          },
+          "anyOf": [
+            {
+              "required": [
+                "time:intervalStartedBy"
+              ]
+            },
+            {
+              "required": [
+                "time:intervalFinishedBy"
+              ]
+            }
+          ]
         },
         {
           "type": "object",
@@ -1098,7 +1132,19 @@
                 }
               }
             }
-          }
+          },
+          "anyOf": [
+            {
+              "required": [
+                "time:hasBeginning"
+              ]
+            },
+            {
+              "required": [
+                "time:hasEnd"
+              ]
+            }
+          ]
         },
         {
           "type": "string",
@@ -1130,7 +1176,12 @@
             "time:numericPosition": {
               "type": "number"
             }
-          }
+          },
+          "required": [
+            "@type",
+            "time:hasTRS",
+            "time:numericPosition"
+          ]
         }
       },
       "x-jsonld-prefixes": {

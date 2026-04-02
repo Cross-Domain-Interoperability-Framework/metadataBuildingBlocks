@@ -263,6 +263,11 @@ anyOf:
       format: uri
       description: 'identifier for a named time ordinal era that is younger bound
         of time interval, e.g. ''isc:LowerDevonian'' '
+  anyOf:
+  - required:
+    - time:intervalStartedBy
+  - required:
+    - time:intervalFinishedBy
 - type: object
   description: a w3c time proper interval with bounds that numeric ages.
   properties:
@@ -315,6 +320,11 @@ anyOf:
           minItems: 1
         time:inTimePosition:
           $ref: '#/$defs/timePosition_type'
+  anyOf:
+  - required:
+    - time:hasBeginning
+  - required:
+    - time:hasEnd
 - type: string
   description: Simple ISO8601 encoding of calendar date, dateTime, or time interval
     with calendar date bounds
@@ -337,6 +347,10 @@ $defs:
         default: http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime
       time:numericPosition:
         type: number
+    required:
+    - '@type'
+    - time:hasTRS
+    - time:numericPosition
 x-jsonld-prefixes:
   schema: http://schema.org/
   time: http://www.w3.org/2006/time#
