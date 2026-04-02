@@ -3052,7 +3052,29 @@
                       }
                     }
                   }
-                }
+                },
+                "anyOf": [
+                  {
+                    "required": [
+                      "schema:name"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "schema:identifier"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "schema:geo"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "geosparql:hasGeometry"
+                    ]
+                  }
+                ]
               },
               {
                 "type": "string"
@@ -3771,54 +3793,19 @@
       "description": "Geographic extent of resource content.",
       "type": "array",
       "items": {
-        "description": "Spatial Extent description for CDIF discovery profile.  Note required prefix declaration for geoSparql ( http://www.opengis.net/ont/geosparql#) and OGC simple features (sf: http://www.opengis.net/ont/sf#)",
         "type": "object",
+        "description": "Spatial extent of the dataset",
         "properties": {
           "@type": {
-            "default": "schema:Place",
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "schema:Place"
-              ]
-            }
-          },
-          "schema:additionalType": {
-            "description": "Domain-specific type classifications for this place (e.g. facility type, laboratory classification).",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "type": "string",
+            "default": "schema:Place"
           },
           "schema:name": {
-            "description": "multiple place names or DefinedTerms that have a place name and URI for the location",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "schema:identifier": {
             "type": "string",
-            "description": "Formal identifier for this place (e.g. ROR identifier for a facility)."
-          },
-          "schema:alternateName": {
-            "description": "Alternate or abbreviated name(s) for this place.",
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            ]
+            "description": "Place name"
           },
           "schema:geo": {
             "type": "object",
-            "description": "Either a bounding box or a point location.",
             "properties": {
               "@type": {
                 "type": "string",
@@ -3827,46 +3814,6 @@
               "schema:box": {
                 "type": "string",
                 "description": "Bounding box as 'south west north east'"
-              }
-            }
-          },
-          "geosparql:hasGeometry": {
-            "type": "object",
-            "description": "Optional geographic extent using wkt geometry, see Ocean InfoHub (https://book.oceaninfohub.org/thematics/spatial/README.html#simple-geosparql-wkt). Other geometry schemes might be specified in a specific domain profile, e.g. for atmospheric, subsurface data, or local coordinate systems. NOTE that the location specified here should be the same as the schema.org point or contained within the specified bounding box.",
-            "properties": {
-              "@type": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "description": "MUST be sf: (<http://www.opengis.net/ont/sf#>) SimpleFeature geometry type. See https://opengeospatial.github.io/ogc-geosparql/geosparql11/sf_geometries.ttl"
-              },
-              "geosparql:asWKT": {
-                "type": "object",
-                "properties": {
-                  "@type": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "enum": [
-                        "geosparql:wktLiteral"
-                      ]
-                    }
-                  },
-                  "@value": {
-                    "type": "string",
-                    "description": "a WKT geometry description string, e.g. 'POINT(-76 -18)'"
-                  }
-                }
-              },
-              "geosparql:crs": {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "identifier string for coordinate reference system, e.g., 'CRS84'"
-                  }
-                }
               }
             }
           }
