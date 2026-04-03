@@ -1431,6 +1431,7 @@ properties:
           '@id':
             type: string
             description: IRI for an equivalent resource or alternate identifier
+      - $ref: '#/$defs/Identifier'
   schema:version:
     type:
     - string
