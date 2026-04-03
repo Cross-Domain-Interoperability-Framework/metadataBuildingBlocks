@@ -24,7 +24,7 @@ metadataBuildingBlocks/
 │   │   ├── temporalExtent/          # schema:temporalCoverage
 │   │   ├── dataDownload/            # schema:DataDownload
 │   │   ├── labeledLink/             # schema:LinkRole
-│   │   ├── funder/                  # schema:funder / schema:Grant
+│   │   ├── monetaryGrant/            # schema:MonetaryGrant (funding acknowledgement)
 │   │   ├── webAPI/                  # schema:WebAPI
 │   │   ├── action/                  # schema:Action
 │   │   ├── agentInRole/             # schema:Role wrapping Person/Org

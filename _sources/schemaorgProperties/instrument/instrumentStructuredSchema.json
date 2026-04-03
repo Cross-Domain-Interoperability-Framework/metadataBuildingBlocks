@@ -104,14 +104,8 @@
       "description": "Landing page URL for this instrument."
     },
     "schema:manufacturer": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/Organization"
-        },
-        {
-          "description": "Organization that manufactured this instrument."
-        }
-      ]
+      "description": "Organization that manufactured this instrument.",
+      "$ref": "#/$defs/Organization"
     },
     "schema:model": {
       "type": "object",
@@ -155,258 +149,21 @@
       }
     },
     "schema:owner": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/Organization"
-        },
-        {
-          "description": "Organization that owns this instrument."
-        }
-      ]
+      "description": "Organization that owns this instrument.",
+      "$ref": "#/$defs/Organization"
     },
     "schema:contributor": {
       "description": "Agents associated with this instrument in specific roles (e.g. operator, custodian, principal investigator). Use schema:owner for the owning organization.",
       "type": "array",
       "items": {
-        "description": "For more granularity on how a person contributed to a Dataset, use schema:Role. The schema.org documentation does not state that the Role type is an expected data type of author, creator and contributor, but that is addressed in this blog post (http://blog.schema.org/2014/06/introducing-role.html). see https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#roles-of-people",
-        "type": "object",
-        "properties": {
-          "@type": {
-            "default": "schema:Role",
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "contains": {
-              "const": "schema:Role"
-            },
-            "minItems": 1
-          },
-          "schema:roleName": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/$defs/DefinedTerm"
-              }
-            ]
-          },
-          "schema:contributor": {
-            "anyOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "IRI reference to a Person or Organization defined elsewhere"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              },
-              {
-                "description": "schema for cdif profile of schema.org/Person",
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  },
-                  "@type": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "contains": {
-                      "const": "schema:Person"
-                    },
-                    "minItems": 1
-                  },
-                  "schema:name": {
-                    "type": "string",
-                    "description": "string label for person that is meaningful for human users"
-                  },
-                  "schema:description": {
-                    "type": "string"
-                  },
-                  "schema:identifier": {
-                    "description": "identifier for person, recommend ORCID",
-                    "anyOf": [
-                      {
-                        "$ref": "#/$defs/Identifier"
-                      },
-                      {
-                        "type": "string"
-                      }
-                    ]
-                  },
-                  "schema:alternateName": {
-                    "type": "string",
-                    "description": "other labels by which the person might be known"
-                  },
-                  "schema:affiliation": {
-                    "allOf": [
-                      {
-                        "$ref": "#/$defs/Organization"
-                      },
-                      {
-                        "description": "if affiliation is present, value must be a schema:Organization."
-                      }
-                    ]
-                  },
-                  "schema:contactPoint": {
-                    "type": "object",
-                    "properties": {
-                      "@type": {
-                        "default": "schema:ContactPoint",
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        },
-                        "contains": {
-                          "const": "schema:ContactPoint"
-                        },
-                        "minItems": 1
-                      },
-                      "schema:email": {
-                        "type": "string"
-                      }
-                    },
-                    "description": "restrict to email only. Schema.org allows telephone and postal contacts as well"
-                  },
-                  "schema:sameAs": {
-                    "type": "array",
-                    "description": "other identifiers for the person",
-                    "items": {
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "@id": {
-                              "type": "string"
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  }
-                },
-                "allOf": [
-                  {
-                    "required": [
-                      "@type"
-                    ]
-                  },
-                  {
-                    "anyOf": [
-                      {
-                        "required": [
-                          "schema:name"
-                        ]
-                      },
-                      {
-                        "required": [
-                          "schema:identifier"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "$ref": "#/$defs/Organization"
-              }
-            ]
-          }
-        },
-        "required": [
-          "schema:roleName",
-          "schema:contributor"
-        ]
+        "$ref": "#/$defs/AgentInRole"
       }
     },
     "schema:additionalProperty": {
       "type": "array",
       "description": "Instrument-specific properties (measured variables, detection limits, calibration information, operating parameters, etc.).",
       "items": {
-        "type": "object",
-        "title": "additionalProperty PropertyValue",
-        "description": "PropertyValue values required to define a soft-typed property with a value. ",
-        "properties": {
-          "@type": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "contains": {
-              "const": "schema:PropertyValue"
-            },
-            "minItems": 1
-          },
-          "schema:propertyID": {
-            "type": "array",
-            "items": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "type": "string"
-                    }
-                  }
-                },
-                {
-                  "$ref": "#/$defs/DefinedTerm"
-                }
-              ]
-            },
-            "minItems": 1,
-            "description": "identifier or name for the property concept quantified by the values in this variable slot. Multiple values can specify the property at different levels of granularity."
-          },
-          "schema:name": {
-            "type": "string"
-          },
-          "schema:value": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "number"
-              },
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "object"
-              }
-            ]
-          },
-          "schema:unitCode": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/$defs/DefinedTerm"
-              }
-            ]
-          },
-          "schema:unitText": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "schema:name",
-          "schema:value"
-        ]
+        "$ref": "#/$defs/AdditionalProperty"
       }
     },
     "schema:validFrom": {
@@ -423,180 +180,7 @@
       "items": {
         "anyOf": [
           {
-            "type": "object",
-            "description": "A sub-component of an instrument system. Uses the same structure as the parent instrument but without nesting (single level of hasPart).",
-            "properties": {
-              "@type": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "minItems": 1,
-                "contains": {
-                  "const": "schema:Thing"
-                }
-              },
-              "@id": {
-                "type": "string"
-              },
-              "schema:name": {
-                "type": "string",
-                "minLength": 3
-              },
-              "schema:description": {
-                "type": "string"
-              },
-              "schema:alternateName": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                ]
-              },
-              "schema:identifier": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/Identifier"
-                  }
-                ]
-              },
-              "schema:additionalType": {
-                "description": "Component type classification.",
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                ]
-              },
-              "schema:additionalProperty": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "title": "additionalProperty PropertyValue",
-                  "description": "PropertyValue values required to define a soft-typed property with a value. ",
-                  "properties": {
-                    "@type": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "contains": {
-                        "const": "schema:PropertyValue"
-                      },
-                      "minItems": 1
-                    },
-                    "schema:propertyID": {
-                      "type": "array",
-                      "items": {
-                        "anyOf": [
-                          {
-                            "type": "string"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "@id": {
-                                "type": "string"
-                              }
-                            }
-                          },
-                          {
-                            "$ref": "#/$defs/DefinedTerm"
-                          }
-                        ]
-                      },
-                      "minItems": 1,
-                      "description": "identifier or name for the property concept quantified by the values in this variable slot. Multiple values can specify the property at different levels of granularity."
-                    },
-                    "schema:name": {
-                      "type": "string"
-                    },
-                    "schema:value": {
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "number"
-                        },
-                        {
-                          "type": "boolean"
-                        },
-                        {
-                          "type": "object"
-                        }
-                      ]
-                    },
-                    "schema:unitCode": {
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "$ref": "#/$defs/DefinedTerm"
-                        }
-                      ]
-                    },
-                    "schema:unitText": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "schema:name",
-                    "schema:value"
-                  ]
-                }
-              },
-              "schema:manufacturer": {
-                "$ref": "#/$defs/Organization"
-              },
-              "schema:model": {
-                "type": "object",
-                "properties": {
-                  "@type": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "contains": {
-                      "const": "schema:ProductModel"
-                    },
-                    "minItems": 1
-                  },
-                  "schema:name": {
-                    "type": "string"
-                  },
-                  "schema:identifier": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "$ref": "#/$defs/Identifier"
-                      }
-                    ]
-                  }
-                }
-              }
-            },
-            "required": [
-              "schema:name"
-            ]
+            "$ref": "#/$defs/InstrumentComponent"
           },
           {
             "type": "object",
@@ -617,35 +201,7 @@
       "type": "array",
       "description": "Links to related resources (manuals, datasheets, calibration records, related instruments).",
       "items": {
-        "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
-        "type": "object",
-        "properties": {
-          "@type": {
-            "default": "schema:CreativeWork",
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "contains": {
-              "const": "schema:CreativeWork"
-            },
-            "minItems": 1
-          },
-          "schema:name": {
-            "type": "string"
-          },
-          "schema:description": {
-            "type": "string"
-          },
-          "schema:url": {
-            "type": "string",
-            "format": "uri"
-          }
-        },
-        "required": [
-          "@type",
-          "schema:url"
-        ]
+        "$ref": "#/$defs/LabeledLink"
       }
     },
     "schema:subjectOf": {
@@ -703,6 +259,7 @@
   ],
   "$defs": {
     "Identifier": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "description": "Properties for a schema.org identifier",
       "type": "object",
       "properties": {
@@ -752,7 +309,73 @@
         }
       ]
     },
+    "DefinedTerm": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "schema.org Defined Term schema",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:DefinedTerm"
+          },
+          "minItems": 1
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "text label for the term that is useful to human user"
+        },
+        "schema:identifier": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/Identifier"
+            }
+          ]
+        },
+        "schema:inDefinedTermSet": {
+          "type": "string",
+          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+        },
+        "schema:termCode": {
+          "type": "string",
+          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:identifier"
+              ]
+            },
+            {
+              "required": [
+                "schema:termCode"
+              ]
+            }
+          ]
+        }
+      ]
+    },
     "Organization": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "type": "object",
       "properties": {
         "@id": {
@@ -762,20 +385,11 @@
           "default": "schema:Organization",
           "type": "array",
           "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "schema:Organization"
-          },
-          "minItems": 1
-        },
-        "schema:additionalType": {
-          "type": "array",
-          "items": {
             "anyOf": [
               {
                 "type": "string",
                 "enum": [
+                  "schema:Organization",
                   "schema:FundingAgency",
                   "schema:Consortium",
                   "schema:Corporation",
@@ -786,7 +400,18 @@
                   "schema:Project",
                   "schema:ResearchOrganization"
                 ]
-              },
+              }
+            ]
+          },
+          "contains": {
+            "const": "schema:Organization"
+          },
+          "minItems": 1
+        },
+        "schema:additionalType": {
+          "type": "array",
+          "items": {
+            "anyOf": [
               {
                 "$ref": "#/$defs/DefinedTerm"
               },
@@ -860,41 +485,91 @@
         }
       ]
     },
-    "DefinedTerm": {
-      "description": "schema.org Defined Term schema",
+    "Person": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "schema for cdif profile of schema.org/Person",
       "type": "object",
       "properties": {
+        "@id": {
+          "type": "string"
+        },
         "@type": {
           "type": "array",
           "items": {
             "type": "string"
           },
           "contains": {
-            "const": "schema:DefinedTerm"
+            "const": "schema:Person"
           },
           "minItems": 1
         },
         "schema:name": {
           "type": "string",
-          "description": "text label for the term that is useful to human user"
+          "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
+        },
+        "schema:description": {
+          "type": "string"
         },
         "schema:identifier": {
+          "description": "identifier for person, recommend ORCID",
           "anyOf": [
             {
-              "type": "string"
+              "$ref": "#/$defs/Identifier"
             },
             {
-              "$ref": "#/$defs/Identifier"
+              "type": "string"
             }
           ]
         },
-        "schema:inDefinedTermSet": {
+        "schema:alternateName": {
           "type": "string",
-          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+          "description": "other labels by which the person might be known"
         },
-        "schema:termCode": {
-          "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+        "schema:affiliation": {
+          "description": "if affiliation is present, value must be a schema:Organization.",
+          "$ref": "#/$defs/Organization"
+        },
+        "schema:contactPoint": {
+          "type": "object",
+          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
+          "properties": {
+            "@type": {
+              "default": "schema:ContactPoint",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "schema:ContactPoint"
+              },
+              "minItems": 1
+            },
+            "schema:email": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "schema:email"
+          ]
+        },
+        "schema:sameAs": {
+          "type": "array",
+          "description": "other identifiers for the person",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          }
         }
       },
       "allOf": [
@@ -914,14 +589,279 @@
               "required": [
                 "schema:identifier"
               ]
-            },
-            {
-              "required": [
-                "schema:termCode"
-              ]
             }
           ]
         }
+      ]
+    },
+    "AgentInRole": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "For more granularity on how a person contributed to a Dataset, use schema:Role. The schema.org documentation does not state that the Role type is an expected data type of author, creator and contributor, but that is addressed in this blog post (http://blog.schema.org/2014/06/introducing-role.html). see https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#roles-of-people",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "default": "schema:Role",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:Role"
+          },
+          "minItems": 1
+        },
+        "schema:roleName": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/DefinedTerm"
+            }
+          ]
+        },
+        "schema:contributor": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "IRI reference to a Person or Organization defined elsewhere"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            },
+            {
+              "$ref": "#/$defs/Person"
+            },
+            {
+              "$ref": "#/$defs/Organization"
+            }
+          ]
+        }
+      },
+      "required": [
+        "@type",
+        "schema:roleName",
+        "schema:contributor"
+      ]
+    },
+    "propertyID_item": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/DefinedTerm"
+        }
+      ]
+    },
+    "AdditionalProperty": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "title": "additionalProperty PropertyValue",
+      "description": "PropertyValue values required to define a soft-typed property with a value. ",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:PropertyValue"
+          },
+          "minItems": 1
+        },
+        "schema:propertyID": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/propertyID_item"
+          },
+          "minItems": 1,
+          "description": "identifier or name for the property concept quantified by the values in this variable slot. Multiple values can specify the property at different levels of granularity."
+        },
+        "schema:name": {
+          "type": "string"
+        },
+        "schema:value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "object"
+            }
+          ]
+        },
+        "schema:unitCode": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/DefinedTerm"
+            }
+          ]
+        },
+        "schema:unitText": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema:name",
+        "schema:value"
+      ]
+    },
+    "LabeledLink": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "default": "schema:CreativeWork",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:CreativeWork"
+          },
+          "minItems": 1
+        },
+        "schema:name": {
+          "type": "string"
+        },
+        "schema:description": {
+          "type": "string"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "@type",
+        "schema:url"
+      ]
+    },
+    "InstrumentComponent": {
+      "type": "object",
+      "description": "A sub-component of an instrument system. Uses the same structure as the parent instrument but without nesting (single level of hasPart).",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "contains": {
+            "const": "schema:Thing"
+          }
+        },
+        "@id": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "schema:description": {
+          "type": "string"
+        },
+        "schema:alternateName": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "schema:identifier": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/Identifier"
+            }
+          ]
+        },
+        "schema:additionalType": {
+          "description": "Component type classification.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "schema:additionalProperty": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AdditionalProperty"
+          }
+        },
+        "schema:manufacturer": {
+          "$ref": "#/$defs/Organization"
+        },
+        "schema:model": {
+          "type": "object",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "schema:ProductModel"
+              },
+              "minItems": 1
+            },
+            "schema:name": {
+              "type": "string"
+            },
+            "schema:identifier": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/$defs/Identifier"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "required": [
+        "schema:name"
       ]
     }
   }

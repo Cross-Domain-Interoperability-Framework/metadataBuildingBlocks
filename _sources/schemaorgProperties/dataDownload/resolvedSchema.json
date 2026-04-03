@@ -92,6 +92,7 @@
             ]
           },
           {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
             "description": "schema for cdif profile of schema.org/Person",
             "type": "object",
             "properties": {
@@ -110,7 +111,7 @@
               },
               "schema:name": {
                 "type": "string",
-                "description": "string label for person that is meaningful for human users"
+                "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
               },
               "schema:description": {
                 "type": "string"
@@ -119,54 +120,7 @@
                 "description": "identifier for person, recommend ORCID",
                 "anyOf": [
                   {
-                    "description": "Properties for a schema.org identifier",
-                    "type": "object",
-                    "properties": {
-                      "@type": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        },
-                        "contains": {
-                          "const": "schema:PropertyValue"
-                        },
-                        "minItems": 1
-                      },
-                      "schema:propertyID": {
-                        "type": "string",
-                        "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-                      },
-                      "schema:value": {
-                        "type": "string",
-                        "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-                      },
-                      "schema:url": {
-                        "type": "string",
-                        "format": "uri",
-                        "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-                      }
-                    },
-                    "allOf": [
-                      {
-                        "required": [
-                          "@type"
-                        ]
-                      },
-                      {
-                        "anyOf": [
-                          {
-                            "required": [
-                              "schema:value"
-                            ]
-                          },
-                          {
-                            "required": [
-                              "schema:url"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
+                    "$ref": "#/$defs/Identifier"
                   },
                   {
                     "type": "string"
@@ -178,271 +132,12 @@
                 "description": "other labels by which the person might be known"
               },
               "schema:affiliation": {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  },
-                  "@type": {
-                    "default": "schema:Organization",
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "contains": {
-                      "const": "schema:Organization"
-                    },
-                    "minItems": 1
-                  },
-                  "schema:additionalType": {
-                    "type": "array",
-                    "items": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "enum": [
-                            "schema:FundingAgency",
-                            "schema:Consortium",
-                            "schema:Corporation",
-                            "schema:EducationalOrganization",
-                            "schema:FundingScheme",
-                            "schema:GovernmentOrganization",
-                            "schema:NGO",
-                            "schema:Project",
-                            "schema:ResearchOrganization"
-                          ]
-                        },
-                        {
-                          "description": "schema.org Defined Term schema",
-                          "type": "object",
-                          "properties": {
-                            "@type": {
-                              "type": "array",
-                              "items": {
-                                "type": "string"
-                              },
-                              "contains": {
-                                "const": "schema:DefinedTerm"
-                              },
-                              "minItems": 1
-                            },
-                            "schema:name": {
-                              "type": "string",
-                              "description": "text label for the term that is useful to human user"
-                            },
-                            "schema:identifier": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "description": "Properties for a schema.org identifier",
-                                  "type": "object",
-                                  "properties": {
-                                    "@type": {
-                                      "type": "array",
-                                      "items": {
-                                        "type": "string"
-                                      },
-                                      "contains": {
-                                        "const": "schema:PropertyValue"
-                                      },
-                                      "minItems": 1
-                                    },
-                                    "schema:propertyID": {
-                                      "type": "string",
-                                      "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-                                    },
-                                    "schema:value": {
-                                      "type": "string",
-                                      "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-                                    },
-                                    "schema:url": {
-                                      "type": "string",
-                                      "format": "uri",
-                                      "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-                                    }
-                                  },
-                                  "allOf": [
-                                    {
-                                      "required": [
-                                        "@type"
-                                      ]
-                                    },
-                                    {
-                                      "anyOf": [
-                                        {
-                                          "required": [
-                                            "schema:value"
-                                          ]
-                                        },
-                                        {
-                                          "required": [
-                                            "schema:url"
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            "schema:inDefinedTermSet": {
-                              "type": "string",
-                              "description": "Identifier for the controlled vocabulary responsible for this keyword."
-                            },
-                            "schema:termCode": {
-                              "type": "string",
-                              "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
-                            }
-                          },
-                          "allOf": [
-                            {
-                              "required": [
-                                "@type"
-                              ]
-                            },
-                            {
-                              "anyOf": [
-                                {
-                                  "required": [
-                                    "schema:name"
-                                  ]
-                                },
-                                {
-                                  "required": [
-                                    "schema:identifier"
-                                  ]
-                                },
-                                {
-                                  "required": [
-                                    "schema:termCode"
-                                  ]
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "string"
-                        }
-                      ]
-                    }
-                  },
-                  "schema:name": {
-                    "type": "string",
-                    "description": "string label for organization that is meaningful for human users"
-                  },
-                  "schema:alternateName": {
-                    "type": "string",
-                    "description": "other labels by which the organization might be known"
-                  },
-                  "schema:description": {
-                    "type": "string"
-                  },
-                  "schema:identifier": {
-                    "description": "identifier for organization",
-                    "anyOf": [
-                      {
-                        "description": "Properties for a schema.org identifier",
-                        "type": "object",
-                        "properties": {
-                          "@type": {
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            },
-                            "contains": {
-                              "const": "schema:PropertyValue"
-                            },
-                            "minItems": 1
-                          },
-                          "schema:propertyID": {
-                            "type": "string",
-                            "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-                          },
-                          "schema:value": {
-                            "type": "string",
-                            "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-                          },
-                          "schema:url": {
-                            "type": "string",
-                            "format": "uri",
-                            "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-                          }
-                        },
-                        "allOf": [
-                          {
-                            "required": [
-                              "@type"
-                            ]
-                          },
-                          {
-                            "anyOf": [
-                              {
-                                "required": [
-                                  "schema:value"
-                                ]
-                              },
-                              {
-                                "required": [
-                                  "schema:url"
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "type": "string"
-                      }
-                    ]
-                  },
-                  "schema:sameAs": {
-                    "type": "array",
-                    "description": "other identifiers for the organization",
-                    "items": {
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "@id": {
-                              "type": "string"
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  }
-                },
-                "allOf": [
-                  {
-                    "required": [
-                      "@type"
-                    ]
-                  },
-                  {
-                    "anyOf": [
-                      {
-                        "required": [
-                          "schema:name"
-                        ]
-                      },
-                      {
-                        "required": [
-                          "schema:identifier"
-                        ]
-                      }
-                    ]
-                  }
-                ],
-                "description": "if affiliation is present, value must be a schema:Organization."
+                "description": "if affiliation is present, value must be a schema:Organization.",
+                "$ref": "#/$defs/Organization"
               },
               "schema:contactPoint": {
                 "type": "object",
+                "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
                 "properties": {
                   "@type": {
                     "default": "schema:ContactPoint",
@@ -459,7 +154,9 @@
                     "type": "string"
                   }
                 },
-                "description": "restrict to email only. Schema.org allows telephone and postal contacts as well"
+                "required": [
+                  "schema:email"
+                ]
               },
               "schema:sameAs": {
                 "type": "array",
@@ -504,267 +201,7 @@
             ]
           },
           {
-            "type": "object",
-            "properties": {
-              "@id": {
-                "type": "string"
-              },
-              "@type": {
-                "default": "schema:Organization",
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "contains": {
-                  "const": "schema:Organization"
-                },
-                "minItems": 1
-              },
-              "schema:additionalType": {
-                "type": "array",
-                "items": {
-                  "anyOf": [
-                    {
-                      "type": "string",
-                      "enum": [
-                        "schema:FundingAgency",
-                        "schema:Consortium",
-                        "schema:Corporation",
-                        "schema:EducationalOrganization",
-                        "schema:FundingScheme",
-                        "schema:GovernmentOrganization",
-                        "schema:NGO",
-                        "schema:Project",
-                        "schema:ResearchOrganization"
-                      ]
-                    },
-                    {
-                      "description": "schema.org Defined Term schema",
-                      "type": "object",
-                      "properties": {
-                        "@type": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          },
-                          "contains": {
-                            "const": "schema:DefinedTerm"
-                          },
-                          "minItems": 1
-                        },
-                        "schema:name": {
-                          "type": "string",
-                          "description": "text label for the term that is useful to human user"
-                        },
-                        "schema:identifier": {
-                          "anyOf": [
-                            {
-                              "type": "string"
-                            },
-                            {
-                              "description": "Properties for a schema.org identifier",
-                              "type": "object",
-                              "properties": {
-                                "@type": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  },
-                                  "contains": {
-                                    "const": "schema:PropertyValue"
-                                  },
-                                  "minItems": 1
-                                },
-                                "schema:propertyID": {
-                                  "type": "string",
-                                  "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-                                },
-                                "schema:value": {
-                                  "type": "string",
-                                  "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-                                },
-                                "schema:url": {
-                                  "type": "string",
-                                  "format": "uri",
-                                  "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-                                }
-                              },
-                              "allOf": [
-                                {
-                                  "required": [
-                                    "@type"
-                                  ]
-                                },
-                                {
-                                  "anyOf": [
-                                    {
-                                      "required": [
-                                        "schema:value"
-                                      ]
-                                    },
-                                    {
-                                      "required": [
-                                        "schema:url"
-                                      ]
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        "schema:inDefinedTermSet": {
-                          "type": "string",
-                          "description": "Identifier for the controlled vocabulary responsible for this keyword."
-                        },
-                        "schema:termCode": {
-                          "type": "string",
-                          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
-                        }
-                      },
-                      "allOf": [
-                        {
-                          "required": [
-                            "@type"
-                          ]
-                        },
-                        {
-                          "anyOf": [
-                            {
-                              "required": [
-                                "schema:name"
-                              ]
-                            },
-                            {
-                              "required": [
-                                "schema:identifier"
-                              ]
-                            },
-                            {
-                              "required": [
-                                "schema:termCode"
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "string"
-                    }
-                  ]
-                }
-              },
-              "schema:name": {
-                "type": "string",
-                "description": "string label for organization that is meaningful for human users"
-              },
-              "schema:alternateName": {
-                "type": "string",
-                "description": "other labels by which the organization might be known"
-              },
-              "schema:description": {
-                "type": "string"
-              },
-              "schema:identifier": {
-                "description": "identifier for organization",
-                "anyOf": [
-                  {
-                    "description": "Properties for a schema.org identifier",
-                    "type": "object",
-                    "properties": {
-                      "@type": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        },
-                        "contains": {
-                          "const": "schema:PropertyValue"
-                        },
-                        "minItems": 1
-                      },
-                      "schema:propertyID": {
-                        "type": "string",
-                        "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-                      },
-                      "schema:value": {
-                        "type": "string",
-                        "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-                      },
-                      "schema:url": {
-                        "type": "string",
-                        "format": "uri",
-                        "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-                      }
-                    },
-                    "allOf": [
-                      {
-                        "required": [
-                          "@type"
-                        ]
-                      },
-                      {
-                        "anyOf": [
-                          {
-                            "required": [
-                              "schema:value"
-                            ]
-                          },
-                          {
-                            "required": [
-                              "schema:url"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "type": "string"
-                  }
-                ]
-              },
-              "schema:sameAs": {
-                "type": "array",
-                "description": "other identifiers for the organization",
-                "items": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            },
-            "allOf": [
-              {
-                "required": [
-                  "@type"
-                ]
-              },
-              {
-                "anyOf": [
-                  {
-                    "required": [
-                      "schema:name"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "schema:identifier"
-                    ]
-                  }
-                ]
-              }
-            ]
+            "$ref": "#/$defs/Organization"
           }
         ]
       }
@@ -773,5 +210,231 @@
   "required": [
     "schema:contentUrl",
     "@type"
-  ]
+  ],
+  "$defs": {
+    "Identifier": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "Properties for a schema.org identifier",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:PropertyValue"
+          },
+          "minItems": 1
+        },
+        "schema:propertyID": {
+          "type": "string",
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+        },
+        "schema:value": {
+          "type": "string",
+          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:value"
+              ]
+            },
+            {
+              "required": [
+                "schema:url"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Organization": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string"
+        },
+        "@type": {
+          "default": "schema:Organization",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "schema:Organization",
+                  "schema:FundingAgency",
+                  "schema:Consortium",
+                  "schema:Corporation",
+                  "schema:EducationalOrganization",
+                  "schema:FundingScheme",
+                  "schema:GovernmentOrganization",
+                  "schema:NGO",
+                  "schema:Project",
+                  "schema:ResearchOrganization"
+                ]
+              }
+            ]
+          },
+          "contains": {
+            "const": "schema:Organization"
+          },
+          "minItems": 1
+        },
+        "schema:additionalType": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "description": "schema.org Defined Term schema",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "schema:DefinedTerm"
+                    },
+                    "minItems": 1
+                  },
+                  "schema:name": {
+                    "type": "string",
+                    "description": "text label for the term that is useful to human user"
+                  },
+                  "schema:identifier": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/Identifier"
+                      }
+                    ]
+                  },
+                  "schema:inDefinedTermSet": {
+                    "type": "string",
+                    "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                  },
+                  "schema:termCode": {
+                    "type": "string",
+                    "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                  }
+                },
+                "allOf": [
+                  {
+                    "required": [
+                      "@type"
+                    ]
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "schema:name"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "schema:identifier"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "schema:termCode"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "string label for organization that is meaningful for human users"
+        },
+        "schema:alternateName": {
+          "type": "string",
+          "description": "other labels by which the organization might be known"
+        },
+        "schema:description": {
+          "type": "string"
+        },
+        "schema:identifier": {
+          "description": "identifier for organization",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Identifier"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "schema:sameAs": {
+          "type": "array",
+          "description": "other identifiers for the organization",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:identifier"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
 }

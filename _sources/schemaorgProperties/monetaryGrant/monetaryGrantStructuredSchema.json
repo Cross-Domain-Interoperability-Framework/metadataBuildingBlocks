@@ -1,59 +1,49 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Funding acknowledgement properties, profile of schema.org/MonetaryGrant",
   "type": "object",
-  "description": "see https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13 for discussion on how to make assertion about the sample registration and metadata distinct from statements about the physical object",
   "properties": {
-    "@type": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "contains": {
-        "const": "schema:Dataset"
-      },
-      "minItems": 1
-    },
-    "schema:additionalType": {
-      "type": "array",
-      "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
-      "items": {
-        "type": "string"
-      },
-      "contains": {
-        "const": "dcat:CatalogRecord"
-      },
-      "minItems": 1
-    },
     "@id": {
       "type": "string",
-      "description": "identifier for the metadata record"
+      "description": "URI identifier for this funding record"
     },
-    "schema:about": {
-      "type": "object",
-      "properties": {
-        "@id": {
-          "type": "string",
-          "description": "this must be the @id value of the node containing the resource description metadata"
-        }
-      }
-    },
-    "dcterms:conformsTo": {
+    "@type": {
+      "default": "schema:MonetaryGrant",
       "type": "array",
       "items": {
-        "type": "object",
-        "properties": {
-          "@id": {
-            "type": "string",
-            "description": "uri for specifications that this metadata record conforms to"
-          }
-        }
+        "type": "string"
       },
-      "minItems": 1,
-      "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile."
+      "contains": {
+        "const": "schema:MonetaryGrant"
+      },
+      "minItems": 1
     },
-    "schema:maintainer": {
-      "description": "Identification of the agent that maintains the metadata, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
+    "schema:identifier": {
+      "$ref": "#/$defs/Identifier",
+      "description": "identifier for a particular grant"
+    },
+    "schema:description": {
+      "type": "string",
+      "description": "description of the funding or grant"
+    },
+    "schema:name": {
+      "type": "string",
+      "description": "title of the grant"
+    },
+    "schema:funder": {
       "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+            }
+          },
+          "required": [
+            "@id"
+          ]
+        },
         {
           "$ref": "#/$defs/Person"
         },
@@ -61,52 +51,24 @@
           "$ref": "#/$defs/Organization"
         }
       ]
-    },
-    "schema:sdDatePublished": {
-      "description": "date of most recent update to the metadata content",
-      "type": "string",
-      "format": "date"
-    },
-    "schema:includedInDataCatalog": {
-      "type": "object",
-      "description": "identify the source for the origin the metadata record.",
-      "properties": {
-        "@id": {
-          "type": "string",
-          "description": "identifier for the graph node."
-        },
-        "@type": {
-          "default": "schema:DataCatalog",
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "schema:DataCatalog"
-          },
-          "minItems": 1
-        },
-        "schema:name": {
-          "type": "string"
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri",
-          "description": "locator to access a landing page for the collection or catalog"
-        },
-        "schema:identifier": {
-          "$ref": "#/$defs/Identifier",
-          "description": "identifier for the collection or catalog; use identifier_type to provide information on identifier scheme and context for identifier"
-        }
-      }
     }
   },
-  "required": [
-    "schema:about",
-    "dcterms:conformsTo",
-    "schema:additionalType",
-    "@type",
-    "@id"
+  "anyOf": [
+    {
+      "required": [
+        "schema:funder"
+      ]
+    },
+    {
+      "required": [
+        "schema:identifier"
+      ]
+    },
+    {
+      "required": [
+        "schema:name"
+      ]
+    }
   ],
   "$defs": {
     "Identifier": {

@@ -49,7 +49,7 @@
           "$ref": "#/$defs/DefinedTerm"
         }
       ],
-      "description": "Text description or URI identifying the measurement method."
+      "description": "Text description or URI specifying how values for the variable were obtained."
     },
     "schema:propertyID": {
       "type": "array",
@@ -112,35 +112,7 @@
           "description": "link to a web page useful for interpreting the variable"
         },
         {
-          "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "default": "schema:CreativeWork",
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "schema:CreativeWork"
-              },
-              "minItems": 1
-            },
-            "schema:name": {
-              "type": "string"
-            },
-            "schema:description": {
-              "type": "string"
-            },
-            "schema:url": {
-              "type": "string",
-              "format": "uri"
-            }
-          },
-          "required": [
-            "@type",
-            "schema:url"
-          ]
+          "$ref": "#/$defs/LabeledLink"
         }
       ]
     }
@@ -150,7 +122,59 @@
     "schema:name"
   ],
   "$defs": {
+    "Identifier": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "Properties for a schema.org identifier",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:PropertyValue"
+          },
+          "minItems": 1
+        },
+        "schema:propertyID": {
+          "type": "string",
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+        },
+        "schema:value": {
+          "type": "string",
+          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:value"
+              ]
+            },
+            {
+              "required": [
+                "schema:url"
+              ]
+            }
+          ]
+        }
+      ]
+    },
     "DefinedTerm": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "description": "schema.org Defined Term schema",
       "type": "object",
       "properties": {
@@ -174,54 +198,7 @@
               "type": "string"
             },
             {
-              "description": "Properties for a schema.org identifier",
-              "type": "object",
-              "properties": {
-                "@type": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "const": "schema:PropertyValue"
-                  },
-                  "minItems": 1
-                },
-                "schema:propertyID": {
-                  "type": "string",
-                  "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-                },
-                "schema:value": {
-                  "type": "string",
-                  "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-                },
-                "schema:url": {
-                  "type": "string",
-                  "format": "uri",
-                  "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-                }
-              },
-              "allOf": [
-                {
-                  "required": [
-                    "@type"
-                  ]
-                },
-                {
-                  "anyOf": [
-                    {
-                      "required": [
-                        "schema:value"
-                      ]
-                    },
-                    {
-                      "required": [
-                        "schema:url"
-                      ]
-                    }
-                  ]
-                }
-              ]
+              "$ref": "#/$defs/Identifier"
             }
           ]
         },
@@ -259,6 +236,38 @@
             }
           ]
         }
+      ]
+    },
+    "LabeledLink": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "default": "schema:CreativeWork",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:CreativeWork"
+          },
+          "minItems": 1
+        },
+        "schema:name": {
+          "type": "string"
+        },
+        "schema:description": {
+          "type": "string"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "@type",
+        "schema:url"
       ]
     }
   }

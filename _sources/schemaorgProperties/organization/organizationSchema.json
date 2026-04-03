@@ -9,20 +9,11 @@
             "default": "schema:Organization",
             "type": "array",
             "items": {
-                "type": "string"
-            },
-            "contains": {
-                "const": "schema:Organization"
-            },
-            "minItems": 1
-        },
-        "schema:additionalType": {
-            "type": "array",
-            "items": {
                 "anyOf": [
                     {
                         "type": "string",
                         "enum": [
+                            "schema:Organization",
                             "schema:FundingAgency",
                             "schema:Consortium",
                             "schema:Corporation",
@@ -33,7 +24,18 @@
                             "schema:Project",
                             "schema:ResearchOrganization"
                         ]
-                    },
+                    }
+                ]
+            },
+            "contains": {
+                "const": "schema:Organization"
+            },
+            "minItems": 1
+        },
+        "schema:additionalType": {
+            "type": "array",
+            "items": {
+                "anyOf": [
                     {
                         "$ref": "../definedTerm/definedTermSchema.json"
                     },
