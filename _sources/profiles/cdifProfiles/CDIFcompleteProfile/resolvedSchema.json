@@ -1526,41 +1526,24 @@
                                 },
                                 "schema:alternateName": {
                                   "description": "Alternate name(s), e.g. specific make/model designation, common abbreviation.",
-                                  "anyOf": [
-                                    {
-                                      "type": "string"
-                                    },
-                                    {
-                                      "type": "array",
-                                      "items": {
-                                        "type": "string"
-                                      }
-                                    }
-                                  ]
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
                                 },
                                 "schema:identifier": {
                                   "description": "Formal identifier(s) for this instrument. Use PropertyValue for structured identifiers (e.g. PIDINST, serial number, inventory number).",
-                                  "anyOf": [
-                                    {
-                                      "type": "string"
-                                    },
-                                    {
-                                      "$ref": "#/$defs/Identifier"
-                                    },
-                                    {
-                                      "type": "array",
-                                      "items": {
-                                        "anyOf": [
-                                          {
-                                            "type": "string"
-                                          },
-                                          {
-                                            "$ref": "#/$defs/Identifier"
-                                          }
-                                        ]
+                                  "type": "array",
+                                  "items": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "$ref": "#/$defs/Identifier"
                                       }
-                                    }
-                                  ]
+                                    ]
+                                  }
                                 },
                                 "schema:url": {
                                   "type": "string",
@@ -1668,17 +1651,10 @@
                                             "type": "string"
                                           },
                                           "schema:alternateName": {
-                                            "anyOf": [
-                                              {
-                                                "type": "string"
-                                              },
-                                              {
-                                                "type": "array",
-                                                "items": {
-                                                  "type": "string"
-                                                }
-                                              }
-                                            ]
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            }
                                           },
                                           "schema:identifier": {
                                             "anyOf": [
@@ -1692,17 +1668,10 @@
                                           },
                                           "schema:additionalType": {
                                             "description": "Component type classification.",
-                                            "anyOf": [
-                                              {
-                                                "type": "string"
-                                              },
-                                              {
-                                                "type": "array",
-                                                "items": {
-                                                  "type": "string"
-                                                }
-                                              }
-                                            ]
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            }
                                           },
                                           "schema:additionalProperty": {
                                             "type": "array",
@@ -2119,27 +2088,17 @@
         },
         "schema:measurementTechnique": {
           "description": "The technique, technology, or methodology used for measurement or determination of the dataset values.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/DefinedTerm"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/DefinedTerm"
-                  }
-                ]
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/$defs/DefinedTerm"
               }
-            }
-          ]
+            ]
+          }
         },
         "schema:spatialCoverage": {
           "description": "Geographic extent of resource content.",
@@ -2483,11 +2442,11 @@
         },
         "schema:inDefinedTermSet": {
           "type": "string",
-          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+          "description": "Name for the controlled vocabulary responsible for this keyword."
         },
         "schema:termCode": {
           "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
         }
       },
       "allOf": [
@@ -2534,14 +2493,7 @@
           "minItems": 1
         },
         "schema:additionalType": {
-          "description": "Domain-specific type classifications for this place (e.g. facility type, laboratory classification).",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "schema:name": {
-          "description": "multiple place names or DefinedTerms that have a place name and URI for the location",
+          "description": "Domain-specific type classifications for this place (e.g. facility type,laboratory classification, feature type).",
           "type": "array",
           "items": {
             "anyOf": [
@@ -2554,6 +2506,17 @@
             ]
           }
         },
+        "schema:name": {
+          "description": "A place name for the location, either as a string or a DefinedTerm from a gazetteer.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/DefinedTerm"
+            }
+          ]
+        },
         "schema:identifier": {
           "description": "Formal identifier for this place (e.g. ROR identifier for a facility).",
           "anyOf": [
@@ -2561,26 +2524,23 @@
               "type": "string"
             },
             {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "$ref": "#/$defs/Identifier"
             }
           ]
         },
         "schema:alternateName": {
           "description": "Alternate or abbreviated name(s) for this place.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "array",
-              "items": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
                 "type": "string"
+              },
+              {
+                "$ref": "#/$defs/DefinedTerm"
               }
-            }
-          ]
+            ]
+          }
         },
         "schema:geo": {
           "description": "Either a bounding box or a point location.",

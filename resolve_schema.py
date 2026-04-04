@@ -221,8 +221,10 @@ class SchemaResolver:
                 if fragment:
                     schema = self.resolve_fragment(schema, fragment)
 
-                # Process the schema recursively
-                processed = self.process_schema(schema, schema_path.parent)
+                # Process the schema recursively, passing the source file
+                # so internal #/$defs/ refs can be resolved against it
+                processed = self.process_schema(schema, schema_path.parent,
+                                                source_file=schema_path)
 
                 # Remove nested $defs - they've been flattened
                 if isinstance(processed, dict):
@@ -235,13 +237,16 @@ class SchemaResolver:
 
         return def_name
 
-    def process_schema(self, schema: Any, current_dir: Path) -> Any:
+    def process_schema(self, schema: Any, current_dir: Path,
+                       source_file: Optional[Path] = None) -> Any:
         """
         Recursively process a schema, resolving all external references.
 
         Args:
             schema: The schema to process
             current_dir: Current directory for resolving relative paths
+            source_file: The file this schema was loaded from (used to resolve
+                internal #/$defs/ refs within external files)
 
         Returns:
             Processed schema with external references converted to local $defs references
@@ -264,7 +269,20 @@ class SchemaResolver:
                         result["$ref"] = f"#/$defs/{def_name}"
                         return result
                 else:
-                    # Internal reference - keep as is
+                    # Internal reference (#/$defs/X)
+                    # If we're processing an external file, resolve internal
+                    # $defs refs against that source file so transitive defs
+                    # get promoted to global scope
+                    if source_file and fragment and fragment.startswith('/$defs/'):
+                        def_name = self.get_or_create_def_for_file(
+                            source_file, fragment)
+                        if len(schema) == 1:
+                            return {"$ref": f"#/$defs/{def_name}"}
+                        else:
+                            result = {k: v for k, v in schema.items()
+                                      if k != '$ref'}
+                            result["$ref"] = f"#/$defs/{def_name}"
+                            return result
                     return schema
 
             # Check for malformed schemas that use "$defs" where "$ref" was intended
@@ -298,7 +316,7 @@ class SchemaResolver:
                                 self.global_defs[local_name] = {"$ref": f"#/$defs/{global_def_name}"}
                         else:
                             # Internal reference in $defs - just process it
-                            processed_def = self.process_schema(local_def, current_dir)
+                            processed_def = self.process_schema(local_def, current_dir, source_file=source_file)
                             if local_name not in self.global_defs:
                                 self.global_defs[local_name] = processed_def
                     elif isinstance(local_def, dict) and '$defs' in local_def and isinstance(local_def['$defs'], str):
@@ -313,7 +331,7 @@ class SchemaResolver:
                                 self.global_defs[local_name] = {"$ref": f"#/$defs/{global_def_name}"}
                     else:
                         # Inline definition
-                        processed_def = self.process_schema(local_def, current_dir)
+                        processed_def = self.process_schema(local_def, current_dir, source_file=source_file)
                         if isinstance(processed_def, dict):
                             processed_def.pop('$defs', None)
                         if local_name not in self.global_defs:
@@ -323,12 +341,12 @@ class SchemaResolver:
             for key, value in schema.items():
                 if key == '$defs':
                     continue  # Already processed
-                result[key] = self.process_schema(value, current_dir)
+                result[key] = self.process_schema(value, current_dir, source_file=source_file)
 
             return result
 
         elif isinstance(schema, list):
-            return [self.process_schema(item, current_dir) for item in schema]
+            return [self.process_schema(item, current_dir, source_file=source_file) for item in schema]
 
         else:
             return schema

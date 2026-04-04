@@ -1,8 +1,6 @@
 ---
 $schema: https://json-schema.org/draft/2020-12/schema
-description: "Spatial Extent description for CDIF discovery profile.  Note required prefix declaration\
-  \ for geoSparql ( http://www.opengis.net/ont/geosparql#) and OGC simple features\
-  \ (sf: http://www.opengis.net/ont/sf#)"
+description: "Spatial Extent description for CDIF discovery profile.  Note required prefix declaration for geoSparql ( http://www.opengis.net/ont/geosparql#) and OGC simple features (sf: http://www.opengis.net/ont/sf#)"
 type: object
 properties:
   '@type':
@@ -15,31 +13,29 @@ properties:
     minItems: 1
   'schema:additionalType':
     description: Domain-specific type classifications for this place (e.g. facility
-      type, laboratory classification).
-    type: array
-    items:
-      type: string
-  'schema:name':
-    description: multiple place names or DefinedTerms that have a place name and URI for the location
+      type,laboratory classification, feature type).
     type: array
     items:
       anyOf:
       - type: string
       - $ref: '#/$defs/DefinedTerm'
+  'schema:name':
+    description: A place name for the location, either as a string or a DefinedTerm from a gazetteer.
+    anyOf:
+    - type: string
+    - $ref: '#/$defs/DefinedTerm'
   'schema:identifier':
     description: Formal identifier for this place (e.g. ROR identifier for a facility).
     anyOf:
     - type: string
-    - type: array
-      items:
-        type: string
+    - $ref: '#/$defs/Identifier'
   'schema:alternateName':
     description: Alternate or abbreviated name(s) for this place.
-    anyOf:
-    - type: string
-    - type: array
-      items:
-        type: string
+    type: array
+    items:
+      anyOf:
+      - type: string
+      - $ref: '#/$defs/DefinedTerm'
   'schema:geo':
     description: Either a bounding box or a point location.
     anyOf:
@@ -159,3 +155,5 @@ anyOf:
 $defs:
   DefinedTerm:
     $ref: ../definedTerm/schema.yaml
+  Identifier:
+    $ref: ../identifier/schema.yaml

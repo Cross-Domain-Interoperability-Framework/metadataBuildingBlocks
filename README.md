@@ -48,7 +48,7 @@ python tools/resolve_schema.py --file path/to/any/schema.yaml
 
 ### Validate Examples (`validate_examples.py`)
 
-Validates all example JSON files against their resolved schemas. Uses `resolve_schema.py`'s resolver for proper `$defs` and cross-file `$ref` handling.
+Validates all example JSON files against their resolved schemas. Uses the root `resolve_schema.py` `SchemaResolver` for proper `$defs` and cross-file `$ref` handling, with fallback to `tools/resolve_schema.py` for schemas with circular references.
 
 ```bash
 # Validate all examples

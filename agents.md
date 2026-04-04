@@ -385,11 +385,16 @@ python tools/resolve_schema.py --all --flatten-allof
 
 **Requirements:** Python 3.6+ with `pyyaml`
 
-**Key implementation details:**
+**Key implementation details (tools/resolve_schema.py):**
 - `deep_merge` with `_is_complete_schema` heuristic: when merging `properties` dicts, overlay properties with `type`/`oneOf`/`anyOf`/`allOf`/`$ref` **replace** the base entirely; partial constraint patches (no composition keywords) are deep-merged
 - Two-pass `$defs` resolution: pass 1 resolves external file refs with empty defs dict, pass 2 uses `_inline_unresolved_defs` to replace `$comment` placeholders left by forward cross-def fragment refs
 - Circular reference detection via `seen` set (returns `$comment` placeholder)
 - Strips metadata keys (`$id`, `x-jsonld-*`) from output
+
+**Key implementation details (root resolve_schema.py):**
+- Flattens all `$defs` to a single global scope; `--inline-single-use` inlines defs referenced only once
+- Tracks `source_file` through `process_schema()` so that internal `#/$defs/X` refs within externally-referenced files are resolved against the source file and promoted to global scope (fixes transitive internal ref resolution)
+- Cycle detection via `processing_stack` set
 
 ## convert_for_jsonforms.py
 
@@ -500,7 +505,7 @@ python generate_property_table.py path/to/_sources/profiles/cdifProfiles/CDIFDis
 
 ## validate_examples.py
 
-Validates all example JSON files against their resolved schemas. Uses `resolve_file()` from `resolve_schema.py` so `$defs`, cross-file `$ref`, and fragment references are handled correctly.
+Validates all example JSON files against their resolved schemas. Uses the root `resolve_schema.py` `SchemaResolver` class for resolution, which correctly handles transitive internal `$defs` references within externally-referenced schemas. Falls back to the `tools/resolve_schema.py` inline resolver for schemas with circular `$ref` patterns that cause recursion errors in jsonschema validation.
 
 **Usage:**
 ```bash
