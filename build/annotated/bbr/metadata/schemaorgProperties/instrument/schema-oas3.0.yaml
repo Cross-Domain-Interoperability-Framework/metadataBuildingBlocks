@@ -46,17 +46,10 @@ x-defs:
         default: schema:Organization
         type: array
         items:
-          type: string
-        contains:
-          enum:
-          - schema:Organization
-        minItems: 1
-      schema:additionalType:
-        type: array
-        items:
           anyOf:
           - type: string
             enum:
+            - schema:Organization
             - schema:FundingAgency
             - schema:Consortium
             - schema:Corporation
@@ -66,6 +59,14 @@ x-defs:
             - schema:NGO
             - schema:Project
             - schema:ResearchOrganization
+        contains:
+          enum:
+          - schema:Organization
+        minItems: 1
+      schema:additionalType:
+        type: array
+        items:
+          anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
           - type: string
       schema:name:
@@ -119,7 +120,8 @@ x-defs:
         minItems: 1
       schema:name:
         type: string
-        description: string label for person that is meaningful for human users
+        description: string label for person that is meaningful for human users, should
+          format consistently. Recommend 'Family Name, Given name' format.
       schema:description:
         type: string
       schema:identifier:
@@ -136,6 +138,8 @@ x-defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
       schema:contactPoint:
         type: object
+        description: restrict to email only. Schema.org allows telephone and postal
+          contacts as well
         properties:
           '@type':
             default: schema:ContactPoint
@@ -148,8 +152,8 @@ x-defs:
             minItems: 1
           schema:email:
             type: string
-        description: restrict to email only. Schema.org allows telephone and postal
-          contacts as well
+        required:
+        - schema:email
       schema:sameAs:
         type: array
         description: other identifiers for the person
@@ -193,12 +197,11 @@ x-defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
       schema:inDefinedTermSet:
         type: string
-        description: Identifier for the controlled vocabulary responsible for this
-          keyword.
+        description: Name for the controlled vocabulary responsible for this keyword.
       schema:termCode:
         type: string
-        description: A representative code for this keyword in the controlled vocabulary
-          (Optional).  Analogous to skos:Notation
+        description: A representative code for this keyword in the controlled vocabulary.
+          Analogous to skos:Notation
     allOf:
     - required:
       - '@type'
@@ -246,6 +249,7 @@ x-defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
     required:
+    - '@type'
     - schema:roleName
     - schema:contributor
     x-jsonld-prefixes:
@@ -386,22 +390,17 @@ properties:
     description: Text description of this instrument, its purpose, and capabilities.
   schema:alternateName:
     description: Alternate name(s), e.g. specific make/model designation, common abbreviation.
-    anyOf:
-    - type: string
-    - type: array
-      items:
-        type: string
+    type: array
+    items:
+      type: string
   schema:identifier:
     description: Formal identifier(s) for this instrument. Use PropertyValue for structured
       identifiers (e.g. PIDINST, serial number, inventory number).
-    anyOf:
-    - type: string
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/$defs/Identifier
-    - type: array
-      items:
-        anyOf:
-        - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/$defs/Identifier
+    type: array
+    items:
+      anyOf:
+      - type: string
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/$defs/Identifier
   schema:url:
     type: string
     format: uri
@@ -549,22 +548,18 @@ $defs:
       schema:description:
         type: string
       schema:alternateName:
-        anyOf:
-        - type: string
-        - type: array
-          items:
-            type: string
+        type: array
+        items:
+          type: string
       schema:identifier:
         anyOf:
         - type: string
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/$defs/Identifier
       schema:additionalType:
         description: Component type classification.
-        anyOf:
-        - type: string
-        - type: array
-          items:
-            type: string
+        type: array
+        items:
+          type: string
       schema:additionalProperty:
         type: array
         items:

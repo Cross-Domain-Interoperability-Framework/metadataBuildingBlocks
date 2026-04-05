@@ -127,7 +127,8 @@ schema:actionProcess HowTo with ordered steps, and facility location.
       "schema:url": "https://orcid.org/0000-0002-8765-4321"
     },
     "schema:contactPoint": {
-      "@id": "mailto:maria.chen@unr.edu"
+      "@type": ["schema:ContactPoint"],
+      "schema:email": "maria.chen@unr.edu"
     }
   },
   "schema:object": "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect",
@@ -255,7 +256,10 @@ schema:actionProcess HowTo with ordered steps, and facility location.
       "schema:url": "https://orcid.org/0000-0002-8765-4321"
     },
     "schema:contactPoint": {
-      "@id": "mailto:maria.chen@unr.edu"
+      "@type": [
+        "schema:ContactPoint"
+      ],
+      "schema:email": "maria.chen@unr.edu"
     }
   },
   "schema:object": "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect",
@@ -323,7 +327,8 @@ ex:activity-soil-chem-analysis a schema1:Action,
                     schema1:position 1 ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:agent [ a schema1:Person ;
-            schema1:contactPoint <mailto:maria.chen@unr.edu> ;
+            schema1:contactPoint [ a schema1:ContactPoint ;
+                    schema1:email "maria.chen@unr.edu" ] ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "https://registry.identifiers.org/registry/orcid" ;
                     schema1:url "https://orcid.org/0000-0002-8765-4321" ;
@@ -339,7 +344,10 @@ ex:activity-soil-chem-analysis a schema1:Action,
     schema1:object "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect" ;
     schema1:result ex:dataset-soil-chem-gb-2025 ;
     schema1:startTime "2025-07-15T08:00:00Z" ;
-    prov:used [ schema1:instrument [ a schema1:DefinedTerm,
+    prov:used [ a schema1:CreativeWork ;
+            schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
+            schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
+        [ schema1:instrument [ a schema1:DefinedTerm,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
                             schema1:name "Typical Detection Limit" ;
@@ -353,9 +361,6 @@ ex:activity-soil-chem-analysis a schema1:Action,
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
                     schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
                     schema1:termCode "ICP-MS" ] ],
-        [ a schema1:CreativeWork ;
-            schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
-            schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
         "Soil core samples collected June 2025, sites GB-001 through GB-045",
         "https://vocab.nerc.ac.uk/collection/L05/current/LAB02" .
 

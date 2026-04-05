@@ -526,18 +526,14 @@ $defs:
       schema:additionalType:
         description: Further type classification (e.g. File, Dataset, PropertyValue,
           DataType)
-        anyOf:
-        - type: string
-        - type: array
-          items:
-            type: string
+        type: array
+        items:
+          type: string
       schema:encodingFormat:
         description: MIME type or URL for expected data format
-        anyOf:
-        - type: string
-        - type: array
-          items:
-            type: string
+        type: array
+        items:
+          type: string
       schema:defaultValue:
         description: Default value for this parameter
     required:

@@ -217,16 +217,10 @@ properties:
     default: schema:Organization
     type: array
     items:
-      type: string
-    contains:
-      const: schema:Organization
-    minItems: 1
-  schema:additionalType:
-    type: array
-    items:
       anyOf:
       - type: string
         enum:
+        - schema:Organization
         - schema:FundingAgency
         - schema:Consortium
         - schema:Corporation
@@ -236,6 +230,13 @@ properties:
         - schema:NGO
         - schema:Project
         - schema:ResearchOrganization
+    contains:
+      const: schema:Organization
+    minItems: 1
+  schema:additionalType:
+    type: array
+    items:
+      anyOf:
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
       - type: string
   schema:name:

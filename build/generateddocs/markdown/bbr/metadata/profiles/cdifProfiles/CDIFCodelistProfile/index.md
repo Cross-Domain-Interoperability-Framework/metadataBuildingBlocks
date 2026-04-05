@@ -53,10 +53,12 @@ inScheme, broader, notation, and cross-references via related.
   "@type": ["skos:ConceptScheme"],
   "skos:prefLabel": {"@value": "Sampled Feature Type vocabulary", "@language": "en"},
   "skos:definition": {"@value": "Categories to specify the broad context that a sample is intended to represent.", "@language": "en"},
+  "schema:identifier": "https://w3id.org/isample/vocabulary/sampledfeature/",
+  "schema:dateModified": "2024-04-19",
+  "schema:url": "https://w3id.org/isample/vocabulary/sampledfeature/",
+  "schema:license": [{"@id": "https://creativecommons.org/licenses/by/4.0/legalcode"}],
+  "schema:creator": {"@list": [{"@id": "https://orcid.org/0000-0001-6041-5302"}]},
   "dcterms:created": "2021-03-17",
-  "dcterms:modified": "2024-04-19",
-  "dcterms:creator": {"@id": "https://orcid.org/0000-0001-6041-5302"},
-  "dcterms:license": {"@id": "https://creativecommons.org/licenses/by/4.0/legalcode"},
   "skos:historyNote": [
     {"@value": "2021-07-09  Remove Marine biome, Subaerial terrestrial environment, Subaqueous terrestrial environment per github issue https://github.com/isamplesorg/metadata/issues/41. Make Experiment setting and Laboratory or curatorial environment subclasses of Active human occupation site.", "@language": "en"},
     {"@value": "2021-12-10 SMR add missing skos:inScheme statements", "@language": "en"},
@@ -292,14 +294,22 @@ inScheme, broader, notation, and cross-references via related.
     "@value": "Categories to specify the broad context that a sample is intended to represent.",
     "@language": "en"
   },
+  "schema:identifier": "https://w3id.org/isample/vocabulary/sampledfeature/",
+  "schema:dateModified": "2024-04-19",
+  "schema:url": "https://w3id.org/isample/vocabulary/sampledfeature/",
+  "schema:license": [
+    {
+      "@id": "https://creativecommons.org/licenses/by/4.0/legalcode"
+    }
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://orcid.org/0000-0001-6041-5302"
+      }
+    ]
+  },
   "dcterms:created": "2021-03-17",
-  "dcterms:modified": "2024-04-19",
-  "dcterms:creator": {
-    "@id": "https://orcid.org/0000-0001-6041-5302"
-  },
-  "dcterms:license": {
-    "@id": "https://creativecommons.org/licenses/by/4.0/legalcode"
-  },
   "skos:historyNote": [
     {
       "@value": "2021-07-09  Remove Marine biome, Subaerial terrestrial environment, Subaqueous terrestrial environment per github issue https://github.com/isamplesorg/metadata/issues/41. Make Experiment setting and Laboratory or curatorial environment subclasses of Active human occupation site.",
@@ -866,6 +876,8 @@ inScheme, broader, notation, and cross-references via related.
 #### ttl
 ```ttl
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema1: <http://schema.org/> .
 @prefix sf: <https://w3id.org/isample/vocabulary/sampledfeature/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
@@ -1025,9 +1037,11 @@ sf:earthenvironment a skos:Concept ;
 
 sf:sampledfeaturevocabulary a skos:ConceptScheme ;
     dcterms:created "2021-03-17" ;
-    dcterms:creator <https://orcid.org/0000-0001-6041-5302> ;
-    dcterms:license <https://creativecommons.org/licenses/by/4.0/legalcode> ;
-    dcterms:modified "2024-04-19" ;
+    schema1:creator ( <https://orcid.org/0000-0001-6041-5302> ) ;
+    schema1:dateModified "2024-04-19" ;
+    schema1:identifier "https://w3id.org/isample/vocabulary/sampledfeature/" ;
+    schema1:license <https://creativecommons.org/licenses/by/4.0/legalcode> ;
+    schema1:url "https://w3id.org/isample/vocabulary/sampledfeature/" ;
     skos:definition "Categories to specify the broad context that a sample is intended to represent."@en ;
     skos:hasTopConcept sf:anysampledfeature ;
     skos:historyNote "2021-07-09  Remove Marine biome, Subaerial terrestrial environment, Subaqueous terrestrial environment per github issue https://github.com/isamplesorg/metadata/issues/41. Make Experiment setting and Laboratory or curatorial environment subclasses of Active human occupation site."@en,
@@ -1054,11 +1068,16 @@ No optional properties (notation, altLabel, mappings, notes, DC metadata).
 {
   "@context": {
     "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "http://schema.org/",
     "mat": "https://w3id.org/isample/vocabulary/material/"
   },
   "@id": "mat:materialsvocabulary",
   "@type": ["skos:ConceptScheme"],
   "skos:prefLabel": "iSamples Materials Vocabulary",
+  "schema:identifier": "https://w3id.org/isample/vocabulary/material/",
+  "schema:dateModified": "2024-01-01",
+  "schema:url": "https://w3id.org/isample/vocabulary/material/",
+  "schema:license": ["https://creativecommons.org/licenses/by/4.0/"],
   "skos:hasTopConcept": [
     {
       "@id": "mat:material",
@@ -1132,6 +1151,7 @@ No optional properties (notation, altLabel, mappings, notes, DC metadata).
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFCodelistProfile/context.jsonld",
     {
       "skos": "http://www.w3.org/2004/02/skos/core#",
+      "schema": "http://schema.org/",
       "mat": "https://w3id.org/isample/vocabulary/material/"
     }
   ],
@@ -1140,6 +1160,12 @@ No optional properties (notation, altLabel, mappings, notes, DC metadata).
     "skos:ConceptScheme"
   ],
   "skos:prefLabel": "iSamples Materials Vocabulary",
+  "schema:identifier": "https://w3id.org/isample/vocabulary/material/",
+  "schema:dateModified": "2024-01-01",
+  "schema:url": "https://w3id.org/isample/vocabulary/material/",
+  "schema:license": [
+    "https://creativecommons.org/licenses/by/4.0/"
+  ],
   "skos:hasTopConcept": [
     {
       "@id": "mat:material",
@@ -1257,6 +1283,7 @@ No optional properties (notation, altLabel, mappings, notes, DC metadata).
 #### ttl
 ```ttl
 @prefix mat: <https://w3id.org/isample/vocabulary/material/> .
+@prefix schema1: <http://schema.org/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 mat:anyanthropogenicmaterial a skos:Concept ;
@@ -1307,6 +1334,10 @@ mat:material a skos:Concept ;
     skos:prefLabel "Material" .
 
 mat:materialsvocabulary a skos:ConceptScheme ;
+    schema1:dateModified "2024-01-01" ;
+    schema1:identifier "https://w3id.org/isample/vocabulary/material/" ;
+    schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
+    schema1:url "https://w3id.org/isample/vocabulary/material/" ;
     skos:hasTopConcept mat:material ;
     skos:prefLabel "iSamples Materials Vocabulary" .
 
@@ -1323,7 +1354,11 @@ description: 'CDIF profile for controlled vocabulary codelists implemented as SK
   ConceptSchemes. Composes skosConceptScheme and skosConcept building blocks with
   additional constraints: concepts must have resolvable @id identifiers, skos:inScheme,
   and skos:definition; the scheme must identify top concepts via skos:hasTopConcept;
-  hierarchical concepts must declare skos:broader.'
+  hierarchical concepts must declare skos:broader. CDIF metadata properties (schema:identifier,
+  schema:dateModified, schema:license or schema:conditionsOfAccess) take precedence
+  over equivalent dcterms properties (dcterms:modified, dcterms:license) from the
+  base skosConceptScheme building block. Instances should use the schema: properties;
+  dcterms: equivalents are optional and not required.'
 allOf:
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConceptScheme/schema.yaml
 - type: object
@@ -1331,6 +1366,48 @@ allOf:
     '@id':
       type: string
       description: Globally unique, resolvable URI for the concept scheme.
+    schema:identifier:
+      description: Primary identifier for the codelist. May be a string URI or a structured
+        PropertyValue.
+      anyOf:
+      - type: string
+      - type: object
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              const: schema:PropertyValue
+          schema:propertyID:
+            type: string
+          schema:value:
+            type: string
+          schema:url:
+            type: string
+    schema:dateModified:
+      type: string
+      description: ISO 8601 date when the codelist was last modified.
+    schema:url:
+      type: string
+      format: uri
+      description: Web location of a page describing the codelist.
+      default: missing
+    schema:license:
+      description: License for the codelist.
+      type: array
+      items:
+        anyOf:
+        - type: string
+        - type: object
+          properties:
+            '@id':
+              type: string
+    schema:conditionsOfAccess:
+      description: Text statement of access conditions for the codelist.
+      type: array
+      items:
+        type: string
     skos:hasTopConcept:
       description: Top-level concepts that have no skos:broader in this scheme. Required
         for hierarchical codelists.
@@ -1345,8 +1422,15 @@ allOf:
               type: string
           required:
           - '@id'
+  anyOf:
+  - required:
+    - schema:license
+  - required:
+    - schema:conditionsOfAccess
   required:
   - '@id'
+  - schema:identifier
+  - schema:dateModified
   - skos:hasTopConcept
 $defs:
   CdifCodelistConcept:

@@ -276,7 +276,8 @@ properties:
     minItems: 1
   schema:name:
     type: string
-    description: string label for person that is meaningful for human users
+    description: string label for person that is meaningful for human users, should
+      format consistently. Recommend 'Family Name, Given name' format.
   schema:description:
     type: string
   schema:identifier:
@@ -292,6 +293,8 @@ properties:
     description: if affiliation is present, value must be a schema:Organization.
   schema:contactPoint:
     type: object
+    description: restrict to email only. Schema.org allows telephone and postal contacts
+      as well
     properties:
       '@type':
         default: schema:ContactPoint
@@ -303,8 +306,8 @@ properties:
         minItems: 1
       schema:email:
         type: string
-    description: restrict to email only. Schema.org allows telephone and postal contacts
-      as well
+    required:
+    - schema:email
   schema:sameAs:
     type: array
     description: other identifiers for the person

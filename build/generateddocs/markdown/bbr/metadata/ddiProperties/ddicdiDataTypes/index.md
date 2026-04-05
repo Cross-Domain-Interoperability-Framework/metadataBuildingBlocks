@@ -221,11 +221,9 @@ $defs:
         minItems: 1
       cdi:line:
         description: Address line(s)
-        anyOf:
-        - type: string
-        - type: array
-          items:
-            type: string
+        type: array
+        items:
+          type: string
       cdi:cityPlaceLocal:
         type: string
         description: City, town, or locality

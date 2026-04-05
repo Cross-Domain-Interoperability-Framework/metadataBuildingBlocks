@@ -314,7 +314,7 @@ x-defs:
       schema:funding:
         type: array
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCore/$defs/Funder
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCore/$defs/MonetaryGrant
       prov:wasGeneratedBy:
         description: Brief information about instruments, software or experimental
           protocols used
@@ -374,8 +374,8 @@ x-defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
       Contributor:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.agentInRole
-      Funder:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.funder
+      MonetaryGrant:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.monetaryGrant
       GeneratedBy:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.provProperties.generatedBy
       DerivedFrom:
@@ -542,12 +542,11 @@ x-defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
       schema:inDefinedTermSet:
         type: string
-        description: Identifier for the controlled vocabulary responsible for this
-          keyword.
+        description: Name for the controlled vocabulary responsible for this keyword.
       schema:termCode:
         type: string
-        description: A representative code for this keyword in the controlled vocabulary
-          (Optional).  Analogous to skos:Notation
+        description: A representative code for this keyword in the controlled vocabulary.
+          Analogous to skos:Notation
     allOf:
     - required:
       - '@type'
@@ -579,32 +578,30 @@ x-defs:
         minItems: 1
       schema:additionalType:
         description: Domain-specific type classifications for this place (e.g. facility
-          type, laboratory classification).
-        type: array
-        items:
-          type: string
-      schema:name:
-        description: multiple place names or DefinedTerms that have a place name and
-          URI for the location
+          type,laboratory classification, feature type).
         type: array
         items:
           anyOf:
           - type: string
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/DefinedTerm
+      schema:name:
+        description: A place name for the location, either as a string or a DefinedTerm
+          from a gazetteer.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/DefinedTerm
       schema:identifier:
         description: Formal identifier for this place (e.g. ROR identifier for a facility).
         anyOf:
         - type: string
-        - type: array
-          items:
-            type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/Identifier
       schema:alternateName:
         description: Alternate or abbreviated name(s) for this place.
-        anyOf:
-        - type: string
-        - type: array
-          items:
-            type: string
+        type: array
+        items:
+          anyOf:
+          - type: string
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/DefinedTerm
       schema:geo:
         description: Either a bounding box or a point location.
         anyOf:
@@ -736,6 +733,8 @@ x-defs:
     $defs:
       DefinedTerm:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+      Identifier:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
@@ -1150,7 +1149,8 @@ x-defs:
         minItems: 1
       schema:name:
         type: string
-        description: string label for person that is meaningful for human users
+        description: string label for person that is meaningful for human users, should
+          format consistently. Recommend 'Family Name, Given name' format.
       schema:description:
         type: string
       schema:identifier:
@@ -1167,6 +1167,8 @@ x-defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
       schema:contactPoint:
         type: object
+        description: restrict to email only. Schema.org allows telephone and postal
+          contacts as well
         properties:
           '@type':
             default: schema:ContactPoint
@@ -1179,8 +1181,8 @@ x-defs:
             minItems: 1
           schema:email:
             type: string
-        description: restrict to email only. Schema.org allows telephone and postal
-          contacts as well
+        required:
+        - schema:email
       schema:sameAs:
         type: array
         description: other identifiers for the person
@@ -1212,17 +1214,10 @@ x-defs:
         default: schema:Organization
         type: array
         items:
-          type: string
-        contains:
-          enum:
-          - schema:Organization
-        minItems: 1
-      schema:additionalType:
-        type: array
-        items:
           anyOf:
           - type: string
             enum:
+            - schema:Organization
             - schema:FundingAgency
             - schema:Consortium
             - schema:Corporation
@@ -1232,6 +1227,14 @@ x-defs:
             - schema:NGO
             - schema:Project
             - schema:ResearchOrganization
+        contains:
+          enum:
+          - schema:Organization
+        minItems: 1
+      schema:additionalType:
+        type: array
+        items:
+          anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
           - type: string
       schema:name:
@@ -1302,13 +1305,14 @@ x-defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
     required:
+    - '@type'
     - schema:roleName
     - schema:contributor
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/agentInRole/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.funder:
+  cdif.bbr.metadata.schemaorgProperties.monetaryGrant:
     description: Funding acknowledgement properties, profile of schema.org/MonetaryGrant
     type: object
     properties:
@@ -1327,7 +1331,7 @@ x-defs:
       schema:identifier:
         description: identifier for a particular grant
         allOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.funder/$defs/Identifier
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.monetaryGrant/$defs/Identifier
       schema:description:
         type: string
         description: description of the funding or grant
@@ -1344,8 +1348,8 @@ x-defs:
                 externally; must be dereferenceable
           required:
           - '@id'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.funder/$defs/Person
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.funder/$defs/Organization
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.monetaryGrant/$defs/Person
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.monetaryGrant/$defs/Organization
     anyOf:
     - required:
       - schema:funder
@@ -1362,7 +1366,7 @@ x-defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
     x-jsonld-prefixes:
       schema: http://schema.org/
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema.yaml
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.provProperties.generatedBy:
     title: very simple links or names of software or instruments used to generate
@@ -1457,28 +1461,24 @@ x-defs:
         description: uri for specifications that this metadata record conforms to.
           Minimimally should specify uri for CDIF discovery profile.
       schema:maintainer:
-        description: iSamples Registrant. identification of the agent that registered
-          the sample, with contact information. Should include person name and affiliation,
-          or position name and affiliation, or just organization name. e-mail address
-          is preferred contact information.
+        description: Identification of the agent that maintains the metadata, with
+          contact information. Should include person name and affiliation, or position
+          name and affiliation, or just organization name. e-mail address is preferred
+          contact information.
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCatalogRecord/$defs/Person
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCatalogRecord/$defs/Organization
       schema:sdDatePublished:
-        description: date of most recent update to the metadata content, extends iSamples
-          schema
+        description: date of most recent update to the metadata content
         type: string
         format: date
       schema:includedInDataCatalog:
         type: object
-        description: identify the data collection or repository that contains the
-          described dataset. The value is expected to be a schema:DataCatalog
+        description: identify the source for the origin the metadata record.
         properties:
           '@id':
             type: string
-            description: identifier for the containing catalog or repository; example
-              data at https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#catalog
-              puts identifier here
+            description: identifier for the graph node.
           '@type':
             default: schema:DataCatalog
             type: array
@@ -2097,16 +2097,16 @@ x-defs:
         allOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.action/$defs/result_type
       schema:object:
-        description: specification of information model/schema for target resource.
-          Only necessary if the request allow specifying the fields to include in
-          the response
+        description: The entity upon which the action is carried out, whose state
+          is kept intact or changed.
         allOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.action/$defs/object_type
       schema:query-input:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.action/$defs/query-input_type
         description: set of explanations of the parameters in the URL template for
           the target.
-        allOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.action/$defs/query-input_type
     required:
     - schema:name
     - schema:target
@@ -2170,7 +2170,6 @@ x-defs:
       result_type:
         type: object
         description: documentation of the serialization format for the API response,
-          i.e. an implementation of the structure specified in the object type field
         properties:
           '@type':
             type: array
@@ -2189,58 +2188,48 @@ x-defs:
           schema:description:
             type: string
       query-input_type:
-        type: array
-        description: object that maps the parameters (in braces {  } in the url template
-          to specifications for the kind of value expected. parameters must all be
-          strings in the URL
-        minItems: 0
-        items:
-          type: object
-          properties:
-            '@id':
-              type: string
-            '@type':
-              default: schema:PropertyValueSpecification
-              type: array
-              items:
-                type: string
-              contains:
-                enum:
-                - schema:PropertyValueSpecification
-              minItems: 1
-            schema:valueName:
-              type: string
-            schema:description:
-              type: string
-            schema:valueRequired:
-              type: boolean
-              default: true
-            schema:valuePattern:
-              type: string
-          required:
-          - schema:valueName
-          - schema:description
-      object_type:
+        description: Query input parameter for a web API action, typed as schema:PropertyValueSpecification.
         type: object
-        description: Object specifies the information model for the resource that
-          is the object of the action
         properties:
+          '@id':
+            type: string
           '@type':
-            default: schema:DataFeed
+            default: schema:PropertyValueSpecification
             type: array
             items:
               type: string
             contains:
               enum:
-              - schema:DataFeed
+              - schema:PropertyValueSpecification
             minItems: 1
+          schema:valueName:
+            type: string
           schema:description:
             type: string
-          schema:encodingFormat-input:
+          schema:valueRequired:
+            type: boolean
+            default: true
+          schema:valuePattern:
+            type: string
+        required:
+        - schema:valueName
+        - schema:description
+      object_type:
+        type: object
+        description: Specifies the resource that is the object (input) of the action.
+          This is an open ended class for general description of Actions. When schema:Action
+          (or a subclass) is used to descibe operations for a WebAPI distribution,
+          the object is implicitly the resource that is the subject of the containing
+          metadata record, so this property would be superfluous.
+        properties:
+          '@type':
+            default: schema:Thing
             type: array
             items:
               type: string
-            description: MIME types accepted as input encoding formats for the action.
+            minItems: 1
+          schema:description:
+            type: string
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/action/schema.yaml
@@ -2280,7 +2269,8 @@ x-defs:
               type: string
               description: reference to a skos concept
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured/$defs/DefinedTerm
-        description: Text description or URI identifying the measurement method.
+        description: Text description or URI specifying how values for the variable
+          were obtained.
       schema:propertyID:
         type: array
         items:
@@ -2560,22 +2550,17 @@ x-defs:
       schema:alternateName:
         description: Alternate name(s), e.g. specific make/model designation, common
           abbreviation.
-        anyOf:
-        - type: string
-        - type: array
-          items:
-            type: string
+        type: array
+        items:
+          type: string
       schema:identifier:
         description: Formal identifier(s) for this instrument. Use PropertyValue for
           structured identifiers (e.g. PIDINST, serial number, inventory number).
-        anyOf:
-        - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
-        - type: array
-          items:
-            anyOf:
-            - type: string
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
+        type: array
+        items:
+          anyOf:
+          - type: string
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
       schema:url:
         type: string
         format: uri
@@ -2724,22 +2709,18 @@ x-defs:
           schema:description:
             type: string
           schema:alternateName:
-            anyOf:
-            - type: string
-            - type: array
-              items:
-                type: string
+            type: array
+            items:
+              type: string
           schema:identifier:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
           schema:additionalType:
             description: Component type classification.
-            anyOf:
-            - type: string
-            - type: array
-              items:
-                type: string
+            type: array
+            items:
+              type: string
           schema:additionalProperty:
             type: array
             items:
@@ -2905,14 +2886,11 @@ allOf:
     schema:measurementTechnique:
       description: The technique, technology, or methodology used for measurement
         or determination of the dataset values.
-      anyOf:
-      - type: string
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/$defs/DefinedTerm
-      - type: array
-        items:
-          anyOf:
-          - type: string
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/$defs/DefinedTerm
+      type: array
+      items:
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/$defs/DefinedTerm
     schema:spatialCoverage:
       description: Geographic extent of resource content.
       type: array
@@ -2967,12 +2945,16 @@ $defs:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.qualityProperties.qualityMeasure
 x-jsonld-prefixes:
   schema: http://schema.org/
-  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
   dcterms: http://purl.org/dc/terms/
   geosparql: http://www.opengis.net/ont/geosparql#
   spdx: http://spdx.org/rdf/terms#
-  time: http://www.w3.org/2006/time#
-  skos: http://www.w3.org/2004/02/skos/core#
-  prov: http://www.w3.org/ns/prov#
+  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
   csvw: http://www.w3.org/ns/csvw#
+  prov: http://www.w3.org/ns/prov#
+  time: http://www.w3.org/2006/time#
+  dqv: http://www.w3.org/ns/dqv#
+  sf: http://www.opengis.net/ont/sf#
+  ex: https://example.org/
+  xsd: http://www.w3.org/2001/XMLSchema#
+  dcat: http://www.w3.org/ns/dcat#
 x-schema-version: https://json-schema.org/draft/2020-12/schema

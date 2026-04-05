@@ -212,11 +212,9 @@ $defs:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/LanguageTaggedValue
       skos:notation:
         description: Classification code for this collection.
-        anyOf:
-        - type: string
-        - type: array
-          items:
-            type: string
+        type: array
+        items:
+          type: string
       skos:definition:
         description: Formal explanation of the purpose of this collection.
         anyOf:

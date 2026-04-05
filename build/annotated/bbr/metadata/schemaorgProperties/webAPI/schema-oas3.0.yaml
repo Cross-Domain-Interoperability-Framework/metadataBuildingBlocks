@@ -47,12 +47,11 @@ x-defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
       schema:inDefinedTermSet:
         type: string
-        description: Identifier for the controlled vocabulary responsible for this
-          keyword.
+        description: Name for the controlled vocabulary responsible for this keyword.
       schema:termCode:
         type: string
-        description: A representative code for this keyword in the controlled vocabulary
-          (Optional).  Analogous to skos:Notation
+        description: A representative code for this keyword in the controlled vocabulary.
+          Analogous to skos:Notation
     allOf:
     - required:
       - '@type'
@@ -114,16 +113,16 @@ x-defs:
         allOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.action/$defs/result_type
       schema:object:
-        description: specification of information model/schema for target resource.
-          Only necessary if the request allow specifying the fields to include in
-          the response
+        description: The entity upon which the action is carried out, whose state
+          is kept intact or changed.
         allOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.action/$defs/object_type
       schema:query-input:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.action/$defs/query-input_type
         description: set of explanations of the parameters in the URL template for
           the target.
-        allOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.action/$defs/query-input_type
     required:
     - schema:name
     - schema:target
@@ -187,7 +186,6 @@ x-defs:
       result_type:
         type: object
         description: documentation of the serialization format for the API response,
-          i.e. an implementation of the structure specified in the object type field
         properties:
           '@type':
             type: array
@@ -206,58 +204,48 @@ x-defs:
           schema:description:
             type: string
       query-input_type:
-        type: array
-        description: object that maps the parameters (in braces {  } in the url template
-          to specifications for the kind of value expected. parameters must all be
-          strings in the URL
-        minItems: 0
-        items:
-          type: object
-          properties:
-            '@id':
-              type: string
-            '@type':
-              default: schema:PropertyValueSpecification
-              type: array
-              items:
-                type: string
-              contains:
-                enum:
-                - schema:PropertyValueSpecification
-              minItems: 1
-            schema:valueName:
-              type: string
-            schema:description:
-              type: string
-            schema:valueRequired:
-              type: boolean
-              default: true
-            schema:valuePattern:
-              type: string
-          required:
-          - schema:valueName
-          - schema:description
-      object_type:
+        description: Query input parameter for a web API action, typed as schema:PropertyValueSpecification.
         type: object
-        description: Object specifies the information model for the resource that
-          is the object of the action
         properties:
+          '@id':
+            type: string
           '@type':
-            default: schema:DataFeed
+            default: schema:PropertyValueSpecification
             type: array
             items:
               type: string
             contains:
               enum:
-              - schema:DataFeed
+              - schema:PropertyValueSpecification
             minItems: 1
+          schema:valueName:
+            type: string
           schema:description:
             type: string
-          schema:encodingFormat-input:
+          schema:valueRequired:
+            type: boolean
+            default: true
+          schema:valuePattern:
+            type: string
+        required:
+        - schema:valueName
+        - schema:description
+      object_type:
+        type: object
+        description: Specifies the resource that is the object (input) of the action.
+          This is an open ended class for general description of Actions. When schema:Action
+          (or a subclass) is used to descibe operations for a WebAPI distribution,
+          the object is implicitly the resource that is the subject of the containing
+          metadata record, so this property would be superfluous.
+        properties:
+          '@type':
+            default: schema:Thing
             type: array
             items:
               type: string
-            description: MIME types accepted as input encoding formats for the action.
+            minItems: 1
+          schema:description:
+            type: string
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/action/schema.yaml

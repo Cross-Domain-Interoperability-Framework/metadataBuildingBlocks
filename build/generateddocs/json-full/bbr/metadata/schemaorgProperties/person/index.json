@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-04-03",
+  "dateOfLastChange": "2026-04-05",
   "link": "https://github.com/opengeospatial/bblock-template",
   "sources": [
     {
@@ -27,19 +27,19 @@
     "cdif.bbr.metadata.schemaorgProperties.person": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/person/rules.shacl"
     ],
-    "cdif.bbr.metadata.schemaorgProperties.identifier": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
-    ],
     "cdif.bbr.metadata.schemaorgProperties.organization": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/organization/rules.shacl"
     ],
     "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
     ]
   },
   "dependsOn": [
-    "cdif.bbr.metadata.schemaorgProperties.identifier",
-    "cdif.bbr.metadata.schemaorgProperties.organization"
+    "cdif.bbr.metadata.schemaorgProperties.organization",
+    "cdif.bbr.metadata.schemaorgProperties.identifier"
   ],
   "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/context.jsonld",
   "schema": {
@@ -106,7 +106,7 @@
       ]
     }
   ],
-  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: schema for cdif profile of schema.org/Person\ntype: object\nproperties:\n  '@id':\n    type: string\n  '@type':\n    type: array\n    items:\n      type: string\n    contains:\n      const: schema:Person\n    minItems: 1\n  schema:name:\n    type: string\n    description: string label for person that is meaningful for human users\n  schema:description:\n    type: string\n  schema:identifier:\n    description: identifier for person, recommend ORCID\n    anyOf:\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml\n    - type: string\n  schema:alternateName:\n    type: string\n    description: other labels by which the person might be known\n  schema:affiliation:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml\n    description: if affiliation is present, value must be a schema:Organization.\n  schema:contactPoint:\n    type: object\n    properties:\n      '@type':\n        default: schema:ContactPoint\n        type: array\n        items:\n          type: string\n        contains:\n          const: schema:ContactPoint\n        minItems: 1\n      schema:email:\n        type: string\n    description: restrict to email only. Schema.org allows telephone and postal contacts\n      as well\n  schema:sameAs:\n    type: array\n    description: other identifiers for the person\n    items:\n      anyOf:\n      - type: string\n      - type: object\n        properties:\n          '@id':\n            type: string\nallOf:\n- required:\n  - '@type'\n- anyOf:\n  - required:\n    - schema:name\n  - required:\n    - schema:identifier\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: schema for cdif profile of schema.org/Person\ntype: object\nproperties:\n  '@id':\n    type: string\n  '@type':\n    type: array\n    items:\n      type: string\n    contains:\n      const: schema:Person\n    minItems: 1\n  schema:name:\n    type: string\n    description: string label for person that is meaningful for human users, should\n      format consistently. Recommend 'Family Name, Given name' format.\n  schema:description:\n    type: string\n  schema:identifier:\n    description: identifier for person, recommend ORCID\n    anyOf:\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml\n    - type: string\n  schema:alternateName:\n    type: string\n    description: other labels by which the person might be known\n  schema:affiliation:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml\n    description: if affiliation is present, value must be a schema:Organization.\n  schema:contactPoint:\n    type: object\n    description: restrict to email only. Schema.org allows telephone and postal contacts\n      as well\n    properties:\n      '@type':\n        default: schema:ContactPoint\n        type: array\n        items:\n          type: string\n        contains:\n          const: schema:ContactPoint\n        minItems: 1\n      schema:email:\n        type: string\n    required:\n    - schema:email\n  schema:sameAs:\n    type: array\n    description: other identifiers for the person\n    items:\n      anyOf:\n      - type: string\n      - type: object\n        properties:\n          '@id':\n            type: string\nallOf:\n- required:\n  - '@type'\n- anyOf:\n  - required:\n    - schema:name\n  - required:\n    - schema:identifier\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
   "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
   "gitPath": "_sources/schemaorgProperties/person"
 }

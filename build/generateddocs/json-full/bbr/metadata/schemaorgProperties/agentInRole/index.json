@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-04-03",
+  "dateOfLastChange": "2026-04-05",
   "link": "https://github.com/opengeospatial/bblock-template",
   "sources": [
     {
@@ -33,17 +33,17 @@
     "cdif.bbr.metadata.schemaorgProperties.identifier": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
     ],
-    "cdif.bbr.metadata.schemaorgProperties.person": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/person/rules.shacl"
-    ],
     "cdif.bbr.metadata.schemaorgProperties.organization": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/organization/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.person": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/person/rules.shacl"
     ]
   },
   "dependsOn": [
     "cdif.bbr.metadata.schemaorgProperties.definedTerm",
-    "cdif.bbr.metadata.schemaorgProperties.person",
-    "cdif.bbr.metadata.schemaorgProperties.organization"
+    "cdif.bbr.metadata.schemaorgProperties.organization",
+    "cdif.bbr.metadata.schemaorgProperties.person"
   ],
   "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/agentInRole/context.jsonld",
   "schema": {
@@ -135,7 +135,7 @@
       ]
     }
   ],
-  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: For more granularity on how a person contributed to a Dataset, use schema:Role.\n  The schema.org documentation does not state that the Role type is an expected data\n  type of author, creator and contributor, but that is addressed in this blog post\n  (http://blog.schema.org/2014/06/introducing-role.html). see https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#roles-of-people\ntype: object\nproperties:\n  '@type':\n    default: schema:Role\n    type: array\n    items:\n      type: string\n    contains:\n      const: schema:Role\n    minItems: 1\n  schema:roleName:\n    anyOf:\n    - type: string\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\n  schema:contributor:\n    anyOf:\n    - type: object\n      properties:\n        '@id':\n          type: string\n          description: IRI reference to a Person or Organization defined elsewhere\n      required:\n      - '@id'\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml\nrequired:\n- schema:roleName\n- schema:contributor\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: For more granularity on how a person contributed to a Dataset, use schema:Role.\n  The schema.org documentation does not state that the Role type is an expected data\n  type of author, creator and contributor, but that is addressed in this blog post\n  (http://blog.schema.org/2014/06/introducing-role.html). see https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#roles-of-people\ntype: object\nproperties:\n  '@type':\n    default: schema:Role\n    type: array\n    items:\n      type: string\n    contains:\n      const: schema:Role\n    minItems: 1\n  schema:roleName:\n    anyOf:\n    - type: string\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\n  schema:contributor:\n    anyOf:\n    - type: object\n      properties:\n        '@id':\n          type: string\n          description: IRI reference to a Person or Organization defined elsewhere\n      required:\n      - '@id'\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml\nrequired:\n- '@type'\n- schema:roleName\n- schema:contributor\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
   "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
   "gitPath": "_sources/schemaorgProperties/agentInRole"
 }

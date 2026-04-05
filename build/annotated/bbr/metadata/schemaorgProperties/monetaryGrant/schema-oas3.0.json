@@ -21,7 +21,7 @@
         },
         "schema:name": {
           "type": "string",
-          "description": "string label for person that is meaningful for human users"
+          "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
         },
         "schema:description": {
           "type": "string"
@@ -30,7 +30,7 @@
           "description": "identifier for person, recommend ORCID",
           "anyOf": [
             {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
             },
             {
               "type": "string"
@@ -45,12 +45,13 @@
           "description": "if affiliation is present, value must be a schema:Organization.",
           "allOf": [
             {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization_1"
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization_1"
             }
           ]
         },
         "schema:contactPoint": {
           "type": "object",
+          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
           "properties": {
             "@type": {
               "default": "schema:ContactPoint",
@@ -69,7 +70,9 @@
               "type": "string"
             }
           },
-          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well"
+          "required": [
+            "schema:email"
+          ]
         },
         "schema:sameAs": {
           "type": "array",
@@ -128,7 +131,23 @@
           "default": "schema:Organization",
           "type": "array",
           "items": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "schema:Organization",
+                  "schema:FundingAgency",
+                  "schema:Consortium",
+                  "schema:Corporation",
+                  "schema:EducationalOrganization",
+                  "schema:FundingScheme",
+                  "schema:GovernmentOrganization",
+                  "schema:NGO",
+                  "schema:Project",
+                  "schema:ResearchOrganization"
+                ]
+              }
+            ]
           },
           "contains": {
             "enum": [
@@ -142,21 +161,7 @@
           "items": {
             "anyOf": [
               {
-                "type": "string",
-                "enum": [
-                  "schema:FundingAgency",
-                  "schema:Consortium",
-                  "schema:Corporation",
-                  "schema:EducationalOrganization",
-                  "schema:FundingScheme",
-                  "schema:GovernmentOrganization",
-                  "schema:NGO",
-                  "schema:Project",
-                  "schema:ResearchOrganization"
-                ]
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
               },
               {
                 "type": "string"
@@ -179,7 +184,7 @@
           "description": "identifier for organization",
           "anyOf": [
             {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
             },
             {
               "type": "string"
@@ -357,7 +362,23 @@
           "default": "schema:Organization",
           "type": "array",
           "items": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "schema:Organization",
+                  "schema:FundingAgency",
+                  "schema:Consortium",
+                  "schema:Corporation",
+                  "schema:EducationalOrganization",
+                  "schema:FundingScheme",
+                  "schema:GovernmentOrganization",
+                  "schema:NGO",
+                  "schema:Project",
+                  "schema:ResearchOrganization"
+                ]
+              }
+            ]
           },
           "contains": {
             "enum": [
@@ -371,21 +392,7 @@
           "items": {
             "anyOf": [
               {
-                "type": "string",
-                "enum": [
-                  "schema:FundingAgency",
-                  "schema:Consortium",
-                  "schema:Corporation",
-                  "schema:EducationalOrganization",
-                  "schema:FundingScheme",
-                  "schema:GovernmentOrganization",
-                  "schema:NGO",
-                  "schema:Project",
-                  "schema:ResearchOrganization"
-                ]
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
               },
               {
                 "type": "string"
@@ -408,7 +415,7 @@
           "description": "identifier for organization",
           "anyOf": [
             {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
             },
             {
               "type": "string"
@@ -488,17 +495,17 @@
               "type": "string"
             },
             {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
             }
           ]
         },
         "schema:inDefinedTermSet": {
           "type": "string",
-          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+          "description": "Name for the controlled vocabulary responsible for this keyword."
         },
         "schema:termCode": {
           "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
         }
       },
       "allOf": [
@@ -558,7 +565,7 @@
       "description": "identifier for a particular grant",
       "allOf": [
         {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.json#/$defs/Identifier"
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.json#/$defs/Identifier"
         }
       ]
     },
@@ -585,10 +592,10 @@
           ]
         },
         {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.json#/$defs/Person"
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.json#/$defs/Person"
         },
         {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.json#/$defs/Organization"
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.json#/$defs/Organization"
         }
       ]
     }
@@ -612,13 +619,13 @@
   ],
   "$defs": {
     "Person": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.person"
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.person"
     },
     "Organization": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization"
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization"
     },
     "Identifier": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
     }
   },
   "x-jsonld-prefixes": {

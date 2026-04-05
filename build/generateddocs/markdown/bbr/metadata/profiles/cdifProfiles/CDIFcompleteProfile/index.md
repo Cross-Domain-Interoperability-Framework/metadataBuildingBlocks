@@ -246,46 +246,46 @@ quality measurements.
       "schema:name": "University of Arizona"
     }
   ],
-  "schema:measurementTechnique": {
-    "@type": [
-      "schema:DefinedTerm"
-    ],
-    "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
-    "schema:identifier": {
+  "schema:measurementTechnique": [
+    {
       "@type": [
-        "schema:PropertyValue"
+        "schema:DefinedTerm"
       ],
-      "schema:propertyID": "https://vocab.nerc.ac.uk/collection/L05/current/",
-      "schema:value": "LAB21",
-      "schema:url": "https://vocab.nerc.ac.uk/collection/L05/current/LAB21/"
-    },
-    "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
-    "schema:termCode": "ICP-MS"
-  },
+      "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "https://vocab.nerc.ac.uk/collection/L05/current/",
+        "schema:value": "LAB21",
+        "schema:url": "https://vocab.nerc.ac.uk/collection/L05/current/LAB21/"
+      },
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
+      "schema:termCode": "ICP-MS"
+    }
+  ],
   "schema:spatialCoverage": [
     {
       "@type": [
         "schema:Place"
       ],
-      "schema:name": [
-        "Great Basin",
-        {
+      "schema:name": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "Great Basin physiographic province",
+        "schema:identifier": {
           "@type": [
-            "schema:DefinedTerm"
+            "schema:PropertyValue"
           ],
-          "schema:name": "Great Basin physiographic province",
-          "schema:identifier": {
-            "@type": [
-              "schema:PropertyValue"
-            ],
-            "schema:propertyID": "https://www.geonames.org/",
-            "schema:value": "5509151",
-            "schema:url": "https://www.geonames.org/5509151"
-          },
-          "schema:inDefinedTermSet": "https://www.geonames.org/",
-          "schema:termCode": "5509151"
-        }
-      ],
+          "schema:propertyID": "https://www.geonames.org/",
+          "schema:value": "5509151",
+          "schema:url": "https://www.geonames.org/5509151"
+        },
+        "schema:inDefinedTermSet": "https://www.geonames.org/",
+        "schema:termCode": "5509151"
+      },
+      "schema:alternateName": ["Great Basin"],
       "schema:geo": {
         "@type": [
           "schema:GeoShape"
@@ -1377,45 +1377,47 @@ quality measurements.
       "schema:name": "University of Arizona"
     }
   ],
-  "schema:measurementTechnique": {
-    "@type": [
-      "schema:DefinedTerm"
-    ],
-    "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
-    "schema:identifier": {
+  "schema:measurementTechnique": [
+    {
       "@type": [
-        "schema:PropertyValue"
+        "schema:DefinedTerm"
       ],
-      "schema:propertyID": "https://vocab.nerc.ac.uk/collection/L05/current/",
-      "schema:value": "LAB21",
-      "schema:url": "https://vocab.nerc.ac.uk/collection/L05/current/LAB21/"
-    },
-    "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
-    "schema:termCode": "ICP-MS"
-  },
+      "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "https://vocab.nerc.ac.uk/collection/L05/current/",
+        "schema:value": "LAB21",
+        "schema:url": "https://vocab.nerc.ac.uk/collection/L05/current/LAB21/"
+      },
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
+      "schema:termCode": "ICP-MS"
+    }
+  ],
   "schema:spatialCoverage": [
     {
       "@type": [
         "schema:Place"
       ],
-      "schema:name": [
-        "Great Basin",
-        {
+      "schema:name": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "Great Basin physiographic province",
+        "schema:identifier": {
           "@type": [
-            "schema:DefinedTerm"
+            "schema:PropertyValue"
           ],
-          "schema:name": "Great Basin physiographic province",
-          "schema:identifier": {
-            "@type": [
-              "schema:PropertyValue"
-            ],
-            "schema:propertyID": "https://www.geonames.org/",
-            "schema:value": "5509151",
-            "schema:url": "https://www.geonames.org/5509151"
-          },
-          "schema:inDefinedTermSet": "https://www.geonames.org/",
-          "schema:termCode": "5509151"
-        }
+          "schema:propertyID": "https://www.geonames.org/",
+          "schema:value": "5509151",
+          "schema:url": "https://www.geonames.org/5509151"
+        },
+        "schema:inDefinedTermSet": "https://www.geonames.org/",
+        "schema:termCode": "5509151"
+      },
+      "schema:alternateName": [
+        "Great Basin"
       ],
       "schema:geo": {
         "@type": [
@@ -2322,9 +2324,9 @@ quality measurements.
 <file:///github/workspace/#part-measurements-csv> a cdi:TabularTextDataSet,
         schema1:MediaObject ;
     cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable ex:var-concentration ;
-            cdi:index 1 ;
-            cdi:isRequired true ;
+            cdi:formats_InstanceVariable ex:var-uncertainty ;
+            cdi:index 2 ;
+            cdi:isRequired false ;
             cdi:nullSequence "NA" ;
             cdi:physicalDataType "float64" ],
         [ cdi:format "string" ;
@@ -2333,9 +2335,9 @@ quality measurements.
             cdi:isRequired true ;
             cdi:physicalDataType "string" ],
         [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable ex:var-uncertainty ;
-            cdi:index 2 ;
-            cdi:isRequired false ;
+            cdi:formats_InstanceVariable ex:var-concentration ;
+            cdi:index 1 ;
+            cdi:isRequired true ;
             cdi:nullSequence "NA" ;
             cdi:physicalDataType "float64" ] ;
     cdi:isDelimited true ;
@@ -2369,16 +2371,16 @@ quality measurements.
 <file:///github/workspace/#part-spectra-nc> a cdi:StructuredDataSet,
         schema1:MediaObject ;
     cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable ex:var-intensity ;
-            cdi:index 1 ;
-            cdi:isRequired true ;
-            cdi:locator "/spectra/intensity" ;
-            cdi:physicalDataType "float32" ],
-        [ cdi:format "decimal" ;
             cdi:formats_InstanceVariable ex:var-wavelength ;
             cdi:index 0 ;
             cdi:isRequired true ;
             cdi:locator "/spectra/wavelength" ;
+            cdi:physicalDataType "float32" ],
+        [ cdi:format "decimal" ;
+            cdi:formats_InstanceVariable ex:var-intensity ;
+            cdi:index 1 ;
+            cdi:isRequired true ;
+            cdi:locator "/spectra/intensity" ;
             cdi:physicalDataType "float32" ] ;
     schema1:description "Spectral data cube with wavelength and intensity dimensions." ;
     schema1:encodingFormat "application/x-netcdf" ;
@@ -2393,15 +2395,15 @@ ex:activity-geochem-analysis a schema1:Action,
             schema1:description "Combined XRF screening and ICP-MS confirmatory analysis for major and trace elements in soils." ;
             schema1:name "EPA 6200 / ICP-MS Soil Geochemistry Protocol" ;
             schema1:step [ a schema1:HowToStep ;
-                    schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C for 20 min in a microwave system." ;
-                    schema1:name "Sample preparation and acid digestion" ;
-                    schema1:position 1 ;
-                    schema1:url "https://example.org/protocols/digestion-procedure" ],
-                [ a schema1:HowToStep ;
                     schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2711a (Montana II Soil)." ;
                     schema1:name "ICP-MS measurement and calibration" ;
                     schema1:position 2 ;
-                    schema1:url "https://example.org/protocols/icpms-measurement" ] ] ;
+                    schema1:url "https://example.org/protocols/icpms-measurement" ],
+                [ a schema1:HowToStep ;
+                    schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C for 20 min in a microwave system." ;
+                    schema1:name "Sample preparation and acid digestion" ;
+                    schema1:position 1 ;
+                    schema1:url "https://example.org/protocols/digestion-procedure" ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
             schema1:name "Analysis Batch Identifier" ;
@@ -2426,10 +2428,7 @@ ex:activity-geochem-analysis a schema1:Action,
             schema1:roleName "Lab Technician" ] ;
     schema1:result ex:complete-dataset-001 ;
     schema1:startTime "2025-07-15T08:00:00Z" ;
-    prov:used [ a schema1:CreativeWork ;
-            schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
-            schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
-        [ schema1:instrument [ a schema1:DefinedTerm,
+    prov:used [ schema1:instrument [ a schema1:DefinedTerm,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
                             schema1:name "Typical Detection Limit" ;
@@ -2449,6 +2448,9 @@ ex:activity-geochem-analysis a schema1:Action,
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
                     schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
                     schema1:termCode "ICP-MS" ] ],
+        [ a schema1:CreativeWork ;
+            schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
+            schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
         "Soil core samples collected June 2025, sites GB-001 through GB-045, dried and sieved to <2 mm fraction",
         "https://vocab.nerc.ac.uk/collection/L05/current/LAB02" .
 
@@ -2503,63 +2505,66 @@ ex:complete-dataset-001 a schema1:Dataset ;
     schema1:dateModified "2026-02-15" ;
     schema1:datePublished "2026-02-01" ;
     schema1:description "Comprehensive geochemistry dataset demonstrating the CDIF complete profile with single-file downloads, archive distribution with component files, and WebAPI access. Includes tabular CSV results, NetCDF data cubes, and an OGC API Features endpoint." ;
-    schema1:distribution [ a schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/geochem-package.zip" ;
-            schema1:description "Archive containing all data files. Component files are listed as parts and are not individually accessible." ;
-            schema1:encodingFormat "application/zip" ;
-            schema1:hasPart <file:///github/workspace/#part-measurements-csv>,
-                <file:///github/workspace/#part-metadata-yaml>,
-                <file:///github/workspace/#part-method-pdf>,
-                <file:///github/workspace/#part-results-csv>,
-                <file:///github/workspace/#part-spectra-nc> ;
-            schema1:name "Complete data package" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5" ] ],
-        [ a cdi:StructuredDataSet,
-                schema1:DataDownload ;
-            cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:var-intensity ;
-                    cdi:index 1 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/spectra/intensity" ;
-                    cdi:physicalDataType "float32" ;
-                    cdi:scale 1000 ],
-                [ cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:var-wavelength ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/spectra/wavelength" ;
-                    cdi:physicalDataType "float32" ] ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/spectra-cube.nc" ;
-            schema1:encodingFormat "application/x-netcdf" ;
-            schema1:name "Spectral data cube" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4" ] ],
-        [ a schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/geochem-summary.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "Geochemistry summary results" ;
-            schema1:provider <https://ror.org/02fjgr047> ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ],
+    schema1:distribution [ a schema1:WebAPI ;
+            schema1:documentation [ a schema1:CreativeWork ;
+                    schema1:name "OpenAPI specification for geochemistry data service" ;
+                    schema1:url "https://example.org/api/v1/openapi.json" ] ;
+            schema1:potentialAction [ a schema1:Action ;
+                    schema1:name "Query geochemistry features" ;
+                    schema1:object [ a schema1:DataFeed ;
+                            schema1:description "Geochemistry observations collection" ] ;
+                    schema1:query-input [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Maximum number of features to return" ;
+                            schema1:valueName "limit" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Starting index for pagination" ;
+                            schema1:valueName "offset" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Response format: csv or geojson" ;
+                            schema1:valueName "format" ;
+                            schema1:valuePattern "csv|geojson" ;
+                            schema1:valueRequired false ] ;
+                    schema1:result [ a schema1:DataDownload ;
+                            cdi:hasPhysicalMapping [ cdi:format "decimal" ;
+                                    cdi:formats_InstanceVariable ex:var-uncertainty ;
+                                    cdi:index 1 ;
+                                    cdi:isRequired false ;
+                                    cdi:physicalDataType "float64" ],
+                                [ cdi:format "decimal" ;
+                                    cdi:formats_InstanceVariable ex:var-concentration ;
+                                    cdi:index 0 ;
+                                    cdi:isRequired true ;
+                                    cdi:physicalDataType "float64" ] ;
+                            cdi:isDelimited true ;
+                            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+                            schema1:contentUrl "https://example.org/api/v1/collections/geochem/items?f=csv" ;
+                            schema1:encodingFormat "text/csv" ;
+                            schema1:name "Geochemistry query results" ;
+                            csvw:delimiter "," ;
+                            csvw:header true ;
+                            csvw:headerRowCount 1 ] ;
+                    schema1:target [ a schema1:EntryPoint ;
+                            schema1:contentType "application/geo+json",
+                                "text/csv" ;
+                            schema1:description "OGC API Features endpoint returning geochemistry observations as CSV" ;
+                            schema1:httpMethod "GET" ;
+                            schema1:urlTemplate "https://example.org/api/v1/collections/geochem/items?f={format}&limit={limit}&offset={offset}" ] ] ;
+            schema1:serviceType [ a schema1:DefinedTerm ;
+                    schema1:identifier [ a schema1:PropertyValue ;
+                            schema1:propertyID "https://www.ogc.org/standards" ;
+                            schema1:url "https://www.ogc.org/standard/ogcapi-features/" ;
+                            schema1:value "ogcapi-features-1" ] ;
+                    schema1:inDefinedTermSet "https://www.ogc.org/standards" ;
+                    schema1:name "OGC API - Features" ;
+                    schema1:termCode "ogcapi-features" ] ;
+            schema1:termsOfService "Open access, no authentication required" ],
         [ a cdi:TabularTextDataSet,
                 schema1:DataDownload ;
             cdi:arrayBase 0 ;
             cdi:escapeCharacter "\\" ;
-            cdi:hasPhysicalMapping [ cdi:decimalPositions 4 ;
-                    cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:var-concentration ;
-                    cdi:index 1 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "NA" ;
-                    cdi:physicalDataType "float64" ],
-                [ cdi:defaultValue "UNKNOWN" ;
+            cdi:hasPhysicalMapping [ cdi:defaultValue "UNKNOWN" ;
                     cdi:format "string" ;
                     cdi:formats_InstanceVariable ex:var-sampleID ;
                     cdi:index 0 ;
@@ -2574,6 +2579,13 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     cdi:isRequired false ;
                     cdi:length 12 ;
                     cdi:nullSequence "-9999" ;
+                    cdi:physicalDataType "float64" ],
+                [ cdi:decimalPositions 4 ;
+                    cdi:format "decimal" ;
+                    cdi:formats_InstanceVariable ex:var-concentration ;
+                    cdi:index 1 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "NA" ;
                     cdi:physicalDataType "float64" ] ;
             cdi:headerIsCaseSensitive false ;
             cdi:isDelimited true ;
@@ -2599,61 +2611,51 @@ ex:complete-dataset-001 a schema1:Dataset ;
             csvw:tableDirection "Ltr" ;
             csvw:textDirection "Auto" ;
             csvw:trim "true" ],
-        [ a schema1:WebAPI ;
-            schema1:documentation [ a schema1:CreativeWork ;
-                    schema1:name "OpenAPI specification for geochemistry data service" ;
-                    schema1:url "https://example.org/api/v1/openapi.json" ] ;
-            schema1:potentialAction [ a schema1:Action ;
-                    schema1:name "Query geochemistry features" ;
-                    schema1:object [ a schema1:DataFeed ;
-                            schema1:description "Geochemistry observations collection" ] ;
-                    schema1:query-input [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of features to return" ;
-                            schema1:valueName "limit" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Response format: csv or geojson" ;
-                            schema1:valueName "format" ;
-                            schema1:valuePattern "csv|geojson" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Starting index for pagination" ;
-                            schema1:valueName "offset" ;
-                            schema1:valueRequired false ] ;
-                    schema1:result [ a schema1:DataDownload ;
-                            cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-                                    cdi:formats_InstanceVariable ex:var-concentration ;
-                                    cdi:index 0 ;
-                                    cdi:isRequired true ;
-                                    cdi:physicalDataType "float64" ],
-                                [ cdi:format "decimal" ;
-                                    cdi:formats_InstanceVariable ex:var-uncertainty ;
-                                    cdi:index 1 ;
-                                    cdi:isRequired false ;
-                                    cdi:physicalDataType "float64" ] ;
-                            cdi:isDelimited true ;
-                            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-                            schema1:contentUrl "https://example.org/api/v1/collections/geochem/items?f=csv" ;
-                            schema1:encodingFormat "text/csv" ;
-                            schema1:name "Geochemistry query results" ;
-                            csvw:delimiter "," ;
-                            csvw:header true ;
-                            csvw:headerRowCount 1 ] ;
-                    schema1:target [ a schema1:EntryPoint ;
-                            schema1:contentType "application/geo+json",
-                                "text/csv" ;
-                            schema1:description "OGC API Features endpoint returning geochemistry observations as CSV" ;
-                            schema1:httpMethod "GET" ;
-                            schema1:urlTemplate "https://example.org/api/v1/collections/geochem/items?f={format}&limit={limit}&offset={offset}" ] ] ;
-            schema1:serviceType [ a schema1:DefinedTerm ;
-                    schema1:identifier [ a schema1:PropertyValue ;
-                            schema1:propertyID "https://www.ogc.org/standards" ;
-                            schema1:url "https://www.ogc.org/standard/ogcapi-features/" ;
-                            schema1:value "ogcapi-features-1" ] ;
-                    schema1:inDefinedTermSet "https://www.ogc.org/standards" ;
-                    schema1:name "OGC API - Features" ;
-                    schema1:termCode "ogcapi-features" ] ;
-            schema1:termsOfService "Open access, no authentication required" ] ;
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "https://example.org/data/geochem-summary.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "Geochemistry summary results" ;
+            schema1:provider <https://ror.org/02fjgr047> ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ],
+        [ a cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            cdi:hasPhysicalMapping [ cdi:format "decimal" ;
+                    cdi:formats_InstanceVariable ex:var-wavelength ;
+                    cdi:index 0 ;
+                    cdi:isRequired true ;
+                    cdi:locator "/spectra/wavelength" ;
+                    cdi:physicalDataType "float32" ],
+                [ cdi:format "decimal" ;
+                    cdi:formats_InstanceVariable ex:var-intensity ;
+                    cdi:index 1 ;
+                    cdi:isRequired true ;
+                    cdi:locator "/spectra/intensity" ;
+                    cdi:physicalDataType "float32" ;
+                    cdi:scale 1000 ] ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "https://example.org/data/spectra-cube.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Spectral data cube" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4" ] ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "https://example.org/data/geochem-package.zip" ;
+            schema1:description "Archive containing all data files. Component files are listed as parts and are not individually accessible." ;
+            schema1:encodingFormat "application/zip" ;
+            schema1:hasPart <file:///github/workspace/#part-measurements-csv>,
+                <file:///github/workspace/#part-metadata-yaml>,
+                <file:///github/workspace/#part-method-pdf>,
+                <file:///github/workspace/#part-results-csv>,
+                <file:///github/workspace/#part-spectra-nc> ;
+            schema1:name "Complete data package" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/021nxhr62> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -2706,6 +2708,7 @@ ex:complete-dataset-001 a schema1:Dataset ;
     schema1:sameAs [ a schema1:PropertyValue ;
             schema1:value "urn:example:geochem:complete-001" ] ;
     schema1:spatialCoverage [ a schema1:Place ;
+            schema1:alternateName "Great Basin" ;
             schema1:geo [ a schema1:GeoShape ;
                     schema1:box "36.0 -120.0 42.0 -114.0" ] ;
             schema1:name [ a schema1:DefinedTerm ;
@@ -2715,8 +2718,7 @@ ex:complete-dataset-001 a schema1:Dataset ;
                             schema1:value "5509151" ] ;
                     schema1:inDefinedTermSet "https://www.geonames.org/" ;
                     schema1:name "Great Basin physiographic province" ;
-                    schema1:termCode "5509151" ],
-                "Great Basin" ;
+                    schema1:termCode "5509151" ] ;
             geosparql:hasGeometry [ a sf:Polygon ;
                     geosparql:asWKT "POLYGON((-120.0 36.0, -114.0 36.0, -114.0 42.0, -120.0 42.0, -120.0 36.0))"^^<['geosparql:wktLiteral']> ;
                     geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] ] ;
@@ -2859,14 +2861,11 @@ allOf:
     schema:measurementTechnique:
       description: The technique, technology, or methodology used for measurement
         or determination of the dataset values.
-      anyOf:
-      - type: string
-      - $ref: '#/$defs/DefinedTerm'
-      - type: array
-        items:
-          anyOf:
-          - type: string
-          - $ref: '#/$defs/DefinedTerm'
+      type: array
+      items:
+        anyOf:
+        - type: string
+        - $ref: '#/$defs/DefinedTerm'
     schema:spatialCoverage:
       description: Geographic extent of resource content.
       type: array
@@ -2917,14 +2916,18 @@ $defs:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityMeasure/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
-  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
   dcterms: http://purl.org/dc/terms/
   geosparql: http://www.opengis.net/ont/geosparql#
   spdx: http://spdx.org/rdf/terms#
-  time: http://www.w3.org/2006/time#
-  skos: http://www.w3.org/2004/02/skos/core#
-  prov: http://www.w3.org/ns/prov#
+  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
   csvw: http://www.w3.org/ns/csvw#
+  prov: http://www.w3.org/ns/prov#
+  time: http://www.w3.org/2006/time#
+  dqv: http://www.w3.org/ns/dqv#
+  sf: http://www.opengis.net/ont/sf#
+  ex: https://example.org/
+  xsd: http://www.w3.org/2001/XMLSchema#
+  dcat: http://www.w3.org/ns/dcat#
 
 ```
 
@@ -2945,12 +2948,14 @@ Links to the schema:
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "geosparql": "http://www.opengis.net/ont/geosparql#",
     "spdx": "http://spdx.org/rdf/terms#",
-    "time": "http://www.w3.org/2006/time#",
-    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "csvw": "http://www.w3.org/ns/csvw#",
+    "time": "http://www.w3.org/2006/time#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "sf": "http://www.opengis.net/ont/sf#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
     "xas": "https://xas.org/dictionary/",
     "nxs": "http://purl.org/nexusformat/definitions/",
     "ada": "https://ada.astromat.org/metadata/",

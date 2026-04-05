@@ -20,12 +20,11 @@ x-defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
       schema:inDefinedTermSet:
         type: string
-        description: Identifier for the controlled vocabulary responsible for this
-          keyword.
+        description: Name for the controlled vocabulary responsible for this keyword.
       schema:termCode:
         type: string
-        description: A representative code for this keyword in the controlled vocabulary
-          (Optional).  Analogous to skos:Notation
+        description: A representative code for this keyword in the controlled vocabulary.
+          Analogous to skos:Notation
     allOf:
     - required:
       - '@type'
@@ -94,32 +93,30 @@ properties:
     minItems: 1
   schema:additionalType:
     description: Domain-specific type classifications for this place (e.g. facility
-      type, laboratory classification).
-    type: array
-    items:
-      type: string
-  schema:name:
-    description: multiple place names or DefinedTerms that have a place name and URI
-      for the location
+      type,laboratory classification, feature type).
     type: array
     items:
       anyOf:
       - type: string
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema-oas3.0.yaml#/$defs/DefinedTerm
+  schema:name:
+    description: A place name for the location, either as a string or a DefinedTerm
+      from a gazetteer.
+    anyOf:
+    - type: string
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema-oas3.0.yaml#/$defs/DefinedTerm
   schema:identifier:
     description: Formal identifier for this place (e.g. ROR identifier for a facility).
     anyOf:
     - type: string
-    - type: array
-      items:
-        type: string
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema-oas3.0.yaml#/$defs/Identifier
   schema:alternateName:
     description: Alternate or abbreviated name(s) for this place.
-    anyOf:
-    - type: string
-    - type: array
-      items:
-        type: string
+    type: array
+    items:
+      anyOf:
+      - type: string
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema-oas3.0.yaml#/$defs/DefinedTerm
   schema:geo:
     description: Either a bounding box or a point location.
     anyOf:
@@ -250,6 +247,8 @@ anyOf:
 $defs:
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+  Identifier:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
 x-jsonld-prefixes:
   schema: http://schema.org/
 x-schema-version: https://json-schema.org/draft/2020-12/schema

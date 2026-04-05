@@ -153,7 +153,7 @@ activity relationships.
           "@type": [
             "cdi:Address"
           ],
-          "cdi:line": "456 Research Boulevard",
+          "cdi:line": ["456 Research Boulevard"],
           "cdi:cityPlaceLocal": "Reno",
           "cdi:stateProvince": "Nevada",
           "cdi:postalCode": "89512",
@@ -369,7 +369,9 @@ activity relationships.
           "@type": [
             "cdi:Address"
           ],
-          "cdi:line": "456 Research Boulevard",
+          "cdi:line": [
+            "456 Research Boulevard"
+          ],
           "cdi:cityPlaceLocal": "Reno",
           "cdi:stateProvince": "Nevada",
           "cdi:postalCode": "89512",

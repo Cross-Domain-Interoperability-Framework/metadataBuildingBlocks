@@ -20,12 +20,11 @@ x-defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
       schema:inDefinedTermSet:
         type: string
-        description: Identifier for the controlled vocabulary responsible for this
-          keyword.
+        description: Name for the controlled vocabulary responsible for this keyword.
       schema:termCode:
         type: string
-        description: A representative code for this keyword in the controlled vocabulary
-          (Optional).  Analogous to skos:Notation
+        description: A representative code for this keyword in the controlled vocabulary.
+          Analogous to skos:Notation
     allOf:
     - required:
       - '@type'
@@ -86,17 +85,10 @@ properties:
     default: schema:Organization
     type: array
     items:
-      type: string
-    contains:
-      enum:
-      - schema:Organization
-    minItems: 1
-  schema:additionalType:
-    type: array
-    items:
       anyOf:
       - type: string
         enum:
+        - schema:Organization
         - schema:FundingAgency
         - schema:Consortium
         - schema:Corporation
@@ -106,6 +98,14 @@ properties:
         - schema:NGO
         - schema:Project
         - schema:ResearchOrganization
+    contains:
+      enum:
+      - schema:Organization
+    minItems: 1
+  schema:additionalType:
+    type: array
+    items:
+      anyOf:
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
       - type: string
   schema:name:

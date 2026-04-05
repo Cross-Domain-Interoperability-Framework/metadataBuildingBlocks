@@ -45,7 +45,7 @@ Example point location spatial extent instance.
     "ex:SamplingStation"
   ],
   "schema:identifier": "https://ror.org/03m2x1q45",
-  "schema:alternateName": "LPL Lab",
+  "schema:alternateName": ["LPL Lab"],
   "schema:geo": {
     "@type": [
       "schema:GeoCoordinates"
@@ -82,7 +82,9 @@ Example point location spatial extent instance.
     "ex:SamplingStation"
   ],
   "schema:identifier": "https://ror.org/03m2x1q45",
-  "schema:alternateName": "LPL Lab",
+  "schema:alternateName": [
+    "LPL Lab"
+  ],
   "schema:geo": {
     "@type": [
       "schema:GeoCoordinates"
@@ -126,21 +128,21 @@ Example place names spatial extent instance.
   "@type": [
     "schema:Place"
   ],
-  "schema:name": [
-    {
+  "schema:name": {
+    "@type": [
+      "schema:DefinedTerm"
+    ],
+    "schema:name": "Harquahala Mountains",
+    "schema:identifier": {
       "@type": [
-        "schema:DefinedTerm"
+        "schema:PropertyValue"
       ],
-      "schema:name": "Harquahala Mountains",
-      "schema:identifier": {
-        "@type": [
-          "schema:PropertyValue"
-        ],
-        "schema:propertyID": "http uri",
-        "schema:url": "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/5573"
-      },
-      "schema:inDefinedTermSet": "https://www.usgs.gov/us-board-on-geographic-names/domestic-names"
+      "schema:propertyID": "http uri",
+      "schema:url": "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/5573"
     },
+    "schema:inDefinedTermSet": "https://www.usgs.gov/us-board-on-geographic-names/domestic-names"
+  },
+  "schema:alternateName": [
     {
       "@type": [
         "schema:DefinedTerm"
@@ -195,21 +197,21 @@ Example place names spatial extent instance.
   "@type": [
     "schema:Place"
   ],
-  "schema:name": [
-    {
+  "schema:name": {
+    "@type": [
+      "schema:DefinedTerm"
+    ],
+    "schema:name": "Harquahala Mountains",
+    "schema:identifier": {
       "@type": [
-        "schema:DefinedTerm"
+        "schema:PropertyValue"
       ],
-      "schema:name": "Harquahala Mountains",
-      "schema:identifier": {
-        "@type": [
-          "schema:PropertyValue"
-        ],
-        "schema:propertyID": "http uri",
-        "schema:url": "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/5573"
-      },
-      "schema:inDefinedTermSet": "https://www.usgs.gov/us-board-on-geographic-names/domestic-names"
+      "schema:propertyID": "http uri",
+      "schema:url": "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/5573"
     },
+    "schema:inDefinedTermSet": "https://www.usgs.gov/us-board-on-geographic-names/domestic-names"
+  },
+  "schema:alternateName": [
     {
       "@type": [
         "schema:DefinedTerm"
@@ -248,24 +250,24 @@ Example place names spatial extent instance.
 @prefix schema1: <http://schema.org/> .
 
 ex:SpatialExtentPlaceName_45hwe6 a schema1:Place ;
-    schema1:name [ a schema1:DefinedTerm ;
+    schema1:alternateName [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "http uri" ;
-                    schema1:url "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/5573" ] ;
-            schema1:inDefinedTermSet "https://www.usgs.gov/us-board-on-geographic-names/domestic-names" ;
-            schema1:name "Harquahala Mountains" ],
+                    schema1:url "https://www.mindat.org/loc-33505.html" ] ;
+            schema1:inDefinedTermSet "https://www.mindat.org/" ;
+            schema1:name "Hidden Treasure Mine" ],
         [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "http uri" ;
                     schema1:url "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/11520" ] ;
             schema1:inDefinedTermSet "https://www.usgs.gov/us-board-on-geographic-names/domestic-names" ;
-            schema1:name "Socorro Peak" ],
-        [ a schema1:DefinedTerm ;
+            schema1:name "Socorro Peak" ] ;
+    schema1:name [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "http uri" ;
-                    schema1:url "https://www.mindat.org/loc-33505.html" ] ;
-            schema1:inDefinedTermSet "https://www.mindat.org/" ;
-            schema1:name "Hidden Treasure Mine" ] .
+                    schema1:url "https://edits.nationalmap.gov/apps/gaz-domestic/public/gaz-record/5573" ] ;
+            schema1:inDefinedTermSet "https://www.usgs.gov/us-board-on-geographic-names/domestic-names" ;
+            schema1:name "Harquahala Mountains" ] .
 
 
 ```
@@ -423,22 +425,19 @@ and geosparql:hasGeometry with WKT polygon and CRS.
   "@id": "ex:SpatialExtentComplete_001",
   "@type": ["schema:Place"],
   "schema:additionalType": ["ex:FieldSamplingArea"],
-  "schema:name": [
-    "Monterey Bay",
-    {
-      "@type": ["schema:DefinedTerm"],
-      "schema:name": "Monterey Bay National Marine Sanctuary",
-      "schema:identifier": {
-        "@type": ["schema:PropertyValue"],
-        "schema:propertyID": "https://www.geonames.org",
-        "schema:value": "5374363",
-        "schema:url": "https://www.geonames.org/5374363"
-      },
-      "schema:inDefinedTermSet": "https://www.geonames.org"
-    }
-  ],
+  "schema:name": {
+    "@type": ["schema:DefinedTerm"],
+    "schema:name": "Monterey Bay National Marine Sanctuary",
+    "schema:identifier": {
+      "@type": ["schema:PropertyValue"],
+      "schema:propertyID": "https://www.geonames.org",
+      "schema:value": "5374363",
+      "schema:url": "https://www.geonames.org/5374363"
+    },
+    "schema:inDefinedTermSet": "https://www.geonames.org"
+  },
   "schema:identifier": "https://marineregions.org/mrgid/4260",
-  "schema:alternateName": "MBNMS",
+  "schema:alternateName": ["Monterey Bay", "MBNMS"],
   "schema:geo": {
     "@type": ["schema:GeoShape"],
     "schema:box": "36.5000 -122.5000 37.0000 -121.8000"
@@ -481,26 +480,26 @@ and geosparql:hasGeometry with WKT polygon and CRS.
   "schema:additionalType": [
     "ex:FieldSamplingArea"
   ],
-  "schema:name": [
-    "Monterey Bay",
-    {
+  "schema:name": {
+    "@type": [
+      "schema:DefinedTerm"
+    ],
+    "schema:name": "Monterey Bay National Marine Sanctuary",
+    "schema:identifier": {
       "@type": [
-        "schema:DefinedTerm"
+        "schema:PropertyValue"
       ],
-      "schema:name": "Monterey Bay National Marine Sanctuary",
-      "schema:identifier": {
-        "@type": [
-          "schema:PropertyValue"
-        ],
-        "schema:propertyID": "https://www.geonames.org",
-        "schema:value": "5374363",
-        "schema:url": "https://www.geonames.org/5374363"
-      },
-      "schema:inDefinedTermSet": "https://www.geonames.org"
-    }
-  ],
+      "schema:propertyID": "https://www.geonames.org",
+      "schema:value": "5374363",
+      "schema:url": "https://www.geonames.org/5374363"
+    },
+    "schema:inDefinedTermSet": "https://www.geonames.org"
+  },
   "schema:identifier": "https://marineregions.org/mrgid/4260",
-  "schema:alternateName": "MBNMS",
+  "schema:alternateName": [
+    "Monterey Bay",
+    "MBNMS"
+  ],
   "schema:geo": {
     "@type": [
       "schema:GeoShape"
@@ -533,7 +532,8 @@ and geosparql:hasGeometry with WKT polygon and CRS.
 
 ex:SpatialExtentComplete_001 a schema1:Place ;
     schema1:additionalType "ex:FieldSamplingArea" ;
-    schema1:alternateName "MBNMS" ;
+    schema1:alternateName "MBNMS",
+        "Monterey Bay" ;
     schema1:geo [ a schema1:GeoShape ;
             schema1:box "36.5000 -122.5000 37.0000 -121.8000" ] ;
     schema1:identifier "https://marineregions.org/mrgid/4260" ;
@@ -543,8 +543,7 @@ ex:SpatialExtentComplete_001 a schema1:Place ;
                     schema1:url "https://www.geonames.org/5374363" ;
                     schema1:value "5374363" ] ;
             schema1:inDefinedTermSet "https://www.geonames.org" ;
-            schema1:name "Monterey Bay National Marine Sanctuary" ],
-        "Monterey Bay" ;
+            schema1:name "Monterey Bay National Marine Sanctuary" ] ;
     geosparql:hasGeometry [ a sf:Polygon ;
             geosparql:asWKT "POLYGON((-122.5 36.5, -121.8 36.5, -121.8 37.0, -122.5 37.0, -122.5 36.5))"^^<['geosparql:wktLiteral']> ;
             geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] .
@@ -571,32 +570,30 @@ properties:
     minItems: 1
   schema:additionalType:
     description: Domain-specific type classifications for this place (e.g. facility
-      type, laboratory classification).
-    type: array
-    items:
-      type: string
-  schema:name:
-    description: multiple place names or DefinedTerms that have a place name and URI
-      for the location
+      type,laboratory classification, feature type).
     type: array
     items:
       anyOf:
       - type: string
       - $ref: '#/$defs/DefinedTerm'
+  schema:name:
+    description: A place name for the location, either as a string or a DefinedTerm
+      from a gazetteer.
+    anyOf:
+    - type: string
+    - $ref: '#/$defs/DefinedTerm'
   schema:identifier:
     description: Formal identifier for this place (e.g. ROR identifier for a facility).
     anyOf:
     - type: string
-    - type: array
-      items:
-        type: string
+    - $ref: '#/$defs/Identifier'
   schema:alternateName:
     description: Alternate or abbreviated name(s) for this place.
-    anyOf:
-    - type: string
-    - type: array
-      items:
-        type: string
+    type: array
+    items:
+      anyOf:
+      - type: string
+      - $ref: '#/$defs/DefinedTerm'
   schema:geo:
     description: Either a bounding box or a point location.
     anyOf:
@@ -723,6 +720,8 @@ anyOf:
 $defs:
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+  Identifier:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
 

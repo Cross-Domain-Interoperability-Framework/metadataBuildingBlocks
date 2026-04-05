@@ -1,21 +1,21 @@
 
-# Funding (Schema)
+# MonetaryGrant (Schema)
 
-`cdif.bbr.metadata.schemaorgProperties.funder` *v0.1*
+`cdif.bbr.metadata.schemaorgProperties.monetaryGrant` *v0.1*
 
-properties for acknowledging funding, CDIF profile of schema.org/funding and schema.org/MonetaryGrant. Defines properties: @type, schema:identifier, schema:description, schema:name, schema:funder. Uses building blocks: person (schemaorgProperties), organization (schemaorgProperties), identifier (schemaorgProperties).
+properties for acknowledging funding, CDIF profile of schema.org/MonetaryGrant. Defines properties: @type, schema:identifier, schema:description, schema:name, schema:funder. Uses building blocks: person (schemaorgProperties), organization (schemaorgProperties), identifier (schemaorgProperties).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
 ## Description
 
-## Funding properties
+## MonetaryGrant properties
 
 Defines a set of properties for use funding that supported development or maintenance of a resource, for the schema.org implementation of the [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) discovery profile.  Based on schema.org/MonetaryGrant
 ## Examples
 
-### Example Funder.
-Example Funder instance.
+### Example MonetaryGrant.
+Example MonetaryGrant instance.
 #### json
 ```json
 {
@@ -50,7 +50,7 @@ Example Funder instance.
     {
       "schema": "http://schema.org/"
     },
-    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/context.jsonld",
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/context.jsonld",
     {
       "schema": "http://schema.org/",
       "ex": "https://example.org/",
@@ -91,8 +91,8 @@ Example Funder instance.
 ```
 
 
-### Complete funder example.
-Funder instance exercising all properties: name, description, identifier (NSF
+### Complete MonetaryGrant example.
+MonetaryGrant instance exercising all properties: name, description, identifier (NSF
 award), and funder (inline Organization with additionalType, ROR identifier).
 #### json
 ```json
@@ -135,7 +135,7 @@ award), and funder (inline Organization with additionalType, ROR identifier).
     {
       "schema": "http://schema.org/"
     },
-    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/context.jsonld",
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/context.jsonld",
     {
       "schema": "http://schema.org/",
       "ex": "https://example.org/"
@@ -263,8 +263,8 @@ x-jsonld-prefixes:
 
 Links to the schema:
 
-* YAML version: [schema.yaml](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema.json)
-* JSON version: [schema.json](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema.yaml)
+* YAML version: [schema.yaml](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema.json)
+* JSON version: [schema.json](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema.yaml)
 
 
 # JSON-LD Context
@@ -279,7 +279,7 @@ Links to the schema:
 ```
 
 You can find the full JSON-LD context here:
-[context.jsonld](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/context.jsonld)
+[context.jsonld](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/context.jsonld)
 
 ## Sources
 
@@ -291,5 +291,5 @@ You can find the full JSON-LD context here:
 The source code for this Building Block can be found in the following repository:
 
 * URL: [https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks](https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks)
-* Path: `_sources/schemaorgProperties/funder`
+* Path: `_sources/schemaorgProperties/monetaryGrant`
 

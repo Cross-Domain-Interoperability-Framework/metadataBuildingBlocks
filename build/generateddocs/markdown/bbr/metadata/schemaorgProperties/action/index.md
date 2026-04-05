@@ -588,10 +588,12 @@ properties:
       model) for expected representation of the data
   schema:object:
     $ref: '#/$defs/object_type'
-    description: specification of information model/schema for target resource. Only
-      necessary if the request allow specifying the fields to include in the response
+    description: The entity upon which the action is carried out, whose state is kept
+      intact or changed.
   schema:query-input:
-    $ref: '#/$defs/query-input_type'
+    type: array
+    items:
+      $ref: '#/$defs/query-input_type'
     description: set of explanations of the parameters in the URL template for the
       target.
 required:
@@ -654,8 +656,7 @@ $defs:
     - schema:urlTemplate
   result_type:
     type: object
-    description: documentation of the serialization format for the API response, i.e.
-      an implementation of the structure specified in the object type field
+    description: documentation of the serialization format for the API response,
     properties:
       '@type':
         type: array
@@ -673,56 +674,47 @@ $defs:
       schema:description:
         type: string
   query-input_type:
-    type: array
-    description: object that maps the parameters (in braces {  } in the url template
-      to specifications for the kind of value expected. parameters must all be strings
-      in the URL
-    minItems: 0
-    items:
-      type: object
-      properties:
-        '@id':
-          type: string
-        '@type':
-          default: schema:PropertyValueSpecification
-          type: array
-          items:
-            type: string
-          contains:
-            const: schema:PropertyValueSpecification
-          minItems: 1
-        schema:valueName:
-          type: string
-        schema:description:
-          type: string
-        schema:valueRequired:
-          type: boolean
-          default: true
-        schema:valuePattern:
-          type: string
-      required:
-      - schema:valueName
-      - schema:description
-  object_type:
+    description: Query input parameter for a web API action, typed as schema:PropertyValueSpecification.
     type: object
-    description: Object specifies the information model for the resource that is the
-      object of the action
     properties:
+      '@id':
+        type: string
       '@type':
-        default: schema:DataFeed
+        default: schema:PropertyValueSpecification
         type: array
         items:
           type: string
         contains:
-          const: schema:DataFeed
+          const: schema:PropertyValueSpecification
         minItems: 1
+      schema:valueName:
+        type: string
       schema:description:
         type: string
-      schema:encodingFormat-input:
+      schema:valueRequired:
+        type: boolean
+        default: true
+      schema:valuePattern:
+        type: string
+    required:
+    - schema:valueName
+    - schema:description
+  object_type:
+    type: object
+    description: Specifies the resource that is the object (input) of the action.
+      This is an open ended class for general description of Actions. When schema:Action
+      (or a subclass) is used to descibe operations for a WebAPI distribution, the
+      object is implicitly the resource that is the subject of the containing metadata
+      record, so this property would be superfluous.
+    properties:
+      '@type':
+        default: schema:Thing
         type: array
         items:
           type: string
-        description: MIME types accepted as input encoding formats for the action.
+        minItems: 1
+      schema:description:
+        type: string
 x-jsonld-prefixes:
   schema: http://schema.org/
 

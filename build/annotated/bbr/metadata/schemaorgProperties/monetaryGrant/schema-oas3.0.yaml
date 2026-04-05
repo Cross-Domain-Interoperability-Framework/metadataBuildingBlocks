@@ -15,13 +15,14 @@ x-defs:
         minItems: 1
       schema:name:
         type: string
-        description: string label for person that is meaningful for human users
+        description: string label for person that is meaningful for human users, should
+          format consistently. Recommend 'Family Name, Given name' format.
       schema:description:
         type: string
       schema:identifier:
         description: identifier for person, recommend ORCID
         anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
         - type: string
       schema:alternateName:
         type: string
@@ -29,9 +30,11 @@ x-defs:
       schema:affiliation:
         description: if affiliation is present, value must be a schema:Organization.
         allOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
       schema:contactPoint:
         type: object
+        description: restrict to email only. Schema.org allows telephone and postal
+          contacts as well
         properties:
           '@type':
             default: schema:ContactPoint
@@ -44,8 +47,8 @@ x-defs:
             minItems: 1
           schema:email:
             type: string
-        description: restrict to email only. Schema.org allows telephone and postal
-          contacts as well
+        required:
+        - schema:email
       schema:sameAs:
         type: array
         description: other identifiers for the person
@@ -77,17 +80,10 @@ x-defs:
         default: schema:Organization
         type: array
         items:
-          type: string
-        contains:
-          enum:
-          - schema:Organization
-        minItems: 1
-      schema:additionalType:
-        type: array
-        items:
           anyOf:
           - type: string
             enum:
+            - schema:Organization
             - schema:FundingAgency
             - schema:Consortium
             - schema:Corporation
@@ -97,7 +93,15 @@ x-defs:
             - schema:NGO
             - schema:Project
             - schema:ResearchOrganization
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+        contains:
+          enum:
+          - schema:Organization
+        minItems: 1
+      schema:additionalType:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
           - type: string
       schema:name:
         type: string
@@ -110,7 +114,7 @@ x-defs:
       schema:identifier:
         description: identifier for organization
         anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
         - type: string
       schema:sameAs:
         type: array
@@ -190,15 +194,14 @@ x-defs:
       schema:identifier:
         anyOf:
         - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
       schema:inDefinedTermSet:
         type: string
-        description: Identifier for the controlled vocabulary responsible for this
-          keyword.
+        description: Name for the controlled vocabulary responsible for this keyword.
       schema:termCode:
         type: string
-        description: A representative code for this keyword in the controlled vocabulary
-          (Optional).  Analogous to skos:Notation
+        description: A representative code for this keyword in the controlled vocabulary.
+          Analogous to skos:Notation
     allOf:
     - required:
       - '@type'
@@ -231,7 +234,7 @@ properties:
   schema:identifier:
     description: identifier for a particular grant
     allOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.yaml#/$defs/Identifier
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.yaml#/$defs/Identifier
   schema:description:
     type: string
     description: description of the funding or grant
@@ -248,8 +251,8 @@ properties:
             must be dereferenceable
       required:
       - '@id'
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.yaml#/$defs/Person
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.yaml#/$defs/Organization
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.yaml#/$defs/Person
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.yaml#/$defs/Organization
 anyOf:
 - required:
   - schema:funder
@@ -259,11 +262,11 @@ anyOf:
   - schema:name
 $defs:
   Person:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
   Organization:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
   Identifier:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
 x-jsonld-prefixes:
   schema: http://schema.org/
 x-schema-version: https://json-schema.org/draft/2020-12/schema

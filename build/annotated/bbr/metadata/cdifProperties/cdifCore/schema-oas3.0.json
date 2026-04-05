@@ -127,11 +127,11 @@
         },
         "schema:inDefinedTermSet": {
           "type": "string",
-          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+          "description": "Name for the controlled vocabulary responsible for this keyword."
         },
         "schema:termCode": {
           "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
         }
       },
       "allOf": [
@@ -384,7 +384,7 @@
         },
         "schema:name": {
           "type": "string",
-          "description": "string label for person that is meaningful for human users"
+          "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
         },
         "schema:description": {
           "type": "string"
@@ -414,6 +414,7 @@
         },
         "schema:contactPoint": {
           "type": "object",
+          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
           "properties": {
             "@type": {
               "default": "schema:ContactPoint",
@@ -432,7 +433,9 @@
               "type": "string"
             }
           },
-          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well"
+          "required": [
+            "schema:email"
+          ]
         },
         "schema:sameAs": {
           "type": "array",
@@ -491,7 +494,23 @@
           "default": "schema:Organization",
           "type": "array",
           "items": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "schema:Organization",
+                  "schema:FundingAgency",
+                  "schema:Consortium",
+                  "schema:Corporation",
+                  "schema:EducationalOrganization",
+                  "schema:FundingScheme",
+                  "schema:GovernmentOrganization",
+                  "schema:NGO",
+                  "schema:Project",
+                  "schema:ResearchOrganization"
+                ]
+              }
+            ]
           },
           "contains": {
             "enum": [
@@ -504,20 +523,6 @@
           "type": "array",
           "items": {
             "anyOf": [
-              {
-                "type": "string",
-                "enum": [
-                  "schema:FundingAgency",
-                  "schema:Consortium",
-                  "schema:Corporation",
-                  "schema:EducationalOrganization",
-                  "schema:FundingScheme",
-                  "schema:GovernmentOrganization",
-                  "schema:NGO",
-                  "schema:Project",
-                  "schema:ResearchOrganization"
-                ]
-              },
               {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm_1"
               },
@@ -647,6 +652,7 @@
         }
       },
       "required": [
+        "@type",
         "schema:roleName",
         "schema:contributor"
       ],
@@ -656,7 +662,7 @@
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/agentInRole/schema.json",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
-    "cdif.bbr.metadata.schemaorgProperties.funder": {
+    "cdif.bbr.metadata.schemaorgProperties.monetaryGrant": {
       "description": "Funding acknowledgement properties, profile of schema.org/MonetaryGrant",
       "type": "object",
       "properties": {
@@ -681,7 +687,7 @@
           "description": "identifier for a particular grant",
           "allOf": [
             {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.funder/$defs/Identifier"
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.monetaryGrant/$defs/Identifier"
             }
           ]
         },
@@ -708,10 +714,10 @@
               ]
             },
             {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.funder/$defs/Person"
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.monetaryGrant/$defs/Person"
             },
             {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.funder/$defs/Organization"
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.monetaryGrant/$defs/Organization"
             }
           ]
         }
@@ -747,7 +753,7 @@
       "x-jsonld-prefixes": {
         "schema": "http://schema.org/"
       },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/funder/schema.json",
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema.json",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.provProperties.generatedBy": {
@@ -876,7 +882,7 @@
           "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile."
         },
         "schema:maintainer": {
-          "description": "iSamples Registrant. identification of the agent that registered the sample, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
+          "description": "Identification of the agent that maintains the metadata, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
           "anyOf": [
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCatalogRecord/$defs/Person"
@@ -887,17 +893,17 @@
           ]
         },
         "schema:sdDatePublished": {
-          "description": "date of most recent update to the metadata content, extends iSamples schema",
+          "description": "date of most recent update to the metadata content",
           "type": "string",
           "format": "date"
         },
         "schema:includedInDataCatalog": {
           "type": "object",
-          "description": "identify the data collection or repository that contains the described dataset. The value is expected to be a schema:DataCatalog",
+          "description": "identify the source for the origin the metadata record.",
           "properties": {
             "@id": {
               "type": "string",
-              "description": "identifier for the containing catalog or repository; example data at https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#catalog puts identifier here"
+              "description": "identifier for the graph node."
             },
             "@type": {
               "default": "schema:DataCatalog",
@@ -1037,7 +1043,7 @@
         },
         "schema:name": {
           "type": "string",
-          "description": "string label for person that is meaningful for human users"
+          "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
         },
         "schema:description": {
           "type": "string"
@@ -1067,6 +1073,7 @@
         },
         "schema:contactPoint": {
           "type": "object",
+          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
           "properties": {
             "@type": {
               "default": "schema:ContactPoint",
@@ -1085,7 +1092,9 @@
               "type": "string"
             }
           },
-          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well"
+          "required": [
+            "schema:email"
+          ]
         },
         "schema:sameAs": {
           "type": "array",
@@ -1144,7 +1153,23 @@
           "default": "schema:Organization",
           "type": "array",
           "items": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "schema:Organization",
+                  "schema:FundingAgency",
+                  "schema:Consortium",
+                  "schema:Corporation",
+                  "schema:EducationalOrganization",
+                  "schema:FundingScheme",
+                  "schema:GovernmentOrganization",
+                  "schema:NGO",
+                  "schema:Project",
+                  "schema:ResearchOrganization"
+                ]
+              }
+            ]
           },
           "contains": {
             "enum": [
@@ -1157,20 +1182,6 @@
           "type": "array",
           "items": {
             "anyOf": [
-              {
-                "type": "string",
-                "enum": [
-                  "schema:FundingAgency",
-                  "schema:Consortium",
-                  "schema:Corporation",
-                  "schema:EducationalOrganization",
-                  "schema:FundingScheme",
-                  "schema:GovernmentOrganization",
-                  "schema:NGO",
-                  "schema:Project",
-                  "schema:ResearchOrganization"
-                ]
-              },
               {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm_1"
               },
@@ -1319,11 +1330,11 @@
         },
         "schema:inDefinedTermSet": {
           "type": "string",
-          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+          "description": "Name for the controlled vocabulary responsible for this keyword."
         },
         "schema:termCode": {
           "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
         }
       },
       "allOf": [
@@ -1410,7 +1421,7 @@
           ]
         },
         "schema:object": {
-          "description": "specification of information model/schema for target resource. Only necessary if the request allow specifying the fields to include in the response",
+          "description": "The entity upon which the action is carried out, whose state is kept intact or changed.",
           "allOf": [
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.action/$defs/object_type"
@@ -1418,12 +1429,11 @@
           ]
         },
         "schema:query-input": {
-          "description": "set of explanations of the parameters in the URL template for the target.",
-          "allOf": [
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.action/$defs/query-input_type"
-            }
-          ]
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.action/$defs/query-input_type"
+          },
+          "description": "set of explanations of the parameters in the URL template for the target."
         }
       },
       "required": [
@@ -1489,7 +1499,7 @@
         },
         "result_type": {
           "type": "object",
-          "description": "documentation of the serialization format for the API response, i.e. an implementation of the structure specified in the object type field",
+          "description": "documentation of the serialization format for the API response,",
           "properties": {
             "@type": {
               "type": "array",
@@ -1516,74 +1526,58 @@
           }
         },
         "query-input_type": {
-          "type": "array",
-          "description": "object that maps the parameters (in braces {  } in the url template to specifications for the kind of value expected. parameters must all be strings in the URL",
-          "minItems": 0,
-          "items": {
-            "type": "object",
-            "properties": {
-              "@id": {
-                "type": "string"
-              },
-              "@type": {
-                "default": "schema:PropertyValueSpecification",
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "contains": {
-                  "enum": [
-                    "schema:PropertyValueSpecification"
-                  ]
-                },
-                "minItems": 1
-              },
-              "schema:valueName": {
-                "type": "string"
-              },
-              "schema:description": {
-                "type": "string"
-              },
-              "schema:valueRequired": {
-                "type": "boolean",
-                "default": true
-              },
-              "schema:valuePattern": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "schema:valueName",
-              "schema:description"
-            ]
-          }
-        },
-        "object_type": {
+          "description": "Query input parameter for a web API action, typed as schema:PropertyValueSpecification.",
           "type": "object",
-          "description": "Object specifies the information model for the resource that is the object of the action",
           "properties": {
+            "@id": {
+              "type": "string"
+            },
             "@type": {
-              "default": "schema:DataFeed",
+              "default": "schema:PropertyValueSpecification",
               "type": "array",
               "items": {
                 "type": "string"
               },
               "contains": {
                 "enum": [
-                  "schema:DataFeed"
+                  "schema:PropertyValueSpecification"
                 ]
+              },
+              "minItems": 1
+            },
+            "schema:valueName": {
+              "type": "string"
+            },
+            "schema:description": {
+              "type": "string"
+            },
+            "schema:valueRequired": {
+              "type": "boolean",
+              "default": true
+            },
+            "schema:valuePattern": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "schema:valueName",
+            "schema:description"
+          ]
+        },
+        "object_type": {
+          "type": "object",
+          "description": "Specifies the resource that is the object (input) of the action. This is an open ended class for general description of Actions. When schema:Action (or a subclass) is used to descibe operations for a WebAPI distribution, the object is implicitly the resource that is the subject of the containing metadata record, so this property would be superfluous.",
+          "properties": {
+            "@type": {
+              "default": "schema:Thing",
+              "type": "array",
+              "items": {
+                "type": "string"
               },
               "minItems": 1
             },
             "schema:description": {
               "type": "string"
-            },
-            "schema:encodingFormat-input": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "description": "MIME types accepted as input encoding formats for the action."
             }
           }
         }
@@ -2025,7 +2019,7 @@
     "schema:funding": {
       "type": "array",
       "items": {
-        "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/$defs/Funder"
+        "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/$defs/MonetaryGrant"
       }
     },
     "prov:wasGeneratedBy": {
@@ -2132,8 +2126,8 @@
     "Contributor": {
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.agentInRole"
     },
-    "Funder": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.funder"
+    "MonetaryGrant": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.monetaryGrant"
     },
     "GeneratedBy": {
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.provProperties.generatedBy"

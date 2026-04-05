@@ -32,11 +32,11 @@
         },
         "schema:inDefinedTermSet": {
           "type": "string",
-          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+          "description": "Name for the controlled vocabulary responsible for this keyword."
         },
         "schema:termCode": {
           "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
         }
       },
       "allOf": [
@@ -195,7 +195,23 @@
       "default": "schema:Organization",
       "type": "array",
       "items": {
-        "type": "string"
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [
+              "schema:Organization",
+              "schema:FundingAgency",
+              "schema:Consortium",
+              "schema:Corporation",
+              "schema:EducationalOrganization",
+              "schema:FundingScheme",
+              "schema:GovernmentOrganization",
+              "schema:NGO",
+              "schema:Project",
+              "schema:ResearchOrganization"
+            ]
+          }
+        ]
       },
       "contains": {
         "enum": [
@@ -208,20 +224,6 @@
       "type": "array",
       "items": {
         "anyOf": [
-          {
-            "type": "string",
-            "enum": [
-              "schema:FundingAgency",
-              "schema:Consortium",
-              "schema:Corporation",
-              "schema:EducationalOrganization",
-              "schema:FundingScheme",
-              "schema:GovernmentOrganization",
-              "schema:NGO",
-              "schema:Project",
-              "schema:ResearchOrganization"
-            ]
-          },
           {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
           },

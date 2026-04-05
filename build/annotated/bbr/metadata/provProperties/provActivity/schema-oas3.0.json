@@ -64,7 +64,7 @@
         },
         "schema:name": {
           "type": "string",
-          "description": "string label for person that is meaningful for human users"
+          "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
         },
         "schema:description": {
           "type": "string"
@@ -94,6 +94,7 @@
         },
         "schema:contactPoint": {
           "type": "object",
+          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
           "properties": {
             "@type": {
               "default": "schema:ContactPoint",
@@ -112,7 +113,9 @@
               "type": "string"
             }
           },
-          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well"
+          "required": [
+            "schema:email"
+          ]
         },
         "schema:sameAs": {
           "type": "array",
@@ -171,7 +174,23 @@
           "default": "schema:Organization",
           "type": "array",
           "items": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "schema:Organization",
+                  "schema:FundingAgency",
+                  "schema:Consortium",
+                  "schema:Corporation",
+                  "schema:EducationalOrganization",
+                  "schema:FundingScheme",
+                  "schema:GovernmentOrganization",
+                  "schema:NGO",
+                  "schema:Project",
+                  "schema:ResearchOrganization"
+                ]
+              }
+            ]
           },
           "contains": {
             "enum": [
@@ -184,20 +203,6 @@
           "type": "array",
           "items": {
             "anyOf": [
-              {
-                "type": "string",
-                "enum": [
-                  "schema:FundingAgency",
-                  "schema:Consortium",
-                  "schema:Corporation",
-                  "schema:EducationalOrganization",
-                  "schema:FundingScheme",
-                  "schema:GovernmentOrganization",
-                  "schema:NGO",
-                  "schema:Project",
-                  "schema:ResearchOrganization"
-                ]
-              },
               {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/provActivity/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm_1"
               },
@@ -327,6 +332,7 @@
         }
       },
       "required": [
+        "@type",
         "schema:roleName",
         "schema:contributor"
       ],
@@ -407,41 +413,24 @@
         },
         "schema:alternateName": {
           "description": "Alternate name(s), e.g. specific make/model designation, common abbreviation.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          ]
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "schema:identifier": {
           "description": "Formal identifier(s) for this instrument. Use PropertyValue for structured identifiers (e.g. PIDINST, serial number, inventory number).",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/provActivity/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/provActivity/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier"
-                  }
-                ]
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/provActivity/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier"
               }
-            }
-          ]
+            ]
+          }
         },
         "schema:url": {
           "type": "string",
@@ -661,17 +650,10 @@
               "type": "string"
             },
             "schema:alternateName": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              ]
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             },
             "schema:identifier": {
               "anyOf": [
@@ -685,17 +667,10 @@
             },
             "schema:additionalType": {
               "description": "Component type classification.",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              ]
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             },
             "schema:additionalProperty": {
               "type": "array",
@@ -780,11 +755,11 @@
         },
         "schema:inDefinedTermSet": {
           "type": "string",
-          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+          "description": "Name for the controlled vocabulary responsible for this keyword."
         },
         "schema:termCode": {
           "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
         }
       },
       "allOf": [
@@ -875,14 +850,7 @@
           "minItems": 1
         },
         "schema:additionalType": {
-          "description": "Domain-specific type classifications for this place (e.g. facility type, laboratory classification).",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "schema:name": {
-          "description": "multiple place names or DefinedTerms that have a place name and URI for the location",
+          "description": "Domain-specific type classifications for this place (e.g. facility type,laboratory classification, feature type).",
           "type": "array",
           "items": {
             "anyOf": [
@@ -895,6 +863,17 @@
             ]
           }
         },
+        "schema:name": {
+          "description": "A place name for the location, either as a string or a DefinedTerm from a gazetteer.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/provActivity/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/DefinedTerm"
+            }
+          ]
+        },
         "schema:identifier": {
           "description": "Formal identifier for this place (e.g. ROR identifier for a facility).",
           "anyOf": [
@@ -902,26 +881,23 @@
               "type": "string"
             },
             {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/provActivity/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/Identifier"
             }
           ]
         },
         "schema:alternateName": {
           "description": "Alternate or abbreviated name(s) for this place.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "array",
-              "items": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
                 "type": "string"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/provActivity/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/DefinedTerm"
               }
-            }
-          ]
+            ]
+          }
         },
         "schema:geo": {
           "description": "Either a bounding box or a point location.",
@@ -1086,6 +1062,9 @@
       "$defs": {
         "DefinedTerm": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/provActivity/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm_1"
+        },
+        "Identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/provActivity/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
         }
       },
       "x-jsonld-prefixes": {
@@ -1161,7 +1140,23 @@
           "default": "schema:Organization",
           "type": "array",
           "items": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "schema:Organization",
+                  "schema:FundingAgency",
+                  "schema:Consortium",
+                  "schema:Corporation",
+                  "schema:EducationalOrganization",
+                  "schema:FundingScheme",
+                  "schema:GovernmentOrganization",
+                  "schema:NGO",
+                  "schema:Project",
+                  "schema:ResearchOrganization"
+                ]
+              }
+            ]
           },
           "contains": {
             "enum": [
@@ -1174,20 +1169,6 @@
           "type": "array",
           "items": {
             "anyOf": [
-              {
-                "type": "string",
-                "enum": [
-                  "schema:FundingAgency",
-                  "schema:Consortium",
-                  "schema:Corporation",
-                  "schema:EducationalOrganization",
-                  "schema:FundingScheme",
-                  "schema:GovernmentOrganization",
-                  "schema:NGO",
-                  "schema:Project",
-                  "schema:ResearchOrganization"
-                ]
-              },
               {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/provActivity/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm_1"
               },
@@ -1298,11 +1279,11 @@
         },
         "schema:inDefinedTermSet": {
           "type": "string",
-          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+          "description": "Name for the controlled vocabulary responsible for this keyword."
         },
         "schema:termCode": {
           "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
         }
       },
       "allOf": [
@@ -1358,7 +1339,7 @@
         },
         "schema:name": {
           "type": "string",
-          "description": "string label for person that is meaningful for human users"
+          "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
         },
         "schema:description": {
           "type": "string"
@@ -1388,6 +1369,7 @@
         },
         "schema:contactPoint": {
           "type": "object",
+          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
           "properties": {
             "@type": {
               "default": "schema:ContactPoint",
@@ -1406,7 +1388,9 @@
               "type": "string"
             }
           },
-          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well"
+          "required": [
+            "schema:email"
+          ]
         },
         "schema:sameAs": {
           "type": "array",
@@ -1506,6 +1490,7 @@
         }
       },
       "required": [
+        "@type",
         "schema:roleName",
         "schema:contributor"
       ],

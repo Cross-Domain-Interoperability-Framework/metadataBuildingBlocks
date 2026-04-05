@@ -15,14 +15,7 @@
       "minItems": 1
     },
     "schema:additionalType": {
-      "description": "Domain-specific type classifications for this place (e.g. facility type, laboratory classification).",
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "schema:name": {
-      "description": "multiple place names or DefinedTerms that have a place name and URI for the location",
+      "description": "Domain-specific type classifications for this place (e.g. facility type,laboratory classification, feature type).",
       "type": "array",
       "items": {
         "anyOf": [
@@ -35,6 +28,17 @@
         ]
       }
     },
+    "schema:name": {
+      "description": "A place name for the location, either as a string or a DefinedTerm from a gazetteer.",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/$defs/DefinedTerm"
+        }
+      ]
+    },
     "schema:identifier": {
       "description": "Formal identifier for this place (e.g. ROR identifier for a facility).",
       "anyOf": [
@@ -42,26 +46,23 @@
           "type": "string"
         },
         {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+          "$ref": "#/$defs/Identifier"
         }
       ]
     },
     "schema:alternateName": {
       "description": "Alternate or abbreviated name(s) for this place.",
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "array",
-          "items": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
             "type": "string"
+          },
+          {
+            "$ref": "#/$defs/DefinedTerm"
           }
-        }
-      ]
+        ]
+      }
     },
     "schema:geo": {
       "description": "Either a bounding box or a point location.",
@@ -218,6 +219,9 @@
   "$defs": {
     "DefinedTerm": {
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.json"
+    },
+    "Identifier": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.json"
     }
   },
   "x-jsonld-prefixes": {

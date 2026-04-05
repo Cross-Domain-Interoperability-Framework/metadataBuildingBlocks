@@ -1287,25 +1287,16 @@ ex:YOPx123 a schema1:Dataset ;
         "jNv",
         "tfmbDGeiuEnuhfKBvk" ;
     schema1:contributor [ a schema1:Role ;
-            schema1:contributor ex:PersonExample_zZc_asContributor ;
-            schema1:roleName "editor" ],
-        [ a schema1:Role ;
             schema1:contributor ex:NyMWPlRtQizAFE ;
-            schema1:roleName "data steward" ] ;
+            schema1:roleName "data steward" ],
+        [ a schema1:Role ;
+            schema1:contributor ex:PersonExample_zZc_asContributor ;
+            schema1:roleName "editor" ] ;
     schema1:creator ( ex:mxxInaV ex:jP ) ;
     schema1:dateModified "2020-10-15" ;
     schema1:datePublished "2021-09-05" ;
     schema1:description "Auto generated from JSON schema, values are gobbledegoop. For testing" ;
     schema1:distribution [ a schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "VwuIdrCrJSsrGATePg" ;
-            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "MD5" ;
-                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ],
-        [ a schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
             schema1:encodingFormat "kpZDvhyVo",
@@ -1316,13 +1307,22 @@ ex:YOPx123 a schema1:Dataset ;
                 ex:sr68lgy ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "j" ;
-                    spdx:checksumValue "h" ] ] ;
+                    spdx:checksumValue "h" ] ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "VwuIdrCrJSsrGATePg" ;
+            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "MD5" ;
+                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/3572wjht> ;
+            schema1:funder <https://ror.org/sejer4w6u8> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
-                    schema1:value "lieopgXuumP" ] ;
-            schema1:name "fhhbzh" ],
+                    schema1:value "LZpo" ] ;
+            schema1:name "ekckpBtI" ],
         [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/fnjrj68> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -1330,11 +1330,11 @@ ex:YOPx123 a schema1:Dataset ;
                     schema1:value "fMuiBjneudpV" ] ;
             schema1:name "MWoPQAqRYHobey" ],
         [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/sejer4w6u8> ;
+            schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
-                    schema1:value "LZpo" ] ;
-            schema1:name "ekckpBtI" ] ;
+                    schema1:value "lieopgXuumP" ] ;
+            schema1:name "fhhbzh" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
@@ -1366,9 +1366,9 @@ ex:YOPx123 a schema1:Dataset ;
             schema1:name "Data retention and update policy" ;
             schema1:url "https://example.org/policies/data-retention" ] ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "BOoRREnpDEUrdNaV" ],
+            schema1:linkRelationship "lfCzUaoftdtTPAhMnpC" ],
         [ a schema1:LinkRole ;
-            schema1:linkRelationship "lfCzUaoftdtTPAhMnpC" ] ;
+            schema1:linkRelationship "BOoRREnpDEUrdNaV" ] ;
     schema1:sameAs "https://example.org/alt-id/YOPx123",
         "urn:idorg:test:p45689" ;
     schema1:subjectOf ex:BAaR ;
@@ -2115,23 +2115,20 @@ complete CatalogRecord metadata.
       "@type": [
         "schema:Place"
       ],
-      "schema:name": [
-        "Labrador Sea",
-        {
-          "@type": [
-            "schema:DefinedTerm"
-          ],
-          "schema:name": "Labrador Sea",
-          "schema:identifier": "https://www.marineregions.org/mrgid/4287",
-          "schema:inDefinedTermSet": "https://www.marineregions.org/gazetteer.php",
-          "schema:termCode": "mrgid:4287"
-        }
-      ],
+      "schema:name": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "Labrador Sea",
+        "schema:identifier": "https://www.marineregions.org/mrgid/4287",
+        "schema:inDefinedTermSet": "https://www.marineregions.org/gazetteer.php",
+        "schema:termCode": "mrgid:4287"
+      },
       "schema:additionalType": [
         "ocean basin"
       ],
       "schema:identifier": "https://www.marineregions.org/mrgid/4287",
-      "schema:alternateName": "Mer du Labrador",
+      "schema:alternateName": ["Labrador Sea", "Mer du Labrador"],
       "schema:geo": {
         "@type": [
           "schema:GeoShape"
@@ -2157,9 +2154,7 @@ complete CatalogRecord metadata.
       "@type": [
         "schema:Place"
       ],
-      "schema:name": [
-        "AR7W Transect Station 12"
-      ],
+      "schema:name": "AR7W Transect Station 12",
       "schema:geo": {
         "@type": [
           "schema:GeoCoordinates"
@@ -2747,23 +2742,23 @@ complete CatalogRecord metadata.
       "@type": [
         "schema:Place"
       ],
-      "schema:name": [
-        "Labrador Sea",
-        {
-          "@type": [
-            "schema:DefinedTerm"
-          ],
-          "schema:name": "Labrador Sea",
-          "schema:identifier": "https://www.marineregions.org/mrgid/4287",
-          "schema:inDefinedTermSet": "https://www.marineregions.org/gazetteer.php",
-          "schema:termCode": "mrgid:4287"
-        }
-      ],
+      "schema:name": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "Labrador Sea",
+        "schema:identifier": "https://www.marineregions.org/mrgid/4287",
+        "schema:inDefinedTermSet": "https://www.marineregions.org/gazetteer.php",
+        "schema:termCode": "mrgid:4287"
+      },
       "schema:additionalType": [
         "ocean basin"
       ],
       "schema:identifier": "https://www.marineregions.org/mrgid/4287",
-      "schema:alternateName": "Mer du Labrador",
+      "schema:alternateName": [
+        "Labrador Sea",
+        "Mer du Labrador"
+      ],
       "schema:geo": {
         "@type": [
           "schema:GeoShape"
@@ -2789,9 +2784,7 @@ complete CatalogRecord metadata.
       "@type": [
         "schema:Place"
       ],
-      "schema:name": [
-        "AR7W Transect Station 12"
-      ],
+      "schema:name": "AR7W Transect Station 12",
       "schema:geo": {
         "@type": [
           "schema:GeoCoordinates"
@@ -3068,13 +3061,9 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:sameAs <https://n2t.net/ark:/99999/fk4nadw2024>,
         "https://doi.org/10.5281/zenodo.42042042" ;
     schema1:spatialCoverage [ a schema1:Place ;
-            schema1:geo [ a schema1:GeoCoordinates ;
-                    schema1:latitude 5.655e+01 ;
-                    schema1:longitude -5.258e+01 ] ;
-            schema1:name "AR7W Transect Station 12" ],
-        [ a schema1:Place ;
             schema1:additionalType "ocean basin" ;
-            schema1:alternateName "Mer du Labrador" ;
+            schema1:alternateName "Labrador Sea",
+                "Mer du Labrador" ;
             schema1:geo [ a schema1:GeoShape ;
                     schema1:box "53.0 -60.0 65.0 -45.0" ] ;
             schema1:identifier "https://www.marineregions.org/mrgid/4287" ;
@@ -3082,11 +3071,15 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
                     schema1:identifier "https://www.marineregions.org/mrgid/4287" ;
                     schema1:inDefinedTermSet "https://www.marineregions.org/gazetteer.php" ;
                     schema1:name "Labrador Sea" ;
-                    schema1:termCode "mrgid:4287" ],
-                "Labrador Sea" ;
+                    schema1:termCode "mrgid:4287" ] ;
             geosparql:hasGeometry [ a sf:Polygon ;
                     geosparql:asWKT "POLYGON((-60 53, -45 53, -45 65, -60 65, -60 53))"^^<['geosparql:wktLiteral']> ;
-                    geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] ] ;
+                    geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] ],
+        [ a schema1:Place ;
+            schema1:geo [ a schema1:GeoCoordinates ;
+                    schema1:latitude 5.655e+01 ;
+                    schema1:longitude -5.258e+01 ] ;
+            schema1:name "AR7W Transect Station 12" ] ;
     schema1:subjectOf ex:metadataRecord42 ;
     schema1:temporalCoverage [ a time:ProperInterval ;
             schema1:description "Observation period spanning 10 winter convection seasons" ;
@@ -3105,19 +3098,19 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
         ex:varTemperature ;
     schema1:version "2.1" ;
     dqv:hasQualityMeasurement [ a dqv:QualityMeasurement ;
-            dqv:isMeasurementOf [ a schema1:DefinedTerm ;
-                    schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPACCR/" ;
-                    schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
-                    schema1:name "Temperature sensor accuracy" ;
-                    schema1:termCode "TEMPACCR" ] ;
-            dqv:value "±0.001°C (ITS-90)" ],
-        [ a dqv:QualityMeasurement ;
             dqv:isMeasurementOf "Completeness" ;
             dqv:value [ a schema1:DefinedTerm ;
                     schema1:identifier "https://example.org/completeness-vocab/COMPLETE" ;
                     schema1:inDefinedTermSet "https://example.org/completeness-vocab" ;
                     schema1:name "Complete" ;
-                    schema1:termCode "COMPLETE" ] ] ;
+                    schema1:termCode "COMPLETE" ] ],
+        [ a dqv:QualityMeasurement ;
+            dqv:isMeasurementOf [ a schema1:DefinedTerm ;
+                    schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPACCR/" ;
+                    schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
+                    schema1:name "Temperature sensor accuracy" ;
+                    schema1:termCode "TEMPACCR" ] ;
+            dqv:value "±0.001°C (ITS-90)" ] ;
     prov:wasDerivedFrom ex:rawCTDCasts ;
     prov:wasGeneratedBy [ a prov:Activity ;
             prov:used ex:ar7wCruiseProgram,
@@ -3262,14 +3255,11 @@ allOf:
     schema:measurementTechnique:
       description: The technique, technology, or methodology used for measurement
         or determination of the dataset values.
-      anyOf:
-      - type: string
-      - $ref: '#/$defs/DefinedTerm'
-      - type: array
-        items:
-          anyOf:
-          - type: string
-          - $ref: '#/$defs/DefinedTerm'
+      type: array
+      items:
+        anyOf:
+        - type: string
+        - $ref: '#/$defs/DefinedTerm'
     schema:variableMeasured:
       description: What does the dataset measure? (e.g., temperature, pressure)
       type: array
