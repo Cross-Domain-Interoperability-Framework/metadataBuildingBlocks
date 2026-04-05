@@ -124,7 +124,7 @@ def resolve_fragment(schema: dict, pointer: str) -> Any:
 # ---------------------------------------------------------------------------
 
 def strip_metadata_keys(schema: Any, is_root: bool = True) -> Any:
-    """Recursively remove $id, x-jsonld-*, and nested $schema keys."""
+    """Recursively remove $id, x-jsonld-*, nested $schema keys, and null values."""
     if isinstance(schema, dict):
         result = {}
         for k, v in schema.items():
@@ -134,6 +134,8 @@ def strip_metadata_keys(schema: Any, is_root: bool = True) -> Any:
                 continue
             if k == "$schema" and not is_root:
                 continue
+            if v is None:
+                continue  # drop null values (e.g. empty YAML description)
             result[k] = strip_metadata_keys(v, is_root=False)
         return result
     elif isinstance(schema, list):
