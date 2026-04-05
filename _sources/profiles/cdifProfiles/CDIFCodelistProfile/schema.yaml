@@ -15,6 +15,48 @@ allOf:
     '@id':
       type: string
       description: Globally unique, resolvable URI for the concept scheme.
+    'schema:identifier':
+      description: Primary identifier for the codelist. May be a string URI or
+        a structured PropertyValue.
+      anyOf:
+      - type: string
+      - type: object
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              const: 'schema:PropertyValue'
+          'schema:propertyID':
+            type: string
+          'schema:value':
+            type: string
+          'schema:url':
+            type: string
+    'schema:dateModified':
+      type: string
+      description: ISO 8601 date when the codelist was last modified.
+    'schema:url':
+      type: string
+      format: uri
+      description: Web location of a page describing the codelist.
+      default: 'missing'
+    'schema:license':
+      description: License for the codelist.
+      type: array
+      items:
+        anyOf:
+        - type: string
+        - type: object
+          properties:
+            '@id':
+              type: string
+    'schema:conditionsOfAccess':
+      description: Text statement of access conditions for the codelist.
+      type: array
+      items:
+        type: string
     'skos:hasTopConcept':
       description: Top-level concepts that have no skos:broader in this scheme.
         Required for hierarchical codelists.
@@ -29,8 +71,15 @@ allOf:
               type: string
           required:
           - '@id'
+  anyOf:
+  - required:
+    - 'schema:license'
+  - required:
+    - 'schema:conditionsOfAccess'
   required:
   - '@id'
+  - 'schema:identifier'
+  - 'schema:dateModified'
   - 'skos:hasTopConcept'
 $defs:
   CdifCodelistConcept:
