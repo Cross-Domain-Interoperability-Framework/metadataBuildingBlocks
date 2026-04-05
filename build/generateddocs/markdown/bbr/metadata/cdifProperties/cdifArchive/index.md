@@ -451,15 +451,15 @@ description extensions (TabularTextDataSet, StructuredDataSet).
             cdi:isRequired true ;
             cdi:physicalDataType "string" ],
         [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-concentration> ;
-            cdi:index 1 ;
-            cdi:isRequired true ;
-            cdi:nullSequence "NA" ;
-            cdi:physicalDataType "float64" ],
-        [ cdi:format "decimal" ;
             cdi:formats_InstanceVariable <file:///github/workspace/#var-uncertainty> ;
             cdi:index 2 ;
             cdi:isRequired false ;
+            cdi:nullSequence "NA" ;
+            cdi:physicalDataType "float64" ],
+        [ cdi:format "decimal" ;
+            cdi:formats_InstanceVariable <file:///github/workspace/#var-concentration> ;
+            cdi:index 1 ;
+            cdi:isRequired true ;
             cdi:nullSequence "NA" ;
             cdi:physicalDataType "float64" ] ;
     cdi:isDelimited true ;
