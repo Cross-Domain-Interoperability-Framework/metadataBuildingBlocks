@@ -1287,16 +1287,25 @@ ex:YOPx123 a schema1:Dataset ;
         "jNv",
         "tfmbDGeiuEnuhfKBvk" ;
     schema1:contributor [ a schema1:Role ;
-            schema1:contributor ex:PersonExample_zZc_asContributor ;
-            schema1:roleName "editor" ],
-        [ a schema1:Role ;
             schema1:contributor ex:NyMWPlRtQizAFE ;
-            schema1:roleName "data steward" ] ;
+            schema1:roleName "data steward" ],
+        [ a schema1:Role ;
+            schema1:contributor ex:PersonExample_zZc_asContributor ;
+            schema1:roleName "editor" ] ;
     schema1:creator ( ex:mxxInaV ex:jP ) ;
     schema1:dateModified "2020-10-15" ;
     schema1:datePublished "2021-09-05" ;
     schema1:description "Auto generated from JSON schema, values are gobbledegoop. For testing" ;
     schema1:distribution [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "VwuIdrCrJSsrGATePg" ;
+            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "MD5" ;
+                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ],
+        [ a schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
             schema1:encodingFormat "kpZDvhyVo",
@@ -1307,22 +1316,13 @@ ex:YOPx123 a schema1:Dataset ;
                 ex:sr68lgy ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "j" ;
-                    spdx:checksumValue "h" ] ],
-        [ a schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "VwuIdrCrJSsrGATePg" ;
-            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "MD5" ;
-                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ] ;
+                    spdx:checksumValue "h" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/sejer4w6u8> ;
+            schema1:funder <https://ror.org/fnjrj68> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
-                    schema1:value "LZpo" ] ;
-            schema1:name "ekckpBtI" ],
+                    schema1:value "fMuiBjneudpV" ] ;
+            schema1:name "MWoPQAqRYHobey" ],
         [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -1330,11 +1330,11 @@ ex:YOPx123 a schema1:Dataset ;
                     schema1:value "lieopgXuumP" ] ;
             schema1:name "fhhbzh" ],
         [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/fnjrj68> ;
+            schema1:funder <https://ror.org/sejer4w6u8> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
-                    schema1:value "fMuiBjneudpV" ] ;
-            schema1:name "MWoPQAqRYHobey" ] ;
+                    schema1:value "LZpo" ] ;
+            schema1:name "ekckpBtI" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
@@ -2992,11 +2992,6 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:datePublished "2024-09-01" ;
     schema1:description "Hydrographic observations from repeat transects across the Labrador Sea measuring temperature, salinity, and dissolved oxygen profiles to 4000m depth. Data collected from annual winter cruises documenting deep water formation processes." ;
     schema1:distribution [ a schema1:DataDownload ;
-            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
-            schema1:contentUrl "https://example.org/data/nadw-ctd-2015-2024.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "CSV profiles export" ],
-        [ a schema1:DataDownload ;
             dcterms:conformsTo <https://cfconventions.org/> ;
             schema1:contentUrl "https://example.org/data/nadw-ctd-2015-2024.nc" ;
             schema1:description "CF-compliant NetCDF4 with all CTD profiles" ;
@@ -3005,7 +3000,12 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
             schema1:provider <https://ror.org/007hqnf44> ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "checksumAlgorithm_sha256" ;
-                    spdx:checksumValue "b3e4f5a6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4" ] ] ;
+                    spdx:checksumValue "b3e4f5a6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4" ] ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
+            schema1:contentUrl "https://example.org/data/nadw-ctd-2015-2024.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "CSV profiles export" ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:description "Long-term monitoring of physical and biological oceanographic conditions in the NW Atlantic" ;
             schema1:funder [ a schema1:Organization ;
@@ -3061,6 +3061,11 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:sameAs <https://n2t.net/ark:/99999/fk4nadw2024>,
         "https://doi.org/10.5281/zenodo.42042042" ;
     schema1:spatialCoverage [ a schema1:Place ;
+            schema1:geo [ a schema1:GeoCoordinates ;
+                    schema1:latitude 5.655e+01 ;
+                    schema1:longitude -5.258e+01 ] ;
+            schema1:name "AR7W Transect Station 12" ],
+        [ a schema1:Place ;
             schema1:additionalType "ocean basin" ;
             schema1:alternateName "Labrador Sea",
                 "Mer du Labrador" ;
@@ -3074,12 +3079,7 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
                     schema1:termCode "mrgid:4287" ] ;
             geosparql:hasGeometry [ a sf:Polygon ;
                     geosparql:asWKT "POLYGON((-60 53, -45 53, -45 65, -60 65, -60 53))"^^<['geosparql:wktLiteral']> ;
-                    geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] ],
-        [ a schema1:Place ;
-            schema1:geo [ a schema1:GeoCoordinates ;
-                    schema1:latitude 5.655e+01 ;
-                    schema1:longitude -5.258e+01 ] ;
-            schema1:name "AR7W Transect Station 12" ] ;
+                    geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] ] ;
     schema1:subjectOf ex:metadataRecord42 ;
     schema1:temporalCoverage [ a time:ProperInterval ;
             schema1:description "Observation period spanning 10 winter convection seasons" ;

@@ -41,8 +41,12 @@ This constraint is enforced by:
 - **JSON Schema**: inline concepts within `skos:narrower` require `skos:broader` (via `allOf` with `required`)
 - **SHACL**: `narrowerImpliesBroaderShape` uses a SPARQL target to find concepts that are objects of `skos:narrower` and requires `skos:broader` with `minCount 1`
 
+### Array convention for repeatable properties
+
+The CDIF convention that properties with repeating values (0..* or 1..* cardinality) are always serialized as JSON arrays, even when there is only a single value is not followed in this profile. This recognizes standard SKOS practice that allows either a single string or an array of strings for literal values. Consumers will need to test whether a value is a string or an array before iterating.
+
 ### Validation
-- JSON Schema validates structure and required properties (including bidirectional hierarchy)
+- JSON Schema validates structure and required properties (including bidirectional hierarchy and array types)
 - SHACL shapes validate RDF constraints including `sh:uniqueLang` on `skos:prefLabel`, `sh:class skos:ConceptScheme` on `skos:inScheme` targets, and the `skos:narrower` implies `skos:broader` rule
 
 This profile aligns with the approach described in ['Modelling of Eurostat's Statistical Classifications in ShowVoc'](https://cros.ec.europa.eu/book-page/modeling-eurostats-statistical-classifications-showvoc).
