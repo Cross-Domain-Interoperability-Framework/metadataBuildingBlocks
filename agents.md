@@ -84,6 +84,7 @@ metadataBuildingBlocks/
 │   ├── test_redirects.py            # Tests w3id.org redirect rules for building block URIs
 │   ├── update_conformsto_uris.py    # Updates conformsTo URIs in building block schemas
 │   ├── audit_building_blocks.py     # Comprehensive BB repo audit (pluggable to any repo)
+│   ├── audit_shacl_coverage.py      # Compares schema.yaml properties vs rules.shacl shapes
 │   ├── generate_custom_report.py    # Custom validation report with SHACL severity breakdown
 │   ├── add_property_tree.py         # Adds propertyTree worksheets to Excel workbooks
 │   ├── generate_property_tree2.py   # Generates propertyTree_2 worksheets from resolved schemas
@@ -550,6 +551,27 @@ python tools/audit_building_blocks.py --json -o report.json
 ```
 
 **Requirements:** `pyyaml`, `jsonschema`. Imports `resolve_schema.py` for re-resolution checks.
+
+## audit_shacl_coverage.py
+
+Compares schema.yaml properties against rules.shacl shapes for all building blocks. Reports missing shapes, severity mismatches, and extra SHACL shapes. Processes leaf BBs first (no external `$ref`), then composites, then profiles.
+
+```bash
+# Default: show required/anyOf gaps and severity mismatches
+python tools/audit_shacl_coverage.py
+
+# Verbose: also show optional property gaps and extra SHACL shapes
+python tools/audit_shacl_coverage.py --verbose
+```
+
+**Known limitations:** The SHACL parser is regex-based and produces false positives for:
+- Named property references (`cdifd:nameProperty` etc.) — can't follow the reference
+- `sh:or` constructs (anyOf patterns for person/org/definedTerm)
+- Nested property shapes within NodeShapes
+
+Always manually verify MISSING_REQUIRED findings before acting on them.
+
+**Requirements:** `pyyaml`
 
 ## generate_property_tree2.py
 
