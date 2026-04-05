@@ -4,6 +4,7 @@
 @prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
 @prefix schema:      <http://schema.org/>.
 @prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix dcat:    <http://www.w3.org/ns/dcat#>.
 @prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
 @prefix soso: <http://science-on-schema.org/1.2.3/validation/shacl#> .
 @base <https://www.ogc.org/rules/template/> .
@@ -34,7 +35,11 @@ cdifd:CDIFDatasetMandatoryShape a sh:NodeShape ;
 		cdifd:resourceIdentifierProperty,
 		cdifd:nameProperty,
 		cdifd:rightsProperty,
-		cdifd:dateModifiedProperty
+		cdifd:dateModifiedProperty,
+		cdifd:accessProperty,
+		cdifd:descriptionProperty,
+		cdifd:creatorProperty,
+		cdifd:keywordsProperty
 .
 
 cdifd:resourceIdentifierProperty
@@ -112,6 +117,39 @@ cdifd:dateModifiedProperty
     sh:message "Date of most recent update to resource content is required, using ISO8601 format with at least a year and a month." 
     .
     
+cdifd:accessProperty
+# At least one of schema:url or schema:distribution must be present
+    a sh:PropertyShape ;
+    sh:path [sh:alternativePath ( schema:url schema:distribution ) ] ;
+    sh:minCount 1 ;
+    sh:message "At least one of schema:url (landing page) or schema:distribution (download/API) must be provided for resource access"
+    .
+
+cdifd:descriptionProperty
+    a sh:PropertyShape ;
+    sh:path schema:description ;
+    sh:minCount 1 ;
+    sh:datatype xsd:string ;
+    sh:severity sh:Warning ;
+    sh:message "A description of the resource is recommended for discovery"
+    .
+
+cdifd:creatorProperty
+    a sh:PropertyShape ;
+    sh:path schema:creator ;
+    sh:minCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "At least one creator (author/originator) is recommended"
+    .
+
+cdifd:keywordsProperty
+    a sh:PropertyShape ;
+    sh:path schema:keywords ;
+    sh:minCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Keywords are recommended for discovery"
+    .
+
 cdifd:CDIFCatalogRecordShape
     a sh:NodeShape ;
     # only apply to dataset nodes that are 'about' a dataset node 
@@ -129,7 +167,8 @@ cdifd:CDIFCatalogRecordShape
 	sh:nodeKind sh:IRI ;
 	sh:property cdifd:metadataProfileProperty ;
 	sh:property cdifd:metadataSubjectProperty ;
-	sh:message "The target of the metadata record (about)." 
+	sh:property cdifd:catalogRecordTypeProperty ;
+	sh:message "The target of the metadata record (about)."
 	.
 
 cdifd:metadataProfileProperty
@@ -143,12 +182,19 @@ cdifd:metadataProfileProperty
     .
     
 cdifd:metadataSubjectProperty
-# Metadata needs to identify conventions followed in the serialization of this record.
     a sh:PropertyShape ;
     sh:path  schema:about  ;
     sh:nodeKind sh:IRI ;
     sh:minCount 1 ;
     sh:message "link to the target of the metadata metadata node using the about property"
+    .
+
+cdifd:catalogRecordTypeProperty
+    a sh:PropertyShape ;
+    sh:path schema:additionalType ;
+    sh:minCount 1 ;
+    sh:hasValue dcat:CatalogRecord ;
+    sh:message "The CatalogRecord node must have schema:additionalType including dcat:CatalogRecord"
     .
 
 # ---------------------------------------------------------------------------
