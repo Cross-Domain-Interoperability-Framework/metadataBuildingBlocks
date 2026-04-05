@@ -1350,15 +1350,17 @@ mat:materialsvocabulary a skos:ConceptScheme ;
 $schema: https://json-schema.org/draft/2020-12/schema
 type: object
 title: CDIF Codelist profile
-description: 'CDIF profile for controlled vocabulary codelists implemented as SKOS
+description: "CDIF profile for controlled vocabulary codelists implemented as SKOS
   ConceptSchemes. Composes skosConceptScheme and skosConcept building blocks with
   additional constraints: concepts must have resolvable @id identifiers, skos:inScheme,
   and skos:definition; the scheme must identify top concepts via skos:hasTopConcept;
-  hierarchical concepts must declare skos:broader. CDIF metadata properties (schema:identifier,
-  schema:dateModified, schema:license or schema:conditionsOfAccess) take precedence
-  over equivalent dcterms properties (dcterms:modified, dcterms:license) from the
-  base skosConceptScheme building block. Instances should use the schema: properties;
-  dcterms: equivalents are optional and not required.'
+  hierarchical concepts must declare both skos:narrower (for JSON tree traversal)
+  and skos:broader (for upward navigation and display trees) \u2014 both directions
+  are required. CDIF metadata properties (schema:identifier, schema:dateModified,
+  schema:license or schema:conditionsOfAccess) take precedence over equivalent dcterms
+  properties (dcterms:modified, dcterms:license) from the base skosConceptScheme building
+  block. Instances should use the schema: properties; dcterms: equivalents are optional
+  and not required."
 allOf:
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConceptScheme/schema.yaml
 - type: object
@@ -1472,8 +1474,9 @@ $defs:
               - type: string
               - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/LanguageTaggedValue
         skos:narrower:
-          description: Narrower (child) concepts. If present, items must also conform
-            to CdifCodelistConcept constraints.
+          description: Narrower (child) concepts. If present, each inline concept
+            must also declare skos:broader pointing back to the parent concept. Both
+            skos:narrower and skos:broader must be explicit in CDIF codelists.
           type: array
           items:
             anyOf:
@@ -1483,7 +1486,22 @@ $defs:
                   type: string
               required:
               - '@id'
-            - $ref: '#/$defs/CdifCodelistConcept'
+            - allOf:
+              - $ref: '#/$defs/CdifCodelistConcept'
+              - required:
+                - skos:broader
+        skos:broader:
+          description: Broader (parent) concepts. Required on any concept that appears
+            as a skos:narrower value of another concept. CDIF requires both directions
+            to be explicit for hierarchy traversal.
+          type: array
+          items:
+            type: object
+            properties:
+              '@id':
+                type: string
+            required:
+            - '@id'
       required:
       - '@id'
       - skos:inScheme
