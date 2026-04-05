@@ -145,3 +145,31 @@ cdifcl:broaderIntegrityShape
     sh:targetClass skos:Concept ;
     sh:property cdifcl:conceptBroaderProperty ;
     .
+
+# ============================================================
+# Bidirectional hierarchy: if a concept is the object of
+# skos:narrower, it must also have skos:broader pointing back.
+# Both directions must be explicit in CDIF codelists.
+# ============================================================
+
+cdifcl:narrowerImpliesBroaderShape
+    a sh:NodeShape ;
+    sh:target [
+        a sh:SPARQLTarget ;
+        sh:select """
+            PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+            SELECT ?this
+            WHERE {
+                ?parent skos:narrower ?this .
+                ?this a skos:Concept .
+            }
+        """ ;
+    ] ;
+    sh:property [
+        a sh:PropertyShape ;
+        sh:path skos:broader ;
+        sh:minCount 1 ;
+        sh:class skos:Concept ;
+        sh:message "A concept that is the target of skos:narrower must also declare skos:broader pointing to its parent concept. CDIF requires both directions to be explicit." ;
+    ] ;
+    .
