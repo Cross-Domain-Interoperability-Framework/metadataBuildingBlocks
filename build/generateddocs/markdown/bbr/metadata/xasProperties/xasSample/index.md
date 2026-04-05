@@ -255,6 +255,15 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
 ex:exampleSampel_357h a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "sample material state" ;
+            schema1:propertyID "xas:materialState" ;
+            schema1:value "solid metal foil" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "sample mass" ;
+            schema1:propertyID "nxs:Field/NXsample/mass" ;
+            schema1:unitText "mg" ;
+            schema1:value "10" ],
+        [ a schema1:PropertyValue ;
             schema1:name "Parent sample" ;
             schema1:propertyID "xas:parentSample" ;
             schema1:value "igsn:10.3476/342573" ],
@@ -263,27 +272,18 @@ ex:exampleSampel_357h a schema1:Product,
             schema1:propertyID "xas:samplePreparation" ;
             schema1:value "powder on tape, 6 layers" ],
         [ a schema1:PropertyValue ;
-            schema1:name "porosity" ;
-            schema1:propertyID "xas:porosity" ;
-            schema1:unitText "percent" ;
-            schema1:value "27" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "sample mass" ;
-            schema1:propertyID "nxs:Field/NXsample/mass" ;
-            schema1:unitText "mg" ;
-            schema1:value "10" ],
-        [ a schema1:PropertyValue ;
             schema1:name "crystal point group" ;
             schema1:propertyID "nxs:Field/NXsample/point_group" ;
             schema1:value "mm2" ],
         [ a schema1:PropertyValue ;
-            schema1:name "sample material state" ;
-            schema1:propertyID "xas:materialState" ;
-            schema1:value "solid metal foil" ],
-        [ a schema1:PropertyValue ;
             schema1:name "stoichiometry" ;
             schema1:propertyID "xas:stoichiometry" ;
             schema1:value "Na2SeO4" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "porosity" ;
+            schema1:propertyID "xas:porosity" ;
+            schema1:unitText "percent" ;
+            schema1:value "27" ],
         [ a schema1:PropertyValue ;
             schema1:name "crystal unit cell" ;
             schema1:propertyID "nxs:Field/NXsample/unit_cell" ;

@@ -11,21 +11,61 @@ CDIF Discovery profile composing cdifCore with discovery-oriented properties: me
 
 ## CDIF Discovery Metadata Profile
 
-Profile for the schema.org implementation of the [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) discovery profile. Composes cdifCore with discovery-oriented properties.
+Profile for the schema.org implementation of the [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) discovery profile. Composes cdifCore with discovery-oriented properties for dataset search, indexing, and cataloguing.
 
 ### Composition
 
-- **cdifCore** -- all required and optional core metadata properties
-- **Discovery properties** (defined inline):
-  - `schema:measurementTechnique` -- technique used for measurement (string or DefinedTerm)
-  - `schema:variableMeasured` -- what the dataset measures (VariableMeasured)
-  - `schema:spatialCoverage` -- geographic extent (SpatialExtent)
-  - `schema:temporalCoverage` -- temporal extent (TemporalExtent)
-  - `dqv:hasQualityMeasurement` -- quality measurements (QualityMeasure)
+- **cdifCore** — all required and optional core metadata properties (name, identifier, dateModified, license/conditionsOfAccess, url/distribution, creator, publisher, keywords, subjectOf with conformsTo)
+- **Discovery properties** (defined in this profile):
+  - `schema:measurementTechnique` — technique, technology, or methodology used for measurement (string or DefinedTerm array)
+  - `schema:variableMeasured` — what the dataset measures (VariableMeasured or StatisticalVariable array)
+  - `schema:spatialCoverage` — geographic extent (SpatialExtent array, supporting GeoCoordinates, GeoShape with bounding box, and named places)
+  - `schema:temporalCoverage` — temporal extent (TemporalExtent array, supporting ISO 8601 intervals and structured time:ProperInterval)
+  - `dqv:hasQualityMeasurement` — quality measurements (QualityMeasure array, W3C DQV)
+- **Additional context prefixes**: `geosparql`, `dqv`, `cdi` (added to the cdifCore required `schema`, `dcterms`, `dcat`, `prov`)
 
 ### Conformance
 
-Metadata conforming to this profile declares conformance to `cdif/core/1.0/` and `cdif/discovery/1.0/` via `dcterms:conformsTo` in the `schema:subjectOf` catalog record.
+Metadata conforming to this profile declares conformance to both `https://w3id.org/cdif/core/1.0` and `https://w3id.org/cdif/discovery/1.0` via `dcterms:conformsTo` in the `schema:subjectOf` catalog record.
+
+### SHACL validation
+
+The Discovery profile inherits cdifCore SHACL shapes and adds:
+
+**Violation-level** (from cdifCore):
+- `@id` must be an IRI
+- `schema:name`, `schema:identifier`, `schema:dateModified` required
+- `schema:license` or `schema:conditionsOfAccess` required
+- `schema:url` or `schema:distribution` required
+- CatalogRecord must have `dcterms:conformsTo`, `schema:about`, `dcat:CatalogRecord` additionalType
+
+**Warning-level** (from cdifCore):
+- `schema:description`, `schema:creator`, `schema:keywords` recommended
+- Keywords must not contain commas (individual keywords should be array items)
+
+**Info-level** (Discovery profile):
+- `schema:datePublished`, `schema:sameAs`, `schema:contributor`, `schema:provider`
+- Distribution should be DataDownload or WebAPI
+- `schema:citation` discouraged (maxCount 0) — use `schema:relatedLink` or `dcterms:bibliographicCitation` instead
+
+**Building block shapes** validate nested types:
+- DataDownload requires `schema:contentUrl`
+- Person/Organization require name or identifier
+- DefinedTerm requires name, identifier, or termCode
+- SpatialExtent Place must have geo or name
+- Action/EntryPoint requires target with urlTemplate
+
+### Examples
+
+- `exampleCDIFDiscoveryMinimal.json` — minimal valid Discovery record (required properties only)
+- `exampleCDIFDiscovery.json` — typical Discovery record with recommended properties
+- `exampleCDIFDiscoveryComplete.json` — comprehensive record exercising all Discovery properties
+
+Additional validated examples (26+) from diverse sources (GeoCodes, NCEI NOAA, Copernicus CDS, Harvard Dataverse, Borealis, PANGAEA, ODIS, ESIP) are in the [Discovery repository](https://github.com/Cross-Domain-Interoperability-Framework/Discovery/tree/main/examples).
+
+### Comparison with ESIP Science on Schema.org
+
+See [CDIF-Discovery-vs-SOSO-comparison.md](https://github.com/Cross-Domain-Interoperability-Framework/Discovery/blob/main/CDIF-Discovery-vs-SOSO-comparison.md) for a detailed property-by-property comparison with the ESIP Science on Schema.org (SOSO) v1.3 Dataset guide and SHACL shapes.
 
 ## Examples
 
@@ -1318,6 +1358,12 @@ ex:YOPx123 a schema1:Dataset ;
                     spdx:algorithm "j" ;
                     spdx:checksumValue "h" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
+            schema1:funder <https://ror.org/sejer4w6u8> ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "grant-id" ;
+                    schema1:value "LZpo" ] ;
+            schema1:name "ekckpBtI" ],
+        [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/fnjrj68> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
@@ -1328,33 +1374,27 @@ ex:YOPx123 a schema1:Dataset ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
                     schema1:value "lieopgXuumP" ] ;
-            schema1:name "fhhbzh" ],
-        [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/sejer4w6u8> ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "grant-id" ;
-                    schema1:value "LZpo" ] ;
-            schema1:name "ekckpBtI" ] ;
+            schema1:name "fhhbzh" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
     schema1:inLanguage "bYiJT" ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "ex:rIPXjaCPQX" ;
-                    schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
-                    schema1:value "PVSajGtBPsLzeCTLv" ] ;
-            schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
-            schema1:name "MiSqvcp" ;
-            schema1:termCode "bzOl" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "https://resource.org/identifier" ;
                     schema1:url "http://example.com/resource/tdUMYBItIwdJe" ;
                     schema1:value "tdUMYBItIwdJe" ] ;
             schema1:inDefinedTermSet "sqH" ;
             schema1:name "TiMuawt" ;
-            schema1:termCode "RUUxHY" ] ;
+            schema1:termCode "RUUxHY" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "ex:rIPXjaCPQX" ;
+                    schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
+                    schema1:value "PVSajGtBPsLzeCTLv" ] ;
+            schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
+            schema1:name "MiSqvcp" ;
+            schema1:termCode "bzOl" ] ;
     schema1:license "Kmp",
         "dXhuFoqL" ;
     schema1:name "Test dataset" ;
@@ -3016,15 +3056,15 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:identifier ex:datasetDOI42 ;
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "https://vocab.nerc.ac.uk/collection/P02/current/DOXY/" ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
-            schema1:name "North Atlantic Deep Water" ;
-            schema1:termCode "P02:DOXY" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
             schema1:name "Sea water temperature" ;
             schema1:termCode "TEMPPR01" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "https://vocab.nerc.ac.uk/collection/P02/current/DOXY/" ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
+            schema1:name "North Atlantic Deep Water" ;
+            schema1:termCode "P02:DOXY" ],
         "Labrador Sea",
         "deep water formation" ;
     schema1:license [ a schema1:CreativeWork ;
@@ -3098,19 +3138,19 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
         ex:varTemperature ;
     schema1:version "2.1" ;
     dqv:hasQualityMeasurement [ a dqv:QualityMeasurement ;
-            dqv:isMeasurementOf "Completeness" ;
-            dqv:value [ a schema1:DefinedTerm ;
-                    schema1:identifier "https://example.org/completeness-vocab/COMPLETE" ;
-                    schema1:inDefinedTermSet "https://example.org/completeness-vocab" ;
-                    schema1:name "Complete" ;
-                    schema1:termCode "COMPLETE" ] ],
-        [ a dqv:QualityMeasurement ;
             dqv:isMeasurementOf [ a schema1:DefinedTerm ;
                     schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPACCR/" ;
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
                     schema1:name "Temperature sensor accuracy" ;
                     schema1:termCode "TEMPACCR" ] ;
-            dqv:value "±0.001°C (ITS-90)" ] ;
+            dqv:value "±0.001°C (ITS-90)" ],
+        [ a dqv:QualityMeasurement ;
+            dqv:isMeasurementOf "Completeness" ;
+            dqv:value [ a schema1:DefinedTerm ;
+                    schema1:identifier "https://example.org/completeness-vocab/COMPLETE" ;
+                    schema1:inDefinedTermSet "https://example.org/completeness-vocab" ;
+                    schema1:name "Complete" ;
+                    schema1:termCode "COMPLETE" ] ] ;
     prov:wasDerivedFrom ex:rawCTDCasts ;
     prov:wasGeneratedBy [ a prov:Activity ;
             prov:used ex:ar7wCruiseProgram,
