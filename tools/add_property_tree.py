@@ -360,7 +360,7 @@ class TreeBuilder:
 
 
 def main():
-    BB_ROOT = r'C:\Users\smrTu\OneDrive\Documents\GithubC\CDIF\metadataBuildingBlocksFork\_sources'
+    BB_ROOT = r'C:\Users\smrTu\OneDrive\Documents\GithubC\CDIF\metadataBuildingBlocks\_sources'
 
     targets = [
         (os.path.join(BB_ROOT, 'profiles', 'cdifProfiles', 'CDIFDiscoveryProfile', 'schema.yaml'),
