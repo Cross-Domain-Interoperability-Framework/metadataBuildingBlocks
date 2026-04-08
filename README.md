@@ -46,54 +46,6 @@ python tools/resolve_schema.py --file path/to/any/schema.yaml
 
 **Requirements:** Python 3.6+ with `pyyaml` (`pip install pyyaml`)
 
-### Validate Examples (`validate_examples.py`)
-
-Validates all example JSON files against their resolved schemas. Uses the root `resolve_schema.py` `SchemaResolver` for proper `$defs` and cross-file `$ref` handling, with fallback to `tools/resolve_schema.py` for schemas with circular references.
-
-```bash
-# Validate all examples
-python tools/validate_examples.py
-
-# Verbose output (shows pass/fail for each)
-python tools/validate_examples.py --verbose
-
-# Filter to specific building blocks
-python tools/validate_examples.py --filter person
-```
-
-**Requirements:** Python 3.6+ with `pyyaml`, `jsonschema` (`pip install pyyaml jsonschema`)
-
-### Audit Building Blocks (`audit_building_blocks.py`)
-
-Comprehensive audit tool for any OGC Building Block repository. Checks file completeness, schema consistency, example validation, SHACL completeness, and property coverage.
-
-```bash
-# Audit current repo
-python tools/audit_building_blocks.py -v
-
-# Audit another repo (e.g. geochemBuildingBlocks)
-python tools/audit_building_blocks.py /path/to/_sources -v
-
-# JSON report
-python tools/audit_building_blocks.py --json -o report.json
-```
-
-**Requirements:** Python 3.6+ with `pyyaml`, `jsonschema`
-
-### Generate Property Tree (`generate_property_tree2.py`)
-
-Generates `propertyTree_2` worksheets from resolved JSON Schemas. Walks the fully-resolved schema tree and produces an Excel worksheet showing the complete property hierarchy — root object type, then alternating property/options columns with type suffixes (`-- string`, `-- object`, `-- CHOICE`, `[brackets]` for arrays, etc.). Handles recursion by expanding each `@type` once per branch.
-
-```bash
-# Generate for all profiles (Codelist, Discovery, DataDescription)
-python tools/generate_property_tree2.py --profile all
-
-# Generate for a single profile
-python tools/generate_property_tree2.py --profile discovery
-```
-
-**Requirements:** Python 3.6+ with `openpyxl`, `pyyaml`
-
 ### Step 2: Convert for JSON Forms (`convert_for_jsonforms.py`)
 
 Reads `resolvedSchema.json` and converts to JSON Forms-compatible Draft 7:
@@ -134,6 +86,42 @@ python tools/generate_custom_report.py
 
 The `deploy-viewer` workflow runs this automatically after `augment_register.py`.
 
+## Other Tools
+
+### Validate Examples (`validate_examples.py`)
+
+Validates all example JSON files against their resolved schemas. Uses `schema_resolver.py`'s `SchemaResolver` for proper `$defs` and cross-file `$ref` handling, with fallback to `tools/resolve_schema.py` for schemas with circular references.
+
+```bash
+python tools/validate_examples.py --verbose
+python tools/validate_examples.py --filter person
+```
+
+**Requirements:** Python 3.6+ with `pyyaml`, `jsonschema`
+
+### Audit Building Blocks (`audit_building_blocks.py`)
+
+Comprehensive audit tool for any OGC Building Block repository. Checks file completeness, schema consistency, example validation, SHACL completeness, and property coverage.
+
+```bash
+python tools/audit_building_blocks.py -v
+python tools/audit_building_blocks.py /path/to/_sources -v
+python tools/audit_building_blocks.py --json -o report.json
+```
+
+**Requirements:** Python 3.6+ with `pyyaml`, `jsonschema`
+
+### Generate Property Tree (`generate_property_tree2.py`)
+
+Generates `propertyTree_2` worksheets from resolved JSON Schemas showing complete property hierarchy with type suffixes and array cardinality.
+
+```bash
+python tools/generate_property_tree2.py --profile all
+python tools/generate_property_tree2.py --profile discovery
+```
+
+**Requirements:** Python 3.6+ with `openpyxl`, `pyyaml`
+
 ## Examples
 
 Each building block and profile includes example JSON-LD instances:
@@ -152,6 +140,7 @@ CDIF profiles are in `_sources/profiles/cdifProfiles/`:
 
 | Profile | Description |
 |---|---|
+| `CDIFCodelistProfile` | CDIF Codelist profile (allOf: skosConceptScheme + CDIF codelist constraints) |
 | `CDIFDiscoveryProfile` | CDIF Discovery profile (allOf: cdifCore + discovery properties) |
 | `CDIFDataDescriptionProfile` | CDIF Data Description profile (allOf: cdifCore + cdifDataDescription + discovery properties) |
 | `CDIFcompleteProfile` | CDIF Complete profile (allOf: cdifCore + cdifDataDescription + cdifArchiveDistribution + cdifProvenance + discovery properties) |
@@ -180,6 +169,7 @@ For example, `cdifProvActivity` defines the schema for a single provenance Activ
 | cdifProperties | `_sources/cdifProperties/` | CDIF-specific properties (core, optional, provenance, tabular data, long data, etc.) |
 | ddiProperties | `_sources/ddiProperties/` | DDI-CDI vocabulary building blocks |
 | provProperties | `_sources/provProperties/` | PROV-O provenance (generatedBy, derivedFrom, provActivity) |
+| skosProperties | `_sources/skosProperties/` | W3C SKOS vocabulary building blocks (ConceptScheme, Concept, Collection) |
 | qualityProperties | `_sources/qualityProperties/` | DQV data quality measures |
 | xasProperties | `_sources/xasProperties/` | X-ray Absorption Spectroscopy domain properties |
 | bioschemasProperties | `_sources/bioschemasProperties/` | Bioschemas vocabulary building blocks (lab protocols, samples, computational workflows) |
@@ -200,6 +190,16 @@ DDI-CDI vocabulary building blocks for communities using the DDI Cross-Domain In
 | `ddicdiAgent` | Umbrella building block composing the 4 agent subtypes (`ddicdiIndividual`, `ddicdiMachine`, `ddicdiOrganization`, `ddicdiProcessingAgent`) via `anyOf`. Supports single node, unwrapped `@graph` array, and full JSON-LD document formats. |
 | `ddicdiValueDomain` | DDI-CDI ValueDomain (DDICDILibrary/Classes/Representations) -- unified building block covering both `cdi:SubstantiveValueDomain` (subject-matter values) and `cdi:SentinelValueDomain` (processing/missing-value codes like SAS `.R`, SPSS `999`). Includes `cdi:isDescribedBy` (ValueAndConceptDescription with min/max bounds, regex, classification level), `cdi:takesValuesFrom` (EnumerationDomain), and `cdi:platformType` (sentinel only). |
 
+### skosProperties
+
+W3C SKOS vocabulary building blocks for controlled vocabulary and codelist representation.
+
+| Building Block | Description |
+|----------------|-------------|
+| `skosConceptScheme` | SKOS ConceptScheme with `skos:hasTopConcept`, prefLabel, and nested concepts. Base for `CDIFCodelistProfile`. |
+| `skosConcept` | SKOS Concept with prefLabel, notations, broader/narrower/related hierarchical relations, cross-scheme mapping properties, and documentary notes. Defines `$defs`: ConceptRef, LanguageTaggedValue. |
+| `skosCollection` | SKOS Collection and OrderedCollection. Collection groups concepts via `skos:member`; OrderedCollection preserves ordering via JSON-LD `@list`. References `skosConcept` for concept items. |
+
 ### schemaorgProperties
 
 Schema.org vocabulary building blocks for reusable metadata components.
@@ -207,6 +207,7 @@ Schema.org vocabulary building blocks for reusable metadata components.
 | Building Block | Description |
 |----------------|-------------|
 | `instrument` | Generic instrument or instrument system -- uses `schema:Thing` base type with optional `schema:Product` typing. Supports hierarchical instrument systems via `schema:hasPart` for sub-components. Instruments are nested within `prov:used` items via a `schema:instrument` sub-key (instruments are `prov:Entity` subclasses). Referenced by `cdifProvActivity`, `provActivity`, and `xasInstrument`. |
+| `statisticalVariable` | `schema:StatisticalVariable` — a variable representing a statistical measure. Properties: `@type`, `@id`, `schema:name`, `schema:description`, `schema:measurementTechnique`, `schema:statType`, `schema:measuredProperty`. Uses `definedTerm` building block. |
 
 ### provProperties
 

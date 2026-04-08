@@ -20,6 +20,7 @@ metadataBuildingBlocks/
 │   │   ├── definedTerm/             # schema:DefinedTerm
 │   │   ├── additionalProperty/      # schema:PropertyValue for soft-typed properties
 │   │   ├── variableMeasured/        # schema:variableMeasured (PropertyValue)
+│   │   ├── statisticalVariable/     # schema:StatisticalVariable
 │   │   ├── spatialExtent/           # schema:Place (bounding box, facility/lab base)
 │   │   ├── temporalExtent/          # schema:temporalCoverage
 │   │   ├── dataDownload/            # schema:DataDownload
@@ -40,7 +41,8 @@ metadataBuildingBlocks/
 │   │   ├── cdifLongData/            # CDIF long data description
 │   │   ├── cdifArchive/              # CDIF archive item (DataDownload with hasPart)
 │   │   ├── cdifArchiveDistribution/ # CDIF archive distribution (schema:distribution wrapper)
-│   │   └── cdifVariableMeasured/    # CDIF variable measured extension (cdi:InstanceVariable with cdi:qualifies)
+│   │   ├── cdifVariableMeasured/    # CDIF variable measured extension (cdi:InstanceVariable with cdi:qualifies)
+│   │   └── cdifPhysicalMapping/     # CDIF physical mapping (cdi:PhysicalSegmentLayout serialization metadata)
 │   ├── provProperties/              # W3C PROV provenance types
 │   │   ├── generatedBy/             # prov:wasGeneratedBy (Activity)
 │   │   ├── provActivity/            # PROV-O native activity (extends generatedBy)
@@ -54,6 +56,10 @@ metadataBuildingBlocks/
 │   │   ├── ddicdiProcessingAgent/   # DDI-CDI ProcessingAgent (orchestrates activities)
 │   │   ├── ddicdiDataTypes/          # DDI-CDI structured data types (from DDICDILibrary/DataTypes)
 │   │   └── ddicdiValueDomain/       # DDI-CDI Value Domain (SubstantiveValueDomain + SentinelValueDomain)
+│   ├── skosProperties/               # W3C SKOS vocabulary types
+│   │   ├── skosConceptScheme/       # skos:ConceptScheme
+│   │   ├── skosConcept/            # skos:Concept
+│   │   └── skosCollection/          # skos:Collection / skos:OrderedCollection
 │   ├── qualityProperties/           # Data quality types
 │   │   └── qualityMeasure/          # Quality measure definitions
 │   ├── bioschemasProperties/         # Bioschemas vocabulary types
@@ -69,6 +75,7 @@ metadataBuildingBlocks/
 │   │   └── xasOptional/             # XAS optional property group
 │   └── profiles/                    # Top-level profiles that compose BBs
 │       └── cdifProfiles/
+│           ├── CDIFCodelistProfile/        # CDIF Codelist profile (SKOS ConceptScheme validation)
 │           ├── CDIFDiscoveryProfile/       # CDIF Discovery profile
 │           ├── CDIFcompleteProfile/        # CDIF Complete profile (discovery + data description + provenance + archive)
 │           ├── CDIFDataDescriptionProfile/ # CDIF Data Description profile
@@ -88,6 +95,8 @@ metadataBuildingBlocks/
 │   ├── generate_custom_report.py    # Custom validation report with SHACL severity breakdown
 │   ├── add_property_tree.py         # Adds propertyTree worksheets to Excel workbooks
 │   ├── generate_property_tree2.py   # Generates propertyTree_2 worksheets from resolved schemas
+│   ├── generate_pv_comparison.py    # Generates Word doc comparing PropertyValue implementations across BBs
+│   ├── sync_resolve_schema.py       # Syncs shared tool scripts to domain BB repos
 │   └── cors_server.py               # CORS dev server for local testing
 └── .github/workflows/               # Validation + JSON Forms generation + custom Pages deploy
 
@@ -155,6 +164,7 @@ Building blocks that represent CDIF specification components declare required `d
 | CDIFDiscoveryProfile | `core/1.0` + `discovery/1.0` |
 | CDIFDataDescriptionProfile | `core/1.0` + `discovery/1.0` + `data_description/1.0` |
 | CDIFcompleteProfile | `core/1.0` + `discovery/1.0` + `data_description/1.0` + `manifest/1.0` + `provenance/1.0` |
+| CDIFCodelistProfile | *(no conformsTo constraints — uses SKOS ConceptScheme, not dataset metadata)* |
 | CDIFxasProfile | `core/1.0` + `discovery/1.0` + `xasDiscovery/1.0` + `xasCore/1.0` |
 
 These conformance URIs are distinct from the OGC building block identifiers (`https://w3id.org/cdif/bbr/metadata/...`). Both may appear in a record's conformsTo array.
@@ -327,6 +337,7 @@ If the workflow fails, check the error log for:
 | `dcterms` | `http://purl.org/dc/terms/` | Conformance declarations |
 | `dcat` | `http://www.w3.org/ns/dcat#` | Catalog record typing (cdifCatalogRecord) |
 | `geosparql` | `http://www.opengis.net/ont/geosparql#` | Spatial geometry types |
+| `skos` | `http://www.w3.org/2004/02/skos/core#` | SKOS vocabulary (ConceptScheme, Concept, Collection) |
 | `bios` | `https://bioschemas.org/` | Bioschemas lab protocols, samples, workflows |
 
 ## Domain-Specific Building Blocks (Moved)
@@ -392,9 +403,10 @@ python tools/resolve_schema.py --all --flatten-allof
 - Circular reference detection via `seen` set (returns `$comment` placeholder)
 - Strips metadata keys (`$id`, `x-jsonld-*`) from output
 
-**Key implementation details (root resolve_schema.py):**
+**Key implementation details (schema_resolver.py):**
 - Flattens all `$defs` to a single global scope; `--inline-single-use` inlines defs referenced only once
 - Tracks `source_file` through `process_schema()` so that internal `#/$defs/X` refs within externally-referenced files are resolved against the source file and promoted to global scope (fixes transitive internal ref resolution)
+- Collapses alias `$defs` (e.g. `DefinedTerm_2: {$ref: "#/$defs/DefinedTerm"}`) that arise when multiple building blocks each declare a local `$defs` entry pointing to the same external schema — rewrites all references to point directly to the canonical def and removes the aliases
 - Cycle detection via `processing_stack` set
 
 ## convert_for_jsonforms.py
@@ -506,7 +518,7 @@ python generate_property_table.py path/to/_sources/profiles/cdifProfiles/CDIFDis
 
 ## validate_examples.py
 
-Validates all example JSON files against their resolved schemas. Uses the root `resolve_schema.py` `SchemaResolver` class for resolution, which correctly handles transitive internal `$defs` references within externally-referenced schemas. Falls back to the `tools/resolve_schema.py` inline resolver for schemas with circular `$ref` patterns that cause recursion errors in jsonschema validation.
+Validates all example JSON files against their resolved schemas. Uses `schema_resolver.py`'s `SchemaResolver` class for resolution, which correctly handles transitive internal `$defs` references within externally-referenced schemas. Falls back to the `tools/resolve_schema.py` inline resolver for schemas with circular `$ref` patterns that cause recursion errors in jsonschema validation.
 
 **Usage:**
 ```bash
@@ -550,7 +562,7 @@ python tools/audit_building_blocks.py --filter cdifCore -v
 python tools/audit_building_blocks.py --json -o report.json
 ```
 
-**Requirements:** `pyyaml`, `jsonschema`. Imports `resolve_schema.py` for re-resolution checks.
+**Requirements:** `pyyaml`, `jsonschema`. Imports `schema_resolver.py` for re-resolution checks.
 
 ## audit_shacl_coverage.py
 
@@ -607,6 +619,32 @@ python tools/generate_property_tree2.py --profile datadescription
 For existing workbooks, adds `propertyTree_2` as a new sheet (preserving all existing sheets). For new workbooks (e.g., CDIFCodelistProfile), creates a new `.xlsx` file.
 
 **Requirements:** `openpyxl`, `pyyaml`
+
+## sync_resolve_schema.py
+
+Syncs shared tool scripts (`resolve_schema.py`, `regenerate_schema_json.py`) from this canonical repo to all domain building block repositories (ddeBuildingBlocks, geochemBuildingBlocks, ecrrBuildingBlocks).
+
+**Usage:**
+```bash
+# Dry-run (show what would be copied)
+python tools/sync_resolve_schema.py
+
+# Actually copy the files
+python tools/sync_resolve_schema.py --apply
+```
+
+Looks for sibling repos relative to this repo's parent directory.
+
+## generate_pv_comparison.py
+
+Generates a Word document (`PropertyValue_Comparison.docx`) comparing `schema:PropertyValue` implementations across building blocks. Shows how different BBs use PropertyValue as a property type, with a comparison table.
+
+**Usage:**
+```bash
+python tools/generate_pv_comparison.py
+```
+
+**Requirements:** `python-docx`
 
 ## Verification
 

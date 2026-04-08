@@ -12,12 +12,12 @@ remain in the $defs section. This produces a more compact, readable schema
 similar to hand-authored schemas.
 
 Usage:
-    python resolve_schema.py <input_schema_path> [output_path]
+    python schema_resolver.py <input_schema_path> [output_path]
 
 Examples:
-    python resolve_schema.py _sources/profiles/CDIFDiscovery/CDIFDiscoverySchema.json
-    python resolve_schema.py _sources/cdifProperties/cdifCore/cdifCoreSchema.json output.json
-    python resolve_schema.py schema.json -o output.json --inline-single-use
+    python schema_resolver.py _sources/profiles/CDIFDiscovery/CDIFDiscoverySchema.json
+    python schema_resolver.py _sources/cdifProperties/cdifCore/cdifCoreSchema.json output.json
+    python schema_resolver.py schema.json -o output.json --inline-single-use
 """
 
 import json
@@ -376,11 +376,81 @@ class SchemaResolver:
                 if name not in result['$defs']:
                     result['$defs'][name] = definition
 
+        # Collapse alias $defs (e.g. "DefinedTerm_2": {"$ref": "#/$defs/DefinedTerm"})
+        # These arise when multiple building blocks each declare a local $defs
+        # entry pointing to the same external schema file.
+        result = self.collapse_alias_defs(result)
+
         # Optionally inline single-use definitions
         if self.inline_single_use:
             result = self.optimize_inlining(result)
 
         return result
+
+    def collapse_alias_defs(self, schema: dict) -> dict:
+        """
+        Remove alias $defs that are just {"$ref": "#/$defs/X"} and rewrite
+        all references to point directly to the target.
+
+        When multiple building blocks each declare a local $defs entry (e.g.
+        DefinedTerm) pointing to the same external schema, the resolver
+        creates the canonical def on first encounter and alias defs
+        (DefinedTerm_2, DefinedTerm_3, ...) for subsequent encounters.
+        These aliases add clutter without adding information.
+        """
+        if '$defs' not in schema:
+            return schema
+
+        defs = schema['$defs']
+
+        # Build alias map: alias_name -> target_name
+        # Follow chains (A -> B -> C) to the final target
+        alias_map: Dict[str, str] = {}
+        for name, definition in list(defs.items()):
+            if (isinstance(definition, dict)
+                    and len(definition) == 1
+                    and '$ref' in definition
+                    and definition['$ref'].startswith('#/$defs/')):
+                target = definition['$ref'][8:]  # Remove '#/$defs/' prefix
+                alias_map[name] = target
+
+        if not alias_map:
+            return schema
+
+        # Resolve chains: if A -> B and B -> C, then A -> C
+        def resolve_target(name: str) -> str:
+            visited = set()
+            while name in alias_map and name not in visited:
+                visited.add(name)
+                name = alias_map[name]
+            return name
+
+        resolved_aliases = {name: resolve_target(target)
+                           for name, target in alias_map.items()}
+
+        self.log(f"Collapsing {len(resolved_aliases)} alias $defs: "
+                 f"{', '.join(f'{k}->{v}' for k, v in resolved_aliases.items())}")
+
+        # Rewrite all $refs in the schema that point to aliases
+        def rewrite_refs(node: Any) -> Any:
+            if isinstance(node, dict):
+                if '$ref' in node and node['$ref'].startswith('#/$defs/'):
+                    ref_name = node['$ref'][8:]
+                    if ref_name in resolved_aliases:
+                        node = dict(node)
+                        node['$ref'] = f"#/$defs/{resolved_aliases[ref_name]}"
+                return {k: rewrite_refs(v) for k, v in node.items()}
+            elif isinstance(node, list):
+                return [rewrite_refs(item) for item in node]
+            return node
+
+        schema = rewrite_refs(schema)
+
+        # Remove the alias entries from $defs
+        for alias_name in resolved_aliases:
+            schema['$defs'].pop(alias_name, None)
+
+        return schema
 
     def count_refs(self, schema: Any, counts: Dict[str, int]) -> None:
         """
@@ -510,9 +580,9 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-    python resolve_schema.py _sources/profiles/CDIFDiscovery/CDIFDiscoverySchema.json
-    python resolve_schema.py _sources/cdifProperties/cdifCore/cdifCoreSchema.json -o output.json
-    python resolve_schema.py _sources/cdifProperties/cdifOptional/cdifOptionalSchema.json -v
+    python schema_resolver.py _sources/profiles/CDIFDiscovery/CDIFDiscoverySchema.json
+    python schema_resolver.py _sources/cdifProperties/cdifCore/cdifCoreSchema.json -o output.json
+    python schema_resolver.py _sources/cdifProperties/cdifOptional/cdifOptionalSchema.json -v
         """
     )
 

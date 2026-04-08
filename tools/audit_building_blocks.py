@@ -48,7 +48,7 @@ except ImportError:
     Draft202012Validator = None
 
 # ---------------------------------------------------------------------------
-# Import resolvers: prefer root SchemaResolver (correct transitive $defs),
+# Import resolvers: prefer schema_resolver.py SchemaResolver (correct transitive $defs),
 # fall back to tools/resolve_schema.py (handles circular refs)
 # ---------------------------------------------------------------------------
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -59,7 +59,7 @@ _SchemaResolver = None
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 try:
-    from resolve_schema import SchemaResolver as _SchemaResolver
+    from schema_resolver import SchemaResolver as _SchemaResolver
 except ImportError:
     pass
 

@@ -2,7 +2,7 @@
 """
 Validate all example JSON files against their resolved schemas.
 
-Uses resolve_schema.py's resolver to fully inline $ref references before
+Uses schema_resolver.py's resolver to fully inline $ref references before
 validation, so $defs and cross-file references are handled correctly.
 
 Usage:
@@ -17,10 +17,10 @@ import sys
 import yaml
 from pathlib import Path
 
-# Import the root resolver (handles transitive internal $defs refs correctly)
+# Import schema_resolver.py (handles transitive internal $defs refs correctly)
 _repo_root = str(Path(__file__).resolve().parent.parent)
 sys.path.insert(0, _repo_root)
-from resolve_schema import SchemaResolver
+from schema_resolver import SchemaResolver
 
 # Fallback: tools/resolve_schema.py (handles recursive schemas better)
 import importlib.util
