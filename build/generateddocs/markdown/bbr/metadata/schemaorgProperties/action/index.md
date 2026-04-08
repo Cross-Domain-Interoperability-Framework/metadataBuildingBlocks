@@ -580,30 +580,10 @@ properties:
     type: string
     description: text label for the action
   schema:target:
-    $ref: '#/$defs/target_type'
-    description: specifies the request target location and request syntax
-  schema:result:
-    $ref: '#/$defs/result_type'
-    description: specifies the serialization scheme (encoding format, information
-      model) for expected representation of the data
-  schema:object:
-    $ref: '#/$defs/object_type'
-    description: The entity upon which the action is carried out, whose state is kept
-      intact or changed.
-  schema:query-input:
-    type: array
-    items:
-      $ref: '#/$defs/query-input_type'
-    description: set of explanations of the parameters in the URL template for the
-      target.
-required:
-- schema:name
-- schema:target
-$defs:
-  target_type:
     type: object
-    description: documentation of the URL end point and syntax to invoke the service.
-      This schema doesn't handle post requests
+    description: specifies the request target location and request syntax. Documentation
+      of the URL end point and syntax to invoke the service. This schema doesn't handle
+      post requests.
     properties:
       '@type':
         default: schema:EntryPoint
@@ -654,9 +634,11 @@ $defs:
           type: string
     required:
     - schema:urlTemplate
-  result_type:
+  schema:result:
     type: object
-    description: documentation of the serialization format for the API response,
+    description: specifies the serialization scheme (encoding format, information
+      model) for expected representation of the data. Documentation of the serialization
+      format for the API response.
     properties:
       '@type':
         type: array
@@ -673,39 +655,13 @@ $defs:
           type: string
       schema:description:
         type: string
-  query-input_type:
-    description: Query input parameter for a web API action, typed as schema:PropertyValueSpecification.
+  schema:object:
     type: object
-    properties:
-      '@id':
-        type: string
-      '@type':
-        default: schema:PropertyValueSpecification
-        type: array
-        items:
-          type: string
-        contains:
-          const: schema:PropertyValueSpecification
-        minItems: 1
-      schema:valueName:
-        type: string
-      schema:description:
-        type: string
-      schema:valueRequired:
-        type: boolean
-        default: true
-      schema:valuePattern:
-        type: string
-    required:
-    - schema:valueName
-    - schema:description
-  object_type:
-    type: object
-    description: Specifies the resource that is the object (input) of the action.
-      This is an open ended class for general description of Actions. When schema:Action
-      (or a subclass) is used to descibe operations for a WebAPI distribution, the
-      object is implicitly the resource that is the subject of the containing metadata
-      record, so this property would be superfluous.
+    description: The entity upon which the action is carried out, whose state is kept
+      intact or changed. This is an open ended class for general description of Actions.
+      When schema:Action (or a subclass) is used to describe operations for a WebAPI
+      distribution, the object is implicitly the resource that is the subject of the
+      containing metadata record, so this property would be superfluous.
     properties:
       '@type':
         default: schema:Thing
@@ -715,6 +671,39 @@ $defs:
         minItems: 1
       schema:description:
         type: string
+  schema:query-input:
+    type: array
+    items:
+      type: object
+      description: Query input parameter for a web API action, typed as schema:PropertyValueSpecification.
+      properties:
+        '@id':
+          type: string
+        '@type':
+          default: schema:PropertyValueSpecification
+          type: array
+          items:
+            type: string
+          contains:
+            const: schema:PropertyValueSpecification
+          minItems: 1
+        schema:valueName:
+          type: string
+        schema:description:
+          type: string
+        schema:valueRequired:
+          type: boolean
+          default: true
+        schema:valuePattern:
+          type: string
+      required:
+      - schema:valueName
+      - schema:description
+    description: set of explanations of the parameters in the URL template for the
+      target.
+required:
+- schema:name
+- schema:target
 x-jsonld-prefixes:
   schema: http://schema.org/
 

@@ -465,6 +465,24 @@ xas:487y54 a schema1:Product,
     schema1:hasPart [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
+                    schema1:name "collimation technique" ;
+                    schema1:propertyID "xas:collimation" ;
+                    schema1:value "none" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "focusing" ;
+                    schema1:propertyID "xas:focusing" ;
+                    schema1:value "???" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "harmonic_rejection" ;
+                    schema1:propertyID "xas:harmonic_rejection" ;
+                    schema1:value "Rh-coated mirror, detuned" ] ;
+            schema1:additionalType "wd:Q3099911",
+                "xas:Beamline" ;
+            schema1:identifier "should have a registry with URIs" ;
+            schema1:name "13-BM-D" ],
+        [ a schema1:Product,
+                schema1:Thing ;
+            schema1:additionalProperty [ a schema1:PropertyValue ;
                     schema1:name "X-ray source" ;
                     schema1:propertyID "nxs:Field/NXsource/type" ;
                     schema1:value "Synchrotron X-ray Source" ],
@@ -476,24 +494,6 @@ xas:487y54 a schema1:Product,
                 "wd:Q3099911" ;
             schema1:identifier "should have a registry with URIs" ;
             schema1:name "source of x-ray excitation for analysis. Made up for this example" ],
-        [ a schema1:Product,
-                schema1:Thing ;
-            schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:name "harmonic_rejection" ;
-                    schema1:propertyID "xas:harmonic_rejection" ;
-                    schema1:value "Rh-coated mirror, detuned" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "focusing" ;
-                    schema1:propertyID "xas:focusing" ;
-                    schema1:value "???" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "collimation technique" ;
-                    schema1:propertyID "xas:collimation" ;
-                    schema1:value "none" ] ;
-            schema1:additionalType "wd:Q3099911",
-                "xas:Beamline" ;
-            schema1:identifier "should have a registry with URIs" ;
-            schema1:name "13-BM-D" ],
         [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
@@ -519,15 +519,6 @@ xas:487y54 a schema1:Product,
         [ a schema1:Product,
                 schema1:Thing ;
             schema1:additionalProperty [ a schema1:PropertyValue ;
-                    schema1:alternateName "incident flux measurement method" ;
-                    schema1:name "detector mode i0" ;
-                    schema1:propertyID "xas:detector.i0" ;
-                    schema1:value "10cm  N2" ],
-                [ a schema1:PropertyValue ;
-                    schema1:name "monitor preset" ;
-                    schema1:propertyID "nxs:Field/NXmonitor/preset" ;
-                    schema1:value "N.A." ],
-                [ a schema1:PropertyValue ;
                     schema1:name "monitor mode" ;
                     schema1:propertyID "nxs:Field/NXmonitor/mode" ;
                     schema1:value "monitor" ],
@@ -535,6 +526,15 @@ xas:487y54 a schema1:Product,
                     schema1:alternateName "transmitted flux measurement method" ;
                     schema1:name "detector mode it" ;
                     schema1:propertyID "xas:detector.it" ;
+                    schema1:value "10cm  N2" ],
+                [ a schema1:PropertyValue ;
+                    schema1:name "monitor preset" ;
+                    schema1:propertyID "nxs:Field/NXmonitor/preset" ;
+                    schema1:value "N.A." ],
+                [ a schema1:PropertyValue ;
+                    schema1:alternateName "incident flux measurement method" ;
+                    schema1:name "detector mode i0" ;
+                    schema1:propertyID "xas:detector.i0" ;
                     schema1:value "10cm  N2" ] ;
             schema1:additionalType "nxs:BaseClass/NXmonitor" ;
             schema1:name "Beam monitor and detectors" ] ;
