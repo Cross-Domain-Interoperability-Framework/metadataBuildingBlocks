@@ -48,17 +48,55 @@ except ImportError:
     Draft202012Validator = None
 
 # ---------------------------------------------------------------------------
-# Add tools/ to path so we can import resolve_schema
+# Import resolvers: prefer root SchemaResolver (correct transitive $defs),
+# fall back to tools/resolve_schema.py (handles circular refs)
 # ---------------------------------------------------------------------------
 SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parent
+
+# Root resolver (SchemaResolver class)
+_SchemaResolver = None
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+try:
+    from resolve_schema import SchemaResolver as _SchemaResolver
+except ImportError:
+    pass
+
+# Tools resolver (fallback)
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
-
 try:
-    from resolve_schema import resolve_file, strip_metadata_keys
-except ImportError:
+    import importlib.util as _ilu
+    _ts = _ilu.spec_from_file_location("tools_resolve", SCRIPT_DIR / "resolve_schema.py")
+    _tm = _ilu.module_from_spec(_ts)
+    _ts.loader.exec_module(_tm)
+    resolve_file = _tm.resolve_file
+    strip_metadata_keys = _tm.strip_metadata_keys
+except Exception:
     resolve_file = None
     strip_metadata_keys = None
+
+
+def _resolve_for_audit(schema_path: Path) -> dict:
+    """Resolve a schema for audit purposes. Uses root SchemaResolver with
+    fallback to tools resolve_file for circular-ref schemas."""
+    if _SchemaResolver is not None:
+        try:
+            resolver = _SchemaResolver(verbose=False, inline_single_use=False)
+            resolved = resolver.resolve(str(schema_path.resolve()))
+            resolved.pop("$schema", None)
+            return resolved
+        except RecursionError:
+            pass
+    # Fallback to tools resolver
+    if resolve_file is not None:
+        resolved = resolve_file(schema_path.resolve(), set())
+        if strip_metadata_keys:
+            resolved = strip_metadata_keys(resolved)
+        resolved.pop("$schema", None)
+        return resolved
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -259,14 +297,15 @@ def check_resolved_schema(bb_dir, name):
     if not schema_path.exists() or not resolved_path.exists():
         return issues
 
-    if resolve_file is None:
+    if _SchemaResolver is None and resolve_file is None:
         issues.append("Cannot check resolvedSchema freshness (resolve_schema not importable)")
         return issues
 
     try:
-        fresh = resolve_file(schema_path.resolve(), set())
-        if strip_metadata_keys:
-            fresh = strip_metadata_keys(fresh)
+        fresh = _resolve_for_audit(schema_path)
+        if fresh is None:
+            issues.append("Cannot check resolvedSchema freshness (resolution failed)")
+            return issues
         existing = load_json(resolved_path)
 
         # Compare top-level property keys as a quick freshness check
@@ -319,18 +358,26 @@ def check_example_validation(bb_dir, name):
             pass
 
     if resolved is None:
-        if resolve_file is None:
-            issues.append("Cannot validate examples (no resolvedSchema.json and resolve_schema not importable)")
-            return issues, info
         try:
-            resolved = resolve_file(schema_path.resolve(), set())
-            if strip_metadata_keys:
-                resolved = strip_metadata_keys(resolved)
+            resolved = _resolve_for_audit(schema_path)
         except Exception as e:
             issues.append(f"Schema resolution failed: {e}")
             return issues, info
+        if resolved is None:
+            issues.append("Cannot validate examples (no resolvedSchema.json and resolve_schema not importable)")
+            return issues, info
 
-    validator = Draft202012Validator(resolved)
+    # Try validating with the resolved schema; if it has dangling $ref links
+    # (from inline optimization), re-resolve with the audit resolver
+    try:
+        validator = Draft202012Validator(resolved)
+        # Quick test to surface PointerToNowhere early
+        validator.check_schema(resolved)
+    except Exception:
+        audit_resolved = _resolve_for_audit(schema_path)
+        if audit_resolved is not None:
+            resolved = audit_resolved
+        validator = Draft202012Validator(resolved)
 
     for ex_path in examples:
         try:
@@ -339,7 +386,25 @@ def check_example_validation(bb_dir, name):
             issues.append(f"{ex_path.name}: JSON parse error: {e}")
             continue
 
-        errors = list(validator.iter_errors(example))
+        try:
+            errors = list(validator.iter_errors(example))
+        except RecursionError:
+            issues.append(f"{ex_path.name}: RecursionError during validation")
+            continue
+        except Exception as exc:
+            # Dangling $ref in pre-built resolvedSchema.json — retry with
+            # live resolution from the audit resolver
+            try:
+                audit_resolved = _resolve_for_audit(schema_path)
+                if audit_resolved is not None:
+                    retry_validator = Draft202012Validator(audit_resolved)
+                    errors = list(retry_validator.iter_errors(example))
+                else:
+                    issues.append(f"{ex_path.name}: {type(exc).__name__} during validation")
+                    continue
+            except Exception as exc2:
+                issues.append(f"{ex_path.name}: {type(exc2).__name__} during validation (retry)")
+                continue
         if errors:
             for err in errors[:3]:
                 path_str = "/".join(str(p) for p in err.absolute_path) if err.absolute_path else "(root)"
