@@ -116,13 +116,13 @@ Example delimited tabular data structure with CSV settings and physical mappings
 
 [] a cdi:TabularTextDataSet,
         schema1:Dataset ;
-    cdi:hasPhysicalMapping [ cdi:format "float64" ;
+    cdi:hasPhysicalMapping [ cdi:formats_InstanceVariable ex:var-station-id ;
+            cdi:index 0 ;
+            cdi:physicalDataType "String" ],
+        [ cdi:format "float64" ;
             cdi:formats_InstanceVariable ex:var-temperature ;
             cdi:index 1 ;
-            cdi:physicalDataType "Numeric" ],
-        [ cdi:formats_InstanceVariable ex:var-station-id ;
-            cdi:index 0 ;
-            cdi:physicalDataType "String" ] ;
+            cdi:physicalDataType "Numeric" ] ;
     cdi:isDelimited true ;
     csvw:commentPrefix "#" ;
     csvw:delimiter "," ;
