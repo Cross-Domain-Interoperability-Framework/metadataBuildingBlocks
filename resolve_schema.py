@@ -427,13 +427,18 @@ class SchemaResolver:
             Schema with single-use refs inlined
         """
         if isinstance(schema, dict):
-            if '$ref' in schema and len(schema) == 1:
+            if '$ref' in schema:
                 ref = schema['$ref']
                 if ref.startswith('#/$defs/'):
                     def_name = ref[8:]
                     if def_name in single_use and def_name in defs:
                         # Inline this definition
                         inlined = copy.deepcopy(defs[def_name])
+                        # Merge sibling keys (e.g. description) into inlined def
+                        if len(schema) > 1 and isinstance(inlined, dict):
+                            for k, v in schema.items():
+                                if k != '$ref' and k not in inlined:
+                                    inlined[k] = v
                         # Recursively inline within the inlined definition
                         return self.inline_refs(inlined, defs, single_use)
             # Process all values in the dict

@@ -41,6 +41,15 @@ jobs:
             -d "JSON schema for validating framed JSON-LD documents that describe science datasets for the CDIF discovery profile. Combines cdifCore building block with discovery properties and @type enum constraint. Generated from CDIFDiscoveryProfile building block profile resolvedSchema.json (https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfiles/CDIFDiscoveryProfile/resolvedSchema.json)." \
             -v
 
+      - name: Generate CDIFDataDescriptionSchema.json
+        run: |
+          python validation/generate_validation_schema.py \
+            bb/_sources/profiles/cdifProfiles/CDIFDataDescriptionProfile/resolvedSchema.json \
+            -o validation/CDIFDataDescriptionSchema.json \
+            -t "CDIF Data Description metadata schema" \
+            -d "JSON schema for validating framed JSON-LD documents conforming to the CDIF Data Description profile (discovery + data description). Generated from CDIFDataDescriptionProfile building block profile resolvedSchema.json (https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfiles/CDIFDataDescriptionProfile/resolvedSchema.json)." \
+            -v
+
       - name: Generate CDIFCompleteSchema.json
         run: |
           python validation/generate_validation_schema.py \
@@ -72,7 +81,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.VALIDATION_REPO_PAT }}@github.com/Cross-Domain-Interoperability-Framework/validation.git
-          git add CDIFDiscoverySchema.json CDIFCompleteSchema.json ShaclValidation/CDIF-Discovery-Shapes.ttl ShaclValidation/CDIF-Complete-Shapes.ttl
+          git add CDIFDiscoverySchema.json CDIFDataDescriptionSchema.json CDIFCompleteSchema.json ShaclValidation/CDIF-Discovery-Shapes.ttl ShaclValidation/CDIF-Complete-Shapes.ttl
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
