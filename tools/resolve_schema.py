@@ -48,6 +48,10 @@ STRIP_KEYS = {"$id", "x-jsonld-prefixes", "x-jsonld-context", "x-jsonld-extra-te
 # Cache for fetched URL schemas (URL string -> local Path)
 _URL_CACHE: dict[str, Path] = {}
 _URL_CACHE_DIR = Path(tempfile.mkdtemp(prefix="resolve_schema_"))
+# Reverse mapping: maps each URL-fetched base URL (scheme + host) to the
+# corresponding cache dir prefix, so relative refs within fetched files can
+# be converted back to URLs and fetched on demand.
+_URL_BASE_REGISTRY: dict[str, str] = {}  # cache_prefix -> url_prefix
 
 
 def _is_url(ref: str) -> bool:
@@ -77,15 +81,57 @@ def _fetch_url_schema(url: str) -> Path:
     url_path = parsed.path
     ext = ".yaml" if url_path.endswith((".yaml", ".yml")) else ".json"
 
-    # Write to a temp file preserving directory structure for relative refs
-    # Use the URL path to create a unique cache path
-    safe_name = url_path.strip("/").replace("/", os.sep)
+    # Write to a temp file preserving directory structure for relative refs.
+    # Include the hostname so sibling refs within fetched files resolve correctly
+    # and different hosts don't collide.
+    host = parsed.netloc
+    safe_name = os.path.join(host, url_path.strip("/").replace("/", os.sep))
     cache_path = _URL_CACHE_DIR / safe_name
     cache_path.parent.mkdir(parents=True, exist_ok=True)
     cache_path.write_bytes(data)
 
     _URL_CACHE[url] = cache_path
+
+    # Register the URL base so relative refs within fetched files can be
+    # converted back to URLs.  E.g. for
+    #   https://example.github.io/repo/_sources/foo/schema.yaml
+    # we record cache_prefix = "example.github.io/repo" -> url_prefix = "https://example.github.io/repo"
+    # so that a relative "../bar/schema.yaml" resolving inside the cache tree
+    # can be mapped back to "https://example.github.io/repo/_sources/bar/schema.yaml".
+    parts = url_path.strip("/").split("/")
+    if len(parts) >= 2:
+        # Use host + first path segment as the base (covers github.io/repo patterns)
+        host = parsed.netloc
+        cache_prefix = str(_URL_CACHE_DIR / host)
+        url_prefix = f"{parsed.scheme}://{host}"
+        if cache_prefix not in _URL_BASE_REGISTRY:
+            _URL_BASE_REGISTRY[cache_prefix] = url_prefix
+
     return cache_path
+
+
+def _fetch_relative_in_cache(file_path: Path) -> Path | None:
+    """If file_path is inside the URL cache dir but doesn't exist, reconstruct
+    the URL it would correspond to and fetch it.
+
+    This handles the case where a URL-fetched schema contains a relative $ref
+    (e.g. ``../organization/schema.yaml``).  The resolver resolves it relative
+    to the fetched file's cache location, producing a valid cache path — but
+    the target hasn't been fetched yet.  We convert the cache path back to a
+    URL and fetch on demand.
+
+    Returns the local cache path if successful, or None if the path isn't in
+    the cache tree or the fetch fails.
+    """
+    path_str = str(file_path)
+    for cache_prefix, url_prefix in _URL_BASE_REGISTRY.items():
+        if path_str.startswith(cache_prefix):
+            # Convert cache path back to URL path
+            relative = path_str[len(cache_prefix):]
+            url_path = relative.replace(os.sep, "/")
+            url = url_prefix + url_path
+            return _fetch_url_schema(url)
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -371,7 +417,13 @@ def _resolve_ref(ref: str, base_dir: Path, defs: dict, seen: set) -> Any:
         file_path = (base_dir / file_part).resolve()
 
     if not file_path.exists():
-        return {"$comment": f"file not found: {file_path}"}
+        # If the path is inside the URL cache, the file just hasn't been
+        # fetched yet — reconstruct the URL and fetch it.
+        fetched = _fetch_relative_in_cache(file_path)
+        if fetched is not None:
+            file_path = fetched
+        else:
+            return {"$comment": f"file not found: {file_path}"}
 
     # For cross-file $defs fragment refs, resolve the defs from the raw schema
     # before resolve_file strips them.
@@ -699,7 +751,11 @@ def _resolve_ref_structured(ref: str, base_dir: Path, local_defs: dict,
         file_path = (base_dir / file_part).resolve()
 
     if not file_path.exists():
-        return {"$comment": f"file not found: {file_path}"}
+        fetched = _fetch_relative_in_cache(file_path)
+        if fetched is not None:
+            file_path = fetched
+        else:
+            return {"$comment": f"file not found: {file_path}"}
 
     # If the target file (without fragment) is a known $def, emit a $ref
     if not fragment and file_path in file_to_def:

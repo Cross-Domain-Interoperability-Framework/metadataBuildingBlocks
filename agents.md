@@ -402,6 +402,7 @@ python tools/resolve_schema.py --all --flatten-allof
 - Two-pass `$defs` resolution: pass 1 resolves external file refs with empty defs dict, pass 2 uses `_inline_unresolved_defs` to replace `$comment` placeholders left by forward cross-def fragment refs
 - Circular reference detection via `seen` set (returns `$comment` placeholder)
 - Strips metadata keys (`$id`, `x-jsonld-*`) from output
+- **URL ref resolution with transitive fetch**: URL `$ref`s (e.g. to GitHub Pages) are fetched and cached in a directory tree mirroring the URL structure (`host/path/...`). When a fetched file contains relative `$ref`s to sibling files, the resolver reconstructs the URL from the cache path and fetches on demand (`_fetch_relative_in_cache`). This enables full resolution of cross-repo building block references without requiring local clones.
 
 **Key implementation details (schema_resolver.py):**
 - Flattens all `$defs` to a single global scope; `--inline-single-use` inlines defs referenced only once
