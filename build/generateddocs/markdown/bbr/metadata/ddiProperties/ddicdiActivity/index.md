@@ -628,14 +628,14 @@ ex:activity-statistical-compilation a cdi:Activity ;
             cdi:description "Austrian Labour Force Survey 2024 microdata" ;
             cdi:uri "https://example.org/datasets/national-lfs-2024-AT" ],
         [ a cdi:Reference ;
-            cdi:description "French Labour Force Survey 2024 microdata" ;
-            cdi:uri "https://example.org/datasets/national-lfs-2024-FR" ],
-        [ a cdi:Reference ;
             cdi:description "German Labour Force Survey 2024 microdata" ;
             cdi:uri "https://example.org/datasets/national-lfs-2024-DE" ],
         [ a cdi:Reference ;
             cdi:description "Swiss Labour Force Survey 2024 microdata" ;
-            cdi:uri "https://example.org/datasets/national-lfs-2024-CH" ] ;
+            cdi:uri "https://example.org/datasets/national-lfs-2024-CH" ],
+        [ a cdi:Reference ;
+            cdi:description "French Labour Force Survey 2024 microdata" ;
+            cdi:uri "https://example.org/datasets/national-lfs-2024-FR" ] ;
     cdi:has_Step ex:step-data-integration,
         ex:step-variable-harmonization ;
     cdi:identifier [ a cdi:Identifier ;
