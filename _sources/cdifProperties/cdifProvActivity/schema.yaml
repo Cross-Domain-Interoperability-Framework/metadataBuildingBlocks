@@ -108,8 +108,14 @@ allOf:
           - type: string
           - type: object
     'schema:result':
-      description: Output entity produced by this activity (for action chaining, can
-        be referenced as object of a subsequent activity)
+      description: >-
+        Output entity (or entities) produced by this activity. Per schema.org,
+        the range is schema:Thing. Accepts: (1) a string URI reference (action
+        chaining shorthand to be referenced as schema:object of a subsequent
+        activity); (2) a single {"@id": "<uri>"} object reference; (3) an
+        inline schema:Thing (object with @type); or (4) an array of any of
+        these forms (e.g. multiple datasets produced by this activity).
+        Profiles may restrict the array item shape further.
       anyOf:
       - type: string
       - type: object
@@ -117,6 +123,25 @@ allOf:
           '@id':
             type: string
             description: reference to an output entity
+      - type: object
+        description: Inline schema:Thing object describing the output entity.
+        properties:
+          '@type':
+            anyOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        required:
+        - '@type'
+      - type: array
+        description: >-
+          Multiple output entities. Each item may be a string URI, an @id
+          reference, or an inline schema:Thing.
+        items:
+          anyOf:
+          - type: string
+          - type: object
     'schema:actionStatus':
       type: string
       description: Status of this activity
