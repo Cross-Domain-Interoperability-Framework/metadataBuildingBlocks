@@ -3,14 +3,278 @@
   "description": "Extends cdif variableMeasured with properties for DDI-CDI InstanceVariable",
   "anyOf": [
     {
-      "description": "Single InstanceVariable node",
-      "$ref": "#/$defs/CdifVariableMeasuredNode"
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:InstanceVariable"
+          }
+        },
+        "cdi:identifier": {
+          "type": "string"
+        },
+        "cdi:physicalDataType": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "reference to a skos concept for the data type"
+                  }
+                }
+              },
+              {
+                "$ref": "#/$defs/DefinedTerm"
+              }
+            ]
+          },
+          "description": "identifier or name for the data type concept."
+        },
+        "cdi:intendedDataType": {
+          "type": "string",
+          "description": "The intended data type for values of this variable, from DDI-CDI RepresentedVariable.hasIntendedDataType. Recommended values are XML Schema datatypes (e.g. https://www.w3.org/TR/xmlschema-2/#decimal)."
+        },
+        "cdi:role": {
+          "type": "string",
+          "enum": [
+            "MeasureComponent",
+            "AttributeComponent",
+            "DimensionComponent",
+            "DescriptorComponent",
+            "ReferenceValueComponent"
+          ],
+          "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
+        },
+        "cdi:describedUnitOfMeasure": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/DefinedTerm"
+            },
+            {
+              "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure."
+            }
+          ]
+        },
+        "cdi:simpleUnitOfMeasure": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "reference to a skos concept for the data type"
+                }
+              }
+            },
+            {
+              "$ref": "#/$defs/DefinedTerm"
+            }
+          ]
+        },
+        "cdi:uses": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "reference to a skos concept for the property"
+                  }
+                }
+              },
+              {
+                "$ref": "#/$defs/DefinedTerm"
+              }
+            ]
+          },
+          "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents."
+        },
+        "cdi:name": {
+          "type": "string",
+          "description": "DDI-CDI Concept.name. The name of this variable in the DDI-CDI model."
+        },
+        "cdi:displayLabel": {
+          "type": "string",
+          "description": "DDI-CDI Concept.displayLabel. A human-readable label for display purposes."
+        },
+        "cdi:qualifies": {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string"
+            }
+          },
+          "description": "reference to an instance variable defined for this dataset"
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "$ref": "#/$defs/VariableMeasured"
+        }
+      ],
+      "description": "Single InstanceVariable node"
     },
     {
       "description": "Unwrapped @graph array of nodes (OGC pipeline)",
       "type": "array",
       "contains": {
-        "$ref": "#/$defs/CdifVariableMeasuredNode"
+        "type": "object",
+        "properties": {
+          "@type": {
+            "type": "array",
+            "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
+            "items": {
+              "type": "string"
+            },
+            "contains": {
+              "const": "cdi:InstanceVariable"
+            }
+          },
+          "cdi:identifier": {
+            "type": "string"
+          },
+          "cdi:physicalDataType": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "reference to a skos concept for the data type"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/$defs/DefinedTerm"
+                }
+              ]
+            },
+            "description": "identifier or name for the data type concept."
+          },
+          "cdi:intendedDataType": {
+            "type": "string",
+            "description": "The intended data type for values of this variable, from DDI-CDI RepresentedVariable.hasIntendedDataType. Recommended values are XML Schema datatypes (e.g. https://www.w3.org/TR/xmlschema-2/#decimal)."
+          },
+          "cdi:role": {
+            "type": "string",
+            "enum": [
+              "MeasureComponent",
+              "AttributeComponent",
+              "DimensionComponent",
+              "DescriptorComponent",
+              "ReferenceValueComponent"
+            ],
+            "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
+          },
+          "cdi:describedUnitOfMeasure": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/DefinedTerm"
+              },
+              {
+                "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure."
+              }
+            ]
+          },
+          "cdi:simpleUnitOfMeasure": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "reference to a skos concept for the data type"
+                  }
+                }
+              },
+              {
+                "$ref": "#/$defs/DefinedTerm"
+              }
+            ]
+          },
+          "cdi:uses": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "reference to a skos concept for the property"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/$defs/DefinedTerm"
+                }
+              ]
+            },
+            "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents."
+          },
+          "cdi:name": {
+            "type": "string",
+            "description": "DDI-CDI Concept.name. The name of this variable in the DDI-CDI model."
+          },
+          "cdi:displayLabel": {
+            "type": "string",
+            "description": "DDI-CDI Concept.displayLabel. A human-readable label for display purposes."
+          },
+          "cdi:qualifies": {
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            },
+            "description": "reference to an instance variable defined for this dataset"
+          }
+        },
+        "allOf": [
+          {
+            "required": [
+              "@type"
+            ]
+          },
+          {
+            "$ref": "#/$defs/VariableMeasured"
+          }
+        ]
       },
       "items": {
         "if": {
@@ -28,7 +292,139 @@
           ]
         },
         "then": {
-          "$ref": "#/$defs/CdifVariableMeasuredNode"
+          "type": "object",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:InstanceVariable"
+              }
+            },
+            "cdi:identifier": {
+              "type": "string"
+            },
+            "cdi:physicalDataType": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "description": "reference to a skos concept for the data type"
+                      }
+                    }
+                  },
+                  {
+                    "$ref": "#/$defs/DefinedTerm"
+                  }
+                ]
+              },
+              "description": "identifier or name for the data type concept."
+            },
+            "cdi:intendedDataType": {
+              "type": "string",
+              "description": "The intended data type for values of this variable, from DDI-CDI RepresentedVariable.hasIntendedDataType. Recommended values are XML Schema datatypes (e.g. https://www.w3.org/TR/xmlschema-2/#decimal)."
+            },
+            "cdi:role": {
+              "type": "string",
+              "enum": [
+                "MeasureComponent",
+                "AttributeComponent",
+                "DimensionComponent",
+                "DescriptorComponent",
+                "ReferenceValueComponent"
+              ],
+              "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
+            },
+            "cdi:describedUnitOfMeasure": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/DefinedTerm"
+                },
+                {
+                  "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure."
+                }
+              ]
+            },
+            "cdi:simpleUnitOfMeasure": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "reference to a skos concept for the data type"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/$defs/DefinedTerm"
+                }
+              ]
+            },
+            "cdi:uses": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "description": "reference to a skos concept for the property"
+                      }
+                    }
+                  },
+                  {
+                    "$ref": "#/$defs/DefinedTerm"
+                  }
+                ]
+              },
+              "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents."
+            },
+            "cdi:name": {
+              "type": "string",
+              "description": "DDI-CDI Concept.name. The name of this variable in the DDI-CDI model."
+            },
+            "cdi:displayLabel": {
+              "type": "string",
+              "description": "DDI-CDI Concept.displayLabel. A human-readable label for display purposes."
+            },
+            "cdi:qualifies": {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "description": "reference to an instance variable defined for this dataset"
+            }
+          },
+          "allOf": [
+            {
+              "required": [
+                "@type"
+              ]
+            },
+            {
+              "$ref": "#/$defs/VariableMeasured"
+            }
+          ]
         }
       }
     },
@@ -40,7 +436,139 @@
         "@graph": {
           "type": "array",
           "contains": {
-            "$ref": "#/$defs/CdifVariableMeasuredNode"
+            "type": "object",
+            "properties": {
+              "@type": {
+                "type": "array",
+                "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
+                "items": {
+                  "type": "string"
+                },
+                "contains": {
+                  "const": "cdi:InstanceVariable"
+                }
+              },
+              "cdi:identifier": {
+                "type": "string"
+              },
+              "cdi:physicalDataType": {
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "@id": {
+                          "type": "string",
+                          "description": "reference to a skos concept for the data type"
+                        }
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/DefinedTerm"
+                    }
+                  ]
+                },
+                "description": "identifier or name for the data type concept."
+              },
+              "cdi:intendedDataType": {
+                "type": "string",
+                "description": "The intended data type for values of this variable, from DDI-CDI RepresentedVariable.hasIntendedDataType. Recommended values are XML Schema datatypes (e.g. https://www.w3.org/TR/xmlschema-2/#decimal)."
+              },
+              "cdi:role": {
+                "type": "string",
+                "enum": [
+                  "MeasureComponent",
+                  "AttributeComponent",
+                  "DimensionComponent",
+                  "DescriptorComponent",
+                  "ReferenceValueComponent"
+                ],
+                "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
+              },
+              "cdi:describedUnitOfMeasure": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/DefinedTerm"
+                  },
+                  {
+                    "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure."
+                  }
+                ]
+              },
+              "cdi:simpleUnitOfMeasure": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "description": "reference to a skos concept for the data type"
+                      }
+                    }
+                  },
+                  {
+                    "$ref": "#/$defs/DefinedTerm"
+                  }
+                ]
+              },
+              "cdi:uses": {
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "@id": {
+                          "type": "string",
+                          "description": "reference to a skos concept for the property"
+                        }
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/DefinedTerm"
+                    }
+                  ]
+                },
+                "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents."
+              },
+              "cdi:name": {
+                "type": "string",
+                "description": "DDI-CDI Concept.name. The name of this variable in the DDI-CDI model."
+              },
+              "cdi:displayLabel": {
+                "type": "string",
+                "description": "DDI-CDI Concept.displayLabel. A human-readable label for display purposes."
+              },
+              "cdi:qualifies": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "description": "reference to an instance variable defined for this dataset"
+              }
+            },
+            "allOf": [
+              {
+                "required": [
+                  "@type"
+                ]
+              },
+              {
+                "$ref": "#/$defs/VariableMeasured"
+              }
+            ]
           },
           "items": {
             "if": {
@@ -58,7 +586,139 @@
               ]
             },
             "then": {
-              "$ref": "#/$defs/CdifVariableMeasuredNode"
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:InstanceVariable"
+                  }
+                },
+                "cdi:identifier": {
+                  "type": "string"
+                },
+                "cdi:physicalDataType": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "type": "string",
+                            "description": "reference to a skos concept for the data type"
+                          }
+                        }
+                      },
+                      {
+                        "$ref": "#/$defs/DefinedTerm"
+                      }
+                    ]
+                  },
+                  "description": "identifier or name for the data type concept."
+                },
+                "cdi:intendedDataType": {
+                  "type": "string",
+                  "description": "The intended data type for values of this variable, from DDI-CDI RepresentedVariable.hasIntendedDataType. Recommended values are XML Schema datatypes (e.g. https://www.w3.org/TR/xmlschema-2/#decimal)."
+                },
+                "cdi:role": {
+                  "type": "string",
+                  "enum": [
+                    "MeasureComponent",
+                    "AttributeComponent",
+                    "DimensionComponent",
+                    "DescriptorComponent",
+                    "ReferenceValueComponent"
+                  ],
+                  "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
+                },
+                "cdi:describedUnitOfMeasure": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/DefinedTerm"
+                    },
+                    {
+                      "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure."
+                    }
+                  ]
+                },
+                "cdi:simpleUnitOfMeasure": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "@id": {
+                          "type": "string",
+                          "description": "reference to a skos concept for the data type"
+                        }
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/DefinedTerm"
+                    }
+                  ]
+                },
+                "cdi:uses": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "type": "string",
+                            "description": "reference to a skos concept for the property"
+                          }
+                        }
+                      },
+                      {
+                        "$ref": "#/$defs/DefinedTerm"
+                      }
+                    ]
+                  },
+                  "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents."
+                },
+                "cdi:name": {
+                  "type": "string",
+                  "description": "DDI-CDI Concept.name. The name of this variable in the DDI-CDI model."
+                },
+                "cdi:displayLabel": {
+                  "type": "string",
+                  "description": "DDI-CDI Concept.displayLabel. A human-readable label for display purposes."
+                },
+                "cdi:qualifies": {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "reference to an instance variable defined for this dataset"
+                }
+              },
+              "allOf": [
+                {
+                  "required": [
+                    "@type"
+                  ]
+                },
+                {
+                  "$ref": "#/$defs/VariableMeasured"
+                }
+              ]
             }
           }
         }
@@ -69,59 +729,7 @@
     }
   ],
   "$defs": {
-    "Identifier": {
-      "$schema": "https://json-schema.org/draft/2020-12/schema",
-      "description": "Properties for a schema.org identifier",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "schema:PropertyValue"
-          },
-          "minItems": 1
-        },
-        "schema:propertyID": {
-          "type": "string",
-          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-        },
-        "schema:value": {
-          "type": "string",
-          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri",
-          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-        }
-      },
-      "allOf": [
-        {
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "anyOf": [
-            {
-              "required": [
-                "schema:value"
-              ]
-            },
-            {
-              "required": [
-                "schema:url"
-              ]
-            }
-          ]
-        }
-      ]
-    },
     "DefinedTerm": {
-      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "description": "schema.org Defined Term schema",
       "type": "object",
       "properties": {
@@ -145,17 +753,64 @@
               "type": "string"
             },
             {
-              "$ref": "#/$defs/Identifier"
+              "description": "Properties for a schema.org identifier",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "schema:PropertyValue"
+                  },
+                  "minItems": 1
+                },
+                "schema:propertyID": {
+                  "type": "string",
+                  "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                },
+                "schema:value": {
+                  "type": "string",
+                  "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                },
+                "schema:url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                }
+              },
+              "allOf": [
+                {
+                  "required": [
+                    "@type"
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "schema:value"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "schema:url"
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
         "schema:inDefinedTermSet": {
           "type": "string",
-          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+          "description": "Name for the controlled vocabulary responsible for this keyword."
         },
         "schema:termCode": {
           "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
         }
       },
       "allOf": [
@@ -185,40 +840,7 @@
         }
       ]
     },
-    "LabeledLink": {
-      "$schema": "https://json-schema.org/draft/2020-12/schema",
-      "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "default": "schema:CreativeWork",
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "schema:CreativeWork"
-          },
-          "minItems": 1
-        },
-        "schema:name": {
-          "type": "string"
-        },
-        "schema:description": {
-          "type": "string"
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri"
-        }
-      },
-      "required": [
-        "@type",
-        "schema:url"
-      ]
-    },
     "VariableMeasured": {
-      "$schema": "https://json-schema.org/draft/2020-12/schema",
       "description": "Schema.org PropertyValue-based variableMeasured. Defines properties for a measured variable in a dataset, typed as schema:PropertyValue.",
       "type": "object",
       "properties": {
@@ -331,7 +953,35 @@
               "description": "link to a web page useful for interpreting the variable"
             },
             {
-              "$ref": "#/$defs/LabeledLink"
+              "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "default": "schema:CreativeWork",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "schema:CreativeWork"
+                  },
+                  "minItems": 1
+                },
+                "schema:name": {
+                  "type": "string"
+                },
+                "schema:description": {
+                  "type": "string"
+                },
+                "schema:url": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              },
+              "required": [
+                "@type",
+                "schema:url"
+              ]
             }
           ]
         }
@@ -339,135 +989,6 @@
       "required": [
         "@type",
         "schema:name"
-      ]
-    },
-    "CdifVariableMeasuredNode": {
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:InstanceVariable"
-          }
-        },
-        "cdi:identifier": {
-          "type": "string"
-        },
-        "cdi:physicalDataType": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "reference to a skos concept for the data type"
-                  }
-                }
-              },
-              {
-                "$ref": "#/$defs/DefinedTerm"
-              }
-            ]
-          },
-          "description": "identifier or name for the data type concept."
-        },
-        "cdi:intendedDataType": {
-          "type": "string",
-          "description": "The intended data type for values of this variable, from DDI-CDI RepresentedVariable.hasIntendedDataType. Recommended values are XML Schema datatypes (e.g. https://www.w3.org/TR/xmlschema-2/#decimal)."
-        },
-        "cdi:role": {
-          "type": "string",
-          "enum": [
-            "MeasureComponent",
-            "AttributeComponent",
-            "DimensionComponent",
-            "DescriptorComponent",
-            "ReferenceValueComponent"
-          ],
-          "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
-        },
-        "cdi:describedUnitOfMeasure": {
-          "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure.",
-          "$ref": "#/$defs/DefinedTerm"
-        },
-        "cdi:simpleUnitOfMeasure": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string",
-                  "description": "reference to a skos concept for the data type"
-                }
-              }
-            },
-            {
-              "$ref": "#/$defs/DefinedTerm"
-            }
-          ]
-        },
-        "cdi:uses": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "reference to a skos concept for the property"
-                  }
-                }
-              },
-              {
-                "$ref": "#/$defs/DefinedTerm"
-              }
-            ]
-          },
-          "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents."
-        },
-        "cdi:name": {
-          "type": "string",
-          "description": "DDI-CDI Concept.name. The name of this variable in the DDI-CDI model."
-        },
-        "cdi:displayLabel": {
-          "type": "string",
-          "description": "DDI-CDI Concept.displayLabel. A human-readable label for display purposes."
-        },
-        "cdi:qualifies": {
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string"
-            }
-          },
-          "description": "reference to an instance variable defined for this dataset"
-        }
-      },
-      "allOf": [
-        {
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "$ref": "#/$defs/VariableMeasured"
-        }
       ]
     }
   }

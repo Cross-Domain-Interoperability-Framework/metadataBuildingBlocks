@@ -394,7 +394,7 @@
                         },
                         "schema:target": {
                           "type": "object",
-                          "description": "specifies the request target location and request syntax",
+                          "description": "specifies the request target location and request syntax. Documentation of the URL end point and syntax to invoke the service. This schema doesn't handle post requests.",
                           "properties": {
                             "@type": {
                               "default": "schema:EntryPoint",
@@ -448,7 +448,7 @@
                         },
                         "schema:result": {
                           "type": "object",
-                          "description": "specifies the serialization scheme (encoding format, information model) for expected representation of the data",
+                          "description": "specifies the serialization scheme (encoding format, information model) for expected representation of the data. Documentation of the serialization format for the API response.",
                           "properties": {
                             "@type": {
                               "type": "array",
@@ -474,37 +474,26 @@
                         },
                         "schema:object": {
                           "type": "object",
-                          "description": "specification of information model/schema for target resource. Only necessary if the request allow specifying the fields to include in the response",
+                          "description": "The entity upon which the action is carried out, whose state is kept intact or changed. This is an open ended class for general description of Actions. When schema:Action (or a subclass) is used to describe operations for a WebAPI distribution, the object is implicitly the resource that is the subject of the containing metadata record, so this property would be superfluous.",
                           "properties": {
                             "@type": {
-                              "default": "schema:DataFeed",
+                              "default": "schema:Thing",
                               "type": "array",
                               "items": {
                                 "type": "string"
-                              },
-                              "contains": {
-                                "const": "schema:DataFeed"
                               },
                               "minItems": 1
                             },
                             "schema:description": {
                               "type": "string"
-                            },
-                            "schema:encodingFormat-input": {
-                              "type": "array",
-                              "items": {
-                                "type": "string"
-                              },
-                              "description": "MIME types accepted as input encoding formats for the action."
                             }
                           }
                         },
                         "schema:query-input": {
                           "type": "array",
-                          "description": "set of explanations of the parameters in the URL template for the target.",
-                          "minItems": 0,
                           "items": {
                             "type": "object",
+                            "description": "Query input parameter for a web API action, typed as schema:PropertyValueSpecification.",
                             "properties": {
                               "@id": {
                                 "type": "string"
@@ -538,7 +527,8 @@
                               "schema:valueName",
                               "schema:description"
                             ]
-                          }
+                          },
+                          "description": "set of explanations of the parameters in the URL template for the target."
                         }
                       },
                       "required": [
@@ -956,7 +946,7 @@
               "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile."
             },
             "schema:maintainer": {
-              "description": "iSamples Registrant. identification of the agent that registered the sample, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
+              "description": "Identification of the agent that maintains the metadata, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
               "anyOf": [
                 {
                   "$ref": "#/$defs/Person"
@@ -967,17 +957,17 @@
               ]
             },
             "schema:sdDatePublished": {
-              "description": "date of most recent update to the metadata content, extends iSamples schema",
+              "description": "date of most recent update to the metadata content",
               "type": "string",
               "format": "date"
             },
             "schema:includedInDataCatalog": {
               "type": "object",
-              "description": "identify the data collection or repository that contains the described dataset. The value is expected to be a schema:DataCatalog",
+              "description": "identify the source for the origin the metadata record.",
               "properties": {
                 "@id": {
                   "type": "string",
-                  "description": "identifier for the containing catalog or repository; example data at https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#catalog puts identifier here"
+                  "description": "identifier for the graph node."
                 },
                 "@type": {
                   "default": "schema:DataCatalog",
@@ -1249,41 +1239,24 @@
                                     },
                                     "schema:alternateName": {
                                       "description": "Alternate name(s), e.g. specific make/model designation, common abbreviation.",
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      ]
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      }
                                     },
                                     "schema:identifier": {
                                       "description": "Formal identifier(s) for this instrument. Use PropertyValue for structured identifiers (e.g. PIDINST, serial number, inventory number).",
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "$ref": "#/$defs/Identifier"
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "anyOf": [
-                                              {
-                                                "type": "string"
-                                              },
-                                              {
-                                                "$ref": "#/$defs/Identifier"
-                                              }
-                                            ]
+                                      "type": "array",
+                                      "items": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "$ref": "#/$defs/Identifier"
                                           }
-                                        }
-                                      ]
+                                        ]
+                                      }
                                     },
                                     "schema:url": {
                                       "type": "string",
@@ -1403,17 +1376,10 @@
                                                 "type": "string"
                                               },
                                               "schema:alternateName": {
-                                                "anyOf": [
-                                                  {
-                                                    "type": "string"
-                                                  },
-                                                  {
-                                                    "type": "array",
-                                                    "items": {
-                                                      "type": "string"
-                                                    }
-                                                  }
-                                                ]
+                                                "type": "array",
+                                                "items": {
+                                                  "type": "string"
+                                                }
                                               },
                                               "schema:identifier": {
                                                 "anyOf": [
@@ -1427,17 +1393,10 @@
                                               },
                                               "schema:additionalType": {
                                                 "description": "Component type classification.",
-                                                "anyOf": [
-                                                  {
-                                                    "type": "string"
-                                                  },
-                                                  {
-                                                    "type": "array",
-                                                    "items": {
-                                                      "type": "string"
-                                                    }
-                                                  }
-                                                ]
+                                                "type": "array",
+                                                "items": {
+                                                  "type": "string"
+                                                }
                                               },
                                               "schema:additionalProperty": {
                                                 "type": "array",
@@ -1553,8 +1512,7 @@
                                   },
                                   "required": [
                                     "@type",
-                                    "schema:name",
-                                    "schema:identifier"
+                                    "schema:name"
                                   ]
                                 }
                               },
@@ -1640,7 +1598,7 @@
                         }
                       },
                       "schema:object": {
-                        "description": "Input entity for this activity (for action chaining, references the result of a prior activity)",
+                        "description": "Input entity (or entities) for this activity. Per schema.org, the range of schema:object is schema:Thing. Accepts four shapes (1) a string URI, (2) an @id reference object, (3) an inline schema:Thing object, or (4) an array whose items take any of those shapes (used when an activity has multiple inputs, e.g. samples analyzed). Supports action chaining where the value references the result of a prior activity.",
                         "anyOf": [
                           {
                             "type": "string"
@@ -1652,6 +1610,42 @@
                                 "type": "string",
                                 "description": "reference to an input entity"
                               }
+                            }
+                          },
+                          {
+                            "type": "object",
+                            "description": "Inline schema:Thing object describing the input entity.",
+                            "properties": {
+                              "@type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  }
+                                ]
+                              }
+                            },
+                            "required": [
+                              "@type"
+                            ]
+                          },
+                          {
+                            "type": "array",
+                            "description": "Multiple input entities (e.g. samples analyzed). Each item may be a string URI, an @id reference, or an inline schema:Thing.",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "object"
+                                }
+                              ]
                             }
                           }
                         ]
@@ -1710,14 +1704,7 @@
                                 "minItems": 1
                               },
                               "schema:additionalType": {
-                                "description": "Domain-specific type classifications for this place (e.g. facility type, laboratory classification).",
-                                "type": "array",
-                                "items": {
-                                  "type": "string"
-                                }
-                              },
-                              "schema:name": {
-                                "description": "multiple place names or DefinedTerms that have a place name and URI for the location",
+                                "description": "Domain-specific type classifications for this place (e.g. facility type,laboratory classification, feature type).",
                                 "type": "array",
                                 "items": {
                                   "anyOf": [
@@ -1730,6 +1717,17 @@
                                   ]
                                 }
                               },
+                              "schema:name": {
+                                "description": "A place name for the location, either as a string or a DefinedTerm from a gazetteer.",
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "$ref": "#/$defs/DefinedTerm"
+                                  }
+                                ]
+                              },
                               "schema:identifier": {
                                 "description": "Formal identifier for this place (e.g. ROR identifier for a facility).",
                                 "anyOf": [
@@ -1737,26 +1735,23 @@
                                     "type": "string"
                                   },
                                   {
-                                    "type": "array",
-                                    "items": {
-                                      "type": "string"
-                                    }
+                                    "$ref": "#/$defs/Identifier"
                                   }
                                 ]
                               },
                               "schema:alternateName": {
                                 "description": "Alternate or abbreviated name(s) for this place.",
-                                "anyOf": [
-                                  {
-                                    "type": "string"
-                                  },
-                                  {
-                                    "type": "array",
-                                    "items": {
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
+                                    {
                                       "type": "string"
+                                    },
+                                    {
+                                      "$ref": "#/$defs/DefinedTerm"
                                     }
-                                  }
-                                ]
+                                  ]
+                                }
                               },
                               "schema:geo": {
                                 "description": "Either a bounding box or a point location.",
@@ -2456,11 +2451,11 @@
                                                     },
                                                     "schema:inDefinedTermSet": {
                                                       "type": "string",
-                                                      "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                                      "description": "Name for the controlled vocabulary responsible for this keyword."
                                                     },
                                                     "schema:termCode": {
                                                       "type": "string",
-                                                      "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                                      "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                                     }
                                                   },
                                                   "allOf": [
@@ -2596,11 +2591,11 @@
                                                   },
                                                   "schema:inDefinedTermSet": {
                                                     "type": "string",
-                                                    "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                                    "description": "Name for the controlled vocabulary responsible for this keyword."
                                                   },
                                                   "schema:termCode": {
                                                     "type": "string",
-                                                    "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                                    "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                                   }
                                                 },
                                                 "allOf": [
@@ -3059,11 +3054,11 @@
         },
         "schema:inDefinedTermSet": {
           "type": "string",
-          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+          "description": "Name for the controlled vocabulary responsible for this keyword."
         },
         "schema:termCode": {
           "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
         }
       },
       "allOf": [
@@ -3112,7 +3107,7 @@
         },
         "schema:name": {
           "type": "string",
-          "description": "string label for person that is meaningful for human users"
+          "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
         },
         "schema:description": {
           "type": "string"
@@ -3144,6 +3139,7 @@
         },
         "schema:contactPoint": {
           "type": "object",
+          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
           "properties": {
             "@type": {
               "default": "schema:ContactPoint",
@@ -3160,7 +3156,9 @@
               "type": "string"
             }
           },
-          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well"
+          "required": [
+            "schema:email"
+          ]
         },
         "schema:sameAs": {
           "type": "array",
@@ -3214,20 +3212,11 @@
           "default": "schema:Organization",
           "type": "array",
           "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "schema:Organization"
-          },
-          "minItems": 1
-        },
-        "schema:additionalType": {
-          "type": "array",
-          "items": {
             "anyOf": [
               {
                 "type": "string",
                 "enum": [
+                  "schema:Organization",
                   "schema:FundingAgency",
                   "schema:Consortium",
                   "schema:Corporation",
@@ -3238,7 +3227,18 @@
                   "schema:Project",
                   "schema:ResearchOrganization"
                 ]
-              },
+              }
+            ]
+          },
+          "contains": {
+            "const": "schema:Organization"
+          },
+          "minItems": 1
+        },
+        "schema:additionalType": {
+          "type": "array",
+          "items": {
+            "anyOf": [
               {
                 "$ref": "#/$defs/DefinedTerm"
               },
@@ -3361,6 +3361,7 @@
         }
       },
       "required": [
+        "@type",
         "schema:roleName",
         "schema:contributor"
       ]

@@ -96,11 +96,11 @@
             },
             "schema:inDefinedTermSet": {
               "type": "string",
-              "description": "Identifier for the controlled vocabulary responsible for this keyword."
+              "description": "Name for the controlled vocabulary responsible for this keyword."
             },
             "schema:termCode": {
               "type": "string",
-              "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+              "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
             }
           },
           "allOf": [
@@ -252,7 +252,7 @@
           },
           "schema:target": {
             "type": "object",
-            "description": "specifies the request target location and request syntax",
+            "description": "specifies the request target location and request syntax. Documentation of the URL end point and syntax to invoke the service. This schema doesn't handle post requests.",
             "properties": {
               "@type": {
                 "default": "schema:EntryPoint",
@@ -306,7 +306,7 @@
           },
           "schema:result": {
             "type": "object",
-            "description": "specifies the serialization scheme (encoding format, information model) for expected representation of the data",
+            "description": "specifies the serialization scheme (encoding format, information model) for expected representation of the data. Documentation of the serialization format for the API response.",
             "properties": {
               "@type": {
                 "type": "array",
@@ -332,37 +332,26 @@
           },
           "schema:object": {
             "type": "object",
-            "description": "specification of information model/schema for target resource. Only necessary if the request allow specifying the fields to include in the response",
+            "description": "The entity upon which the action is carried out, whose state is kept intact or changed. This is an open ended class for general description of Actions. When schema:Action (or a subclass) is used to describe operations for a WebAPI distribution, the object is implicitly the resource that is the subject of the containing metadata record, so this property would be superfluous.",
             "properties": {
               "@type": {
-                "default": "schema:DataFeed",
+                "default": "schema:Thing",
                 "type": "array",
                 "items": {
                   "type": "string"
-                },
-                "contains": {
-                  "const": "schema:DataFeed"
                 },
                 "minItems": 1
               },
               "schema:description": {
                 "type": "string"
-              },
-              "schema:encodingFormat-input": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "description": "MIME types accepted as input encoding formats for the action."
               }
             }
           },
           "schema:query-input": {
             "type": "array",
-            "description": "set of explanations of the parameters in the URL template for the target.",
-            "minItems": 0,
             "items": {
               "type": "object",
+              "description": "Query input parameter for a web API action, typed as schema:PropertyValueSpecification.",
               "properties": {
                 "@id": {
                   "type": "string"
@@ -396,7 +385,8 @@
                 "schema:valueName",
                 "schema:description"
               ]
-            }
+            },
+            "description": "set of explanations of the parameters in the URL template for the target."
           }
         },
         "required": [
