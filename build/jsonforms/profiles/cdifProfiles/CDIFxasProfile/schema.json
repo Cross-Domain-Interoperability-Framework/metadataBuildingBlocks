@@ -311,19 +311,104 @@
                   "description": "text label for the action"
                 },
                 "schema:target": {
-                  "description": "specifies the request target location and request syntax"
+                  "type": "object",
+                  "description": "specifies the request target location and request syntax. Documentation of the URL end point and syntax to invoke the service. This schema doesn't handle post requests.",
+                  "properties": {
+                    "@type": {
+                      "default": "schema:EntryPoint",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "schema:EntryPoint"
+                        ]
+                      }
+                    },
+                    "schema:description": {
+                      "type": "string"
+                    },
+                    "schema:urlTemplate": {
+                      "type": "string",
+                      "description": "a templated URL; parameters are enclosed in curly braces ({..}); parameters are not required. If included, parameters MUST be documented in the query-input element. Template should be consitent with URI Template (https://datatracker.ietf.org/doc/html/rfc6570) examples: - http://portal.chordsrt.com/api/v1/data.{encoding}; single parameter - http://portal.chordsrt.com/api/v1/data.{encoding}?instruments={instruments}&start={start}&end={end} ; multiple parameters - {endpoint}{encoding}; endpoint URL path is a parameter,should only appear in potential actions for API specification descriptions, which are generic-not specific to a particular endpoint."
+                    },
+                    "schema:httpMethod": {
+                      "title": "HTTP Method",
+                      "description": "only applicable if protocol is http or a protocol that tunnels on http",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "default": "GET",
+                        "enum": [
+                          "GET",
+                          "PUT",
+                          "POST",
+                          "PATCH",
+                          "DELETE",
+                          "COPY",
+                          "HEAD",
+                          "OPTIONS",
+                          "PROPFIND"
+                        ]
+                      }
+                    },
+                    "schema:contentType": {
+                      "type": "array",
+                      "description": "The supported content type(s) for an EntryPoint response. a MIME type (https://www.iana.org/assignments/media-types/media-types.xhtml) that specifies the content type for messages in resonses from the service endpoint. This is a schema.org property, and is redundant with encodingFormat in the result property for the Action.",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "schema:urlTemplate"
+                  ]
                 },
                 "schema:result": {
-                  "description": "specifies the serialization scheme (encoding format, information model) for expected representation of the data"
+                  "type": "object",
+                  "description": "specifies the serialization scheme (encoding format, information model) for expected representation of the data. Documentation of the serialization format for the API response.",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "description": "Type of result object. Typically schema:DataDownload, but may include additional types.",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "schema:DataDownload"
+                        ]
+                      }
+                    },
+                    "schema:encodingFormat": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "schema:description": {
+                      "type": "string"
+                    }
+                  }
                 },
                 "schema:object": {
-                  "description": "The entity upon which the action is carried out, whose state is kept intact or changed."
+                  "type": "object",
+                  "description": "The entity upon which the action is carried out, whose state is kept intact or changed. This is an open ended class for general description of Actions. When schema:Action (or a subclass) is used to describe operations for a WebAPI distribution, the object is implicitly the resource that is the subject of the containing metadata record, so this property would be superfluous.",
+                  "properties": {
+                    "@type": {
+                      "default": "schema:Thing",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "schema:description": {
+                      "type": "string"
+                    }
+                  }
                 },
                 "schema:query-input": {
                   "type": "array",
                   "items": {
-                    "description": null,
                     "type": "object",
+                    "description": "Query input parameter for a web API action, typed as schema:PropertyValueSpecification.",
                     "properties": {
                       "@id": {
                         "type": "string"
@@ -1796,8 +1881,7 @@
                       },
                       "required": [
                         "@type",
-                        "schema:name",
-                        "schema:identifier"
+                        "schema:name"
                       ]
                     }
                   },
@@ -2819,7 +2903,7 @@
             }
           },
           "schema:object": {
-            "description": "Input entity for this activity (for action chaining, references the result of a prior activity)",
+            "description": "Input entity (or entities) for this activity. Per schema.org, the range of schema:object is schema:Thing. Accepts four shapes (1) a string URI, (2) an @id reference object, (3) an inline schema:Thing object, or (4) an array whose items take any of those shapes (used when an activity has multiple inputs, e.g. samples analyzed). Supports action chaining where the value references the result of a prior activity.",
             "anyOf": [
               {
                 "type": "string"
@@ -2831,6 +2915,42 @@
                     "type": "string",
                     "description": "reference to an input entity"
                   }
+                }
+              },
+              {
+                "type": "object",
+                "description": "Inline schema:Thing object describing the input entity.",
+                "properties": {
+                  "@type": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "@type"
+                ]
+              },
+              {
+                "type": "array",
+                "description": "Multiple input entities (e.g. samples analyzed). Each item may be a string URI, an @id reference, or an inline schema:Thing.",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object"
+                    }
+                  ]
                 }
               }
             ],
@@ -3026,7 +3146,7 @@
             ]
           },
           "schema:result": {
-            "description": "Output entity produced by this activity (for action chaining, can be referenced as object of a subsequent activity)",
+            "description": "Output entity (or entities) produced by this activity. Per schema.org, the range is schema:Thing. Accepts: (1) a string URI reference (action chaining shorthand to be referenced as schema:object of a subsequent activity); (2) a single {\"@id\": \"<uri>\"} object reference; (3) an inline schema:Thing (object with @type); or (4) an array of any of these forms (e.g. multiple datasets produced by this activity). Profiles may restrict the array item shape further.",
             "anyOf": [
               {
                 "type": "string"
@@ -3038,6 +3158,42 @@
                     "type": "string",
                     "description": "reference to an output entity"
                   }
+                }
+              },
+              {
+                "type": "object",
+                "description": "Inline schema:Thing object describing the output entity.",
+                "properties": {
+                  "@type": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "@type"
+                ]
+              },
+              {
+                "type": "array",
+                "description": "Multiple output entities. Each item may be a string URI, an @id reference, or an inline schema:Thing.",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object"
+                    }
+                  ]
                 }
               }
             ]
