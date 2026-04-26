@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-04-08",
+  "dateOfLastChange": "2026-04-26",
   "link": "https://github.com/opengeospatial/bblock-template",
   "sources": [
     {
@@ -50,7 +50,6 @@
   "sourceLdContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/variableMeasured/context.jsonld",
   "resolvedSchemaProperties": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/resolvedProperties.json",
   "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/variableMeasured/",
-  "rdfData": [],
   "validationPassed": true,
   "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/schemaorgProperties/variableMeasured/",
   "description": "## Variable Measured properties\n\nSchema.org PropertyValue for describing variables in a dataset. Used as values for schema:variableMeasured in the [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) discovery profile.\n\n### Defined properties\n\n- **@type** \u2014 must include schema:PropertyValue\n- **@id** \u2014 identifier for this variable\n- **schema:name** \u2014 string label expected to be associated with the variable in dataset serialization\n- **schema:description** \u2014 text description of the variable\n- **schema:alternateName** \u2014 human intelligible names for the variable\n- **schema:propertyID** \u2014 identifier or name for the property concept being quantified (string, URI reference, or DefinedTerm)\n- **schema:measurementTechnique** \u2014 text description of measurement method (string, URI reference, or DefinedTerm)\n- **schema:unitText** \u2014 string identifying unit of measurement\n- **schema:unitCode** \u2014 HTTP URI identifying unit of measure from vocabulary (recommends QUDT)\n- **schema:minValue** \u2014 minimum numeric value in dataset\n- **schema:maxValue** \u2014 maximum numeric value in dataset\n- **schema:url** \u2014 URL to resource useful for interpreting the variable\n\n### Dependencies\n\n- [definedTerm](../definedTerm/) \u2014 controlled vocabulary term for propertyID, measurementTechnique, and unitCode\n",
@@ -64,7 +63,7 @@
       "snippets": [
         {
           "language": "json",
-          "ref": "exampleVariableMeasured.json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/variableMeasured/exampleVariableMeasured.json",
           "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\",\n    \"xsd\": \"http://www.w3.org/2001/XMLSchema#\"\n  },\n  \"@type\": [\n    \"schema:PropertyValue\"\n  ],\n  \"@id\": \"ex:variableMeasured_346\",\n  \"schema:name\": \"example variable measured\",\n  \"schema:description\": \"Air temperature measured at 2 meters above ground level\",\n  \"schema:propertyID\": [\n    {\n      \"@id\": \"ex:definedTerm_zZc\",\n      \"@type\": [\n        \"schema:DefinedTerm\"\n      ],\n      \"schema:name\": \"Temperature\",\n      \"schema:identifier\": {\n        \"@id\": \"ex:tempTerm_246u\",\n        \"@type\": [\n          \"schema:PropertyValue\"\n        ],\n        \"schema:propertyID\": \"https://qudt.org/vocab/quantitykind/Temperature\",\n        \"schema:url\": \"https://qudt.org/vocab/quantitykind/Temperature\"\n      },\n      \"schema:inDefinedTermSet\": \"http://ogc.org/defs\",\n      \"schema:termCode\": \"T\"\n    }\n  ],\n  \"schema:measurementTechnique\": \"thermometer\",\n  \"schema:unitText\": \"deg C\",\n  \"schema:unitCode\": \"C\",\n  \"schema:minValue\": 0,\n  \"schema:maxValue\": 200,\n  \"schema:url\": {\n    \"@type\": [\n      \"schema:CreativeWork\"\n    ],\n    \"schema:name\": \"WMO Guide to Meteorological Instruments \u2013 Temperature\",\n    \"schema:url\": \"https://library.wmo.int/idurl/4/68695\"\n  }\n}\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/variableMeasured/example_1_1.json"
         },
@@ -89,7 +88,7 @@
       "snippets": [
         {
           "language": "json",
-          "ref": "exampleVariableMeasuredComplete.json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/variableMeasured/exampleVariableMeasuredComplete.json",
           "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@id\": \"ex:variableMeasuredComplete_001\",\n  \"@type\": [\"schema:PropertyValue\"],\n  \"schema:name\": \"sea_water_temperature\",\n  \"schema:description\": \"In situ temperature of sea water measured by CTD sensor at depth\",\n  \"schema:alternateName\": [\"Sea Water Temperature\", \"Ocean Temperature\"],\n  \"schema:measurementTechnique\": {\n    \"@type\": [\"schema:DefinedTerm\"],\n    \"schema:name\": \"CTD - conductivity, temperature, depth\",\n    \"schema:termCode\": \"CTD\",\n    \"schema:inDefinedTermSet\": \"https://vocab.nerc.ac.uk/collection/L05/current/\"\n  },\n  \"schema:propertyID\": [\n    {\n      \"@type\": [\"schema:DefinedTerm\"],\n      \"schema:name\": \"Temperature of the water body\",\n      \"schema:identifier\": {\n        \"@type\": [\"schema:PropertyValue\"],\n        \"schema:propertyID\": \"https://vocab.nerc.ac.uk/collection/P01/current/\",\n        \"schema:value\": \"TEMPPR01\",\n        \"schema:url\": \"https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/\"\n      },\n      \"schema:inDefinedTermSet\": \"https://vocab.nerc.ac.uk/collection/P01/current/\",\n      \"schema:termCode\": \"TEMPPR01\"\n    }\n  ],\n  \"schema:unitText\": \"degrees Celsius\",\n  \"schema:unitCode\": {\n    \"@type\": [\"schema:DefinedTerm\"],\n    \"schema:name\": \"Degrees Celsius\",\n    \"schema:termCode\": \"degC\",\n    \"schema:inDefinedTermSet\": \"https://vocab.nerc.ac.uk/collection/P06/current/\"\n  },\n  \"schema:minValue\": -2.1,\n  \"schema:maxValue\": 35.4,\n  \"schema:url\": {\n    \"@type\": [\"schema:CreativeWork\"],\n    \"schema:name\": \"TEOS-10 Manual \u2014 Temperature\",\n    \"schema:description\": \"Thermodynamic Equation of Seawater documentation on temperature definitions\",\n    \"schema:url\": \"http://www.teos-10.org/pubs/TEOS-10_Manual.pdf\"\n  }\n}\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/variableMeasured/example_2_1.json"
         },

@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-04-08",
+  "dateOfLastChange": "2026-04-26",
   "link": "https://github.com/opengeospatial/bblock-template",
   "sources": [
     {
@@ -30,11 +30,11 @@
     "cdif.bbr.metadata.schemaorgProperties.person": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/person/rules.shacl"
     ],
-    "cdif.bbr.metadata.schemaorgProperties.identifier": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
-    ],
     "cdif.bbr.metadata.schemaorgProperties.organization": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/organization/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
     ],
     "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
@@ -53,7 +53,6 @@
   "sourceLdContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/dataDownload/context.jsonld",
   "resolvedSchemaProperties": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/resolvedProperties.json",
   "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/dataDownload/",
-  "rdfData": [],
   "validationPassed": true,
   "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/schemaorgProperties/dataDownload/",
   "description": "## DataDownload properties\n\nDefines a set of properties for use describing a DataDownload as a distribution for a resource. For use in the schema.org implementation of the [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) discovery profile. The download is implicitly a single file that is accessible on the web via URL. CDIF integration profile will extend these to describe the data structure in the file.\n\n### Defined properties\n\n- **@id** \u2014 identifier for this download\n- **@type** \u2014 must include schema:DataDownload\n- **schema:name** \u2014 name of the download\n- **schema:contentUrl** \u2014 URL to the downloadable content\n- **schema:encodingFormat** \u2014 MIME type with extension indicating serialization scheme\n- **spdx:checksum** \u2014 checksum value calculated from content representation (spdx:Checksum with algorithm and checksumValue)\n- **schema:provider** \u2014 party who maintains this distribution option\n\n### Dependencies\n\n- [person](../person/) \u2014 person agent for provider\n- [organization](../organization/) \u2014 organization agent for provider\n",
@@ -68,7 +67,7 @@
       "snippets": [
         {
           "language": "json",
-          "ref": "exampleDataDownload.json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/dataDownload/exampleDataDownload.json",
           "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\",\n    \"xsd\": \"http://www.w3.org/2001/XMLSchema#\",\n    \"dcterms\": \"http://purl.org/dc/terms/\"\n  },\n  \"@type\": [\n    \"schema:DataDownload\"\n  ],\n  \"schema:name\": \"Water levels in Beartooth reservoir, 1992-2020\",\n  \"schema:contentUrl\": \"https://hounddata.org/354277.csv\",\n  \"schema:encodingFormat\": [\n    \"text/csv\"\n  ],\n  \"spdx:checksum\": {\n    \"@type\": [\n      \"spdx:Checksum\"\n    ],\n    \"spdx:algorithm\": \"MD5\",\n    \"spdx:checksumValue\": \"d41d8cd98f00b204e9800998ecf8427e\"\n  },\n  \"schema:provider\": [\n    {\n      \"@id\": \"https://orcid.org/3333-4444-5565\",\n      \"@type\": [\n        \"schema:Person\"\n      ],\n      \"schema:name\": \"Severus Data\",\n      \"schema:alternateName\": \"the datameister\",\n      \"schema:affiliation\": {\n        \"@id\": \"https://ror.org/347237\",\n        \"@type\": [\n          \"schema:Organization\"\n        ],\n        \"schema:additionalType\": [\n          \"Data repository\"\n        ],\n        \"schema:name\": \"Houndstooth Data Repository\",\n        \"schema:identifier\": \"https://ror.org/347237\"\n      },\n      \"schema:contactPoint\": {\n        \"@type\": [\n          \"schema:ContactPoint\"\n        ],\n        \"schema:email\": \"joe@email.org\"\n      },\n      \"schema:description\": \"Earth Science Data Custodian\",\n      \"schema:identifier\": {\n        \"@type\": [\n          \"schema:PropertyValue\"\n        ],\n        \"schema:propertyID\": \"https://registry.identifiers.org/registry/orcid\",\n        \"schema:value\": \"3333-4444-5565\",\n        \"schema:url\": \"https://orcid.org/3333-4444-5565\"\n      }\n    }\n  ],\n  \"dcterms:conformsTo\": [\n    {\n      \"@id\": \"http://www.opengis.net/def/nil/OGC/0/missing\"\n    }\n  ]\n}\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/dataDownload/example_1_1.json"
         },
@@ -95,7 +94,7 @@
       "snippets": [
         {
           "language": "json",
-          "ref": "exampleDataDownloadComplete.json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/dataDownload/exampleDataDownloadComplete.json",
           "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\",\n    \"spdx\": \"http://spdx.org/rdf/terms#\",\n    \"dcterms\": \"http://purl.org/dc/terms/\"\n  },\n  \"@id\": \"ex:DataDownloadComplete_001\",\n  \"@type\": [\"schema:DataDownload\"],\n  \"schema:name\": \"Arctic Sea Ice Extent Monthly Averages 1979-2024\",\n  \"schema:description\": \"CSV file containing monthly average Arctic sea ice extent values derived from satellite passive microwave observations. Columns include date, extent in million km\u00b2, and anomaly from 1981-2010 mean.\",\n  \"schema:contentUrl\": \"https://data.example.org/sea-ice/arctic-monthly-extent-1979-2024.csv\",\n  \"schema:encodingFormat\": [\"text/csv\", \"application/zip\"],\n  \"spdx:checksum\": {\n    \"@type\": [\"spdx:Checksum\"],\n    \"spdx:algorithm\": \"SHA256\",\n    \"spdx:checksumValue\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"\n  },\n  \"schema:provider\": [\n    {\n      \"@id\": \"https://orcid.org/0000-0002-5678-1234\",\n      \"@type\": [\"schema:Person\"],\n      \"schema:name\": \"Maria Icewatch\",\n      \"schema:affiliation\": {\n        \"@type\": [\"schema:Organization\"],\n        \"schema:name\": \"National Snow and Ice Data Center\",\n        \"schema:identifier\": {\n          \"@type\": [\"schema:PropertyValue\"],\n          \"schema:propertyID\": \"https://ror.org\",\n          \"schema:value\": \"0559x5c32\",\n          \"schema:url\": \"https://ror.org/0559x5c32\"\n        }\n      },\n      \"schema:contactPoint\": {\n        \"@type\": [\"schema:ContactPoint\"],\n        \"schema:email\": \"data@nsidc.org\"\n      },\n      \"schema:identifier\": {\n        \"@type\": [\"schema:PropertyValue\"],\n        \"schema:propertyID\": \"https://orcid.org\",\n        \"schema:value\": \"0000-0002-5678-1234\",\n        \"schema:url\": \"https://orcid.org/0000-0002-5678-1234\"\n      }\n    },\n    {\n      \"@type\": [\"schema:Organization\"],\n      \"schema:name\": \"National Snow and Ice Data Center\",\n      \"schema:identifier\": {\n        \"@type\": [\"schema:PropertyValue\"],\n        \"schema:propertyID\": \"https://ror.org\",\n        \"schema:value\": \"0559x5c32\",\n        \"schema:url\": \"https://ror.org/0559x5c32\"\n      }\n    }\n  ],\n  \"dcterms:conformsTo\": [\n    {\"@id\": \"https://www.ietf.org/rfc/rfc4180.txt\"},\n    {\"@id\": \"https://www.w3.org/TR/tabular-data-primer/\"}\n  ]\n}\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/dataDownload/example_2_1.json"
         },

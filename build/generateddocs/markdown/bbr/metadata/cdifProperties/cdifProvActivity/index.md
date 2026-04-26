@@ -318,13 +318,13 @@ ex:activity-soil-chem-analysis a schema1:Action,
             schema1:description "Combined XRF screening and ICP-MS confirmatory analysis for major and trace elements in soil matrices." ;
             schema1:name "EPA 6200 / ICP-MS Soil Geochemistry Protocol" ;
             schema1:step [ a schema1:HowToStep ;
-                    schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards." ;
-                    schema1:name "ICP-MS measurement and calibration" ;
-                    schema1:position 2 ],
-                [ a schema1:HowToStep ;
                     schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels." ;
                     schema1:name "Sample preparation and acid digestion" ;
-                    schema1:position 1 ] ] ;
+                    schema1:position 1 ],
+                [ a schema1:HowToStep ;
+                    schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards." ;
+                    schema1:name "ICP-MS measurement and calibration" ;
+                    schema1:position 2 ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:agent [ a schema1:Person ;
             schema1:contactPoint [ a schema1:ContactPoint ;
@@ -449,8 +449,12 @@ allOf:
           required:
           - '@id'
     schema:object:
-      description: Input entity for this activity (for action chaining, references
-        the result of a prior activity)
+      description: Input entity (or entities) for this activity. Per schema.org, the
+        range of schema:object is schema:Thing. Accepts four shapes (1) a string URI,
+        (2) an @id reference object, (3) an inline schema:Thing object, or (4) an
+        array whose items take any of those shapes (used when an activity has multiple
+        inputs, e.g. samples analyzed). Supports action chaining where the value references
+        the result of a prior activity.
       anyOf:
       - type: string
       - type: object
@@ -458,9 +462,31 @@ allOf:
           '@id':
             type: string
             description: reference to an input entity
+      - type: object
+        description: Inline schema:Thing object describing the input entity.
+        properties:
+          '@type':
+            anyOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        required:
+        - '@type'
+      - type: array
+        description: Multiple input entities (e.g. samples analyzed). Each item may
+          be a string URI, an @id reference, or an inline schema:Thing.
+        items:
+          anyOf:
+          - type: string
+          - type: object
     schema:result:
-      description: Output entity produced by this activity (for action chaining, can
-        be referenced as object of a subsequent activity)
+      description: 'Output entity (or entities) produced by this activity. Per schema.org,
+        the range is schema:Thing. Accepts: (1) a string URI reference (action chaining
+        shorthand to be referenced as schema:object of a subsequent activity); (2)
+        a single {"@id": "<uri>"} object reference; (3) an inline schema:Thing (object
+        with @type); or (4) an array of any of these forms (e.g. multiple datasets
+        produced by this activity). Profiles may restrict the array item shape further.'
       anyOf:
       - type: string
       - type: object
@@ -468,6 +494,24 @@ allOf:
           '@id':
             type: string
             description: reference to an output entity
+      - type: object
+        description: Inline schema:Thing object describing the output entity.
+        properties:
+          '@type':
+            anyOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        required:
+        - '@type'
+      - type: array
+        description: Multiple output entities. Each item may be a string URI, an @id
+          reference, or an inline schema:Thing.
+        items:
+          anyOf:
+          - type: string
+          - type: object
     schema:actionStatus:
       type: string
       description: Status of this activity
