@@ -62,41 +62,24 @@
     },
     "schema:alternateName": {
       "description": "Alternate name(s), e.g. specific make/model designation, common abbreviation.",
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      ]
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     },
     "schema:identifier": {
       "description": "Formal identifier(s) for this instrument. Use PropertyValue for structured identifiers (e.g. PIDINST, serial number, inventory number).",
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "$ref": "#/$defs/Identifier"
-        },
-        {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/$defs/Identifier"
-              }
-            ]
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "$ref": "#/$defs/Identifier"
           }
-        }
-      ]
+        ]
+      }
     },
     "schema:url": {
       "type": "string",
@@ -225,7 +208,7 @@
                   },
                   "schema:name": {
                     "type": "string",
-                    "description": "string label for person that is meaningful for human users"
+                    "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
                   },
                   "schema:description": {
                     "type": "string"
@@ -257,6 +240,7 @@
                   },
                   "schema:contactPoint": {
                     "type": "object",
+                    "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
                     "properties": {
                       "@type": {
                         "default": "schema:ContactPoint",
@@ -273,7 +257,9 @@
                         "type": "string"
                       }
                     },
-                    "description": "restrict to email only. Schema.org allows telephone and postal contacts as well"
+                    "required": [
+                      "schema:email"
+                    ]
                   },
                   "schema:sameAs": {
                     "type": "array",
@@ -324,6 +310,7 @@
           }
         },
         "required": [
+          "@type",
           "schema:roleName",
           "schema:contributor"
         ]
@@ -447,17 +434,10 @@
                 "type": "string"
               },
               "schema:alternateName": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                ]
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               },
               "schema:identifier": {
                 "anyOf": [
@@ -471,17 +451,10 @@
               },
               "schema:additionalType": {
                 "description": "Component type classification.",
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                ]
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               },
               "schema:additionalProperty": {
                 "type": "array",
@@ -697,8 +670,7 @@
     },
     "required": [
       "@type",
-      "schema:name",
-      "schema:identifier"
+      "schema:name"
     ]
   },
   "allOf": [
@@ -788,20 +760,11 @@
           "default": "schema:Organization",
           "type": "array",
           "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "schema:Organization"
-          },
-          "minItems": 1
-        },
-        "schema:additionalType": {
-          "type": "array",
-          "items": {
             "anyOf": [
               {
                 "type": "string",
                 "enum": [
+                  "schema:Organization",
                   "schema:FundingAgency",
                   "schema:Consortium",
                   "schema:Corporation",
@@ -812,7 +775,18 @@
                   "schema:Project",
                   "schema:ResearchOrganization"
                 ]
-              },
+              }
+            ]
+          },
+          "contains": {
+            "const": "schema:Organization"
+          },
+          "minItems": 1
+        },
+        "schema:additionalType": {
+          "type": "array",
+          "items": {
+            "anyOf": [
               {
                 "$ref": "#/$defs/DefinedTerm"
               },
@@ -916,11 +890,11 @@
         },
         "schema:inDefinedTermSet": {
           "type": "string",
-          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+          "description": "Name for the controlled vocabulary responsible for this keyword."
         },
         "schema:termCode": {
           "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
         }
       },
       "allOf": [

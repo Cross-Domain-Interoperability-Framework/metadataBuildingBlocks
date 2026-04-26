@@ -76,8 +76,12 @@ allOf:
           required:
           - '@id'
     'schema:object':
-      description: Input entity for this activity (for action chaining, references the
-        result of a prior activity)
+      description: Input entity (or entities) for this activity. Per schema.org, the
+        range of schema:object is schema:Thing. Accepts four shapes (1) a string URI,
+        (2) an @id reference object, (3) an inline schema:Thing object, or (4) an array
+        whose items take any of those shapes (used when an activity has multiple inputs,
+        e.g. samples analyzed). Supports action chaining where the value references the
+        result of a prior activity.
       anyOf:
       - type: string
       - type: object
@@ -85,6 +89,24 @@ allOf:
           '@id':
             type: string
             description: reference to an input entity
+      - type: object
+        description: Inline schema:Thing object describing the input entity.
+        properties:
+          '@type':
+            anyOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        required:
+        - '@type'
+      - type: array
+        description: Multiple input entities (e.g. samples analyzed). Each item may be
+          a string URI, an @id reference, or an inline schema:Thing.
+        items:
+          anyOf:
+          - type: string
+          - type: object
     'schema:result':
       description: Output entity produced by this activity (for action chaining, can
         be referenced as object of a subsequent activity)

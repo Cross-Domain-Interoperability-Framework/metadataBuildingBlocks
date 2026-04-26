@@ -140,135 +140,71 @@
                           },
                           "schema:alternateName": {
                             "description": "Alternate name(s), e.g. specific make/model designation, common abbreviation.",
-                            "anyOf": [
-                              {
-                                "type": "string"
-                              },
-                              {
-                                "type": "array",
-                                "items": {
-                                  "type": "string"
-                                }
-                              }
-                            ]
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
                           },
                           "schema:identifier": {
                             "description": "Formal identifier(s) for this instrument. Use PropertyValue for structured identifiers (e.g. PIDINST, serial number, inventory number).",
-                            "anyOf": [
-                              {
-                                "type": "string"
-                              },
-                              {
-                                "description": "Properties for a schema.org identifier",
-                                "type": "object",
-                                "properties": {
-                                  "@type": {
-                                    "type": "array",
-                                    "items": {
-                                      "type": "string"
-                                    },
-                                    "contains": {
-                                      "const": "schema:PropertyValue"
-                                    },
-                                    "minItems": 1
-                                  },
-                                  "schema:propertyID": {
-                                    "type": "string",
-                                    "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-                                  },
-                                  "schema:value": {
-                                    "type": "string",
-                                    "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-                                  },
-                                  "schema:url": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-                                  }
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
                                 },
-                                "allOf": [
-                                  {
-                                    "required": [
-                                      "@type"
-                                    ]
-                                  },
-                                  {
-                                    "anyOf": [
-                                      {
-                                        "required": [
-                                          "schema:value"
-                                        ]
+                                {
+                                  "description": "Properties for a schema.org identifier",
+                                  "type": "object",
+                                  "properties": {
+                                    "@type": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
                                       },
-                                      {
-                                        "required": [
-                                          "schema:url"
-                                        ]
-                                      }
-                                    ]
-                                  }
-                                ]
-                              },
-                              {
-                                "type": "array",
-                                "items": {
-                                  "anyOf": [
+                                      "contains": {
+                                        "const": "schema:PropertyValue"
+                                      },
+                                      "minItems": 1
+                                    },
+                                    "schema:propertyID": {
+                                      "type": "string",
+                                      "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                                    },
+                                    "schema:value": {
+                                      "type": "string",
+                                      "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                                    },
+                                    "schema:url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                                    }
+                                  },
+                                  "allOf": [
                                     {
-                                      "type": "string"
+                                      "required": [
+                                        "@type"
+                                      ]
                                     },
                                     {
-                                      "description": "Properties for a schema.org identifier",
-                                      "type": "object",
-                                      "properties": {
-                                        "@type": {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "string"
-                                          },
-                                          "contains": {
-                                            "const": "schema:PropertyValue"
-                                          },
-                                          "minItems": 1
-                                        },
-                                        "schema:propertyID": {
-                                          "type": "string",
-                                          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-                                        },
-                                        "schema:value": {
-                                          "type": "string",
-                                          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-                                        },
-                                        "schema:url": {
-                                          "type": "string",
-                                          "format": "uri",
-                                          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-                                        }
-                                      },
-                                      "allOf": [
+                                      "anyOf": [
                                         {
                                           "required": [
-                                            "@type"
+                                            "schema:value"
                                           ]
                                         },
                                         {
-                                          "anyOf": [
-                                            {
-                                              "required": [
-                                                "schema:value"
-                                              ]
-                                            },
-                                            {
-                                              "required": [
-                                                "schema:url"
-                                              ]
-                                            }
+                                          "required": [
+                                            "schema:url"
                                           ]
                                         }
                                       ]
                                     }
                                   ]
                                 }
-                              }
-                            ]
+                              ]
+                            }
                           },
                           "schema:url": {
                             "type": "string",
@@ -285,20 +221,11 @@
                                 "default": "schema:Organization",
                                 "type": "array",
                                 "items": {
-                                  "type": "string"
-                                },
-                                "contains": {
-                                  "const": "schema:Organization"
-                                },
-                                "minItems": 1
-                              },
-                              "schema:additionalType": {
-                                "type": "array",
-                                "items": {
                                   "anyOf": [
                                     {
                                       "type": "string",
                                       "enum": [
+                                        "schema:Organization",
                                         "schema:FundingAgency",
                                         "schema:Consortium",
                                         "schema:Corporation",
@@ -309,7 +236,18 @@
                                         "schema:Project",
                                         "schema:ResearchOrganization"
                                       ]
-                                    },
+                                    }
+                                  ]
+                                },
+                                "contains": {
+                                  "const": "schema:Organization"
+                                },
+                                "minItems": 1
+                              },
+                              "schema:additionalType": {
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
                                     {
                                       "description": "schema.org Defined Term schema",
                                       "type": "object",
@@ -387,11 +325,11 @@
                                         },
                                         "schema:inDefinedTermSet": {
                                           "type": "string",
-                                          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                          "description": "Name for the controlled vocabulary responsible for this keyword."
                                         },
                                         "schema:termCode": {
                                           "type": "string",
-                                          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                         }
                                       },
                                       "allOf": [
@@ -700,11 +638,11 @@
                                 },
                                 "schema:inDefinedTermSet": {
                                   "type": "string",
-                                  "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                  "description": "Name for the controlled vocabulary responsible for this keyword."
                                 },
                                 "schema:termCode": {
                                   "type": "string",
-                                  "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                  "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                 }
                               },
                               "allOf": [
@@ -745,20 +683,11 @@
                                 "default": "schema:Organization",
                                 "type": "array",
                                 "items": {
-                                  "type": "string"
-                                },
-                                "contains": {
-                                  "const": "schema:Organization"
-                                },
-                                "minItems": 1
-                              },
-                              "schema:additionalType": {
-                                "type": "array",
-                                "items": {
                                   "anyOf": [
                                     {
                                       "type": "string",
                                       "enum": [
+                                        "schema:Organization",
                                         "schema:FundingAgency",
                                         "schema:Consortium",
                                         "schema:Corporation",
@@ -769,7 +698,18 @@
                                         "schema:Project",
                                         "schema:ResearchOrganization"
                                       ]
-                                    },
+                                    }
+                                  ]
+                                },
+                                "contains": {
+                                  "const": "schema:Organization"
+                                },
+                                "minItems": 1
+                              },
+                              "schema:additionalType": {
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
                                     {
                                       "description": "schema.org Defined Term schema",
                                       "type": "object",
@@ -847,11 +787,11 @@
                                         },
                                         "schema:inDefinedTermSet": {
                                           "type": "string",
-                                          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                          "description": "Name for the controlled vocabulary responsible for this keyword."
                                         },
                                         "schema:termCode": {
                                           "type": "string",
-                                          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                         }
                                       },
                                       "allOf": [
@@ -1099,11 +1039,11 @@
                                         },
                                         "schema:inDefinedTermSet": {
                                           "type": "string",
-                                          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                          "description": "Name for the controlled vocabulary responsible for this keyword."
                                         },
                                         "schema:termCode": {
                                           "type": "string",
-                                          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                         }
                                       },
                                       "allOf": [
@@ -1168,7 +1108,7 @@
                                         },
                                         "schema:name": {
                                           "type": "string",
-                                          "description": "string label for person that is meaningful for human users"
+                                          "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
                                         },
                                         "schema:description": {
                                           "type": "string"
@@ -1245,20 +1185,11 @@
                                               "default": "schema:Organization",
                                               "type": "array",
                                               "items": {
-                                                "type": "string"
-                                              },
-                                              "contains": {
-                                                "const": "schema:Organization"
-                                              },
-                                              "minItems": 1
-                                            },
-                                            "schema:additionalType": {
-                                              "type": "array",
-                                              "items": {
                                                 "anyOf": [
                                                   {
                                                     "type": "string",
                                                     "enum": [
+                                                      "schema:Organization",
                                                       "schema:FundingAgency",
                                                       "schema:Consortium",
                                                       "schema:Corporation",
@@ -1269,7 +1200,18 @@
                                                       "schema:Project",
                                                       "schema:ResearchOrganization"
                                                     ]
-                                                  },
+                                                  }
+                                                ]
+                                              },
+                                              "contains": {
+                                                "const": "schema:Organization"
+                                              },
+                                              "minItems": 1
+                                            },
+                                            "schema:additionalType": {
+                                              "type": "array",
+                                              "items": {
+                                                "anyOf": [
                                                   {
                                                     "description": "schema.org Defined Term schema",
                                                     "type": "object",
@@ -1347,11 +1289,11 @@
                                                       },
                                                       "schema:inDefinedTermSet": {
                                                         "type": "string",
-                                                        "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                                        "description": "Name for the controlled vocabulary responsible for this keyword."
                                                       },
                                                       "schema:termCode": {
                                                         "type": "string",
-                                                        "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                                        "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                                       }
                                                     },
                                                     "allOf": [
@@ -1501,6 +1443,7 @@
                                         },
                                         "schema:contactPoint": {
                                           "type": "object",
+                                          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
                                           "properties": {
                                             "@type": {
                                               "default": "schema:ContactPoint",
@@ -1517,7 +1460,9 @@
                                               "type": "string"
                                             }
                                           },
-                                          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well"
+                                          "required": [
+                                            "schema:email"
+                                          ]
                                         },
                                         "schema:sameAs": {
                                           "type": "array",
@@ -1571,20 +1516,11 @@
                                           "default": "schema:Organization",
                                           "type": "array",
                                           "items": {
-                                            "type": "string"
-                                          },
-                                          "contains": {
-                                            "const": "schema:Organization"
-                                          },
-                                          "minItems": 1
-                                        },
-                                        "schema:additionalType": {
-                                          "type": "array",
-                                          "items": {
                                             "anyOf": [
                                               {
                                                 "type": "string",
                                                 "enum": [
+                                                  "schema:Organization",
                                                   "schema:FundingAgency",
                                                   "schema:Consortium",
                                                   "schema:Corporation",
@@ -1595,7 +1531,18 @@
                                                   "schema:Project",
                                                   "schema:ResearchOrganization"
                                                 ]
-                                              },
+                                              }
+                                            ]
+                                          },
+                                          "contains": {
+                                            "const": "schema:Organization"
+                                          },
+                                          "minItems": 1
+                                        },
+                                        "schema:additionalType": {
+                                          "type": "array",
+                                          "items": {
+                                            "anyOf": [
                                               {
                                                 "description": "schema.org Defined Term schema",
                                                 "type": "object",
@@ -1673,11 +1620,11 @@
                                                   },
                                                   "schema:inDefinedTermSet": {
                                                     "type": "string",
-                                                    "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                                    "description": "Name for the controlled vocabulary responsible for this keyword."
                                                   },
                                                   "schema:termCode": {
                                                     "type": "string",
-                                                    "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                                    "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                                   }
                                                 },
                                                 "allOf": [
@@ -1828,6 +1775,7 @@
                                 }
                               },
                               "required": [
+                                "@type",
                                 "schema:roleName",
                                 "schema:contributor"
                               ]
@@ -1943,11 +1891,11 @@
                                           },
                                           "schema:inDefinedTermSet": {
                                             "type": "string",
-                                            "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                            "description": "Name for the controlled vocabulary responsible for this keyword."
                                           },
                                           "schema:termCode": {
                                             "type": "string",
-                                            "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                            "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                           }
                                         },
                                         "allOf": [
@@ -2083,11 +2031,11 @@
                                         },
                                         "schema:inDefinedTermSet": {
                                           "type": "string",
-                                          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                          "description": "Name for the controlled vocabulary responsible for this keyword."
                                         },
                                         "schema:termCode": {
                                           "type": "string",
-                                          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                         }
                                       },
                                       "allOf": [
@@ -2167,17 +2115,10 @@
                                       "type": "string"
                                     },
                                     "schema:alternateName": {
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      ]
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      }
                                     },
                                     "schema:identifier": {
                                       "anyOf": [
@@ -2238,17 +2179,10 @@
                                     },
                                     "schema:additionalType": {
                                       "description": "Component type classification.",
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      ]
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      }
                                     },
                                     "schema:additionalProperty": {
                                       "type": "array",
@@ -2359,11 +2293,11 @@
                                                     },
                                                     "schema:inDefinedTermSet": {
                                                       "type": "string",
-                                                      "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                                      "description": "Name for the controlled vocabulary responsible for this keyword."
                                                     },
                                                     "schema:termCode": {
                                                       "type": "string",
-                                                      "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                                      "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                                     }
                                                   },
                                                   "allOf": [
@@ -2499,11 +2433,11 @@
                                                   },
                                                   "schema:inDefinedTermSet": {
                                                     "type": "string",
-                                                    "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                                    "description": "Name for the controlled vocabulary responsible for this keyword."
                                                   },
                                                   "schema:termCode": {
                                                     "type": "string",
-                                                    "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                                    "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                                   }
                                                 },
                                                 "allOf": [
@@ -2555,20 +2489,11 @@
                                           "default": "schema:Organization",
                                           "type": "array",
                                           "items": {
-                                            "type": "string"
-                                          },
-                                          "contains": {
-                                            "const": "schema:Organization"
-                                          },
-                                          "minItems": 1
-                                        },
-                                        "schema:additionalType": {
-                                          "type": "array",
-                                          "items": {
                                             "anyOf": [
                                               {
                                                 "type": "string",
                                                 "enum": [
+                                                  "schema:Organization",
                                                   "schema:FundingAgency",
                                                   "schema:Consortium",
                                                   "schema:Corporation",
@@ -2579,7 +2504,18 @@
                                                   "schema:Project",
                                                   "schema:ResearchOrganization"
                                                 ]
-                                              },
+                                              }
+                                            ]
+                                          },
+                                          "contains": {
+                                            "const": "schema:Organization"
+                                          },
+                                          "minItems": 1
+                                        },
+                                        "schema:additionalType": {
+                                          "type": "array",
+                                          "items": {
+                                            "anyOf": [
                                               {
                                                 "description": "schema.org Defined Term schema",
                                                 "type": "object",
@@ -2657,11 +2593,11 @@
                                                   },
                                                   "schema:inDefinedTermSet": {
                                                     "type": "string",
-                                                    "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                                    "description": "Name for the controlled vocabulary responsible for this keyword."
                                                   },
                                                   "schema:termCode": {
                                                     "type": "string",
-                                                    "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                                    "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                                   }
                                                 },
                                                 "allOf": [
@@ -2988,8 +2924,7 @@
                         },
                         "required": [
                           "@type",
-                          "schema:name",
-                          "schema:identifier"
+                          "schema:name"
                         ]
                       }
                     },
@@ -3088,7 +3023,7 @@
                     },
                     "schema:name": {
                       "type": "string",
-                      "description": "string label for person that is meaningful for human users"
+                      "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
                     },
                     "schema:description": {
                       "type": "string"
@@ -3165,20 +3100,11 @@
                           "default": "schema:Organization",
                           "type": "array",
                           "items": {
-                            "type": "string"
-                          },
-                          "contains": {
-                            "const": "schema:Organization"
-                          },
-                          "minItems": 1
-                        },
-                        "schema:additionalType": {
-                          "type": "array",
-                          "items": {
                             "anyOf": [
                               {
                                 "type": "string",
                                 "enum": [
+                                  "schema:Organization",
                                   "schema:FundingAgency",
                                   "schema:Consortium",
                                   "schema:Corporation",
@@ -3189,7 +3115,18 @@
                                   "schema:Project",
                                   "schema:ResearchOrganization"
                                 ]
-                              },
+                              }
+                            ]
+                          },
+                          "contains": {
+                            "const": "schema:Organization"
+                          },
+                          "minItems": 1
+                        },
+                        "schema:additionalType": {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
                               {
                                 "description": "schema.org Defined Term schema",
                                 "type": "object",
@@ -3267,11 +3204,11 @@
                                   },
                                   "schema:inDefinedTermSet": {
                                     "type": "string",
-                                    "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                    "description": "Name for the controlled vocabulary responsible for this keyword."
                                   },
                                   "schema:termCode": {
                                     "type": "string",
-                                    "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                    "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                   }
                                 },
                                 "allOf": [
@@ -3421,6 +3358,7 @@
                     },
                     "schema:contactPoint": {
                       "type": "object",
+                      "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
                       "properties": {
                         "@type": {
                           "default": "schema:ContactPoint",
@@ -3437,7 +3375,9 @@
                           "type": "string"
                         }
                       },
-                      "description": "restrict to email only. Schema.org allows telephone and postal contacts as well"
+                      "required": [
+                        "schema:email"
+                      ]
                     },
                     "schema:sameAs": {
                       "type": "array",
@@ -3491,20 +3431,11 @@
                       "default": "schema:Organization",
                       "type": "array",
                       "items": {
-                        "type": "string"
-                      },
-                      "contains": {
-                        "const": "schema:Organization"
-                      },
-                      "minItems": 1
-                    },
-                    "schema:additionalType": {
-                      "type": "array",
-                      "items": {
                         "anyOf": [
                           {
                             "type": "string",
                             "enum": [
+                              "schema:Organization",
                               "schema:FundingAgency",
                               "schema:Consortium",
                               "schema:Corporation",
@@ -3515,7 +3446,18 @@
                               "schema:Project",
                               "schema:ResearchOrganization"
                             ]
-                          },
+                          }
+                        ]
+                      },
+                      "contains": {
+                        "const": "schema:Organization"
+                      },
+                      "minItems": 1
+                    },
+                    "schema:additionalType": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
                           {
                             "description": "schema.org Defined Term schema",
                             "type": "object",
@@ -3593,11 +3535,11 @@
                               },
                               "schema:inDefinedTermSet": {
                                 "type": "string",
-                                "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                "description": "Name for the controlled vocabulary responsible for this keyword."
                               },
                               "schema:termCode": {
                                 "type": "string",
-                                "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                               }
                             },
                             "allOf": [
@@ -3841,11 +3783,11 @@
                             },
                             "schema:inDefinedTermSet": {
                               "type": "string",
-                              "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                              "description": "Name for the controlled vocabulary responsible for this keyword."
                             },
                             "schema:termCode": {
                               "type": "string",
-                              "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                              "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                             }
                           },
                           "allOf": [
@@ -3910,7 +3852,7 @@
                             },
                             "schema:name": {
                               "type": "string",
-                              "description": "string label for person that is meaningful for human users"
+                              "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
                             },
                             "schema:description": {
                               "type": "string"
@@ -3987,20 +3929,11 @@
                                   "default": "schema:Organization",
                                   "type": "array",
                                   "items": {
-                                    "type": "string"
-                                  },
-                                  "contains": {
-                                    "const": "schema:Organization"
-                                  },
-                                  "minItems": 1
-                                },
-                                "schema:additionalType": {
-                                  "type": "array",
-                                  "items": {
                                     "anyOf": [
                                       {
                                         "type": "string",
                                         "enum": [
+                                          "schema:Organization",
                                           "schema:FundingAgency",
                                           "schema:Consortium",
                                           "schema:Corporation",
@@ -4011,7 +3944,18 @@
                                           "schema:Project",
                                           "schema:ResearchOrganization"
                                         ]
-                                      },
+                                      }
+                                    ]
+                                  },
+                                  "contains": {
+                                    "const": "schema:Organization"
+                                  },
+                                  "minItems": 1
+                                },
+                                "schema:additionalType": {
+                                  "type": "array",
+                                  "items": {
+                                    "anyOf": [
                                       {
                                         "description": "schema.org Defined Term schema",
                                         "type": "object",
@@ -4089,11 +4033,11 @@
                                           },
                                           "schema:inDefinedTermSet": {
                                             "type": "string",
-                                            "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                            "description": "Name for the controlled vocabulary responsible for this keyword."
                                           },
                                           "schema:termCode": {
                                             "type": "string",
-                                            "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                            "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                           }
                                         },
                                         "allOf": [
@@ -4243,6 +4187,7 @@
                             },
                             "schema:contactPoint": {
                               "type": "object",
+                              "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
                               "properties": {
                                 "@type": {
                                   "default": "schema:ContactPoint",
@@ -4259,7 +4204,9 @@
                                   "type": "string"
                                 }
                               },
-                              "description": "restrict to email only. Schema.org allows telephone and postal contacts as well"
+                              "required": [
+                                "schema:email"
+                              ]
                             },
                             "schema:sameAs": {
                               "type": "array",
@@ -4313,20 +4260,11 @@
                               "default": "schema:Organization",
                               "type": "array",
                               "items": {
-                                "type": "string"
-                              },
-                              "contains": {
-                                "const": "schema:Organization"
-                              },
-                              "minItems": 1
-                            },
-                            "schema:additionalType": {
-                              "type": "array",
-                              "items": {
                                 "anyOf": [
                                   {
                                     "type": "string",
                                     "enum": [
+                                      "schema:Organization",
                                       "schema:FundingAgency",
                                       "schema:Consortium",
                                       "schema:Corporation",
@@ -4337,7 +4275,18 @@
                                       "schema:Project",
                                       "schema:ResearchOrganization"
                                     ]
-                                  },
+                                  }
+                                ]
+                              },
+                              "contains": {
+                                "const": "schema:Organization"
+                              },
+                              "minItems": 1
+                            },
+                            "schema:additionalType": {
+                              "type": "array",
+                              "items": {
+                                "anyOf": [
                                   {
                                     "description": "schema.org Defined Term schema",
                                     "type": "object",
@@ -4415,11 +4364,11 @@
                                       },
                                       "schema:inDefinedTermSet": {
                                         "type": "string",
-                                        "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                        "description": "Name for the controlled vocabulary responsible for this keyword."
                                       },
                                       "schema:termCode": {
                                         "type": "string",
-                                        "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                        "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                       }
                                     },
                                     "allOf": [
@@ -4570,6 +4519,7 @@
                     }
                   },
                   "required": [
+                    "@type",
                     "schema:roleName",
                     "schema:contributor"
                   ]
@@ -4612,7 +4562,7 @@
                       },
                       "schema:name": {
                         "type": "string",
-                        "description": "string label for person that is meaningful for human users"
+                        "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
                       },
                       "schema:description": {
                         "type": "string"
@@ -4689,20 +4639,11 @@
                             "default": "schema:Organization",
                             "type": "array",
                             "items": {
-                              "type": "string"
-                            },
-                            "contains": {
-                              "const": "schema:Organization"
-                            },
-                            "minItems": 1
-                          },
-                          "schema:additionalType": {
-                            "type": "array",
-                            "items": {
                               "anyOf": [
                                 {
                                   "type": "string",
                                   "enum": [
+                                    "schema:Organization",
                                     "schema:FundingAgency",
                                     "schema:Consortium",
                                     "schema:Corporation",
@@ -4713,7 +4654,18 @@
                                     "schema:Project",
                                     "schema:ResearchOrganization"
                                   ]
-                                },
+                                }
+                              ]
+                            },
+                            "contains": {
+                              "const": "schema:Organization"
+                            },
+                            "minItems": 1
+                          },
+                          "schema:additionalType": {
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
                                 {
                                   "description": "schema.org Defined Term schema",
                                   "type": "object",
@@ -4791,11 +4743,11 @@
                                     },
                                     "schema:inDefinedTermSet": {
                                       "type": "string",
-                                      "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                      "description": "Name for the controlled vocabulary responsible for this keyword."
                                     },
                                     "schema:termCode": {
                                       "type": "string",
-                                      "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                      "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                     }
                                   },
                                   "allOf": [
@@ -4945,6 +4897,7 @@
                       },
                       "schema:contactPoint": {
                         "type": "object",
+                        "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
                         "properties": {
                           "@type": {
                             "default": "schema:ContactPoint",
@@ -4961,7 +4914,9 @@
                             "type": "string"
                           }
                         },
-                        "description": "restrict to email only. Schema.org allows telephone and postal contacts as well"
+                        "required": [
+                          "schema:email"
+                        ]
                       },
                       "schema:sameAs": {
                         "type": "array",
@@ -5015,20 +4970,11 @@
                         "default": "schema:Organization",
                         "type": "array",
                         "items": {
-                          "type": "string"
-                        },
-                        "contains": {
-                          "const": "schema:Organization"
-                        },
-                        "minItems": 1
-                      },
-                      "schema:additionalType": {
-                        "type": "array",
-                        "items": {
                           "anyOf": [
                             {
                               "type": "string",
                               "enum": [
+                                "schema:Organization",
                                 "schema:FundingAgency",
                                 "schema:Consortium",
                                 "schema:Corporation",
@@ -5039,7 +4985,18 @@
                                 "schema:Project",
                                 "schema:ResearchOrganization"
                               ]
-                            },
+                            }
+                          ]
+                        },
+                        "contains": {
+                          "const": "schema:Organization"
+                        },
+                        "minItems": 1
+                      },
+                      "schema:additionalType": {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
                             {
                               "description": "schema.org Defined Term schema",
                               "type": "object",
@@ -5117,11 +5074,11 @@
                                 },
                                 "schema:inDefinedTermSet": {
                                   "type": "string",
-                                  "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                  "description": "Name for the controlled vocabulary responsible for this keyword."
                                 },
                                 "schema:termCode": {
                                   "type": "string",
-                                  "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                  "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                 }
                               },
                               "allOf": [
@@ -5365,11 +5322,11 @@
                               },
                               "schema:inDefinedTermSet": {
                                 "type": "string",
-                                "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                "description": "Name for the controlled vocabulary responsible for this keyword."
                               },
                               "schema:termCode": {
                                 "type": "string",
-                                "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                               }
                             },
                             "allOf": [
@@ -5434,7 +5391,7 @@
                               },
                               "schema:name": {
                                 "type": "string",
-                                "description": "string label for person that is meaningful for human users"
+                                "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
                               },
                               "schema:description": {
                                 "type": "string"
@@ -5511,20 +5468,11 @@
                                     "default": "schema:Organization",
                                     "type": "array",
                                     "items": {
-                                      "type": "string"
-                                    },
-                                    "contains": {
-                                      "const": "schema:Organization"
-                                    },
-                                    "minItems": 1
-                                  },
-                                  "schema:additionalType": {
-                                    "type": "array",
-                                    "items": {
                                       "anyOf": [
                                         {
                                           "type": "string",
                                           "enum": [
+                                            "schema:Organization",
                                             "schema:FundingAgency",
                                             "schema:Consortium",
                                             "schema:Corporation",
@@ -5535,7 +5483,18 @@
                                             "schema:Project",
                                             "schema:ResearchOrganization"
                                           ]
-                                        },
+                                        }
+                                      ]
+                                    },
+                                    "contains": {
+                                      "const": "schema:Organization"
+                                    },
+                                    "minItems": 1
+                                  },
+                                  "schema:additionalType": {
+                                    "type": "array",
+                                    "items": {
+                                      "anyOf": [
                                         {
                                           "description": "schema.org Defined Term schema",
                                           "type": "object",
@@ -5613,11 +5572,11 @@
                                             },
                                             "schema:inDefinedTermSet": {
                                               "type": "string",
-                                              "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                              "description": "Name for the controlled vocabulary responsible for this keyword."
                                             },
                                             "schema:termCode": {
                                               "type": "string",
-                                              "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                              "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                             }
                                           },
                                           "allOf": [
@@ -5767,6 +5726,7 @@
                               },
                               "schema:contactPoint": {
                                 "type": "object",
+                                "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
                                 "properties": {
                                   "@type": {
                                     "default": "schema:ContactPoint",
@@ -5783,7 +5743,9 @@
                                     "type": "string"
                                   }
                                 },
-                                "description": "restrict to email only. Schema.org allows telephone and postal contacts as well"
+                                "required": [
+                                  "schema:email"
+                                ]
                               },
                               "schema:sameAs": {
                                 "type": "array",
@@ -5837,20 +5799,11 @@
                                 "default": "schema:Organization",
                                 "type": "array",
                                 "items": {
-                                  "type": "string"
-                                },
-                                "contains": {
-                                  "const": "schema:Organization"
-                                },
-                                "minItems": 1
-                              },
-                              "schema:additionalType": {
-                                "type": "array",
-                                "items": {
                                   "anyOf": [
                                     {
                                       "type": "string",
                                       "enum": [
+                                        "schema:Organization",
                                         "schema:FundingAgency",
                                         "schema:Consortium",
                                         "schema:Corporation",
@@ -5861,7 +5814,18 @@
                                         "schema:Project",
                                         "schema:ResearchOrganization"
                                       ]
-                                    },
+                                    }
+                                  ]
+                                },
+                                "contains": {
+                                  "const": "schema:Organization"
+                                },
+                                "minItems": 1
+                              },
+                              "schema:additionalType": {
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
                                     {
                                       "description": "schema.org Defined Term schema",
                                       "type": "object",
@@ -5939,11 +5903,11 @@
                                         },
                                         "schema:inDefinedTermSet": {
                                           "type": "string",
-                                          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                          "description": "Name for the controlled vocabulary responsible for this keyword."
                                         },
                                         "schema:termCode": {
                                           "type": "string",
-                                          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                         }
                                       },
                                       "allOf": [
@@ -6094,6 +6058,7 @@
                       }
                     },
                     "required": [
+                      "@type",
                       "schema:roleName",
                       "schema:contributor"
                     ]
@@ -6114,7 +6079,7 @@
               }
             },
             "schema:object": {
-              "description": "Input entity for this activity (for action chaining, references the result of a prior activity)",
+              "description": "Input entity (or entities) for this activity. Per schema.org, the range of schema:object is schema:Thing. Accepts four shapes (1) a string URI, (2) an @id reference object, (3) an inline schema:Thing object, or (4) an array whose items take any of those shapes (used when an activity has multiple inputs, e.g. samples analyzed). Supports action chaining where the value references the result of a prior activity.",
               "anyOf": [
                 {
                   "type": "string"
@@ -6126,6 +6091,42 @@
                       "type": "string",
                       "description": "reference to an input entity"
                     }
+                  }
+                },
+                {
+                  "type": "object",
+                  "description": "Inline schema:Thing object describing the input entity.",
+                  "properties": {
+                    "@type": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "@type"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "description": "Multiple input entities (e.g. samples analyzed). Each item may be a string URI, an @id reference, or an inline schema:Thing.",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "object"
+                      }
+                    ]
                   }
                 }
               ]
@@ -6184,14 +6185,7 @@
                       "minItems": 1
                     },
                     "schema:additionalType": {
-                      "description": "Domain-specific type classifications for this place (e.g. facility type, laboratory classification).",
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    },
-                    "schema:name": {
-                      "description": "multiple place names or DefinedTerms that have a place name and URI for the location",
+                      "description": "Domain-specific type classifications for this place (e.g. facility type,laboratory classification, feature type).",
                       "type": "array",
                       "items": {
                         "anyOf": [
@@ -6275,11 +6269,11 @@
                               },
                               "schema:inDefinedTermSet": {
                                 "type": "string",
-                                "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                "description": "Name for the controlled vocabulary responsible for this keyword."
                               },
                               "schema:termCode": {
                                 "type": "string",
-                                "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                               }
                             },
                             "allOf": [
@@ -6312,6 +6306,125 @@
                         ]
                       }
                     },
+                    "schema:name": {
+                      "description": "A place name for the location, either as a string or a DefinedTerm from a gazetteer.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "schema.org Defined Term schema",
+                          "type": "object",
+                          "properties": {
+                            "@type": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "contains": {
+                                "const": "schema:DefinedTerm"
+                              },
+                              "minItems": 1
+                            },
+                            "schema:name": {
+                              "type": "string",
+                              "description": "text label for the term that is useful to human user"
+                            },
+                            "schema:identifier": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "description": "Properties for a schema.org identifier",
+                                  "type": "object",
+                                  "properties": {
+                                    "@type": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      },
+                                      "contains": {
+                                        "const": "schema:PropertyValue"
+                                      },
+                                      "minItems": 1
+                                    },
+                                    "schema:propertyID": {
+                                      "type": "string",
+                                      "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                                    },
+                                    "schema:value": {
+                                      "type": "string",
+                                      "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                                    },
+                                    "schema:url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                                    }
+                                  },
+                                  "allOf": [
+                                    {
+                                      "required": [
+                                        "@type"
+                                      ]
+                                    },
+                                    {
+                                      "anyOf": [
+                                        {
+                                          "required": [
+                                            "schema:value"
+                                          ]
+                                        },
+                                        {
+                                          "required": [
+                                            "schema:url"
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            "schema:inDefinedTermSet": {
+                              "type": "string",
+                              "description": "Name for the controlled vocabulary responsible for this keyword."
+                            },
+                            "schema:termCode": {
+                              "type": "string",
+                              "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                            }
+                          },
+                          "allOf": [
+                            {
+                              "required": [
+                                "@type"
+                              ]
+                            },
+                            {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "schema:name"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "schema:identifier"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "schema:termCode"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
                     "schema:identifier": {
                       "description": "Formal identifier for this place (e.g. ROR identifier for a facility).",
                       "anyOf": [
@@ -6319,26 +6432,178 @@
                           "type": "string"
                         },
                         {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          }
+                          "description": "Properties for a schema.org identifier",
+                          "type": "object",
+                          "properties": {
+                            "@type": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "contains": {
+                                "const": "schema:PropertyValue"
+                              },
+                              "minItems": 1
+                            },
+                            "schema:propertyID": {
+                              "type": "string",
+                              "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                            },
+                            "schema:value": {
+                              "type": "string",
+                              "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                            },
+                            "schema:url": {
+                              "type": "string",
+                              "format": "uri",
+                              "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                            }
+                          },
+                          "allOf": [
+                            {
+                              "required": [
+                                "@type"
+                              ]
+                            },
+                            {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "schema:value"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "schema:url"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
                         }
                       ]
                     },
                     "schema:alternateName": {
                       "description": "Alternate or abbreviated name(s) for this place.",
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "array",
-                          "items": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
                             "type": "string"
+                          },
+                          {
+                            "description": "schema.org Defined Term schema",
+                            "type": "object",
+                            "properties": {
+                              "@type": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                },
+                                "contains": {
+                                  "const": "schema:DefinedTerm"
+                                },
+                                "minItems": 1
+                              },
+                              "schema:name": {
+                                "type": "string",
+                                "description": "text label for the term that is useful to human user"
+                              },
+                              "schema:identifier": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "description": "Properties for a schema.org identifier",
+                                    "type": "object",
+                                    "properties": {
+                                      "@type": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string"
+                                        },
+                                        "contains": {
+                                          "const": "schema:PropertyValue"
+                                        },
+                                        "minItems": 1
+                                      },
+                                      "schema:propertyID": {
+                                        "type": "string",
+                                        "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                                      },
+                                      "schema:value": {
+                                        "type": "string",
+                                        "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                                      },
+                                      "schema:url": {
+                                        "type": "string",
+                                        "format": "uri",
+                                        "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                                      }
+                                    },
+                                    "allOf": [
+                                      {
+                                        "required": [
+                                          "@type"
+                                        ]
+                                      },
+                                      {
+                                        "anyOf": [
+                                          {
+                                            "required": [
+                                              "schema:value"
+                                            ]
+                                          },
+                                          {
+                                            "required": [
+                                              "schema:url"
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "schema:inDefinedTermSet": {
+                                "type": "string",
+                                "description": "Name for the controlled vocabulary responsible for this keyword."
+                              },
+                              "schema:termCode": {
+                                "type": "string",
+                                "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                              }
+                            },
+                            "allOf": [
+                              {
+                                "required": [
+                                  "@type"
+                                ]
+                              },
+                              {
+                                "anyOf": [
+                                  {
+                                    "required": [
+                                      "schema:name"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "schema:identifier"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "schema:termCode"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
                           }
-                        }
-                      ]
+                        ]
+                      }
                     },
                     "schema:geo": {
                       "description": "Either a bounding box or a point location.",
@@ -6726,11 +6991,11 @@
                             },
                             "schema:inDefinedTermSet": {
                               "type": "string",
-                              "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                              "description": "Name for the controlled vocabulary responsible for this keyword."
                             },
                             "schema:termCode": {
                               "type": "string",
-                              "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                              "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                             }
                           },
                           "allOf": [
@@ -6866,11 +7131,11 @@
                           },
                           "schema:inDefinedTermSet": {
                             "type": "string",
-                            "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                            "description": "Name for the controlled vocabulary responsible for this keyword."
                           },
                           "schema:termCode": {
                             "type": "string",
-                            "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                            "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                           }
                         },
                         "allOf": [
@@ -7009,135 +7274,71 @@
                           },
                           "schema:alternateName": {
                             "description": "Alternate name(s), e.g. specific make/model designation, common abbreviation.",
-                            "anyOf": [
-                              {
-                                "type": "string"
-                              },
-                              {
-                                "type": "array",
-                                "items": {
-                                  "type": "string"
-                                }
-                              }
-                            ]
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
                           },
                           "schema:identifier": {
                             "description": "Formal identifier(s) for this instrument. Use PropertyValue for structured identifiers (e.g. PIDINST, serial number, inventory number).",
-                            "anyOf": [
-                              {
-                                "type": "string"
-                              },
-                              {
-                                "description": "Properties for a schema.org identifier",
-                                "type": "object",
-                                "properties": {
-                                  "@type": {
-                                    "type": "array",
-                                    "items": {
-                                      "type": "string"
-                                    },
-                                    "contains": {
-                                      "const": "schema:PropertyValue"
-                                    },
-                                    "minItems": 1
-                                  },
-                                  "schema:propertyID": {
-                                    "type": "string",
-                                    "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-                                  },
-                                  "schema:value": {
-                                    "type": "string",
-                                    "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-                                  },
-                                  "schema:url": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-                                  }
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
                                 },
-                                "allOf": [
-                                  {
-                                    "required": [
-                                      "@type"
-                                    ]
-                                  },
-                                  {
-                                    "anyOf": [
-                                      {
-                                        "required": [
-                                          "schema:value"
-                                        ]
+                                {
+                                  "description": "Properties for a schema.org identifier",
+                                  "type": "object",
+                                  "properties": {
+                                    "@type": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
                                       },
-                                      {
-                                        "required": [
-                                          "schema:url"
-                                        ]
-                                      }
-                                    ]
-                                  }
-                                ]
-                              },
-                              {
-                                "type": "array",
-                                "items": {
-                                  "anyOf": [
+                                      "contains": {
+                                        "const": "schema:PropertyValue"
+                                      },
+                                      "minItems": 1
+                                    },
+                                    "schema:propertyID": {
+                                      "type": "string",
+                                      "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                                    },
+                                    "schema:value": {
+                                      "type": "string",
+                                      "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                                    },
+                                    "schema:url": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                                    }
+                                  },
+                                  "allOf": [
                                     {
-                                      "type": "string"
+                                      "required": [
+                                        "@type"
+                                      ]
                                     },
                                     {
-                                      "description": "Properties for a schema.org identifier",
-                                      "type": "object",
-                                      "properties": {
-                                        "@type": {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "string"
-                                          },
-                                          "contains": {
-                                            "const": "schema:PropertyValue"
-                                          },
-                                          "minItems": 1
-                                        },
-                                        "schema:propertyID": {
-                                          "type": "string",
-                                          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-                                        },
-                                        "schema:value": {
-                                          "type": "string",
-                                          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-                                        },
-                                        "schema:url": {
-                                          "type": "string",
-                                          "format": "uri",
-                                          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-                                        }
-                                      },
-                                      "allOf": [
+                                      "anyOf": [
                                         {
                                           "required": [
-                                            "@type"
+                                            "schema:value"
                                           ]
                                         },
                                         {
-                                          "anyOf": [
-                                            {
-                                              "required": [
-                                                "schema:value"
-                                              ]
-                                            },
-                                            {
-                                              "required": [
-                                                "schema:url"
-                                              ]
-                                            }
+                                          "required": [
+                                            "schema:url"
                                           ]
                                         }
                                       ]
                                     }
                                   ]
                                 }
-                              }
-                            ]
+                              ]
+                            }
                           },
                           "schema:url": {
                             "type": "string",
@@ -7154,20 +7355,11 @@
                                 "default": "schema:Organization",
                                 "type": "array",
                                 "items": {
-                                  "type": "string"
-                                },
-                                "contains": {
-                                  "const": "schema:Organization"
-                                },
-                                "minItems": 1
-                              },
-                              "schema:additionalType": {
-                                "type": "array",
-                                "items": {
                                   "anyOf": [
                                     {
                                       "type": "string",
                                       "enum": [
+                                        "schema:Organization",
                                         "schema:FundingAgency",
                                         "schema:Consortium",
                                         "schema:Corporation",
@@ -7178,7 +7370,18 @@
                                         "schema:Project",
                                         "schema:ResearchOrganization"
                                       ]
-                                    },
+                                    }
+                                  ]
+                                },
+                                "contains": {
+                                  "const": "schema:Organization"
+                                },
+                                "minItems": 1
+                              },
+                              "schema:additionalType": {
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
                                     {
                                       "description": "schema.org Defined Term schema",
                                       "type": "object",
@@ -7256,11 +7459,11 @@
                                         },
                                         "schema:inDefinedTermSet": {
                                           "type": "string",
-                                          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                          "description": "Name for the controlled vocabulary responsible for this keyword."
                                         },
                                         "schema:termCode": {
                                           "type": "string",
-                                          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                         }
                                       },
                                       "allOf": [
@@ -7569,11 +7772,11 @@
                                 },
                                 "schema:inDefinedTermSet": {
                                   "type": "string",
-                                  "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                  "description": "Name for the controlled vocabulary responsible for this keyword."
                                 },
                                 "schema:termCode": {
                                   "type": "string",
-                                  "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                  "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                 }
                               },
                               "allOf": [
@@ -7614,20 +7817,11 @@
                                 "default": "schema:Organization",
                                 "type": "array",
                                 "items": {
-                                  "type": "string"
-                                },
-                                "contains": {
-                                  "const": "schema:Organization"
-                                },
-                                "minItems": 1
-                              },
-                              "schema:additionalType": {
-                                "type": "array",
-                                "items": {
                                   "anyOf": [
                                     {
                                       "type": "string",
                                       "enum": [
+                                        "schema:Organization",
                                         "schema:FundingAgency",
                                         "schema:Consortium",
                                         "schema:Corporation",
@@ -7638,7 +7832,18 @@
                                         "schema:Project",
                                         "schema:ResearchOrganization"
                                       ]
-                                    },
+                                    }
+                                  ]
+                                },
+                                "contains": {
+                                  "const": "schema:Organization"
+                                },
+                                "minItems": 1
+                              },
+                              "schema:additionalType": {
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
                                     {
                                       "description": "schema.org Defined Term schema",
                                       "type": "object",
@@ -7716,11 +7921,11 @@
                                         },
                                         "schema:inDefinedTermSet": {
                                           "type": "string",
-                                          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                          "description": "Name for the controlled vocabulary responsible for this keyword."
                                         },
                                         "schema:termCode": {
                                           "type": "string",
-                                          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                         }
                                       },
                                       "allOf": [
@@ -7968,11 +8173,11 @@
                                         },
                                         "schema:inDefinedTermSet": {
                                           "type": "string",
-                                          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                          "description": "Name for the controlled vocabulary responsible for this keyword."
                                         },
                                         "schema:termCode": {
                                           "type": "string",
-                                          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                         }
                                       },
                                       "allOf": [
@@ -8037,7 +8242,7 @@
                                         },
                                         "schema:name": {
                                           "type": "string",
-                                          "description": "string label for person that is meaningful for human users"
+                                          "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
                                         },
                                         "schema:description": {
                                           "type": "string"
@@ -8114,20 +8319,11 @@
                                               "default": "schema:Organization",
                                               "type": "array",
                                               "items": {
-                                                "type": "string"
-                                              },
-                                              "contains": {
-                                                "const": "schema:Organization"
-                                              },
-                                              "minItems": 1
-                                            },
-                                            "schema:additionalType": {
-                                              "type": "array",
-                                              "items": {
                                                 "anyOf": [
                                                   {
                                                     "type": "string",
                                                     "enum": [
+                                                      "schema:Organization",
                                                       "schema:FundingAgency",
                                                       "schema:Consortium",
                                                       "schema:Corporation",
@@ -8138,7 +8334,18 @@
                                                       "schema:Project",
                                                       "schema:ResearchOrganization"
                                                     ]
-                                                  },
+                                                  }
+                                                ]
+                                              },
+                                              "contains": {
+                                                "const": "schema:Organization"
+                                              },
+                                              "minItems": 1
+                                            },
+                                            "schema:additionalType": {
+                                              "type": "array",
+                                              "items": {
+                                                "anyOf": [
                                                   {
                                                     "description": "schema.org Defined Term schema",
                                                     "type": "object",
@@ -8216,11 +8423,11 @@
                                                       },
                                                       "schema:inDefinedTermSet": {
                                                         "type": "string",
-                                                        "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                                        "description": "Name for the controlled vocabulary responsible for this keyword."
                                                       },
                                                       "schema:termCode": {
                                                         "type": "string",
-                                                        "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                                        "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                                       }
                                                     },
                                                     "allOf": [
@@ -8370,6 +8577,7 @@
                                         },
                                         "schema:contactPoint": {
                                           "type": "object",
+                                          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
                                           "properties": {
                                             "@type": {
                                               "default": "schema:ContactPoint",
@@ -8386,7 +8594,9 @@
                                               "type": "string"
                                             }
                                           },
-                                          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well"
+                                          "required": [
+                                            "schema:email"
+                                          ]
                                         },
                                         "schema:sameAs": {
                                           "type": "array",
@@ -8440,20 +8650,11 @@
                                           "default": "schema:Organization",
                                           "type": "array",
                                           "items": {
-                                            "type": "string"
-                                          },
-                                          "contains": {
-                                            "const": "schema:Organization"
-                                          },
-                                          "minItems": 1
-                                        },
-                                        "schema:additionalType": {
-                                          "type": "array",
-                                          "items": {
                                             "anyOf": [
                                               {
                                                 "type": "string",
                                                 "enum": [
+                                                  "schema:Organization",
                                                   "schema:FundingAgency",
                                                   "schema:Consortium",
                                                   "schema:Corporation",
@@ -8464,7 +8665,18 @@
                                                   "schema:Project",
                                                   "schema:ResearchOrganization"
                                                 ]
-                                              },
+                                              }
+                                            ]
+                                          },
+                                          "contains": {
+                                            "const": "schema:Organization"
+                                          },
+                                          "minItems": 1
+                                        },
+                                        "schema:additionalType": {
+                                          "type": "array",
+                                          "items": {
+                                            "anyOf": [
                                               {
                                                 "description": "schema.org Defined Term schema",
                                                 "type": "object",
@@ -8542,11 +8754,11 @@
                                                   },
                                                   "schema:inDefinedTermSet": {
                                                     "type": "string",
-                                                    "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                                    "description": "Name for the controlled vocabulary responsible for this keyword."
                                                   },
                                                   "schema:termCode": {
                                                     "type": "string",
-                                                    "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                                    "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                                   }
                                                 },
                                                 "allOf": [
@@ -8697,6 +8909,7 @@
                                 }
                               },
                               "required": [
+                                "@type",
                                 "schema:roleName",
                                 "schema:contributor"
                               ]
@@ -8812,11 +9025,11 @@
                                           },
                                           "schema:inDefinedTermSet": {
                                             "type": "string",
-                                            "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                            "description": "Name for the controlled vocabulary responsible for this keyword."
                                           },
                                           "schema:termCode": {
                                             "type": "string",
-                                            "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                            "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                           }
                                         },
                                         "allOf": [
@@ -8952,11 +9165,11 @@
                                         },
                                         "schema:inDefinedTermSet": {
                                           "type": "string",
-                                          "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                          "description": "Name for the controlled vocabulary responsible for this keyword."
                                         },
                                         "schema:termCode": {
                                           "type": "string",
-                                          "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                         }
                                       },
                                       "allOf": [
@@ -9036,17 +9249,10 @@
                                       "type": "string"
                                     },
                                     "schema:alternateName": {
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      ]
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      }
                                     },
                                     "schema:identifier": {
                                       "anyOf": [
@@ -9107,17 +9313,10 @@
                                     },
                                     "schema:additionalType": {
                                       "description": "Component type classification.",
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      ]
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      }
                                     },
                                     "schema:additionalProperty": {
                                       "type": "array",
@@ -9228,11 +9427,11 @@
                                                     },
                                                     "schema:inDefinedTermSet": {
                                                       "type": "string",
-                                                      "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                                      "description": "Name for the controlled vocabulary responsible for this keyword."
                                                     },
                                                     "schema:termCode": {
                                                       "type": "string",
-                                                      "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                                      "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                                     }
                                                   },
                                                   "allOf": [
@@ -9368,11 +9567,11 @@
                                                   },
                                                   "schema:inDefinedTermSet": {
                                                     "type": "string",
-                                                    "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                                    "description": "Name for the controlled vocabulary responsible for this keyword."
                                                   },
                                                   "schema:termCode": {
                                                     "type": "string",
-                                                    "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                                    "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                                   }
                                                 },
                                                 "allOf": [
@@ -9424,20 +9623,11 @@
                                           "default": "schema:Organization",
                                           "type": "array",
                                           "items": {
-                                            "type": "string"
-                                          },
-                                          "contains": {
-                                            "const": "schema:Organization"
-                                          },
-                                          "minItems": 1
-                                        },
-                                        "schema:additionalType": {
-                                          "type": "array",
-                                          "items": {
                                             "anyOf": [
                                               {
                                                 "type": "string",
                                                 "enum": [
+                                                  "schema:Organization",
                                                   "schema:FundingAgency",
                                                   "schema:Consortium",
                                                   "schema:Corporation",
@@ -9448,7 +9638,18 @@
                                                   "schema:Project",
                                                   "schema:ResearchOrganization"
                                                 ]
-                                              },
+                                              }
+                                            ]
+                                          },
+                                          "contains": {
+                                            "const": "schema:Organization"
+                                          },
+                                          "minItems": 1
+                                        },
+                                        "schema:additionalType": {
+                                          "type": "array",
+                                          "items": {
+                                            "anyOf": [
                                               {
                                                 "description": "schema.org Defined Term schema",
                                                 "type": "object",
@@ -9526,11 +9727,11 @@
                                                   },
                                                   "schema:inDefinedTermSet": {
                                                     "type": "string",
-                                                    "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                                    "description": "Name for the controlled vocabulary responsible for this keyword."
                                                   },
                                                   "schema:termCode": {
                                                     "type": "string",
-                                                    "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                                    "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                                   }
                                                 },
                                                 "allOf": [
@@ -9857,8 +10058,7 @@
                         },
                         "required": [
                           "@type",
-                          "schema:name",
-                          "schema:identifier"
+                          "schema:name"
                         ]
                       },
                       {
@@ -10015,11 +10215,11 @@
                             },
                             "schema:inDefinedTermSet": {
                               "type": "string",
-                              "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                              "description": "Name for the controlled vocabulary responsible for this keyword."
                             },
                             "schema:termCode": {
                               "type": "string",
-                              "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                              "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                             }
                           },
                           "allOf": [
@@ -10155,11 +10355,11 @@
                           },
                           "schema:inDefinedTermSet": {
                             "type": "string",
-                            "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                            "description": "Name for the controlled vocabulary responsible for this keyword."
                           },
                           "schema:termCode": {
                             "type": "string",
-                            "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                            "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                           }
                         },
                         "allOf": [
@@ -10297,11 +10497,11 @@
                                 },
                                 "schema:inDefinedTermSet": {
                                   "type": "string",
-                                  "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                  "description": "Name for the controlled vocabulary responsible for this keyword."
                                 },
                                 "schema:termCode": {
                                   "type": "string",
-                                  "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                  "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                 }
                               },
                               "allOf": [
@@ -10545,11 +10745,11 @@
                             },
                             "schema:inDefinedTermSet": {
                               "type": "string",
-                              "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                              "description": "Name for the controlled vocabulary responsible for this keyword."
                             },
                             "schema:termCode": {
                               "type": "string",
-                              "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                              "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                             }
                           },
                           "allOf": [
@@ -10685,11 +10885,11 @@
                           },
                           "schema:inDefinedTermSet": {
                             "type": "string",
-                            "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                            "description": "Name for the controlled vocabulary responsible for this keyword."
                           },
                           "schema:termCode": {
                             "type": "string",
-                            "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                            "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                           }
                         },
                         "allOf": [
@@ -10961,11 +11161,11 @@
                                 },
                                 "schema:inDefinedTermSet": {
                                   "type": "string",
-                                  "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                  "description": "Name for the controlled vocabulary responsible for this keyword."
                                 },
                                 "schema:termCode": {
                                   "type": "string",
-                                  "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                  "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                 }
                               },
                               "allOf": [
@@ -11101,11 +11301,11 @@
                               },
                               "schema:inDefinedTermSet": {
                                 "type": "string",
-                                "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                "description": "Name for the controlled vocabulary responsible for this keyword."
                               },
                               "schema:termCode": {
                                 "type": "string",
-                                "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                               }
                             },
                             "allOf": [
@@ -11243,11 +11443,11 @@
                                     },
                                     "schema:inDefinedTermSet": {
                                       "type": "string",
-                                      "description": "Identifier for the controlled vocabulary responsible for this keyword."
+                                      "description": "Name for the controlled vocabulary responsible for this keyword."
                                     },
                                     "schema:termCode": {
                                       "type": "string",
-                                      "description": "A representative code for this keyword in the controlled vocabulary (Optional).  Analogous to skos:Notation"
+                                      "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
                                     }
                                   },
                                   "allOf": [
