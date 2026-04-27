@@ -1,0 +1,105 @@
+@prefix ex: <https://example.org/> .
+@prefix ns1: <https://spec.openapis.org/oas/3.1#$> .
+@prefix oas: <https://spec.openapis.org/oas/3.1#> .
+@prefix schema1: <http://schema.org/> .
+@prefix spdx: <http://spdx.org/rdf/terms#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:openApiWebAPI_001 a schema1:WebAPI ;
+    schema1:description "OpenAPI 3.1 service providing search and submission over a global geochemical reference database with major and trace element data from 50,000+ samples." ;
+    schema1:documentation [ a schema1:CreativeWork ;
+            schema1:name "Geochemistry Data Service OpenAPI 3.1 specification" ;
+            schema1:url "https://geochem.example.org/api/v2/openapi.json" ] ;
+    schema1:name "Geochemistry Data Service" ;
+    schema1:potentialAction ex:op_searchAnalyses,
+        ex:op_submitAnalysis ;
+    schema1:serviceType [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://geochem.example.org/serviceType/" ;
+            schema1:name "Geochemistry Query API v2" ;
+            schema1:termCode "geochem-api/v2" ] ;
+    schema1:termsOfService [ a schema1:CreativeWork ;
+            schema1:description "Open access with CC-BY 4.0 attribution requirement; rate limited to 1000 requests per hour." ;
+            schema1:name "Data Portal Terms of Use" ;
+            schema1:url "https://geochem.example.org/terms-of-use" ] ;
+    spdx:license "CC-BY-4.0" .
+
+ex:op_searchAnalyses a schema1:SearchAction ;
+    schema1:description "Search geochemical analyses by element, bounding box, and time range; returns tabular results." ;
+    schema1:name "searchAnalyses" ;
+    schema1:target [ a schema1:EntryPoint ;
+            schema1:httpMethod "GET" ;
+            schema1:urlTemplate "https://geochem.example.org/api/v2/analyses?element={element}&bbox={bbox}&start={start}&end={end}&format={format}" ;
+            oas:parameters ex:param_bbox,
+                ex:param_element,
+                ex:param_end,
+                ex:param_format,
+                ex:param_start ;
+            oas:response [ schema1:description "Invalid query parameter (e.g. malformed bbox)." ;
+                    oas:code "400" ;
+                    oas:content [ schema1:encodingFormat "application/json" ;
+                            oas:schema [ oas:type "object" ] ] ],
+                [ schema1:description "Tabular geochemical analysis results matching the query." ;
+                    oas:code "200" ;
+                    oas:content [ schema1:encodingFormat "application/json" ;
+                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.json" ;
+                                    oas:type "object" ] ],
+                        [ schema1:encodingFormat "text/csv" ;
+                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.csv-frictionless.json" ;
+                                    oas:type "string" ] ] ] ] .
+
+ex:op_submitAnalysis a schema1:CreateAction ;
+    schema1:description "Submit a new geochemical analysis record. Requires authentication." ;
+    schema1:name "submitAnalysis" ;
+    schema1:target [ a schema1:EntryPoint ;
+            schema1:httpMethod "POST" ;
+            schema1:urlTemplate "https://geochem.example.org/api/v2/analyses" ;
+            oas:requestBody [ schema1:description "Analysis record conforming to the analysisSubmission schema." ;
+                    oas:content [ schema1:encodingFormat "application/json" ;
+                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisSubmission.json" ;
+                                    oas:type "object" ] ] ;
+                    oas:required true ] ;
+            oas:response [ schema1:description "Analysis accepted; response payload contains the assigned identifier." ;
+                    oas:code "201" ;
+                    oas:content [ schema1:encodingFormat "application/json" ;
+                            oas:schema [ oas:type "object" ] ] ],
+                [ schema1:description "Authentication required." ;
+                    oas:code "401" ;
+                    oas:content [ schema1:encodingFormat "application/json" ;
+                            oas:schema [ oas:type "object" ] ] ] ] .
+
+ex:param_bbox oas:description "Bounding box filter as west,south,east,north in WGS84 decimal degrees." ;
+    oas:in "query" ;
+    oas:name "bbox" ;
+    oas:required false ;
+    oas:schema [ oas:pattern "^-?\\d+\\.?\\d*,-?\\d+\\.?\\d*,-?\\d+\\.?\\d*,-?\\d+\\.?\\d*$" ;
+            oas:type "string" ] .
+
+ex:param_element oas:description "Chemical element symbol(s) to query (comma-separated, e.g. Fe,Mg,Si)." ;
+    oas:in "query" ;
+    oas:name "element" ;
+    oas:required true ;
+    oas:schema [ oas:pattern "^[A-Z][a-z]?(,[A-Z][a-z]?)*$" ;
+            oas:type "string" ] .
+
+ex:param_end oas:description "End of time interval for analyses (ISO 8601)." ;
+    oas:in "query" ;
+    oas:name "end" ;
+    oas:required false ;
+    oas:schema [ oas:format "date-time" ;
+            oas:type "string" ] .
+
+ex:param_format oas:description "Output format for results." ;
+    oas:in "query" ;
+    oas:name "format" ;
+    oas:required false ;
+    oas:schema [ oas:enum "csv",
+                "json" ;
+            oas:type "string" ] .
+
+ex:param_start oas:description "Start of time interval for analyses (ISO 8601)." ;
+    oas:in "query" ;
+    oas:name "start" ;
+    oas:required false ;
+    oas:schema [ oas:format "date-time" ;
+            oas:type "string" ] .
+

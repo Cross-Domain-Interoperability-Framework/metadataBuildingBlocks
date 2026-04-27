@@ -1,0 +1,208 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "oas": "https://spec.openapis.org/oas/3.1#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "ex": "https://example.org/",
+    "dcterms": "http://purl.org/dc/terms/"
+  },
+  "@id": "ex:openApiWebAPI_001",
+  "@type": [
+    "schema:WebAPI"
+  ],
+  "schema:name": "Geochemistry Data Service",
+  "schema:description": "OpenAPI 3.1 service providing search and submission over a global geochemical reference database with major and trace element data from 50,000+ samples.",
+  "schema:serviceType": {
+    "@type": [
+      "schema:DefinedTerm"
+    ],
+    "schema:name": "Geochemistry Query API v2",
+    "schema:termCode": "geochem-api/v2",
+    "schema:inDefinedTermSet": "https://geochem.example.org/serviceType/"
+  },
+  "schema:termsOfService": {
+    "@type": [
+      "schema:CreativeWork"
+    ],
+    "schema:name": "Data Portal Terms of Use",
+    "schema:description": "Open access with CC-BY 4.0 attribution requirement; rate limited to 1000 requests per hour.",
+    "schema:url": "https://geochem.example.org/terms-of-use"
+  },
+  "schema:documentation": {
+    "@type": [
+      "schema:CreativeWork"
+    ],
+    "schema:name": "Geochemistry Data Service OpenAPI 3.1 specification",
+    "schema:url": "https://geochem.example.org/api/v2/openapi.json"
+  },
+  "spdx:license": "CC-BY-4.0",
+  "schema:potentialAction": [
+    {
+      "@id": "ex:op_searchAnalyses",
+      "@type": [
+        "schema:SearchAction"
+      ],
+      "schema:name": "searchAnalyses",
+      "schema:description": "Search geochemical analyses by element, bounding box, and time range; returns tabular results.",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:urlTemplate": "https://geochem.example.org/api/v2/analyses?element={element}&bbox={bbox}&start={start}&end={end}&format={format}",
+        "schema:httpMethod": [
+          "GET"
+        ],
+        "oas:parameters": [
+          {
+            "@id": "ex:param_element",
+            "oas:name": "element",
+            "oas:in": "query",
+            "oas:description": "Chemical element symbol(s) to query (comma-separated, e.g. Fe,Mg,Si).",
+            "oas:required": true,
+            "oas:schema": {
+              "oas:type": "string",
+              "oas:pattern": "^[A-Z][a-z]?(,[A-Z][a-z]?)*$"
+            }
+          },
+          {
+            "@id": "ex:param_bbox",
+            "oas:name": "bbox",
+            "oas:in": "query",
+            "oas:description": "Bounding box filter as west,south,east,north in WGS84 decimal degrees.",
+            "oas:required": false,
+            "oas:schema": {
+              "oas:type": "string",
+              "oas:pattern": "^-?\\d+\\.?\\d*,-?\\d+\\.?\\d*,-?\\d+\\.?\\d*,-?\\d+\\.?\\d*$"
+            }
+          },
+          {
+            "@id": "ex:param_start",
+            "oas:name": "start",
+            "oas:in": "query",
+            "oas:description": "Start of time interval for analyses (ISO 8601).",
+            "oas:required": false,
+            "oas:schema": {
+              "oas:type": "string",
+              "oas:format": "date-time"
+            }
+          },
+          {
+            "@id": "ex:param_end",
+            "oas:name": "end",
+            "oas:in": "query",
+            "oas:description": "End of time interval for analyses (ISO 8601).",
+            "oas:required": false,
+            "oas:schema": {
+              "oas:type": "string",
+              "oas:format": "date-time"
+            }
+          },
+          {
+            "@id": "ex:param_format",
+            "oas:name": "format",
+            "oas:in": "query",
+            "oas:description": "Output format for results.",
+            "oas:required": false,
+            "oas:schema": {
+              "oas:type": "string",
+              "oas:enum": [
+                "json",
+                "csv"
+              ]
+            }
+          }
+        ],
+        "oas:response": [
+          {
+            "oas:code": "200",
+            "schema:description": "Tabular geochemical analysis results matching the query.",
+            "oas:content": [
+              {
+                "schema:encodingFormat": "application/json",
+                "oas:schema": {
+                  "oas:type": "object",
+                  "oas:$ref": "https://geochem.example.org/api/v2/schemas/analysisResult.json"
+                }
+              },
+              {
+                "schema:encodingFormat": "text/csv",
+                "oas:schema": {
+                  "oas:type": "string",
+                  "oas:$ref": "https://geochem.example.org/api/v2/schemas/analysisResult.csv-frictionless.json"
+                }
+              }
+            ]
+          },
+          {
+            "oas:code": "400",
+            "schema:description": "Invalid query parameter (e.g. malformed bbox).",
+            "oas:content": [
+              {
+                "schema:encodingFormat": "application/json",
+                "oas:schema": {
+                  "oas:type": "object"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "@id": "ex:op_submitAnalysis",
+      "@type": [
+        "schema:CreateAction"
+      ],
+      "schema:name": "submitAnalysis",
+      "schema:description": "Submit a new geochemical analysis record. Requires authentication.",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:urlTemplate": "https://geochem.example.org/api/v2/analyses",
+        "schema:httpMethod": [
+          "POST"
+        ],
+        "oas:requestBody": {
+          "schema:description": "Analysis record conforming to the analysisSubmission schema.",
+          "oas:required": true,
+          "oas:content": [
+            {
+              "schema:encodingFormat": "application/json",
+              "oas:schema": {
+                "oas:type": "object",
+                "oas:$ref": "https://geochem.example.org/api/v2/schemas/analysisSubmission.json"
+              }
+            }
+          ]
+        },
+        "oas:response": [
+          {
+            "oas:code": "201",
+            "schema:description": "Analysis accepted; response payload contains the assigned identifier.",
+            "oas:content": [
+              {
+                "schema:encodingFormat": "application/json",
+                "oas:schema": {
+                  "oas:type": "object"
+                }
+              }
+            ]
+          },
+          {
+            "oas:code": "401",
+            "schema:description": "Authentication required.",
+            "oas:content": [
+              {
+                "schema:encodingFormat": "application/json",
+                "oas:schema": {
+                  "oas:type": "object"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
