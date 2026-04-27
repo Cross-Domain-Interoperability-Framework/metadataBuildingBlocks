@@ -945,17 +945,17 @@ linked via schema:object references for action chaining.
     schema1:actionProcess [ a schema1:HowTo ;
             schema1:name "EPMA data reduction protocol" ;
             schema1:step [ a schema1:HowToStep ;
-                    schema1:description "Calculate Fo = 100 * Mg/(Mg+Fe) from atomic proportions. Export accepted analyses with Fo, oxide wt%, detection limits, and analytical totals to CSV." ;
-                    schema1:name "Forsterite calculation and export" ;
-                    schema1:position 3 ],
-                [ a schema1:HowToStep ;
                     schema1:description "Calculate cations per 4 oxygen. Reject analyses with Si > 1.02 or total cations outside 2.98–3.02 (expected 3.00 for olivine)." ;
                     schema1:name "Stoichiometry check" ;
                     schema1:position 2 ],
                 [ a schema1:HowToStep ;
                     schema1:description "Reject analyses with oxide totals < 98.5% or > 101.0%." ;
                     schema1:name "Total oxide filter" ;
-                    schema1:position 1 ] ] ;
+                    schema1:position 1 ],
+                [ a schema1:HowToStep ;
+                    schema1:description "Calculate Fo = 100 * Mg/(Mg+Fe) from atomic proportions. Export accepted analyses with Fo, oxide wt%, detection limits, and analytical totals to CSV." ;
+                    schema1:name "Forsterite calculation and export" ;
+                    schema1:position 3 ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:additionalType "schema:CreateAction" ;
     schema1:agent [ a schema1:Person ;
@@ -986,9 +986,9 @@ ex:metadata_epma_olivine_001 a schema1:Dataset ;
 <https://registry.onegeochemistry.org/methods/jeol-8530f-olivine-v1> a schema1:HowTo ;
     schema1:name "JEOL-8530F WDS olivine major elements v1.0" ;
     schema1:step [ a schema1:HowToStep ;
-            schema1:description "Analyze San Carlos olivine NMNH 111312/444 as secondary standard at start, middle, and end of each session. Accept session if all major elements within 1% relative of accepted values. Monitor Faraday cup current every 30 minutes; recalibrate if drift exceeds 1%." ;
-            schema1:name "Quality control" ;
-            schema1:position 5 ],
+            schema1:description "Set accelerating voltage to 15 kV, beam current to 20 nA measured on Faraday cup, focused beam (~1 um). Verify beam current stability within 0.5% over 5 minutes." ;
+            schema1:name "Beam condition setup" ;
+            schema1:position 2 ],
         [ a schema1:HowToStep ;
             schema1:description "Apply ZAF matrix correction using Probe for EPMA v13.0.6 with LINEMU mass absorption coefficients. Report oxide weight percent with oxygen calculated by stoichiometry." ;
             schema1:name "Matrix correction and quantification" ;
@@ -998,9 +998,9 @@ ex:metadata_epma_olivine_001 a schema1:Dataset ;
             schema1:name "WDS acquisition" ;
             schema1:position 3 ],
         [ a schema1:HowToStep ;
-            schema1:description "Set accelerating voltage to 15 kV, beam current to 20 nA measured on Faraday cup, focused beam (~1 um). Verify beam current stability within 0.5% over 5 minutes." ;
-            schema1:name "Beam condition setup" ;
-            schema1:position 2 ],
+            schema1:description "Analyze San Carlos olivine NMNH 111312/444 as secondary standard at start, middle, and end of each session. Accept session if all major elements within 1% relative of accepted values. Monitor Faraday cup current every 30 minutes; recalibrate if drift exceeds 1%." ;
+            schema1:name "Quality control" ;
+            schema1:position 5 ],
         [ a schema1:HowToStep ;
             schema1:description "Calibrate WDS spectrometers on primary standards: San Carlos olivine (SiO2, MgO, FeO), chromite NMNH 117075 (Cr2O3), rhodonite (MnO), Kakanui hornblende (CaO, TiO2), jadeite (Na2O, Al2O3), synthetic NiO (NiO). Verify calibration on secondary standard San Carlos olivine NMNH 111312/444." ;
             schema1:name "Instrument calibration" ;
@@ -1012,22 +1012,22 @@ ex:metadata_epma_olivine_001 a schema1:Dataset ;
     schema1:actionProcess <https://registry.onegeochemistry.org/methods/jeol-8530f-olivine-v1> ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "Accelerating Voltage" ;
+            schema1:unitText "kV" ;
+            schema1:value 15 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Matrix Correction Model" ;
+            schema1:value "ZAF (LINEMU MACs)" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Number of Analyses" ;
+            schema1:value 142 ],
+        [ a schema1:PropertyValue ;
             schema1:name "Beam Diameter" ;
             schema1:value "focused (~1 um)" ],
         [ a schema1:PropertyValue ;
             schema1:name "Beam Current" ;
             schema1:unitText "nA" ;
-            schema1:value 20 ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Accelerating Voltage" ;
-            schema1:unitText "kV" ;
-            schema1:value 15 ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Number of Analyses" ;
-            schema1:value 142 ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Matrix Correction Model" ;
-            schema1:value "ZAF (LINEMU MACs)" ] ;
+            schema1:value 20 ] ;
     schema1:additionalType "bios:LabProcess",
         "schema:CreateAction" ;
     schema1:agent [ a schema1:Person ;

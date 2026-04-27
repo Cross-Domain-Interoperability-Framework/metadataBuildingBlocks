@@ -405,6 +405,11 @@ ex:dataset_datadesc_001 a schema1:Dataset ;
                     cdi:nullSequence "-999.9" ;
                     cdi:physicalDataType "Numeric" ;
                     cdi:scale 1 ],
+                [ cdi:formats_InstanceVariable ex:var_station_id ;
+                    cdi:index 0 ;
+                    cdi:isRequired true ;
+                    cdi:length 20 ;
+                    cdi:physicalDataType "String" ],
                 [ cdi:decimalPositions 2 ;
                     cdi:defaultValue "NaN" ;
                     cdi:format "0.00" ;
@@ -415,12 +420,7 @@ ex:dataset_datadesc_001 a schema1:Dataset ;
                     cdi:minimumLength 1 ;
                     cdi:nullSequence "-999.99" ;
                     cdi:physicalDataType "Numeric" ;
-                    cdi:scale 2 ],
-                [ cdi:formats_InstanceVariable ex:var_station_id ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:length 20 ;
-                    cdi:physicalDataType "String" ] ;
+                    cdi:scale 2 ] ;
             cdi:isDelimited true ;
             schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.csv" ;
             schema1:encodingFormat "text/csv" ;
