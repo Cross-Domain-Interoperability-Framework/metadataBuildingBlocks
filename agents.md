@@ -42,7 +42,8 @@ metadataBuildingBlocks/
 │   │   ├── cdifArchive/              # CDIF archive item (DataDownload with hasPart)
 │   │   ├── cdifArchiveDistribution/ # CDIF archive distribution (schema:distribution wrapper)
 │   │   ├── cdifVariableMeasured/    # CDIF variable measured extension (cdi:InstanceVariable with cdi:qualifies)
-│   │   └── cdifPhysicalMapping/     # CDIF physical mapping (cdi:PhysicalSegmentLayout serialization metadata)
+│   │   ├── cdifPhysicalMapping/     # CDIF physical mapping (cdi:PhysicalSegmentLayout serialization metadata)
+│   │   └── cdifOpenApi/             # OpenAPI-aligned WebAPI distribution (alternative to schemaorgProperties/webAPI)
 │   ├── provProperties/              # W3C PROV provenance types
 │   │   ├── generatedBy/             # prov:wasGeneratedBy (Activity)
 │   │   ├── provActivity/            # PROV-O native activity (extends generatedBy)
@@ -333,7 +334,8 @@ If the workflow fails, check the error log for:
 | `prov` | `http://www.w3.org/ns/prov#` | Provenance (instruments, activities) |
 | `nxs` | `http://purl.org/nexusformat/definitions/` | NeXus instrument/source classes |
 | `csvw` | `http://www.w3.org/ns/csvw#` | Tabular data descriptions |
-| `spdx` | `http://spdx.org/rdf/terms#` | File checksums |
+| `spdx` | `http://spdx.org/rdf/terms#` | File checksums; SPDX license identifiers (cdifOpenApi) |
+| `oas` | `https://spec.openapis.org/oas/3.1#` | OpenAPI 3.1 Operation/Parameter/RequestBody/Response (cdifOpenApi) |
 | `dcterms` | `http://purl.org/dc/terms/` | Conformance declarations |
 | `dcat` | `http://www.w3.org/ns/dcat#` | Catalog record typing (cdifCatalogRecord) |
 | `geosparql` | `http://www.opengis.net/ont/geosparql#` | Spatial geometry types |

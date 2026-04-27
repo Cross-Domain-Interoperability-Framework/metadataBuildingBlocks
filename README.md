@@ -166,7 +166,7 @@ For example, `cdifProvActivity` defines the schema for a single provenance Activ
 | Category | Directory | Description |
 |----------|-----------|-------------|
 | schemaorgProperties | `_sources/schemaorgProperties/` | schema.org vocabulary building blocks (person, organization, identifier, definedTerm, instrument, etc.) |
-| cdifProperties | `_sources/cdifProperties/` | CDIF-specific properties (core, optional, provenance, tabular data, long data, etc.) |
+| cdifProperties | `_sources/cdifProperties/` | CDIF-specific properties (core, optional, provenance, tabular data, long data, OpenAPI-aligned WebAPI, etc.) |
 | ddiProperties | `_sources/ddiProperties/` | DDI-CDI vocabulary building blocks |
 | provProperties | `_sources/provProperties/` | PROV-O provenance (generatedBy, derivedFrom, provActivity) |
 | skosProperties | `_sources/skosProperties/` | W3C SKOS vocabulary building blocks (ConceptScheme, Concept, Collection) |
