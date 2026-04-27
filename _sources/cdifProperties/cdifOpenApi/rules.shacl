@@ -1,0 +1,57 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <http://schema.org/> .
+@prefix oas:    <https://spec.openapis.org/oas/3.1#> .
+@prefix spdx:   <http://spdx.org/rdf/terms#> .
+@prefix cdifd:  <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# Shapes target only OAS-shaped nodes (objects of oas:* predicates) so they
+# do not clobber validation of other webAPI distributions in the same graph.
+
+cdifd:oasParameterNode
+    a sh:NodeShape ;
+    sh:targetObjectsOf oas:parameters ;
+    sh:property
+        [ sh:path oas:name ;
+          sh:datatype xsd:string ;
+          sh:minCount 1 ;
+          sh:message "An oas:parameter must have oas:name." ] ;
+    sh:property
+        [ sh:path oas:in ;
+          sh:in ( "query" "querystring" "path" "header" "cookie" ) ;
+          sh:minCount 1 ;
+          sh:message "An oas:parameter must have oas:in with one of {query, querystring, path, header, cookie}." ] .
+
+cdifd:oasRequestBodyNode
+    a sh:NodeShape ;
+    sh:targetObjectsOf oas:requestBody ;
+    sh:property
+        [ sh:path oas:content ;
+          sh:minCount 1 ;
+          sh:message "An oas:requestBody must include at least one oas:content media type." ] .
+
+cdifd:oasResponseNode
+    a sh:NodeShape ;
+    sh:targetObjectsOf oas:response ;
+    sh:property
+        [ sh:path oas:content ;
+          sh:minCount 1 ;
+          sh:message "An oas:response must include at least one oas:content media type." ] ;
+    sh:property
+        [ sh:path schema:description ;
+          sh:datatype xsd:string ;
+          sh:minCount 1 ;
+          sh:message "An oas:response must include schema:description." ;
+          sh:severity sh:Warning ] .
+
+cdifd:oasMediaTypeNode
+    a sh:NodeShape ;
+    sh:targetObjectsOf oas:content ;
+    sh:property
+        [ sh:path schema:encodingFormat ;
+          sh:datatype xsd:string ;
+          sh:minCount 1 ;
+          sh:message "An oas:content media type must specify schema:encodingFormat (MIME type)." ] .
