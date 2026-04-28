@@ -34,18 +34,18 @@ ex:op_searchAnalyses a schema1:SearchAction ;
                 ex:param_end,
                 ex:param_format,
                 ex:param_start ;
-            oas:response [ schema1:description "Tabular geochemical analysis results matching the query." ;
-                    oas:code "200" ;
-                    oas:content [ schema1:encodingFormat "text/csv" ;
-                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.csv-frictionless.json" ;
-                                    oas:type "string" ] ],
-                        [ schema1:encodingFormat "application/json" ;
-                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.json" ;
-                                    oas:type "object" ] ] ],
-                [ schema1:description "Invalid query parameter (e.g. malformed bbox)." ;
+            oas:response [ schema1:description "Invalid query parameter (e.g. malformed bbox)." ;
                     oas:code "400" ;
                     oas:content [ schema1:encodingFormat "application/json" ;
-                            oas:schema [ oas:type "object" ] ] ] ] .
+                            oas:schema [ oas:type "object" ] ] ],
+                [ schema1:description "Tabular geochemical analysis results matching the query." ;
+                    oas:code "200" ;
+                    oas:content [ schema1:encodingFormat "application/json" ;
+                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.json" ;
+                                    oas:type "object" ] ],
+                        [ schema1:encodingFormat "text/csv" ;
+                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.csv-frictionless.json" ;
+                                    oas:type "string" ] ] ] ] .
 
 ex:op_submitAnalysis a schema1:CreateAction ;
     schema1:description "Submit a new geochemical analysis record. Requires authentication." ;
@@ -58,12 +58,12 @@ ex:op_submitAnalysis a schema1:CreateAction ;
                             oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisSubmission.json" ;
                                     oas:type "object" ] ] ;
                     oas:required true ] ;
-            oas:response [ schema1:description "Analysis accepted; response payload contains the assigned identifier." ;
-                    oas:code "201" ;
+            oas:response [ schema1:description "Authentication required." ;
+                    oas:code "401" ;
                     oas:content [ schema1:encodingFormat "application/json" ;
                             oas:schema [ oas:type "object" ] ] ],
-                [ schema1:description "Authentication required." ;
-                    oas:code "401" ;
+                [ schema1:description "Analysis accepted; response payload contains the assigned identifier." ;
+                    oas:code "201" ;
                     oas:content [ schema1:encodingFormat "application/json" ;
                             oas:schema [ oas:type "object" ] ] ] ] .
 

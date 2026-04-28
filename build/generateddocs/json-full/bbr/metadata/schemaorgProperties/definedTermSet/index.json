@@ -1,0 +1,108 @@
+
+
+{
+  "itemIdentifier": "cdif.bbr.metadata.schemaorgProperties.definedTermSet",
+  "$schema": "metaschema.yaml",
+  "name": "Defined Term Set",
+  "abstract": "Schema describing a controlled vocabulary or list of defined terms, based on schema.org/DefinedTermSet. Defines properties: @type, schema:name, schema:description, schema:identifier, schema:url, schema:hasDefinedTerm. Items in schema:hasDefinedTerm are individual schema:DefinedTerm objects (uses building block: definedTerm).",
+  "status": "under-development",
+  "dateTimeAddition": "2026-04-28T00:00:00Z",
+  "itemClass": "schema",
+  "register": "cdif-building-block-register",
+  "version": "0.1",
+  "dateOfLastChange": "2026-04-28",
+  "link": "https://github.com/opengeospatial/bblock-template",
+  "sources": [
+    {
+      "title": "schema.org",
+      "link": "https://schema.org/DefinedTermSet"
+    }
+  ],
+  "maturity": "draft",
+  "scope": "unstable",
+  "tags": [
+    "templates"
+  ],
+  "shaclShapes": {
+    "cdif.bbr.metadata.schemaorgProperties.definedTermSet": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTermSet/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
+    ]
+  },
+  "dependsOn": [
+    "cdif.bbr.metadata.schemaorgProperties.identifier",
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm"
+  ],
+  "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTermSet/context.jsonld",
+  "schema": {
+    "application/yaml": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTermSet/schema.yaml",
+    "application/json": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTermSet/schema.json"
+  },
+  "sourceSchema": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTermSet/schema.yaml",
+  "sourceLdContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTermSet/context.jsonld",
+  "resolvedSchemaProperties": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTermSet/resolvedProperties.json",
+  "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTermSet/",
+  "validationPassed": true,
+  "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/schemaorgProperties/definedTermSet/",
+  "description": "## DefinedTermSet properties\n\nDefines a set of properties for use describing a schema.org DefinedTermSet for the schema.org implementation of the [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) discovery profile.\n\nA DefinedTermSet is a named container of schema:DefinedTerm objects \u2014 a controlled vocabulary, code list, or term collection. Each term in `schema:hasDefinedTerm` is validated against the DefinedTerm building block. The set itself must carry at least one identifier (any of `@id`, `schema:name`, or `schema:identifier`) so it can be referenced from `schema:inDefinedTermSet` or other links.\n",
+  "examples": [
+    {
+      "title": "Defined Term Set example.",
+      "content": "Minimal DefinedTermSet instance with two terms.",
+      "prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTermSet/exampleDefinedTermSet.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@id\": \"ex:sampleMaterialTypes\",\n  \"@type\": [\"schema:DefinedTermSet\"],\n  \"schema:name\": \"Sample Material Types\",\n  \"schema:description\": \"A minimal controlled vocabulary of geological sample material classifications.\",\n  \"schema:hasDefinedTerm\": [\n    {\n      \"@type\": [\"schema:DefinedTerm\"],\n      \"@id\": \"ex:rock\",\n      \"schema:name\": \"Rock\",\n      \"schema:termCode\": \"rock\"\n    },\n    {\n      \"@type\": [\"schema:DefinedTerm\"],\n      \"@id\": \"ex:soil\",\n      \"schema:name\": \"Soil\",\n      \"schema:termCode\": \"soil\"\n    }\n  ]\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/definedTermSet/example_1_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTermSet/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@id\": \"ex:sampleMaterialTypes\",\n  \"@type\": [\n    \"schema:DefinedTermSet\"\n  ],\n  \"schema:name\": \"Sample Material Types\",\n  \"schema:description\": \"A minimal controlled vocabulary of geological sample material classifications.\",\n  \"schema:hasDefinedTerm\": [\n    {\n      \"@type\": [\n        \"schema:DefinedTerm\"\n      ],\n      \"@id\": \"ex:rock\",\n      \"schema:name\": \"Rock\",\n      \"schema:termCode\": \"rock\"\n    },\n    {\n      \"@type\": [\n        \"schema:DefinedTerm\"\n      ],\n      \"@id\": \"ex:soil\",\n      \"schema:name\": \"Soil\",\n      \"schema:termCode\": \"soil\"\n    }\n  ]\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/definedTermSet/example_1_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n\nex:sampleMaterialTypes a schema1:DefinedTermSet ;\n    schema1:description \"A minimal controlled vocabulary of geological sample material classifications.\" ;\n    schema1:hasDefinedTerm ex:rock,\n        ex:soil ;\n    schema1:name \"Sample Material Types\" .\n\nex:rock a schema1:DefinedTerm ;\n    schema1:name \"Rock\" ;\n    schema1:termCode \"rock\" .\n\nex:soil a schema1:DefinedTerm ;\n    schema1:name \"Soil\" ;\n    schema1:termCode \"soil\" .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/definedTermSet/example_1_1.ttl"
+        }
+      ]
+    },
+    {
+      "title": "Complete defined term set example.",
+      "content": "DefinedTermSet exercising name, description, identifier, url, and a richer\nlist of schema:DefinedTerm entries each with their own @id, name, and termCode.",
+      "prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTermSet/exampleDefinedTermSetComplete.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@id\": \"ex:nercParameterCodes_P02\",\n  \"@type\": [\"schema:DefinedTermSet\"],\n  \"schema:name\": \"NERC Vocabulary Server P02 Parameter Codes\",\n  \"schema:description\": \"Excerpt of the NERC Vocabulary Server P02 collection of climate and forecast standard names for marine and oceanographic measurements.\",\n  \"schema:identifier\": {\n    \"@type\": [\"schema:PropertyValue\"],\n    \"schema:propertyID\": \"https://vocab.nerc.ac.uk/collection/P02/current/\",\n    \"schema:value\": \"P02\",\n    \"schema:url\": \"https://vocab.nerc.ac.uk/collection/P02/current/\"\n  },\n  \"schema:url\": \"https://vocab.nerc.ac.uk/collection/P02/current/\",\n  \"schema:hasDefinedTerm\": [\n    {\n      \"@type\": [\"schema:DefinedTerm\"],\n      \"@id\": \"https://vocab.nerc.ac.uk/collection/P02/current/MSDG/\",\n      \"schema:name\": \"Marine Sediment Geochemistry\",\n      \"schema:identifier\": {\n        \"@type\": [\"schema:PropertyValue\"],\n        \"schema:propertyID\": \"https://vocab.nerc.ac.uk/collection/P02/current/\",\n        \"schema:value\": \"MSDG\",\n        \"schema:url\": \"https://vocab.nerc.ac.uk/collection/P02/current/MSDG/\"\n      },\n      \"schema:inDefinedTermSet\": \"https://vocab.nerc.ac.uk/collection/P02/current/\",\n      \"schema:termCode\": \"MSDG\"\n    },\n    {\n      \"@type\": [\"schema:DefinedTerm\"],\n      \"@id\": \"https://vocab.nerc.ac.uk/collection/P02/current/CHEM/\",\n      \"schema:name\": \"Water-column chemistry\",\n      \"schema:inDefinedTermSet\": \"https://vocab.nerc.ac.uk/collection/P02/current/\",\n      \"schema:termCode\": \"CHEM\"\n    }\n  ]\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/definedTermSet/example_2_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTermSet/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@id\": \"ex:nercParameterCodes_P02\",\n  \"@type\": [\n    \"schema:DefinedTermSet\"\n  ],\n  \"schema:name\": \"NERC Vocabulary Server P02 Parameter Codes\",\n  \"schema:description\": \"Excerpt of the NERC Vocabulary Server P02 collection of climate and forecast standard names for marine and oceanographic measurements.\",\n  \"schema:identifier\": {\n    \"@type\": [\n      \"schema:PropertyValue\"\n    ],\n    \"schema:propertyID\": \"https://vocab.nerc.ac.uk/collection/P02/current/\",\n    \"schema:value\": \"P02\",\n    \"schema:url\": \"https://vocab.nerc.ac.uk/collection/P02/current/\"\n  },\n  \"schema:url\": \"https://vocab.nerc.ac.uk/collection/P02/current/\",\n  \"schema:hasDefinedTerm\": [\n    {\n      \"@type\": [\n        \"schema:DefinedTerm\"\n      ],\n      \"@id\": \"https://vocab.nerc.ac.uk/collection/P02/current/MSDG/\",\n      \"schema:name\": \"Marine Sediment Geochemistry\",\n      \"schema:identifier\": {\n        \"@type\": [\n          \"schema:PropertyValue\"\n        ],\n        \"schema:propertyID\": \"https://vocab.nerc.ac.uk/collection/P02/current/\",\n        \"schema:value\": \"MSDG\",\n        \"schema:url\": \"https://vocab.nerc.ac.uk/collection/P02/current/MSDG/\"\n      },\n      \"schema:inDefinedTermSet\": \"https://vocab.nerc.ac.uk/collection/P02/current/\",\n      \"schema:termCode\": \"MSDG\"\n    },\n    {\n      \"@type\": [\n        \"schema:DefinedTerm\"\n      ],\n      \"@id\": \"https://vocab.nerc.ac.uk/collection/P02/current/CHEM/\",\n      \"schema:name\": \"Water-column chemistry\",\n      \"schema:inDefinedTermSet\": \"https://vocab.nerc.ac.uk/collection/P02/current/\",\n      \"schema:termCode\": \"CHEM\"\n    }\n  ]\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/definedTermSet/example_2_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n\nex:nercParameterCodes_P02 a schema1:DefinedTermSet ;\n    schema1:description \"Excerpt of the NERC Vocabulary Server P02 collection of climate and forecast standard names for marine and oceanographic measurements.\" ;\n    schema1:hasDefinedTerm <https://vocab.nerc.ac.uk/collection/P02/current/CHEM/>,\n        <https://vocab.nerc.ac.uk/collection/P02/current/MSDG/> ;\n    schema1:identifier [ a schema1:PropertyValue ;\n            schema1:propertyID \"https://vocab.nerc.ac.uk/collection/P02/current/\" ;\n            schema1:url \"https://vocab.nerc.ac.uk/collection/P02/current/\" ;\n            schema1:value \"P02\" ] ;\n    schema1:name \"NERC Vocabulary Server P02 Parameter Codes\" ;\n    schema1:url \"https://vocab.nerc.ac.uk/collection/P02/current/\" .\n\n<https://vocab.nerc.ac.uk/collection/P02/current/CHEM/> a schema1:DefinedTerm ;\n    schema1:inDefinedTermSet \"https://vocab.nerc.ac.uk/collection/P02/current/\" ;\n    schema1:name \"Water-column chemistry\" ;\n    schema1:termCode \"CHEM\" .\n\n<https://vocab.nerc.ac.uk/collection/P02/current/MSDG/> a schema1:DefinedTerm ;\n    schema1:identifier [ a schema1:PropertyValue ;\n            schema1:propertyID \"https://vocab.nerc.ac.uk/collection/P02/current/\" ;\n            schema1:url \"https://vocab.nerc.ac.uk/collection/P02/current/MSDG/\" ;\n            schema1:value \"MSDG\" ] ;\n    schema1:inDefinedTermSet \"https://vocab.nerc.ac.uk/collection/P02/current/\" ;\n    schema1:name \"Marine Sediment Geochemistry\" ;\n    schema1:termCode \"MSDG\" .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/definedTermSet/example_2_1.ttl"
+        }
+      ]
+    }
+  ],
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: schema.org Defined Term Set schema. A controlled vocabulary or named\n  list of schema:DefinedTerm objects.\ntype: object\nproperties:\n  '@id':\n    type: string\n    description: Persistent identifier (URI) for this DefinedTermSet.\n  '@type':\n    type: array\n    items:\n      type: string\n    contains:\n      const: schema:DefinedTermSet\n    minItems: 1\n  schema:name:\n    type: string\n    description: Human-readable name (label) for the term set.\n  schema:description:\n    type: string\n    description: Description of the scope and purpose of the term set.\n  schema:identifier:\n    description: Formal identifier for the term set, as a string or structured PropertyValue.\n    anyOf:\n    - type: string\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml\n  schema:url:\n    type: string\n    format: uri\n    description: URL where the term set is published.\n  schema:hasDefinedTerm:\n    type: array\n    minItems: 1\n    description: The terms that make up this set. Each item is a schema:DefinedTerm.\n    items:\n      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\nallOf:\n- required:\n  - '@type'\n  - schema:hasDefinedTerm\n- anyOf:\n  - required:\n    - schema:name\n  - required:\n    - schema:identifier\n  - required:\n    - '@id'\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
+  "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "gitPath": "_sources/schemaorgProperties/definedTermSet"
+}
