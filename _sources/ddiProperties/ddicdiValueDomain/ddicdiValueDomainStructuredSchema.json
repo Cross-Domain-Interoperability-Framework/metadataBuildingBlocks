@@ -4,8 +4,43 @@
   "description": "Unified DDI-CDI ValueDomain building block covering both SubstantiveValueDomain (subject-matter values) and SentinelValueDomain (processing/missing-value codes). Both inherit from ValueDomain. SentinelValueDomain adds an optional cdi:platformType property. Supports described domains (ValueAndConceptDescription), enumerated domains (EnumerationDomain), and conceptual domain references.",
   "anyOf": [
     {
+      "allOf": [
+        {
+          "$ref": "#/$defs/ValueDomainNode"
+        },
+        {
+          "description": "Single ValueDomain node"
+        }
+      ]
+    },
+    {
+      "description": "Unwrapped @graph array of nodes",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ValueDomainNode"
+      }
+    },
+    {
+      "description": "JSON-LD document with @context and @graph",
       "type": "object",
-      "description": "Single ValueDomain node",
+      "properties": {
+        "@context": {},
+        "@graph": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ValueDomainNode"
+          }
+        }
+      },
+      "required": [
+        "@graph"
+      ]
+    }
+  ],
+  "$defs": {
+    "ValueDomainNode": {
+      "type": "object",
+      "description": "A single ValueDomain node (SubstantiveValueDomain or SentinelValueDomain)",
       "properties": {
         "@type": {
           "description": "Must include either cdi:SubstantiveValueDomain or cdi:SentinelValueDomain",
@@ -32,32 +67,220 @@
           "description": "Identifier for this value domain node"
         },
         "cdi:catalogDetails": {
-          "title": "DDI-CDI Data Types",
-          "description": "Administrative catalog metadata for this value domain"
+          "allOf": [
+            {
+              "type": "object",
+              "description": "DDI-CDI catalog details (dt-CatalogDetails)",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:CatalogDetails"
+                  },
+                  "minItems": 1
+                },
+                "cdi:title": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/InternationalString"
+                    },
+                    {
+                      "description": "Title for the catalog entry"
+                    }
+                  ]
+                },
+                "cdi:summary": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/InternationalString"
+                    },
+                    {
+                      "description": "Summary description"
+                    }
+                  ]
+                },
+                "cdi:identifier": {
+                  "description": "Catalog identifier",
+                  "type": "object",
+                  "properties": {
+                    "cdi:identifierContent": {
+                      "type": "string"
+                    },
+                    "cdi:isUri": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "cdi:creator": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "description": "DDI-CDI agent in a role (dt-AgentInRole)",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "cdi:AgentInRole"
+                          },
+                          "minItems": 1
+                        },
+                        "cdi:agentName": {
+                          "allOf": [
+                            {
+                              "$ref": "#/$defs/InternationalString"
+                            },
+                            {
+                              "description": "Name of the agent"
+                            }
+                          ]
+                        },
+                        "cdi:reference": {
+                          "allOf": [
+                            {
+                              "$ref": "#/$defs/Reference"
+                            },
+                            {
+                              "description": "Reference to the agent entity"
+                            }
+                          ]
+                        },
+                        "cdi:role": {
+                          "allOf": [
+                            {
+                              "$ref": "#/$defs/ControlledVocabularyEntry"
+                            },
+                            {
+                              "description": "Role of the agent"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "description": "Creator of the catalog entry"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "description": "Administrative catalog metadata for this value domain"
+            }
+          ]
         },
         "cdi:displayLabel": {
           "description": "Multilingual display label",
           "anyOf": [
             {
-              "title": "DDI-CDI Data Types",
-              "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
+              "type": "object",
+              "description": "DDI-CDI multilingual display label (dt-LabelForDisplay)",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:LabelForDisplay"
+                  },
+                  "minItems": 1
+                },
+                "cdi:locationVariant": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/ControlledVocabularyEntry"
+                    },
+                    {
+                      "description": "Geographic or locale variant"
+                    }
+                  ]
+                },
+                "cdi:maxLength": {
+                  "type": "integer",
+                  "description": "Maximum display length"
+                },
+                "cdi:languageSpecificString": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/LanguageString"
+                    },
+                    {
+                      "description": "The label text with language tag"
+                    }
+                  ]
+                }
+              }
             },
             {
               "type": "array",
               "items": {
-                "title": "DDI-CDI Data Types",
-                "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
+                "type": "object",
+                "description": "DDI-CDI multilingual display label (dt-LabelForDisplay)",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:LabelForDisplay"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:locationVariant": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/ControlledVocabularyEntry"
+                      },
+                      {
+                        "description": "Geographic or locale variant"
+                      }
+                    ]
+                  },
+                  "cdi:maxLength": {
+                    "type": "integer",
+                    "description": "Maximum display length"
+                  },
+                  "cdi:languageSpecificString": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/LanguageString"
+                      },
+                      {
+                        "description": "The label text with language tag"
+                      }
+                    ]
+                  }
+                }
               }
             }
           ]
         },
         "cdi:identifier": {
-          "title": "DDI-CDI Data Types",
-          "description": "Formal identifier for this value domain"
+          "allOf": [
+            {
+              "$ref": "#/$defs/Identifier"
+            },
+            {
+              "description": "Formal identifier for this value domain"
+            }
+          ]
         },
         "cdi:recommendedDataType": {
-          "title": "DDI-CDI Data Types",
-          "description": "Recommended physical data type for values in this domain"
+          "allOf": [
+            {
+              "$ref": "#/$defs/ControlledVocabularyEntry"
+            },
+            {
+              "description": "Recommended physical data type for values in this domain"
+            }
+          ]
         },
         "cdi:isDescribedBy": {
           "description": "Description of the value domain constraints (0..1). Inline ValueAndConceptDescription or @id reference.",
@@ -92,20 +315,44 @@
                   ]
                 },
                 "cdi:description": {
-                  "title": "DDI-CDI Data Types",
-                  "description": "Textual description of the value domain constraints"
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/InternationalString"
+                    },
+                    {
+                      "description": "Textual description of the value domain constraints"
+                    }
+                  ]
                 },
                 "cdi:formatPattern": {
-                  "title": "DDI-CDI Data Types",
-                  "description": "Expected format pattern for values"
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/ControlledVocabularyEntry"
+                    },
+                    {
+                      "description": "Expected format pattern for values"
+                    }
+                  ]
                 },
                 "cdi:identifier": {
-                  "title": "DDI-CDI Data Types",
-                  "description": "Formal identifier"
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/Identifier"
+                    },
+                    {
+                      "description": "Formal identifier"
+                    }
+                  ]
                 },
                 "cdi:logicalExpression": {
-                  "title": "DDI-CDI Data Types",
-                  "description": "Logical expression constraining valid values"
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/ControlledVocabularyEntry"
+                    },
+                    {
+                      "description": "Logical expression constraining valid values"
+                    }
+                  ]
                 },
                 "cdi:maximumValueExclusive": {
                   "type": "string",
@@ -124,34 +371,46 @@
                   "description": "Inclusive lower bound for valid values"
                 },
                 "cdi:regularExpression": {
-                  "type": "object",
-                  "description": "Regular expression constraining valid value syntax",
-                  "properties": {
-                    "@type": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "contains": {
-                        "const": "cdi:TypedString"
-                      },
-                      "minItems": 1
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "description": "DDI-CDI typed string value (dt-TypedString)",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "cdi:TypedString"
+                          },
+                          "minItems": 1
+                        },
+                        "cdi:content": {
+                          "type": "string",
+                          "description": "The string content"
+                        },
+                        "cdi:typeOfContent": {
+                          "allOf": [
+                            {
+                              "$ref": "#/$defs/ControlledVocabularyEntry"
+                            },
+                            {
+                              "description": "Type or format of the content"
+                            }
+                          ]
+                        }
+                      }
                     },
-                    "cdi:content": {
-                      "type": "string",
-                      "description": "The string content"
-                    },
-                    "cdi:typeOfContent": {
-                      "title": "DDI-CDI Data Types",
-                      "description": "Type or format of the content"
+                    {
+                      "description": "Regular expression constraining valid value syntax"
                     }
-                  }
+                  ]
                 }
               }
             },
             {
-              "title": "DDI-CDI Data Types",
-              "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
+              "$ref": "#/$defs/id-reference"
             }
           ]
         },
@@ -177,434 +436,56 @@
                   "description": "Identifier for this enumeration domain node"
                 },
                 "cdi:identifier": {
-                  "title": "DDI-CDI Data Types",
-                  "description": "Formal identifier"
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/Identifier"
+                    },
+                    {
+                      "description": "Formal identifier"
+                    }
+                  ]
                 },
                 "cdi:name": {
                   "description": "Structured name for this enumeration domain",
                   "anyOf": [
                     {
-                      "title": "DDI-CDI Data Types",
-                      "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
+                      "type": "object",
+                      "description": "DDI-CDI structured name wrapper (dt-ObjectName)",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "cdi:ObjectName"
+                          },
+                          "minItems": 1
+                        },
+                        "cdi:name": {
+                          "type": "string",
+                          "description": "The name string"
+                        },
+                        "cdi:context": {
+                          "allOf": [
+                            {
+                              "$ref": "#/$defs/ControlledVocabularyEntry"
+                            },
+                            {
+                              "description": "Context or usage of this name"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "cdi:name"
+                      ]
                     },
                     {
                       "type": "array",
                       "items": {
-                        "title": "DDI-CDI Data Types",
-                        "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
-                      }
-                    }
-                  ]
-                },
-                "cdi:purpose": {
-                  "title": "DDI-CDI Data Types",
-                  "description": "Purpose of this enumeration domain"
-                },
-                "cdi:uses": {
-                  "title": "DDI-CDI Data Types",
-                  "description": "Reference to a LevelStructure that organizes the enumeration. @id reference only."
-                },
-                "cdi:isDefinedBy": {
-                  "description": "References to Concepts that define the enumerated values. Array of @id references.",
-                  "type": "array",
-                  "items": {
-                    "title": "DDI-CDI Data Types",
-                    "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
-                  }
-                },
-                "cdi:references": {
-                  "title": "DDI-CDI Data Types",
-                  "description": "Reference to the CategorySet providing the value categories. @id reference only."
-                }
-              }
-            },
-            {
-              "title": "DDI-CDI Data Types",
-              "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
-            }
-          ]
-        },
-        "cdi:takesConceptsFrom": {
-          "title": "DDI-CDI Data Types",
-          "description": "Reference to a conceptual domain (SubstantiveConceptualDomain or SentinelConceptualDomain) that provides conceptual grounding for this value domain (0..1). @id reference only."
-        },
-        "cdi:platformType": {
-          "title": "DDI-CDI Data Types",
-          "description": "(SentinelValueDomain only) The type of software platform under which sentinel codes will be used. Statistical software platforms use different sets of codes to indicate missing values. Example values: SASNumeric, SPSSstyle, Rstyle, StataNumeric, BlankString, EmptyString, Unrestricted."
-        }
-      },
-      "required": [
-        "@type"
-      ]
-    },
-    {
-      "description": "Unwrapped @graph array of nodes",
-      "type": "array",
-      "items": {
-        "type": "object",
-        "description": "A single ValueDomain node (SubstantiveValueDomain or SentinelValueDomain)",
-        "properties": {
-          "@type": {
-            "description": "Must include either cdi:SubstantiveValueDomain or cdi:SentinelValueDomain",
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "anyOf": [
-              {
-                "contains": {
-                  "const": "cdi:SubstantiveValueDomain"
-                }
-              },
-              {
-                "contains": {
-                  "const": "cdi:SentinelValueDomain"
-                }
-              }
-            ],
-            "minItems": 1
-          },
-          "@id": {
-            "type": "string",
-            "description": "Identifier for this value domain node"
-          },
-          "cdi:catalogDetails": {
-            "title": "DDI-CDI Data Types",
-            "description": "Administrative catalog metadata for this value domain"
-          },
-          "cdi:displayLabel": {
-            "description": "Multilingual display label",
-            "anyOf": [
-              {
-                "title": "DDI-CDI Data Types",
-                "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
-              },
-              {
-                "type": "array",
-                "items": {
-                  "title": "DDI-CDI Data Types",
-                  "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
-                }
-              }
-            ]
-          },
-          "cdi:identifier": {
-            "title": "DDI-CDI Data Types",
-            "description": "Formal identifier for this value domain"
-          },
-          "cdi:recommendedDataType": {
-            "title": "DDI-CDI Data Types",
-            "description": "Recommended physical data type for values in this domain"
-          },
-          "cdi:isDescribedBy": {
-            "description": "Description of the value domain constraints (0..1). Inline ValueAndConceptDescription or @id reference.",
-            "anyOf": [
-              {
-                "type": "object",
-                "description": "DDI-CDI description of value constraints and measurement level (cls-ValueAndConceptDescription)",
-                "properties": {
-                  "@type": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "contains": {
-                      "const": "cdi:ValueAndConceptDescription"
-                    },
-                    "minItems": 1
-                  },
-                  "@id": {
-                    "type": "string",
-                    "description": "Identifier for this description node"
-                  },
-                  "cdi:classificationLevel": {
-                    "type": "string",
-                    "description": "Level of measurement",
-                    "enum": [
-                      "Continuous",
-                      "Interval",
-                      "Nominal",
-                      "Ordinal",
-                      "Ratio"
-                    ]
-                  },
-                  "cdi:description": {
-                    "title": "DDI-CDI Data Types",
-                    "description": "Textual description of the value domain constraints"
-                  },
-                  "cdi:formatPattern": {
-                    "title": "DDI-CDI Data Types",
-                    "description": "Expected format pattern for values"
-                  },
-                  "cdi:identifier": {
-                    "title": "DDI-CDI Data Types",
-                    "description": "Formal identifier"
-                  },
-                  "cdi:logicalExpression": {
-                    "title": "DDI-CDI Data Types",
-                    "description": "Logical expression constraining valid values"
-                  },
-                  "cdi:maximumValueExclusive": {
-                    "type": "string",
-                    "description": "Exclusive upper bound for valid values"
-                  },
-                  "cdi:maximumValueInclusive": {
-                    "type": "string",
-                    "description": "Inclusive upper bound for valid values"
-                  },
-                  "cdi:minimumValueExclusive": {
-                    "type": "string",
-                    "description": "Exclusive lower bound for valid values"
-                  },
-                  "cdi:minimumValueInclusive": {
-                    "type": "string",
-                    "description": "Inclusive lower bound for valid values"
-                  },
-                  "cdi:regularExpression": {
-                    "type": "object",
-                    "description": "Regular expression constraining valid value syntax",
-                    "properties": {
-                      "@type": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        },
-                        "contains": {
-                          "const": "cdi:TypedString"
-                        },
-                        "minItems": 1
-                      },
-                      "cdi:content": {
-                        "type": "string",
-                        "description": "The string content"
-                      },
-                      "cdi:typeOfContent": {
-                        "title": "DDI-CDI Data Types",
-                        "description": "Type or format of the content"
-                      }
-                    }
-                  }
-                }
-              },
-              {
-                "title": "DDI-CDI Data Types",
-                "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
-              }
-            ]
-          },
-          "cdi:takesValuesFrom": {
-            "description": "Enumeration domain providing the set of permissible coded values (0..1). Inline EnumerationDomain or @id reference.",
-            "anyOf": [
-              {
-                "type": "object",
-                "description": "DDI-CDI enumeration domain providing a set of permissible coded values (cls-EnumerationDomain)",
-                "properties": {
-                  "@type": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "contains": {
-                      "const": "cdi:EnumerationDomain"
-                    },
-                    "minItems": 1
-                  },
-                  "@id": {
-                    "type": "string",
-                    "description": "Identifier for this enumeration domain node"
-                  },
-                  "cdi:identifier": {
-                    "title": "DDI-CDI Data Types",
-                    "description": "Formal identifier"
-                  },
-                  "cdi:name": {
-                    "description": "Structured name for this enumeration domain",
-                    "anyOf": [
-                      {
-                        "title": "DDI-CDI Data Types",
-                        "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
-                      },
-                      {
-                        "type": "array",
-                        "items": {
-                          "title": "DDI-CDI Data Types",
-                          "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
-                        }
-                      }
-                    ]
-                  },
-                  "cdi:purpose": {
-                    "title": "DDI-CDI Data Types",
-                    "description": "Purpose of this enumeration domain"
-                  },
-                  "cdi:uses": {
-                    "title": "DDI-CDI Data Types",
-                    "description": "Reference to a LevelStructure that organizes the enumeration. @id reference only."
-                  },
-                  "cdi:isDefinedBy": {
-                    "description": "References to Concepts that define the enumerated values. Array of @id references.",
-                    "type": "array",
-                    "items": {
-                      "title": "DDI-CDI Data Types",
-                      "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
-                    }
-                  },
-                  "cdi:references": {
-                    "title": "DDI-CDI Data Types",
-                    "description": "Reference to the CategorySet providing the value categories. @id reference only."
-                  }
-                }
-              },
-              {
-                "title": "DDI-CDI Data Types",
-                "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
-              }
-            ]
-          },
-          "cdi:takesConceptsFrom": {
-            "title": "DDI-CDI Data Types",
-            "description": "Reference to a conceptual domain (SubstantiveConceptualDomain or SentinelConceptualDomain) that provides conceptual grounding for this value domain (0..1). @id reference only."
-          },
-          "cdi:platformType": {
-            "title": "DDI-CDI Data Types",
-            "description": "(SentinelValueDomain only) The type of software platform under which sentinel codes will be used. Statistical software platforms use different sets of codes to indicate missing values. Example values: SASNumeric, SPSSstyle, Rstyle, StataNumeric, BlankString, EmptyString, Unrestricted."
-          }
-        },
-        "required": [
-          "@type"
-        ]
-      }
-    },
-    {
-      "description": "JSON-LD document with @context and @graph",
-      "type": "object",
-      "properties": {
-        "@context": {},
-        "@graph": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "description": "A single ValueDomain node (SubstantiveValueDomain or SentinelValueDomain)",
-            "properties": {
-              "@type": {
-                "description": "Must include either cdi:SubstantiveValueDomain or cdi:SentinelValueDomain",
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "anyOf": [
-                  {
-                    "contains": {
-                      "const": "cdi:SubstantiveValueDomain"
-                    }
-                  },
-                  {
-                    "contains": {
-                      "const": "cdi:SentinelValueDomain"
-                    }
-                  }
-                ],
-                "minItems": 1
-              },
-              "@id": {
-                "type": "string",
-                "description": "Identifier for this value domain node"
-              },
-              "cdi:catalogDetails": {
-                "title": "DDI-CDI Data Types",
-                "description": "Administrative catalog metadata for this value domain"
-              },
-              "cdi:displayLabel": {
-                "description": "Multilingual display label",
-                "anyOf": [
-                  {
-                    "title": "DDI-CDI Data Types",
-                    "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
-                  },
-                  {
-                    "type": "array",
-                    "items": {
-                      "title": "DDI-CDI Data Types",
-                      "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
-                    }
-                  }
-                ]
-              },
-              "cdi:identifier": {
-                "title": "DDI-CDI Data Types",
-                "description": "Formal identifier for this value domain"
-              },
-              "cdi:recommendedDataType": {
-                "title": "DDI-CDI Data Types",
-                "description": "Recommended physical data type for values in this domain"
-              },
-              "cdi:isDescribedBy": {
-                "description": "Description of the value domain constraints (0..1). Inline ValueAndConceptDescription or @id reference.",
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "description": "DDI-CDI description of value constraints and measurement level (cls-ValueAndConceptDescription)",
-                    "properties": {
-                      "@type": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        },
-                        "contains": {
-                          "const": "cdi:ValueAndConceptDescription"
-                        },
-                        "minItems": 1
-                      },
-                      "@id": {
-                        "type": "string",
-                        "description": "Identifier for this description node"
-                      },
-                      "cdi:classificationLevel": {
-                        "type": "string",
-                        "description": "Level of measurement",
-                        "enum": [
-                          "Continuous",
-                          "Interval",
-                          "Nominal",
-                          "Ordinal",
-                          "Ratio"
-                        ]
-                      },
-                      "cdi:description": {
-                        "title": "DDI-CDI Data Types",
-                        "description": "Textual description of the value domain constraints"
-                      },
-                      "cdi:formatPattern": {
-                        "title": "DDI-CDI Data Types",
-                        "description": "Expected format pattern for values"
-                      },
-                      "cdi:identifier": {
-                        "title": "DDI-CDI Data Types",
-                        "description": "Formal identifier"
-                      },
-                      "cdi:logicalExpression": {
-                        "title": "DDI-CDI Data Types",
-                        "description": "Logical expression constraining valid values"
-                      },
-                      "cdi:maximumValueExclusive": {
-                        "type": "string",
-                        "description": "Exclusive upper bound for valid values"
-                      },
-                      "cdi:maximumValueInclusive": {
-                        "type": "string",
-                        "description": "Inclusive upper bound for valid values"
-                      },
-                      "cdi:minimumValueExclusive": {
-                        "type": "string",
-                        "description": "Exclusive lower bound for valid values"
-                      },
-                      "cdi:minimumValueInclusive": {
-                        "type": "string",
-                        "description": "Inclusive lower bound for valid values"
-                      },
-                      "cdi:regularExpression": {
                         "type": "object",
-                        "description": "Regular expression constraining valid value syntax",
+                        "description": "DDI-CDI structured name wrapper (dt-ObjectName)",
                         "properties": {
                           "@type": {
                             "type": "array",
@@ -612,115 +493,396 @@
                               "type": "string"
                             },
                             "contains": {
-                              "const": "cdi:TypedString"
+                              "const": "cdi:ObjectName"
                             },
                             "minItems": 1
                           },
-                          "cdi:content": {
+                          "cdi:name": {
                             "type": "string",
-                            "description": "The string content"
+                            "description": "The name string"
                           },
-                          "cdi:typeOfContent": {
-                            "title": "DDI-CDI Data Types",
-                            "description": "Type or format of the content"
+                          "cdi:context": {
+                            "allOf": [
+                              {
+                                "$ref": "#/$defs/ControlledVocabularyEntry"
+                              },
+                              {
+                                "description": "Context or usage of this name"
+                              }
+                            ]
                           }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "title": "DDI-CDI Data Types",
-                    "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
-                  }
-                ]
-              },
-              "cdi:takesValuesFrom": {
-                "description": "Enumeration domain providing the set of permissible coded values (0..1). Inline EnumerationDomain or @id reference.",
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "description": "DDI-CDI enumeration domain providing a set of permissible coded values (cls-EnumerationDomain)",
-                    "properties": {
-                      "@type": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
                         },
-                        "contains": {
-                          "const": "cdi:EnumerationDomain"
-                        },
-                        "minItems": 1
-                      },
-                      "@id": {
-                        "type": "string",
-                        "description": "Identifier for this enumeration domain node"
-                      },
-                      "cdi:identifier": {
-                        "title": "DDI-CDI Data Types",
-                        "description": "Formal identifier"
-                      },
-                      "cdi:name": {
-                        "description": "Structured name for this enumeration domain",
-                        "anyOf": [
-                          {
-                            "title": "DDI-CDI Data Types",
-                            "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
-                          },
-                          {
-                            "type": "array",
-                            "items": {
-                              "title": "DDI-CDI Data Types",
-                              "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
-                            }
-                          }
+                        "required": [
+                          "cdi:name"
                         ]
-                      },
-                      "cdi:purpose": {
-                        "title": "DDI-CDI Data Types",
-                        "description": "Purpose of this enumeration domain"
-                      },
-                      "cdi:uses": {
-                        "title": "DDI-CDI Data Types",
-                        "description": "Reference to a LevelStructure that organizes the enumeration. @id reference only."
-                      },
-                      "cdi:isDefinedBy": {
-                        "description": "References to Concepts that define the enumerated values. Array of @id references.",
-                        "type": "array",
-                        "items": {
-                          "title": "DDI-CDI Data Types",
-                          "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
-                        }
-                      },
-                      "cdi:references": {
-                        "title": "DDI-CDI Data Types",
-                        "description": "Reference to the CategorySet providing the value categories. @id reference only."
                       }
                     }
-                  },
-                  {
-                    "title": "DDI-CDI Data Types",
-                    "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
+                  ]
+                },
+                "cdi:purpose": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/InternationalString"
+                    },
+                    {
+                      "description": "Purpose of this enumeration domain"
+                    }
+                  ]
+                },
+                "cdi:uses": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/id-reference"
+                    },
+                    {
+                      "description": "Reference to a LevelStructure that organizes the enumeration. @id reference only."
+                    }
+                  ]
+                },
+                "cdi:isDefinedBy": {
+                  "description": "References to Concepts that define the enumerated values. Array of @id references.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/id-reference"
                   }
-                ]
-              },
-              "cdi:takesConceptsFrom": {
-                "title": "DDI-CDI Data Types",
-                "description": "Reference to a conceptual domain (SubstantiveConceptualDomain or SentinelConceptualDomain) that provides conceptual grounding for this value domain (0..1). @id reference only."
-              },
-              "cdi:platformType": {
-                "title": "DDI-CDI Data Types",
-                "description": "(SentinelValueDomain only) The type of software platform under which sentinel codes will be used. Statistical software platforms use different sets of codes to indicate missing values. Example values: SASNumeric, SPSSstyle, Rstyle, StataNumeric, BlankString, EmptyString, Unrestricted."
+                },
+                "cdi:references": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/id-reference"
+                    },
+                    {
+                      "description": "Reference to the CategorySet providing the value categories. @id reference only."
+                    }
+                  ]
+                }
               }
             },
-            "required": [
-              "@type"
-            ]
-          }
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:takesConceptsFrom": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/id-reference"
+            },
+            {
+              "description": "Reference to a conceptual domain (SubstantiveConceptualDomain or SentinelConceptualDomain) that provides conceptual grounding for this value domain (0..1). @id reference only."
+            }
+          ]
+        },
+        "cdi:platformType": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ControlledVocabularyEntry"
+            },
+            {
+              "description": "(SentinelValueDomain only) The type of software platform under which sentinel codes will be used. Statistical software platforms use different sets of codes to indicate missing values. Example values: SASNumeric, SPSSstyle, Rstyle, StataNumeric, BlankString, EmptyString, Unrestricted."
+            }
+          ]
         }
       },
       "required": [
-        "@graph"
+        "@type"
       ]
+    },
+    "Identifier": {
+      "type": "object",
+      "description": "DDI-CDI composite identifier (dt-Identifier)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Identifier"
+          },
+          "minItems": 1
+        },
+        "cdi:ddiIdentifier": {
+          "allOf": [
+            {
+              "type": "object",
+              "description": "DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:InternationalRegistrationDataIdentifier"
+                  },
+                  "minItems": 1
+                },
+                "cdi:dataIdentifier": {
+                  "type": "string"
+                },
+                "cdi:registrationAuthorityIdentifier": {
+                  "type": "string"
+                },
+                "cdi:versionIdentifier": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "cdi:dataIdentifier",
+                "cdi:registrationAuthorityIdentifier",
+                "cdi:versionIdentifier"
+              ]
+            },
+            {
+              "description": "DDI-specific IRDI identifier"
+            }
+          ]
+        },
+        "cdi:uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI form of the identifier"
+        },
+        "cdi:nonDdiIdentifier": {
+          "description": "Non-DDI identifier",
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:NonDdiIdentifier"
+                  },
+                  "minItems": 1
+                },
+                "cdi:identifierContent": {
+                  "type": "string",
+                  "description": "The identifier value"
+                },
+                "cdi:managingAgency": {
+                  "type": "string",
+                  "description": "Agency managing this identifier scheme"
+                }
+              },
+              "required": [
+                "cdi:identifierContent"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:NonDdiIdentifier"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:identifierContent": {
+                    "type": "string",
+                    "description": "The identifier value"
+                  },
+                  "cdi:managingAgency": {
+                    "type": "string",
+                    "description": "Agency managing this identifier scheme"
+                  }
+                },
+                "required": [
+                  "cdi:identifierContent"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "ControlledVocabularyEntry": {
+      "type": "object",
+      "description": "DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ControlledVocabularyEntry"
+          },
+          "minItems": 1
+        },
+        "cdi:entryValue": {
+          "type": "string",
+          "description": "The vocabulary code or value"
+        },
+        "cdi:name": {
+          "type": "string",
+          "description": "Human-readable name"
+        },
+        "cdi:vocabulary": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/Reference"
+            },
+            {
+              "description": "Reference to the vocabulary scheme"
+            }
+          ]
+        }
+      }
+    },
+    "id-reference": {
+      "type": "object",
+      "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "IRI or blank node identifier of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
+      ]
+    },
+    "InternationalString": {
+      "type": "object",
+      "description": "DDI-CDI internationalized string (dt-InternationalString)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:InternationalString"
+          },
+          "minItems": 1
+        },
+        "cdi:languageSpecificString": {
+          "description": "Language-tagged string value(s)",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LanguageString"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/LanguageString"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "LanguageString": {
+      "type": "object",
+      "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:LanguageString"
+          },
+          "minItems": 1
+        },
+        "cdi:content": {
+          "type": "string",
+          "description": "The text content"
+        },
+        "cdi:language": {
+          "type": "string",
+          "description": "ISO language code (e.g. en, fr, de)"
+        }
+      },
+      "required": [
+        "cdi:content"
+      ]
+    },
+    "Reference": {
+      "type": "object",
+      "description": "DDI-CDI reference to an entity (dt-Reference)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Reference"
+          },
+          "minItems": 1
+        },
+        "cdi:uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the referenced entity"
+        },
+        "cdi:description": {
+          "type": "string",
+          "description": "Human-readable description of the reference"
+        },
+        "cdi:ddiReference": {
+          "allOf": [
+            {
+              "type": "object",
+              "description": "DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:InternationalRegistrationDataIdentifier"
+                  },
+                  "minItems": 1
+                },
+                "cdi:dataIdentifier": {
+                  "type": "string"
+                },
+                "cdi:registrationAuthorityIdentifier": {
+                  "type": "string"
+                },
+                "cdi:versionIdentifier": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "cdi:dataIdentifier",
+                "cdi:registrationAuthorityIdentifier",
+                "cdi:versionIdentifier"
+              ]
+            },
+            {
+              "description": "DDI IRDI reference"
+            }
+          ]
+        },
+        "cdi:semantic": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ControlledVocabularyEntry"
+            },
+            {
+              "description": "Semantic role of this reference"
+            }
+          ]
+        }
+      }
     }
-  ]
+  }
 }

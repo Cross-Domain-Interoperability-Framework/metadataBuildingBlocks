@@ -148,35 +148,7 @@
           "type": "string"
         },
         {
-          "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "default": "schema:CreativeWork",
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "schema:CreativeWork"
-              },
-              "minItems": 1
-            },
-            "schema:name": {
-              "type": "string"
-            },
-            "schema:description": {
-              "type": "string"
-            },
-            "schema:url": {
-              "type": "string",
-              "format": "uri"
-            }
-          },
-          "required": [
-            "@type",
-            "schema:url"
-          ]
+          "$ref": "#/$defs/LabeledLink"
         }
       ]
     },
@@ -187,35 +159,7 @@
           "type": "string"
         },
         {
-          "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "default": "schema:CreativeWork",
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "schema:CreativeWork"
-              },
-              "minItems": 1
-            },
-            "schema:name": {
-              "type": "string"
-            },
-            "schema:description": {
-              "type": "string"
-            },
-            "schema:url": {
-              "type": "string",
-              "format": "uri"
-            }
-          },
-          "required": [
-            "@type",
-            "schema:url"
-          ]
+          "$ref": "#/$defs/LabeledLink"
         }
       ]
     },
@@ -226,35 +170,7 @@
           "type": "string"
         },
         {
-          "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "default": "schema:CreativeWork",
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "schema:CreativeWork"
-              },
-              "minItems": 1
-            },
-            "schema:name": {
-              "type": "string"
-            },
-            "schema:description": {
-              "type": "string"
-            },
-            "schema:url": {
-              "type": "string",
-              "format": "uri"
-            }
-          },
-          "required": [
-            "@type",
-            "schema:url"
-          ]
+          "$ref": "#/$defs/LabeledLink"
         }
       ]
     },
@@ -381,74 +297,10 @@
                       "description": "whether the parameter is mandatory. MUST be true if oas:in is \"path\"."
                     },
                     "oas:schema": {
-                      "type": "object",
-                      "description": "schema describing the parameter value type, format, and any pattern.",
-                      "properties": {
-                        "oas:type": {
-                          "type": "string",
-                          "enum": [
-                            "string",
-                            "number",
-                            "integer",
-                            "boolean",
-                            "array",
-                            "object"
-                          ],
-                          "default": "string"
-                        },
-                        "oas:format": {
-                          "type": "string",
-                          "description": "optional format hint (e.g. \"int32\", \"date-time\", \"uri\", \"decimal\")."
-                        },
-                        "oas:pattern": {
-                          "type": "string",
-                          "description": "regular expression the value must match (string types)."
-                        },
-                        "oas:enum": {
-                          "type": "array",
-                          "description": "enumeration of permitted values.",
-                          "items": {}
-                        },
-                        "oas:$ref": {
-                          "type": "string",
-                          "format": "uri",
-                          "description": "reference to an external JSON Schema or XML Schema document describing a complex payload structure."
-                        }
-                      }
-                    }
-                  },
-                  "required": [
-                    "oas:name",
-                    "oas:in"
-                  ]
-                }
-              },
-              "oas:requestBody": {
-                "type": "object",
-                "description": "request body for the operation (typically POST/PUT/PATCH). Maps OpenAPI Request Body Object.",
-                "properties": {
-                  "schema:description": {
-                    "type": "string"
-                  },
-                  "oas:required": {
-                    "type": "boolean",
-                    "default": false
-                  },
-                  "oas:content": {
-                    "type": "array",
-                    "description": "representations the request body may take. Maps OpenAPI Request Body content map; each item carries its own schema:encodingFormat instead of using media type as a map key.",
-                    "minItems": 1,
-                    "items": {
-                      "type": "object",
-                      "description": "an OpenAPI Media Type Object; describes the structure of one media-type representation in a request body or response.",
-                      "properties": {
-                        "schema:encodingFormat": {
-                          "type": "string",
-                          "description": "registered MIME type for this representation (e.g. application/json, text/csv). Replaces OpenAPI's media-type map key."
-                        },
-                        "oas:schema": {
+                      "allOf": [
+                        {
                           "type": "object",
-                          "description": "schema describing the structure of the payload. May reference an external JSON Schema or XML Schema document via oas:$ref. For tabular outputs, the referenced schema may align with InstanceVariable definitions in cdifVariableMeasured.",
+                          "description": "a minimal OpenAPI Schema Object. The full OAS Schema Object is a superset of JSON Schema 2020-12; this BB requires only a basic type/format/pattern/enum/$ref shape sufficient to describe parameter and response payload types in CDIF metadata. For richer schemas, use oas:$ref to point at an external schema document.",
                           "properties": {
                             "oas:type": {
                               "type": "string",
@@ -481,16 +333,101 @@
                               "description": "reference to an external JSON Schema or XML Schema document describing a complex payload structure."
                             }
                           }
+                        },
+                        {
+                          "description": "schema describing the parameter value type, format, and any pattern."
                         }
-                      },
-                      "required": [
-                        "schema:encodingFormat"
                       ]
                     }
+                  },
+                  "required": [
+                    "oas:name",
+                    "oas:in"
+                  ]
+                }
+              },
+              "oas:requestBody": {
+                "allOf": [
+                  {
+                    "type": "object",
+                    "description": "an OpenAPI Request Body Object; describes the body of a write request.",
+                    "properties": {
+                      "schema:description": {
+                        "type": "string"
+                      },
+                      "oas:required": {
+                        "type": "boolean",
+                        "default": false
+                      },
+                      "oas:content": {
+                        "type": "array",
+                        "description": "representations the request body may take. Maps OpenAPI Request Body content map; each item carries its own schema:encodingFormat instead of using media type as a map key.",
+                        "minItems": 1,
+                        "items": {
+                          "type": "object",
+                          "description": "an OpenAPI Media Type Object; describes the structure of one media-type representation in a request body or response.",
+                          "properties": {
+                            "schema:encodingFormat": {
+                              "type": "string",
+                              "description": "registered MIME type for this representation (e.g. application/json, text/csv). Replaces OpenAPI's media-type map key."
+                            },
+                            "oas:schema": {
+                              "allOf": [
+                                {
+                                  "type": "object",
+                                  "description": "a minimal OpenAPI Schema Object. The full OAS Schema Object is a superset of JSON Schema 2020-12; this BB requires only a basic type/format/pattern/enum/$ref shape sufficient to describe parameter and response payload types in CDIF metadata. For richer schemas, use oas:$ref to point at an external schema document.",
+                                  "properties": {
+                                    "oas:type": {
+                                      "type": "string",
+                                      "enum": [
+                                        "string",
+                                        "number",
+                                        "integer",
+                                        "boolean",
+                                        "array",
+                                        "object"
+                                      ],
+                                      "default": "string"
+                                    },
+                                    "oas:format": {
+                                      "type": "string",
+                                      "description": "optional format hint (e.g. \"int32\", \"date-time\", \"uri\", \"decimal\")."
+                                    },
+                                    "oas:pattern": {
+                                      "type": "string",
+                                      "description": "regular expression the value must match (string types)."
+                                    },
+                                    "oas:enum": {
+                                      "type": "array",
+                                      "description": "enumeration of permitted values.",
+                                      "items": {}
+                                    },
+                                    "oas:$ref": {
+                                      "type": "string",
+                                      "format": "uri",
+                                      "description": "reference to an external JSON Schema or XML Schema document describing a complex payload structure."
+                                    }
+                                  }
+                                },
+                                {
+                                  "description": "schema describing the structure of the payload. May reference an external JSON Schema or XML Schema document via oas:$ref. For tabular outputs, the referenced schema may align with InstanceVariable definitions in cdifVariableMeasured."
+                                }
+                              ]
+                            }
+                          },
+                          "required": [
+                            "schema:encodingFormat"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "oas:content"
+                    ]
+                  },
+                  {
+                    "description": "request body for the operation (typically POST/PUT/PATCH). Maps OpenAPI Request Body Object."
                   }
-                },
-                "required": [
-                  "oas:content"
                 ]
               },
               "oas:response": {
@@ -523,40 +460,47 @@
                             "description": "registered MIME type for this representation (e.g. application/json, text/csv). Replaces OpenAPI's media-type map key."
                           },
                           "oas:schema": {
-                            "type": "object",
-                            "description": "schema describing the structure of the payload. May reference an external JSON Schema or XML Schema document via oas:$ref. For tabular outputs, the referenced schema may align with InstanceVariable definitions in cdifVariableMeasured.",
-                            "properties": {
-                              "oas:type": {
-                                "type": "string",
-                                "enum": [
-                                  "string",
-                                  "number",
-                                  "integer",
-                                  "boolean",
-                                  "array",
-                                  "object"
-                                ],
-                                "default": "string"
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "description": "a minimal OpenAPI Schema Object. The full OAS Schema Object is a superset of JSON Schema 2020-12; this BB requires only a basic type/format/pattern/enum/$ref shape sufficient to describe parameter and response payload types in CDIF metadata. For richer schemas, use oas:$ref to point at an external schema document.",
+                                "properties": {
+                                  "oas:type": {
+                                    "type": "string",
+                                    "enum": [
+                                      "string",
+                                      "number",
+                                      "integer",
+                                      "boolean",
+                                      "array",
+                                      "object"
+                                    ],
+                                    "default": "string"
+                                  },
+                                  "oas:format": {
+                                    "type": "string",
+                                    "description": "optional format hint (e.g. \"int32\", \"date-time\", \"uri\", \"decimal\")."
+                                  },
+                                  "oas:pattern": {
+                                    "type": "string",
+                                    "description": "regular expression the value must match (string types)."
+                                  },
+                                  "oas:enum": {
+                                    "type": "array",
+                                    "description": "enumeration of permitted values.",
+                                    "items": {}
+                                  },
+                                  "oas:$ref": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "description": "reference to an external JSON Schema or XML Schema document describing a complex payload structure."
+                                  }
+                                }
                               },
-                              "oas:format": {
-                                "type": "string",
-                                "description": "optional format hint (e.g. \"int32\", \"date-time\", \"uri\", \"decimal\")."
-                              },
-                              "oas:pattern": {
-                                "type": "string",
-                                "description": "regular expression the value must match (string types)."
-                              },
-                              "oas:enum": {
-                                "type": "array",
-                                "description": "enumeration of permitted values.",
-                                "items": {}
-                              },
-                              "oas:$ref": {
-                                "type": "string",
-                                "format": "uri",
-                                "description": "reference to an external JSON Schema or XML Schema document describing a complex payload structure."
+                              {
+                                "description": "schema describing the structure of the payload. May reference an external JSON Schema or XML Schema document via oas:$ref. For tabular outputs, the referenced schema may align with InstanceVariable definitions in cdifVariableMeasured."
                               }
-                            }
+                            ]
                           }
                         },
                         "required": [
@@ -590,5 +534,38 @@
     "schema:serviceType",
     "schema:termsOfService",
     "schema:potentialAction"
-  ]
+  ],
+  "$defs": {
+    "LabeledLink": {
+      "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "default": "schema:CreativeWork",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:CreativeWork"
+          },
+          "minItems": 1
+        },
+        "schema:name": {
+          "type": "string"
+        },
+        "schema:description": {
+          "type": "string"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "@type",
+        "schema:url"
+      ]
+    }
+  }
 }

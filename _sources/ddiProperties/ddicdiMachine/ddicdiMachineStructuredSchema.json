@@ -19,59 +19,1175 @@
       "description": "Identifier for this machine node"
     },
     "cdi:accessLocation": {
-      "title": "DDI-CDI Data Types",
-      "description": "Network or physical access point for this machine"
+      "allOf": [
+        {
+          "type": "object",
+          "description": "DDI-CDI access location for a machine (dt-AccessLocation)",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:AccessLocation"
+              },
+              "minItems": 1
+            },
+            "cdi:uri": {
+              "type": "string",
+              "format": "uri",
+              "description": "URI of the access endpoint"
+            },
+            "cdi:mimeType": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/ControlledVocabularyEntry"
+                },
+                {
+                  "description": "MIME type of the resource at this location"
+                }
+              ]
+            },
+            "cdi:physicalLocation": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/InternationalString"
+                },
+                {
+                  "description": "Physical location description"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "description": "Network or physical access point for this machine"
+        }
+      ]
     },
     "cdi:function": {
-      "title": "DDI-CDI Data Types",
-      "description": "Function performed by this machine"
+      "allOf": [
+        {
+          "$ref": "#/$defs/ControlledVocabularyEntry"
+        },
+        {
+          "description": "Function performed by this machine"
+        }
+      ]
     },
     "cdi:machineInterface": {
-      "title": "DDI-CDI Data Types",
-      "description": "Interface type for this machine"
+      "allOf": [
+        {
+          "$ref": "#/$defs/ControlledVocabularyEntry"
+        },
+        {
+          "description": "Interface type for this machine"
+        }
+      ]
     },
     "cdi:name": {
       "description": "Name(s) of this machine",
       "anyOf": [
         {
-          "title": "DDI-CDI Data Types",
-          "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
+          "type": "object",
+          "description": "DDI-CDI structured name wrapper (dt-ObjectName)",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:ObjectName"
+              },
+              "minItems": 1
+            },
+            "cdi:name": {
+              "type": "string",
+              "description": "The name string"
+            },
+            "cdi:context": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/ControlledVocabularyEntry"
+                },
+                {
+                  "description": "Context or usage of this name"
+                }
+              ]
+            }
+          },
+          "required": [
+            "cdi:name"
+          ]
         },
         {
           "type": "array",
           "items": {
-            "title": "DDI-CDI Data Types",
-            "description": "Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. Provides reusable $defs for identifiers, names, contact information, references, and other common DDI-CDI structured data types."
+            "type": "object",
+            "description": "DDI-CDI structured name wrapper (dt-ObjectName)",
+            "properties": {
+              "@type": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "contains": {
+                  "const": "cdi:ObjectName"
+                },
+                "minItems": 1
+              },
+              "cdi:name": {
+                "type": "string",
+                "description": "The name string"
+              },
+              "cdi:context": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/ControlledVocabularyEntry"
+                  },
+                  {
+                    "description": "Context or usage of this name"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "cdi:name"
+            ]
           }
         }
       ]
     },
     "cdi:ownerOperatorContact": {
-      "title": "DDI-CDI Data Types",
-      "description": "Contact information for the owner or operator"
+      "allOf": [
+        {
+          "type": "object",
+          "description": "DDI-CDI contact information (dt-ContactInformation)",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:ContactInformation"
+              },
+              "minItems": 1
+            },
+            "cdi:address": {
+              "description": "Postal address(es)",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "description": "DDI-CDI postal address (dt-Address)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:Address"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:line": {
+                      "description": "Address line(s)",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "cdi:cityPlaceLocal": {
+                      "type": "string",
+                      "description": "City, town, or locality"
+                    },
+                    "cdi:stateProvince": {
+                      "type": "string",
+                      "description": "State, province, or region"
+                    },
+                    "cdi:postalCode": {
+                      "type": "string",
+                      "description": "Postal or ZIP code"
+                    },
+                    "cdi:countryCode": {
+                      "allOf": [
+                        {
+                          "$ref": "#/$defs/ControlledVocabularyEntry"
+                        },
+                        {
+                          "description": "Country code"
+                        }
+                      ]
+                    },
+                    "cdi:typeOfAddress": {
+                      "allOf": [
+                        {
+                          "$ref": "#/$defs/ControlledVocabularyEntry"
+                        },
+                        {
+                          "description": "Type of address (e.g. home, work, mailing)"
+                        }
+                      ]
+                    },
+                    "cdi:isPreferred": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Whether this is the preferred address"
+                    }
+                  }
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "DDI-CDI postal address (dt-Address)",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:Address"
+                        },
+                        "minItems": 1
+                      },
+                      "cdi:line": {
+                        "description": "Address line(s)",
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "cdi:cityPlaceLocal": {
+                        "type": "string",
+                        "description": "City, town, or locality"
+                      },
+                      "cdi:stateProvince": {
+                        "type": "string",
+                        "description": "State, province, or region"
+                      },
+                      "cdi:postalCode": {
+                        "type": "string",
+                        "description": "Postal or ZIP code"
+                      },
+                      "cdi:countryCode": {
+                        "allOf": [
+                          {
+                            "$ref": "#/$defs/ControlledVocabularyEntry"
+                          },
+                          {
+                            "description": "Country code"
+                          }
+                        ]
+                      },
+                      "cdi:typeOfAddress": {
+                        "allOf": [
+                          {
+                            "$ref": "#/$defs/ControlledVocabularyEntry"
+                          },
+                          {
+                            "description": "Type of address (e.g. home, work, mailing)"
+                          }
+                        ]
+                      },
+                      "cdi:isPreferred": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Whether this is the preferred address"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "cdi:email": {
+              "description": "Email address(es)",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "description": "DDI-CDI email address (dt-Email)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:Email"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:internetEmail": {
+                      "type": "string",
+                      "description": "Email address string"
+                    },
+                    "cdi:typeOfEmail": {
+                      "allOf": [
+                        {
+                          "$ref": "#/$defs/ControlledVocabularyEntry"
+                        },
+                        {
+                          "description": "Type of email (e.g. personal, work)"
+                        }
+                      ]
+                    },
+                    "cdi:isPreferred": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Whether this is the preferred email"
+                    }
+                  }
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "DDI-CDI email address (dt-Email)",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:Email"
+                        },
+                        "minItems": 1
+                      },
+                      "cdi:internetEmail": {
+                        "type": "string",
+                        "description": "Email address string"
+                      },
+                      "cdi:typeOfEmail": {
+                        "allOf": [
+                          {
+                            "$ref": "#/$defs/ControlledVocabularyEntry"
+                          },
+                          {
+                            "description": "Type of email (e.g. personal, work)"
+                          }
+                        ]
+                      },
+                      "cdi:isPreferred": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Whether this is the preferred email"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "cdi:emessaging": {
+              "description": "Electronic messaging contact(s)",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "description": "DDI-CDI electronic messaging system contact (dt-ElectronicMessageSystem)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:ElectronicMessageSystem"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:contactAddress": {
+                      "type": "string",
+                      "description": "Messaging address or handle"
+                    },
+                    "cdi:typeOfService": {
+                      "allOf": [
+                        {
+                          "$ref": "#/$defs/ControlledVocabularyEntry"
+                        },
+                        {
+                          "description": "Type of messaging service (e.g. Slack, Teams)"
+                        }
+                      ]
+                    },
+                    "cdi:isPreferred": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Whether this is the preferred messaging service"
+                    }
+                  }
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "DDI-CDI electronic messaging system contact (dt-ElectronicMessageSystem)",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:ElectronicMessageSystem"
+                        },
+                        "minItems": 1
+                      },
+                      "cdi:contactAddress": {
+                        "type": "string",
+                        "description": "Messaging address or handle"
+                      },
+                      "cdi:typeOfService": {
+                        "allOf": [
+                          {
+                            "$ref": "#/$defs/ControlledVocabularyEntry"
+                          },
+                          {
+                            "description": "Type of messaging service (e.g. Slack, Teams)"
+                          }
+                        ]
+                      },
+                      "cdi:isPreferred": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Whether this is the preferred messaging service"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "cdi:telephone": {
+              "description": "Telephone number(s)",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "description": "DDI-CDI telephone number (dt-Telephone)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:Telephone"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:telephoneNumber": {
+                      "type": "string",
+                      "description": "Telephone number string"
+                    },
+                    "cdi:typeOfTelephone": {
+                      "allOf": [
+                        {
+                          "$ref": "#/$defs/ControlledVocabularyEntry"
+                        },
+                        {
+                          "description": "Type of telephone (e.g. mobile, office, fax)"
+                        }
+                      ]
+                    },
+                    "cdi:isPreferred": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Whether this is the preferred telephone"
+                    }
+                  }
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "DDI-CDI telephone number (dt-Telephone)",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:Telephone"
+                        },
+                        "minItems": 1
+                      },
+                      "cdi:telephoneNumber": {
+                        "type": "string",
+                        "description": "Telephone number string"
+                      },
+                      "cdi:typeOfTelephone": {
+                        "allOf": [
+                          {
+                            "$ref": "#/$defs/ControlledVocabularyEntry"
+                          },
+                          {
+                            "description": "Type of telephone (e.g. mobile, office, fax)"
+                          }
+                        ]
+                      },
+                      "cdi:isPreferred": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Whether this is the preferred telephone"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "cdi:website": {
+              "description": "Website link(s)",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "description": "DDI-CDI website link (dt-WebLink)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:WebLink"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:uri": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "URI of the website"
+                    },
+                    "cdi:typeOfWebsite": {
+                      "allOf": [
+                        {
+                          "$ref": "#/$defs/ControlledVocabularyEntry"
+                        },
+                        {
+                          "description": "Type of website (e.g. homepage, documentation)"
+                        }
+                      ]
+                    },
+                    "cdi:isPreferred": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Whether this is the preferred website"
+                    }
+                  }
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "DDI-CDI website link (dt-WebLink)",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:WebLink"
+                        },
+                        "minItems": 1
+                      },
+                      "cdi:uri": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "URI of the website"
+                      },
+                      "cdi:typeOfWebsite": {
+                        "allOf": [
+                          {
+                            "$ref": "#/$defs/ControlledVocabularyEntry"
+                          },
+                          {
+                            "description": "Type of website (e.g. homepage, documentation)"
+                          }
+                        ]
+                      },
+                      "cdi:isPreferred": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Whether this is the preferred website"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "description": "Contact information for the owner or operator"
+        }
+      ]
     },
     "cdi:typeOfMachine": {
-      "title": "DDI-CDI Data Types",
-      "description": "Classification of this machine"
+      "allOf": [
+        {
+          "$ref": "#/$defs/ControlledVocabularyEntry"
+        },
+        {
+          "description": "Classification of this machine"
+        }
+      ]
     },
     "cdi:catalogDetails": {
-      "title": "DDI-CDI Data Types",
-      "description": "Catalog metadata for this agent"
+      "allOf": [
+        {
+          "type": "object",
+          "description": "DDI-CDI catalog details (dt-CatalogDetails)",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:CatalogDetails"
+              },
+              "minItems": 1
+            },
+            "cdi:title": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/InternationalString"
+                },
+                {
+                  "description": "Title for the catalog entry"
+                }
+              ]
+            },
+            "cdi:summary": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/InternationalString"
+                },
+                {
+                  "description": "Summary description"
+                }
+              ]
+            },
+            "cdi:identifier": {
+              "description": "Catalog identifier",
+              "type": "object",
+              "properties": {
+                "cdi:identifierContent": {
+                  "type": "string"
+                },
+                "cdi:isUri": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "cdi:creator": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "description": "DDI-CDI agent in a role (dt-AgentInRole)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:AgentInRole"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:agentName": {
+                      "allOf": [
+                        {
+                          "$ref": "#/$defs/InternationalString"
+                        },
+                        {
+                          "description": "Name of the agent"
+                        }
+                      ]
+                    },
+                    "cdi:reference": {
+                      "allOf": [
+                        {
+                          "$ref": "#/$defs/Reference"
+                        },
+                        {
+                          "description": "Reference to the agent entity"
+                        }
+                      ]
+                    },
+                    "cdi:role": {
+                      "allOf": [
+                        {
+                          "$ref": "#/$defs/ControlledVocabularyEntry"
+                        },
+                        {
+                          "description": "Role of the agent"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "description": "Creator of the catalog entry"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "description": "Catalog metadata for this agent"
+        }
+      ]
     },
     "cdi:identifier": {
-      "title": "DDI-CDI Data Types",
-      "description": "Formal identifier for this agent"
+      "allOf": [
+        {
+          "type": "object",
+          "description": "DDI-CDI composite identifier (dt-Identifier)",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:Identifier"
+              },
+              "minItems": 1
+            },
+            "cdi:ddiIdentifier": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "description": "DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:InternationalRegistrationDataIdentifier"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:dataIdentifier": {
+                      "type": "string"
+                    },
+                    "cdi:registrationAuthorityIdentifier": {
+                      "type": "string"
+                    },
+                    "cdi:versionIdentifier": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "cdi:dataIdentifier",
+                    "cdi:registrationAuthorityIdentifier",
+                    "cdi:versionIdentifier"
+                  ]
+                },
+                {
+                  "description": "DDI-specific IRDI identifier"
+                }
+              ]
+            },
+            "cdi:uri": {
+              "type": "string",
+              "format": "uri",
+              "description": "URI form of the identifier"
+            },
+            "cdi:nonDdiIdentifier": {
+              "description": "Non-DDI identifier",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:NonDdiIdentifier"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:identifierContent": {
+                      "type": "string",
+                      "description": "The identifier value"
+                    },
+                    "cdi:managingAgency": {
+                      "type": "string",
+                      "description": "Agency managing this identifier scheme"
+                    }
+                  },
+                  "required": [
+                    "cdi:identifierContent"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:NonDdiIdentifier"
+                        },
+                        "minItems": 1
+                      },
+                      "cdi:identifierContent": {
+                        "type": "string",
+                        "description": "The identifier value"
+                      },
+                      "cdi:managingAgency": {
+                        "type": "string",
+                        "description": "Agency managing this identifier scheme"
+                      }
+                    },
+                    "required": [
+                      "cdi:identifierContent"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "description": "Formal identifier for this agent"
+        }
+      ]
     },
     "cdi:image": {
-      "title": "DDI-CDI Data Types",
-      "description": "Image associated with this agent"
+      "allOf": [
+        {
+          "type": "object",
+          "description": "DDI-CDI private image (dt-PrivateImage)",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:PrivateImage"
+              },
+              "minItems": 1
+            },
+            "cdi:effectiveDates": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "description": "DDI-CDI date range (dt-DateRange)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:DateRange"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:startDate": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "description": "DDI-CDI combined date (dt-CombinedDate)",
+                          "properties": {
+                            "@type": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "contains": {
+                                "const": "cdi:CombinedDate"
+                              },
+                              "minItems": 1
+                            },
+                            "cdi:isoDate": {
+                              "type": "string",
+                              "format": "date-time",
+                              "description": "ISO 8601 date-time value"
+                            },
+                            "cdi:historicDate": {
+                              "type": "string",
+                              "description": "Free-text historic date"
+                            }
+                          }
+                        },
+                        {
+                          "description": "Start date of the range"
+                        }
+                      ]
+                    },
+                    "cdi:endDate": {
+                      "allOf": [
+                        {
+                          "type": "object",
+                          "description": "DDI-CDI combined date (dt-CombinedDate)",
+                          "properties": {
+                            "@type": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "contains": {
+                                "const": "cdi:CombinedDate"
+                              },
+                              "minItems": 1
+                            },
+                            "cdi:isoDate": {
+                              "type": "string",
+                              "format": "date-time",
+                              "description": "ISO 8601 date-time value"
+                            },
+                            "cdi:historicDate": {
+                              "type": "string",
+                              "description": "Free-text historic date"
+                            }
+                          }
+                        },
+                        {
+                          "description": "End date of the range"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "description": "Date range when this image is effective"
+                }
+              ]
+            },
+            "cdi:privacy": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/ControlledVocabularyEntry"
+                },
+                {
+                  "description": "Privacy classification"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "description": "Image associated with this agent"
+        }
+      ]
     },
     "cdi:purpose": {
-      "title": "DDI-CDI Data Types",
-      "description": "Purpose or role of this agent"
+      "allOf": [
+        {
+          "$ref": "#/$defs/InternationalString"
+        },
+        {
+          "description": "Purpose or role of this agent"
+        }
+      ]
     }
   },
   "required": [
     "@type"
-  ]
+  ],
+  "$defs": {
+    "ControlledVocabularyEntry": {
+      "type": "object",
+      "description": "DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ControlledVocabularyEntry"
+          },
+          "minItems": 1
+        },
+        "cdi:entryValue": {
+          "type": "string",
+          "description": "The vocabulary code or value"
+        },
+        "cdi:name": {
+          "type": "string",
+          "description": "Human-readable name"
+        },
+        "cdi:vocabulary": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/Reference"
+            },
+            {
+              "description": "Reference to the vocabulary scheme"
+            }
+          ]
+        }
+      }
+    },
+    "InternationalString": {
+      "type": "object",
+      "description": "DDI-CDI internationalized string (dt-InternationalString)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:InternationalString"
+          },
+          "minItems": 1
+        },
+        "cdi:languageSpecificString": {
+          "description": "Language-tagged string value(s)",
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:LanguageString"
+                  },
+                  "minItems": 1
+                },
+                "cdi:content": {
+                  "type": "string",
+                  "description": "The text content"
+                },
+                "cdi:language": {
+                  "type": "string",
+                  "description": "ISO language code (e.g. en, fr, de)"
+                }
+              },
+              "required": [
+                "cdi:content"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:LanguageString"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:content": {
+                    "type": "string",
+                    "description": "The text content"
+                  },
+                  "cdi:language": {
+                    "type": "string",
+                    "description": "ISO language code (e.g. en, fr, de)"
+                  }
+                },
+                "required": [
+                  "cdi:content"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "Reference": {
+      "type": "object",
+      "description": "DDI-CDI reference to an entity (dt-Reference)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Reference"
+          },
+          "minItems": 1
+        },
+        "cdi:uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the referenced entity"
+        },
+        "cdi:description": {
+          "type": "string",
+          "description": "Human-readable description of the reference"
+        },
+        "cdi:ddiReference": {
+          "allOf": [
+            {
+              "type": "object",
+              "description": "DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:InternationalRegistrationDataIdentifier"
+                  },
+                  "minItems": 1
+                },
+                "cdi:dataIdentifier": {
+                  "type": "string"
+                },
+                "cdi:registrationAuthorityIdentifier": {
+                  "type": "string"
+                },
+                "cdi:versionIdentifier": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "cdi:dataIdentifier",
+                "cdi:registrationAuthorityIdentifier",
+                "cdi:versionIdentifier"
+              ]
+            },
+            {
+              "description": "DDI IRDI reference"
+            }
+          ]
+        },
+        "cdi:semantic": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ControlledVocabularyEntry"
+            },
+            {
+              "description": "Semantic role of this reference"
+            }
+          ]
+        }
+      }
+    }
+  }
 }

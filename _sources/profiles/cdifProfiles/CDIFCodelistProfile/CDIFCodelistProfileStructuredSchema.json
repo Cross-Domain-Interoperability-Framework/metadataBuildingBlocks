@@ -506,942 +506,7 @@
           "items": {
             "anyOf": [
               {
-                "description": "A SKOS Concept constrained for CDIF codelist use. Must have a resolvable @id, skos:inScheme, skos:definition, and skos:prefLabel.",
-                "allOf": [
-                  {
-                    "$ref": "#/$defs/Concept"
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "@id": {
-                        "type": "string",
-                        "description": "Globally unique, resolvable URI for this concept."
-                      },
-                      "skos:inScheme": {
-                        "description": "The concept scheme this concept belongs to. Required for CDIF codelist concepts.",
-                        "anyOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "@id": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "@id"
-                            ]
-                          },
-                          {
-                            "type": "array",
-                            "items": {
-                              "type": "object",
-                              "properties": {
-                                "@id": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "@id"
-                              ]
-                            }
-                          }
-                        ]
-                      },
-                      "skos:definition": {
-                        "description": "Formal definition of this concept. Required for CDIF codelist concepts. String or language-tagged values.",
-                        "anyOf": [
-                          {
-                            "type": "string"
-                          },
-                          {
-                            "type": "array",
-                            "items": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "title": "SKOS Concept",
-                                  "description": "JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel), notations, hierarchical relations (broader/narrower), associative relations (related), cross-scheme mapping properties, scheme membership, and documentary notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).",
-                                  "type": "object",
-                                  "properties": {
-                                    "@context": {
-                                      "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
-                                      "anyOf": [
-                                        {
-                                          "type": "object",
-                                          "properties": {
-                                            "skos": {
-                                              "const": "http://www.w3.org/2004/02/skos/core#"
-                                            }
-                                          },
-                                          "required": [
-                                            "skos"
-                                          ]
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "anyOf": [
-                                              {
-                                                "type": "string"
-                                              },
-                                              {
-                                                "type": "object"
-                                              }
-                                            ]
-                                          },
-                                          "contains": {
-                                            "type": "object",
-                                            "properties": {
-                                              "skos": {
-                                                "const": "http://www.w3.org/2004/02/skos/core#"
-                                              }
-                                            },
-                                            "required": [
-                                              "skos"
-                                            ]
-                                          }
-                                        }
-                                      ]
-                                    },
-                                    "@id": {
-                                      "type": "string",
-                                      "description": "URI identifier for this concept."
-                                    },
-                                    "@type": {
-                                      "type": "array",
-                                      "items": {
-                                        "type": "string"
-                                      },
-                                      "contains": {
-                                        "const": "skos:Concept"
-                                      },
-                                      "minItems": 1
-                                    },
-                                    "skos:prefLabel": {
-                                      "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "object",
-                                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                          "properties": {
-                                            "@value": {
-                                              "type": "string",
-                                              "description": "The text content."
-                                            },
-                                            "@language": {
-                                              "type": "string",
-                                              "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                            }
-                                          },
-                                          "required": [
-                                            "@value",
-                                            "@language"
-                                          ]
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "object",
-                                            "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                            "properties": {
-                                              "@value": {
-                                                "type": "string",
-                                                "description": "The text content."
-                                              },
-                                              "@language": {
-                                                "type": "string",
-                                                "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                              }
-                                            },
-                                            "required": [
-                                              "@value",
-                                              "@language"
-                                            ]
-                                          }
-                                        }
-                                      ]
-                                    },
-                                    "skos:altLabel": {
-                                      "description": "Alternative lexical labels (acronyms, abbreviations, variants).",
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "object",
-                                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                          "properties": {
-                                            "@value": {
-                                              "type": "string",
-                                              "description": "The text content."
-                                            },
-                                            "@language": {
-                                              "type": "string",
-                                              "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                            }
-                                          },
-                                          "required": [
-                                            "@value",
-                                            "@language"
-                                          ]
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "anyOf": [
-                                              {
-                                                "type": "string"
-                                              },
-                                              {
-                                                "type": "object",
-                                                "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                                "properties": {
-                                                  "@value": {
-                                                    "type": "string",
-                                                    "description": "The text content."
-                                                  },
-                                                  "@language": {
-                                                    "type": "string",
-                                                    "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                                  }
-                                                },
-                                                "required": [
-                                                  "@value",
-                                                  "@language"
-                                                ]
-                                              }
-                                            ]
-                                          }
-                                        }
-                                      ]
-                                    },
-                                    "skos:hiddenLabel": {
-                                      "description": "Labels accessible to free-text search but not displayed.",
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "object",
-                                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                          "properties": {
-                                            "@value": {
-                                              "type": "string",
-                                              "description": "The text content."
-                                            },
-                                            "@language": {
-                                              "type": "string",
-                                              "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                            }
-                                          },
-                                          "required": [
-                                            "@value",
-                                            "@language"
-                                          ]
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "anyOf": [
-                                              {
-                                                "type": "string"
-                                              },
-                                              {
-                                                "type": "object",
-                                                "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                                "properties": {
-                                                  "@value": {
-                                                    "type": "string",
-                                                    "description": "The text content."
-                                                  },
-                                                  "@language": {
-                                                    "type": "string",
-                                                    "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                                  }
-                                                },
-                                                "required": [
-                                                  "@value",
-                                                  "@language"
-                                                ]
-                                              }
-                                            ]
-                                          }
-                                        }
-                                      ]
-                                    },
-                                    "skos:notation": {
-                                      "description": "Classification code for this concept within a scheme.",
-                                      "type": "array",
-                                      "items": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "skos:definition": {
-                                      "description": "Formal explanation of the meaning of this concept.",
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "object",
-                                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                          "properties": {
-                                            "@value": {
-                                              "type": "string",
-                                              "description": "The text content."
-                                            },
-                                            "@language": {
-                                              "type": "string",
-                                              "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                            }
-                                          },
-                                          "required": [
-                                            "@value",
-                                            "@language"
-                                          ]
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "anyOf": [
-                                              {
-                                                "type": "string"
-                                              },
-                                              {
-                                                "type": "object",
-                                                "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                                "properties": {
-                                                  "@value": {
-                                                    "type": "string",
-                                                    "description": "The text content."
-                                                  },
-                                                  "@language": {
-                                                    "type": "string",
-                                                    "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                                  }
-                                                },
-                                                "required": [
-                                                  "@value",
-                                                  "@language"
-                                                ]
-                                              }
-                                            ]
-                                          }
-                                        }
-                                      ]
-                                    },
-                                    "skos:scopeNote": {
-                                      "description": "Note clarifying meaning and/or intended use.",
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "object",
-                                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                          "properties": {
-                                            "@value": {
-                                              "type": "string",
-                                              "description": "The text content."
-                                            },
-                                            "@language": {
-                                              "type": "string",
-                                              "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                            }
-                                          },
-                                          "required": [
-                                            "@value",
-                                            "@language"
-                                          ]
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "anyOf": [
-                                              {
-                                                "type": "string"
-                                              },
-                                              {
-                                                "type": "object",
-                                                "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                                "properties": {
-                                                  "@value": {
-                                                    "type": "string",
-                                                    "description": "The text content."
-                                                  },
-                                                  "@language": {
-                                                    "type": "string",
-                                                    "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                                  }
-                                                },
-                                                "required": [
-                                                  "@value",
-                                                  "@language"
-                                                ]
-                                              }
-                                            ]
-                                          }
-                                        }
-                                      ]
-                                    },
-                                    "skos:note": {
-                                      "description": "General note about this concept.",
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "object",
-                                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                          "properties": {
-                                            "@value": {
-                                              "type": "string",
-                                              "description": "The text content."
-                                            },
-                                            "@language": {
-                                              "type": "string",
-                                              "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                            }
-                                          },
-                                          "required": [
-                                            "@value",
-                                            "@language"
-                                          ]
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "anyOf": [
-                                              {
-                                                "type": "string"
-                                              },
-                                              {
-                                                "type": "object",
-                                                "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                                "properties": {
-                                                  "@value": {
-                                                    "type": "string",
-                                                    "description": "The text content."
-                                                  },
-                                                  "@language": {
-                                                    "type": "string",
-                                                    "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                                  }
-                                                },
-                                                "required": [
-                                                  "@value",
-                                                  "@language"
-                                                ]
-                                              }
-                                            ]
-                                          }
-                                        }
-                                      ]
-                                    },
-                                    "skos:historyNote": {
-                                      "description": "Note about past state or use.",
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "object",
-                                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                          "properties": {
-                                            "@value": {
-                                              "type": "string",
-                                              "description": "The text content."
-                                            },
-                                            "@language": {
-                                              "type": "string",
-                                              "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                            }
-                                          },
-                                          "required": [
-                                            "@value",
-                                            "@language"
-                                          ]
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "anyOf": [
-                                              {
-                                                "type": "string"
-                                              },
-                                              {
-                                                "type": "object",
-                                                "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                                "properties": {
-                                                  "@value": {
-                                                    "type": "string",
-                                                    "description": "The text content."
-                                                  },
-                                                  "@language": {
-                                                    "type": "string",
-                                                    "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                                  }
-                                                },
-                                                "required": [
-                                                  "@value",
-                                                  "@language"
-                                                ]
-                                              }
-                                            ]
-                                          }
-                                        }
-                                      ]
-                                    },
-                                    "skos:changeNote": {
-                                      "description": "Note documenting a change.",
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "object",
-                                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                          "properties": {
-                                            "@value": {
-                                              "type": "string",
-                                              "description": "The text content."
-                                            },
-                                            "@language": {
-                                              "type": "string",
-                                              "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                            }
-                                          },
-                                          "required": [
-                                            "@value",
-                                            "@language"
-                                          ]
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "anyOf": [
-                                              {
-                                                "type": "string"
-                                              },
-                                              {
-                                                "type": "object",
-                                                "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                                "properties": {
-                                                  "@value": {
-                                                    "type": "string",
-                                                    "description": "The text content."
-                                                  },
-                                                  "@language": {
-                                                    "type": "string",
-                                                    "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                                  }
-                                                },
-                                                "required": [
-                                                  "@value",
-                                                  "@language"
-                                                ]
-                                              }
-                                            ]
-                                          }
-                                        }
-                                      ]
-                                    },
-                                    "skos:editorialNote": {
-                                      "description": "Note for editors and maintainers.",
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "object",
-                                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                          "properties": {
-                                            "@value": {
-                                              "type": "string",
-                                              "description": "The text content."
-                                            },
-                                            "@language": {
-                                              "type": "string",
-                                              "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                            }
-                                          },
-                                          "required": [
-                                            "@value",
-                                            "@language"
-                                          ]
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "anyOf": [
-                                              {
-                                                "type": "string"
-                                              },
-                                              {
-                                                "type": "object",
-                                                "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                                "properties": {
-                                                  "@value": {
-                                                    "type": "string",
-                                                    "description": "The text content."
-                                                  },
-                                                  "@language": {
-                                                    "type": "string",
-                                                    "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                                  }
-                                                },
-                                                "required": [
-                                                  "@value",
-                                                  "@language"
-                                                ]
-                                              }
-                                            ]
-                                          }
-                                        }
-                                      ]
-                                    },
-                                    "skos:example": {
-                                      "description": "Example of use of this concept.",
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "object",
-                                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                          "properties": {
-                                            "@value": {
-                                              "type": "string",
-                                              "description": "The text content."
-                                            },
-                                            "@language": {
-                                              "type": "string",
-                                              "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                            }
-                                          },
-                                          "required": [
-                                            "@value",
-                                            "@language"
-                                          ]
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "anyOf": [
-                                              {
-                                                "type": "string"
-                                              },
-                                              {
-                                                "type": "object",
-                                                "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                                                "properties": {
-                                                  "@value": {
-                                                    "type": "string",
-                                                    "description": "The text content."
-                                                  },
-                                                  "@language": {
-                                                    "type": "string",
-                                                    "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                                  }
-                                                },
-                                                "required": [
-                                                  "@value",
-                                                  "@language"
-                                                ]
-                                              }
-                                            ]
-                                          }
-                                        }
-                                      ]
-                                    },
-                                    "skos:inScheme": {
-                                      "description": "Concept scheme(s) this concept belongs to.",
-                                      "anyOf": [
-                                        {
-                                          "type": "object",
-                                          "properties": {
-                                            "@id": {
-                                              "type": "string"
-                                            }
-                                          },
-                                          "required": [
-                                            "@id"
-                                          ]
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "object",
-                                            "properties": {
-                                              "@id": {
-                                                "type": "string"
-                                              }
-                                            },
-                                            "required": [
-                                              "@id"
-                                            ]
-                                          }
-                                        }
-                                      ]
-                                    },
-                                    "skos:topConceptOf": {
-                                      "description": "Concept scheme(s) for which this is a top concept.",
-                                      "anyOf": [
-                                        {
-                                          "type": "object",
-                                          "properties": {
-                                            "@id": {
-                                              "type": "string"
-                                            }
-                                          },
-                                          "required": [
-                                            "@id"
-                                          ]
-                                        },
-                                        {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "object",
-                                            "properties": {
-                                              "@id": {
-                                                "type": "string"
-                                              }
-                                            },
-                                            "required": [
-                                              "@id"
-                                            ]
-                                          }
-                                        }
-                                      ]
-                                    },
-                                    "skos:broader": {
-                                      "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
-                                      "type": "array",
-                                      "items": {
-                                        "anyOf": [
-                                          {
-                                            "type": "object",
-                                            "description": "A reference to a SKOS Concept by URI.",
-                                            "properties": {
-                                              "@id": {
-                                                "type": "string",
-                                                "description": "URI of the referenced concept."
-                                              }
-                                            },
-                                            "required": [
-                                              "@id"
-                                            ]
-                                          },
-                                          {
-                                            "$comment": "circular-ref"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "skos:narrower": {
-                                      "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
-                                      "type": "array",
-                                      "items": {
-                                        "anyOf": [
-                                          {
-                                            "type": "object",
-                                            "description": "A reference to a SKOS Concept by URI.",
-                                            "properties": {
-                                              "@id": {
-                                                "type": "string",
-                                                "description": "URI of the referenced concept."
-                                              }
-                                            },
-                                            "required": [
-                                              "@id"
-                                            ]
-                                          },
-                                          {
-                                            "$comment": "circular-ref"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "skos:related": {
-                                      "description": "Associatively related concepts.",
-                                      "type": "array",
-                                      "items": {
-                                        "anyOf": [
-                                          {
-                                            "type": "object",
-                                            "description": "A reference to a SKOS Concept by URI.",
-                                            "properties": {
-                                              "@id": {
-                                                "type": "string",
-                                                "description": "URI of the referenced concept."
-                                              }
-                                            },
-                                            "required": [
-                                              "@id"
-                                            ]
-                                          },
-                                          {
-                                            "$comment": "circular-ref"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "skos:exactMatch": {
-                                      "description": "Concepts in other schemes with equivalent meaning.",
-                                      "type": "array",
-                                      "items": {
-                                        "type": "object",
-                                        "description": "A reference to a SKOS Concept by URI.",
-                                        "properties": {
-                                          "@id": {
-                                            "type": "string",
-                                            "description": "URI of the referenced concept."
-                                          }
-                                        },
-                                        "required": [
-                                          "@id"
-                                        ]
-                                      }
-                                    },
-                                    "skos:closeMatch": {
-                                      "description": "Concepts in other schemes with similar meaning.",
-                                      "type": "array",
-                                      "items": {
-                                        "type": "object",
-                                        "description": "A reference to a SKOS Concept by URI.",
-                                        "properties": {
-                                          "@id": {
-                                            "type": "string",
-                                            "description": "URI of the referenced concept."
-                                          }
-                                        },
-                                        "required": [
-                                          "@id"
-                                        ]
-                                      }
-                                    },
-                                    "skos:broadMatch": {
-                                      "description": "Broader concepts in other schemes.",
-                                      "type": "array",
-                                      "items": {
-                                        "type": "object",
-                                        "description": "A reference to a SKOS Concept by URI.",
-                                        "properties": {
-                                          "@id": {
-                                            "type": "string",
-                                            "description": "URI of the referenced concept."
-                                          }
-                                        },
-                                        "required": [
-                                          "@id"
-                                        ]
-                                      }
-                                    },
-                                    "skos:narrowMatch": {
-                                      "description": "Narrower concepts in other schemes.",
-                                      "type": "array",
-                                      "items": {
-                                        "type": "object",
-                                        "description": "A reference to a SKOS Concept by URI.",
-                                        "properties": {
-                                          "@id": {
-                                            "type": "string",
-                                            "description": "URI of the referenced concept."
-                                          }
-                                        },
-                                        "required": [
-                                          "@id"
-                                        ]
-                                      }
-                                    },
-                                    "skos:relatedMatch": {
-                                      "description": "Related concepts in other schemes.",
-                                      "type": "array",
-                                      "items": {
-                                        "type": "object",
-                                        "description": "A reference to a SKOS Concept by URI.",
-                                        "properties": {
-                                          "@id": {
-                                            "type": "string",
-                                            "description": "URI of the referenced concept."
-                                          }
-                                        },
-                                        "required": [
-                                          "@id"
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  "required": [
-                                    "@type",
-                                    "skos:prefLabel"
-                                  ]
-                                }
-                              ]
-                            }
-                          }
-                        ]
-                      },
-                      "skos:narrower": {
-                        "description": "Narrower (child) concepts. If present, each inline concept must also declare skos:broader pointing back to the parent concept. Both skos:narrower and skos:broader must be explicit in CDIF codelists.",
-                        "type": "array",
-                        "items": {
-                          "anyOf": [
-                            {
-                              "type": "object",
-                              "properties": {
-                                "@id": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "@id"
-                              ]
-                            },
-                            {
-                              "allOf": [
-                                {
-                                  "$comment": "self-referential: CdifCodelistConcept"
-                                },
-                                {
-                                  "required": [
-                                    "skos:broader"
-                                  ]
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      },
-                      "skos:broader": {
-                        "description": "Broader (parent) concepts. Required on any concept that appears as a skos:narrower value of another concept. CDIF requires both directions to be explicit for hierarchy traversal.",
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "@id": {
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "@id"
-                          ]
-                        }
-                      }
-                    },
-                    "required": [
-                      "@id",
-                      "skos:inScheme",
-                      "skos:definition"
-                    ]
-                  }
-                ]
+                "$ref": "#/$defs/CdifCodelistConcept"
               },
               {
                 "type": "object",
@@ -1545,42 +610,12 @@
               "type": "string"
             },
             {
-              "type": "object",
-              "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-              "properties": {
-                "@value": {
-                  "type": "string",
-                  "description": "The text content."
-                },
-                "@language": {
-                  "type": "string",
-                  "description": "BCP 47 language tag (e.g. en, fr, de)."
-                }
-              },
-              "required": [
-                "@value",
-                "@language"
-              ]
+              "$ref": "#/$defs/LanguageTaggedValue"
             },
             {
               "type": "array",
               "items": {
-                "type": "object",
-                "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                "properties": {
-                  "@value": {
-                    "type": "string",
-                    "description": "The text content."
-                  },
-                  "@language": {
-                    "type": "string",
-                    "description": "BCP 47 language tag (e.g. en, fr, de)."
-                  }
-                },
-                "required": [
-                  "@value",
-                  "@language"
-                ]
+                "$ref": "#/$defs/LanguageTaggedValue"
               }
             }
           ]
@@ -1592,22 +627,7 @@
               "type": "string"
             },
             {
-              "type": "object",
-              "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-              "properties": {
-                "@value": {
-                  "type": "string",
-                  "description": "The text content."
-                },
-                "@language": {
-                  "type": "string",
-                  "description": "BCP 47 language tag (e.g. en, fr, de)."
-                }
-              },
-              "required": [
-                "@value",
-                "@language"
-              ]
+              "$ref": "#/$defs/LanguageTaggedValue"
             },
             {
               "type": "array",
@@ -1617,22 +637,7 @@
                     "type": "string"
                   },
                   {
-                    "type": "object",
-                    "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                    "properties": {
-                      "@value": {
-                        "type": "string",
-                        "description": "The text content."
-                      },
-                      "@language": {
-                        "type": "string",
-                        "description": "BCP 47 language tag (e.g. en, fr, de)."
-                      }
-                    },
-                    "required": [
-                      "@value",
-                      "@language"
-                    ]
+                    "$ref": "#/$defs/LanguageTaggedValue"
                   }
                 ]
               }
@@ -1646,22 +651,7 @@
               "type": "string"
             },
             {
-              "type": "object",
-              "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-              "properties": {
-                "@value": {
-                  "type": "string",
-                  "description": "The text content."
-                },
-                "@language": {
-                  "type": "string",
-                  "description": "BCP 47 language tag (e.g. en, fr, de)."
-                }
-              },
-              "required": [
-                "@value",
-                "@language"
-              ]
+              "$ref": "#/$defs/LanguageTaggedValue"
             },
             {
               "type": "array",
@@ -1671,22 +661,7 @@
                     "type": "string"
                   },
                   {
-                    "type": "object",
-                    "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                    "properties": {
-                      "@value": {
-                        "type": "string",
-                        "description": "The text content."
-                      },
-                      "@language": {
-                        "type": "string",
-                        "description": "BCP 47 language tag (e.g. en, fr, de)."
-                      }
-                    },
-                    "required": [
-                      "@value",
-                      "@language"
-                    ]
+                    "$ref": "#/$defs/LanguageTaggedValue"
                   }
                 ]
               }
@@ -1707,22 +682,7 @@
               "type": "string"
             },
             {
-              "type": "object",
-              "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-              "properties": {
-                "@value": {
-                  "type": "string",
-                  "description": "The text content."
-                },
-                "@language": {
-                  "type": "string",
-                  "description": "BCP 47 language tag (e.g. en, fr, de)."
-                }
-              },
-              "required": [
-                "@value",
-                "@language"
-              ]
+              "$ref": "#/$defs/LanguageTaggedValue"
             },
             {
               "type": "array",
@@ -1732,22 +692,7 @@
                     "type": "string"
                   },
                   {
-                    "type": "object",
-                    "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                    "properties": {
-                      "@value": {
-                        "type": "string",
-                        "description": "The text content."
-                      },
-                      "@language": {
-                        "type": "string",
-                        "description": "BCP 47 language tag (e.g. en, fr, de)."
-                      }
-                    },
-                    "required": [
-                      "@value",
-                      "@language"
-                    ]
+                    "$ref": "#/$defs/LanguageTaggedValue"
                   }
                 ]
               }
@@ -1761,22 +706,7 @@
               "type": "string"
             },
             {
-              "type": "object",
-              "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-              "properties": {
-                "@value": {
-                  "type": "string",
-                  "description": "The text content."
-                },
-                "@language": {
-                  "type": "string",
-                  "description": "BCP 47 language tag (e.g. en, fr, de)."
-                }
-              },
-              "required": [
-                "@value",
-                "@language"
-              ]
+              "$ref": "#/$defs/LanguageTaggedValue"
             },
             {
               "type": "array",
@@ -1786,22 +716,7 @@
                     "type": "string"
                   },
                   {
-                    "type": "object",
-                    "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                    "properties": {
-                      "@value": {
-                        "type": "string",
-                        "description": "The text content."
-                      },
-                      "@language": {
-                        "type": "string",
-                        "description": "BCP 47 language tag (e.g. en, fr, de)."
-                      }
-                    },
-                    "required": [
-                      "@value",
-                      "@language"
-                    ]
+                    "$ref": "#/$defs/LanguageTaggedValue"
                   }
                 ]
               }
@@ -1815,22 +730,7 @@
               "type": "string"
             },
             {
-              "type": "object",
-              "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-              "properties": {
-                "@value": {
-                  "type": "string",
-                  "description": "The text content."
-                },
-                "@language": {
-                  "type": "string",
-                  "description": "BCP 47 language tag (e.g. en, fr, de)."
-                }
-              },
-              "required": [
-                "@value",
-                "@language"
-              ]
+              "$ref": "#/$defs/LanguageTaggedValue"
             },
             {
               "type": "array",
@@ -1840,22 +740,7 @@
                     "type": "string"
                   },
                   {
-                    "type": "object",
-                    "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                    "properties": {
-                      "@value": {
-                        "type": "string",
-                        "description": "The text content."
-                      },
-                      "@language": {
-                        "type": "string",
-                        "description": "BCP 47 language tag (e.g. en, fr, de)."
-                      }
-                    },
-                    "required": [
-                      "@value",
-                      "@language"
-                    ]
+                    "$ref": "#/$defs/LanguageTaggedValue"
                   }
                 ]
               }
@@ -1869,22 +754,7 @@
               "type": "string"
             },
             {
-              "type": "object",
-              "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-              "properties": {
-                "@value": {
-                  "type": "string",
-                  "description": "The text content."
-                },
-                "@language": {
-                  "type": "string",
-                  "description": "BCP 47 language tag (e.g. en, fr, de)."
-                }
-              },
-              "required": [
-                "@value",
-                "@language"
-              ]
+              "$ref": "#/$defs/LanguageTaggedValue"
             },
             {
               "type": "array",
@@ -1894,22 +764,7 @@
                     "type": "string"
                   },
                   {
-                    "type": "object",
-                    "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                    "properties": {
-                      "@value": {
-                        "type": "string",
-                        "description": "The text content."
-                      },
-                      "@language": {
-                        "type": "string",
-                        "description": "BCP 47 language tag (e.g. en, fr, de)."
-                      }
-                    },
-                    "required": [
-                      "@value",
-                      "@language"
-                    ]
+                    "$ref": "#/$defs/LanguageTaggedValue"
                   }
                 ]
               }
@@ -1923,22 +778,7 @@
               "type": "string"
             },
             {
-              "type": "object",
-              "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-              "properties": {
-                "@value": {
-                  "type": "string",
-                  "description": "The text content."
-                },
-                "@language": {
-                  "type": "string",
-                  "description": "BCP 47 language tag (e.g. en, fr, de)."
-                }
-              },
-              "required": [
-                "@value",
-                "@language"
-              ]
+              "$ref": "#/$defs/LanguageTaggedValue"
             },
             {
               "type": "array",
@@ -1948,22 +788,7 @@
                     "type": "string"
                   },
                   {
-                    "type": "object",
-                    "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                    "properties": {
-                      "@value": {
-                        "type": "string",
-                        "description": "The text content."
-                      },
-                      "@language": {
-                        "type": "string",
-                        "description": "BCP 47 language tag (e.g. en, fr, de)."
-                      }
-                    },
-                    "required": [
-                      "@value",
-                      "@language"
-                    ]
+                    "$ref": "#/$defs/LanguageTaggedValue"
                   }
                 ]
               }
@@ -1977,22 +802,7 @@
               "type": "string"
             },
             {
-              "type": "object",
-              "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-              "properties": {
-                "@value": {
-                  "type": "string",
-                  "description": "The text content."
-                },
-                "@language": {
-                  "type": "string",
-                  "description": "BCP 47 language tag (e.g. en, fr, de)."
-                }
-              },
-              "required": [
-                "@value",
-                "@language"
-              ]
+              "$ref": "#/$defs/LanguageTaggedValue"
             },
             {
               "type": "array",
@@ -2002,22 +812,7 @@
                     "type": "string"
                   },
                   {
-                    "type": "object",
-                    "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                    "properties": {
-                      "@value": {
-                        "type": "string",
-                        "description": "The text content."
-                      },
-                      "@language": {
-                        "type": "string",
-                        "description": "BCP 47 language tag (e.g. en, fr, de)."
-                      }
-                    },
-                    "required": [
-                      "@value",
-                      "@language"
-                    ]
+                    "$ref": "#/$defs/LanguageTaggedValue"
                   }
                 ]
               }
@@ -2031,22 +826,7 @@
               "type": "string"
             },
             {
-              "type": "object",
-              "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-              "properties": {
-                "@value": {
-                  "type": "string",
-                  "description": "The text content."
-                },
-                "@language": {
-                  "type": "string",
-                  "description": "BCP 47 language tag (e.g. en, fr, de)."
-                }
-              },
-              "required": [
-                "@value",
-                "@language"
-              ]
+              "$ref": "#/$defs/LanguageTaggedValue"
             },
             {
               "type": "array",
@@ -2056,22 +836,7 @@
                     "type": "string"
                   },
                   {
-                    "type": "object",
-                    "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-                    "properties": {
-                      "@value": {
-                        "type": "string",
-                        "description": "The text content."
-                      },
-                      "@language": {
-                        "type": "string",
-                        "description": "BCP 47 language tag (e.g. en, fr, de)."
-                      }
-                    },
-                    "required": [
-                      "@value",
-                      "@language"
-                    ]
+                    "$ref": "#/$defs/LanguageTaggedValue"
                   }
                 ]
               }
@@ -2144,17 +909,7 @@
           "items": {
             "anyOf": [
               {
-                "type": "object",
-                "description": "A reference to a SKOS Concept by URI.",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "URI of the referenced concept."
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
+                "$ref": "#/$defs/ConceptRef"
               },
               {
                 "$comment": "circular-ref"
@@ -2168,17 +923,7 @@
           "items": {
             "anyOf": [
               {
-                "type": "object",
-                "description": "A reference to a SKOS Concept by URI.",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "URI of the referenced concept."
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
+                "$ref": "#/$defs/ConceptRef"
               },
               {
                 "$comment": "circular-ref"
@@ -2192,17 +937,7 @@
           "items": {
             "anyOf": [
               {
-                "type": "object",
-                "description": "A reference to a SKOS Concept by URI.",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "URI of the referenced concept."
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
+                "$ref": "#/$defs/ConceptRef"
               },
               {
                 "$comment": "circular-ref"
@@ -2214,91 +949,191 @@
           "description": "Concepts in other schemes with equivalent meaning.",
           "type": "array",
           "items": {
-            "type": "object",
-            "description": "A reference to a SKOS Concept by URI.",
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "URI of the referenced concept."
-              }
-            },
-            "required": [
-              "@id"
-            ]
+            "$ref": "#/$defs/ConceptRef"
           }
         },
         "skos:closeMatch": {
           "description": "Concepts in other schemes with similar meaning.",
           "type": "array",
           "items": {
-            "type": "object",
-            "description": "A reference to a SKOS Concept by URI.",
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "URI of the referenced concept."
-              }
-            },
-            "required": [
-              "@id"
-            ]
+            "$ref": "#/$defs/ConceptRef"
           }
         },
         "skos:broadMatch": {
           "description": "Broader concepts in other schemes.",
           "type": "array",
           "items": {
-            "type": "object",
-            "description": "A reference to a SKOS Concept by URI.",
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "URI of the referenced concept."
-              }
-            },
-            "required": [
-              "@id"
-            ]
+            "$ref": "#/$defs/ConceptRef"
           }
         },
         "skos:narrowMatch": {
           "description": "Narrower concepts in other schemes.",
           "type": "array",
           "items": {
-            "type": "object",
-            "description": "A reference to a SKOS Concept by URI.",
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "URI of the referenced concept."
-              }
-            },
-            "required": [
-              "@id"
-            ]
+            "$ref": "#/$defs/ConceptRef"
           }
         },
         "skos:relatedMatch": {
           "description": "Related concepts in other schemes.",
           "type": "array",
           "items": {
-            "type": "object",
-            "description": "A reference to a SKOS Concept by URI.",
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "URI of the referenced concept."
-              }
-            },
-            "required": [
-              "@id"
-            ]
+            "$ref": "#/$defs/ConceptRef"
           }
         }
       },
       "required": [
         "@type",
         "skos:prefLabel"
+      ]
+    },
+    "CdifCodelistConcept": {
+      "description": "A SKOS Concept constrained for CDIF codelist use. Must have a resolvable @id, skos:inScheme, skos:definition, and skos:prefLabel.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/Concept"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "Globally unique, resolvable URI for this concept."
+            },
+            "skos:inScheme": {
+              "description": "The concept scheme this concept belongs to. Required for CDIF codelist concepts.",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "@id"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "@id"
+                    ]
+                  }
+                }
+              ]
+            },
+            "skos:definition": {
+              "description": "Formal definition of this concept. Required for CDIF codelist concepts. String or language-tagged values.",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "skos:narrower": {
+              "description": "Narrower (child) concepts. If present, each inline concept must also declare skos:broader pointing back to the parent concept. Both skos:narrower and skos:broader must be explicit in CDIF codelists.",
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "@id"
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/CdifCodelistConcept"
+                      },
+                      {
+                        "required": [
+                          "skos:broader"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "skos:broader": {
+              "description": "Broader (parent) concepts. Required on any concept that appears as a skos:narrower value of another concept. CDIF requires both directions to be explicit for hierarchy traversal.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              }
+            }
+          },
+          "required": [
+            "@id",
+            "skos:inScheme",
+            "skos:definition"
+          ]
+        }
+      ]
+    },
+    "LanguageTaggedValue": {
+      "type": "object",
+      "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
+      "properties": {
+        "@value": {
+          "type": "string",
+          "description": "The text content."
+        },
+        "@language": {
+          "type": "string",
+          "description": "BCP 47 language tag (e.g. en, fr, de)."
+        }
+      },
+      "required": [
+        "@value",
+        "@language"
+      ]
+    },
+    "ConceptRef": {
+      "type": "object",
+      "description": "A reference to a SKOS Concept by URI.",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "URI of the referenced concept."
+        }
+      },
+      "required": [
+        "@id"
       ]
     }
   }

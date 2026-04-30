@@ -165,8 +165,115 @@
           "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
         },
         "cdi:describedUnitOfMeasure": {
-          "$comment": "unresolved fragment ref: #/$defs/DefinedTerm",
-          "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure."
+          "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure.",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "schema:DefinedTerm"
+              },
+              "minItems": 1
+            },
+            "schema:name": {
+              "type": "string",
+              "description": "text label for the term that is useful to human user"
+            },
+            "schema:identifier": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "description": "Properties for a schema.org identifier",
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "schema:PropertyValue"
+                      },
+                      "minItems": 1
+                    },
+                    "schema:propertyID": {
+                      "type": "string",
+                      "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                    },
+                    "schema:value": {
+                      "type": "string",
+                      "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                    },
+                    "schema:url": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "required": [
+                        "@type"
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "required": [
+                            "schema:value"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "schema:url"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "schema:inDefinedTermSet": {
+              "type": "string",
+              "description": "Name for the controlled vocabulary responsible for this keyword."
+            },
+            "schema:termCode": {
+              "type": "string",
+              "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+            }
+          },
+          "allOf": [
+            {
+              "required": [
+                "@type"
+              ]
+            },
+            {
+              "anyOf": [
+                {
+                  "required": [
+                    "schema:name"
+                  ]
+                },
+                {
+                  "required": [
+                    "schema:identifier"
+                  ]
+                },
+                {
+                  "required": [
+                    "schema:termCode"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         "cdi:simpleUnitOfMeasure": {
           "anyOf": [
@@ -1094,8 +1201,115 @@
             "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
           },
           "cdi:describedUnitOfMeasure": {
-            "$comment": "unresolved fragment ref: #/$defs/DefinedTerm",
-            "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure."
+            "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure.",
+            "type": "object",
+            "properties": {
+              "@type": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "contains": {
+                  "const": "schema:DefinedTerm"
+                },
+                "minItems": 1
+              },
+              "schema:name": {
+                "type": "string",
+                "description": "text label for the term that is useful to human user"
+              },
+              "schema:identifier": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "description": "Properties for a schema.org identifier",
+                    "type": "object",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "schema:PropertyValue"
+                        },
+                        "minItems": 1
+                      },
+                      "schema:propertyID": {
+                        "type": "string",
+                        "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                      },
+                      "schema:value": {
+                        "type": "string",
+                        "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                      },
+                      "schema:url": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                      }
+                    },
+                    "allOf": [
+                      {
+                        "required": [
+                          "@type"
+                        ]
+                      },
+                      {
+                        "anyOf": [
+                          {
+                            "required": [
+                              "schema:value"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "schema:url"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "schema:inDefinedTermSet": {
+                "type": "string",
+                "description": "Name for the controlled vocabulary responsible for this keyword."
+              },
+              "schema:termCode": {
+                "type": "string",
+                "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+              }
+            },
+            "allOf": [
+              {
+                "required": [
+                  "@type"
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "required": [
+                      "schema:name"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "schema:identifier"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "schema:termCode"
+                    ]
+                  }
+                ]
+              }
+            ]
           },
           "cdi:simpleUnitOfMeasure": {
             "anyOf": [
@@ -2034,8 +2248,115 @@
               "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
             },
             "cdi:describedUnitOfMeasure": {
-              "$comment": "unresolved fragment ref: #/$defs/DefinedTerm",
-              "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure."
+              "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure.",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "schema:DefinedTerm"
+                  },
+                  "minItems": 1
+                },
+                "schema:name": {
+                  "type": "string",
+                  "description": "text label for the term that is useful to human user"
+                },
+                "schema:identifier": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "description": "Properties for a schema.org identifier",
+                      "type": "object",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "schema:PropertyValue"
+                          },
+                          "minItems": 1
+                        },
+                        "schema:propertyID": {
+                          "type": "string",
+                          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                        },
+                        "schema:value": {
+                          "type": "string",
+                          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                        },
+                        "schema:url": {
+                          "type": "string",
+                          "format": "uri",
+                          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "required": [
+                            "@type"
+                          ]
+                        },
+                        {
+                          "anyOf": [
+                            {
+                              "required": [
+                                "schema:value"
+                              ]
+                            },
+                            {
+                              "required": [
+                                "schema:url"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "schema:inDefinedTermSet": {
+                  "type": "string",
+                  "description": "Name for the controlled vocabulary responsible for this keyword."
+                },
+                "schema:termCode": {
+                  "type": "string",
+                  "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                }
+              },
+              "allOf": [
+                {
+                  "required": [
+                    "@type"
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "schema:name"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "schema:identifier"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "schema:termCode"
+                      ]
+                    }
+                  ]
+                }
+              ]
             },
             "cdi:simpleUnitOfMeasure": {
               "anyOf": [
@@ -2968,8 +3289,115 @@
                 "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
               },
               "cdi:describedUnitOfMeasure": {
-                "$comment": "unresolved fragment ref: #/$defs/DefinedTerm",
-                "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure."
+                "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure.",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "schema:DefinedTerm"
+                    },
+                    "minItems": 1
+                  },
+                  "schema:name": {
+                    "type": "string",
+                    "description": "text label for the term that is useful to human user"
+                  },
+                  "schema:identifier": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "description": "Properties for a schema.org identifier",
+                        "type": "object",
+                        "properties": {
+                          "@type": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "contains": {
+                              "const": "schema:PropertyValue"
+                            },
+                            "minItems": 1
+                          },
+                          "schema:propertyID": {
+                            "type": "string",
+                            "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                          },
+                          "schema:value": {
+                            "type": "string",
+                            "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                          },
+                          "schema:url": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                          }
+                        },
+                        "allOf": [
+                          {
+                            "required": [
+                              "@type"
+                            ]
+                          },
+                          {
+                            "anyOf": [
+                              {
+                                "required": [
+                                  "schema:value"
+                                ]
+                              },
+                              {
+                                "required": [
+                                  "schema:url"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "schema:inDefinedTermSet": {
+                    "type": "string",
+                    "description": "Name for the controlled vocabulary responsible for this keyword."
+                  },
+                  "schema:termCode": {
+                    "type": "string",
+                    "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                  }
+                },
+                "allOf": [
+                  {
+                    "required": [
+                      "@type"
+                    ]
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "schema:name"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "schema:identifier"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "schema:termCode"
+                        ]
+                      }
+                    ]
+                  }
+                ]
               },
               "cdi:simpleUnitOfMeasure": {
                 "anyOf": [
@@ -3908,8 +4336,115 @@
                   "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
                 },
                 "cdi:describedUnitOfMeasure": {
-                  "$comment": "unresolved fragment ref: #/$defs/DefinedTerm",
-                  "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure."
+                  "description": "A structured unit of measure from a controlled vocabulary, from DDI-CDI RepresentedVariable.describedUnitOfMeasure.",
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "schema:DefinedTerm"
+                      },
+                      "minItems": 1
+                    },
+                    "schema:name": {
+                      "type": "string",
+                      "description": "text label for the term that is useful to human user"
+                    },
+                    "schema:identifier": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "description": "Properties for a schema.org identifier",
+                          "type": "object",
+                          "properties": {
+                            "@type": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "contains": {
+                                "const": "schema:PropertyValue"
+                              },
+                              "minItems": 1
+                            },
+                            "schema:propertyID": {
+                              "type": "string",
+                              "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                            },
+                            "schema:value": {
+                              "type": "string",
+                              "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                            },
+                            "schema:url": {
+                              "type": "string",
+                              "format": "uri",
+                              "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                            }
+                          },
+                          "allOf": [
+                            {
+                              "required": [
+                                "@type"
+                              ]
+                            },
+                            {
+                              "anyOf": [
+                                {
+                                  "required": [
+                                    "schema:value"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "schema:url"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "schema:inDefinedTermSet": {
+                      "type": "string",
+                      "description": "Name for the controlled vocabulary responsible for this keyword."
+                    },
+                    "schema:termCode": {
+                      "type": "string",
+                      "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "required": [
+                        "@type"
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "required": [
+                            "schema:name"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "schema:identifier"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "schema:termCode"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
                 },
                 "cdi:simpleUnitOfMeasure": {
                   "anyOf": [
