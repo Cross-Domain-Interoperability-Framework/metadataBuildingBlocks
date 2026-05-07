@@ -57,7 +57,9 @@ contact information, and ORCID identifier.
         "@type": [
           "cdi:ControlledVocabularyEntry"
         ],
-        "cdi:entryValue": "work"
+        "cdi:entryValue": [
+          "work"
+        ]
       },
       "cdi:isPreferred": true
     }
@@ -129,7 +131,9 @@ contact information, and ORCID identifier.
         "@type": [
           "cdi:ControlledVocabularyEntry"
         ],
-        "cdi:entryValue": "work"
+        "cdi:entryValue": [
+          "work"
+        ]
       },
       "cdi:isPreferred": true
     }

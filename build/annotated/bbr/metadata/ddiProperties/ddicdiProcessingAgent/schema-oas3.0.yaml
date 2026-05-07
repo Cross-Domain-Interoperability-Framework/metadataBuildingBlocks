@@ -545,7 +545,11 @@ x-defs:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiProcessingAgent/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ControlledVocabularyEntry
       ControlledVocabularyEntry:
         type: object
-        description: DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry)
+        description: DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry).
+          Allows for unstructured content which may be an entry from an externally
+          maintained controlled vocabulary. When the content is from a controlled
+          vocabulary, provide the code value of the entry along with a reference to
+          the vocabulary from which the value is taken.
         properties:
           '@type':
             type: array
@@ -555,16 +559,59 @@ x-defs:
               enum:
               - cdi:ControlledVocabularyEntry
             minItems: 1
+          cdi:entryReference:
+            description: A reference to the specific item in the vocabulary referenced
+              by cdi:vocabulary, using a URI or other resolvable identifier.
+            type: array
+            items:
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiProcessingAgent/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Reference
+            minItems: 1
           cdi:entryValue:
-            type: string
-            description: The vocabulary code or value
+            description: The value of the entry of the controlled vocabulary. If no
+              controlled vocabulary is used the term is entered here and none of the
+              properties defining the controlled vocabulary location are used.
+            type: array
+            items:
+              type: string
+            minItems: 1
           cdi:name:
             type: string
-            description: Human-readable name
+            description: The name of the code list (controlled vocabulary).
+          cdi:valueForOther:
+            type: string
+            description: If the value of the string is "Other" or the equivalent from
+              the codelist, this attribute can provide a more specific value not found
+              in the codelist.
           cdi:vocabulary:
-            description: Reference to the vocabulary scheme
+            description: A reference to the external controlled vocabulary, using
+              a URI or other resolvable identifier.
             allOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiProcessingAgent/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Reference
+      PairedControlledVocabularyEntry:
+        type: object
+        description: DDI-CDI tightly-bound pair of controlled vocabulary entries (dt-PairedControlledVocabularyEntry).
+          The extent property describes the extent to which the parent term applies
+          for the specific case.
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - cdi:PairedControlledVocabularyEntry
+            minItems: 1
+          cdi:term:
+            description: The term attributed to the parent class (e.g. the role of
+              a contributor).
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiProcessingAgent/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ControlledVocabularyEntry
+          cdi:extent:
+            description: Extent to which the parent term applies for the specific
+              case. When paired with a CASRAI Contributor Role, typical values are
+              "lead", "equal", or "supporting".
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiProcessingAgent/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ControlledVocabularyEntry
       InternationalString:
         type: object
         description: DDI-CDI internationalized string (dt-InternationalString)

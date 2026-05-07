@@ -20,205 +20,91 @@ activity relationships.
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "ex": "https://example.org/"
   },
-  "@graph": [
-    {
-      "@id": "ex:researcher-jane-doe",
+  "@id": "ex:researcher-jane-doe",
+  "@type": [
+    "cdi:Individual"
+  ],
+  "cdi:individualName": {
+    "@type": [
+      "cdi:IndividualName"
+    ],
+    "cdi:firstGiven": "Jane",
+    "cdi:lastFamily": "Doe",
+    "cdi:prefix": "Dr.",
+    "cdi:fullName": {
       "@type": [
-        "cdi:Individual"
+        "cdi:InternationalString"
       ],
-      "cdi:individualName": {
+      "cdi:languageSpecificString": {
         "@type": [
-          "cdi:IndividualName"
+          "cdi:LanguageString"
         ],
-        "cdi:firstGiven": "Jane",
-        "cdi:lastFamily": "Doe",
-        "cdi:prefix": "Dr.",
-        "cdi:fullName": {
-          "@type": [
-            "cdi:InternationalString"
-          ],
-          "cdi:languageSpecificString": {
-            "@type": [
-              "cdi:LanguageString"
-            ],
-            "cdi:content": "Dr. Jane Doe",
-            "cdi:language": "en"
-          }
-        },
-        "cdi:isPreferred": true
-      },
-      "cdi:contactInformation": {
-        "@type": [
-          "cdi:ContactInformation"
-        ],
-        "cdi:email": {
-          "@type": [
-            "cdi:Email"
-          ],
-          "cdi:internetEmail": "jane.doe@example.org",
-          "cdi:typeOfEmail": {
-            "@type": [
-              "cdi:ControlledVocabularyEntry"
-            ],
-            "cdi:entryValue": "work"
-          },
-          "cdi:isPreferred": true
-        },
-        "cdi:address": {
-          "@type": [
-            "cdi:Address"
-          ],
-          "cdi:line": [
-            "Department of Earth Sciences",
-            "123 University Avenue"
-          ],
-          "cdi:cityPlaceLocal": "Reno",
-          "cdi:stateProvince": "Nevada",
-          "cdi:postalCode": "89557",
-          "cdi:countryCode": {
-            "@type": [
-              "cdi:ControlledVocabularyEntry"
-            ],
-            "cdi:entryValue": "US"
-          },
-          "cdi:typeOfAddress": {
-            "@type": [
-              "cdi:ControlledVocabularyEntry"
-            ],
-            "cdi:entryValue": "work"
-          }
-        }
-      },
-      "cdi:identifier": {
-        "@type": [
-          "cdi:Identifier"
-        ],
-        "cdi:nonDdiIdentifier": {
-          "@type": [
-            "cdi:NonDdiIdentifier"
-          ],
-          "cdi:identifierContent": "https://orcid.org/0000-0002-1234-5678",
-          "cdi:managingAgency": "ORCID"
-        }
+        "cdi:content": "Dr. Jane Doe",
+        "cdi:language": "en"
       }
     },
-    {
-      "@id": "ex:org-earth-science-institute",
+    "cdi:isPreferred": true
+  },
+  "cdi:contactInformation": {
+    "@type": [
+      "cdi:ContactInformation"
+    ],
+    "cdi:email": {
       "@type": [
-        "cdi:Organization"
+        "cdi:Email"
       ],
-      "cdi:organizationName": {
+      "cdi:internetEmail": "jane.doe@example.org",
+      "cdi:typeOfEmail": {
         "@type": [
-          "cdi:OrganizationName"
+          "cdi:ControlledVocabularyEntry"
         ],
-        "cdi:name": "Earth Science Research Institute",
-        "cdi:abbreviation": {
-          "@type": [
-            "cdi:InternationalString"
-          ],
-          "cdi:languageSpecificString": {
-            "@type": [
-              "cdi:LanguageString"
-            ],
-            "cdi:content": "ESRI",
-            "cdi:language": "en"
-          }
-        },
-        "cdi:isFormal": true,
-        "cdi:typeOfOrganizationName": {
-          "@type": [
-            "cdi:ControlledVocabularyEntry"
-          ],
-          "cdi:entryValue": "legal"
-        }
+        "cdi:entryValue": [
+          "work"
+        ]
       },
-      "cdi:contactInformation": {
-        "@type": [
-          "cdi:ContactInformation"
-        ],
-        "cdi:website": {
-          "@type": [
-            "cdi:WebLink"
-          ],
-          "cdi:uri": "https://www.esri-example.org",
-          "cdi:typeOfWebsite": {
-            "@type": [
-              "cdi:ControlledVocabularyEntry"
-            ],
-            "cdi:entryValue": "homepage"
-          },
-          "cdi:isPreferred": true
-        },
-        "cdi:address": {
-          "@type": [
-            "cdi:Address"
-          ],
-          "cdi:line": ["456 Research Boulevard"],
-          "cdi:cityPlaceLocal": "Reno",
-          "cdi:stateProvince": "Nevada",
-          "cdi:postalCode": "89512",
-          "cdi:countryCode": {
-            "@type": [
-              "cdi:ControlledVocabularyEntry"
-            ],
-            "cdi:entryValue": "US"
-          }
-        }
-      },
-      "cdi:identifier": {
-        "@type": [
-          "cdi:Identifier"
-        ],
-        "cdi:nonDdiIdentifier": {
-          "@type": [
-            "cdi:NonDdiIdentifier"
-          ],
-          "cdi:identifierContent": "https://ror.org/00example",
-          "cdi:managingAgency": "ROR"
-        }
-      }
+      "cdi:isPreferred": true
     },
-    {
-      "@id": "ex:agent-data-pipeline",
+    "cdi:address": {
       "@type": [
-        "cdi:ProcessingAgent"
+        "cdi:Address"
       ],
-      "cdi:identifier": {
-        "@type": [
-          "cdi:Identifier"
-        ],
-        "cdi:nonDdiIdentifier": {
-          "@type": [
-            "cdi:NonDdiIdentifier"
-          ],
-          "cdi:identifierContent": "pipeline-agent-v2.1",
-          "cdi:managingAgency": "ESRI internal"
-        }
-      },
-      "cdi:purpose": {
-        "@type": [
-          "cdi:InternationalString"
-        ],
-        "cdi:languageSpecificString": {
-          "@type": [
-            "cdi:LanguageString"
-          ],
-          "cdi:content": "Automated data processing and quality control pipeline",
-          "cdi:language": "en"
-        }
-      },
-      "cdi:performs": [
-        {
-          "@id": "ex:activity-soil-chem-analysis"
-        }
+      "cdi:line": [
+        "Department of Earth Sciences",
+        "123 University Avenue"
       ],
-      "cdi:operatesOn": [
-        {
-          "@id": "ex:env-hpc-cluster"
-        }
-      ]
+      "cdi:cityPlaceLocal": "Reno",
+      "cdi:stateProvince": "Nevada",
+      "cdi:postalCode": "89557",
+      "cdi:countryCode": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "US"
+        ]
+      },
+      "cdi:typeOfAddress": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "work"
+        ]
+      }
     }
-  ]
+  },
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:nonDdiIdentifier": {
+      "@type": [
+        "cdi:NonDdiIdentifier"
+      ],
+      "cdi:identifierContent": "https://orcid.org/0000-0002-1234-5678",
+      "cdi:managingAgency": "ORCID"
+    }
+  }
 }
 
 ```
@@ -236,207 +122,91 @@ activity relationships.
       "ex": "https://example.org/"
     }
   ],
-  "@graph": [
-    {
-      "@id": "ex:researcher-jane-doe",
+  "@id": "ex:researcher-jane-doe",
+  "@type": [
+    "cdi:Individual"
+  ],
+  "cdi:individualName": {
+    "@type": [
+      "cdi:IndividualName"
+    ],
+    "cdi:firstGiven": "Jane",
+    "cdi:lastFamily": "Doe",
+    "cdi:prefix": "Dr.",
+    "cdi:fullName": {
       "@type": [
-        "cdi:Individual"
+        "cdi:InternationalString"
       ],
-      "cdi:individualName": {
+      "cdi:languageSpecificString": {
         "@type": [
-          "cdi:IndividualName"
+          "cdi:LanguageString"
         ],
-        "cdi:firstGiven": "Jane",
-        "cdi:lastFamily": "Doe",
-        "cdi:prefix": "Dr.",
-        "cdi:fullName": {
-          "@type": [
-            "cdi:InternationalString"
-          ],
-          "cdi:languageSpecificString": {
-            "@type": [
-              "cdi:LanguageString"
-            ],
-            "cdi:content": "Dr. Jane Doe",
-            "cdi:language": "en"
-          }
-        },
-        "cdi:isPreferred": true
-      },
-      "cdi:contactInformation": {
-        "@type": [
-          "cdi:ContactInformation"
-        ],
-        "cdi:email": {
-          "@type": [
-            "cdi:Email"
-          ],
-          "cdi:internetEmail": "jane.doe@example.org",
-          "cdi:typeOfEmail": {
-            "@type": [
-              "cdi:ControlledVocabularyEntry"
-            ],
-            "cdi:entryValue": "work"
-          },
-          "cdi:isPreferred": true
-        },
-        "cdi:address": {
-          "@type": [
-            "cdi:Address"
-          ],
-          "cdi:line": [
-            "Department of Earth Sciences",
-            "123 University Avenue"
-          ],
-          "cdi:cityPlaceLocal": "Reno",
-          "cdi:stateProvince": "Nevada",
-          "cdi:postalCode": "89557",
-          "cdi:countryCode": {
-            "@type": [
-              "cdi:ControlledVocabularyEntry"
-            ],
-            "cdi:entryValue": "US"
-          },
-          "cdi:typeOfAddress": {
-            "@type": [
-              "cdi:ControlledVocabularyEntry"
-            ],
-            "cdi:entryValue": "work"
-          }
-        }
-      },
-      "cdi:identifier": {
-        "@type": [
-          "cdi:Identifier"
-        ],
-        "cdi:nonDdiIdentifier": {
-          "@type": [
-            "cdi:NonDdiIdentifier"
-          ],
-          "cdi:identifierContent": "https://orcid.org/0000-0002-1234-5678",
-          "cdi:managingAgency": "ORCID"
-        }
+        "cdi:content": "Dr. Jane Doe",
+        "cdi:language": "en"
       }
     },
-    {
-      "@id": "ex:org-earth-science-institute",
+    "cdi:isPreferred": true
+  },
+  "cdi:contactInformation": {
+    "@type": [
+      "cdi:ContactInformation"
+    ],
+    "cdi:email": {
       "@type": [
-        "cdi:Organization"
+        "cdi:Email"
       ],
-      "cdi:organizationName": {
+      "cdi:internetEmail": "jane.doe@example.org",
+      "cdi:typeOfEmail": {
         "@type": [
-          "cdi:OrganizationName"
+          "cdi:ControlledVocabularyEntry"
         ],
-        "cdi:name": "Earth Science Research Institute",
-        "cdi:abbreviation": {
-          "@type": [
-            "cdi:InternationalString"
-          ],
-          "cdi:languageSpecificString": {
-            "@type": [
-              "cdi:LanguageString"
-            ],
-            "cdi:content": "ESRI",
-            "cdi:language": "en"
-          }
-        },
-        "cdi:isFormal": true,
-        "cdi:typeOfOrganizationName": {
-          "@type": [
-            "cdi:ControlledVocabularyEntry"
-          ],
-          "cdi:entryValue": "legal"
-        }
+        "cdi:entryValue": [
+          "work"
+        ]
       },
-      "cdi:contactInformation": {
-        "@type": [
-          "cdi:ContactInformation"
-        ],
-        "cdi:website": {
-          "@type": [
-            "cdi:WebLink"
-          ],
-          "cdi:uri": "https://www.esri-example.org",
-          "cdi:typeOfWebsite": {
-            "@type": [
-              "cdi:ControlledVocabularyEntry"
-            ],
-            "cdi:entryValue": "homepage"
-          },
-          "cdi:isPreferred": true
-        },
-        "cdi:address": {
-          "@type": [
-            "cdi:Address"
-          ],
-          "cdi:line": [
-            "456 Research Boulevard"
-          ],
-          "cdi:cityPlaceLocal": "Reno",
-          "cdi:stateProvince": "Nevada",
-          "cdi:postalCode": "89512",
-          "cdi:countryCode": {
-            "@type": [
-              "cdi:ControlledVocabularyEntry"
-            ],
-            "cdi:entryValue": "US"
-          }
-        }
-      },
-      "cdi:identifier": {
-        "@type": [
-          "cdi:Identifier"
-        ],
-        "cdi:nonDdiIdentifier": {
-          "@type": [
-            "cdi:NonDdiIdentifier"
-          ],
-          "cdi:identifierContent": "https://ror.org/00example",
-          "cdi:managingAgency": "ROR"
-        }
-      }
+      "cdi:isPreferred": true
     },
-    {
-      "@id": "ex:agent-data-pipeline",
+    "cdi:address": {
       "@type": [
-        "cdi:ProcessingAgent"
+        "cdi:Address"
       ],
-      "cdi:identifier": {
-        "@type": [
-          "cdi:Identifier"
-        ],
-        "cdi:nonDdiIdentifier": {
-          "@type": [
-            "cdi:NonDdiIdentifier"
-          ],
-          "cdi:identifierContent": "pipeline-agent-v2.1",
-          "cdi:managingAgency": "ESRI internal"
-        }
-      },
-      "cdi:purpose": {
-        "@type": [
-          "cdi:InternationalString"
-        ],
-        "cdi:languageSpecificString": {
-          "@type": [
-            "cdi:LanguageString"
-          ],
-          "cdi:content": "Automated data processing and quality control pipeline",
-          "cdi:language": "en"
-        }
-      },
-      "cdi:performs": [
-        {
-          "@id": "ex:activity-soil-chem-analysis"
-        }
+      "cdi:line": [
+        "Department of Earth Sciences",
+        "123 University Avenue"
       ],
-      "cdi:operatesOn": [
-        {
-          "@id": "ex:env-hpc-cluster"
-        }
-      ]
+      "cdi:cityPlaceLocal": "Reno",
+      "cdi:stateProvince": "Nevada",
+      "cdi:postalCode": "89557",
+      "cdi:countryCode": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "US"
+        ]
+      },
+      "cdi:typeOfAddress": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "work"
+        ]
+      }
     }
-  ]
+  },
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:nonDdiIdentifier": {
+      "@type": [
+        "cdi:NonDdiIdentifier"
+      ],
+      "cdi:identifierContent": "https://orcid.org/0000-0002-1234-5678",
+      "cdi:managingAgency": "ORCID"
+    }
+  }
 }
 ```
 
@@ -445,46 +215,6 @@ activity relationships.
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix ex: <https://example.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-ex:agent-data-pipeline a cdi:ProcessingAgent ;
-    cdi:identifier [ a cdi:Identifier ;
-            cdi:nonDdiIdentifier [ a cdi:NonDdiIdentifier ;
-                    cdi:identifierContent "pipeline-agent-v2.1" ;
-                    cdi:managingAgency "ESRI internal" ] ] ;
-    cdi:operatesOn ex:env-hpc-cluster ;
-    cdi:performs ex:activity-soil-chem-analysis ;
-    cdi:purpose [ a cdi:InternationalString ;
-            cdi:languageSpecificString [ a cdi:LanguageString ;
-                    cdi:content "Automated data processing and quality control pipeline" ;
-                    cdi:language "en" ] ] .
-
-ex:org-earth-science-institute a cdi:Organization ;
-    cdi:contactInformation [ a cdi:ContactInformation ;
-            cdi:address [ a cdi:Address ;
-                    cdi:cityPlaceLocal "Reno" ;
-                    cdi:countryCode [ a cdi:ControlledVocabularyEntry ;
-                            cdi:entryValue "US" ] ;
-                    cdi:line "456 Research Boulevard" ;
-                    cdi:postalCode "89512" ;
-                    cdi:stateProvince "Nevada" ] ;
-            cdi:website [ a cdi:WebLink ;
-                    cdi:isPreferred true ;
-                    cdi:typeOfWebsite [ a cdi:ControlledVocabularyEntry ;
-                            cdi:entryValue "homepage" ] ;
-                    cdi:uri "https://www.esri-example.org" ] ] ;
-    cdi:identifier [ a cdi:Identifier ;
-            cdi:nonDdiIdentifier [ a cdi:NonDdiIdentifier ;
-                    cdi:identifierContent "https://ror.org/00example" ;
-                    cdi:managingAgency "ROR" ] ] ;
-    cdi:organizationName [ a cdi:OrganizationName ;
-            cdi:abbreviation [ a cdi:InternationalString ;
-                    cdi:languageSpecificString [ a cdi:LanguageString ;
-                            cdi:content "ESRI" ;
-                            cdi:language "en" ] ] ;
-            cdi:isFormal true ;
-            cdi:name "Earth Science Research Institute" ;
-            cdi:typeOfOrganizationName [ a cdi:ControlledVocabularyEntry ;
-                    cdi:entryValue "legal" ] ] .
 
 ex:researcher-jane-doe a cdi:Individual ;
     cdi:contactInformation [ a cdi:ContactInformation ;
@@ -530,35 +260,10 @@ description: DDI-CDI Agent class hierarchy. Covers Individual (person), Machine 
   using DDI Cross-Domain Integration vocabulary. Each agent subtype is defined in
   its own building block; this schema composes them.
 anyOf:
-- description: Single agent node
-  type: object
-  anyOf:
-  - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiIndividual/schema.yaml
-  - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiMachine/schema.yaml
-  - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiOrganization/schema.yaml
-  - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiProcessingAgent/schema.yaml
-- description: Unwrapped @graph array of agent nodes (OGC pipeline)
-  type: array
-  items:
-    anyOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiIndividual/schema.yaml
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiMachine/schema.yaml
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiOrganization/schema.yaml
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiProcessingAgent/schema.yaml
-- description: JSON-LD document with @context and @graph
-  type: object
-  properties:
-    '@context': {}
-    '@graph':
-      type: array
-      items:
-        anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiIndividual/schema.yaml
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiMachine/schema.yaml
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiOrganization/schema.yaml
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiProcessingAgent/schema.yaml
-  required:
-  - '@graph'
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiIndividual/schema.yaml
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiMachine/schema.yaml
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiOrganization/schema.yaml
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiProcessingAgent/schema.yaml
 x-jsonld-prefixes:
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
 

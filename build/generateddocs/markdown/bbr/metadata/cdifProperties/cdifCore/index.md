@@ -1212,15 +1212,15 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
     schema1:identifier ex:datasetIdentifier001 ;
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
-            schema1:name "Sea water temperature" ;
-            schema1:termCode "TEMPPR01" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "https://vocab.nerc.ac.uk/collection/L06/current/46/" ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L06/current/" ;
             schema1:name "Argo" ;
             schema1:termCode "L06:46" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
+            schema1:name "Sea water temperature" ;
+            schema1:termCode "TEMPPR01" ],
         "ocean temperature" ;
     schema1:license [ a schema1:CreativeWork ;
             schema1:name "Creative Commons Attribution 4.0" ;

@@ -545,7 +545,11 @@ x-defs:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ControlledVocabularyEntry
       ControlledVocabularyEntry:
         type: object
-        description: DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry)
+        description: DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry).
+          Allows for unstructured content which may be an entry from an externally
+          maintained controlled vocabulary. When the content is from a controlled
+          vocabulary, provide the code value of the entry along with a reference to
+          the vocabulary from which the value is taken.
         properties:
           '@type':
             type: array
@@ -555,16 +559,59 @@ x-defs:
               enum:
               - cdi:ControlledVocabularyEntry
             minItems: 1
+          cdi:entryReference:
+            description: A reference to the specific item in the vocabulary referenced
+              by cdi:vocabulary, using a URI or other resolvable identifier.
+            type: array
+            items:
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Reference
+            minItems: 1
           cdi:entryValue:
-            type: string
-            description: The vocabulary code or value
+            description: The value of the entry of the controlled vocabulary. If no
+              controlled vocabulary is used the term is entered here and none of the
+              properties defining the controlled vocabulary location are used.
+            type: array
+            items:
+              type: string
+            minItems: 1
           cdi:name:
             type: string
-            description: Human-readable name
+            description: The name of the code list (controlled vocabulary).
+          cdi:valueForOther:
+            type: string
+            description: If the value of the string is "Other" or the equivalent from
+              the codelist, this attribute can provide a more specific value not found
+              in the codelist.
           cdi:vocabulary:
-            description: Reference to the vocabulary scheme
+            description: A reference to the external controlled vocabulary, using
+              a URI or other resolvable identifier.
             allOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Reference
+      PairedControlledVocabularyEntry:
+        type: object
+        description: DDI-CDI tightly-bound pair of controlled vocabulary entries (dt-PairedControlledVocabularyEntry).
+          The extent property describes the extent to which the parent term applies
+          for the specific case.
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - cdi:PairedControlledVocabularyEntry
+            minItems: 1
+          cdi:term:
+            description: The term attributed to the parent class (e.g. the role of
+              a contributor).
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ControlledVocabularyEntry
+          cdi:extent:
+            description: Extent to which the parent term applies for the specific
+              case. When paired with a CASRAI Contributor Role, typical values are
+              "lead", "equal", or "supporting".
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ControlledVocabularyEntry
       InternationalString:
         type: object
         description: DDI-CDI internationalized string (dt-InternationalString)
@@ -652,141 +699,94 @@ description: DDI-CDI Activity class (DDICDILibrary/Classes/Process/Activity). De
   tasks at a conceptual level using cdi:Activity, cdi:Step, and cdi:Parameter vocabulary
   from the DDI Cross-Domain Integration specification. Includes definition, start/end
   timestamps, hasInternal (ControlLogic), and full Step/Parameter support.
-anyOf:
-- description: Single Activity node
-  allOf:
-  - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/$defs/Activity
-- description: Unwrapped @graph array of nodes (OGC pipeline)
-  type: array
-  contains:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/$defs/Activity
-  items:
-    if:
-      type: object
-      properties:
-        '@type':
-          type: array
-          contains:
-            enum:
-            - cdi:Activity
-      required:
-      - '@type'
-    then:
-      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/$defs/Activity
-- description: JSON-LD document with @context and @graph
-  type: object
-  properties:
-    '@context': {}
-    '@graph':
-      type: array
-      contains:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/$defs/Activity
+type: object
+properties:
+  '@type':
+    description: Must be or include cdi:Activity
+    type: array
+    items:
+      type: string
+    contains:
+      enum:
+      - cdi:Activity
+    minItems: 1
+  '@id':
+    type: string
+    description: Identifier for this activity node
+  cdi:name:
+    description: Structured name for the activity (ObjectName)
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ObjectName
+    - type: array
       items:
-        if:
-          type: object
-          properties:
-            '@type':
-              type: array
-              contains:
-                enum:
-                - cdi:Activity
-          required:
-          - '@type'
-        then:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/$defs/Activity
-  required:
-  - '@graph'
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ObjectName
+  cdi:description:
+    type: string
+    description: Plain text description of the activity
+  cdi:definition:
+    description: Formal multilingual definition (InternationalString)
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+    - type: array
+      items:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+  cdi:displayLabel:
+    description: Multilingual display label
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/LabelForDisplay
+    - type: array
+      items:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/LabelForDisplay
+  cdi:identifier:
+    description: Formal identifier for this activity
+    allOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Identifier
+  cdi:entityUsed:
+    description: Entities used as inputs by this activity
+    type: array
+    items:
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Reference
+  cdi:entityProduced:
+    description: Entities produced as outputs by this activity
+    type: array
+    items:
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Reference
+  cdi:standardModelMapping:
+    description: Reference to a standard process model (e.g. GSBPM)
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Reference
+    - type: array
+      items:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Reference
+  cdi:start:
+    type: string
+    format: date-time
+    description: Start date-time of the activity (xsd:dateTime)
+  cdi:end:
+    type: string
+    format: date-time
+    description: End date-time of the activity (xsd:dateTime)
+  cdi:hasSubActivity:
+    description: Nested sub-activities (cdi:Activity). @id references.
+    type: array
+    items:
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+  cdi:has_Step:
+    description: Ordered steps within this activity (cdi:Step)
+    type: array
+    items:
+      anyOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/$defs/Step
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+  cdi:hasInternal:
+    description: Internal control logic elements (cdi:ControlLogic). @id references.
+    type: array
+    items:
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+required:
+- '@type'
+- cdi:name
 $defs:
-  Activity:
-    type: object
-    description: "DDI-CDI Activity (cls-Activity) \u2014 task described at a conceptual
-      level"
-    properties:
-      '@type':
-        description: Must be or include cdi:Activity
-        type: array
-        items:
-          type: string
-        contains:
-          enum:
-          - cdi:Activity
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this activity node
-      cdi:name:
-        description: Structured name for the activity (ObjectName)
-        anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ObjectName
-        - type: array
-          items:
-            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ObjectName
-      cdi:description:
-        type: string
-        description: Plain text description of the activity
-      cdi:definition:
-        description: Formal multilingual definition (InternationalString)
-        anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
-        - type: array
-          items:
-            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
-      cdi:displayLabel:
-        description: Multilingual display label
-        anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/LabelForDisplay
-        - type: array
-          items:
-            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/LabelForDisplay
-      cdi:identifier:
-        description: Formal identifier for this activity
-        allOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Identifier
-      cdi:entityUsed:
-        description: Entities used as inputs by this activity
-        type: array
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Reference
-      cdi:entityProduced:
-        description: Entities produced as outputs by this activity
-        type: array
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Reference
-      cdi:standardModelMapping:
-        description: Reference to a standard process model (e.g. GSBPM)
-        anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Reference
-        - type: array
-          items:
-            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Reference
-      cdi:start:
-        type: string
-        format: date-time
-        description: Start date-time of the activity (xsd:dateTime)
-      cdi:end:
-        type: string
-        format: date-time
-        description: End date-time of the activity (xsd:dateTime)
-      cdi:hasSubActivity:
-        description: Nested sub-activities (cdi:Activity). @id references.
-        type: array
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
-      cdi:has_Step:
-        description: Ordered steps within this activity (cdi:Step)
-        type: array
-        items:
-          anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/$defs/Step
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
-      cdi:hasInternal:
-        description: Internal control logic elements (cdi:ControlLogic). @id references.
-        type: array
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiActivity/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
-    required:
-    - '@type'
-    - cdi:name
   Step:
     type: object
     description: DDI-CDI Step within an Activity (cls-Step, extends Activity)

@@ -33,7 +33,9 @@ type classification, and identifier.
     "@type": [
       "cdi:ControlledVocabularyEntry"
     ],
-    "cdi:entryValue": "high-performance-computing"
+    "cdi:entryValue": [
+      "high-performance-computing"
+    ]
   },
   "cdi:accessLocation": {
     "@type": [
@@ -96,7 +98,9 @@ type classification, and identifier.
     "@type": [
       "cdi:ControlledVocabularyEntry"
     ],
-    "cdi:entryValue": "high-performance-computing"
+    "cdi:entryValue": [
+      "high-performance-computing"
+    ]
   },
   "cdi:accessLocation": {
     "@type": [
