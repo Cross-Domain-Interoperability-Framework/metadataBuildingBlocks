@@ -313,11 +313,12 @@ class BuildContext:
     prefix: str                       # e.g. "cdi"
     shared_bb_relpath: str            # e.g. "../ddicdiDataTypes/schema.yaml"
     shared_defs: set[str]             # names available in the shared BB
-    inline_class_names: set[str]      # uml:Class names to inline despite default
-    inline_or_ref_class_names: set[str]  # inline OR id-reference (anyOf wrap)
-    reference_class_names: set[str]   # uml:Class names to force as id-reference
+    inline_class_names: set[str]      # uml:Class names to inline (no id-ref fallback)
+    inline_or_ref_class_names: set[str]  # explicit inline-OR-id-reference (now also default)
+    reference_class_names: set[str]   # uml:Class names to force as id-reference only
     inline_datatypes: bool            # if True, never $ref shared bb; inline all
     strict_required: bool             # if True, emit `required` per UML lower>=1
+    external_class_refs: dict[str, str]  # ClassName -> $ref target if defined in another BB
     local_defs: dict[str, dict]       # name -> $def schema fragment
     expanding: set[str]               # currently-being-expanded type names (cycle guard)
 
@@ -379,7 +380,7 @@ def _id_reference_schema(ctx: BuildContext) -> dict:
 def _group_to_schema(group: list[Property], ctx: BuildContext) -> Optional[dict]:
     """Render N UML properties that share a role name as a single JSON-Schema
     fragment. For len==1 this is just `property_to_schema`. For len>1 the
-    target type schemas are combined into `anyOf` and the multiplicity is
+    target type schemas are combined into a flat `anyOf`, and multiplicity is
     union-ed (lower = min, upper = max with `*` dominating)."""
     if len(group) == 1:
         return property_to_schema(group[0], ctx)
@@ -388,8 +389,13 @@ def _group_to_schema(group: list[Property], ctx: BuildContext) -> Optional[dict]
         opt = _resolve_property_type(p, ctx)
         if opt is None:
             continue
-        if opt not in inner_options:
-            inner_options.append(opt)
+        # Flatten nested anyOf: a class target now resolves to
+        # `{anyOf: [target, id-ref]}`, so when N such options are merged into
+        # the outer anyOf we want one flat list rather than anyOf-of-anyOf.
+        sub_options = opt["anyOf"] if (set(opt.keys()) == {"anyOf"}) else [opt]
+        for sub in sub_options:
+            if sub not in inner_options:
+                inner_options.append(sub)
     if not inner_options:
         return None
     inner = {"anyOf": inner_options} if len(inner_options) > 1 else inner_options[0]
@@ -549,17 +555,29 @@ def _resolve_property_type(prop: Property, ctx: BuildContext) -> Optional[dict]:
     # uml:Class:
     if target.name in ctx.reference_class_names:
         return _id_reference_schema(ctx)
-    if target.name in ctx.inline_or_ref_class_names:
-        return {
-            "anyOf": [
-                _inline_class_ref(target, ctx),
-                _id_reference_schema(ctx),
-            ],
-        }
     if target.name in ctx.inline_class_names:
-        return _inline_class_ref(target, ctx)
-    # default: id-reference
-    return _id_reference_schema(ctx)
+        # Force inline-only (no id-reference fallback). Useful for true
+        # compositions where linking by @id doesn't make sense.
+        return _resolve_class_target(target, ctx)
+    # Default: inline-or-ref. Prefer a $ref to whichever other BB already
+    # defines this class; if no other BB has it, inline locally. Either way,
+    # also accept a plain id-reference (the JSON-LD embed-or-link pattern).
+    return {
+        "anyOf": [
+            _resolve_class_target(target, ctx),
+            _id_reference_schema(ctx),
+        ],
+    }
+
+
+def _resolve_class_target(cls: UmlClass, ctx: BuildContext) -> dict:
+    """Resolve a uml:Class target to a $ref. Prefers an external BB that
+    already defines the class (so we don't duplicate definitions across BBs);
+    falls back to inlining locally."""
+    ext = ctx.external_class_refs.get(cls.name)
+    if ext:
+        return {"$ref": ext}
+    return _inline_class_ref(cls, ctx)
 
 
 def _resolve_datatype_ref(dt: UmlClass, ctx: BuildContext) -> dict:
@@ -796,6 +814,117 @@ def discover_shared_defs(shared_yaml_path: Path) -> set[str]:
     return set(defs.keys())
 
 
+def _extract_root_class_names(doc: dict, prefix: str) -> list[str]:
+    """Extract the class name(s) owned by a BB whose root *is* the Node.
+    Three shapes recognized:
+      1) Single-class:    properties.@type.contains.const = "<prefix>:<Class>".
+      2) Multi-class @type: properties.@type.anyOf is a list of
+         {contains: {const: "<prefix>:<Class>"}}.
+      3) Multi-root anyOf at schema root: anyOf of $refs to local $defs,
+         each $def carrying a single-class @type contains.const.
+    Returns the class names (without prefix). Empty list if no root class
+    detected (e.g. umbrella BBs like ddicdiAgent that only dispatch via
+    external $refs).
+    """
+    names: list[str] = []
+    plen = len(prefix) + 1
+
+    def _const_to_name(const) -> Optional[str]:
+        if isinstance(const, str) and const.startswith(prefix + ":"):
+            return const[plen:]
+        return None
+
+    props = doc.get("properties")
+    if isinstance(props, dict):
+        type_prop = props.get("@type")
+        if isinstance(type_prop, dict):
+            contains = type_prop.get("contains")
+            if isinstance(contains, dict):
+                n = _const_to_name(contains.get("const"))
+                if n:
+                    names.append(n)
+            for branch in type_prop.get("anyOf") or []:
+                if isinstance(branch, dict):
+                    sub = branch.get("contains")
+                    if isinstance(sub, dict):
+                        n = _const_to_name(sub.get("const"))
+                        if n and n not in names:
+                            names.append(n)
+
+    if not names:
+        # Multi-root anyOf at top: each branch is {$ref: '#/$defs/X'}.
+        for branch in doc.get("anyOf") or []:
+            if not isinstance(branch, dict):
+                continue
+            ref = branch.get("$ref")
+            if not isinstance(ref, str) or not ref.startswith("#/$defs/"):
+                continue
+            def_name = ref[len("#/$defs/"):]
+            sub = (doc.get("$defs") or {}).get(def_name)
+            if isinstance(sub, dict):
+                sub_props = sub.get("properties")
+                if isinstance(sub_props, dict):
+                    sub_type = sub_props.get("@type")
+                    if isinstance(sub_type, dict):
+                        contains = sub_type.get("contains")
+                        if isinstance(contains, dict):
+                            n = _const_to_name(contains.get("const"))
+                            if n and n not in names:
+                                names.append(n)
+    return names
+
+
+def discover_external_class_refs(
+    out_bb_dir: Path, sources_dir: Path, prefix: str,
+) -> dict[str, str]:
+    """Walk every other schema.yaml under sources_dir and return a map of
+    {ClassName: $ref-target} pointing to the BB that "owns" each class.
+    A class is owned by a BB only when it is that BB's *root* class — i.e.,
+    the schema's properties['@type'].contains.const is "<prefix>:<ClassName>".
+    $defs entries are intentionally NOT registered: they can be private
+    inlinings rather than canonical homes, and registering them introduces
+    order-dependence between BBs. The $ref-target is a relative path from
+    `out_bb_dir`."""
+    import os
+    registry: dict[str, str] = {}
+    for schema_path in sorted(sources_dir.rglob("schema.yaml")):
+        bb_dir = schema_path.parent.resolve()
+        if bb_dir == out_bb_dir.resolve():
+            continue
+        try:
+            with open(schema_path, encoding="utf-8") as f:
+                doc = yaml.safe_load(f)
+        except Exception:
+            continue
+        if not isinstance(doc, dict):
+            continue
+        root_classes = _extract_root_class_names(doc, prefix)
+        # Also derive a class name from the BB directory name (project
+        # convention: ddicdi<ClassName>). This catches abstract parents like
+        # `ValueDomain` whose concrete subclasses are roots of the same BB.
+        bb_dir_name = bb_dir.name
+        for prefix_name in ("ddicdi", "cdif", "skos", "dcat", "schema", "prov", "xas"):
+            if bb_dir_name.startswith(prefix_name) and len(bb_dir_name) > len(prefix_name):
+                derived = bb_dir_name[len(prefix_name):]
+                if derived[:1].isupper() and derived not in root_classes:
+                    root_classes.append(derived)
+                break
+        if not root_classes:
+            continue
+        try:
+            rel = os.path.relpath(bb_dir, out_bb_dir.resolve()).replace(os.sep, "/")
+        except ValueError:
+            continue
+        for root_class in root_classes:
+            if root_class not in registry:
+                # Multi-class root BBs all point at the BB schema as a whole;
+                # validation against the BB schema will then accept any of its
+                # root classes. The opposite-end constraint is encoded by the
+                # property's `cdi:` predicate, not enforced here.
+                registry[root_class] = f"{rel}/schema.yaml"
+    return registry
+
+
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
@@ -890,6 +1019,16 @@ def main(argv: Optional[list[str]] = None) -> int:
         print(f"WARN: no shared $defs discovered at {shared_yaml_abs}; "
               "set --inline-datatypes if intentional.", file=sys.stderr)
 
+    # Build a registry of class names defined in OTHER BBs so we can $ref
+    # out instead of duplicating definitions. Falls back to local inline if
+    # no external definition is found.
+    external_class_refs = discover_external_class_refs(
+        out_bb_dir=bb_out_dir, sources_dir=SOURCES_DIR, prefix=args.prefix,
+    )
+    if external_class_refs:
+        print(f"INFO: discovered {len(external_class_refs)} class definitions "
+              f"in sibling BBs", file=sys.stderr)
+
     ctx = BuildContext(
         model=model,
         prefix=args.prefix,
@@ -900,6 +1039,7 @@ def main(argv: Optional[list[str]] = None) -> int:
         reference_class_names=set(_split_csv(args.reference)),
         inline_datatypes=args.inline_datatypes,
         strict_required=args.strict_required,
+        external_class_refs=external_class_refs,
         local_defs=OrderedDict(),
         expanding=set(),
     )

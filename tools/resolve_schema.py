@@ -742,8 +742,12 @@ def _resolve_node_structured(node: Any, base_dir: Path, local_defs: dict,
                 if isinstance(resolved_ref, dict) and "$ref" not in resolved_ref:
                     resolved_ref = deep_merge(resolved_ref, siblings)
                 elif isinstance(resolved_ref, dict) and "$ref" in resolved_ref:
-                    # $ref with siblings: wrap in allOf
-                    return {"allOf": [resolved_ref, siblings]}
+                    # Draft 2020-12: sibling keywords next to $ref are evaluated
+                    # alongside the referenced schema, so merge them directly
+                    # rather than wrapping in allOf.
+                    merged = dict(resolved_ref)
+                    merged.update(siblings)
+                    return merged
             return resolved_ref
 
         result = {}
@@ -965,13 +969,17 @@ def merge_profile_structured(profile_path: Path, global_defs: dict,
                         else:
                             constraint_entries.append(constraint)
 
-                    # Collect top-level type, required, etc. that aren't properties/allOf
+                    # Top-level keys other than the ones already handled
+                    # (`properties`, `allOf`, identity/metadata) — for example
+                    # `required`, `contains`, `minProperties` — must remain at
+                    # schema level, not be stuffed into `properties`. Push each
+                    # as its own allOf constraint so multiple composing BBs'
+                    # required-lists (etc.) compose by intersection.
                     for k, v in resolved_bb.items():
-                        if k not in ("properties", "allOf", "$schema", "type",
-                                     "title", "description"):
-                            # Merge other top-level keys (like contains constraints)
-                            if k not in merged_properties:
-                                merged_properties[k] = v
+                        if k in ("properties", "allOf", "$schema", "$defs",
+                                 "type", "title", "description"):
+                            continue
+                        constraint_entries.append({k: v})
                     continue
 
         # Non-$ref allOf entries are constraint entries
@@ -1288,15 +1296,35 @@ def find_all_schemas_with_external_refs() -> list[Path]:
     return results
 
 
+RESOLVED_SIZE_CAP_BYTES = 50 * 1024 * 1024  # 50 MB; GitHub hard-limits at 100 MB
+
+
 def resolve_and_write(schema_path: Path, flatten: bool) -> Path:
-    """Resolve a schema and write resolvedSchema.json next to it. Returns output path."""
+    """Resolve a schema and write resolvedSchema.json next to it.
+
+    For BBs whose fully-inlined form is dominated by deep dt-type cycles
+    (cdi:Identifier, cdi:Reference, cdi:LanguageString, etc., reused at every
+    cross-reference), the resolved form can balloon into the hundreds of MB
+    even when the corresponding structured form stays under 200 KB. Such files
+    are unhelpful to downstream consumers and exceed GitHub's per-file push
+    limit. If the output exceeds RESOLVED_SIZE_CAP_BYTES we skip writing and
+    leave the existing file (or absence) in place; the structured schema is
+    the authoritative form for these BBs.
+    """
     resolved = resolve_file(schema_path, seen=set())
     resolved = strip_metadata_keys(resolved, is_root=True)
     if flatten:
         resolved = flatten_allof(resolved)
+    serialized = json.dumps(resolved, indent=2, ensure_ascii=False) + "\n"
     out_path = schema_path.parent / "resolvedSchema.json"
+    size = len(serialized.encode("utf-8"))
+    if size > RESOLVED_SIZE_CAP_BYTES:
+        print(f"  SKIP {out_path.name}: would be {size/(1024*1024):.1f} MB "
+              f"(cap {RESOLVED_SIZE_CAP_BYTES/(1024*1024):.0f} MB); use the "
+              f"structured schema instead.", file=sys.stderr)
+        return out_path
     with open(out_path, "w", encoding="utf-8") as f:
-        f.write(json.dumps(resolved, indent=2, ensure_ascii=False) + "\n")
+        f.write(serialized)
     return out_path
 
 
