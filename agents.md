@@ -48,7 +48,7 @@ metadataBuildingBlocks/
 │   │   ├── generatedBy/             # prov:wasGeneratedBy (Activity)
 │   │   ├── provActivity/            # PROV-O native activity (extends generatedBy)
 │   │   └── derivedFrom/             # prov:wasDerivedFrom
-│   ├── ddiProperties/               # DDI-CDI data description types
+│   ├── ddiProperties/               # DDI-CDI data description types (most generated from XMI via tools/uml_to_schema.py)
 │   │   ├── ddicdiActivity/          # DDI-CDI Activity (Process package)
 │   │   ├── ddicdiAgent/             # DDI-CDI Agent (umbrella: refs 4 agent sub-BBs)
 │   │   ├── ddicdiIndividual/        # DDI-CDI Individual (person)
@@ -56,7 +56,13 @@ metadataBuildingBlocks/
 │   │   ├── ddicdiOrganization/      # DDI-CDI Organization (group/institution)
 │   │   ├── ddicdiProcessingAgent/   # DDI-CDI ProcessingAgent (orchestrates activities)
 │   │   ├── ddicdiDataTypes/          # DDI-CDI structured data types (from DDICDILibrary/DataTypes)
-│   │   └── ddicdiValueDomain/       # DDI-CDI Value Domain (SubstantiveValueDomain + SentinelValueDomain)
+│   │   ├── ddicdiValueDomain/       # DDI-CDI ValueDomain (SubstantiveValueDomain + SentinelValueDomain)
+│   │   ├── ddicdiEnumerationDomain/ # DDI-CDI EnumerationDomain (base for codifications)
+│   │   ├── ddicdiCodeList/          # DDI-CDI CodeList (Code + CodePosition collections)
+│   │   ├── ddicdiStatisticalClassification/  # DDI-CDI StatisticalClassification (with ClassificationItems and LevelStructure)
+│   │   ├── ddicdiControlledVocabularyEntry/  # DDI-CDI ControlledVocabularyEntry (entry in an external vocabulary)
+│   │   ├── ddicdiDataStructure/     # DDI-CDI DataStructure (Dimensional/KeyValue/Long/Wide variants)
+│   │   └── ddicdiRepresentedVariable/  # DDI-CDI RepresentedVariable (variable definition with VD/CD ranges)
 │   ├── skosProperties/               # W3C SKOS vocabulary types
 │   │   ├── skosConceptScheme/       # skos:ConceptScheme
 │   │   ├── skosConcept/            # skos:Concept
@@ -83,6 +89,7 @@ metadataBuildingBlocks/
 │           └── CDIFxasProfile/             # CDIF XAS profile
 ├── tools/
 │   ├── resolve_schema.py            # Schema resolver (see below)
+│   ├── uml_to_schema.py             # Generate a BB schema.yaml from canonical UML 2.5 / XMI 2.5.1 (see below)
 │   ├── convert_for_jsonforms.py     # JSON Forms converter (see below)
 │   ├── compare_schemas.py           # Schema comparison tool
 │   ├── validate_instance.py         # Profile-aware validation tool
@@ -117,6 +124,58 @@ Some building blocks define **item-level schemas** (e.g., a provenance activity 
 |------------|--------------|-------|
 | `cdifProvenance` | `prov:wasGeneratedBy` (array) | `cdifProvActivity` |
 | `cdifArchiveDistribution` | `schema:distribution` (adds archive option) | `cdifArchive` |
+
+## BB Root Convention: Node-only schemas, no `@graph` wrapper
+
+A building block's `schema.yaml` validates a **single Node** (or, for multi-class BBs, an `anyOf` of Node `$defs`). It does NOT include the {single | array | `{@context, @graph}`} wrapper trio at root. The wrapping responsibility belongs to **profiles** that compose BBs — they decide whether the document is a single Node, an unwrapped array, or a `@graph`-style JSON-LD document.
+
+Single-class root:
+```yaml
+type: object
+properties:
+  "@type":
+    type: array
+    items: { type: string }
+    contains: { const: "cdi:EnumerationDomain" }
+    minItems: 1
+  ...
+required: [ "@type" ]
+$defs:
+  ...helpers (only types not already a BB on their own)...
+```
+
+Multi-class root (e.g. `ddicdiValueDomain`):
+```yaml
+anyOf:
+  - $ref: '#/$defs/SubstantiveValueDomain'
+  - $ref: '#/$defs/SentinelValueDomain'
+$defs:
+  SubstantiveValueDomain:
+    ...
+  SentinelValueDomain:
+    ...
+```
+
+Examples should use single-Node form. The historical wrapper pattern (with `anyOf` over single/array/@graph branches) was removed in favor of this cleaner shape; `tools/uml_to_schema.py` and the resolver both follow it.
+
+## Class Targets: inline-or-ref by default
+
+For any property whose UML type is a class (a node, not a literal/datatype), the generated schema emits the JSON-LD embed-or-link pattern:
+
+```yaml
+"cdi:isMaintainedBy":
+  anyOf:
+    - $ref: ../ddicdiOrganization/schema.yaml   # external BB if one exists
+    - $ref: ../ddicdiDataTypes/schema.yaml#/$defs/id-reference
+```
+
+Resolution order for the first `$ref`:
+1. Another BB in this repo whose root class matches the target — `$ref` to that BB's `schema.yaml`.
+2. Otherwise inline the class as a local `$def`.
+
+The second `$ref` (to `id-reference`) lets a JSON-LD document carry just `{"@id": "..."}` instead of the full inline node.
+
+**Principle:** local `$defs` are only for classes not already owned by another BB. As more classes get pulled out into their own BBs, more property targets resolve through the external-`$ref` path.
 
 ## Distribution Composition Pattern
 
@@ -407,12 +466,54 @@ python tools/resolve_schema.py --all --flatten-allof
 - Circular reference detection via `seen` set (returns `$comment` placeholder for whole-file circular refs like bare `$ref: '#'`)
 - Strips metadata keys (`$id`, `x-jsonld-*`) from output
 - **URL ref resolution with transitive fetch**: URL `$ref`s (e.g. to GitHub Pages) are fetched and cached in a directory tree mirroring the URL structure (`host/path/...`). When a fetched file contains relative `$ref`s to sibling files, the resolver reconstructs the URL from the cache path and fetches on demand (`_fetch_relative_in_cache`). This enables full resolution of cross-repo building block references without requiring local clones.
+- **Draft 2020-12 `$ref` siblings (structured mode):** when a `$ref` carries sibling keywords (e.g. `description`), they merge into the `$ref` node directly rather than being wrapped in `allOf [{$ref}, {siblings}]`. Draft 2020-12 evaluates sibling keywords alongside the referenced schema, so the allOf wrap is unnecessary and the merged shape is more compact and metaschema-clean.
+- **`merge_profile_structured` keys handling:** top-level keys other than `properties`/`allOf`/identity (e.g. `required`, `contains`) on a composing BB become `allOf` constraint entries on the merged result rather than being inserted into the merged `properties` dict. Multiple BBs' `required` lists therefore compose by intersection (each is its own constraint) instead of clobbering each other or polluting `properties`.
+- **`resolvedSchema.json` size cap (50 MB):** for cycle-heavy BBs (e.g. `ddicdiDataStructure`, where every cross-reference inlines a deeply-cyclic `dt-Identifier` chain), the fully-inlined form intrinsically explodes — `cdi:Identifier` can appear 800+ times in a single resolved schema. `resolve_and_write` skips writing when the would-be output exceeds `RESOLVED_SIZE_CAP_BYTES`, leaving the existing file (or absence) in place. The structured schema is the authoritative form for those BBs.
 
 **Key implementation details (schema_resolver.py):**
 - Flattens all `$defs` to a single global scope; `--inline-single-use` inlines defs referenced only once
 - Tracks `source_file` through `process_schema()` so that internal `#/$defs/X` refs within externally-referenced files are resolved against the source file and promoted to global scope (fixes transitive internal ref resolution)
 - Collapses alias `$defs` (e.g. `DefinedTerm_2: {$ref: "#/$defs/DefinedTerm"}`) that arise when multiple building blocks each declare a local `$defs` entry pointing to the same external schema — rewrites all references to point directly to the canonical def and removes the aliases
 - Cycle detection via `processing_stack` set
+
+## uml_to_schema.py
+
+Generates a CDIF building-block `schema.yaml` (and, optionally, the surrounding `bblock.json` / `context.jsonld` / `rules.shacl` / `examples.yaml` skeletons) from a canonical UML 2.5 / XMI 2.5.1 export of a DDI-CDI / UCMIS class model. Used to bootstrap and refresh the `_sources/ddiProperties/ddicdi*` BBs.
+
+**Usage:**
+```bash
+# Single-class BB
+python tools/uml_to_schema.py \
+  --xmi C:/path/to/ddi-cdi_canonical-unique-names.xmi \
+  --class EnumerationDomain \
+  --bb-name ddicdiEnumerationDomain \
+  --out-dir _sources/ddiProperties/
+
+# Multi-class BB (root anyOf over multiple concrete classes)
+python tools/uml_to_schema.py \
+  --xmi C:/path/to/ddi-cdi_canonical-unique-names.xmi \
+  --class DataStructure,DimensionalDataStructure,KeyValueStructure,LongDataStructure,WideDataStructure \
+  --bb-name ddicdiDataStructure \
+  --out-dir _sources/ddiProperties/
+
+# Just the schema.yaml, skip bblock.json/context.jsonld/rules.shacl/examples.yaml stubs
+python tools/uml_to_schema.py ... --schema-only
+```
+
+**Encoded conventions:**
+- Walks UML generalization (subclass shadows parent on name collision); collects own + inherited attributes.
+- Multiplicity: `0..1` / `1..1` → single value; `*` upper → array-only with `minItems` if `lower>=1`.
+- `uml:DataType` targets → `$ref` to `../ddicdiDataTypes/schema.yaml#/$defs/<Name>` if the name is in that BB's `$defs`, else inlined locally.
+- `uml:Class` targets → inline-or-ref by default (`anyOf [class def, id-reference]`); class def comes from a sibling BB whose root is that class, else inlined locally. `--reference X,Y` forces id-ref-only; `--inline X,Y` forces inline-only.
+- `uml:Enumeration` → `enum` literal list.
+- Multi-class BB root: `anyOf` over local `$defs/<Class>` entries; each class gets its own Node `$def`.
+- Role-name recovery for unnamed canonical-XMI association ends from the `<Source>_<role>_<Target>` association id pattern.
+- Duplicate role-name properties (UCMIS overload, e.g. `CodeList.has → Code` AND `CodeList.has → CodePosition`) are merged via flat `anyOf` of distinct targets plus a single `id-reference` fallback.
+- Sibling-BB lookup recognizes three root shapes: single-class `@type.contains.const`; multi-class `@type.anyOf` of `contains.const` branches; multi-root `anyOf` of `$ref` to local `$defs`. Also derives a class name from the BB directory name (`ddicdi<ClassName>`) so abstract parents like `ValueDomain` whose subclasses share a BB resolve to that BB.
+
+**Source XMI:** the DDI-CDI canonical XMI lives outside this repo at the user's working location (e.g. `C:/Users/smrTu/Downloads/ddi-cdi_canonical-unique-names.xmi`). Pull a fresh copy from the DDI Alliance distribution when the model updates.
+
+**Requirements:** Python 3.10+ with `pyyaml`.
 
 ## convert_for_jsonforms.py
 

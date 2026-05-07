@@ -88,6 +88,24 @@ The `deploy-viewer` workflow runs this automatically after `augment_register.py`
 
 ## Other Tools
 
+### UML → Schema Generator (`uml_to_schema.py`)
+
+Generates a CDIF building-block `schema.yaml` (plus `bblock.json`/`context.jsonld`/`rules.shacl`/`examples.yaml` skeletons) from a canonical UML 2.5 / XMI 2.5.1 export of a DDI-CDI / UCMIS class model. Used to bootstrap and refresh the `_sources/ddiProperties/ddicdi*` BBs.
+
+Generated schemas follow the project's conventions: Node-only root (no single/array/`@graph` wrapper); class-typed properties default to inline-or-ref with sibling-BB lookup before local inline; UCMIS overload of duplicate role names merged via flat `anyOf`; multiplicity → array-only when upper is `*`; UML generalization walked with subclass-shadows-parent.
+
+```bash
+python tools/uml_to_schema.py \
+  --xmi C:/path/to/ddi-cdi_canonical-unique-names.xmi \
+  --class EnumerationDomain \
+  --bb-name ddicdiEnumerationDomain \
+  --out-dir _sources/ddiProperties/
+```
+
+See `agents.md` for full CLI options and convention details.
+
+**Requirements:** Python 3.10+ with `pyyaml`
+
 ### Validate Examples (`validate_examples.py`)
 
 Validates all example JSON files against their resolved schemas. Uses `schema_resolver.py`'s `SchemaResolver` for proper `$defs` and cross-file `$ref` handling, with fallback to `tools/resolve_schema.py` for schemas with circular references.
@@ -177,18 +195,26 @@ For example, `cdifProvActivity` defines the schema for a single provenance Activ
 
 ### ddiProperties
 
-DDI-CDI vocabulary building blocks for communities using the DDI Cross-Domain Integration standard natively. Generated from the DDI-CDI 1.0 Enterprise Architect UML model with all structured data types resolved to base types.
+DDI-CDI vocabulary building blocks for communities using the DDI Cross-Domain Integration standard natively. Most are **generated from the DDI-CDI 1.0 canonical XMI** export of the Enterprise Architect UML model via `tools/uml_to_schema.py` (see `agents.md` for details).
+
+Each BB's `schema.yaml` validates a single Node (or, for multi-class BBs, an `anyOf` of Node `$defs`); profile schemas wrap nodes for `@graph` JSON-LD documents. Class-typed properties default to inline-or-ref (`anyOf [class def, id-reference]`), where the class def comes from another BB if one owns that class, otherwise inlined locally.
 
 | Building Block | Description |
 |----------------|-------------|
 | `ddicdiActivity` | DDI-CDI Activity class (DDICDILibrary/Classes/Process) -- describes tasks using `cdi:Activity`, `cdi:Step`, and `cdi:Parameter`. Includes `cdi:definition` (InternationalString), `cdi:start`/`cdi:end` (timestamps), `cdi:hasInternal` (ControlLogic), `cdi:entityUsed`/`cdi:entityProduced` (References), and `cdi:has_Step` with `cdi:script` (CommandCode). SHACL shapes for Activity and Step. |
-| `ddicdiDataTypes` | Shared DDI-CDI data types used across Agent building blocks: identifiers (`cdi:Identifier`, `cdi:NonDdiIdentifier`, `cdi:IRDI`), names (`cdi:ObjectName`, `cdi:IndividualName`, `cdi:OrganizationName`), contact information (`cdi:ContactInformation`, `cdi:Address`, `cdi:Email`, `cdi:Telephone`, `cdi:WebLink`), references (`cdi:Reference`, `cdi:ControlledVocabularyEntry`), strings (`cdi:InternationalString`, `cdi:LanguageString`), and other types (`cdi:DateRange`, `cdi:CombinedDate`, `cdi:PrivateImage`, `cdi:CatalogDetails`, `cdi:AccessLocation`). |
+| `ddicdiDataTypes` | Shared DDI-CDI data types used across BBs: identifiers (`cdi:Identifier`, `cdi:NonDdiIdentifier`, `cdi:IRDI`), names (`cdi:ObjectName`, `cdi:IndividualName`, `cdi:OrganizationName`), contact information (`cdi:ContactInformation`, `cdi:Address`, `cdi:Email`, `cdi:Telephone`, `cdi:WebLink`), references (`cdi:Reference`, `cdi:ControlledVocabularyEntry`, `cdi:PairedControlledVocabularyEntry`), strings (`cdi:InternationalString`, `cdi:LanguageString`), and others (`cdi:DateRange`, `cdi:CombinedDate`, `cdi:PrivateImage`, `cdi:CatalogDetails`, `cdi:AccessLocation`). |
 | `ddicdiIndividual` | DDI-CDI Individual agent (person) with `cdi:individualName` (IndividualName), `cdi:contactInformation`, and identification. Refs `ddicdiDataTypes` for shared data types. |
 | `ddicdiMachine` | DDI-CDI Machine agent (software/hardware) with `cdi:accessLocation`, `cdi:function`, `cdi:machineInterface`, and `cdi:typeOfMachine`. Refs `ddicdiDataTypes` for shared data types. |
 | `ddicdiOrganization` | DDI-CDI Organization agent (group/institution) with `cdi:organizationName` (OrganizationName), `cdi:contactInformation`, and identification. Refs `ddicdiDataTypes` for shared data types. |
 | `ddicdiProcessingAgent` | DDI-CDI ProcessingAgent that orchestrates activities via `cdi:performs` and `cdi:operatesOn` (ProductionEnvironment references). Refs `ddicdiDataTypes` for shared data types. |
-| `ddicdiAgent` | Umbrella building block composing the 4 agent subtypes (`ddicdiIndividual`, `ddicdiMachine`, `ddicdiOrganization`, `ddicdiProcessingAgent`) via `anyOf`. Supports single node, unwrapped `@graph` array, and full JSON-LD document formats. |
-| `ddicdiValueDomain` | DDI-CDI ValueDomain (DDICDILibrary/Classes/Representations) -- unified building block covering both `cdi:SubstantiveValueDomain` (subject-matter values) and `cdi:SentinelValueDomain` (processing/missing-value codes like SAS `.R`, SPSS `999`). Includes `cdi:isDescribedBy` (ValueAndConceptDescription with min/max bounds, regex, classification level), `cdi:takesValuesFrom` (EnumerationDomain), and `cdi:platformType` (sentinel only). |
+| `ddicdiAgent` | Umbrella building block composing the 4 agent subtypes (`ddicdiIndividual`, `ddicdiMachine`, `ddicdiOrganization`, `ddicdiProcessingAgent`) via root `anyOf` of `$ref` to each sub-BB. |
+| `ddicdiValueDomain` | DDI-CDI ValueDomain (DDICDILibrary/Classes/Representations) -- multi-root BB covering both `cdi:SubstantiveValueDomain` (subject-matter values) and `cdi:SentinelValueDomain` (processing/missing-value codes like SAS `.R`, SPSS `999`). Includes `cdi:isDescribedBy` (ValueAndConceptDescription with min/max bounds, regex, classification level), `cdi:takesValuesFrom` (refs `ddicdiEnumerationDomain`), `cdi:takesConceptsFrom` (Substantive/SentinelConceptualDomain), and `cdi:platformType` (sentinel only). |
+| `ddicdiEnumerationDomain` | DDI-CDI EnumerationDomain — base class acting as an extension point so all codifications (codelist, statistical classification, etc.) are usable as enumerated value domains. Refs LevelStructure, CategorySet, Concept. |
+| `ddicdiCodeList` | DDI-CDI CodeList (extends EnumerationDomain) — collection of `cdi:Code`s with their `cdi:CodePosition`s. Both targets reachable via `cdi:has` (merged `anyOf`). |
+| `ddicdiStatisticalClassification` | DDI-CDI StatisticalClassification (extends EnumerationDomain) — full classification with `cdi:has` reaching ClassificationItem / ClassificationItemPosition / LevelStructure, plus `cdi:isMaintainedBy` (refs `ddicdiOrganization`), `cdi:isIndexedBy` (ClassificationIndex), and self-references for variant/successor/predecessor lineage. |
+| `ddicdiControlledVocabularyEntry` | DDI-CDI ControlledVocabularyEntry — entry from an externally maintained controlled vocabulary. 5 properties: `cdi:entryReference`, `cdi:entryValue`, `cdi:name`, `cdi:valueForOther`, `cdi:vocabulary`. Same shape as the inlined `dt-ControlledVocabularyEntry` `$def` in `ddicdiDataTypes`. |
+| `ddicdiDataStructure` | DDI-CDI DataStructure — multi-root BB covering DataStructure plus the four leaf subclasses (`Dimensional`, `KeyValue`, `Long`, `Wide`). Inherits component properties from DataStructureComponent: `cdi:has → ForeignKey` (1..*), `cdi:identifier`, `cdi:isDefinedBy → RepresentedVariable` (refs `ddicdiRepresentedVariable`), `cdi:semantic`, `cdi:specialization`. |
+| `ddicdiRepresentedVariable` | DDI-CDI RepresentedVariable — variable definition with `cdi:takesSubstantiveValuesFrom` / `cdi:takesSentinelValuesFrom` (refs `ddicdiValueDomain`), conceptual domains, unit-of-measure, and intended data type. Pulled out as its own BB to break the DataStructure → RepresentedVariable → ValueDomain transitive cascade. |
 
 ### skosProperties
 
