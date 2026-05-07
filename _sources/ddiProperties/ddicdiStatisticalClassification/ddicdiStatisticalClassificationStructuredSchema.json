@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "DDI-CDI ProcessingAgent",
-  "description": "DDI-CDI ProcessingAgent (cls-ProcessingAgent, extends Agent). Orchestrates production activities, linking agents to the activities they perform and environments they operate on.",
+  "title": "DDI-CDI Statistical Classification",
+  "description": "Set of categories represented by classification items where the subset of immediate children categories for any given parent category are mutually exclusive and jointly exhaustive with respect to that parent.",
   "type": "object",
   "properties": {
     "@type": {
@@ -10,47 +10,25 @@
         "type": "string"
       },
       "contains": {
-        "const": "cdi:ProcessingAgent"
+        "const": "cdi:StatisticalClassification"
       },
       "minItems": 1
     },
     "@id": {
       "type": "string",
-      "description": "Identifier for this processing agent node"
+      "description": "Identifier for this StatisticalClassification node"
     },
-    "cdi:performs": {
-      "description": "Activities this agent performs (cdi:Activity). Use @id references to Activity nodes defined elsewhere in the graph.",
+    "cdi:allowsDuplicates": {
+      "type": "boolean",
+      "description": "If value is False, the members are unique within the collection - if True, there may be duplicates. (Note that a mathematical “bag” permits duplicates and is unordered - a “set” does not have duplicates and may be ordered.)"
+    },
+    "cdi:availableLanguage": {
       "type": "array",
       "items": {
-        "type": "object",
-        "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
-        "properties": {
-          "@id": {
-            "type": "string",
-            "description": "IRI or blank node identifier of the referenced node"
-          }
-        },
-        "required": [
-          "@id"
-        ]
-      }
-    },
-    "cdi:operatesOn": {
-      "description": "Production environments this agent operates on (cdi:ProductionEnvironment)",
-      "type": "array",
-      "items": {
-        "type": "object",
-        "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
-        "properties": {
-          "@id": {
-            "type": "string",
-            "description": "IRI or blank node identifier of the referenced node"
-          }
-        },
-        "required": [
-          "@id"
-        ]
-      }
+        "type": "string"
+      },
+      "minItems": 1,
+      "description": "A list of languages in which the Statistical Classification is available. Supports the indication of multiple languages within a single property. Supports use of codes defined by the RFC 1766."
     },
     "cdi:catalogDetails": {
       "allOf": [
@@ -156,7 +134,207 @@
           }
         },
         {
-          "description": "Catalog metadata for this agent"
+          "description": "Bundles the information useful for a data catalog entry.\n\nExamples would be creator, contributor, title, copyright, embargo, and license information\n\nA set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+        }
+      ]
+    },
+    "cdi:changeFromBase": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/InternationalString"
+        },
+        {
+          "description": "Describes the relationship between the variant and its base Statistical Classification, including regroupings, aggregations added and extensions. (Source: GSIM StatisticalClassification/Changes from base Statistical Classification)."
+        }
+      ]
+    },
+    "cdi:copyright": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/InternationalString"
+      },
+      "minItems": 1,
+      "description": "Copyright of the statistical classification."
+    },
+    "cdi:displayLabel": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "DDI-CDI multilingual display label (dt-LabelForDisplay)",
+        "properties": {
+          "@type": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "contains": {
+              "const": "cdi:LabelForDisplay"
+            },
+            "minItems": 1
+          },
+          "cdi:locationVariant": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/ControlledVocabularyEntry"
+              },
+              {
+                "description": "Geographic or locale variant"
+              }
+            ]
+          },
+          "cdi:maxLength": {
+            "type": "integer",
+            "description": "Maximum display length"
+          },
+          "cdi:languageSpecificString": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/LanguageString"
+              },
+              {
+                "description": "The label text with language tag"
+              }
+            ]
+          }
+        }
+      },
+      "minItems": 1,
+      "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+    },
+    "cdi:isCurrent": {
+      "type": "boolean",
+      "description": "Indicates if the statistical classification is currently valid."
+    },
+    "cdi:isFloating": {
+      "type": "boolean",
+      "description": "Indicates if the Statistical Classification is a floating classification. In a floating statistical classification, a validity period should be defined for all classification Items which will allow the display of the item structure and content at different points of time. (Source: GSIM StatisticalClassification/Floating)."
+    },
+    "cdi:isMaintainedBy": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id-reference"
+      },
+      "minItems": 1
+    },
+    "cdi:isIndexedBy": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id-reference"
+      },
+      "minItems": 1
+    },
+    "cdi:isVariantOf": {
+      "$ref": "#/$defs/id-reference"
+    },
+    "cdi:isSuccessorOf": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id-reference"
+      },
+      "minItems": 1
+    },
+    "cdi:isPredecessorOf": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id-reference"
+      },
+      "minItems": 1
+    },
+    "cdi:has": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id-reference"
+      },
+      "minItems": 1
+    },
+    "cdi:purposeOfVariant": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/InternationalString"
+        },
+        {
+          "description": "If the Statistical Classification is a variant, notes the specific purpose for which it was developed. (Source: GSIM StatisticalClassification/Purpose of variant)."
+        }
+      ]
+    },
+    "cdi:rationale": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/InternationalString"
+        },
+        {
+          "description": "Explanation of the reason(s) some decision was made or some object exists."
+        }
+      ]
+    },
+    "cdi:releaseDate": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/CombinedDate"
+        },
+        {
+          "description": "Date when the current version of the Statistical Classification was released."
+        }
+      ]
+    },
+    "cdi:updateChanges": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/InternationalString"
+      },
+      "minItems": 1,
+      "description": "Summary description of changes which have occurred since the most recent classification version or classification update came into force."
+    },
+    "cdi:usage": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/InternationalString"
+        },
+        {
+          "description": "Explanation of the ways in which the object is employed."
+        }
+      ]
+    },
+    "cdi:validDates": {
+      "allOf": [
+        {
+          "type": "object",
+          "description": "DDI-CDI date range (dt-DateRange)",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:DateRange"
+              },
+              "minItems": 1
+            },
+            "cdi:startDate": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CombinedDate"
+                },
+                {
+                  "description": "Start date of the range"
+                }
+              ]
+            },
+            "cdi:endDate": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/CombinedDate"
+                },
+                {
+                  "description": "End date of the range"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "description": "The dates describing the validity period of the object. The date from which the object became valid must be defined if the map belongs to a \"floating\" construct. The date at which the object became invalid must be defined if the map belongs to a \"floating\" construct and is no longer valid. Per the Generic Statistical Information Model, Statistical Classification: \"The date the statistical classification enters production use and the date on which the Statistical Classification was superseded by a successor version or otherwise ceased to be valid.\""
         }
       ]
     },
@@ -283,129 +461,60 @@
           }
         },
         {
-          "description": "Formal identifier for this agent"
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
         }
       ]
     },
-    "cdi:image": {
-      "allOf": [
-        {
-          "type": "object",
-          "description": "DDI-CDI private image (dt-PrivateImage)",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:PrivateImage"
-              },
-              "minItems": 1
+    "cdi:name": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "DDI-CDI structured name wrapper (dt-ObjectName)",
+        "properties": {
+          "@type": {
+            "type": "array",
+            "items": {
+              "type": "string"
             },
-            "cdi:effectiveDates": {
-              "allOf": [
-                {
-                  "type": "object",
-                  "description": "DDI-CDI date range (dt-DateRange)",
-                  "properties": {
-                    "@type": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "contains": {
-                        "const": "cdi:DateRange"
-                      },
-                      "minItems": 1
-                    },
-                    "cdi:startDate": {
-                      "allOf": [
-                        {
-                          "type": "object",
-                          "description": "DDI-CDI combined date (dt-CombinedDate)",
-                          "properties": {
-                            "@type": {
-                              "type": "array",
-                              "items": {
-                                "type": "string"
-                              },
-                              "contains": {
-                                "const": "cdi:CombinedDate"
-                              },
-                              "minItems": 1
-                            },
-                            "cdi:isoDate": {
-                              "type": "string",
-                              "format": "date-time",
-                              "description": "ISO 8601 date-time value"
-                            },
-                            "cdi:historicDate": {
-                              "type": "string",
-                              "description": "Free-text historic date"
-                            }
-                          }
-                        },
-                        {
-                          "description": "Start date of the range"
-                        }
-                      ]
-                    },
-                    "cdi:endDate": {
-                      "allOf": [
-                        {
-                          "type": "object",
-                          "description": "DDI-CDI combined date (dt-CombinedDate)",
-                          "properties": {
-                            "@type": {
-                              "type": "array",
-                              "items": {
-                                "type": "string"
-                              },
-                              "contains": {
-                                "const": "cdi:CombinedDate"
-                              },
-                              "minItems": 1
-                            },
-                            "cdi:isoDate": {
-                              "type": "string",
-                              "format": "date-time",
-                              "description": "ISO 8601 date-time value"
-                            },
-                            "cdi:historicDate": {
-                              "type": "string",
-                              "description": "Free-text historic date"
-                            }
-                          }
-                        },
-                        {
-                          "description": "End date of the range"
-                        }
-                      ]
-                    }
-                  }
-                },
-                {
-                  "description": "Date range when this image is effective"
-                }
-              ]
+            "contains": {
+              "const": "cdi:ObjectName"
             },
-            "cdi:privacy": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/ControlledVocabularyEntry"
-                },
-                {
-                  "description": "Privacy classification"
-                }
-              ]
-            }
+            "minItems": 1
+          },
+          "cdi:name": {
+            "type": "string",
+            "description": "The name string"
+          },
+          "cdi:context": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/ControlledVocabularyEntry"
+              },
+              {
+                "description": "Context or usage of this name"
+              }
+            ]
           }
         },
-        {
-          "description": "Image associated with this agent"
-        }
-      ]
+        "required": [
+          "cdi:name"
+        ]
+      },
+      "minItems": 1,
+      "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+    },
+    "cdi:uses": {
+      "$ref": "#/$defs/id-reference"
+    },
+    "cdi:references": {
+      "$ref": "#/$defs/id-reference"
+    },
+    "cdi:isDefinedBy": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id-reference"
+      },
+      "minItems": 1
     },
     "cdi:purpose": {
       "allOf": [
@@ -413,7 +522,7 @@
           "$ref": "#/$defs/InternationalString"
         },
         {
-          "description": "Purpose or role of this agent"
+          "description": "Intent or reason for the object/the description of the object."
         }
       ]
     }
@@ -440,65 +549,82 @@
           "description": "Language-tagged string value(s)",
           "anyOf": [
             {
-              "type": "object",
-              "description": "DDI-CDI language-tagged string (dt-LanguageString)",
-              "properties": {
-                "@type": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "const": "cdi:LanguageString"
-                  },
-                  "minItems": 1
-                },
-                "cdi:content": {
-                  "type": "string",
-                  "description": "The text content"
-                },
-                "cdi:language": {
-                  "type": "string",
-                  "description": "ISO language code (e.g. en, fr, de)"
-                }
-              },
-              "required": [
-                "cdi:content"
-              ]
+              "$ref": "#/$defs/LanguageString"
             },
             {
               "type": "array",
               "items": {
-                "type": "object",
-                "description": "DDI-CDI language-tagged string (dt-LanguageString)",
-                "properties": {
-                  "@type": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "contains": {
-                      "const": "cdi:LanguageString"
-                    },
-                    "minItems": 1
-                  },
-                  "cdi:content": {
-                    "type": "string",
-                    "description": "The text content"
-                  },
-                  "cdi:language": {
-                    "type": "string",
-                    "description": "ISO language code (e.g. en, fr, de)"
-                  }
-                },
-                "required": [
-                  "cdi:content"
-                ]
+                "$ref": "#/$defs/LanguageString"
               }
             }
           ]
         }
       }
+    },
+    "id-reference": {
+      "type": "object",
+      "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "IRI or blank node identifier of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
+      ]
+    },
+    "CombinedDate": {
+      "type": "object",
+      "description": "DDI-CDI combined date (dt-CombinedDate)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:CombinedDate"
+          },
+          "minItems": 1
+        },
+        "cdi:isoDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 date-time value"
+        },
+        "cdi:historicDate": {
+          "type": "string",
+          "description": "Free-text historic date"
+        }
+      }
+    },
+    "LanguageString": {
+      "type": "object",
+      "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:LanguageString"
+          },
+          "minItems": 1
+        },
+        "cdi:content": {
+          "type": "string",
+          "description": "The text content"
+        },
+        "cdi:language": {
+          "type": "string",
+          "description": "ISO language code (e.g. en, fr, de)"
+        }
+      },
+      "required": [
+        "cdi:content"
+      ]
     },
     "ControlledVocabularyEntry": {
       "type": "object",

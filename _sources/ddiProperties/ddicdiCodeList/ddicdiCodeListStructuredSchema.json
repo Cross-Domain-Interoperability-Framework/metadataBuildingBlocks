@@ -1,0 +1,436 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DDI-CDI Code List",
+  "description": "List of codes and associated categories.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "contains": {
+        "const": "cdi:CodeList"
+      },
+      "minItems": 1
+    },
+    "@id": {
+      "type": "string",
+      "description": "Identifier for this CodeList node"
+    },
+    "cdi:allowsDuplicates": {
+      "type": "boolean",
+      "description": "If value is False, the members are unique within the collection - if True, there may be duplicates. (Note that a mathematical “bag” permits duplicates and is unordered - a “set” does not have duplicates and may be ordered.)"
+    },
+    "cdi:has": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id-reference"
+      },
+      "minItems": 1
+    },
+    "cdi:identifier": {
+      "allOf": [
+        {
+          "type": "object",
+          "description": "DDI-CDI composite identifier (dt-Identifier)",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:Identifier"
+              },
+              "minItems": 1
+            },
+            "cdi:ddiIdentifier": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "description": "DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:InternationalRegistrationDataIdentifier"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:dataIdentifier": {
+                      "type": "string"
+                    },
+                    "cdi:registrationAuthorityIdentifier": {
+                      "type": "string"
+                    },
+                    "cdi:versionIdentifier": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "cdi:dataIdentifier",
+                    "cdi:registrationAuthorityIdentifier",
+                    "cdi:versionIdentifier"
+                  ]
+                },
+                {
+                  "description": "DDI-specific IRDI identifier"
+                }
+              ]
+            },
+            "cdi:uri": {
+              "type": "string",
+              "format": "uri",
+              "description": "URI form of the identifier"
+            },
+            "cdi:nonDdiIdentifier": {
+              "description": "Non-DDI identifier",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:NonDdiIdentifier"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:identifierContent": {
+                      "type": "string",
+                      "description": "The identifier value"
+                    },
+                    "cdi:managingAgency": {
+                      "type": "string",
+                      "description": "Agency managing this identifier scheme"
+                    }
+                  },
+                  "required": [
+                    "cdi:identifierContent"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:NonDdiIdentifier"
+                        },
+                        "minItems": 1
+                      },
+                      "cdi:identifierContent": {
+                        "type": "string",
+                        "description": "The identifier value"
+                      },
+                      "cdi:managingAgency": {
+                        "type": "string",
+                        "description": "Agency managing this identifier scheme"
+                      }
+                    },
+                    "required": [
+                      "cdi:identifierContent"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        }
+      ]
+    },
+    "cdi:name": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "DDI-CDI structured name wrapper (dt-ObjectName)",
+        "properties": {
+          "@type": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "contains": {
+              "const": "cdi:ObjectName"
+            },
+            "minItems": 1
+          },
+          "cdi:name": {
+            "type": "string",
+            "description": "The name string"
+          },
+          "cdi:context": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/ControlledVocabularyEntry"
+              },
+              {
+                "description": "Context or usage of this name"
+              }
+            ]
+          }
+        },
+        "required": [
+          "cdi:name"
+        ]
+      },
+      "minItems": 1,
+      "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+    },
+    "cdi:uses": {
+      "$ref": "#/$defs/id-reference"
+    },
+    "cdi:references": {
+      "$ref": "#/$defs/id-reference"
+    },
+    "cdi:isDefinedBy": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id-reference"
+      },
+      "minItems": 1
+    },
+    "cdi:purpose": {
+      "allOf": [
+        {
+          "type": "object",
+          "description": "DDI-CDI internationalized string (dt-InternationalString)",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:InternationalString"
+              },
+              "minItems": 1
+            },
+            "cdi:languageSpecificString": {
+              "description": "Language-tagged string value(s)",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:LanguageString"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:content": {
+                      "type": "string",
+                      "description": "The text content"
+                    },
+                    "cdi:language": {
+                      "type": "string",
+                      "description": "ISO language code (e.g. en, fr, de)"
+                    }
+                  },
+                  "required": [
+                    "cdi:content"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:LanguageString"
+                        },
+                        "minItems": 1
+                      },
+                      "cdi:content": {
+                        "type": "string",
+                        "description": "The text content"
+                      },
+                      "cdi:language": {
+                        "type": "string",
+                        "description": "ISO language code (e.g. en, fr, de)"
+                      }
+                    },
+                    "required": [
+                      "cdi:content"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "description": "Intent or reason for the object/the description of the object."
+        }
+      ]
+    }
+  },
+  "required": [
+    "@type"
+  ],
+  "$defs": {
+    "id-reference": {
+      "type": "object",
+      "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "IRI or blank node identifier of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
+      ]
+    },
+    "ControlledVocabularyEntry": {
+      "type": "object",
+      "description": "DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry). Allows for unstructured content which may be an entry from an externally maintained controlled vocabulary. When the content is from a controlled vocabulary, provide the code value of the entry along with a reference to the vocabulary from which the value is taken.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ControlledVocabularyEntry"
+          },
+          "minItems": 1
+        },
+        "cdi:entryReference": {
+          "description": "A reference to the specific item in the vocabulary referenced by cdi:vocabulary, using a URI or other resolvable identifier.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Reference"
+          },
+          "minItems": 1
+        },
+        "cdi:entryValue": {
+          "description": "The value of the entry of the controlled vocabulary. If no controlled vocabulary is used the term is entered here and none of the properties defining the controlled vocabulary location are used.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "cdi:name": {
+          "type": "string",
+          "description": "The name of the code list (controlled vocabulary)."
+        },
+        "cdi:valueForOther": {
+          "type": "string",
+          "description": "If the value of the string is \"Other\" or the equivalent from the codelist, this attribute can provide a more specific value not found in the codelist."
+        },
+        "cdi:vocabulary": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/Reference"
+            },
+            {
+              "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier."
+            }
+          ]
+        }
+      }
+    },
+    "Reference": {
+      "type": "object",
+      "description": "DDI-CDI reference to an entity (dt-Reference)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Reference"
+          },
+          "minItems": 1
+        },
+        "cdi:uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the referenced entity"
+        },
+        "cdi:description": {
+          "type": "string",
+          "description": "Human-readable description of the reference"
+        },
+        "cdi:ddiReference": {
+          "allOf": [
+            {
+              "type": "object",
+              "description": "DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:InternationalRegistrationDataIdentifier"
+                  },
+                  "minItems": 1
+                },
+                "cdi:dataIdentifier": {
+                  "type": "string"
+                },
+                "cdi:registrationAuthorityIdentifier": {
+                  "type": "string"
+                },
+                "cdi:versionIdentifier": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "cdi:dataIdentifier",
+                "cdi:registrationAuthorityIdentifier",
+                "cdi:versionIdentifier"
+              ]
+            },
+            {
+              "description": "DDI IRDI reference"
+            }
+          ]
+        },
+        "cdi:semantic": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ControlledVocabularyEntry"
+            },
+            {
+              "description": "Semantic role of this reference"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1876 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DDI-CDI Statistical Classification",
+  "description": "Set of categories represented by classification items where the subset of immediate children categories for any given parent category are mutually exclusive and jointly exhaustive with respect to that parent.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "contains": {
+        "const": "cdi:StatisticalClassification"
+      },
+      "minItems": 1
+    },
+    "@id": {
+      "type": "string",
+      "description": "Identifier for this StatisticalClassification node"
+    },
+    "cdi:allowsDuplicates": {
+      "type": "boolean",
+      "description": "If value is False, the members are unique within the collection - if True, there may be duplicates. (Note that a mathematical “bag” permits duplicates and is unordered - a “set” does not have duplicates and may be ordered.)"
+    },
+    "cdi:availableLanguage": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "description": "A list of languages in which the Statistical Classification is available. Supports the indication of multiple languages within a single property. Supports use of codes defined by the RFC 1766."
+    },
+    "cdi:catalogDetails": {
+      "type": "object",
+      "description": "Bundles the information useful for a data catalog entry.\n\nExamples would be creator, contributor, title, copyright, embargo, and license information\n\nA set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:CatalogDetails"
+          },
+          "minItems": 1
+        },
+        "cdi:title": {
+          "type": "object",
+          "description": "Title for the catalog entry",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:InternationalString"
+              },
+              "minItems": 1
+            },
+            "cdi:languageSpecificString": {
+              "description": "Language-tagged string value(s)",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:LanguageString"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:content": {
+                      "type": "string",
+                      "description": "The text content"
+                    },
+                    "cdi:language": {
+                      "type": "string",
+                      "description": "ISO language code (e.g. en, fr, de)"
+                    }
+                  },
+                  "required": [
+                    "cdi:content"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:LanguageString"
+                        },
+                        "minItems": 1
+                      },
+                      "cdi:content": {
+                        "type": "string",
+                        "description": "The text content"
+                      },
+                      "cdi:language": {
+                        "type": "string",
+                        "description": "ISO language code (e.g. en, fr, de)"
+                      }
+                    },
+                    "required": [
+                      "cdi:content"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "cdi:summary": {
+          "type": "object",
+          "description": "Summary description",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:InternationalString"
+              },
+              "minItems": 1
+            },
+            "cdi:languageSpecificString": {
+              "description": "Language-tagged string value(s)",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:LanguageString"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:content": {
+                      "type": "string",
+                      "description": "The text content"
+                    },
+                    "cdi:language": {
+                      "type": "string",
+                      "description": "ISO language code (e.g. en, fr, de)"
+                    }
+                  },
+                  "required": [
+                    "cdi:content"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:LanguageString"
+                        },
+                        "minItems": 1
+                      },
+                      "cdi:content": {
+                        "type": "string",
+                        "description": "The text content"
+                      },
+                      "cdi:language": {
+                        "type": "string",
+                        "description": "ISO language code (e.g. en, fr, de)"
+                      }
+                    },
+                    "required": [
+                      "cdi:content"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "cdi:identifier": {
+          "description": "Catalog identifier",
+          "type": "object",
+          "properties": {
+            "cdi:identifierContent": {
+              "type": "string"
+            },
+            "cdi:isUri": {
+              "type": "boolean"
+            }
+          }
+        },
+        "cdi:creator": {
+          "type": "object",
+          "description": "Creator of the catalog entry",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:AgentInRole"
+              },
+              "minItems": 1
+            },
+            "cdi:agentName": {
+              "type": "object",
+              "description": "Name of the agent",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:InternationalString"
+                  },
+                  "minItems": 1
+                },
+                "cdi:languageSpecificString": {
+                  "description": "Language-tagged string value(s)",
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "cdi:LanguageString"
+                          },
+                          "minItems": 1
+                        },
+                        "cdi:content": {
+                          "type": "string",
+                          "description": "The text content"
+                        },
+                        "cdi:language": {
+                          "type": "string",
+                          "description": "ISO language code (e.g. en, fr, de)"
+                        }
+                      },
+                      "required": [
+                        "cdi:content"
+                      ]
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                        "properties": {
+                          "@type": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "contains": {
+                              "const": "cdi:LanguageString"
+                            },
+                            "minItems": 1
+                          },
+                          "cdi:content": {
+                            "type": "string",
+                            "description": "The text content"
+                          },
+                          "cdi:language": {
+                            "type": "string",
+                            "description": "ISO language code (e.g. en, fr, de)"
+                          }
+                        },
+                        "required": [
+                          "cdi:content"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "cdi:reference": {
+              "type": "object",
+              "description": "Reference to the agent entity",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:Reference"
+                  },
+                  "minItems": 1
+                },
+                "cdi:uri": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "URI of the referenced entity"
+                },
+                "cdi:description": {
+                  "type": "string",
+                  "description": "Human-readable description of the reference"
+                },
+                "cdi:ddiReference": {
+                  "type": "object",
+                  "description": "DDI IRDI reference",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:InternationalRegistrationDataIdentifier"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:dataIdentifier": {
+                      "type": "string"
+                    },
+                    "cdi:registrationAuthorityIdentifier": {
+                      "type": "string"
+                    },
+                    "cdi:versionIdentifier": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "cdi:dataIdentifier",
+                    "cdi:registrationAuthorityIdentifier",
+                    "cdi:versionIdentifier"
+                  ]
+                },
+                "cdi:semantic": {
+                  "type": "object",
+                  "description": "Semantic role of this reference",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:ControlledVocabularyEntry"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:entryReference": {
+                      "description": "A reference to the specific item in the vocabulary referenced by cdi:vocabulary, using a URI or other resolvable identifier.",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$comment": "cycle: Reference"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:entryValue": {
+                      "description": "The value of the entry of the controlled vocabulary. If no controlled vocabulary is used the term is entered here and none of the properties defining the controlled vocabulary location are used.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:name": {
+                      "type": "string",
+                      "description": "The name of the code list (controlled vocabulary)."
+                    },
+                    "cdi:valueForOther": {
+                      "type": "string",
+                      "description": "If the value of the string is \"Other\" or the equivalent from the codelist, this attribute can provide a more specific value not found in the codelist."
+                    },
+                    "cdi:vocabulary": {
+                      "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier.",
+                      "type": "object",
+                      "$comment": "cycle: Reference"
+                    }
+                  }
+                }
+              }
+            },
+            "cdi:role": {
+              "type": "object",
+              "description": "Role of the agent",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:ControlledVocabularyEntry"
+                  },
+                  "minItems": 1
+                },
+                "cdi:entryReference": {
+                  "description": "A reference to the specific item in the vocabulary referenced by cdi:vocabulary, using a URI or other resolvable identifier.",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "DDI-CDI reference to an entity (dt-Reference)",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:Reference"
+                        },
+                        "minItems": 1
+                      },
+                      "cdi:uri": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "URI of the referenced entity"
+                      },
+                      "cdi:description": {
+                        "type": "string",
+                        "description": "Human-readable description of the reference"
+                      },
+                      "cdi:ddiReference": {
+                        "type": "object",
+                        "description": "DDI IRDI reference",
+                        "properties": {
+                          "@type": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "contains": {
+                              "const": "cdi:InternationalRegistrationDataIdentifier"
+                            },
+                            "minItems": 1
+                          },
+                          "cdi:dataIdentifier": {
+                            "type": "string"
+                          },
+                          "cdi:registrationAuthorityIdentifier": {
+                            "type": "string"
+                          },
+                          "cdi:versionIdentifier": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "cdi:dataIdentifier",
+                          "cdi:registrationAuthorityIdentifier",
+                          "cdi:versionIdentifier"
+                        ]
+                      },
+                      "cdi:semantic": {
+                        "description": "Semantic role of this reference",
+                        "type": "object",
+                        "$comment": "cycle: ControlledVocabularyEntry"
+                      }
+                    }
+                  },
+                  "minItems": 1
+                },
+                "cdi:entryValue": {
+                  "description": "The value of the entry of the controlled vocabulary. If no controlled vocabulary is used the term is entered here and none of the properties defining the controlled vocabulary location are used.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 1
+                },
+                "cdi:name": {
+                  "type": "string",
+                  "description": "The name of the code list (controlled vocabulary)."
+                },
+                "cdi:valueForOther": {
+                  "type": "string",
+                  "description": "If the value of the string is \"Other\" or the equivalent from the codelist, this attribute can provide a more specific value not found in the codelist."
+                },
+                "cdi:vocabulary": {
+                  "type": "object",
+                  "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier.",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:Reference"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:uri": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "URI of the referenced entity"
+                    },
+                    "cdi:description": {
+                      "type": "string",
+                      "description": "Human-readable description of the reference"
+                    },
+                    "cdi:ddiReference": {
+                      "type": "object",
+                      "description": "DDI IRDI reference",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "cdi:InternationalRegistrationDataIdentifier"
+                          },
+                          "minItems": 1
+                        },
+                        "cdi:dataIdentifier": {
+                          "type": "string"
+                        },
+                        "cdi:registrationAuthorityIdentifier": {
+                          "type": "string"
+                        },
+                        "cdi:versionIdentifier": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "cdi:dataIdentifier",
+                        "cdi:registrationAuthorityIdentifier",
+                        "cdi:versionIdentifier"
+                      ]
+                    },
+                    "cdi:semantic": {
+                      "description": "Semantic role of this reference",
+                      "type": "object",
+                      "$comment": "cycle: ControlledVocabularyEntry"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "cdi:changeFromBase": {
+      "type": "object",
+      "description": "Describes the relationship between the variant and its base Statistical Classification, including regroupings, aggregations added and extensions. (Source: GSIM StatisticalClassification/Changes from base Statistical Classification).",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:InternationalString"
+          },
+          "minItems": 1
+        },
+        "cdi:languageSpecificString": {
+          "description": "Language-tagged string value(s)",
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:LanguageString"
+                  },
+                  "minItems": 1
+                },
+                "cdi:content": {
+                  "type": "string",
+                  "description": "The text content"
+                },
+                "cdi:language": {
+                  "type": "string",
+                  "description": "ISO language code (e.g. en, fr, de)"
+                }
+              },
+              "required": [
+                "cdi:content"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:LanguageString"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:content": {
+                    "type": "string",
+                    "description": "The text content"
+                  },
+                  "cdi:language": {
+                    "type": "string",
+                    "description": "ISO language code (e.g. en, fr, de)"
+                  }
+                },
+                "required": [
+                  "cdi:content"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "cdi:copyright": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "DDI-CDI internationalized string (dt-InternationalString)",
+        "properties": {
+          "@type": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "contains": {
+              "const": "cdi:InternationalString"
+            },
+            "minItems": 1
+          },
+          "cdi:languageSpecificString": {
+            "description": "Language-tagged string value(s)",
+            "anyOf": [
+              {
+                "type": "object",
+                "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:LanguageString"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:content": {
+                    "type": "string",
+                    "description": "The text content"
+                  },
+                  "cdi:language": {
+                    "type": "string",
+                    "description": "ISO language code (e.g. en, fr, de)"
+                  }
+                },
+                "required": [
+                  "cdi:content"
+                ]
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:LanguageString"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:content": {
+                      "type": "string",
+                      "description": "The text content"
+                    },
+                    "cdi:language": {
+                      "type": "string",
+                      "description": "ISO language code (e.g. en, fr, de)"
+                    }
+                  },
+                  "required": [
+                    "cdi:content"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "minItems": 1,
+      "description": "Copyright of the statistical classification."
+    },
+    "cdi:displayLabel": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "DDI-CDI multilingual display label (dt-LabelForDisplay)",
+        "properties": {
+          "@type": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "contains": {
+              "const": "cdi:LabelForDisplay"
+            },
+            "minItems": 1
+          },
+          "cdi:locationVariant": {
+            "type": "object",
+            "description": "Geographic or locale variant",
+            "properties": {
+              "@type": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "contains": {
+                  "const": "cdi:ControlledVocabularyEntry"
+                },
+                "minItems": 1
+              },
+              "cdi:entryReference": {
+                "description": "A reference to the specific item in the vocabulary referenced by cdi:vocabulary, using a URI or other resolvable identifier.",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "description": "DDI-CDI reference to an entity (dt-Reference)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:Reference"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:uri": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "URI of the referenced entity"
+                    },
+                    "cdi:description": {
+                      "type": "string",
+                      "description": "Human-readable description of the reference"
+                    },
+                    "cdi:ddiReference": {
+                      "type": "object",
+                      "description": "DDI IRDI reference",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "cdi:InternationalRegistrationDataIdentifier"
+                          },
+                          "minItems": 1
+                        },
+                        "cdi:dataIdentifier": {
+                          "type": "string"
+                        },
+                        "cdi:registrationAuthorityIdentifier": {
+                          "type": "string"
+                        },
+                        "cdi:versionIdentifier": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "cdi:dataIdentifier",
+                        "cdi:registrationAuthorityIdentifier",
+                        "cdi:versionIdentifier"
+                      ]
+                    },
+                    "cdi:semantic": {
+                      "description": "Semantic role of this reference",
+                      "type": "object",
+                      "$comment": "cycle: ControlledVocabularyEntry"
+                    }
+                  }
+                },
+                "minItems": 1
+              },
+              "cdi:entryValue": {
+                "description": "The value of the entry of the controlled vocabulary. If no controlled vocabulary is used the term is entered here and none of the properties defining the controlled vocabulary location are used.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1
+              },
+              "cdi:name": {
+                "type": "string",
+                "description": "The name of the code list (controlled vocabulary)."
+              },
+              "cdi:valueForOther": {
+                "type": "string",
+                "description": "If the value of the string is \"Other\" or the equivalent from the codelist, this attribute can provide a more specific value not found in the codelist."
+              },
+              "cdi:vocabulary": {
+                "type": "object",
+                "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier.",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:Reference"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:uri": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URI of the referenced entity"
+                  },
+                  "cdi:description": {
+                    "type": "string",
+                    "description": "Human-readable description of the reference"
+                  },
+                  "cdi:ddiReference": {
+                    "type": "object",
+                    "description": "DDI IRDI reference",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:InternationalRegistrationDataIdentifier"
+                        },
+                        "minItems": 1
+                      },
+                      "cdi:dataIdentifier": {
+                        "type": "string"
+                      },
+                      "cdi:registrationAuthorityIdentifier": {
+                        "type": "string"
+                      },
+                      "cdi:versionIdentifier": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "cdi:dataIdentifier",
+                      "cdi:registrationAuthorityIdentifier",
+                      "cdi:versionIdentifier"
+                    ]
+                  },
+                  "cdi:semantic": {
+                    "description": "Semantic role of this reference",
+                    "type": "object",
+                    "$comment": "cycle: ControlledVocabularyEntry"
+                  }
+                }
+              }
+            }
+          },
+          "cdi:maxLength": {
+            "type": "integer",
+            "description": "Maximum display length"
+          },
+          "cdi:languageSpecificString": {
+            "type": "object",
+            "description": "The label text with language tag",
+            "properties": {
+              "@type": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "contains": {
+                  "const": "cdi:LanguageString"
+                },
+                "minItems": 1
+              },
+              "cdi:content": {
+                "type": "string",
+                "description": "The text content"
+              },
+              "cdi:language": {
+                "type": "string",
+                "description": "ISO language code (e.g. en, fr, de)"
+              }
+            },
+            "required": [
+              "cdi:content"
+            ]
+          }
+        }
+      },
+      "minItems": 1,
+      "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+    },
+    "cdi:isCurrent": {
+      "type": "boolean",
+      "description": "Indicates if the statistical classification is currently valid."
+    },
+    "cdi:isFloating": {
+      "type": "boolean",
+      "description": "Indicates if the Statistical Classification is a floating classification. In a floating statistical classification, a validity period should be defined for all classification Items which will allow the display of the item structure and content at different points of time. (Source: GSIM StatisticalClassification/Floating)."
+    },
+    "cdi:isMaintainedBy": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "description": "IRI or blank node identifier of the referenced node"
+          }
+        },
+        "required": [
+          "@id"
+        ]
+      },
+      "minItems": 1
+    },
+    "cdi:isIndexedBy": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "description": "IRI or blank node identifier of the referenced node"
+          }
+        },
+        "required": [
+          "@id"
+        ]
+      },
+      "minItems": 1
+    },
+    "cdi:isVariantOf": {
+      "type": "object",
+      "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "IRI or blank node identifier of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
+      ]
+    },
+    "cdi:isSuccessorOf": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "description": "IRI or blank node identifier of the referenced node"
+          }
+        },
+        "required": [
+          "@id"
+        ]
+      },
+      "minItems": 1
+    },
+    "cdi:isPredecessorOf": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "description": "IRI or blank node identifier of the referenced node"
+          }
+        },
+        "required": [
+          "@id"
+        ]
+      },
+      "minItems": 1
+    },
+    "cdi:has": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "description": "IRI or blank node identifier of the referenced node"
+          }
+        },
+        "required": [
+          "@id"
+        ]
+      },
+      "minItems": 1
+    },
+    "cdi:purposeOfVariant": {
+      "type": "object",
+      "description": "If the Statistical Classification is a variant, notes the specific purpose for which it was developed. (Source: GSIM StatisticalClassification/Purpose of variant).",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:InternationalString"
+          },
+          "minItems": 1
+        },
+        "cdi:languageSpecificString": {
+          "description": "Language-tagged string value(s)",
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:LanguageString"
+                  },
+                  "minItems": 1
+                },
+                "cdi:content": {
+                  "type": "string",
+                  "description": "The text content"
+                },
+                "cdi:language": {
+                  "type": "string",
+                  "description": "ISO language code (e.g. en, fr, de)"
+                }
+              },
+              "required": [
+                "cdi:content"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:LanguageString"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:content": {
+                    "type": "string",
+                    "description": "The text content"
+                  },
+                  "cdi:language": {
+                    "type": "string",
+                    "description": "ISO language code (e.g. en, fr, de)"
+                  }
+                },
+                "required": [
+                  "cdi:content"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "cdi:rationale": {
+      "type": "object",
+      "description": "Explanation of the reason(s) some decision was made or some object exists.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:InternationalString"
+          },
+          "minItems": 1
+        },
+        "cdi:languageSpecificString": {
+          "description": "Language-tagged string value(s)",
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:LanguageString"
+                  },
+                  "minItems": 1
+                },
+                "cdi:content": {
+                  "type": "string",
+                  "description": "The text content"
+                },
+                "cdi:language": {
+                  "type": "string",
+                  "description": "ISO language code (e.g. en, fr, de)"
+                }
+              },
+              "required": [
+                "cdi:content"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:LanguageString"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:content": {
+                    "type": "string",
+                    "description": "The text content"
+                  },
+                  "cdi:language": {
+                    "type": "string",
+                    "description": "ISO language code (e.g. en, fr, de)"
+                  }
+                },
+                "required": [
+                  "cdi:content"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "cdi:releaseDate": {
+      "type": "object",
+      "description": "Date when the current version of the Statistical Classification was released.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:CombinedDate"
+          },
+          "minItems": 1
+        },
+        "cdi:isoDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 date-time value"
+        },
+        "cdi:historicDate": {
+          "type": "string",
+          "description": "Free-text historic date"
+        }
+      }
+    },
+    "cdi:updateChanges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "DDI-CDI internationalized string (dt-InternationalString)",
+        "properties": {
+          "@type": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "contains": {
+              "const": "cdi:InternationalString"
+            },
+            "minItems": 1
+          },
+          "cdi:languageSpecificString": {
+            "description": "Language-tagged string value(s)",
+            "anyOf": [
+              {
+                "type": "object",
+                "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:LanguageString"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:content": {
+                    "type": "string",
+                    "description": "The text content"
+                  },
+                  "cdi:language": {
+                    "type": "string",
+                    "description": "ISO language code (e.g. en, fr, de)"
+                  }
+                },
+                "required": [
+                  "cdi:content"
+                ]
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:LanguageString"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:content": {
+                      "type": "string",
+                      "description": "The text content"
+                    },
+                    "cdi:language": {
+                      "type": "string",
+                      "description": "ISO language code (e.g. en, fr, de)"
+                    }
+                  },
+                  "required": [
+                    "cdi:content"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "minItems": 1,
+      "description": "Summary description of changes which have occurred since the most recent classification version or classification update came into force."
+    },
+    "cdi:usage": {
+      "type": "object",
+      "description": "Explanation of the ways in which the object is employed.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:InternationalString"
+          },
+          "minItems": 1
+        },
+        "cdi:languageSpecificString": {
+          "description": "Language-tagged string value(s)",
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:LanguageString"
+                  },
+                  "minItems": 1
+                },
+                "cdi:content": {
+                  "type": "string",
+                  "description": "The text content"
+                },
+                "cdi:language": {
+                  "type": "string",
+                  "description": "ISO language code (e.g. en, fr, de)"
+                }
+              },
+              "required": [
+                "cdi:content"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:LanguageString"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:content": {
+                    "type": "string",
+                    "description": "The text content"
+                  },
+                  "cdi:language": {
+                    "type": "string",
+                    "description": "ISO language code (e.g. en, fr, de)"
+                  }
+                },
+                "required": [
+                  "cdi:content"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "cdi:validDates": {
+      "type": "object",
+      "description": "The dates describing the validity period of the object. The date from which the object became valid must be defined if the map belongs to a \"floating\" construct. The date at which the object became invalid must be defined if the map belongs to a \"floating\" construct and is no longer valid. Per the Generic Statistical Information Model, Statistical Classification: \"The date the statistical classification enters production use and the date on which the Statistical Classification was superseded by a successor version or otherwise ceased to be valid.\"",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:DateRange"
+          },
+          "minItems": 1
+        },
+        "cdi:startDate": {
+          "type": "object",
+          "description": "Start date of the range",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:CombinedDate"
+              },
+              "minItems": 1
+            },
+            "cdi:isoDate": {
+              "type": "string",
+              "format": "date-time",
+              "description": "ISO 8601 date-time value"
+            },
+            "cdi:historicDate": {
+              "type": "string",
+              "description": "Free-text historic date"
+            }
+          }
+        },
+        "cdi:endDate": {
+          "type": "object",
+          "description": "End date of the range",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:CombinedDate"
+              },
+              "minItems": 1
+            },
+            "cdi:isoDate": {
+              "type": "string",
+              "format": "date-time",
+              "description": "ISO 8601 date-time value"
+            },
+            "cdi:historicDate": {
+              "type": "string",
+              "description": "Free-text historic date"
+            }
+          }
+        }
+      }
+    },
+    "cdi:identifier": {
+      "type": "object",
+      "description": "Identifier for objects requiring short- or long-lasting referencing and management.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Identifier"
+          },
+          "minItems": 1
+        },
+        "cdi:ddiIdentifier": {
+          "type": "object",
+          "description": "DDI-specific IRDI identifier",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:InternationalRegistrationDataIdentifier"
+              },
+              "minItems": 1
+            },
+            "cdi:dataIdentifier": {
+              "type": "string"
+            },
+            "cdi:registrationAuthorityIdentifier": {
+              "type": "string"
+            },
+            "cdi:versionIdentifier": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cdi:dataIdentifier",
+            "cdi:registrationAuthorityIdentifier",
+            "cdi:versionIdentifier"
+          ]
+        },
+        "cdi:uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI form of the identifier"
+        },
+        "cdi:nonDdiIdentifier": {
+          "description": "Non-DDI identifier",
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:NonDdiIdentifier"
+                  },
+                  "minItems": 1
+                },
+                "cdi:identifierContent": {
+                  "type": "string",
+                  "description": "The identifier value"
+                },
+                "cdi:managingAgency": {
+                  "type": "string",
+                  "description": "Agency managing this identifier scheme"
+                }
+              },
+              "required": [
+                "cdi:identifierContent"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:NonDdiIdentifier"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:identifierContent": {
+                    "type": "string",
+                    "description": "The identifier value"
+                  },
+                  "cdi:managingAgency": {
+                    "type": "string",
+                    "description": "Agency managing this identifier scheme"
+                  }
+                },
+                "required": [
+                  "cdi:identifierContent"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "cdi:name": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "DDI-CDI structured name wrapper (dt-ObjectName)",
+        "properties": {
+          "@type": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "contains": {
+              "const": "cdi:ObjectName"
+            },
+            "minItems": 1
+          },
+          "cdi:name": {
+            "type": "string",
+            "description": "The name string"
+          },
+          "cdi:context": {
+            "type": "object",
+            "description": "Context or usage of this name",
+            "properties": {
+              "@type": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "contains": {
+                  "const": "cdi:ControlledVocabularyEntry"
+                },
+                "minItems": 1
+              },
+              "cdi:entryReference": {
+                "description": "A reference to the specific item in the vocabulary referenced by cdi:vocabulary, using a URI or other resolvable identifier.",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "description": "DDI-CDI reference to an entity (dt-Reference)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:Reference"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:uri": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "URI of the referenced entity"
+                    },
+                    "cdi:description": {
+                      "type": "string",
+                      "description": "Human-readable description of the reference"
+                    },
+                    "cdi:ddiReference": {
+                      "type": "object",
+                      "description": "DDI IRDI reference",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "cdi:InternationalRegistrationDataIdentifier"
+                          },
+                          "minItems": 1
+                        },
+                        "cdi:dataIdentifier": {
+                          "type": "string"
+                        },
+                        "cdi:registrationAuthorityIdentifier": {
+                          "type": "string"
+                        },
+                        "cdi:versionIdentifier": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "cdi:dataIdentifier",
+                        "cdi:registrationAuthorityIdentifier",
+                        "cdi:versionIdentifier"
+                      ]
+                    },
+                    "cdi:semantic": {
+                      "description": "Semantic role of this reference",
+                      "type": "object",
+                      "$comment": "cycle: ControlledVocabularyEntry"
+                    }
+                  }
+                },
+                "minItems": 1
+              },
+              "cdi:entryValue": {
+                "description": "The value of the entry of the controlled vocabulary. If no controlled vocabulary is used the term is entered here and none of the properties defining the controlled vocabulary location are used.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1
+              },
+              "cdi:name": {
+                "type": "string",
+                "description": "The name of the code list (controlled vocabulary)."
+              },
+              "cdi:valueForOther": {
+                "type": "string",
+                "description": "If the value of the string is \"Other\" or the equivalent from the codelist, this attribute can provide a more specific value not found in the codelist."
+              },
+              "cdi:vocabulary": {
+                "type": "object",
+                "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier.",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:Reference"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:uri": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URI of the referenced entity"
+                  },
+                  "cdi:description": {
+                    "type": "string",
+                    "description": "Human-readable description of the reference"
+                  },
+                  "cdi:ddiReference": {
+                    "type": "object",
+                    "description": "DDI IRDI reference",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:InternationalRegistrationDataIdentifier"
+                        },
+                        "minItems": 1
+                      },
+                      "cdi:dataIdentifier": {
+                        "type": "string"
+                      },
+                      "cdi:registrationAuthorityIdentifier": {
+                        "type": "string"
+                      },
+                      "cdi:versionIdentifier": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "cdi:dataIdentifier",
+                      "cdi:registrationAuthorityIdentifier",
+                      "cdi:versionIdentifier"
+                    ]
+                  },
+                  "cdi:semantic": {
+                    "description": "Semantic role of this reference",
+                    "type": "object",
+                    "$comment": "cycle: ControlledVocabularyEntry"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "cdi:name"
+        ]
+      },
+      "minItems": 1,
+      "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+    },
+    "cdi:uses": {
+      "type": "object",
+      "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "IRI or blank node identifier of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
+      ]
+    },
+    "cdi:references": {
+      "type": "object",
+      "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "IRI or blank node identifier of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
+      ]
+    },
+    "cdi:isDefinedBy": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "description": "IRI or blank node identifier of the referenced node"
+          }
+        },
+        "required": [
+          "@id"
+        ]
+      },
+      "minItems": 1
+    },
+    "cdi:purpose": {
+      "type": "object",
+      "description": "Intent or reason for the object/the description of the object.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:InternationalString"
+          },
+          "minItems": 1
+        },
+        "cdi:languageSpecificString": {
+          "description": "Language-tagged string value(s)",
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:LanguageString"
+                  },
+                  "minItems": 1
+                },
+                "cdi:content": {
+                  "type": "string",
+                  "description": "The text content"
+                },
+                "cdi:language": {
+                  "type": "string",
+                  "description": "ISO language code (e.g. en, fr, de)"
+                }
+              },
+              "required": [
+                "cdi:content"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:LanguageString"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:content": {
+                    "type": "string",
+                    "description": "The text content"
+                  },
+                  "cdi:language": {
+                    "type": "string",
+                    "description": "ISO language code (e.g. en, fr, de)"
+                  }
+                },
+                "required": [
+                  "cdi:content"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "required": [
+    "@type"
+  ]
+}
