@@ -32,126 +32,32 @@
         "anyOf": [
           {
             "title": "DDI-CDI Value Domain",
-            "description": "Unified DDI-CDI ValueDomain building block covering both SubstantiveValueDomain (subject-matter values) and SentinelValueDomain (processing/missing-value codes). Both inherit from ValueDomain. SentinelValueDomain adds an optional cdi:platformType property. Supports described domains (ValueAndConceptDescription), enumerated domains (EnumerationDomain), and conceptual domain references.",
-            "type": "object",
-            "properties": {
-              "@type": {
-                "description": "Must include either cdi:SubstantiveValueDomain or cdi:SentinelValueDomain",
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "anyOf": [
-                  {
-                    "contains": {
-                      "const": "cdi:SubstantiveValueDomain"
-                    }
-                  },
-                  {
-                    "contains": {
-                      "const": "cdi:SentinelValueDomain"
-                    }
-                  }
-                ],
-                "minItems": 1
-              },
-              "@id": {
-                "type": "string",
-                "description": "Identifier for this value domain node"
-              },
-              "cdi:catalogDetails": {
-                "$ref": "#/$defs/CatalogDetails",
-                "description": "Administrative catalog metadata for this value domain"
-              },
-              "cdi:displayLabel": {
-                "description": "Multilingual display label",
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/LabelForDisplay"
-                  },
-                  {
+            "description": "Value domain for a substantive conceptual domain. Typically a description and/or enumeration of allowed values of interest.",
+            "anyOf": [
+              {
+                "type": "object",
+                "description": "Value domain for a substantive conceptual domain. Typically a description and/or enumeration of allowed values of interest.",
+                "properties": {
+                  "@type": {
                     "type": "array",
                     "items": {
-                      "$ref": "#/$defs/LabelForDisplay"
-                    }
-                  }
-                ]
-              },
-              "cdi:identifier": {
-                "$ref": "#/$defs/Identifier",
-                "description": "Formal identifier for this value domain"
-              },
-              "cdi:recommendedDataType": {
-                "$ref": "#/$defs/ControlledVocabularyEntry",
-                "description": "Recommended physical data type for values in this domain"
-              },
-              "cdi:isDescribedBy": {
-                "description": "Description of the value domain constraints (0..1). Inline ValueAndConceptDescription or @id reference.",
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "description": "DDI-CDI description of value constraints and measurement level (cls-ValueAndConceptDescription)",
-                    "properties": {
-                      "@type": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        },
-                        "contains": {
-                          "const": "cdi:ValueAndConceptDescription"
-                        },
-                        "minItems": 1
-                      },
-                      "@id": {
-                        "type": "string",
-                        "description": "Identifier for this description node"
-                      },
-                      "cdi:classificationLevel": {
-                        "type": "string",
-                        "description": "Level of measurement",
-                        "enum": [
-                          "Continuous",
-                          "Interval",
-                          "Nominal",
-                          "Ordinal",
-                          "Ratio"
-                        ]
-                      },
-                      "cdi:description": {
-                        "$ref": "#/$defs/InternationalString",
-                        "description": "Textual description of the value domain constraints"
-                      },
-                      "cdi:formatPattern": {
-                        "$ref": "#/$defs/ControlledVocabularyEntry",
-                        "description": "Expected format pattern for values"
-                      },
-                      "cdi:identifier": {
-                        "$ref": "#/$defs/Identifier",
-                        "description": "Formal identifier"
-                      },
-                      "cdi:logicalExpression": {
-                        "$ref": "#/$defs/ControlledVocabularyEntry",
-                        "description": "Logical expression constraining valid values"
-                      },
-                      "cdi:maximumValueExclusive": {
-                        "type": "string",
-                        "description": "Exclusive upper bound for valid values"
-                      },
-                      "cdi:maximumValueInclusive": {
-                        "type": "string",
-                        "description": "Inclusive upper bound for valid values"
-                      },
-                      "cdi:minimumValueExclusive": {
-                        "type": "string",
-                        "description": "Exclusive lower bound for valid values"
-                      },
-                      "cdi:minimumValueInclusive": {
-                        "type": "string",
-                        "description": "Inclusive lower bound for valid values"
-                      },
-                      "cdi:regularExpression": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:SubstantiveValueDomain"
+                    },
+                    "minItems": 1
+                  },
+                  "@id": {
+                    "type": "string",
+                    "description": "Identifier for this SubstantiveValueDomain node"
+                  },
+                  "cdi:takesValuesFrom": {
+                    "anyOf": [
+                      {
+                        "title": "DDI-CDI Enumeration Domain",
+                        "description": "A base class acting as an extension point to allow all codifications (codelist, statistical classification, etc.) to be understood as enumerated value domains.",
                         "type": "object",
-                        "description": "Regular expression constraining valid value syntax",
                         "properties": {
                           "@type": {
                             "type": "array",
@@ -159,103 +65,387 @@
                               "type": "string"
                             },
                             "contains": {
-                              "const": "cdi:TypedString"
+                              "const": "cdi:EnumerationDomain"
                             },
                             "minItems": 1
                           },
-                          "cdi:content": {
+                          "@id": {
                             "type": "string",
-                            "description": "The string content"
+                            "description": "Identifier for this EnumerationDomain node"
                           },
-                          "cdi:typeOfContent": {
-                            "$ref": "#/$defs/ControlledVocabularyEntry",
-                            "description": "Type or format of the content"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "$ref": "#/$defs/id-reference"
-                  }
-                ]
-              },
-              "cdi:takesValuesFrom": {
-                "description": "Enumeration domain providing the set of permissible coded values (0..1). Inline EnumerationDomain or @id reference.",
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "description": "DDI-CDI enumeration domain providing a set of permissible coded values (cls-EnumerationDomain)",
-                    "properties": {
-                      "@type": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        },
-                        "contains": {
-                          "const": "cdi:EnumerationDomain"
-                        },
-                        "minItems": 1
-                      },
-                      "@id": {
-                        "type": "string",
-                        "description": "Identifier for this enumeration domain node"
-                      },
-                      "cdi:identifier": {
-                        "$ref": "#/$defs/Identifier",
-                        "description": "Formal identifier"
-                      },
-                      "cdi:name": {
-                        "description": "Structured name for this enumeration domain",
-                        "anyOf": [
-                          {
-                            "$ref": "#/$defs/ObjectName"
+                          "cdi:identifier": {
+                            "$ref": "#/$defs/Identifier",
+                            "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                           },
-                          {
+                          "cdi:name": {
                             "type": "array",
                             "items": {
                               "$ref": "#/$defs/ObjectName"
-                            }
+                            },
+                            "minItems": 1,
+                            "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+                          },
+                          "cdi:uses": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/$defs/LevelStructure"
+                              },
+                              {
+                                "$ref": "#/$defs/id-reference"
+                              }
+                            ]
+                          },
+                          "cdi:references": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/$defs/CategorySet"
+                              },
+                              {
+                                "$ref": "#/$defs/id-reference"
+                              }
+                            ]
+                          },
+                          "cdi:isDefinedBy": {
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "$ref": "#/$defs/DdicdiEnumerationDomain_Concept"
+                                },
+                                {
+                                  "$ref": "#/$defs/id-reference"
+                                }
+                              ]
+                            },
+                            "minItems": 1
+                          },
+                          "cdi:purpose": {
+                            "$ref": "#/$defs/InternationalString",
+                            "description": "Intent or reason for the object/the description of the object."
                           }
+                        },
+                        "required": [
+                          "@type"
                         ]
                       },
-                      "cdi:purpose": {
-                        "$ref": "#/$defs/InternationalString",
-                        "description": "Purpose of this enumeration domain"
-                      },
-                      "cdi:uses": {
-                        "$ref": "#/$defs/id-reference",
-                        "description": "Reference to a LevelStructure that organizes the enumeration. @id reference only."
-                      },
-                      "cdi:isDefinedBy": {
-                        "description": "References to Concepts that define the enumerated values. Array of @id references.",
-                        "type": "array",
-                        "items": {
-                          "$ref": "#/$defs/id-reference"
-                        }
-                      },
-                      "cdi:references": {
-                        "$ref": "#/$defs/id-reference",
-                        "description": "Reference to the CategorySet providing the value categories. @id reference only."
+                      {
+                        "$ref": "#/$defs/id-reference"
                       }
-                    }
+                    ]
                   },
-                  {
-                    "$ref": "#/$defs/id-reference"
+                  "cdi:isDescribedBy": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/DdicdiValueDomain_ValueAndConceptDescription"
+                      },
+                      {
+                        "$ref": "#/$defs/id-reference"
+                      }
+                    ]
+                  },
+                  "cdi:takesConceptsFrom": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "description": "Conceptual domain of substantive concepts.",
+                        "properties": {
+                          "@type": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "contains": {
+                              "const": "cdi:SubstantiveConceptualDomain"
+                            },
+                            "minItems": 1
+                          },
+                          "@id": {
+                            "type": "string",
+                            "description": "Identifier for this SubstantiveConceptualDomain node"
+                          },
+                          "cdi:catalogDetails": {
+                            "$ref": "#/$defs/CatalogDetails",
+                            "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+                          },
+                          "cdi:displayLabel": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/$defs/LabelForDisplay"
+                            },
+                            "minItems": 1,
+                            "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+                          },
+                          "cdi:identifier": {
+                            "$ref": "#/$defs/Identifier",
+                            "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                          },
+                          "cdi:isDescribedBy": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/$defs/DdicdiValueDomain_ValueAndConceptDescription"
+                              },
+                              {
+                                "$ref": "#/$defs/id-reference"
+                              }
+                            ]
+                          },
+                          "cdi:takesConceptsFrom": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/$defs/DdicdiValueDomain_ConceptSystem"
+                              },
+                              {
+                                "$ref": "#/$defs/id-reference"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "@type"
+                        ]
+                      },
+                      {
+                        "$ref": "#/$defs/id-reference"
+                      }
+                    ]
+                  },
+                  "cdi:catalogDetails": {
+                    "$ref": "#/$defs/CatalogDetails",
+                    "description": "Bundles the information useful for a data catalog entry.\n\nExamples would be creator, contributor, title, copyright, embargo, and license information\n\nA set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+                  },
+                  "cdi:displayLabel": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/LabelForDisplay"
+                    },
+                    "minItems": 1,
+                    "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+                  },
+                  "cdi:identifier": {
+                    "$ref": "#/$defs/Identifier",
+                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                  },
+                  "cdi:recommendedDataType": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/ControlledVocabularyEntry"
+                    },
+                    "minItems": 1,
+                    "description": "The data types that are recommended for use with this domain."
                   }
+                },
+                "required": [
+                  "@type"
                 ]
               },
-              "cdi:takesConceptsFrom": {
-                "$ref": "#/$defs/id-reference",
-                "description": "Reference to a conceptual domain (SubstantiveConceptualDomain or SentinelConceptualDomain) that provides conceptual grounding for this value domain (0..1). @id reference only."
-              },
-              "cdi:platformType": {
-                "$ref": "#/$defs/ControlledVocabularyEntry",
-                "description": "(SentinelValueDomain only) The type of software platform under which sentinel codes will be used. Statistical software platforms use different sets of codes to indicate missing values. Example values: SASNumeric, SPSSstyle, Rstyle, StataNumeric, BlankString, EmptyString, Unrestricted."
+              {
+                "type": "object",
+                "description": "Value domain for a sentinel conceptual domain.",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:SentinelValueDomain"
+                    },
+                    "minItems": 1
+                  },
+                  "@id": {
+                    "type": "string",
+                    "description": "Identifier for this SentinelValueDomain node"
+                  },
+                  "cdi:takesConceptsFrom": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "description": "Conceptual domain of sentinel concepts.",
+                        "properties": {
+                          "@type": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "contains": {
+                              "const": "cdi:SentinelConceptualDomain"
+                            },
+                            "minItems": 1
+                          },
+                          "@id": {
+                            "type": "string",
+                            "description": "Identifier for this SentinelConceptualDomain node"
+                          },
+                          "cdi:catalogDetails": {
+                            "$ref": "#/$defs/CatalogDetails",
+                            "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+                          },
+                          "cdi:displayLabel": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/$defs/LabelForDisplay"
+                            },
+                            "minItems": 1,
+                            "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+                          },
+                          "cdi:identifier": {
+                            "$ref": "#/$defs/Identifier",
+                            "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                          },
+                          "cdi:isDescribedBy": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/$defs/DdicdiValueDomain_ValueAndConceptDescription"
+                              },
+                              {
+                                "$ref": "#/$defs/id-reference"
+                              }
+                            ]
+                          },
+                          "cdi:takesConceptsFrom": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/$defs/DdicdiValueDomain_ConceptSystem"
+                              },
+                              {
+                                "$ref": "#/$defs/id-reference"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "@type"
+                        ]
+                      },
+                      {
+                        "$ref": "#/$defs/id-reference"
+                      }
+                    ]
+                  },
+                  "cdi:takesValuesFrom": {
+                    "anyOf": [
+                      {
+                        "title": "DDI-CDI Enumeration Domain",
+                        "description": "A base class acting as an extension point to allow all codifications (codelist, statistical classification, etc.) to be understood as enumerated value domains.",
+                        "type": "object",
+                        "properties": {
+                          "@type": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "contains": {
+                              "const": "cdi:EnumerationDomain"
+                            },
+                            "minItems": 1
+                          },
+                          "@id": {
+                            "type": "string",
+                            "description": "Identifier for this EnumerationDomain node"
+                          },
+                          "cdi:identifier": {
+                            "$ref": "#/$defs/Identifier",
+                            "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                          },
+                          "cdi:name": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/$defs/ObjectName"
+                            },
+                            "minItems": 1,
+                            "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+                          },
+                          "cdi:uses": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/$defs/LevelStructure"
+                              },
+                              {
+                                "$ref": "#/$defs/id-reference"
+                              }
+                            ]
+                          },
+                          "cdi:references": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/$defs/CategorySet"
+                              },
+                              {
+                                "$ref": "#/$defs/id-reference"
+                              }
+                            ]
+                          },
+                          "cdi:isDefinedBy": {
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "$ref": "#/$defs/DdicdiEnumerationDomain_Concept"
+                                },
+                                {
+                                  "$ref": "#/$defs/id-reference"
+                                }
+                              ]
+                            },
+                            "minItems": 1
+                          },
+                          "cdi:purpose": {
+                            "$ref": "#/$defs/InternationalString",
+                            "description": "Intent or reason for the object/the description of the object."
+                          }
+                        },
+                        "required": [
+                          "@type"
+                        ]
+                      },
+                      {
+                        "$ref": "#/$defs/id-reference"
+                      }
+                    ]
+                  },
+                  "cdi:isDescribedBy": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/DdicdiValueDomain_ValueAndConceptDescription"
+                      },
+                      {
+                        "$ref": "#/$defs/id-reference"
+                      }
+                    ]
+                  },
+                  "cdi:platformType": {
+                    "$ref": "#/$defs/ControlledVocabularyEntry",
+                    "description": "The type of platform under which sentinel codes will be used. Statistical software platforms use different sets of codes to indicate missing values. The external controlled vocabulary should list platform types and a description of the allowed missing value types. A sample list would be:\n\n- BlankString - A Blank string indicates missing. Comparison is based on lexical order. - EmptyString - An empty string indicates missing. Use in comparisons returns missing. - Rstyle - Codes drawn from NA and the IEEE 754 values of NaN -Inf +Inf. Comparisons return NA. - SASNumeric - codes drawn from . ._ .A .B .C .D .E .F .G .H .I .J .K .L .M .N .O .P .Q .R .S .T .U .V .W .X .Y .Z Sentinel code treated as less than any substantive value - SPSSstyle - System missing (a dot) a set of individual values drawn from the same datatype as the SubstantiveValueDomain, and a range of values drawn from the same datatype as the SubstantiveValueDomain. Comparisons return system missing. Some functions substitute with valid values (e.g. SUM replaces missing values with 0). - StataNumeric - codes drawn from . ._ .A .B .C .D .E .F .G .H .I .J .K .L .M .N .O .P .Q .R .S .T .U .V .W .X .Y .Z Sentinel code treated as greater than any substantive value - Unrestricted - No restrictions on codes for sentinel values. Use in comparisons is indeterminate."
+                  },
+                  "cdi:catalogDetails": {
+                    "$ref": "#/$defs/CatalogDetails",
+                    "description": "Bundles the information useful for a data catalog entry.\n\nExamples would be creator, contributor, title, copyright, embargo, and license information\n\nA set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+                  },
+                  "cdi:displayLabel": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/LabelForDisplay"
+                    },
+                    "minItems": 1,
+                    "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+                  },
+                  "cdi:identifier": {
+                    "$ref": "#/$defs/Identifier",
+                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                  },
+                  "cdi:recommendedDataType": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/ControlledVocabularyEntry"
+                    },
+                    "minItems": 1,
+                    "description": "The data types that are recommended for use with this domain."
+                  }
+                },
+                "required": [
+                  "@type"
+                ]
               }
-            },
-            "required": [
-              "@type"
             ]
           },
           {
@@ -269,126 +459,32 @@
       "anyOf": [
         {
           "title": "DDI-CDI Value Domain",
-          "description": "Unified DDI-CDI ValueDomain building block covering both SubstantiveValueDomain (subject-matter values) and SentinelValueDomain (processing/missing-value codes). Both inherit from ValueDomain. SentinelValueDomain adds an optional cdi:platformType property. Supports described domains (ValueAndConceptDescription), enumerated domains (EnumerationDomain), and conceptual domain references.",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "description": "Must include either cdi:SubstantiveValueDomain or cdi:SentinelValueDomain",
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "anyOf": [
-                {
-                  "contains": {
-                    "const": "cdi:SubstantiveValueDomain"
-                  }
-                },
-                {
-                  "contains": {
-                    "const": "cdi:SentinelValueDomain"
-                  }
-                }
-              ],
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string",
-              "description": "Identifier for this value domain node"
-            },
-            "cdi:catalogDetails": {
-              "$ref": "#/$defs/CatalogDetails",
-              "description": "Administrative catalog metadata for this value domain"
-            },
-            "cdi:displayLabel": {
-              "description": "Multilingual display label",
-              "anyOf": [
-                {
-                  "$ref": "#/$defs/LabelForDisplay"
-                },
-                {
+          "description": "Value domain for a substantive conceptual domain. Typically a description and/or enumeration of allowed values of interest.",
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "Value domain for a substantive conceptual domain. Typically a description and/or enumeration of allowed values of interest.",
+              "properties": {
+                "@type": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/$defs/LabelForDisplay"
-                  }
-                }
-              ]
-            },
-            "cdi:identifier": {
-              "$ref": "#/$defs/Identifier",
-              "description": "Formal identifier for this value domain"
-            },
-            "cdi:recommendedDataType": {
-              "$ref": "#/$defs/ControlledVocabularyEntry",
-              "description": "Recommended physical data type for values in this domain"
-            },
-            "cdi:isDescribedBy": {
-              "description": "Description of the value domain constraints (0..1). Inline ValueAndConceptDescription or @id reference.",
-              "anyOf": [
-                {
-                  "type": "object",
-                  "description": "DDI-CDI description of value constraints and measurement level (cls-ValueAndConceptDescription)",
-                  "properties": {
-                    "@type": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "contains": {
-                        "const": "cdi:ValueAndConceptDescription"
-                      },
-                      "minItems": 1
-                    },
-                    "@id": {
-                      "type": "string",
-                      "description": "Identifier for this description node"
-                    },
-                    "cdi:classificationLevel": {
-                      "type": "string",
-                      "description": "Level of measurement",
-                      "enum": [
-                        "Continuous",
-                        "Interval",
-                        "Nominal",
-                        "Ordinal",
-                        "Ratio"
-                      ]
-                    },
-                    "cdi:description": {
-                      "$ref": "#/$defs/InternationalString",
-                      "description": "Textual description of the value domain constraints"
-                    },
-                    "cdi:formatPattern": {
-                      "$ref": "#/$defs/ControlledVocabularyEntry",
-                      "description": "Expected format pattern for values"
-                    },
-                    "cdi:identifier": {
-                      "$ref": "#/$defs/Identifier",
-                      "description": "Formal identifier"
-                    },
-                    "cdi:logicalExpression": {
-                      "$ref": "#/$defs/ControlledVocabularyEntry",
-                      "description": "Logical expression constraining valid values"
-                    },
-                    "cdi:maximumValueExclusive": {
-                      "type": "string",
-                      "description": "Exclusive upper bound for valid values"
-                    },
-                    "cdi:maximumValueInclusive": {
-                      "type": "string",
-                      "description": "Inclusive upper bound for valid values"
-                    },
-                    "cdi:minimumValueExclusive": {
-                      "type": "string",
-                      "description": "Exclusive lower bound for valid values"
-                    },
-                    "cdi:minimumValueInclusive": {
-                      "type": "string",
-                      "description": "Inclusive lower bound for valid values"
-                    },
-                    "cdi:regularExpression": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:SubstantiveValueDomain"
+                  },
+                  "minItems": 1
+                },
+                "@id": {
+                  "type": "string",
+                  "description": "Identifier for this SubstantiveValueDomain node"
+                },
+                "cdi:takesValuesFrom": {
+                  "anyOf": [
+                    {
+                      "title": "DDI-CDI Enumeration Domain",
+                      "description": "A base class acting as an extension point to allow all codifications (codelist, statistical classification, etc.) to be understood as enumerated value domains.",
                       "type": "object",
-                      "description": "Regular expression constraining valid value syntax",
                       "properties": {
                         "@type": {
                           "type": "array",
@@ -396,103 +492,387 @@
                             "type": "string"
                           },
                           "contains": {
-                            "const": "cdi:TypedString"
+                            "const": "cdi:EnumerationDomain"
                           },
                           "minItems": 1
                         },
-                        "cdi:content": {
+                        "@id": {
                           "type": "string",
-                          "description": "The string content"
+                          "description": "Identifier for this EnumerationDomain node"
                         },
-                        "cdi:typeOfContent": {
-                          "$ref": "#/$defs/ControlledVocabularyEntry",
-                          "description": "Type or format of the content"
-                        }
-                      }
-                    }
-                  }
-                },
-                {
-                  "$ref": "#/$defs/id-reference"
-                }
-              ]
-            },
-            "cdi:takesValuesFrom": {
-              "description": "Enumeration domain providing the set of permissible coded values (0..1). Inline EnumerationDomain or @id reference.",
-              "anyOf": [
-                {
-                  "type": "object",
-                  "description": "DDI-CDI enumeration domain providing a set of permissible coded values (cls-EnumerationDomain)",
-                  "properties": {
-                    "@type": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "contains": {
-                        "const": "cdi:EnumerationDomain"
-                      },
-                      "minItems": 1
-                    },
-                    "@id": {
-                      "type": "string",
-                      "description": "Identifier for this enumeration domain node"
-                    },
-                    "cdi:identifier": {
-                      "$ref": "#/$defs/Identifier",
-                      "description": "Formal identifier"
-                    },
-                    "cdi:name": {
-                      "description": "Structured name for this enumeration domain",
-                      "anyOf": [
-                        {
-                          "$ref": "#/$defs/ObjectName"
+                        "cdi:identifier": {
+                          "$ref": "#/$defs/Identifier",
+                          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                         },
-                        {
+                        "cdi:name": {
                           "type": "array",
                           "items": {
                             "$ref": "#/$defs/ObjectName"
-                          }
+                          },
+                          "minItems": 1,
+                          "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+                        },
+                        "cdi:uses": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/LevelStructure"
+                            },
+                            {
+                              "$ref": "#/$defs/id-reference"
+                            }
+                          ]
+                        },
+                        "cdi:references": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/CategorySet"
+                            },
+                            {
+                              "$ref": "#/$defs/id-reference"
+                            }
+                          ]
+                        },
+                        "cdi:isDefinedBy": {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/$defs/DdicdiEnumerationDomain_Concept"
+                              },
+                              {
+                                "$ref": "#/$defs/id-reference"
+                              }
+                            ]
+                          },
+                          "minItems": 1
+                        },
+                        "cdi:purpose": {
+                          "$ref": "#/$defs/InternationalString",
+                          "description": "Intent or reason for the object/the description of the object."
                         }
+                      },
+                      "required": [
+                        "@type"
                       ]
                     },
-                    "cdi:purpose": {
-                      "$ref": "#/$defs/InternationalString",
-                      "description": "Purpose of this enumeration domain"
-                    },
-                    "cdi:uses": {
-                      "$ref": "#/$defs/id-reference",
-                      "description": "Reference to a LevelStructure that organizes the enumeration. @id reference only."
-                    },
-                    "cdi:isDefinedBy": {
-                      "description": "References to Concepts that define the enumerated values. Array of @id references.",
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/$defs/id-reference"
-                      }
-                    },
-                    "cdi:references": {
-                      "$ref": "#/$defs/id-reference",
-                      "description": "Reference to the CategorySet providing the value categories. @id reference only."
+                    {
+                      "$ref": "#/$defs/id-reference"
                     }
-                  }
+                  ]
                 },
-                {
-                  "$ref": "#/$defs/id-reference"
+                "cdi:isDescribedBy": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/DdicdiValueDomain_ValueAndConceptDescription"
+                    },
+                    {
+                      "$ref": "#/$defs/id-reference"
+                    }
+                  ]
+                },
+                "cdi:takesConceptsFrom": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "description": "Conceptual domain of substantive concepts.",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "cdi:SubstantiveConceptualDomain"
+                          },
+                          "minItems": 1
+                        },
+                        "@id": {
+                          "type": "string",
+                          "description": "Identifier for this SubstantiveConceptualDomain node"
+                        },
+                        "cdi:catalogDetails": {
+                          "$ref": "#/$defs/CatalogDetails",
+                          "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+                        },
+                        "cdi:displayLabel": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/$defs/LabelForDisplay"
+                          },
+                          "minItems": 1,
+                          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+                        },
+                        "cdi:identifier": {
+                          "$ref": "#/$defs/Identifier",
+                          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                        },
+                        "cdi:isDescribedBy": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/DdicdiValueDomain_ValueAndConceptDescription"
+                            },
+                            {
+                              "$ref": "#/$defs/id-reference"
+                            }
+                          ]
+                        },
+                        "cdi:takesConceptsFrom": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/DdicdiValueDomain_ConceptSystem"
+                            },
+                            {
+                              "$ref": "#/$defs/id-reference"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "@type"
+                      ]
+                    },
+                    {
+                      "$ref": "#/$defs/id-reference"
+                    }
+                  ]
+                },
+                "cdi:catalogDetails": {
+                  "$ref": "#/$defs/CatalogDetails",
+                  "description": "Bundles the information useful for a data catalog entry.\n\nExamples would be creator, contributor, title, copyright, embargo, and license information\n\nA set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+                },
+                "cdi:displayLabel": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/LabelForDisplay"
+                  },
+                  "minItems": 1,
+                  "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+                },
+                "cdi:identifier": {
+                  "$ref": "#/$defs/Identifier",
+                  "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                },
+                "cdi:recommendedDataType": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/ControlledVocabularyEntry"
+                  },
+                  "minItems": 1,
+                  "description": "The data types that are recommended for use with this domain."
                 }
+              },
+              "required": [
+                "@type"
               ]
             },
-            "cdi:takesConceptsFrom": {
-              "$ref": "#/$defs/id-reference",
-              "description": "Reference to a conceptual domain (SubstantiveConceptualDomain or SentinelConceptualDomain) that provides conceptual grounding for this value domain (0..1). @id reference only."
-            },
-            "cdi:platformType": {
-              "$ref": "#/$defs/ControlledVocabularyEntry",
-              "description": "(SentinelValueDomain only) The type of software platform under which sentinel codes will be used. Statistical software platforms use different sets of codes to indicate missing values. Example values: SASNumeric, SPSSstyle, Rstyle, StataNumeric, BlankString, EmptyString, Unrestricted."
+            {
+              "type": "object",
+              "description": "Value domain for a sentinel conceptual domain.",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:SentinelValueDomain"
+                  },
+                  "minItems": 1
+                },
+                "@id": {
+                  "type": "string",
+                  "description": "Identifier for this SentinelValueDomain node"
+                },
+                "cdi:takesConceptsFrom": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "description": "Conceptual domain of sentinel concepts.",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "cdi:SentinelConceptualDomain"
+                          },
+                          "minItems": 1
+                        },
+                        "@id": {
+                          "type": "string",
+                          "description": "Identifier for this SentinelConceptualDomain node"
+                        },
+                        "cdi:catalogDetails": {
+                          "$ref": "#/$defs/CatalogDetails",
+                          "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+                        },
+                        "cdi:displayLabel": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/$defs/LabelForDisplay"
+                          },
+                          "minItems": 1,
+                          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+                        },
+                        "cdi:identifier": {
+                          "$ref": "#/$defs/Identifier",
+                          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                        },
+                        "cdi:isDescribedBy": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/DdicdiValueDomain_ValueAndConceptDescription"
+                            },
+                            {
+                              "$ref": "#/$defs/id-reference"
+                            }
+                          ]
+                        },
+                        "cdi:takesConceptsFrom": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/DdicdiValueDomain_ConceptSystem"
+                            },
+                            {
+                              "$ref": "#/$defs/id-reference"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "@type"
+                      ]
+                    },
+                    {
+                      "$ref": "#/$defs/id-reference"
+                    }
+                  ]
+                },
+                "cdi:takesValuesFrom": {
+                  "anyOf": [
+                    {
+                      "title": "DDI-CDI Enumeration Domain",
+                      "description": "A base class acting as an extension point to allow all codifications (codelist, statistical classification, etc.) to be understood as enumerated value domains.",
+                      "type": "object",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "cdi:EnumerationDomain"
+                          },
+                          "minItems": 1
+                        },
+                        "@id": {
+                          "type": "string",
+                          "description": "Identifier for this EnumerationDomain node"
+                        },
+                        "cdi:identifier": {
+                          "$ref": "#/$defs/Identifier",
+                          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                        },
+                        "cdi:name": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/$defs/ObjectName"
+                          },
+                          "minItems": 1,
+                          "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+                        },
+                        "cdi:uses": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/LevelStructure"
+                            },
+                            {
+                              "$ref": "#/$defs/id-reference"
+                            }
+                          ]
+                        },
+                        "cdi:references": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/CategorySet"
+                            },
+                            {
+                              "$ref": "#/$defs/id-reference"
+                            }
+                          ]
+                        },
+                        "cdi:isDefinedBy": {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/$defs/DdicdiEnumerationDomain_Concept"
+                              },
+                              {
+                                "$ref": "#/$defs/id-reference"
+                              }
+                            ]
+                          },
+                          "minItems": 1
+                        },
+                        "cdi:purpose": {
+                          "$ref": "#/$defs/InternationalString",
+                          "description": "Intent or reason for the object/the description of the object."
+                        }
+                      },
+                      "required": [
+                        "@type"
+                      ]
+                    },
+                    {
+                      "$ref": "#/$defs/id-reference"
+                    }
+                  ]
+                },
+                "cdi:isDescribedBy": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/DdicdiValueDomain_ValueAndConceptDescription"
+                    },
+                    {
+                      "$ref": "#/$defs/id-reference"
+                    }
+                  ]
+                },
+                "cdi:platformType": {
+                  "$ref": "#/$defs/ControlledVocabularyEntry",
+                  "description": "The type of platform under which sentinel codes will be used. Statistical software platforms use different sets of codes to indicate missing values. The external controlled vocabulary should list platform types and a description of the allowed missing value types. A sample list would be:\n\n- BlankString - A Blank string indicates missing. Comparison is based on lexical order. - EmptyString - An empty string indicates missing. Use in comparisons returns missing. - Rstyle - Codes drawn from NA and the IEEE 754 values of NaN -Inf +Inf. Comparisons return NA. - SASNumeric - codes drawn from . ._ .A .B .C .D .E .F .G .H .I .J .K .L .M .N .O .P .Q .R .S .T .U .V .W .X .Y .Z Sentinel code treated as less than any substantive value - SPSSstyle - System missing (a dot) a set of individual values drawn from the same datatype as the SubstantiveValueDomain, and a range of values drawn from the same datatype as the SubstantiveValueDomain. Comparisons return system missing. Some functions substitute with valid values (e.g. SUM replaces missing values with 0). - StataNumeric - codes drawn from . ._ .A .B .C .D .E .F .G .H .I .J .K .L .M .N .O .P .Q .R .S .T .U .V .W .X .Y .Z Sentinel code treated as greater than any substantive value - Unrestricted - No restrictions on codes for sentinel values. Use in comparisons is indeterminate."
+                },
+                "cdi:catalogDetails": {
+                  "$ref": "#/$defs/CatalogDetails",
+                  "description": "Bundles the information useful for a data catalog entry.\n\nExamples would be creator, contributor, title, copyright, embargo, and license information\n\nA set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+                },
+                "cdi:displayLabel": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/LabelForDisplay"
+                  },
+                  "minItems": 1,
+                  "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+                },
+                "cdi:identifier": {
+                  "$ref": "#/$defs/Identifier",
+                  "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                },
+                "cdi:recommendedDataType": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/ControlledVocabularyEntry"
+                  },
+                  "minItems": 1,
+                  "description": "The data types that are recommended for use with this domain."
+                }
+              },
+              "required": [
+                "@type"
+              ]
             }
-          },
-          "required": [
-            "@type"
           ]
         },
         {
@@ -1548,6 +1928,358 @@
         "@type"
       ]
     },
+    "LevelStructure": {
+      "type": "object",
+      "description": "Nesting structure of a hierarchical collection.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:LevelStructure"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this LevelStructure node"
+        },
+        "cdi:catalogDetails": {
+          "$ref": "#/$defs/CatalogDetails",
+          "description": "Bundles the information useful for a data catalog entry.\n\nExamples would be creator, contributor, title, copyright, embargo, and license information\n\nA set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:has": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "description": "Set of all classification items the same number of relationships from the root (or top) classification item.",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:Level"
+                    },
+                    "minItems": 1
+                  },
+                  "@id": {
+                    "type": "string",
+                    "description": "Identifier for this Level node"
+                  },
+                  "cdi:displayLabel": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/LabelForDisplay"
+                    },
+                    "minItems": 1,
+                    "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+                  },
+                  "cdi:identifier": {
+                    "$ref": "#/$defs/Identifier",
+                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                  },
+                  "cdi:levelNumber": {
+                    "type": "integer",
+                    "description": "Provides an association between a level number and optional concept which defines it within an ordered array. Use is required."
+                  },
+                  "cdi:isDefinedBy": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/DdicdiEnumerationDomain_Concept"
+                      },
+                      {
+                        "$ref": "#/$defs/id-reference"
+                      }
+                    ]
+                  },
+                  "cdi:groups": {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/ClassificationItem"
+                        },
+                        {
+                          "$ref": "#/$defs/id-reference"
+                        }
+                      ]
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "@type"
+                ]
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:usage": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Explanation of the ways in which the object is employed."
+        },
+        "cdi:validDateRange": {
+          "$ref": "#/$defs/DateRange",
+          "description": "The period for which the level object is valid, expressed as a start and end date (supports both ISO-standard and non-ISO date formats)."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "CategorySet": {
+      "type": "object",
+      "description": "Concept system where the underlying concepts are categories.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:CategorySet"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this CategorySet node"
+        },
+        "cdi:has": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Category"
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "description": "Assigns a sequence number to a category within a list.",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:CategoryPosition"
+                        },
+                        "minItems": 1
+                      },
+                      "@id": {
+                        "type": "string",
+                        "description": "Identifier for this CategoryPosition node"
+                      },
+                      "cdi:identifier": {
+                        "$ref": "#/$defs/Identifier",
+                        "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                      },
+                      "cdi:indexes": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/$defs/Category"
+                          },
+                          {
+                            "$ref": "#/$defs/id-reference"
+                          }
+                        ]
+                      },
+                      "cdi:value": {
+                        "type": "integer",
+                        "description": "Index value of the member in an ordered array."
+                      }
+                    },
+                    "required": [
+                      "@type"
+                    ]
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:allowsDuplicates": {
+          "type": "boolean",
+          "description": "If value is False, the members are unique within the collection - if True, there may be duplicates. (Note that a mathematical “bag” permits duplicates and is unordered - a “set” does not have duplicates and may be ordered.)"
+        },
+        "cdi:catalogDetails": {
+          "$ref": "#/$defs/CatalogDetails",
+          "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+        },
+        "cdi:externalDefinition": {
+          "$ref": "#/$defs/Reference",
+          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:isDefinedBy": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/DdicdiEnumerationDomain_Concept"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:purpose": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Intent or reason for the object/the description of the object."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "DdicdiEnumerationDomain_Concept": {
+      "type": "object",
+      "description": "Unit of thought differentiated by characteristics (from the Generic Statistical Information Model version 1.2: https://statswiki.unece.org/display/clickablegsim/Concept).",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Concept"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Concept node"
+        },
+        "cdi:catalogDetails": {
+          "$ref": "#/$defs/CatalogDetails",
+          "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+        },
+        "cdi:definition": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
+        },
+        "cdi:displayLabel": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LabelForDisplay"
+          },
+          "minItems": 1,
+          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+        },
+        "cdi:externalDefinition": {
+          "$ref": "#/$defs/Reference",
+          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:uses": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/DdicdiEnumerationDomain_Concept"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "LanguageTaggedValue": {
+      "type": "object",
+      "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
+      "properties": {
+        "@value": {
+          "type": "string",
+          "description": "The text content."
+        },
+        "@language": {
+          "type": "string",
+          "description": "BCP 47 language tag (e.g. en, fr, de)."
+        }
+      },
+      "required": [
+        "@value",
+        "@language"
+      ]
+    },
+    "ConceptRef": {
+      "type": "object",
+      "description": "A reference to a SKOS Concept by URI.",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "URI of the referenced concept."
+        }
+      },
+      "required": [
+        "@id"
+      ]
+    },
     "LanguageString": {
       "type": "object",
       "description": "DDI-CDI language-tagged string (dt-LanguageString)",
@@ -1574,6 +2306,1484 @@
       "required": [
         "cdi:content"
       ]
+    },
+    "DdicdiValueDomain_ValueAndConceptDescription": {
+      "type": "object",
+      "description": "Formal description of a set of values.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ValueAndConceptDescription"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this ValueAndConceptDescription node"
+        },
+        "cdi:classificationLevel": {
+          "type": "string",
+          "enum": [
+            "Continuous",
+            "Interval",
+            "Nominal",
+            "Ordinal",
+            "Ratio"
+          ],
+          "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
+        },
+        "cdi:description": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "A formal description of the set of values in human-readable language."
+        },
+        "cdi:formatPattern": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "A pattern for a number as described in Unicode Locale Data Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html) Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns) and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns) . Examples would be #,##0.### to describe the pattern for a decimal number, or yyyy.MM.dd G 'at' HH:mm:ss zzz for a datetime pattern."
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:logicalExpression": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "A logical expression where the values of \"x\" making the expression true are the members of the set of valid values. For example, \"(all reals x such that x > 0)\" describes the real numbers greater than 0."
+        },
+        "cdi:maximumValueExclusive": {
+          "type": "string",
+          "description": "A string denoting the maximum possible value (excluding this value). From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"maxExclusive: An atomic property that contains a single number or string that is the maximum valid value (exclusive). The value of this property becomes the maximum exclusive annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+        },
+        "cdi:maximumValueInclusive": {
+          "type": "string",
+          "description": "A string denoting the maximum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"maximum: An atomic property that contains a single number or string that is the maximum valid value (inclusive); equivalent to maxInclusive. The value of this property becomes the maximum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+        },
+        "cdi:minimumValueExclusive": {
+          "type": "string",
+          "description": "A string denoting the minimum possible value (excluding this value). From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minExclusive: An atomic property that contains a single number or string that is the minimum valid value (exclusive). The value of this property becomes the minimum exclusive annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+        },
+        "cdi:minimumValueInclusive": {
+          "type": "string",
+          "description": "A string denoting the minimum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minimum: An atomic property that contains a single number or string that is the minimum valid value (inclusive); equivalent to minInclusive. The value of this property becomes the minimum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+        },
+        "cdi:regularExpression": {
+          "type": "object",
+          "description": "A regular expression where strings matching the expression belong to the set of valid values. Use typeOfContent to specify the syntax of the regularExpression found in content.",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:TypedString"
+              },
+              "minItems": 1
+            },
+            "cdi:content": {
+              "type": "string",
+              "description": "Content of the property expressed as a simple string."
+            },
+            "cdi:typeOfContent": {
+              "$ref": "#/$defs/ControlledVocabularyEntry",
+              "description": "Optional use of a controlled vocabulary to specifically type the associated content."
+            }
+          }
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "DateRange": {
+      "type": "object",
+      "description": "DDI-CDI date range (dt-DateRange)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:DateRange"
+          },
+          "minItems": 1
+        },
+        "cdi:startDate": {
+          "$ref": "#/$defs/CombinedDate",
+          "description": "Start date of the range"
+        },
+        "cdi:endDate": {
+          "$ref": "#/$defs/CombinedDate",
+          "description": "End date of the range"
+        }
+      }
+    },
+    "Category": {
+      "type": "object",
+      "description": "Concept whose role is to define and measure a characteristic.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Category"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Category node"
+        },
+        "cdi:descriptiveText": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "A short natural language account of the characteristics of the object."
+        },
+        "cdi:catalogDetails": {
+          "$ref": "#/$defs/CatalogDetails",
+          "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+        },
+        "cdi:definition": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
+        },
+        "cdi:displayLabel": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LabelForDisplay"
+          },
+          "minItems": 1,
+          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+        },
+        "cdi:externalDefinition": {
+          "$ref": "#/$defs/Reference",
+          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:uses": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/DdicdiEnumerationDomain_Concept"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "DdicdiValueDomain_ConceptSystem": {
+      "type": "object",
+      "description": "Set of concepts structured by the relations among them [GSIM 1.1].",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ConceptSystem"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this ConceptSystem node"
+        },
+        "cdi:allowsDuplicates": {
+          "type": "boolean",
+          "description": "If value is False, the members are unique within the collection - if True, there may be duplicates. (Note that a mathematical “bag” permits duplicates and is unordered - a “set” does not have duplicates and may be ordered.)"
+        },
+        "cdi:catalogDetails": {
+          "$ref": "#/$defs/CatalogDetails",
+          "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+        },
+        "cdi:externalDefinition": {
+          "$ref": "#/$defs/Reference",
+          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:isDefinedBy": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "title": "SKOS Concept",
+                "description": "JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel), notations, hierarchical relations (broader/narrower), associative relations (related), cross-scheme mapping properties, scheme membership, and documentary notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).",
+                "type": "object",
+                "properties": {
+                  "@context": {
+                    "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "skos": {
+                            "const": "http://www.w3.org/2004/02/skos/core#"
+                          }
+                        },
+                        "required": [
+                          "skos"
+                        ]
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object"
+                            }
+                          ]
+                        },
+                        "contains": {
+                          "type": "object",
+                          "properties": {
+                            "skos": {
+                              "const": "http://www.w3.org/2004/02/skos/core#"
+                            }
+                          },
+                          "required": [
+                            "skos"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "@id": {
+                    "type": "string",
+                    "description": "URI identifier for this concept."
+                  },
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "skos:Concept"
+                    },
+                    "minItems": 1
+                  },
+                  "skos:prefLabel": {
+                    "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        }
+                      }
+                    ]
+                  },
+                  "skos:altLabel": {
+                    "description": "Alternative lexical labels (acronyms, abbreviations, variants).",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:hiddenLabel": {
+                    "description": "Labels accessible to free-text search but not displayed.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:notation": {
+                    "description": "Classification code for this concept within a scheme.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "skos:definition": {
+                    "description": "Formal explanation of the meaning of this concept.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:scopeNote": {
+                    "description": "Note clarifying meaning and/or intended use.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:note": {
+                    "description": "General note about this concept.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:historyNote": {
+                    "description": "Note about past state or use.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:changeNote": {
+                    "description": "Note documenting a change.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:editorialNote": {
+                    "description": "Note for editors and maintainers.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:example": {
+                    "description": "Example of use of this concept.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:inScheme": {
+                    "description": "Concept scheme(s) this concept belongs to.",
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@id"
+                        ]
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:topConceptOf": {
+                    "description": "Concept scheme(s) for which this is a top concept.",
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@id"
+                        ]
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:broader": {
+                    "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/ConceptRef"
+                        },
+                        {
+                          "$comment": "circular-ref"
+                        }
+                      ]
+                    }
+                  },
+                  "skos:narrower": {
+                    "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/ConceptRef"
+                        },
+                        {
+                          "$comment": "circular-ref"
+                        }
+                      ]
+                    }
+                  },
+                  "skos:related": {
+                    "description": "Associatively related concepts.",
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/ConceptRef"
+                        },
+                        {
+                          "$comment": "circular-ref"
+                        }
+                      ]
+                    }
+                  },
+                  "skos:exactMatch": {
+                    "description": "Concepts in other schemes with equivalent meaning.",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/ConceptRef"
+                    }
+                  },
+                  "skos:closeMatch": {
+                    "description": "Concepts in other schemes with similar meaning.",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/ConceptRef"
+                    }
+                  },
+                  "skos:broadMatch": {
+                    "description": "Broader concepts in other schemes.",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/ConceptRef"
+                    }
+                  },
+                  "skos:narrowMatch": {
+                    "description": "Narrower concepts in other schemes.",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/ConceptRef"
+                    }
+                  },
+                  "skos:relatedMatch": {
+                    "description": "Related concepts in other schemes.",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/ConceptRef"
+                    }
+                  }
+                },
+                "required": [
+                  "@type",
+                  "skos:prefLabel"
+                ]
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:has": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "title": "SKOS Concept",
+                "description": "JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel), notations, hierarchical relations (broader/narrower), associative relations (related), cross-scheme mapping properties, scheme membership, and documentary notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).",
+                "type": "object",
+                "properties": {
+                  "@context": {
+                    "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "skos": {
+                            "const": "http://www.w3.org/2004/02/skos/core#"
+                          }
+                        },
+                        "required": [
+                          "skos"
+                        ]
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object"
+                            }
+                          ]
+                        },
+                        "contains": {
+                          "type": "object",
+                          "properties": {
+                            "skos": {
+                              "const": "http://www.w3.org/2004/02/skos/core#"
+                            }
+                          },
+                          "required": [
+                            "skos"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "@id": {
+                    "type": "string",
+                    "description": "URI identifier for this concept."
+                  },
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "skos:Concept"
+                    },
+                    "minItems": 1
+                  },
+                  "skos:prefLabel": {
+                    "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        }
+                      }
+                    ]
+                  },
+                  "skos:altLabel": {
+                    "description": "Alternative lexical labels (acronyms, abbreviations, variants).",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:hiddenLabel": {
+                    "description": "Labels accessible to free-text search but not displayed.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:notation": {
+                    "description": "Classification code for this concept within a scheme.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "skos:definition": {
+                    "description": "Formal explanation of the meaning of this concept.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:scopeNote": {
+                    "description": "Note clarifying meaning and/or intended use.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:note": {
+                    "description": "General note about this concept.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:historyNote": {
+                    "description": "Note about past state or use.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:changeNote": {
+                    "description": "Note documenting a change.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:editorialNote": {
+                    "description": "Note for editors and maintainers.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:example": {
+                    "description": "Example of use of this concept.",
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/$defs/LanguageTaggedValue"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:inScheme": {
+                    "description": "Concept scheme(s) this concept belongs to.",
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@id"
+                        ]
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:topConceptOf": {
+                    "description": "Concept scheme(s) for which this is a top concept.",
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@id"
+                        ]
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "skos:broader": {
+                    "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/ConceptRef"
+                        },
+                        {
+                          "$comment": "circular-ref"
+                        }
+                      ]
+                    }
+                  },
+                  "skos:narrower": {
+                    "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/ConceptRef"
+                        },
+                        {
+                          "$comment": "circular-ref"
+                        }
+                      ]
+                    }
+                  },
+                  "skos:related": {
+                    "description": "Associatively related concepts.",
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/ConceptRef"
+                        },
+                        {
+                          "$comment": "circular-ref"
+                        }
+                      ]
+                    }
+                  },
+                  "skos:exactMatch": {
+                    "description": "Concepts in other schemes with equivalent meaning.",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/ConceptRef"
+                    }
+                  },
+                  "skos:closeMatch": {
+                    "description": "Concepts in other schemes with similar meaning.",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/ConceptRef"
+                    }
+                  },
+                  "skos:broadMatch": {
+                    "description": "Broader concepts in other schemes.",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/ConceptRef"
+                    }
+                  },
+                  "skos:narrowMatch": {
+                    "description": "Narrower concepts in other schemes.",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/ConceptRef"
+                    }
+                  },
+                  "skos:relatedMatch": {
+                    "description": "Related concepts in other schemes.",
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/ConceptRef"
+                    }
+                  }
+                },
+                "required": [
+                  "@type",
+                  "skos:prefLabel"
+                ]
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:purpose": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Intent or reason for the object/the description of the object."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "ClassificationItem": {
+      "type": "object",
+      "description": "A space for a category within a statistical classification.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ClassificationItem"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this ClassificationItem node"
+        },
+        "cdi:changeFromPreviousVersion": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Describes the changes, which the item has been subject to from the previous version to the actual statistical classification."
+        },
+        "cdi:changeLog": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Describes the changes, which the item has been subject to during the life time of the actual statistical classification."
+        },
+        "cdi:explanatoryNotes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/InternationalString"
+          },
+          "minItems": 1,
+          "description": "A classification item may be associated with explanatory notes, which further describe and clarify the contents of the category. Explanatory notes consist of: General note: Contains either additional information about the category, or a general description of the category, which is not structured according to the \"includes\", \"includes also\", \"excludes\" pattern. Includes: Specifies the contents of the category. Includes also: A list of borderline cases, which belong to the described category. Excludes: A list of borderline cases, which do not belong to the described category. Excluded cases may contain a reference to the classification items to which the excluded cases belong."
+        },
+        "cdi:futureNotes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/InternationalString"
+          },
+          "minItems": 1,
+          "description": "The future events describe an intended or implemented change (or a number of changes) related to an invalid item (e.g., these changes may have turned the now invalid item into one or several successor items). This allows for the possibility of following successors of the item in the future."
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:isGenerated": {
+          "type": "boolean",
+          "description": "Indicates whether or not the item has been generated to make the level to which it belongs complete."
+        },
+        "cdi:isValid": {
+          "type": "boolean",
+          "description": "Indicates whether or not the item is currently valid. If updates are allowed in the Statistical Classification, an item may be restricted in its validity, i.e. it may become valid or invalid after the Statistical Classification has been released."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage. A Classification Item has an official name as provided by the owner or maintenance unit. The name describes the content of the category. The name is unique within the Statistical Classification to which the item belongs, except for categories that are identical at more than one level in a hierarchical classification. Use the context attribute to differentiate official names or alternate names for the Classification Item."
+        },
+        "cdi:excludes": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ClassificationItem"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:denotes": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Category"
+            },
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:uses": {
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "Representation of a category in the context of a code or a classification item, as opposed of the corresponding instance value which would appear when used in a dataset.",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:Notation"
+                  },
+                  "minItems": 1
+                },
+                "@id": {
+                  "type": "string",
+                  "description": "Identifier for this Notation node"
+                },
+                "cdi:content": {
+                  "type": "object",
+                  "description": "The actual content of this value as a string.",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:TypedString"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:content": {
+                      "type": "string",
+                      "description": "Content of the property expressed as a simple string."
+                    },
+                    "cdi:typeOfContent": {
+                      "$ref": "#/$defs/ControlledVocabularyEntry",
+                      "description": "Optional use of a controlled vocabulary to specifically type the associated content."
+                    }
+                  }
+                },
+                "cdi:identifier": {
+                  "$ref": "#/$defs/Identifier",
+                  "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                },
+                "cdi:represents": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/Category"
+                      },
+                      {
+                        "$ref": "#/$defs/id-reference"
+                      }
+                    ]
+                  },
+                  "minItems": 1
+                },
+                "cdi:whiteSpace": {
+                  "type": "string",
+                  "enum": [
+                    "Collapse",
+                    "Preserve",
+                    "Replace"
+                  ],
+                  "description": "The usual setting \"collapse\" states that leading and trailing white space will be removed and multiple adjacent white spaces will be treated as a single white space. When setting to \"replace\" all occurrences of #x9 (tab), #xA (line feed) and #xD (carriage return) are replaced with #x20 (space) but leading and trailing spaces will be retained. If the existence of any of these white spaces is critical to the understanding of the content, change the value of this attribute to \"preserve\"."
+                }
+              },
+              "required": [
+                "@type"
+              ]
+            },
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:hasRulingBy": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "description": "Identifies the authorizing agency and allows for the full text of the authorization (law, regulation, or other form of authorization).",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:AuthorizationSource"
+                    },
+                    "minItems": 1
+                  },
+                  "@id": {
+                    "type": "string",
+                    "description": "Identifier for this AuthorizationSource node"
+                  },
+                  "cdi:authorizationDate": {
+                    "$ref": "#/$defs/CombinedDate",
+                    "description": "Identifies the date of authorization."
+                  },
+                  "cdi:catalogDetails": {
+                    "$ref": "#/$defs/CatalogDetails",
+                    "description": "Bundles the information useful for a data catalog entry.\n\nExamples would be creator, contributor, title, copyright, embargo, and license information\n\nA set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+                  },
+                  "cdi:identifier": {
+                    "$ref": "#/$defs/Identifier",
+                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                  },
+                  "cdi:legalMandate": {
+                    "$ref": "#/$defs/InternationalString",
+                    "description": "Provide a legal citation to a law authorizing the study/data collection. For example, a legal citation for a law authorizing a country's census."
+                  },
+                  "cdi:has": {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "description": "Actor that performs a role in relation to a process or product.",
+                          "properties": {
+                            "@type": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "contains": {
+                                "const": "cdi:Agent"
+                              },
+                              "minItems": 1
+                            },
+                            "@id": {
+                              "type": "string",
+                              "description": "Identifier for this Agent node"
+                            },
+                            "cdi:catalogDetails": {
+                              "$ref": "#/$defs/CatalogDetails",
+                              "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+                            },
+                            "cdi:identifier": {
+                              "$ref": "#/$defs/Identifier",
+                              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                            },
+                            "cdi:image": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "description": "DDI-CDI private image (dt-PrivateImage)",
+                                "properties": {
+                                  "@type": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "contains": {
+                                      "const": "cdi:PrivateImage"
+                                    },
+                                    "minItems": 1
+                                  },
+                                  "cdi:effectiveDates": {
+                                    "$ref": "#/$defs/DateRange",
+                                    "description": "Date range when this image is effective"
+                                  },
+                                  "cdi:privacy": {
+                                    "$ref": "#/$defs/ControlledVocabularyEntry",
+                                    "description": "Privacy classification"
+                                  }
+                                }
+                              },
+                              "minItems": 1,
+                              "description": "Information regarding image associated with the agent."
+                            },
+                            "cdi:purpose": {
+                              "$ref": "#/$defs/InternationalString",
+                              "description": "Intent or reason for the object/the description of the object."
+                            }
+                          },
+                          "required": [
+                            "@type"
+                          ]
+                        },
+                        {
+                          "$ref": "#/$defs/id-reference"
+                        }
+                      ]
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:purpose": {
+                    "$ref": "#/$defs/InternationalString",
+                    "description": "Intent or reason for the object/the description of the object."
+                  },
+                  "cdi:statementOfAuthorization": {
+                    "$ref": "#/$defs/InternationalString",
+                    "description": "Text of the authorization (law, mandate, approved business case)."
+                  }
+                },
+                "required": [
+                  "@type"
+                ]
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:validDates": {
+          "$ref": "#/$defs/DateRange",
+          "description": "The dates describing the validity period of the object. The date from which the object became valid must be defined if the map belongs to a \"floating\" construct. The date at which the object became invalid must be defined if the map belongs to a \"floating\" construct and is no longer valid."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "CombinedDate": {
+      "type": "object",
+      "description": "DDI-CDI combined date (dt-CombinedDate)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:CombinedDate"
+          },
+          "minItems": 1
+        },
+        "cdi:isoDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 date-time value"
+        },
+        "cdi:historicDate": {
+          "type": "string",
+          "description": "Free-text historic date"
+        }
+      }
     }
   }
 }
