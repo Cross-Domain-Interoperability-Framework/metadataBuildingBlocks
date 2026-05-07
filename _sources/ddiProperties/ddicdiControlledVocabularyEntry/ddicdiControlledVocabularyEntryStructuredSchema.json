@@ -43,14 +43,8 @@
       "description": "If the value of the string is \"Other\" or the equivalent from the codelist, this attribute can provide a more specific value not found in the codelist."
     },
     "cdi:vocabulary": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/Reference"
-        },
-        {
-          "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier."
-        }
-      ]
+      "$ref": "#/$defs/Reference",
+      "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier."
     }
   },
   "required": [
@@ -81,51 +75,38 @@
           "description": "Human-readable description of the reference"
         },
         "cdi:ddiReference": {
-          "allOf": [
-            {
-              "type": "object",
-              "description": "DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)",
-              "properties": {
-                "@type": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "const": "cdi:InternationalRegistrationDataIdentifier"
-                  },
-                  "minItems": 1
-                },
-                "cdi:dataIdentifier": {
-                  "type": "string"
-                },
-                "cdi:registrationAuthorityIdentifier": {
-                  "type": "string"
-                },
-                "cdi:versionIdentifier": {
-                  "type": "string"
-                }
+          "type": "object",
+          "description": "DDI IRDI reference",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
               },
-              "required": [
-                "cdi:dataIdentifier",
-                "cdi:registrationAuthorityIdentifier",
-                "cdi:versionIdentifier"
-              ]
+              "contains": {
+                "const": "cdi:InternationalRegistrationDataIdentifier"
+              },
+              "minItems": 1
             },
-            {
-              "description": "DDI IRDI reference"
+            "cdi:dataIdentifier": {
+              "type": "string"
+            },
+            "cdi:registrationAuthorityIdentifier": {
+              "type": "string"
+            },
+            "cdi:versionIdentifier": {
+              "type": "string"
             }
+          },
+          "required": [
+            "cdi:dataIdentifier",
+            "cdi:registrationAuthorityIdentifier",
+            "cdi:versionIdentifier"
           ]
         },
         "cdi:semantic": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/ControlledVocabularyEntry"
-            },
-            {
-              "description": "Semantic role of this reference"
-            }
-          ]
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "Semantic role of this reference"
         }
       }
     },
@@ -168,14 +149,8 @@
           "description": "If the value of the string is \"Other\" or the equivalent from the codelist, this attribute can provide a more specific value not found in the codelist."
         },
         "cdi:vocabulary": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/Reference"
-            },
-            {
-              "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier."
-            }
-          ]
+          "$ref": "#/$defs/Reference",
+          "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier."
         }
       }
     }

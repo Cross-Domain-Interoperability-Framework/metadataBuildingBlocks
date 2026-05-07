@@ -19,188 +19,22 @@
       "description": "Identifier for this EnumerationDomain node"
     },
     "cdi:identifier": {
-      "allOf": [
-        {
-          "type": "object",
-          "description": "DDI-CDI composite identifier (dt-Identifier)",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:Identifier"
-              },
-              "minItems": 1
-            },
-            "cdi:ddiIdentifier": {
-              "allOf": [
-                {
-                  "type": "object",
-                  "description": "DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)",
-                  "properties": {
-                    "@type": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "contains": {
-                        "const": "cdi:InternationalRegistrationDataIdentifier"
-                      },
-                      "minItems": 1
-                    },
-                    "cdi:dataIdentifier": {
-                      "type": "string"
-                    },
-                    "cdi:registrationAuthorityIdentifier": {
-                      "type": "string"
-                    },
-                    "cdi:versionIdentifier": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "cdi:dataIdentifier",
-                    "cdi:registrationAuthorityIdentifier",
-                    "cdi:versionIdentifier"
-                  ]
-                },
-                {
-                  "description": "DDI-specific IRDI identifier"
-                }
-              ]
-            },
-            "cdi:uri": {
-              "type": "string",
-              "format": "uri",
-              "description": "URI form of the identifier"
-            },
-            "cdi:nonDdiIdentifier": {
-              "description": "Non-DDI identifier",
-              "anyOf": [
-                {
-                  "type": "object",
-                  "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
-                  "properties": {
-                    "@type": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "contains": {
-                        "const": "cdi:NonDdiIdentifier"
-                      },
-                      "minItems": 1
-                    },
-                    "cdi:identifierContent": {
-                      "type": "string",
-                      "description": "The identifier value"
-                    },
-                    "cdi:managingAgency": {
-                      "type": "string",
-                      "description": "Agency managing this identifier scheme"
-                    }
-                  },
-                  "required": [
-                    "cdi:identifierContent"
-                  ]
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
-                    "properties": {
-                      "@type": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        },
-                        "contains": {
-                          "const": "cdi:NonDdiIdentifier"
-                        },
-                        "minItems": 1
-                      },
-                      "cdi:identifierContent": {
-                        "type": "string",
-                        "description": "The identifier value"
-                      },
-                      "cdi:managingAgency": {
-                        "type": "string",
-                        "description": "Agency managing this identifier scheme"
-                      }
-                    },
-                    "required": [
-                      "cdi:identifierContent"
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        },
-        {
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-        }
-      ]
+      "$ref": "#/$defs/Identifier",
+      "description": "Identifier for objects requiring short- or long-lasting referencing and management."
     },
     "cdi:name": {
       "type": "array",
       "items": {
-        "type": "object",
-        "description": "DDI-CDI structured name wrapper (dt-ObjectName)",
-        "properties": {
-          "@type": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "contains": {
-              "const": "cdi:ObjectName"
-            },
-            "minItems": 1
-          },
-          "cdi:name": {
-            "type": "string",
-            "description": "The name string"
-          },
-          "cdi:context": {
-            "allOf": [
-              {
-                "$ref": "#/$defs/ControlledVocabularyEntry"
-              },
-              {
-                "description": "Context or usage of this name"
-              }
-            ]
-          }
-        },
-        "required": [
-          "cdi:name"
-        ]
+        "$ref": "#/$defs/ObjectName"
       },
       "minItems": 1,
       "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
     },
     "cdi:uses": {
-      "$ref": "#/$defs/id-reference"
-    },
-    "cdi:references": {
-      "$ref": "#/$defs/id-reference"
-    },
-    "cdi:isDefinedBy": {
-      "type": "array",
-      "items": {
-        "$ref": "#/$defs/id-reference"
-      },
-      "minItems": 1
-    },
-    "cdi:purpose": {
-      "allOf": [
+      "anyOf": [
         {
           "type": "object",
-          "description": "DDI-CDI internationalized string (dt-InternationalString)",
+          "description": "Nesting structure of a hierarchical collection.",
           "properties": {
             "@type": {
               "type": "array",
@@ -208,45 +42,37 @@
                 "type": "string"
               },
               "contains": {
-                "const": "cdi:InternationalString"
+                "const": "cdi:LevelStructure"
               },
               "minItems": 1
             },
-            "cdi:languageSpecificString": {
-              "description": "Language-tagged string value(s)",
-              "anyOf": [
-                {
-                  "type": "object",
-                  "description": "DDI-CDI language-tagged string (dt-LanguageString)",
-                  "properties": {
-                    "@type": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "contains": {
-                        "const": "cdi:LanguageString"
-                      },
-                      "minItems": 1
-                    },
-                    "cdi:content": {
-                      "type": "string",
-                      "description": "The text content"
-                    },
-                    "cdi:language": {
-                      "type": "string",
-                      "description": "ISO language code (e.g. en, fr, de)"
-                    }
-                  },
-                  "required": [
-                    "cdi:content"
-                  ]
-                },
-                {
-                  "type": "array",
-                  "items": {
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this LevelStructure node"
+            },
+            "cdi:catalogDetails": {
+              "$ref": "#/$defs/CatalogDetails",
+              "description": "Bundles the information useful for a data catalog entry.\n\nExamples would be creator, contributor, title, copyright, embargo, and license information\n\nA set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+            },
+            "cdi:identifier": {
+              "$ref": "#/$defs/Identifier",
+              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+            },
+            "cdi:name": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ObjectName"
+              },
+              "minItems": 1,
+              "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+            },
+            "cdi:has": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
                     "type": "object",
-                    "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+                    "description": "Set of all classification items the same number of relationships from the root (or top) classification item.",
                     "properties": {
                       "@type": {
                         "type": "array",
@@ -254,38 +80,385 @@
                           "type": "string"
                         },
                         "contains": {
-                          "const": "cdi:LanguageString"
+                          "const": "cdi:Level"
                         },
                         "minItems": 1
                       },
-                      "cdi:content": {
+                      "@id": {
                         "type": "string",
-                        "description": "The text content"
+                        "description": "Identifier for this Level node"
                       },
-                      "cdi:language": {
-                        "type": "string",
-                        "description": "ISO language code (e.g. en, fr, de)"
+                      "cdi:displayLabel": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/$defs/LabelForDisplay"
+                        },
+                        "minItems": 1,
+                        "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+                      },
+                      "cdi:identifier": {
+                        "$ref": "#/$defs/Identifier",
+                        "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                      },
+                      "cdi:levelNumber": {
+                        "type": "integer",
+                        "description": "Provides an association between a level number and optional concept which defines it within an ordered array. Use is required."
+                      },
+                      "cdi:isDefinedBy": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/$defs/Concept"
+                          },
+                          {
+                            "$ref": "#/$defs/id-reference"
+                          }
+                        ]
+                      },
+                      "cdi:groups": {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/ClassificationItem"
+                            },
+                            {
+                              "$ref": "#/$defs/id-reference"
+                            }
+                          ]
+                        },
+                        "minItems": 1
                       }
                     },
                     "required": [
-                      "cdi:content"
+                      "@type"
                     ]
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
                   }
-                }
-              ]
+                ]
+              },
+              "minItems": 1
+            },
+            "cdi:usage": {
+              "$ref": "#/$defs/InternationalString",
+              "description": "Explanation of the ways in which the object is employed."
+            },
+            "cdi:validDateRange": {
+              "$ref": "#/$defs/DateRange",
+              "description": "The period for which the level object is valid, expressed as a start and end date (supports both ISO-standard and non-ISO date formats)."
             }
-          }
+          },
+          "required": [
+            "@type"
+          ]
         },
         {
-          "description": "Intent or reason for the object/the description of the object."
+          "$ref": "#/$defs/id-reference"
         }
       ]
+    },
+    "cdi:references": {
+      "anyOf": [
+        {
+          "type": "object",
+          "description": "Concept system where the underlying concepts are categories.",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:CategorySet"
+              },
+              "minItems": 1
+            },
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this CategorySet node"
+            },
+            "cdi:has": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/Category"
+                      },
+                      {
+                        "$ref": "#/$defs/id-reference"
+                      }
+                    ]
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "description": "Assigns a sequence number to a category within a list.",
+                        "properties": {
+                          "@type": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "contains": {
+                              "const": "cdi:CategoryPosition"
+                            },
+                            "minItems": 1
+                          },
+                          "@id": {
+                            "type": "string",
+                            "description": "Identifier for this CategoryPosition node"
+                          },
+                          "cdi:identifier": {
+                            "$ref": "#/$defs/Identifier",
+                            "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                          },
+                          "cdi:indexes": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/$defs/Category"
+                              },
+                              {
+                                "$ref": "#/$defs/id-reference"
+                              }
+                            ]
+                          },
+                          "cdi:value": {
+                            "type": "integer",
+                            "description": "Index value of the member in an ordered array."
+                          }
+                        },
+                        "required": [
+                          "@type"
+                        ]
+                      },
+                      {
+                        "$ref": "#/$defs/id-reference"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "minItems": 1
+            },
+            "cdi:allowsDuplicates": {
+              "type": "boolean",
+              "description": "If value is False, the members are unique within the collection - if True, there may be duplicates. (Note that a mathematical “bag” permits duplicates and is unordered - a “set” does not have duplicates and may be ordered.)"
+            },
+            "cdi:catalogDetails": {
+              "$ref": "#/$defs/CatalogDetails",
+              "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+            },
+            "cdi:externalDefinition": {
+              "$ref": "#/$defs/Reference",
+              "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+            },
+            "cdi:identifier": {
+              "$ref": "#/$defs/Identifier",
+              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+            },
+            "cdi:name": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ObjectName"
+              },
+              "minItems": 1,
+              "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+            },
+            "cdi:isDefinedBy": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Concept"
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              },
+              "minItems": 1
+            },
+            "cdi:purpose": {
+              "$ref": "#/$defs/InternationalString",
+              "description": "Intent or reason for the object/the description of the object."
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "$ref": "#/$defs/id-reference"
+        }
+      ]
+    },
+    "cdi:isDefinedBy": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/Concept"
+          },
+          {
+            "$ref": "#/$defs/id-reference"
+          }
+        ]
+      },
+      "minItems": 1
+    },
+    "cdi:purpose": {
+      "$ref": "#/$defs/InternationalString",
+      "description": "Intent or reason for the object/the description of the object."
     }
   },
   "required": [
     "@type"
   ],
   "$defs": {
+    "Identifier": {
+      "type": "object",
+      "description": "DDI-CDI composite identifier (dt-Identifier)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Identifier"
+          },
+          "minItems": 1
+        },
+        "cdi:ddiIdentifier": {
+          "type": "object",
+          "description": "DDI-specific IRDI identifier",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:InternationalRegistrationDataIdentifier"
+              },
+              "minItems": 1
+            },
+            "cdi:dataIdentifier": {
+              "type": "string"
+            },
+            "cdi:registrationAuthorityIdentifier": {
+              "type": "string"
+            },
+            "cdi:versionIdentifier": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cdi:dataIdentifier",
+            "cdi:registrationAuthorityIdentifier",
+            "cdi:versionIdentifier"
+          ]
+        },
+        "cdi:uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI form of the identifier"
+        },
+        "cdi:nonDdiIdentifier": {
+          "description": "Non-DDI identifier",
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:NonDdiIdentifier"
+                  },
+                  "minItems": 1
+                },
+                "cdi:identifierContent": {
+                  "type": "string",
+                  "description": "The identifier value"
+                },
+                "cdi:managingAgency": {
+                  "type": "string",
+                  "description": "Agency managing this identifier scheme"
+                }
+              },
+              "required": [
+                "cdi:identifierContent"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:NonDdiIdentifier"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:identifierContent": {
+                    "type": "string",
+                    "description": "The identifier value"
+                  },
+                  "cdi:managingAgency": {
+                    "type": "string",
+                    "description": "Agency managing this identifier scheme"
+                  }
+                },
+                "required": [
+                  "cdi:identifierContent"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "ObjectName": {
+      "type": "object",
+      "description": "DDI-CDI structured name wrapper (dt-ObjectName)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ObjectName"
+          },
+          "minItems": 1
+        },
+        "cdi:name": {
+          "type": "string",
+          "description": "The name string"
+        },
+        "cdi:context": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "Context or usage of this name"
+        }
+      },
+      "required": [
+        "cdi:name"
+      ]
+    },
     "id-reference": {
       "type": "object",
       "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
@@ -298,6 +471,105 @@
       "required": [
         "@id"
       ]
+    },
+    "Concept": {
+      "type": "object",
+      "description": "Unit of thought differentiated by characteristics (from the Generic Statistical Information Model version 1.2: https://statswiki.unece.org/display/clickablegsim/Concept).",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Concept"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Concept node"
+        },
+        "cdi:catalogDetails": {
+          "$ref": "#/$defs/CatalogDetails",
+          "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+        },
+        "cdi:definition": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
+        },
+        "cdi:displayLabel": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LabelForDisplay"
+          },
+          "minItems": 1,
+          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+        },
+        "cdi:externalDefinition": {
+          "$ref": "#/$defs/Reference",
+          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:uses": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Concept"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "InternationalString": {
+      "type": "object",
+      "description": "DDI-CDI internationalized string (dt-InternationalString)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:InternationalString"
+          },
+          "minItems": 1
+        },
+        "cdi:languageSpecificString": {
+          "description": "Language-tagged string value(s)",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LanguageString"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/LanguageString"
+              }
+            }
+          ]
+        }
+      }
     },
     "ControlledVocabularyEntry": {
       "type": "object",
@@ -338,16 +610,171 @@
           "description": "If the value of the string is \"Other\" or the equivalent from the codelist, this attribute can provide a more specific value not found in the codelist."
         },
         "cdi:vocabulary": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/Reference"
-            },
-            {
-              "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier."
-            }
-          ]
+          "$ref": "#/$defs/Reference",
+          "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier."
         }
       }
+    },
+    "CatalogDetails": {
+      "type": "object",
+      "description": "DDI-CDI catalog details (dt-CatalogDetails)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:CatalogDetails"
+          },
+          "minItems": 1
+        },
+        "cdi:title": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Title for the catalog entry"
+        },
+        "cdi:summary": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Summary description"
+        },
+        "cdi:identifier": {
+          "description": "Catalog identifier",
+          "type": "object",
+          "properties": {
+            "cdi:identifierContent": {
+              "type": "string"
+            },
+            "cdi:isUri": {
+              "type": "boolean"
+            }
+          }
+        },
+        "cdi:creator": {
+          "type": "object",
+          "description": "Creator of the catalog entry",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:AgentInRole"
+              },
+              "minItems": 1
+            },
+            "cdi:agentName": {
+              "$ref": "#/$defs/InternationalString",
+              "description": "Name of the agent"
+            },
+            "cdi:reference": {
+              "$ref": "#/$defs/Reference",
+              "description": "Reference to the agent entity"
+            },
+            "cdi:role": {
+              "$ref": "#/$defs/ControlledVocabularyEntry",
+              "description": "Role of the agent"
+            }
+          }
+        }
+      }
+    },
+    "DateRange": {
+      "type": "object",
+      "description": "DDI-CDI date range (dt-DateRange)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:DateRange"
+          },
+          "minItems": 1
+        },
+        "cdi:startDate": {
+          "$ref": "#/$defs/CombinedDate",
+          "description": "Start date of the range"
+        },
+        "cdi:endDate": {
+          "$ref": "#/$defs/CombinedDate",
+          "description": "End date of the range"
+        }
+      }
+    },
+    "Category": {
+      "type": "object",
+      "description": "Concept whose role is to define and measure a characteristic.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Category"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Category node"
+        },
+        "cdi:descriptiveText": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "A short natural language account of the characteristics of the object."
+        },
+        "cdi:catalogDetails": {
+          "$ref": "#/$defs/CatalogDetails",
+          "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+        },
+        "cdi:definition": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
+        },
+        "cdi:displayLabel": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LabelForDisplay"
+          },
+          "minItems": 1,
+          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+        },
+        "cdi:externalDefinition": {
+          "$ref": "#/$defs/Reference",
+          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:uses": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Concept"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
     },
     "Reference": {
       "type": "object",
@@ -373,10 +800,187 @@
           "description": "Human-readable description of the reference"
         },
         "cdi:ddiReference": {
-          "allOf": [
+          "type": "object",
+          "description": "DDI IRDI reference",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:InternationalRegistrationDataIdentifier"
+              },
+              "minItems": 1
+            },
+            "cdi:dataIdentifier": {
+              "type": "string"
+            },
+            "cdi:registrationAuthorityIdentifier": {
+              "type": "string"
+            },
+            "cdi:versionIdentifier": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cdi:dataIdentifier",
+            "cdi:registrationAuthorityIdentifier",
+            "cdi:versionIdentifier"
+          ]
+        },
+        "cdi:semantic": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "Semantic role of this reference"
+        }
+      }
+    },
+    "LabelForDisplay": {
+      "type": "object",
+      "description": "DDI-CDI multilingual display label (dt-LabelForDisplay)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:LabelForDisplay"
+          },
+          "minItems": 1
+        },
+        "cdi:locationVariant": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "Geographic or locale variant"
+        },
+        "cdi:maxLength": {
+          "type": "integer",
+          "description": "Maximum display length"
+        },
+        "cdi:languageSpecificString": {
+          "$ref": "#/$defs/LanguageString",
+          "description": "The label text with language tag"
+        }
+      }
+    },
+    "LanguageString": {
+      "type": "object",
+      "description": "DDI-CDI language-tagged string (dt-LanguageString)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:LanguageString"
+          },
+          "minItems": 1
+        },
+        "cdi:content": {
+          "type": "string",
+          "description": "The text content"
+        },
+        "cdi:language": {
+          "type": "string",
+          "description": "ISO language code (e.g. en, fr, de)"
+        }
+      },
+      "required": [
+        "cdi:content"
+      ]
+    },
+    "ClassificationItem": {
+      "type": "object",
+      "description": "A space for a category within a statistical classification.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ClassificationItem"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this ClassificationItem node"
+        },
+        "cdi:changeFromPreviousVersion": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Describes the changes, which the item has been subject to from the previous version to the actual statistical classification."
+        },
+        "cdi:changeLog": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Describes the changes, which the item has been subject to during the life time of the actual statistical classification."
+        },
+        "cdi:explanatoryNotes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/InternationalString"
+          },
+          "minItems": 1,
+          "description": "A classification item may be associated with explanatory notes, which further describe and clarify the contents of the category. Explanatory notes consist of: General note: Contains either additional information about the category, or a general description of the category, which is not structured according to the \"includes\", \"includes also\", \"excludes\" pattern. Includes: Specifies the contents of the category. Includes also: A list of borderline cases, which belong to the described category. Excludes: A list of borderline cases, which do not belong to the described category. Excluded cases may contain a reference to the classification items to which the excluded cases belong."
+        },
+        "cdi:futureNotes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/InternationalString"
+          },
+          "minItems": 1,
+          "description": "The future events describe an intended or implemented change (or a number of changes) related to an invalid item (e.g., these changes may have turned the now invalid item into one or several successor items). This allows for the possibility of following successors of the item in the future."
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:isGenerated": {
+          "type": "boolean",
+          "description": "Indicates whether or not the item has been generated to make the level to which it belongs complete."
+        },
+        "cdi:isValid": {
+          "type": "boolean",
+          "description": "Indicates whether or not the item is currently valid. If updates are allowed in the Statistical Classification, an item may be restricted in its validity, i.e. it may become valid or invalid after the Statistical Classification has been released."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage. A Classification Item has an official name as provided by the owner or maintenance unit. The name describes the content of the category. The name is unique within the Statistical Classification to which the item belongs, except for categories that are identical at more than one level in a hierarchical classification. Use the context attribute to differentiate official names or alternate names for the Classification Item."
+        },
+        "cdi:excludes": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ClassificationItem"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:denotes": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Category"
+            },
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:uses": {
+          "anyOf": [
             {
               "type": "object",
-              "description": "DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)",
+              "description": "Representation of a category in the context of a code or a classification item, as opposed of the corresponding instance value which would appear when used in a dataset.",
               "properties": {
                 "@type": {
                   "type": "array",
@@ -384,40 +988,239 @@
                     "type": "string"
                   },
                   "contains": {
-                    "const": "cdi:InternationalRegistrationDataIdentifier"
+                    "const": "cdi:Notation"
                   },
                   "minItems": 1
                 },
-                "cdi:dataIdentifier": {
-                  "type": "string"
+                "@id": {
+                  "type": "string",
+                  "description": "Identifier for this Notation node"
                 },
-                "cdi:registrationAuthorityIdentifier": {
-                  "type": "string"
+                "cdi:content": {
+                  "type": "object",
+                  "description": "The actual content of this value as a string.",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:TypedString"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:content": {
+                      "type": "string",
+                      "description": "Content of the property expressed as a simple string."
+                    },
+                    "cdi:typeOfContent": {
+                      "$ref": "#/$defs/ControlledVocabularyEntry",
+                      "description": "Optional use of a controlled vocabulary to specifically type the associated content."
+                    }
+                  }
                 },
-                "cdi:versionIdentifier": {
-                  "type": "string"
+                "cdi:identifier": {
+                  "$ref": "#/$defs/Identifier",
+                  "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                },
+                "cdi:represents": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/Category"
+                      },
+                      {
+                        "$ref": "#/$defs/id-reference"
+                      }
+                    ]
+                  },
+                  "minItems": 1
+                },
+                "cdi:whiteSpace": {
+                  "type": "string",
+                  "enum": [
+                    "Collapse",
+                    "Preserve",
+                    "Replace"
+                  ],
+                  "description": "The usual setting \"collapse\" states that leading and trailing white space will be removed and multiple adjacent white spaces will be treated as a single white space. When setting to \"replace\" all occurrences of #x9 (tab), #xA (line feed) and #xD (carriage return) are replaced with #x20 (space) but leading and trailing spaces will be retained. If the existence of any of these white spaces is critical to the understanding of the content, change the value of this attribute to \"preserve\"."
                 }
               },
               "required": [
-                "cdi:dataIdentifier",
-                "cdi:registrationAuthorityIdentifier",
-                "cdi:versionIdentifier"
+                "@type"
               ]
             },
             {
-              "description": "DDI IRDI reference"
+              "$ref": "#/$defs/id-reference"
             }
           ]
         },
-        "cdi:semantic": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/ControlledVocabularyEntry"
-            },
-            {
-              "description": "Semantic role of this reference"
-            }
-          ]
+        "cdi:hasRulingBy": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "description": "Identifies the authorizing agency and allows for the full text of the authorization (law, regulation, or other form of authorization).",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:AuthorizationSource"
+                    },
+                    "minItems": 1
+                  },
+                  "@id": {
+                    "type": "string",
+                    "description": "Identifier for this AuthorizationSource node"
+                  },
+                  "cdi:authorizationDate": {
+                    "$ref": "#/$defs/CombinedDate",
+                    "description": "Identifies the date of authorization."
+                  },
+                  "cdi:catalogDetails": {
+                    "$ref": "#/$defs/CatalogDetails",
+                    "description": "Bundles the information useful for a data catalog entry.\n\nExamples would be creator, contributor, title, copyright, embargo, and license information\n\nA set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+                  },
+                  "cdi:identifier": {
+                    "$ref": "#/$defs/Identifier",
+                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                  },
+                  "cdi:legalMandate": {
+                    "$ref": "#/$defs/InternationalString",
+                    "description": "Provide a legal citation to a law authorizing the study/data collection. For example, a legal citation for a law authorizing a country's census."
+                  },
+                  "cdi:has": {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "description": "Actor that performs a role in relation to a process or product.",
+                          "properties": {
+                            "@type": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "contains": {
+                                "const": "cdi:Agent"
+                              },
+                              "minItems": 1
+                            },
+                            "@id": {
+                              "type": "string",
+                              "description": "Identifier for this Agent node"
+                            },
+                            "cdi:catalogDetails": {
+                              "$ref": "#/$defs/CatalogDetails",
+                              "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+                            },
+                            "cdi:identifier": {
+                              "$ref": "#/$defs/Identifier",
+                              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                            },
+                            "cdi:image": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "description": "DDI-CDI private image (dt-PrivateImage)",
+                                "properties": {
+                                  "@type": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "contains": {
+                                      "const": "cdi:PrivateImage"
+                                    },
+                                    "minItems": 1
+                                  },
+                                  "cdi:effectiveDates": {
+                                    "$ref": "#/$defs/DateRange",
+                                    "description": "Date range when this image is effective"
+                                  },
+                                  "cdi:privacy": {
+                                    "$ref": "#/$defs/ControlledVocabularyEntry",
+                                    "description": "Privacy classification"
+                                  }
+                                }
+                              },
+                              "minItems": 1,
+                              "description": "Information regarding image associated with the agent."
+                            },
+                            "cdi:purpose": {
+                              "$ref": "#/$defs/InternationalString",
+                              "description": "Intent or reason for the object/the description of the object."
+                            }
+                          },
+                          "required": [
+                            "@type"
+                          ]
+                        },
+                        {
+                          "$ref": "#/$defs/id-reference"
+                        }
+                      ]
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:purpose": {
+                    "$ref": "#/$defs/InternationalString",
+                    "description": "Intent or reason for the object/the description of the object."
+                  },
+                  "cdi:statementOfAuthorization": {
+                    "$ref": "#/$defs/InternationalString",
+                    "description": "Text of the authorization (law, mandate, approved business case)."
+                  }
+                },
+                "required": [
+                  "@type"
+                ]
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:validDates": {
+          "$ref": "#/$defs/DateRange",
+          "description": "The dates describing the validity period of the object. The date from which the object became valid must be defined if the map belongs to a \"floating\" construct. The date at which the object became invalid must be defined if the map belongs to a \"floating\" construct and is no longer valid."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "CombinedDate": {
+      "type": "object",
+      "description": "DDI-CDI combined date (dt-CombinedDate)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:CombinedDate"
+          },
+          "minItems": 1
+        },
+        "cdi:isoDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 date-time value"
+        },
+        "cdi:historicDate": {
+          "type": "string",
+          "description": "Free-text historic date"
         }
       }
     }

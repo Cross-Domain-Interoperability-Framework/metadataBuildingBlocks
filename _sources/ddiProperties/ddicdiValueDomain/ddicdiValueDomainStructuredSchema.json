@@ -29,10 +29,42 @@
       "description": "Identifier for this value domain node"
     },
     "cdi:catalogDetails": {
-      "allOf": [
-        {
+      "type": "object",
+      "description": "Administrative catalog metadata for this value domain",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:CatalogDetails"
+          },
+          "minItems": 1
+        },
+        "cdi:title": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Title for the catalog entry"
+        },
+        "cdi:summary": {
+          "$ref": "#/$defs/InternationalString",
+          "description": "Summary description"
+        },
+        "cdi:identifier": {
+          "description": "Catalog identifier",
           "type": "object",
-          "description": "DDI-CDI catalog details (dt-CatalogDetails)",
+          "properties": {
+            "cdi:identifierContent": {
+              "type": "string"
+            },
+            "cdi:isUri": {
+              "type": "boolean"
+            }
+          }
+        },
+        "cdi:creator": {
+          "type": "object",
+          "description": "Creator of the catalog entry",
           "properties": {
             "@type": {
               "type": "array",
@@ -40,101 +72,25 @@
                 "type": "string"
               },
               "contains": {
-                "const": "cdi:CatalogDetails"
+                "const": "cdi:AgentInRole"
               },
               "minItems": 1
             },
-            "cdi:title": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/InternationalString"
-                },
-                {
-                  "description": "Title for the catalog entry"
-                }
-              ]
+            "cdi:agentName": {
+              "$ref": "#/$defs/InternationalString",
+              "description": "Name of the agent"
             },
-            "cdi:summary": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/InternationalString"
-                },
-                {
-                  "description": "Summary description"
-                }
-              ]
+            "cdi:reference": {
+              "$ref": "#/$defs/Reference",
+              "description": "Reference to the agent entity"
             },
-            "cdi:identifier": {
-              "description": "Catalog identifier",
-              "type": "object",
-              "properties": {
-                "cdi:identifierContent": {
-                  "type": "string"
-                },
-                "cdi:isUri": {
-                  "type": "boolean"
-                }
-              }
-            },
-            "cdi:creator": {
-              "allOf": [
-                {
-                  "type": "object",
-                  "description": "DDI-CDI agent in a role (dt-AgentInRole)",
-                  "properties": {
-                    "@type": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "contains": {
-                        "const": "cdi:AgentInRole"
-                      },
-                      "minItems": 1
-                    },
-                    "cdi:agentName": {
-                      "allOf": [
-                        {
-                          "$ref": "#/$defs/InternationalString"
-                        },
-                        {
-                          "description": "Name of the agent"
-                        }
-                      ]
-                    },
-                    "cdi:reference": {
-                      "allOf": [
-                        {
-                          "$ref": "#/$defs/Reference"
-                        },
-                        {
-                          "description": "Reference to the agent entity"
-                        }
-                      ]
-                    },
-                    "cdi:role": {
-                      "allOf": [
-                        {
-                          "$ref": "#/$defs/ControlledVocabularyEntry"
-                        },
-                        {
-                          "description": "Role of the agent"
-                        }
-                      ]
-                    }
-                  }
-                },
-                {
-                  "description": "Creator of the catalog entry"
-                }
-              ]
+            "cdi:role": {
+              "$ref": "#/$defs/ControlledVocabularyEntry",
+              "description": "Role of the agent"
             }
           }
-        },
-        {
-          "description": "Administrative catalog metadata for this value domain"
         }
-      ]
+      }
     },
     "cdi:displayLabel": {
       "description": "Multilingual display label",
@@ -154,28 +110,16 @@
               "minItems": 1
             },
             "cdi:locationVariant": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/ControlledVocabularyEntry"
-                },
-                {
-                  "description": "Geographic or locale variant"
-                }
-              ]
+              "$ref": "#/$defs/ControlledVocabularyEntry",
+              "description": "Geographic or locale variant"
             },
             "cdi:maxLength": {
               "type": "integer",
               "description": "Maximum display length"
             },
             "cdi:languageSpecificString": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/LanguageString"
-                },
-                {
-                  "description": "The label text with language tag"
-                }
-              ]
+              "$ref": "#/$defs/LanguageString",
+              "description": "The label text with language tag"
             }
           }
         },
@@ -196,28 +140,16 @@
                 "minItems": 1
               },
               "cdi:locationVariant": {
-                "allOf": [
-                  {
-                    "$ref": "#/$defs/ControlledVocabularyEntry"
-                  },
-                  {
-                    "description": "Geographic or locale variant"
-                  }
-                ]
+                "$ref": "#/$defs/ControlledVocabularyEntry",
+                "description": "Geographic or locale variant"
               },
               "cdi:maxLength": {
                 "type": "integer",
                 "description": "Maximum display length"
               },
               "cdi:languageSpecificString": {
-                "allOf": [
-                  {
-                    "$ref": "#/$defs/LanguageString"
-                  },
-                  {
-                    "description": "The label text with language tag"
-                  }
-                ]
+                "$ref": "#/$defs/LanguageString",
+                "description": "The label text with language tag"
               }
             }
           }
@@ -225,24 +157,12 @@
       ]
     },
     "cdi:identifier": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/Identifier"
-        },
-        {
-          "description": "Formal identifier for this value domain"
-        }
-      ]
+      "$ref": "#/$defs/Identifier",
+      "description": "Formal identifier for this value domain"
     },
     "cdi:recommendedDataType": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/ControlledVocabularyEntry"
-        },
-        {
-          "description": "Recommended physical data type for values in this domain"
-        }
-      ]
+      "$ref": "#/$defs/ControlledVocabularyEntry",
+      "description": "Recommended physical data type for values in this domain"
     },
     "cdi:isDescribedBy": {
       "description": "Description of the value domain constraints (0..1). Inline ValueAndConceptDescription or @id reference.",
@@ -277,44 +197,20 @@
               ]
             },
             "cdi:description": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/InternationalString"
-                },
-                {
-                  "description": "Textual description of the value domain constraints"
-                }
-              ]
+              "$ref": "#/$defs/InternationalString",
+              "description": "Textual description of the value domain constraints"
             },
             "cdi:formatPattern": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/ControlledVocabularyEntry"
-                },
-                {
-                  "description": "Expected format pattern for values"
-                }
-              ]
+              "$ref": "#/$defs/ControlledVocabularyEntry",
+              "description": "Expected format pattern for values"
             },
             "cdi:identifier": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/Identifier"
-                },
-                {
-                  "description": "Formal identifier"
-                }
-              ]
+              "$ref": "#/$defs/Identifier",
+              "description": "Formal identifier"
             },
             "cdi:logicalExpression": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/ControlledVocabularyEntry"
-                },
-                {
-                  "description": "Logical expression constraining valid values"
-                }
-              ]
+              "$ref": "#/$defs/ControlledVocabularyEntry",
+              "description": "Logical expression constraining valid values"
             },
             "cdi:maximumValueExclusive": {
               "type": "string",
@@ -333,41 +229,28 @@
               "description": "Inclusive lower bound for valid values"
             },
             "cdi:regularExpression": {
-              "allOf": [
-                {
-                  "type": "object",
-                  "description": "DDI-CDI typed string value (dt-TypedString)",
-                  "properties": {
-                    "@type": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "contains": {
-                        "const": "cdi:TypedString"
-                      },
-                      "minItems": 1
-                    },
-                    "cdi:content": {
-                      "type": "string",
-                      "description": "The string content"
-                    },
-                    "cdi:typeOfContent": {
-                      "allOf": [
-                        {
-                          "$ref": "#/$defs/ControlledVocabularyEntry"
-                        },
-                        {
-                          "description": "Type or format of the content"
-                        }
-                      ]
-                    }
-                  }
+              "type": "object",
+              "description": "Regular expression constraining valid value syntax",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:TypedString"
+                  },
+                  "minItems": 1
                 },
-                {
-                  "description": "Regular expression constraining valid value syntax"
+                "cdi:content": {
+                  "type": "string",
+                  "description": "The string content"
+                },
+                "cdi:typeOfContent": {
+                  "$ref": "#/$defs/ControlledVocabularyEntry",
+                  "description": "Type or format of the content"
                 }
-              ]
+              }
             }
           }
         },
@@ -398,14 +281,8 @@
               "description": "Identifier for this enumeration domain node"
             },
             "cdi:identifier": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/Identifier"
-                },
-                {
-                  "description": "Formal identifier"
-                }
-              ]
+              "$ref": "#/$defs/Identifier",
+              "description": "Formal identifier"
             },
             "cdi:name": {
               "description": "Structured name for this enumeration domain",
@@ -429,14 +306,8 @@
                       "description": "The name string"
                     },
                     "cdi:context": {
-                      "allOf": [
-                        {
-                          "$ref": "#/$defs/ControlledVocabularyEntry"
-                        },
-                        {
-                          "description": "Context or usage of this name"
-                        }
-                      ]
+                      "$ref": "#/$defs/ControlledVocabularyEntry",
+                      "description": "Context or usage of this name"
                     }
                   },
                   "required": [
@@ -464,14 +335,8 @@
                         "description": "The name string"
                       },
                       "cdi:context": {
-                        "allOf": [
-                          {
-                            "$ref": "#/$defs/ControlledVocabularyEntry"
-                          },
-                          {
-                            "description": "Context or usage of this name"
-                          }
-                        ]
+                        "$ref": "#/$defs/ControlledVocabularyEntry",
+                        "description": "Context or usage of this name"
                       }
                     },
                     "required": [
@@ -482,24 +347,12 @@
               ]
             },
             "cdi:purpose": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/InternationalString"
-                },
-                {
-                  "description": "Purpose of this enumeration domain"
-                }
-              ]
+              "$ref": "#/$defs/InternationalString",
+              "description": "Purpose of this enumeration domain"
             },
             "cdi:uses": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/id-reference"
-                },
-                {
-                  "description": "Reference to a LevelStructure that organizes the enumeration. @id reference only."
-                }
-              ]
+              "$ref": "#/$defs/id-reference",
+              "description": "Reference to a LevelStructure that organizes the enumeration. @id reference only."
             },
             "cdi:isDefinedBy": {
               "description": "References to Concepts that define the enumerated values. Array of @id references.",
@@ -509,14 +362,8 @@
               }
             },
             "cdi:references": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/id-reference"
-                },
-                {
-                  "description": "Reference to the CategorySet providing the value categories. @id reference only."
-                }
-              ]
+              "$ref": "#/$defs/id-reference",
+              "description": "Reference to the CategorySet providing the value categories. @id reference only."
             }
           }
         },
@@ -526,24 +373,12 @@
       ]
     },
     "cdi:takesConceptsFrom": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/id-reference"
-        },
-        {
-          "description": "Reference to a conceptual domain (SubstantiveConceptualDomain or SentinelConceptualDomain) that provides conceptual grounding for this value domain (0..1). @id reference only."
-        }
-      ]
+      "$ref": "#/$defs/id-reference",
+      "description": "Reference to a conceptual domain (SubstantiveConceptualDomain or SentinelConceptualDomain) that provides conceptual grounding for this value domain (0..1). @id reference only."
     },
     "cdi:platformType": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/ControlledVocabularyEntry"
-        },
-        {
-          "description": "(SentinelValueDomain only) The type of software platform under which sentinel codes will be used. Statistical software platforms use different sets of codes to indicate missing values. Example values: SASNumeric, SPSSstyle, Rstyle, StataNumeric, BlankString, EmptyString, Unrestricted."
-        }
-      ]
+      "$ref": "#/$defs/ControlledVocabularyEntry",
+      "description": "(SentinelValueDomain only) The type of software platform under which sentinel codes will be used. Statistical software platforms use different sets of codes to indicate missing values. Example values: SASNumeric, SPSSstyle, Rstyle, StataNumeric, BlankString, EmptyString, Unrestricted."
     }
   },
   "required": [
@@ -565,40 +400,33 @@
           "minItems": 1
         },
         "cdi:ddiIdentifier": {
-          "allOf": [
-            {
-              "type": "object",
-              "description": "DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)",
-              "properties": {
-                "@type": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "const": "cdi:InternationalRegistrationDataIdentifier"
-                  },
-                  "minItems": 1
-                },
-                "cdi:dataIdentifier": {
-                  "type": "string"
-                },
-                "cdi:registrationAuthorityIdentifier": {
-                  "type": "string"
-                },
-                "cdi:versionIdentifier": {
-                  "type": "string"
-                }
+          "type": "object",
+          "description": "DDI-specific IRDI identifier",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
               },
-              "required": [
-                "cdi:dataIdentifier",
-                "cdi:registrationAuthorityIdentifier",
-                "cdi:versionIdentifier"
-              ]
+              "contains": {
+                "const": "cdi:InternationalRegistrationDataIdentifier"
+              },
+              "minItems": 1
             },
-            {
-              "description": "DDI-specific IRDI identifier"
+            "cdi:dataIdentifier": {
+              "type": "string"
+            },
+            "cdi:registrationAuthorityIdentifier": {
+              "type": "string"
+            },
+            "cdi:versionIdentifier": {
+              "type": "string"
             }
+          },
+          "required": [
+            "cdi:dataIdentifier",
+            "cdi:registrationAuthorityIdentifier",
+            "cdi:versionIdentifier"
           ]
         },
         "cdi:uri": {
@@ -709,14 +537,8 @@
           "description": "If the value of the string is \"Other\" or the equivalent from the codelist, this attribute can provide a more specific value not found in the codelist."
         },
         "cdi:vocabulary": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/Reference"
-            },
-            {
-              "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier."
-            }
-          ]
+          "$ref": "#/$defs/Reference",
+          "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier."
         }
       }
     },
@@ -814,51 +636,38 @@
           "description": "Human-readable description of the reference"
         },
         "cdi:ddiReference": {
-          "allOf": [
-            {
-              "type": "object",
-              "description": "DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)",
-              "properties": {
-                "@type": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "const": "cdi:InternationalRegistrationDataIdentifier"
-                  },
-                  "minItems": 1
-                },
-                "cdi:dataIdentifier": {
-                  "type": "string"
-                },
-                "cdi:registrationAuthorityIdentifier": {
-                  "type": "string"
-                },
-                "cdi:versionIdentifier": {
-                  "type": "string"
-                }
+          "type": "object",
+          "description": "DDI IRDI reference",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
               },
-              "required": [
-                "cdi:dataIdentifier",
-                "cdi:registrationAuthorityIdentifier",
-                "cdi:versionIdentifier"
-              ]
+              "contains": {
+                "const": "cdi:InternationalRegistrationDataIdentifier"
+              },
+              "minItems": 1
             },
-            {
-              "description": "DDI IRDI reference"
+            "cdi:dataIdentifier": {
+              "type": "string"
+            },
+            "cdi:registrationAuthorityIdentifier": {
+              "type": "string"
+            },
+            "cdi:versionIdentifier": {
+              "type": "string"
             }
+          },
+          "required": [
+            "cdi:dataIdentifier",
+            "cdi:registrationAuthorityIdentifier",
+            "cdi:versionIdentifier"
           ]
         },
         "cdi:semantic": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/ControlledVocabularyEntry"
-            },
-            {
-              "description": "Semantic role of this reference"
-            }
-          ]
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "Semantic role of this reference"
         }
       }
     }

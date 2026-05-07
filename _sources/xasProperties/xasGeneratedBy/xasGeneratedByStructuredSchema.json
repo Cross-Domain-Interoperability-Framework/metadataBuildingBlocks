@@ -123,14 +123,8 @@
                     "description": "Landing page URL for this instrument."
                   },
                   "schema:manufacturer": {
-                    "allOf": [
-                      {
-                        "$ref": "#/$defs/Organization"
-                      },
-                      {
-                        "description": "Organization that manufactured this instrument."
-                      }
-                    ]
+                    "$ref": "#/$defs/Organization",
+                    "description": "Organization that manufactured this instrument."
                   },
                   "schema:model": {
                     "type": "object",
@@ -174,14 +168,8 @@
                     }
                   },
                   "schema:owner": {
-                    "allOf": [
-                      {
-                        "$ref": "#/$defs/Organization"
-                      },
-                      {
-                        "description": "Organization that owns this instrument."
-                      }
-                    ]
+                    "$ref": "#/$defs/Organization",
+                    "description": "Organization that owns this instrument."
                   },
                   "schema:contributor": {
                     "description": "Agents associated with this instrument in specific roles (e.g. operator, custodian, principal investigator). Use schema:owner for the owning organization.",
@@ -1117,14 +1105,8 @@
                             "description": "Landing page URL for this instrument."
                           },
                           "schema:manufacturer": {
-                            "allOf": [
-                              {
-                                "$ref": "#/$defs/Organization"
-                              },
-                              {
-                                "description": "Organization that manufactured this instrument."
-                              }
-                            ]
+                            "$ref": "#/$defs/Organization",
+                            "description": "Organization that manufactured this instrument."
                           },
                           "schema:model": {
                             "type": "object",
@@ -1168,14 +1150,8 @@
                             }
                           },
                           "schema:owner": {
-                            "allOf": [
-                              {
-                                "$ref": "#/$defs/Organization"
-                              },
-                              {
-                                "description": "Organization that owns this instrument."
-                              }
-                            ]
+                            "$ref": "#/$defs/Organization",
+                            "description": "Organization that owns this instrument."
                           },
                           "schema:contributor": {
                             "description": "Agents associated with this instrument in specific roles (e.g. operator, custodian, principal investigator). Use schema:owner for the owning organization.",
@@ -1526,119 +1502,113 @@
           ]
         },
         "schema:object": {
-          "allOf": [
-            {
-              "title": "definitions for roles used in XAS profile",
-              "type": "object",
-              "properties": {
-                "@type": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "minItems": 2,
-                  "uniqueItems": true,
-                  "allOf": [
-                    {
-                      "contains": {
-                        "const": "schema:Product"
-                      },
-                      "minContains": 1
-                    },
-                    {
-                      "contains": {
-                        "const": "schema:Thing"
-                      },
-                      "minContains": 1
-                    }
-                  ]
-                },
-                "schema:additionalType": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "minItems": 2,
-                  "uniqueItems": true,
-                  "allOf": [
-                    {
-                      "contains": {
-                        "const": "MaterialSample"
-                      },
-                      "minContains": 1
-                    },
-                    {
-                      "contains": {
-                        "const": "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-                      },
-                      "minContains": 1
-                    }
-                  ]
-                },
-                "schema:name": {
-                  "type": "string"
-                },
-                "schema:identifier": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "$ref": "#/$defs/Identifier"
-                    }
-                  ]
-                },
-                "schema:description": {
-                  "type": "string"
-                },
-                "schema:additionalProperty": {
-                  "type": "array",
-                  "description": "extend base definition (AdditionalProperty) with some expected propertyID values from NEXUS and XDI specs added in the enum",
-                  "items": {
-                    "allOf": [
-                      {
-                        "$ref": "#/$defs/AdditionalProperty"
-                      },
-                      {
-                        "properties": {
-                          "schema:propertyID": {
-                            "type": "array",
-                            "minItems": 1,
-                            "items": {
-                              "anyOf": [
-                                {
-                                  "$ref": "#/$defs/propertyID_item"
-                                },
-                                {
-                                  "enum": [
-                                    "xas:stoichiometry",
-                                    "xas:samplePreparation",
-                                    "nxs:Field/NXsample/mass",
-                                    "nxs:Field/NXsample/point_group",
-                                    "nxs:Field/NXsample/unit_cell",
-                                    "xas:parentSample",
-                                    "xas:materialState"
-                                  ]
-                                }
-                              ]
-                            }
-                          }
-                        }
-                      }
-                    ]
-                  }
-                }
+          "title": "definitions for roles used in XAS profile",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
               },
-              "required": [
-                "@type",
-                "schema:additionalType",
-                "schema:name"
+              "minItems": 2,
+              "uniqueItems": true,
+              "allOf": [
+                {
+                  "contains": {
+                    "const": "schema:Product"
+                  },
+                  "minContains": 1
+                },
+                {
+                  "contains": {
+                    "const": "schema:Thing"
+                  },
+                  "minContains": 1
+                }
               ]
             },
-            {
-              "description": "Sample being analyzed (per Ocean Info Hub recommendation)"
+            "schema:additionalType": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 2,
+              "uniqueItems": true,
+              "allOf": [
+                {
+                  "contains": {
+                    "const": "MaterialSample"
+                  },
+                  "minContains": 1
+                },
+                {
+                  "contains": {
+                    "const": "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+                  },
+                  "minContains": 1
+                }
+              ]
+            },
+            "schema:name": {
+              "type": "string"
+            },
+            "schema:identifier": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/$defs/Identifier"
+                }
+              ]
+            },
+            "schema:description": {
+              "type": "string"
+            },
+            "schema:additionalProperty": {
+              "type": "array",
+              "description": "extend base definition (AdditionalProperty) with some expected propertyID values from NEXUS and XDI specs added in the enum",
+              "items": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/AdditionalProperty"
+                  },
+                  {
+                    "properties": {
+                      "schema:propertyID": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/propertyID_item"
+                            },
+                            {
+                              "enum": [
+                                "xas:stoichiometry",
+                                "xas:samplePreparation",
+                                "nxs:Field/NXsample/mass",
+                                "nxs:Field/NXsample/point_group",
+                                "nxs:Field/NXsample/unit_cell",
+                                "xas:parentSample",
+                                "xas:materialState"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
             }
-          ]
+          },
+          "required": [
+            "@type",
+            "schema:additionalType",
+            "schema:name"
+          ],
+          "description": "Sample being analyzed (per Ocean Info Hub recommendation)"
         }
       }
     }
@@ -1684,14 +1654,8 @@
           "description": "other labels by which the person might be known"
         },
         "schema:affiliation": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/Organization"
-            },
-            {
-              "description": "if affiliation is present, value must be a schema:Organization."
-            }
-          ]
+          "$ref": "#/$defs/Organization",
+          "description": "if affiliation is present, value must be a schema:Organization."
         },
         "schema:contactPoint": {
           "type": "object",

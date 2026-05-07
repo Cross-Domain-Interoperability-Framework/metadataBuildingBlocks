@@ -69,28 +69,16 @@
               "minItems": 1
             },
             "cdi:locationVariant": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/ControlledVocabularyEntry"
-                },
-                {
-                  "description": "Geographic or locale variant"
-                }
-              ]
+              "$ref": "#/$defs/ControlledVocabularyEntry",
+              "description": "Geographic or locale variant"
             },
             "cdi:maxLength": {
               "type": "integer",
               "description": "Maximum display length"
             },
             "cdi:languageSpecificString": {
-              "allOf": [
-                {
-                  "$ref": "#/$defs/LanguageString"
-                },
-                {
-                  "description": "The label text with language tag"
-                }
-              ]
+              "$ref": "#/$defs/LanguageString",
+              "description": "The label text with language tag"
             }
           }
         },
@@ -111,28 +99,16 @@
                 "minItems": 1
               },
               "cdi:locationVariant": {
-                "allOf": [
-                  {
-                    "$ref": "#/$defs/ControlledVocabularyEntry"
-                  },
-                  {
-                    "description": "Geographic or locale variant"
-                  }
-                ]
+                "$ref": "#/$defs/ControlledVocabularyEntry",
+                "description": "Geographic or locale variant"
               },
               "cdi:maxLength": {
                 "type": "integer",
                 "description": "Maximum display length"
               },
               "cdi:languageSpecificString": {
-                "allOf": [
-                  {
-                    "$ref": "#/$defs/LanguageString"
-                  },
-                  {
-                    "description": "The label text with language tag"
-                  }
-                ]
+                "$ref": "#/$defs/LanguageString",
+                "description": "The label text with language tag"
               }
             }
           }
@@ -140,14 +116,8 @@
       ]
     },
     "cdi:identifier": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/Identifier"
-        },
-        {
-          "description": "Formal identifier for this activity"
-        }
-      ]
+      "$ref": "#/$defs/Identifier",
+      "description": "Formal identifier for this activity"
     },
     "cdi:entityUsed": {
       "description": "Entities used as inputs by this activity",
@@ -240,14 +210,8 @@
           "description": "The name string"
         },
         "cdi:context": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/ControlledVocabularyEntry"
-            },
-            {
-              "description": "Context or usage of this name"
-            }
-          ]
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "Context or usage of this name"
         }
       },
       "required": [
@@ -299,40 +263,33 @@
           "minItems": 1
         },
         "cdi:ddiIdentifier": {
-          "allOf": [
-            {
-              "type": "object",
-              "description": "DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)",
-              "properties": {
-                "@type": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "const": "cdi:InternationalRegistrationDataIdentifier"
-                  },
-                  "minItems": 1
-                },
-                "cdi:dataIdentifier": {
-                  "type": "string"
-                },
-                "cdi:registrationAuthorityIdentifier": {
-                  "type": "string"
-                },
-                "cdi:versionIdentifier": {
-                  "type": "string"
-                }
+          "type": "object",
+          "description": "DDI-specific IRDI identifier",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
               },
-              "required": [
-                "cdi:dataIdentifier",
-                "cdi:registrationAuthorityIdentifier",
-                "cdi:versionIdentifier"
-              ]
+              "contains": {
+                "const": "cdi:InternationalRegistrationDataIdentifier"
+              },
+              "minItems": 1
             },
-            {
-              "description": "DDI-specific IRDI identifier"
+            "cdi:dataIdentifier": {
+              "type": "string"
+            },
+            "cdi:registrationAuthorityIdentifier": {
+              "type": "string"
+            },
+            "cdi:versionIdentifier": {
+              "type": "string"
             }
+          },
+          "required": [
+            "cdi:dataIdentifier",
+            "cdi:registrationAuthorityIdentifier",
+            "cdi:versionIdentifier"
           ]
         },
         "cdi:uri": {
@@ -428,51 +385,38 @@
           "description": "Human-readable description of the reference"
         },
         "cdi:ddiReference": {
-          "allOf": [
-            {
-              "type": "object",
-              "description": "DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)",
-              "properties": {
-                "@type": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "const": "cdi:InternationalRegistrationDataIdentifier"
-                  },
-                  "minItems": 1
-                },
-                "cdi:dataIdentifier": {
-                  "type": "string"
-                },
-                "cdi:registrationAuthorityIdentifier": {
-                  "type": "string"
-                },
-                "cdi:versionIdentifier": {
-                  "type": "string"
-                }
+          "type": "object",
+          "description": "DDI IRDI reference",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
               },
-              "required": [
-                "cdi:dataIdentifier",
-                "cdi:registrationAuthorityIdentifier",
-                "cdi:versionIdentifier"
-              ]
+              "contains": {
+                "const": "cdi:InternationalRegistrationDataIdentifier"
+              },
+              "minItems": 1
             },
-            {
-              "description": "DDI IRDI reference"
+            "cdi:dataIdentifier": {
+              "type": "string"
+            },
+            "cdi:registrationAuthorityIdentifier": {
+              "type": "string"
+            },
+            "cdi:versionIdentifier": {
+              "type": "string"
             }
+          },
+          "required": [
+            "cdi:dataIdentifier",
+            "cdi:registrationAuthorityIdentifier",
+            "cdi:versionIdentifier"
           ]
         },
         "cdi:semantic": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/ControlledVocabularyEntry"
-            },
-            {
-              "description": "Semantic role of this reference"
-            }
-          ]
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "Semantic role of this reference"
         }
       }
     },
@@ -553,167 +497,142 @@
           "description": "End date-time of the step (xsd:dateTime)"
         },
         "cdi:script": {
-          "allOf": [
-            {
-              "type": "object",
-              "description": "DDI-CDI executable code reference (dt-CommandCode)",
-              "properties": {
-                "@type": {
+          "type": "object",
+          "description": "Executable script or code for this step",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:CommandCode"
+              },
+              "minItems": 1
+            },
+            "cdi:description": {
+              "type": "string",
+              "description": "Description of the code"
+            },
+            "cdi:commandFile": {
+              "description": "External script file reference",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "description": "DDI-CDI external script file (dt-CommandFile)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:CommandFile"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:uri": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "URI of the script file"
+                    },
+                    "cdi:location": {
+                      "type": "string",
+                      "description": "Human-readable file location"
+                    }
+                  }
+                },
+                {
                   "type": "array",
                   "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "const": "cdi:CommandCode"
-                  },
-                  "minItems": 1
-                },
-                "cdi:description": {
-                  "type": "string",
-                  "description": "Description of the code"
-                },
-                "cdi:commandFile": {
-                  "description": "External script file reference",
-                  "anyOf": [
-                    {
-                      "type": "object",
-                      "description": "DDI-CDI external script file (dt-CommandFile)",
-                      "properties": {
-                        "@type": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          },
-                          "contains": {
-                            "const": "cdi:CommandFile"
-                          },
-                          "minItems": 1
+                    "type": "object",
+                    "description": "DDI-CDI external script file (dt-CommandFile)",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
                         },
-                        "cdi:uri": {
-                          "type": "string",
-                          "format": "uri",
-                          "description": "URI of the script file"
+                        "contains": {
+                          "const": "cdi:CommandFile"
                         },
-                        "cdi:location": {
-                          "type": "string",
-                          "description": "Human-readable file location"
-                        }
-                      }
-                    },
-                    {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "description": "DDI-CDI external script file (dt-CommandFile)",
-                        "properties": {
-                          "@type": {
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            },
-                            "contains": {
-                              "const": "cdi:CommandFile"
-                            },
-                            "minItems": 1
-                          },
-                          "cdi:uri": {
-                            "type": "string",
-                            "format": "uri",
-                            "description": "URI of the script file"
-                          },
-                          "cdi:location": {
-                            "type": "string",
-                            "description": "Human-readable file location"
-                          }
-                        }
+                        "minItems": 1
+                      },
+                      "cdi:uri": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "URI of the script file"
+                      },
+                      "cdi:location": {
+                        "type": "string",
+                        "description": "Human-readable file location"
                       }
                     }
-                  ]
-                },
-                "cdi:command": {
-                  "description": "Inline command content",
-                  "anyOf": [
-                    {
-                      "type": "object",
-                      "description": "DDI-CDI individual command statement (dt-Command)",
-                      "properties": {
-                        "@type": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          },
-                          "contains": {
-                            "const": "cdi:Command"
-                          },
-                          "minItems": 1
-                        },
-                        "cdi:commandContent": {
-                          "type": "string",
-                          "description": "The command or code text"
-                        },
-                        "cdi:programLanguage": {
-                          "allOf": [
-                            {
-                              "$ref": "#/$defs/ControlledVocabularyEntry"
-                            },
-                            {
-                              "description": "Language of this command"
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "description": "DDI-CDI individual command statement (dt-Command)",
-                        "properties": {
-                          "@type": {
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            },
-                            "contains": {
-                              "const": "cdi:Command"
-                            },
-                            "minItems": 1
-                          },
-                          "cdi:commandContent": {
-                            "type": "string",
-                            "description": "The command or code text"
-                          },
-                          "cdi:programLanguage": {
-                            "allOf": [
-                              {
-                                "$ref": "#/$defs/ControlledVocabularyEntry"
-                              },
-                              {
-                                "description": "Language of this command"
-                              }
-                            ]
-                          }
-                        }
-                      }
-                    }
-                  ]
+                  }
                 }
-              }
+              ]
             },
-            {
-              "description": "Executable script or code for this step"
+            "cdi:command": {
+              "description": "Inline command content",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "description": "DDI-CDI individual command statement (dt-Command)",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "cdi:Command"
+                      },
+                      "minItems": 1
+                    },
+                    "cdi:commandContent": {
+                      "type": "string",
+                      "description": "The command or code text"
+                    },
+                    "cdi:programLanguage": {
+                      "$ref": "#/$defs/ControlledVocabularyEntry",
+                      "description": "Language of this command"
+                    }
+                  }
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "DDI-CDI individual command statement (dt-Command)",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:Command"
+                        },
+                        "minItems": 1
+                      },
+                      "cdi:commandContent": {
+                        "type": "string",
+                        "description": "The command or code text"
+                      },
+                      "cdi:programLanguage": {
+                        "$ref": "#/$defs/ControlledVocabularyEntry",
+                        "description": "Language of this command"
+                      }
+                    }
+                  }
+                }
+              ]
             }
-          ]
+          }
         },
         "cdi:scriptingLanguage": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/ControlledVocabularyEntry"
-            },
-            {
-              "description": "Programming or scripting language used"
-            }
-          ]
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "Programming or scripting language used"
         },
         "cdi:receives": {
           "description": "Input parameters received by this step (cdi:Parameter)",
@@ -920,14 +839,8 @@
           "description": "If the value of the string is \"Other\" or the equivalent from the codelist, this attribute can provide a more specific value not found in the codelist."
         },
         "cdi:vocabulary": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/Reference"
-            },
-            {
-              "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier."
-            }
-          ]
+          "$ref": "#/$defs/Reference",
+          "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier."
         }
       }
     },
