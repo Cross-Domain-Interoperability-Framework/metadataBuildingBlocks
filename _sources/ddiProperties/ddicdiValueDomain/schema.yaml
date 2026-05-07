@@ -9,91 +9,72 @@ description: >-
   domains (ValueAndConceptDescription), enumerated domains
   (EnumerationDomain), and conceptual domain references.
 
-anyOf:
-  - description: "Single ValueDomain node"
-    $ref: "#/$defs/ValueDomainNode"
-  - description: "Unwrapped @graph array of nodes"
+type: object
+properties:
+  "@type":
+    description: >-
+      Must include either cdi:SubstantiveValueDomain or
+      cdi:SentinelValueDomain
     type: array
     items:
-      $ref: "#/$defs/ValueDomainNode"
-  - description: "JSON-LD document with @context and @graph"
-    type: object
-    properties:
-      "@context": {}
-      "@graph":
-        type: array
+      type: string
+    anyOf:
+      - contains:
+          const: "cdi:SubstantiveValueDomain"
+      - contains:
+          const: "cdi:SentinelValueDomain"
+    minItems: 1
+  "@id":
+    type: string
+    description: Identifier for this value domain node
+  "cdi:catalogDetails":
+    description: Administrative catalog metadata for this value domain
+    $ref: "../ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails"
+  "cdi:displayLabel":
+    description: Multilingual display label
+    anyOf:
+      - $ref: "../ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay"
+      - type: array
         items:
-          $ref: "#/$defs/ValueDomainNode"
-    required: ["@graph"]
-$defs:
-  ValueDomainNode:
-    type: object
+          $ref: "../ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay"
+  "cdi:identifier":
+    description: Formal identifier for this value domain
+    $ref: "../ddicdiDataTypes/schema.yaml#/$defs/Identifier"
+  "cdi:recommendedDataType":
+    description: Recommended physical data type for values in this domain
+    $ref: "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry"
+  "cdi:isDescribedBy":
     description: >-
-      A single ValueDomain node (SubstantiveValueDomain or SentinelValueDomain)
-    properties:
-      "@type":
-        description: >-
-          Must include either cdi:SubstantiveValueDomain or
-          cdi:SentinelValueDomain
-        type: array
-        items:
-          type: string
-        anyOf:
-          - contains:
-              const: "cdi:SubstantiveValueDomain"
-          - contains:
-              const: "cdi:SentinelValueDomain"
-        minItems: 1
-      "@id":
-        type: string
-        description: Identifier for this value domain node
-      "cdi:catalogDetails":
-        description: Administrative catalog metadata for this value domain
-        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails"
-      "cdi:displayLabel":
-        description: Multilingual display label
-        anyOf:
-          - $ref: "../ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay"
-          - type: array
-            items:
-              $ref: "../ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay"
-      "cdi:identifier":
-        description: Formal identifier for this value domain
-        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/Identifier"
-      "cdi:recommendedDataType":
-        description: Recommended physical data type for values in this domain
-        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry"
-      "cdi:isDescribedBy":
-        description: >-
-          Description of the value domain constraints (0..1).
-          Inline ValueAndConceptDescription or @id reference.
-        anyOf:
-          - $ref: "#/$defs/ValueAndConceptDescription"
-          - $ref: "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
-      "cdi:takesValuesFrom":
-        description: >-
-          Enumeration domain providing the set of permissible coded values (0..1).
-          Inline EnumerationDomain or @id reference.
-        anyOf:
-          - $ref: "#/$defs/EnumerationDomain"
-          - $ref: "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
-      "cdi:takesConceptsFrom":
-        description: >-
-          Reference to a conceptual domain (SubstantiveConceptualDomain or
-          SentinelConceptualDomain) that provides conceptual grounding for
-          this value domain (0..1). @id reference only.
-        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
-      "cdi:platformType":
-        description: >-
-          (SentinelValueDomain only) The type of software platform under
-          which sentinel codes will be used. Statistical software platforms
-          use different sets of codes to indicate missing values. Example
-          values: SASNumeric, SPSSstyle, Rstyle, StataNumeric, BlankString,
-          EmptyString, Unrestricted.
-        $ref: "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry"
-    required:
-      - "@type"
+      Description of the value domain constraints (0..1).
+      Inline ValueAndConceptDescription or @id reference.
+    anyOf:
+      - $ref: "#/$defs/ValueAndConceptDescription"
+      - $ref: "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
+  "cdi:takesValuesFrom":
+    description: >-
+      Enumeration domain providing the set of permissible coded values (0..1).
+      Inline EnumerationDomain or @id reference.
+    anyOf:
+      - $ref: "#/$defs/EnumerationDomain"
+      - $ref: "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
+  "cdi:takesConceptsFrom":
+    description: >-
+      Reference to a conceptual domain (SubstantiveConceptualDomain or
+      SentinelConceptualDomain) that provides conceptual grounding for
+      this value domain (0..1). @id reference only.
+    $ref: "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
+  "cdi:platformType":
+    description: >-
+      (SentinelValueDomain only) The type of software platform under
+      which sentinel codes will be used. Statistical software platforms
+      use different sets of codes to indicate missing values. Example
+      values: SASNumeric, SPSSstyle, Rstyle, StataNumeric, BlankString,
+      EmptyString, Unrestricted.
+    $ref: "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry"
+required:
+  - "@type"
 
+$defs:
   ValueAndConceptDescription:
     type: object
     description: >-

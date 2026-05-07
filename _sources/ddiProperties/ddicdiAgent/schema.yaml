@@ -8,31 +8,7 @@ description: >-
   defined in its own building block; this schema composes them.
 
 anyOf:
-  - description: "Single agent node"
-    type: object
-    anyOf:
-      - $ref: "../ddicdiIndividual/schema.yaml"
-      - $ref: "../ddicdiMachine/schema.yaml"
-      - $ref: "../ddicdiOrganization/schema.yaml"
-      - $ref: "../ddicdiProcessingAgent/schema.yaml"
-  - description: "Unwrapped @graph array of agent nodes (OGC pipeline)"
-    type: array
-    items:
-      anyOf:
-        - $ref: "../ddicdiIndividual/schema.yaml"
-        - $ref: "../ddicdiMachine/schema.yaml"
-        - $ref: "../ddicdiOrganization/schema.yaml"
-        - $ref: "../ddicdiProcessingAgent/schema.yaml"
-  - description: "JSON-LD document with @context and @graph"
-    type: object
-    properties:
-      "@context": {}
-      "@graph":
-        type: array
-        items:
-          anyOf:
-            - $ref: "../ddicdiIndividual/schema.yaml"
-            - $ref: "../ddicdiMachine/schema.yaml"
-            - $ref: "../ddicdiOrganization/schema.yaml"
-            - $ref: "../ddicdiProcessingAgent/schema.yaml"
-    required: ["@graph"]
+  - $ref: "../ddicdiIndividual/schema.yaml"
+  - $ref: "../ddicdiMachine/schema.yaml"
+  - $ref: "../ddicdiOrganization/schema.yaml"
+  - $ref: "../ddicdiProcessingAgent/schema.yaml"
