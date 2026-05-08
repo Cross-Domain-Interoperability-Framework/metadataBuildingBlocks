@@ -142,7 +142,7 @@ def discover_building_blocks(sources_dir):
 # Check 1: File completeness
 # ---------------------------------------------------------------------------
 
-def check_files(bb_dir, name):
+def check_files(bb_dir, name, is_type_library=False):
     """Check for required, expected, and generated files."""
     issues = []
     info = []
@@ -155,9 +155,11 @@ def check_files(bb_dir, name):
         if not (bb_dir / f).exists():
             info.append(f"Missing optional file: {f}")
 
-    # Check for examples
+    # Check for examples (skipped for type-library BBs that have no root class)
     examples = list(bb_dir.glob("example*.json"))
-    if not examples:
+    if is_type_library:
+        info.append("Type library (isTypeLibrary=true): example checks skipped")
+    elif not examples:
         # Check examples.yaml for inline examples
         if (bb_dir / "examples.yaml").exists():
             info.append("Has examples.yaml but no standalone example*.json files")
@@ -330,10 +332,13 @@ def check_resolved_schema(bb_dir, name):
 # Check 4: Example validation
 # ---------------------------------------------------------------------------
 
-def check_example_validation(bb_dir, name):
+def check_example_validation(bb_dir, name, is_type_library=False):
     """Validate all example*.json against resolved schema."""
     issues = []
     info = []
+
+    if is_type_library:
+        return issues, info
 
     if Draft202012Validator is None:
         issues.append("Cannot validate examples (jsonschema not installed)")
@@ -528,10 +533,13 @@ def extract_example_properties(data, prefix=""):
     return props
 
 
-def check_example_coverage(bb_dir, name):
+def check_example_coverage(bb_dir, name, is_type_library=False):
     """Check whether examples exercise all schema properties."""
     issues = []
     info = []
+
+    if is_type_library:
+        return issues, info
 
     schema_path = bb_dir / "schema.yaml"
     if not schema_path.exists():
@@ -654,9 +662,20 @@ def audit_building_block(category, name, bb_dir, checks=None):
     """Run all audit checks on a single building block."""
     result = AuditResult(category, name, bb_dir)
 
+    # Read bblock.json once for opt-out flags. isTypeLibrary marks BBs
+    # that are pure $defs libraries with no root class to instantiate
+    # (e.g. ddicdiDataTypes); example checks are skipped for them.
+    is_type_library = False
+    bblock_path = bb_dir / "bblock.json"
+    if bblock_path.exists():
+        try:
+            is_type_library = bool(load_json(bblock_path).get("isTypeLibrary", False))
+        except Exception:
+            pass
+
     # Check 1: File completeness
     if not checks or "files" in checks:
-        issues, info = check_files(bb_dir, name)
+        issues, info = check_files(bb_dir, name, is_type_library=is_type_library)
         result.add_issues(issues)
         result.add_info(info)
 
@@ -672,7 +691,7 @@ def audit_building_block(category, name, bb_dir, checks=None):
 
     # Check 4: Example validation
     if not checks or "examples" in checks:
-        issues, info = check_example_validation(bb_dir, name)
+        issues, info = check_example_validation(bb_dir, name, is_type_library=is_type_library)
         result.add_issues(issues)
         result.add_info(info)
 
@@ -684,7 +703,7 @@ def audit_building_block(category, name, bb_dir, checks=None):
 
     # Check 6: Example coverage
     if not checks or "coverage" in checks:
-        issues, info = check_example_coverage(bb_dir, name)
+        issues, info = check_example_coverage(bb_dir, name, is_type_library=is_type_library)
         result.add_issues(issues)
         result.add_info(info)
 
