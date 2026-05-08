@@ -1,7 +1,205 @@
-# SHACL rules skeleton for DDI-CDI Data Structure.
-# TODO: author NodeShape and PropertyShape constraints from the UML model.
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix cdi:         <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
 
-@prefix sh:   <http://www.w3.org/ns/shacl#> .
-@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
-@prefix cdi:  <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+# ------------------------------------------------------------
+# DataStructure BB covers five alternative root classes
+# (DataStructure, DimensionalDataStructure, KeyValueStructure,
+#  LongDataStructure, WideDataStructure). They share most
+#  property constraints; DimensionalDataStructure adds cdi:uses.
+# ------------------------------------------------------------
+
+cdifd:ddicdiDataStructureShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:DataStructure ;
+
+	sh:property [
+		sh:path cdi:has ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI DataStructure should reference at least one cdi:has component (DataStructureComponent, ComponentPosition, PrimaryKey, ForeignKey, or id-reference)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isDefinedBy ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI DataStructure should be defined by a cdi:isDefinedBy RepresentedVariable (or id-reference)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:identifier ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI DataStructure may include a cdi:identifier" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:semantic ;
+		sh:severity sh:Info ;
+		sh:message "cdi:semantic may carry one or more PairedControlledVocabularyEntry values" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:specialization ;
+		sh:severity sh:Info ;
+		sh:message "cdi:specialization may carry a SpecializationRole describing the component's role" ;
+	] ;
+	.
+
+
+cdifd:ddicdiDimensionalDataStructureShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:DimensionalDataStructure ;
+
+	sh:property [
+		sh:path cdi:has ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI DimensionalDataStructure should reference at least one cdi:has component" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:uses ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI DimensionalDataStructure should use at least one cdi:uses DimensionGroup (or id-reference)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isDefinedBy ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI DimensionalDataStructure should be defined by a cdi:isDefinedBy RepresentedVariable (or id-reference)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:identifier ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI DimensionalDataStructure may include a cdi:identifier" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:semantic ;
+		sh:severity sh:Info ;
+		sh:message "cdi:semantic may carry one or more PairedControlledVocabularyEntry values" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:specialization ;
+		sh:severity sh:Info ;
+		sh:message "cdi:specialization may carry a SpecializationRole" ;
+	] ;
+	.
+
+
+cdifd:ddicdiKeyValueStructureShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:KeyValueStructure ;
+
+	sh:property [
+		sh:path cdi:has ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI KeyValueStructure should reference at least one cdi:has component" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isDefinedBy ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI KeyValueStructure should be defined by a cdi:isDefinedBy RepresentedVariable (or id-reference)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:identifier ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI KeyValueStructure may include a cdi:identifier" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:semantic ;
+		sh:severity sh:Info ;
+		sh:message "cdi:semantic may carry one or more PairedControlledVocabularyEntry values" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:specialization ;
+		sh:severity sh:Info ;
+		sh:message "cdi:specialization may carry a SpecializationRole" ;
+	] ;
+	.
+
+
+cdifd:ddicdiLongDataStructureShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:LongDataStructure ;
+
+	sh:property [
+		sh:path cdi:has ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI LongDataStructure should reference at least one cdi:has component" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isDefinedBy ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI LongDataStructure should be defined by a cdi:isDefinedBy RepresentedVariable (or id-reference)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:identifier ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI LongDataStructure may include a cdi:identifier" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:semantic ;
+		sh:severity sh:Info ;
+		sh:message "cdi:semantic may carry one or more PairedControlledVocabularyEntry values" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:specialization ;
+		sh:severity sh:Info ;
+		sh:message "cdi:specialization may carry a SpecializationRole" ;
+	] ;
+	.
+
+
+cdifd:ddicdiWideDataStructureShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:WideDataStructure ;
+
+	sh:property [
+		sh:path cdi:has ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI WideDataStructure should reference at least one cdi:has component" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isDefinedBy ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI WideDataStructure should be defined by a cdi:isDefinedBy RepresentedVariable (or id-reference)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:identifier ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI WideDataStructure may include a cdi:identifier" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:semantic ;
+		sh:severity sh:Info ;
+		sh:message "cdi:semantic may carry one or more PairedControlledVocabularyEntry values" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:specialization ;
+		sh:severity sh:Info ;
+		sh:message "cdi:specialization may carry a SpecializationRole" ;
+	] ;
+	.
