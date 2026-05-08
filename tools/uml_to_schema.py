@@ -316,6 +316,7 @@ class BuildContext:
     inline_class_names: set[str]      # uml:Class names to inline (no id-ref fallback)
     inline_or_ref_class_names: set[str]  # explicit inline-OR-id-reference (now also default)
     reference_class_names: set[str]   # uml:Class names to force as id-reference only
+    exclude_class_names: set[str]     # uml:Class / uml:DataType names to drop entirely (any property typed by one of these is omitted; the type's $def is not registered)
     inline_datatypes: bool            # if True, never $ref shared bb; inline all
     strict_required: bool             # if True, emit `required` per UML lower>=1
     external_class_refs: dict[str, str]  # ClassName -> $ref target if defined in another BB
@@ -544,6 +545,12 @@ def _resolve_property_type(prop: Property, ctx: BuildContext) -> Optional[dict]:
     if target is None:
         # Type id not present in this XMI (could be cross-package ref).
         return {"type": "string"}
+
+    if target.name in ctx.exclude_class_names:
+        # Caller drops this property entirely (also prevents the target's $def
+        # from being registered, since _resolve_class_target / _resolve_datatype_ref
+        # are never reached).
+        return None
 
     if target.kind == "enumeration":
         # Emit literal-list enum
@@ -970,6 +977,11 @@ def main(argv: Optional[list[str]] = None) -> int:
                          "or an @id reference (emitted as anyOf).")
     ap.add_argument("--reference", default="",
                     help="Comma-separated names to force as id-reference (overrides --inline).")
+    ap.add_argument("--exclude-class", default="",
+                    help="Comma-separated uml:Class / uml:DataType names to drop entirely. "
+                         "Properties typed by an excluded class are omitted; the type's $def "
+                         "is not emitted. Use for classes the project intentionally won't "
+                         "implement (e.g. CatalogDetails).")
     ap.add_argument("--inline-datatypes", action="store_true",
                     help="Inline all dt-types locally instead of $ref-ing the shared BB.")
     ap.add_argument("--schema-only", action="store_true",
@@ -1037,6 +1049,7 @@ def main(argv: Optional[list[str]] = None) -> int:
         inline_class_names=set(_split_csv(args.inline)),
         inline_or_ref_class_names=set(_split_csv(args.inline_or_ref)),
         reference_class_names=set(_split_csv(args.reference)),
+        exclude_class_names=set(_split_csv(args.exclude_class)),
         inline_datatypes=args.inline_datatypes,
         strict_required=args.strict_required,
         external_class_refs=external_class_refs,
