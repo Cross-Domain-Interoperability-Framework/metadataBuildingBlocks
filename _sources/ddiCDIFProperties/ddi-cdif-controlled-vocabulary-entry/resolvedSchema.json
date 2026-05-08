@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DDI-CDI Controlled Vocabulary Entry",
+  "description": "Allows for unstructured content which may be an entry from an externally maintained controlled vocabulary.If the content is from a controlled vocabulary provide the code value of the entry, as well as a reference to the controlled vocabulary from which the value is taken. Provide as many of the identifying attributes as needed to adequately identify the controlled vocabulary. Note that DDI has published a number of controlled vocabularies applicable to several locations using the external controlled vocabulary entry structure. If the code portion of the controlled vocabulary entry is language specific (i.e. a list of keywords or subject headings) use language to specify that language. In most cases the code portion of an entry is not language specific although the description and usage may be managed in one or more languages. Use of shared controlled vocabularies helps support interoperability and machine actionability.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "contains": {
+        "const": "cdi:ControlledVocabularyEntry"
+      },
+      "minItems": 1
+    },
+    "@id": {
+      "type": "string",
+      "description": "Identifier for this ControlledVocabularyEntry node"
+    },
+    "cdi:entryReference": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Reference"
+      },
+      "minItems": 1,
+      "description": "A reference to the specific item in the vocabulary referenced in the vocabulary attribute, using a URI or other resolvable identifier."
+    },
+    "cdi:entryValue": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "description": "The value of the entry of the controlled vocabulary. If no controlled vocabulary is used the term is entered here and none of the properties defining the controlled vocabulary location are used."
+    },
+    "cdi:name": {
+      "type": "string",
+      "description": "The name of the code list (controlled vocabulary)."
+    },
+    "cdi:valueForOther": {
+      "type": "string",
+      "description": "If the value of the string is \"Other\" or the equivalent from the codelist, this attribute can provide a more specific value not found in the codelist."
+    },
+    "cdi:vocabulary": {
+      "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier.",
+      "$ref": "#/$defs/Reference"
+    }
+  },
+  "required": [
+    "@type"
+  ],
+  "$defs": {
+    "InternationalRegistrationDataIdentifier": {
+      "type": "object",
+      "description": "DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:InternationalRegistrationDataIdentifier"
+          },
+          "minItems": 1
+        },
+        "cdi:dataIdentifier": {
+          "type": "string"
+        },
+        "cdi:registrationAuthorityIdentifier": {
+          "type": "string"
+        },
+        "cdi:versionIdentifier": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "cdi:dataIdentifier",
+        "cdi:registrationAuthorityIdentifier",
+        "cdi:versionIdentifier"
+      ]
+    },
+    "ControlledVocabularyEntry": {
+      "type": "object",
+      "description": "DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry). Allows for unstructured content which may be an entry from an externally maintained controlled vocabulary. When the content is from a controlled vocabulary, provide the code value of the entry along with a reference to the vocabulary from which the value is taken.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ControlledVocabularyEntry"
+          },
+          "minItems": 1
+        },
+        "cdi:entryReference": {
+          "description": "A reference to the specific item in the vocabulary referenced by cdi:vocabulary, using a URI or other resolvable identifier.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Reference"
+          },
+          "minItems": 1
+        },
+        "cdi:entryValue": {
+          "description": "The value of the entry of the controlled vocabulary. If no controlled vocabulary is used the term is entered here and none of the properties defining the controlled vocabulary location are used.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "cdi:name": {
+          "type": "string",
+          "description": "The name of the code list (controlled vocabulary)."
+        },
+        "cdi:valueForOther": {
+          "type": "string",
+          "description": "If the value of the string is \"Other\" or the equivalent from the codelist, this attribute can provide a more specific value not found in the codelist."
+        },
+        "cdi:vocabulary": {
+          "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier.",
+          "$ref": "#/$defs/Reference"
+        }
+      }
+    },
+    "Reference": {
+      "type": "object",
+      "description": "DDI-CDI reference to an entity (dt-Reference)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Reference"
+          },
+          "minItems": 1
+        },
+        "cdi:uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the referenced entity"
+        },
+        "cdi:description": {
+          "type": "string",
+          "description": "Human-readable description of the reference"
+        },
+        "cdi:ddiReference": {
+          "description": "DDI IRDI reference",
+          "$ref": "#/$defs/InternationalRegistrationDataIdentifier"
+        },
+        "cdi:semantic": {
+          "description": "Semantic role of this reference",
+          "$ref": "#/$defs/ControlledVocabularyEntry"
+        }
+      }
+    }
+  }
+}

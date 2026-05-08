@@ -1,0 +1,126 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix cdi:         <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# ------------------------------------------------------------
+# PhysicalDataSet shapes -- polymorphic BB targeting the three
+# concrete data set classes: cdi:WideDataSet, cdi:LongDataSet,
+# cdi:DimensionalDataSet. Per CDIF DD Appendix 4, name and
+# isStructuredBy are Required on each. (The DD spec also requires
+# physicalFileName, but it is not present in the ddicdi schema and
+# is therefore not asserted here.)
+# Note: cdi:name is only declared in the WideDataSet/LongDataSet
+# JSON schemas via inheritance through the structured profile;
+# the DimensionalDataSet $def explicitly declares it, so it is
+# constrained there.
+# ------------------------------------------------------------
+
+# -- WideDataSet --------------------------------------------------------------
+
+cdifd:ddi-cdif-wide-data-setShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:WideDataSet ;
+
+	# -- RECOMMENDED (Warning) -- Required per CDIF DD Appendix 4
+
+	sh:property [
+		sh:path cdi:isStructuredBy ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI WideDataSet should specify cdi:isStructuredBy - a reference to a WideDataStructure (Required per CDIF DD Appendix 4)" ;
+	] ;
+
+	# -- INFORMATIONAL (Info)
+
+	sh:property [
+		sh:path cdi:has ;
+		sh:severity sh:Info ;
+		sh:message "cdi:has may reference one or more DataPoint or Key instances belonging to the data set" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:identifier ;
+		sh:severity sh:Info ;
+		sh:message "cdi:identifier may carry an Identifier for the WideDataSet" ;
+	] ;
+
+	.
+
+# -- LongDataSet --------------------------------------------------------------
+
+cdifd:ddi-cdif-long-data-setShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:LongDataSet ;
+
+	# -- RECOMMENDED (Warning) -- Required per CDIF DD Appendix 4
+
+	sh:property [
+		sh:path cdi:isStructuredBy ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI LongDataSet should specify cdi:isStructuredBy - a reference to a LongDataStructure (Required per CDIF DD Appendix 4)" ;
+	] ;
+
+	# -- INFORMATIONAL (Info)
+
+	sh:property [
+		sh:path cdi:has ;
+		sh:severity sh:Info ;
+		sh:message "cdi:has may reference one or more DataPoint or Key instances belonging to the data set" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:identifier ;
+		sh:severity sh:Info ;
+		sh:message "cdi:identifier may carry an Identifier for the LongDataSet" ;
+	] ;
+
+	.
+
+# -- DimensionalDataSet -------------------------------------------------------
+
+cdifd:ddi-cdif-dimensional-data-setShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:DimensionalDataSet ;
+
+	# -- RECOMMENDED (Warning) -- Required per CDIF DD Appendix 4
+
+	sh:property [
+		sh:path cdi:name ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI DimensionalDataSet should have at least one cdi:name (ObjectName) (Required per CDIF DD Appendix 4)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isStructuredBy ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI DimensionalDataSet should specify cdi:isStructuredBy - a reference to a DimensionalDataStructure (Required per CDIF DD Appendix 4)" ;
+	] ;
+
+	# -- INFORMATIONAL (Info)
+
+	sh:property [
+		sh:path cdi:represents ;
+		sh:severity sh:Info ;
+		sh:message "cdi:represents may reference one or more ScopedMeasure instances represented in the data set" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:has ;
+		sh:severity sh:Info ;
+		sh:message "cdi:has may reference one or more DataPoint or Key instances belonging to the data set" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:identifier ;
+		sh:severity sh:Info ;
+		sh:message "cdi:identifier may carry an Identifier for the DimensionalDataSet" ;
+	] ;
+
+	.
