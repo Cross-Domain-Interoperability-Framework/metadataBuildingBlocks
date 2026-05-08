@@ -20,10 +20,22 @@ cdifd:ddicdiStatisticalClassificationShape
 	] ;
 
 	sh:property [
-		sh:path cdi:has ;
+		sh:path cdi:has_ClassificationItem ;
 		sh:minCount 1 ;
 		sh:severity sh:Warning ;
-		sh:message "A DDI-CDI StatisticalClassification should reference at least one cdi:has member (ClassificationItem, ClassificationItemPosition, LevelStructure, or id-reference)" ;
+		sh:message "A DDI-CDI StatisticalClassification should reference at least one cdi:has_ClassificationItem (ClassificationItem or id-reference)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:has_ClassificationItemPosition ;
+		sh:severity sh:Info ;
+		sh:message "cdi:has_ClassificationItemPosition may carry one or more ClassificationItemPosition references (or id-references) recording the order of items" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:has_LevelStructure ;
+		sh:severity sh:Info ;
+		sh:message "cdi:has_LevelStructure may carry a LevelStructure reference (or id-reference) describing the classification levels" ;
 	] ;
 
 	sh:property [
@@ -61,11 +73,6 @@ cdifd:ddicdiStatisticalClassificationShape
 		sh:message "cdi:availableLanguage may list languages (RFC 1766) in which the classification is available" ;
 	] ;
 
-	sh:property [
-		sh:path cdi:catalogDetails ;
-		sh:severity sh:Info ;
-		sh:message "cdi:catalogDetails may carry catalog-entry information" ;
-	] ;
 
 	sh:property [
 		sh:path cdi:changeFromBase ;

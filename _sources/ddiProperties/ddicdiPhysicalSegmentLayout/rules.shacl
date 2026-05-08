@@ -35,10 +35,16 @@ cdifd:ddicdiPhysicalSegmentLayoutShape
 	] ;
 
 	sh:property [
-		sh:path cdi:has ;
+		sh:path cdi:has_ValueMapping ;
 		sh:minCount 1 ;
 		sh:severity sh:Warning ;
-		sh:message "A DDI-CDI PhysicalSegmentLayout should reference at least one cdi:has - instances of ValueMapping (and ValueMappingPosition) describing how variables are laid out" ;
+		sh:message "A DDI-CDI PhysicalSegmentLayout should reference at least one cdi:has_ValueMapping (ValueMapping or id-reference) describing how a variable is laid out" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:has_ValueMappingPosition ;
+		sh:severity sh:Info ;
+		sh:message "cdi:has_ValueMappingPosition may carry one or more ValueMappingPosition references (or id-references) recording the order of value mappings" ;
 	] ;
 
 	# -- INFORMATIONAL (Info) -- per the schema
@@ -61,11 +67,6 @@ cdifd:ddicdiPhysicalSegmentLayoutShape
 		sh:message "cdi:isDefinedBy may reference one or more SKOS Concepts characterising the layout" ;
 	] ;
 
-	sh:property [
-		sh:path cdi:catalogDetails ;
-		sh:severity sh:Info ;
-		sh:message "cdi:catalogDetails may carry CatalogDetails for the layout" ;
-	] ;
 
 	sh:property [
 		sh:path cdi:overview ;

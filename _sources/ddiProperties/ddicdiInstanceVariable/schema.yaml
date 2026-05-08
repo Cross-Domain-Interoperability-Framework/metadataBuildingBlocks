@@ -13,14 +13,17 @@ properties:
   '@id':
     type: string
     description: Identifier for this InstanceVariable node
-  'cdi:has':
+  'cdi:has_PhysicalSegmentLayout':
     type: array
     items:
       anyOf:
       - '$ref': ../ddicdiPhysicalSegmentLayout/schema.yaml
       - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
-      - '$ref': '#/$defs/ValueMapping'
     minItems: 1
+  'cdi:has_ValueMapping':
+    anyOf:
+    - '$ref': '#/$defs/ValueMapping'
+    - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
   'cdi:physicalDataType':
     '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry'
     description: >-

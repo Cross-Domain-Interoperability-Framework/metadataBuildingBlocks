@@ -19,13 +19,19 @@ properties:
       If value is False, the members are unique within the collection - if True, there may
       be duplicates. (Note that a mathematical “bag” permits duplicates and is unordered -
       a “set” does not have duplicates and may be ordered.)
-  'cdi:has':
+  'cdi:has_CodePosition':
     type: array
     items:
       anyOf:
       - '$ref': '#/$defs/CodePosition'
       - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+    minItems: 1
+  'cdi:has_Code':
+    type: array
+    items:
+      anyOf:
       - '$ref': '#/$defs/Code'
+      - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
     minItems: 1
   'cdi:identifier':
     '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/Identifier'
@@ -205,13 +211,19 @@ required:
       '@id':
         type: string
         description: Identifier for this CategorySet node
-      'cdi:has':
+      'cdi:has_Category':
         type: array
         items:
           anyOf:
           - '$ref': '#/$defs/Category'
           - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+        minItems: 1
+      'cdi:has_CategoryPosition':
+        type: array
+        items:
+          anyOf:
           - '$ref': '#/$defs/CategoryPosition'
+          - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
         minItems: 1
       'cdi:allowsDuplicates':
         type: boolean

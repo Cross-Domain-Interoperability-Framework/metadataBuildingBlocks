@@ -94,15 +94,24 @@ properties:
       - '$ref': '#/$defs/StatisticalClassification'
       - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
     minItems: 1
-  'cdi:has':
+  'cdi:has_ClassificationItemPosition':
     type: array
     items:
       anyOf:
       - '$ref': '#/$defs/ClassificationItemPosition'
       - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
-      - '$ref': '#/$defs/ClassificationItem'
-      - '$ref': '#/$defs/LevelStructure'
     minItems: 1
+  'cdi:has_ClassificationItem':
+    type: array
+    items:
+      anyOf:
+      - '$ref': '#/$defs/ClassificationItem'
+      - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+    minItems: 1
+  'cdi:has_LevelStructure':
+    anyOf:
+    - '$ref': '#/$defs/LevelStructure'
+    - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
   'cdi:purposeOfVariant':
     '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/InternationalString'
     description: >-
@@ -313,13 +322,19 @@ required:
       '@id':
         type: string
         description: Identifier for this CategorySet node
-      'cdi:has':
+      'cdi:has_Category':
         type: array
         items:
           anyOf:
           - '$ref': '#/$defs/Category'
           - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+        minItems: 1
+      'cdi:has_CategoryPosition':
+        type: array
+        items:
+          anyOf:
           - '$ref': '#/$defs/CategoryPosition'
+          - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
         minItems: 1
       'cdi:allowsDuplicates':
         type: boolean
@@ -438,13 +453,19 @@ required:
           - '$ref': ../../skosProperties/skosConcept/schema.yaml
           - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
         minItems: 1
-      'cdi:has':
+      'cdi:has_ClassificationIndexEntryPosition':
         type: array
         items:
           anyOf:
           - '$ref': '#/$defs/ClassificationIndexEntryPosition'
           - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+        minItems: 1
+      'cdi:has_ClassificationIndexEntry':
+        type: array
+        items:
+          anyOf:
           - '$ref': '#/$defs/ClassificationIndexEntry'
+          - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
         minItems: 1
       'cdi:purpose':
         '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/InternationalString'

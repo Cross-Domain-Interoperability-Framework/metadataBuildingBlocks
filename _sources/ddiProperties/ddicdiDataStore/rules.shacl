@@ -27,10 +27,22 @@ cdifd:ddicdiDataStoreShape
 	] ;
 
 	sh:property [
-		sh:path cdi:has ;
+		sh:path cdi:has_LogicalRecord ;
 		sh:minCount 1 ;
 		sh:severity sh:Warning ;
-		sh:message "A DDI-CDI DataStore should reference at least one cdi:has - a LogicalRecord (or LogicalRecordPosition / RecordRelation) (Required per CDIF DD Appendix 4)" ;
+		sh:message "A DDI-CDI DataStore should reference at least one cdi:has_LogicalRecord (LogicalRecord or id-reference) (Required per CDIF DD Appendix 4)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:has_LogicalRecordPosition ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI DataStore may reference cdi:has_LogicalRecordPosition members (LogicalRecordPosition or id-reference) recording the order of records" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:has_RecordRelation ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI DataStore may reference cdi:has_RecordRelation members (RecordRelation or id-reference) describing relationships among records" ;
 	] ;
 
 	# -- INFORMATIONAL (Info)
@@ -60,11 +72,6 @@ cdifd:ddicdiDataStoreShape
 		sh:message "cdi:allowsDuplicates indicates whether the collection permits duplicate members" ;
 	] ;
 
-	sh:property [
-		sh:path cdi:catalogDetails ;
-		sh:severity sh:Info ;
-		sh:message "cdi:catalogDetails may carry CatalogDetails for the DataStore" ;
-	] ;
 
 	sh:property [
 		sh:path cdi:characterSet ;

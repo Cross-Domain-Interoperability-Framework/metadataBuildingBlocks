@@ -60,7 +60,7 @@
       },
       "minItems": 1
     },
-    "cdi:has": {
+    "cdi:has_LogicalRecordPosition": {
       "type": "array",
       "items": {
         "anyOf": [
@@ -107,193 +107,211 @@
           },
           {
             "$ref": "#/$defs/id-reference"
-          },
-          {
-            "$ref": "#/$defs/DdicdiLogicalRecord"
-          },
-          {
-            "type": "object",
-            "description": "Relationships among record types within and between logical records.",
-            "properties": {
-              "@type": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "contains": {
-                  "const": "cdi:RecordRelation"
-                },
-                "minItems": 1
-              },
-              "@id": {
-                "type": "string",
-                "description": "Identifier for this RecordRelation node"
-              },
-              "cdi:displayLabel": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/$defs/LabelForDisplay"
-                },
-                "minItems": 1,
-                "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
-              },
-              "cdi:identifier": {
-                "$ref": "#/$defs/DdicdiDataTypes_Identifier",
-                "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-              },
-              "cdi:maps": {
-                "type": "array",
-                "items": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/$defs/DdicdiLogicalRecord"
-                    },
-                    {
-                      "$ref": "#/$defs/id-reference"
-                    }
-                  ]
-                },
-                "minItems": 2
-              },
-              "cdi:has": {
-                "type": "array",
-                "items": {
-                  "anyOf": [
-                    {
-                      "type": "object",
-                      "description": "Key value relationship for two or more logical records where the key is one or more equivalent instance variables and the value is a defined relationship or a relationship to a set value.",
-                      "properties": {
-                        "@type": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          },
-                          "contains": {
-                            "const": "cdi:InstanceVariableMap"
-                          },
-                          "minItems": 1
-                        },
-                        "@id": {
-                          "type": "string",
-                          "description": "Identifier for this InstanceVariableMap node"
-                        },
-                        "cdi:comparison": {
-                          "type": "string",
-                          "enum": [
-                            "Equal",
-                            "GreaterThan",
-                            "GreaterThanOrEqualTo",
-                            "LessThan",
-                            "LessThanOrEqualTo",
-                            "NotEqual"
-                          ],
-                          "description": "Relationship between the source and target instance variables or to the setValue if provided."
-                        },
-                        "cdi:correspondence": {
-                          "type": "object",
-                          "description": "Describes the relationship between the source and target members using both controlled vocabularies and descriptive text. In this context the correspondence refers to the two instance variables, not their value. The relationship would normally be ExactMatch.",
-                          "properties": {
-                            "@type": {
-                              "type": "array",
-                              "items": {
-                                "type": "string"
-                              },
-                              "contains": {
-                                "const": "cdi:CorrespondenceDefinition"
-                              },
-                              "minItems": 1
-                            },
-                            "cdi:commonality": {
-                              "$ref": "#/$defs/InternationalString",
-                              "description": "A description of the common features of the two items. Supports multiple language versions of the same content as well as optional formatting of the content."
-                            },
-                            "cdi:commonalityCode": {
-                              "type": "array",
-                              "items": {
-                                "$ref": "#/$defs/ControlledVocabularyEntry"
-                              },
-                              "minItems": 1,
-                              "description": "Commonality expressed as a term or code. Supports the use of an external controlled vocabulary. If repeated, clarify each external controlled vocabulary used."
-                            },
-                            "cdi:difference": {
-                              "$ref": "#/$defs/InternationalString",
-                              "description": "A description of the differences between the two items. Supports multiple language versions of the same content as well as optional formatting of the content."
-                            },
-                            "cdi:matching": {
-                              "type": "string",
-                              "enum": [
-                                "CloseMatch",
-                                "Disjoint",
-                                "ExactMatch"
-                              ],
-                              "description": "Allows specification of exact match, close match, or disjoint. These relationships can be further defined by describing commonalities or differences or providing additional controlled vocabulary descriptions of relationships."
-                            }
-                          }
-                        },
-                        "cdi:identifier": {
-                          "$ref": "#/$defs/DdicdiDataTypes_Identifier",
-                          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-                        },
-                        "cdi:hasTarget": {
-                          "type": "array",
-                          "items": {
-                            "anyOf": [
-                              {
-                                "$ref": "#/$defs/CdifVariableMeasured"
-                              },
-                              {
-                                "$ref": "#/$defs/id-reference"
-                              }
-                            ]
-                          },
-                          "minItems": 1
-                        },
-                        "cdi:hasSource": {
-                          "type": "array",
-                          "items": {
-                            "anyOf": [
-                              {
-                                "$ref": "#/$defs/CdifVariableMeasured"
-                              },
-                              {
-                                "$ref": "#/$defs/id-reference"
-                              }
-                            ]
-                          },
-                          "minItems": 1
-                        },
-                        "cdi:setValue": {
-                          "type": "string",
-                          "description": "A fixed value for the key source Instance Variables."
-                        }
-                      },
-                      "required": [
-                        "@type"
-                      ]
-                    },
-                    {
-                      "$ref": "#/$defs/id-reference"
-                    }
-                  ]
-                },
-                "minItems": 1
-              },
-              "cdi:purpose": {
-                "$ref": "#/$defs/InternationalString",
-                "description": "Intent or reason for the object/the description of the object."
-              },
-              "cdi:usage": {
-                "$ref": "#/$defs/InternationalString",
-                "description": "Explanation of the ways in which the object is employed."
-              }
-            },
-            "required": [
-              "@type"
-            ]
           }
         ]
       },
       "minItems": 1
+    },
+    "cdi:has_LogicalRecord": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/DdicdiLogicalRecord"
+          },
+          {
+            "$ref": "#/$defs/id-reference"
+          }
+        ]
+      },
+      "minItems": 1
+    },
+    "cdi:has_RecordRelation": {
+      "anyOf": [
+        {
+          "type": "object",
+          "description": "Relationships among record types within and between logical records.",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:RecordRelation"
+              },
+              "minItems": 1
+            },
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this RecordRelation node"
+            },
+            "cdi:displayLabel": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/LabelForDisplay"
+              },
+              "minItems": 1,
+              "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+            },
+            "cdi:identifier": {
+              "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+            },
+            "cdi:maps": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/DdicdiLogicalRecord"
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              },
+              "minItems": 2
+            },
+            "cdi:has": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "description": "Key value relationship for two or more logical records where the key is one or more equivalent instance variables and the value is a defined relationship or a relationship to a set value.",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:InstanceVariableMap"
+                        },
+                        "minItems": 1
+                      },
+                      "@id": {
+                        "type": "string",
+                        "description": "Identifier for this InstanceVariableMap node"
+                      },
+                      "cdi:comparison": {
+                        "type": "string",
+                        "enum": [
+                          "Equal",
+                          "GreaterThan",
+                          "GreaterThanOrEqualTo",
+                          "LessThan",
+                          "LessThanOrEqualTo",
+                          "NotEqual"
+                        ],
+                        "description": "Relationship between the source and target instance variables or to the setValue if provided."
+                      },
+                      "cdi:correspondence": {
+                        "type": "object",
+                        "description": "Describes the relationship between the source and target members using both controlled vocabularies and descriptive text. In this context the correspondence refers to the two instance variables, not their value. The relationship would normally be ExactMatch.",
+                        "properties": {
+                          "@type": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "contains": {
+                              "const": "cdi:CorrespondenceDefinition"
+                            },
+                            "minItems": 1
+                          },
+                          "cdi:commonality": {
+                            "$ref": "#/$defs/InternationalString",
+                            "description": "A description of the common features of the two items. Supports multiple language versions of the same content as well as optional formatting of the content."
+                          },
+                          "cdi:commonalityCode": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/$defs/ControlledVocabularyEntry"
+                            },
+                            "minItems": 1,
+                            "description": "Commonality expressed as a term or code. Supports the use of an external controlled vocabulary. If repeated, clarify each external controlled vocabulary used."
+                          },
+                          "cdi:difference": {
+                            "$ref": "#/$defs/InternationalString",
+                            "description": "A description of the differences between the two items. Supports multiple language versions of the same content as well as optional formatting of the content."
+                          },
+                          "cdi:matching": {
+                            "type": "string",
+                            "enum": [
+                              "CloseMatch",
+                              "Disjoint",
+                              "ExactMatch"
+                            ],
+                            "description": "Allows specification of exact match, close match, or disjoint. These relationships can be further defined by describing commonalities or differences or providing additional controlled vocabulary descriptions of relationships."
+                          }
+                        }
+                      },
+                      "cdi:identifier": {
+                        "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+                        "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                      },
+                      "cdi:hasTarget": {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/CdifVariableMeasured"
+                            },
+                            {
+                              "$ref": "#/$defs/id-reference"
+                            }
+                          ]
+                        },
+                        "minItems": 1
+                      },
+                      "cdi:hasSource": {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/CdifVariableMeasured"
+                            },
+                            {
+                              "$ref": "#/$defs/id-reference"
+                            }
+                          ]
+                        },
+                        "minItems": 1
+                      },
+                      "cdi:setValue": {
+                        "type": "string",
+                        "description": "A fixed value for the key source Instance Variables."
+                      }
+                    },
+                    "required": [
+                      "@type"
+                    ]
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              },
+              "minItems": 1
+            },
+            "cdi:purpose": {
+              "$ref": "#/$defs/InternationalString",
+              "description": "Intent or reason for the object/the description of the object."
+            },
+            "cdi:usage": {
+              "$ref": "#/$defs/InternationalString",
+              "description": "Explanation of the ways in which the object is employed."
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "$ref": "#/$defs/id-reference"
+        }
+      ]
     },
     "cdi:purpose": {
       "$ref": "#/$defs/InternationalString",
@@ -2525,7 +2543,7 @@
                   "type": "string",
                   "description": "Identifier for this CategorySet node"
                 },
-                "cdi:has": {
+                "cdi:has_Category": {
                   "type": "array",
                   "items": {
                     "anyOf": [
@@ -2534,7 +2552,15 @@
                       },
                       {
                         "$ref": "#/$defs/id-reference"
-                      },
+                      }
+                    ]
+                  },
+                  "minItems": 1
+                },
+                "cdi:has_CategoryPosition": {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
                       {
                         "type": "object",
                         "description": "Assigns a sequence number to a category within a list.",
@@ -2575,6 +2601,9 @@
                         "required": [
                           "@type"
                         ]
+                      },
+                      {
+                        "$ref": "#/$defs/id-reference"
                       }
                     ]
                   },
@@ -2778,7 +2807,7 @@
             }
           ]
         },
-        "cdi:has": {
+        "cdi:has_ValueMapping": {
           "type": "array",
           "items": {
             "anyOf": [
@@ -2787,9 +2816,20 @@
               },
               {
                 "$ref": "#/$defs/id-reference"
-              },
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:has_ValueMappingPosition": {
+          "type": "array",
+          "items": {
+            "anyOf": [
               {
                 "$ref": "#/$defs/ValueMappingPosition"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
               }
             ]
           },
@@ -3172,7 +3212,7 @@
           },
           "minItems": 1
         },
-        "cdi:has": {
+        "cdi:has_DataPoint": {
           "type": "array",
           "items": {
             "anyOf": [
@@ -3181,9 +3221,20 @@
               },
               {
                 "$ref": "#/$defs/id-reference"
-              },
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:has_Key": {
+          "type": "array",
+          "items": {
+            "anyOf": [
               {
                 "$ref": "#/$defs/Key"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
               }
             ]
           },
@@ -4141,7 +4192,7 @@
             }
           ]
         },
-        "cdi:has": {
+        "cdi:has_PhysicalSegmentLayout": {
           "type": "array",
           "items": {
             "anyOf": [
@@ -4150,13 +4201,20 @@
               },
               {
                 "$ref": "#/$defs/id-reference"
-              },
-              {
-                "$ref": "#/$defs/DdicdiPresentationalVariable_ValueMapping"
               }
             ]
           },
           "minItems": 1
+        },
+        "cdi:has_ValueMapping": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DdicdiPresentationalVariable_ValueMapping"
+            },
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ]
         },
         "cdi:physicalDataType": {
           "$ref": "#/$defs/ControlledVocabularyEntry",
@@ -4497,7 +4555,7 @@
             }
           ]
         },
-        "cdi:has": {
+        "cdi:has_PhysicalSegmentLayout": {
           "type": "array",
           "items": {
             "anyOf": [
@@ -4506,13 +4564,20 @@
               },
               {
                 "$ref": "#/$defs/id-reference"
-              },
-              {
-                "$ref": "#/$defs/DdicdiPresentationalVariable_ValueMapping"
               }
             ]
           },
           "minItems": 1
+        },
+        "cdi:has_ValueMapping": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DdicdiPresentationalVariable_ValueMapping"
+            },
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ]
         },
         "cdi:physicalDataType": {
           "$ref": "#/$defs/ControlledVocabularyEntry",
@@ -5001,7 +5066,7 @@
           "type": "string",
           "description": "Identifier for this DataStructure node"
         },
-        "cdi:has": {
+        "cdi:has_ForeignKey": {
           "type": "array",
           "items": {
             "anyOf": [
@@ -5010,33 +5075,52 @@
               },
               {
                 "$ref": "#/$defs/id-reference"
-              },
-              {
-                "$ref": "#/$defs/DdicdiDataStructureComponent"
-              },
-              {
-                "$ref": "#/$defs/ComponentPosition"
-              },
-              {
-                "$ref": "#/$defs/PrimaryKey"
               }
             ]
           },
           "minItems": 1
         },
-        "cdi:identifier": {
-          "$ref": "#/$defs/DdicdiDataTypes_Identifier",
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        "cdi:has_DataStructureComponent": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/DdicdiDataStructureComponent"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
         },
-        "cdi:isDefinedBy": {
+        "cdi:has_ComponentPosition": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ComponentPosition"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:has_PrimaryKey": {
           "anyOf": [
             {
-              "$ref": "#/$defs/DdicdiRepresentedVariable"
+              "$ref": "#/$defs/PrimaryKey"
             },
             {
               "$ref": "#/$defs/id-reference"
             }
           ]
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
         },
         "cdi:semantic": {
           "type": "array",
@@ -5087,7 +5171,7 @@
           },
           "minItems": 1
         },
-        "cdi:has": {
+        "cdi:has_ForeignKey": {
           "type": "array",
           "items": {
             "anyOf": [
@@ -5096,33 +5180,52 @@
               },
               {
                 "$ref": "#/$defs/id-reference"
-              },
-              {
-                "$ref": "#/$defs/DdicdiDataStructureComponent"
-              },
-              {
-                "$ref": "#/$defs/ComponentPosition"
-              },
-              {
-                "$ref": "#/$defs/PrimaryKey"
               }
             ]
           },
           "minItems": 1
         },
-        "cdi:identifier": {
-          "$ref": "#/$defs/DdicdiDataTypes_Identifier",
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        "cdi:has_DataStructureComponent": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/DdicdiDataStructureComponent"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
         },
-        "cdi:isDefinedBy": {
+        "cdi:has_ComponentPosition": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ComponentPosition"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:has_PrimaryKey": {
           "anyOf": [
             {
-              "$ref": "#/$defs/DdicdiRepresentedVariable"
+              "$ref": "#/$defs/PrimaryKey"
             },
             {
               "$ref": "#/$defs/id-reference"
             }
           ]
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
         },
         "cdi:semantic": {
           "type": "array",
@@ -5159,7 +5262,7 @@
           "type": "string",
           "description": "Identifier for this KeyValueStructure node"
         },
-        "cdi:has": {
+        "cdi:has_ForeignKey": {
           "type": "array",
           "items": {
             "anyOf": [
@@ -5168,33 +5271,52 @@
               },
               {
                 "$ref": "#/$defs/id-reference"
-              },
-              {
-                "$ref": "#/$defs/DdicdiDataStructureComponent"
-              },
-              {
-                "$ref": "#/$defs/ComponentPosition"
-              },
-              {
-                "$ref": "#/$defs/PrimaryKey"
               }
             ]
           },
           "minItems": 1
         },
-        "cdi:identifier": {
-          "$ref": "#/$defs/DdicdiDataTypes_Identifier",
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        "cdi:has_DataStructureComponent": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/DdicdiDataStructureComponent"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
         },
-        "cdi:isDefinedBy": {
+        "cdi:has_ComponentPosition": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ComponentPosition"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:has_PrimaryKey": {
           "anyOf": [
             {
-              "$ref": "#/$defs/DdicdiRepresentedVariable"
+              "$ref": "#/$defs/PrimaryKey"
             },
             {
               "$ref": "#/$defs/id-reference"
             }
           ]
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
         },
         "cdi:semantic": {
           "type": "array",
@@ -5231,7 +5353,7 @@
           "type": "string",
           "description": "Identifier for this LongDataStructure node"
         },
-        "cdi:has": {
+        "cdi:has_ForeignKey": {
           "type": "array",
           "items": {
             "anyOf": [
@@ -5240,33 +5362,52 @@
               },
               {
                 "$ref": "#/$defs/id-reference"
-              },
-              {
-                "$ref": "#/$defs/DdicdiDataStructureComponent"
-              },
-              {
-                "$ref": "#/$defs/ComponentPosition"
-              },
-              {
-                "$ref": "#/$defs/PrimaryKey"
               }
             ]
           },
           "minItems": 1
         },
-        "cdi:identifier": {
-          "$ref": "#/$defs/DdicdiDataTypes_Identifier",
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        "cdi:has_DataStructureComponent": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/DdicdiDataStructureComponent"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
         },
-        "cdi:isDefinedBy": {
+        "cdi:has_ComponentPosition": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ComponentPosition"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:has_PrimaryKey": {
           "anyOf": [
             {
-              "$ref": "#/$defs/DdicdiRepresentedVariable"
+              "$ref": "#/$defs/PrimaryKey"
             },
             {
               "$ref": "#/$defs/id-reference"
             }
           ]
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
         },
         "cdi:semantic": {
           "type": "array",
@@ -5303,7 +5444,7 @@
           "type": "string",
           "description": "Identifier for this WideDataStructure node"
         },
-        "cdi:has": {
+        "cdi:has_ForeignKey": {
           "type": "array",
           "items": {
             "anyOf": [
@@ -5312,33 +5453,52 @@
               },
               {
                 "$ref": "#/$defs/id-reference"
-              },
-              {
-                "$ref": "#/$defs/DdicdiDataStructureComponent"
-              },
-              {
-                "$ref": "#/$defs/ComponentPosition"
-              },
-              {
-                "$ref": "#/$defs/PrimaryKey"
               }
             ]
           },
           "minItems": 1
         },
-        "cdi:identifier": {
-          "$ref": "#/$defs/DdicdiDataTypes_Identifier",
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        "cdi:has_DataStructureComponent": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/DdicdiDataStructureComponent"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
         },
-        "cdi:isDefinedBy": {
+        "cdi:has_ComponentPosition": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ComponentPosition"
+              },
+              {
+                "$ref": "#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:has_PrimaryKey": {
           "anyOf": [
             {
-              "$ref": "#/$defs/DdicdiRepresentedVariable"
+              "$ref": "#/$defs/PrimaryKey"
             },
             {
               "$ref": "#/$defs/id-reference"
             }
           ]
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
         },
         "cdi:semantic": {
           "type": "array",
@@ -5457,7 +5617,7 @@
           "$ref": "#/$defs/DdicdiDataTypes_Identifier",
           "description": "Identifier for objects requiring short- or long-lasting referencing and management."
         },
-        "cdi:correspondsTo": {
+        "cdi:correspondsTo_Unit": {
           "anyOf": [
             {
               "type": "object",
@@ -5588,7 +5748,11 @@
             },
             {
               "$ref": "#/$defs/id-reference"
-            },
+            }
+          ]
+        },
+        "cdi:correspondsTo_Universe": {
+          "anyOf": [
             {
               "type": "object",
               "description": "Specialized unit type, with the specialization based upon characteristics other than time and geography.",
@@ -5661,6 +5825,9 @@
               "required": [
                 "@type"
               ]
+            },
+            {
+              "$ref": "#/$defs/id-reference"
             }
           ]
         },
@@ -5688,7 +5855,7 @@
                   "$ref": "#/$defs/DdicdiDataTypes_Identifier",
                   "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                 },
-                "cdi:correspondsTo": {
+                "cdi:correspondsTo_Universe": {
                   "anyOf": [
                     {
                       "type": "object",
@@ -5765,7 +5932,11 @@
                     },
                     {
                       "$ref": "#/$defs/id-reference"
-                    },
+                    }
+                  ]
+                },
+                "cdi:correspondsTo_Unit": {
+                  "anyOf": [
                     {
                       "type": "object",
                       "description": "Individual object of interest for some statistical activity, such as data collection.",
@@ -5892,6 +6063,9 @@
                       "required": [
                         "@type"
                       ]
+                    },
+                    {
+                      "$ref": "#/$defs/id-reference"
                     }
                   ]
                 },

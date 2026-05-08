@@ -266,7 +266,7 @@
                 },
                 "minItems": 1
               },
-              "cdi:has": {
+              "cdi:has_ClassificationIndexEntryPosition": {
                 "type": "array",
                 "items": {
                   "anyOf": [
@@ -381,7 +381,15 @@
                     },
                     {
                       "$ref": "#/$defs/id-reference"
-                    },
+                    }
+                  ]
+                },
+                "minItems": 1
+              },
+              "cdi:has_ClassificationIndexEntry": {
+                "type": "array",
+                "items": {
+                  "anyOf": [
                     {
                       "type": "object",
                       "description": "Word or a short phrase corresponding to a classification item in a statistical classification, together with the code of the corresponding classification item.",
@@ -452,6 +460,9 @@
                       "required": [
                         "@type"
                       ]
+                    },
+                    {
+                      "$ref": "#/$defs/id-reference"
                     }
                   ]
                 },
@@ -515,7 +526,7 @@
       },
       "minItems": 1
     },
-    "cdi:has": {
+    "cdi:has_ClassificationItemPosition": {
       "type": "array",
       "items": {
         "anyOf": [
@@ -562,130 +573,148 @@
           },
           {
             "$ref": "#/$defs/id-reference"
-          },
+          }
+        ]
+      },
+      "minItems": 1
+    },
+    "cdi:has_ClassificationItem": {
+      "type": "array",
+      "items": {
+        "anyOf": [
           {
             "$ref": "#/$defs/ClassificationItem"
           },
           {
-            "type": "object",
-            "description": "Nesting structure of a hierarchical collection.",
-            "properties": {
-              "@type": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "contains": {
-                  "const": "cdi:LevelStructure"
-                },
-                "minItems": 1
+            "$ref": "#/$defs/id-reference"
+          }
+        ]
+      },
+      "minItems": 1
+    },
+    "cdi:has_LevelStructure": {
+      "anyOf": [
+        {
+          "type": "object",
+          "description": "Nesting structure of a hierarchical collection.",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
               },
-              "@id": {
-                "type": "string",
-                "description": "Identifier for this LevelStructure node"
+              "contains": {
+                "const": "cdi:LevelStructure"
               },
-              "cdi:identifier": {
-                "$ref": "#/$defs/Identifier",
-                "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+              "minItems": 1
+            },
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this LevelStructure node"
+            },
+            "cdi:identifier": {
+              "$ref": "#/$defs/Identifier",
+              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+            },
+            "cdi:name": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ObjectName"
               },
-              "cdi:name": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/$defs/ObjectName"
-                },
-                "minItems": 1,
-                "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
-              },
-              "cdi:has": {
-                "type": "array",
-                "items": {
-                  "anyOf": [
-                    {
-                      "type": "object",
-                      "description": "Set of all classification items the same number of relationships from the root (or top) classification item.",
-                      "properties": {
-                        "@type": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
+              "minItems": 1,
+              "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+            },
+            "cdi:has": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "description": "Set of all classification items the same number of relationships from the root (or top) classification item.",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "contains": {
+                          "const": "cdi:Level"
+                        },
+                        "minItems": 1
+                      },
+                      "@id": {
+                        "type": "string",
+                        "description": "Identifier for this Level node"
+                      },
+                      "cdi:displayLabel": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/$defs/LabelForDisplay"
+                        },
+                        "minItems": 1,
+                        "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+                      },
+                      "cdi:identifier": {
+                        "$ref": "#/$defs/Identifier",
+                        "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                      },
+                      "cdi:levelNumber": {
+                        "type": "integer",
+                        "description": "Provides an association between a level number and optional concept which defines it within an ordered array. Use is required."
+                      },
+                      "cdi:isDefinedBy": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/$defs/SkosConcept"
                           },
-                          "contains": {
-                            "const": "cdi:Level"
-                          },
-                          "minItems": 1
-                        },
-                        "@id": {
-                          "type": "string",
-                          "description": "Identifier for this Level node"
-                        },
-                        "cdi:displayLabel": {
-                          "type": "array",
-                          "items": {
-                            "$ref": "#/$defs/LabelForDisplay"
-                          },
-                          "minItems": 1,
-                          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
-                        },
-                        "cdi:identifier": {
-                          "$ref": "#/$defs/Identifier",
-                          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-                        },
-                        "cdi:levelNumber": {
-                          "type": "integer",
-                          "description": "Provides an association between a level number and optional concept which defines it within an ordered array. Use is required."
-                        },
-                        "cdi:isDefinedBy": {
+                          {
+                            "$ref": "#/$defs/id-reference"
+                          }
+                        ]
+                      },
+                      "cdi:groups": {
+                        "type": "array",
+                        "items": {
                           "anyOf": [
                             {
-                              "$ref": "#/$defs/SkosConcept"
+                              "$ref": "#/$defs/ClassificationItem"
                             },
                             {
                               "$ref": "#/$defs/id-reference"
                             }
                           ]
                         },
-                        "cdi:groups": {
-                          "type": "array",
-                          "items": {
-                            "anyOf": [
-                              {
-                                "$ref": "#/$defs/ClassificationItem"
-                              },
-                              {
-                                "$ref": "#/$defs/id-reference"
-                              }
-                            ]
-                          },
-                          "minItems": 1
-                        }
-                      },
-                      "required": [
-                        "@type"
-                      ]
+                        "minItems": 1
+                      }
                     },
-                    {
-                      "$ref": "#/$defs/id-reference"
-                    }
-                  ]
-                },
-                "minItems": 1
+                    "required": [
+                      "@type"
+                    ]
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
               },
-              "cdi:usage": {
-                "$ref": "#/$defs/InternationalString",
-                "description": "Explanation of the ways in which the object is employed."
-              },
-              "cdi:validDateRange": {
-                "$ref": "#/$defs/DateRange",
-                "description": "The period for which the level object is valid, expressed as a start and end date (supports both ISO-standard and non-ISO date formats)."
-              }
+              "minItems": 1
             },
-            "required": [
-              "@type"
-            ]
-          }
-        ]
-      },
-      "minItems": 1
+            "cdi:usage": {
+              "$ref": "#/$defs/InternationalString",
+              "description": "Explanation of the ways in which the object is employed."
+            },
+            "cdi:validDateRange": {
+              "$ref": "#/$defs/DateRange",
+              "description": "The period for which the level object is valid, expressed as a start and end date (supports both ISO-standard and non-ISO date formats)."
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "$ref": "#/$defs/id-reference"
+        }
+      ]
     },
     "cdi:purposeOfVariant": {
       "$ref": "#/$defs/InternationalString",
@@ -871,7 +900,7 @@
               "type": "string",
               "description": "Identifier for this CategorySet node"
             },
-            "cdi:has": {
+            "cdi:has_Category": {
               "type": "array",
               "items": {
                 "anyOf": [
@@ -880,7 +909,15 @@
                   },
                   {
                     "$ref": "#/$defs/id-reference"
-                  },
+                  }
+                ]
+              },
+              "minItems": 1
+            },
+            "cdi:has_CategoryPosition": {
+              "type": "array",
+              "items": {
+                "anyOf": [
                   {
                     "type": "object",
                     "description": "Assigns a sequence number to a category within a list.",
@@ -921,6 +958,9 @@
                     "required": [
                       "@type"
                     ]
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
                   }
                 ]
               },
