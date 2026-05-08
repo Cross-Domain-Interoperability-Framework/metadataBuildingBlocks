@@ -1,0 +1,3 @@
+DDI-CDI PhysicalDataSet describes an organized collection of data values organized in one of the layouts supported by DDI-CDI. Polymorphic root over `cdi:WideDataSet`, `cdi:LongDataSet`, and `cdi:DimensionalDataSet`.
+
+Each variant references its structure via `cdi:isStructuredBy` (pointing at a `ddicdiDataStructure` of the matching kind) and holds the data points themselves through `cdi:has_DataPoint`, with optional `cdi:has_Key` for compound-key indexing. `DimensionalDataSet` adds `cdi:represents` linking to scoped measures. PhysicalDataSet is the dataset-as-realized counterpart to `ddicdiDataStructure` and is the target a CDIF distribution-level description ultimately ties to when the full DDI-CDI Data Description profile is in use.
