@@ -1,0 +1,94 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix cdi:         <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# ------------------------------------------------------------
+# DataStore shape -- targets cdi:DataStore nodes. A DataStore is a
+# collection of LogicalRecords representing a queryable service.
+# Per CDIF DD Appendix 4, name and the has-LogicalRecord
+# association are Required.
+# ------------------------------------------------------------
+
+cdifd:ddicdiDataStoreShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:DataStore ;
+
+	# -- RECOMMENDED (Warning) -- Required per CDIF DD Appendix 4
+
+	sh:property [
+		sh:path cdi:name ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI DataStore should have at least one cdi:name (ObjectName) (Required per CDIF DD Appendix 4)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:has ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI DataStore should reference at least one cdi:has - a LogicalRecord (or LogicalRecordPosition / RecordRelation) (Required per CDIF DD Appendix 4)" ;
+	] ;
+
+	# -- INFORMATIONAL (Info)
+
+	sh:property [
+		sh:path cdi:identifier ;
+		sh:severity sh:Info ;
+		sh:message "cdi:identifier may carry an Identifier for the DataStore" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isDefinedBy ;
+		sh:severity sh:Info ;
+		sh:message "cdi:isDefinedBy may reference one or more SKOS Concepts characterising the DataStore" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:aboutMissing ;
+		sh:severity sh:Info ;
+		sh:message "cdi:aboutMissing may carry an InternationalString describing the treatment of missing data" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:allowsDuplicates ;
+		sh:datatype xsd:boolean ;
+		sh:severity sh:Info ;
+		sh:message "cdi:allowsDuplicates indicates whether the collection permits duplicate members" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:catalogDetails ;
+		sh:severity sh:Info ;
+		sh:message "cdi:catalogDetails may carry CatalogDetails for the DataStore" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:characterSet ;
+		sh:datatype xsd:string ;
+		sh:severity sh:Info ;
+		sh:message "cdi:characterSet may carry the default character set used in the DataStore" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:dataStoreType ;
+		sh:severity sh:Info ;
+		sh:message "cdi:dataStoreType may identify the type of datastore (delimited file, fixed-width, RDB, etc.) via a ControlledVocabularyEntry" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:purpose ;
+		sh:severity sh:Info ;
+		sh:message "cdi:purpose may carry an InternationalString stating the intent or reason for the DataStore" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:recordCount ;
+		sh:datatype xsd:integer ;
+		sh:severity sh:Info ;
+		sh:message "cdi:recordCount may carry the number of records in the DataStore" ;
+	] ;
+	.
