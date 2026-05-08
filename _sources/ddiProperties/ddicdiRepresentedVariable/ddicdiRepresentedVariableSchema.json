@@ -1,96 +1,151 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "title": "DDI-CDI Value Domain",
-    "description": "Value domain for a substantive conceptual domain. Typically a description and/or enumeration of allowed values of interest.",
-    "anyOf": [
-        {
-            "$ref": "#/$defs/SubstantiveValueDomain"
-        },
-        {
-            "$ref": "#/$defs/SentinelValueDomain"
-        }
-    ],
-    "$defs": {
-        "SubstantiveValueDomain": {
-            "type": "object",
-            "description": "Value domain for a substantive conceptual domain. Typically a description and/or enumeration of allowed values of interest.",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "cdi:SubstantiveValueDomain"
-                    },
-                    "minItems": 1
-                },
-                "@id": {
-                    "type": "string",
-                    "description": "Identifier for this SubstantiveValueDomain node"
-                },
-                "cdi:takesValuesFrom": {
-                    "anyOf": [
-                        {
-                            "$ref": "../ddicdiEnumerationDomain/ddicdiEnumerationDomainSchema.json"
-                        },
-                        {
-                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
-                        }
-                    ]
-                },
-                "cdi:isDescribedBy": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/$defs/ValueAndConceptDescription"
-                        },
-                        {
-                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
-                        }
-                    ]
-                },
-                "cdi:takesConceptsFrom": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/$defs/SubstantiveConceptualDomain"
-                        },
-                        {
-                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
-                        }
-                    ]
-                },
-                "cdi:catalogDetails": {
-                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails",
-                    "description": "Bundles the information useful for a data catalog entry.\n\nExamples would be creator, contributor, title, copyright, embargo, and license information\n\nA set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
-                },
-                "cdi:displayLabel": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay"
-                    },
-                    "minItems": 1,
-                    "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
-                },
-                "cdi:identifier": {
-                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Identifier",
-                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-                },
-                "cdi:recommendedDataType": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry"
-                    },
-                    "minItems": 1,
-                    "description": "The data types that are recommended for use with this domain."
-                }
+    "title": "DDI-CDI Represented Variable",
+    "description": "Conceptual variable with a substantive value domain specified.",
+    "type": "object",
+    "properties": {
+        "@type": {
+            "type": "array",
+            "items": {
+                "type": "string"
             },
-            "required": [
-                "@type"
+            "contains": {
+                "const": "cdi:RepresentedVariable"
+            },
+            "minItems": 1
+        },
+        "@id": {
+            "type": "string",
+            "description": "Identifier for this RepresentedVariable node"
+        },
+        "cdi:describedUnitOfMeasure": {
+            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry",
+            "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary."
+        },
+        "cdi:hasIntendedDataType": {
+            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry",
+            "description": "The data type intended to be used by this variable. Supports the optional use of an external controlled vocabulary."
+        },
+        "cdi:takesSentinelValuesFrom": {
+            "type": "array",
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "../ddicdiValueDomain/ddicdiValueDomainSchema.json"
+                    },
+                    {
+                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
+                    }
+                ]
+            },
+            "minItems": 1
+        },
+        "cdi:takesSubstantiveValuesFrom": {
+            "anyOf": [
+                {
+                    "$ref": "../ddicdiValueDomain/ddicdiValueDomainSchema.json"
+                },
+                {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
+                }
             ]
         },
-        "SentinelValueDomain": {
+        "cdi:simpleUnitOfMeasure": {
+            "type": "string",
+            "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a simple string, in cases where no additional information is available (in the legacy system) or needed (as in the case of broad agreement within the community of use [i.e., ISO country codes, currencies, etc. in SDMX])"
+        },
+        "cdi:descriptiveText": {
+            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/InternationalString",
+            "description": "A short natural language account of the characteristics of the object."
+        },
+        "cdi:takesSentinelConceptsFrom": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/SentinelConceptualDomain"
+                },
+                {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
+                }
+            ]
+        },
+        "cdi:takesSubstantiveConceptsFrom": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/SubstantiveConceptualDomain"
+                },
+                {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
+                }
+            ]
+        },
+        "cdi:measures": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/UnitType"
+                },
+                {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
+                }
+            ]
+        },
+        "cdi:unitOfMeasureKind": {
+            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry",
+            "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete."
+        },
+        "cdi:catalogDetails": {
+            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails",
+            "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+        },
+        "cdi:definition": {
+            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/InternationalString",
+            "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
+        },
+        "cdi:displayLabel": {
+            "type": "array",
+            "items": {
+                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay"
+            },
+            "minItems": 1,
+            "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+        },
+        "cdi:externalDefinition": {
+            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Reference",
+            "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+        },
+        "cdi:identifier": {
+            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Identifier",
+            "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+            "type": "array",
+            "items": {
+                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ObjectName"
+            },
+            "minItems": 1,
+            "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:uses": {
+            "type": "array",
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "#/$defs/Concept"
+                    },
+                    {
+                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
+                    }
+                ]
+            },
+            "minItems": 1
+        }
+    },
+    "required": [
+        "@type"
+    ],
+    "$defs": {
+        "Concept": {
             "type": "object",
-            "description": "Value domain for a sentinel conceptual domain.",
+            "description": "Unit of thought differentiated by characteristics (from the Generic Statistical Information Model version 1.2: https://statswiki.unece.org/display/clickablegsim/Concept).",
             "properties": {
                 "@type": {
                     "type": "array",
@@ -98,51 +153,21 @@
                         "type": "string"
                     },
                     "contains": {
-                        "const": "cdi:SentinelValueDomain"
+                        "const": "cdi:Concept"
                     },
                     "minItems": 1
                 },
                 "@id": {
                     "type": "string",
-                    "description": "Identifier for this SentinelValueDomain node"
-                },
-                "cdi:takesConceptsFrom": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/$defs/SentinelConceptualDomain"
-                        },
-                        {
-                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
-                        }
-                    ]
-                },
-                "cdi:takesValuesFrom": {
-                    "anyOf": [
-                        {
-                            "$ref": "../ddicdiEnumerationDomain/ddicdiEnumerationDomainSchema.json"
-                        },
-                        {
-                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
-                        }
-                    ]
-                },
-                "cdi:isDescribedBy": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/$defs/ValueAndConceptDescription"
-                        },
-                        {
-                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
-                        }
-                    ]
-                },
-                "cdi:platformType": {
-                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry",
-                    "description": "The type of platform under which sentinel codes will be used. Statistical software platforms use different sets of codes to indicate missing values. The external controlled vocabulary should list platform types and a description of the allowed missing value types. A sample list would be:\n\n- BlankString - A Blank string indicates missing. Comparison is based on lexical order. - EmptyString - An empty string indicates missing. Use in comparisons returns missing. - Rstyle - Codes drawn from NA and the IEEE 754 values of NaN -Inf +Inf. Comparisons return NA. - SASNumeric - codes drawn from . ._ .A .B .C .D .E .F .G .H .I .J .K .L .M .N .O .P .Q .R .S .T .U .V .W .X .Y .Z Sentinel code treated as less than any substantive value - SPSSstyle - System missing (a dot) a set of individual values drawn from the same datatype as the SubstantiveValueDomain, and a range of values drawn from the same datatype as the SubstantiveValueDomain. Comparisons return system missing. Some functions substitute with valid values (e.g. SUM replaces missing values with 0). - StataNumeric - codes drawn from . ._ .A .B .C .D .E .F .G .H .I .J .K .L .M .N .O .P .Q .R .S .T .U .V .W .X .Y .Z Sentinel code treated as greater than any substantive value - Unrestricted - No restrictions on codes for sentinel values. Use in comparisons is indeterminate."
+                    "description": "Identifier for this Concept node"
                 },
                 "cdi:catalogDetails": {
                     "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails",
-                    "description": "Bundles the information useful for a data catalog entry.\n\nExamples would be creator, contributor, title, copyright, embargo, and license information\n\nA set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+                    "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+                },
+                "cdi:definition": {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/InternationalString",
+                    "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
                 },
                 "cdi:displayLabel": {
                     "type": "array",
@@ -152,17 +177,35 @@
                     "minItems": 1,
                     "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
                 },
+                "cdi:externalDefinition": {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Reference",
+                    "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+                },
                 "cdi:identifier": {
                     "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Identifier",
                     "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                 },
-                "cdi:recommendedDataType": {
+                "cdi:name": {
                     "type": "array",
                     "items": {
-                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry"
+                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ObjectName"
                     },
                     "minItems": 1,
-                    "description": "The data types that are recommended for use with this domain."
+                    "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+                },
+                "cdi:uses": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/Concept"
+                            },
+                            {
+                                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
+                            }
+                        ]
+                    },
+                    "minItems": 1
                 }
             },
             "required": [
@@ -216,7 +259,7 @@
                     "items": {
                         "anyOf": [
                             {
-                                "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
+                                "$ref": "#/$defs/Concept"
                             },
                             {
                                 "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
@@ -230,7 +273,7 @@
                     "items": {
                         "anyOf": [
                             {
-                                "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
+                                "$ref": "#/$defs/Concept"
                             },
                             {
                                 "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
@@ -389,6 +432,79 @@
                     "description": "Optional use of a controlled vocabulary to specifically type the associated content."
                 }
             }
+        },
+        "UnitType": {
+            "type": "object",
+            "description": "Unit type is a type or class of objects of interest (units).",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "cdi:UnitType"
+                    },
+                    "minItems": 1
+                },
+                "@id": {
+                    "type": "string",
+                    "description": "Identifier for this UnitType node"
+                },
+                "cdi:descriptiveText": {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/InternationalString",
+                    "description": "A short natural language account of the characteristics of the object."
+                },
+                "cdi:catalogDetails": {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails",
+                    "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
+                },
+                "cdi:definition": {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/InternationalString",
+                    "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
+                },
+                "cdi:displayLabel": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay"
+                    },
+                    "minItems": 1,
+                    "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+                },
+                "cdi:externalDefinition": {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Reference",
+                    "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+                },
+                "cdi:identifier": {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Identifier",
+                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                },
+                "cdi:name": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ObjectName"
+                    },
+                    "minItems": 1,
+                    "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+                },
+                "cdi:uses": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/Concept"
+                            },
+                            {
+                                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
+                            }
+                        ]
+                    },
+                    "minItems": 1
+                }
+            },
+            "required": [
+                "@type"
+            ]
         },
         "ValueAndConceptDescription": {
             "type": "object",

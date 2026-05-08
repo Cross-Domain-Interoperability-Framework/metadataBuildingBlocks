@@ -4,71 +4,16 @@
     "description": "DDI-CDI Agent class hierarchy. Covers Individual (person), Machine (software/hardware), Organization (group/institution), and ProcessingAgent (orchestrates production activities) using DDI Cross-Domain Integration vocabulary. Each agent subtype is defined in its own building block; this schema composes them.",
     "anyOf": [
         {
-            "description": "Single agent node",
-            "type": "object",
-            "anyOf": [
-                {
-                    "$ref": "../ddicdiIndividual/ddicdiIndividualSchema.json"
-                },
-                {
-                    "$ref": "../ddicdiMachine/ddicdiMachineSchema.json"
-                },
-                {
-                    "$ref": "../ddicdiOrganization/ddicdiOrganizationSchema.json"
-                },
-                {
-                    "$ref": "../ddicdiProcessingAgent/ddicdiProcessingAgentSchema.json"
-                }
-            ]
+            "$ref": "../ddicdiIndividual/ddicdiIndividualSchema.json"
         },
         {
-            "description": "Unwrapped @graph array of agent nodes (OGC pipeline)",
-            "type": "array",
-            "items": {
-                "anyOf": [
-                    {
-                        "$ref": "../ddicdiIndividual/ddicdiIndividualSchema.json"
-                    },
-                    {
-                        "$ref": "../ddicdiMachine/ddicdiMachineSchema.json"
-                    },
-                    {
-                        "$ref": "../ddicdiOrganization/ddicdiOrganizationSchema.json"
-                    },
-                    {
-                        "$ref": "../ddicdiProcessingAgent/ddicdiProcessingAgentSchema.json"
-                    }
-                ]
-            }
+            "$ref": "../ddicdiMachine/ddicdiMachineSchema.json"
         },
         {
-            "description": "JSON-LD document with @context and @graph",
-            "type": "object",
-            "properties": {
-                "@context": {},
-                "@graph": {
-                    "type": "array",
-                    "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "../ddicdiIndividual/ddicdiIndividualSchema.json"
-                            },
-                            {
-                                "$ref": "../ddicdiMachine/ddicdiMachineSchema.json"
-                            },
-                            {
-                                "$ref": "../ddicdiOrganization/ddicdiOrganizationSchema.json"
-                            },
-                            {
-                                "$ref": "../ddicdiProcessingAgent/ddicdiProcessingAgentSchema.json"
-                            }
-                        ]
-                    }
-                }
-            },
-            "required": [
-                "@graph"
-            ]
+            "$ref": "../ddicdiOrganization/ddicdiOrganizationSchema.json"
+        },
+        {
+            "$ref": "../ddicdiProcessingAgent/ddicdiProcessingAgentSchema.json"
         }
     ]
 }
