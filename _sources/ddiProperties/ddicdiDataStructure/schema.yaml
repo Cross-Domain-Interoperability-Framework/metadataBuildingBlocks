@@ -28,7 +28,7 @@ anyOf:
           anyOf:
           - '$ref': '#/$defs/ForeignKey'
           - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
-          - '$ref': '#/$defs/DataStructureComponent'
+          - '$ref': ../ddicdiDataStructureComponent/schema.yaml
           - '$ref': '#/$defs/ComponentPosition'
           - '$ref': '#/$defs/PrimaryKey'
         minItems: 1
@@ -83,7 +83,7 @@ anyOf:
           anyOf:
           - '$ref': '#/$defs/ForeignKey'
           - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
-          - '$ref': '#/$defs/DataStructureComponent'
+          - '$ref': ../ddicdiDataStructureComponent/schema.yaml
           - '$ref': '#/$defs/ComponentPosition'
           - '$ref': '#/$defs/PrimaryKey'
         minItems: 1
@@ -132,7 +132,7 @@ anyOf:
           anyOf:
           - '$ref': '#/$defs/ForeignKey'
           - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
-          - '$ref': '#/$defs/DataStructureComponent'
+          - '$ref': ../ddicdiDataStructureComponent/schema.yaml
           - '$ref': '#/$defs/ComponentPosition'
           - '$ref': '#/$defs/PrimaryKey'
         minItems: 1
@@ -180,7 +180,7 @@ anyOf:
           anyOf:
           - '$ref': '#/$defs/ForeignKey'
           - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
-          - '$ref': '#/$defs/DataStructureComponent'
+          - '$ref': ../ddicdiDataStructureComponent/schema.yaml
           - '$ref': '#/$defs/ComponentPosition'
           - '$ref': '#/$defs/PrimaryKey'
         minItems: 1
@@ -228,7 +228,7 @@ anyOf:
           anyOf:
           - '$ref': '#/$defs/ForeignKey'
           - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
-          - '$ref': '#/$defs/DataStructureComponent'
+          - '$ref': ../ddicdiDataStructureComponent/schema.yaml
           - '$ref': '#/$defs/ComponentPosition'
           - '$ref': '#/$defs/PrimaryKey'
         minItems: 1
@@ -276,97 +276,11 @@ anyOf:
           Identifier for objects requiring short- or long-lasting referencing and management.
       'cdi:indexes':
         anyOf:
-        - '$ref': '#/$defs/DataStructureComponent'
+        - '$ref': ../ddicdiDataStructureComponent/schema.yaml
         - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
       'cdi:value':
         type: integer
         description: Index value of the member in an ordered array.
-    required:
-    - '@type'
-  DataStructureComponent:
-    type: object
-    description: Role given to a represented variable in the context of a data structure.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: 'cdi:DataStructureComponent'
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this DataStructureComponent node
-      'cdi:identifier':
-        '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/Identifier'
-        description: >-
-          Identifier for objects requiring short- or long-lasting referencing and management.
-      'cdi:isDefinedBy':
-        anyOf:
-        - '$ref': ../ddicdiRepresentedVariable/schema.yaml
-        - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
-      'cdi:semantic':
-        type: array
-        items:
-          '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/PairedControlledVocabularyEntry'
-        minItems: 1
-        description: >-
-          Qualifies the purpose or use expressed as a paired external controlled vocabulary.
-      'cdi:specialization':
-        '$ref': '#/$defs/SpecializationRole'
-        description: >-
-          The role played by the component for the data set for purposes of harmonization
-          and integration, typically regarding geography, time, etc.
-    required:
-    - '@type'
-  DimensionComponent:
-    type: object
-    description: >-
-      Role given to a represented variable in the context of a dimensional data structure
-      to identify the universes associated with data points. The variable acts as a field
-      in the compound identifier (the key structure) to disambiguate the cells in the multi-dimensional
-      "cube".
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: 'cdi:DimensionComponent'
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this DimensionComponent node
-      'cdi:categoricalAdditivity':
-        type: boolean
-        description: |-
-          Indicates whether categories at a specific level can be combined to provide the value for their shared parent category. Value is True if categories can be added together (collapsed) to create higher-level categories.
-
-          An example would be age categories. Five-year age categories can be collapsed into 10-year age categories.
-      'cdi:isStructuredBy':
-        anyOf:
-        - '$ref': ../ddicdiValueDomain/schema.yaml
-        - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
-      'cdi:identifier':
-        '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/Identifier'
-        description: >-
-          Identifier for objects requiring short- or long-lasting referencing and management.
-      'cdi:isDefinedBy':
-        anyOf:
-        - '$ref': ../ddicdiRepresentedVariable/schema.yaml
-        - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
-      'cdi:semantic':
-        type: array
-        items:
-          '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/PairedControlledVocabularyEntry'
-        minItems: 1
-        description: >-
-          Qualifies the purpose or use expressed as a paired external controlled vocabulary.
-      'cdi:specialization':
-        '$ref': '#/$defs/SpecializationRole'
-        description: >-
-          The role played by the component for the data set for purposes of harmonization
-          and integration, typically regarding geography, time, etc.
     required:
     - '@type'
   DimensionGroup:
@@ -400,7 +314,7 @@ anyOf:
         type: array
         items:
           anyOf:
-          - '$ref': '#/$defs/DimensionComponent'
+          - '$ref': ../ddicdiDataStructureComponent/schema.yaml
           - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
         minItems: 1
     required:
@@ -456,7 +370,7 @@ anyOf:
         - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
       'cdi:correspondsTo':
         anyOf:
-        - '$ref': '#/$defs/DataStructureComponent'
+        - '$ref': ../ddicdiDataStructureComponent/schema.yaml
         - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
     required:
     - '@type'
@@ -507,7 +421,7 @@ anyOf:
           Identifier for objects requiring short- or long-lasting referencing and management.
       'cdi:correspondsTo':
         anyOf:
-        - '$ref': '#/$defs/DataStructureComponent'
+        - '$ref': ../ddicdiDataStructureComponent/schema.yaml
         - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
     required:
     - '@type'

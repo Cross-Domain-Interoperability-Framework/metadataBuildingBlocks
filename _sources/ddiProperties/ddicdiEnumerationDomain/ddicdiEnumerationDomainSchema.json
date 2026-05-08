@@ -55,7 +55,7 @@
             "items": {
                 "anyOf": [
                     {
-                        "$ref": "#/$defs/Concept"
+                        "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
                     },
                     {
                         "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
@@ -73,49 +73,6 @@
         "@type"
     ],
     "$defs": {
-        "Agent": {
-            "type": "object",
-            "description": "Actor that performs a role in relation to a process or product.",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "cdi:Agent"
-                    },
-                    "minItems": 1
-                },
-                "@id": {
-                    "type": "string",
-                    "description": "Identifier for this Agent node"
-                },
-                "cdi:catalogDetails": {
-                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails",
-                    "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
-                },
-                "cdi:identifier": {
-                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Identifier",
-                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-                },
-                "cdi:image": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/PrivateImage"
-                    },
-                    "minItems": 1,
-                    "description": "Information regarding image associated with the agent."
-                },
-                "cdi:purpose": {
-                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/InternationalString",
-                    "description": "Intent or reason for the object/the description of the object."
-                }
-            },
-            "required": [
-                "@type"
-            ]
-        },
         "AuthorizationSource": {
             "type": "object",
             "description": "Identifies the authorizing agency and allows for the full text of the authorization (law, regulation, or other form of authorization).",
@@ -138,10 +95,6 @@
                     "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/CombinedDate",
                     "description": "Identifies the date of authorization."
                 },
-                "cdi:catalogDetails": {
-                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails",
-                    "description": "Bundles the information useful for a data catalog entry.\n\nExamples would be creator, contributor, title, copyright, embargo, and license information\n\nA set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
-                },
                 "cdi:identifier": {
                     "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Identifier",
                     "description": "Identifier for objects requiring short- or long-lasting referencing and management."
@@ -155,7 +108,7 @@
                     "items": {
                         "anyOf": [
                             {
-                                "$ref": "#/$defs/Agent"
+                                "$ref": "../ddicdiAgent/ddicdiAgentSchema.json"
                             },
                             {
                                 "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
@@ -199,10 +152,6 @@
                     "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/InternationalString",
                     "description": "A short natural language account of the characteristics of the object."
                 },
-                "cdi:catalogDetails": {
-                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails",
-                    "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
-                },
                 "cdi:definition": {
                     "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/InternationalString",
                     "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
@@ -236,7 +185,7 @@
                     "items": {
                         "anyOf": [
                             {
-                                "$ref": "#/$defs/Concept"
+                                "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
                             },
                             {
                                 "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
@@ -314,24 +263,13 @@
                     "items": {
                         "anyOf": [
                             {
-                                "anyOf": [
-                                    {
-                                        "$ref": "#/$defs/Category"
-                                    },
-                                    {
-                                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
-                                    }
-                                ]
+                                "$ref": "#/$defs/Category"
                             },
                             {
-                                "anyOf": [
-                                    {
-                                        "$ref": "#/$defs/CategoryPosition"
-                                    },
-                                    {
-                                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
-                                    }
-                                ]
+                                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
+                            },
+                            {
+                                "$ref": "#/$defs/CategoryPosition"
                             }
                         ]
                     },
@@ -340,10 +278,6 @@
                 "cdi:allowsDuplicates": {
                     "type": "boolean",
                     "description": "If value is False, the members are unique within the collection - if True, there may be duplicates. (Note that a mathematical “bag” permits duplicates and is unordered - a “set” does not have duplicates and may be ordered.)"
-                },
-                "cdi:catalogDetails": {
-                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails",
-                    "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
                 },
                 "cdi:externalDefinition": {
                     "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Reference",
@@ -366,7 +300,7 @@
                     "items": {
                         "anyOf": [
                             {
-                                "$ref": "#/$defs/Concept"
+                                "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
                             },
                             {
                                 "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
@@ -503,75 +437,6 @@
                 "@type"
             ]
         },
-        "Concept": {
-            "type": "object",
-            "description": "Unit of thought differentiated by characteristics (from the Generic Statistical Information Model version 1.2: https://statswiki.unece.org/display/clickablegsim/Concept).",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "cdi:Concept"
-                    },
-                    "minItems": 1
-                },
-                "@id": {
-                    "type": "string",
-                    "description": "Identifier for this Concept node"
-                },
-                "cdi:catalogDetails": {
-                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails",
-                    "description": "Bundles the information useful for a data catalog entry. Examples would be creator, contributor, title, copyright, embargo, and license information. A set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
-                },
-                "cdi:definition": {
-                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/InternationalString",
-                    "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
-                },
-                "cdi:displayLabel": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay"
-                    },
-                    "minItems": 1,
-                    "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
-                },
-                "cdi:externalDefinition": {
-                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Reference",
-                    "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
-                },
-                "cdi:identifier": {
-                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Identifier",
-                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-                },
-                "cdi:name": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ObjectName"
-                    },
-                    "minItems": 1,
-                    "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
-                },
-                "cdi:uses": {
-                    "type": "array",
-                    "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/$defs/Concept"
-                            },
-                            {
-                                "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
-                            }
-                        ]
-                    },
-                    "minItems": 1
-                }
-            },
-            "required": [
-                "@type"
-            ]
-        },
         "Level": {
             "type": "object",
             "description": "Set of all classification items the same number of relationships from the root (or top) classification item.",
@@ -609,7 +474,7 @@
                 "cdi:isDefinedBy": {
                     "anyOf": [
                         {
-                            "$ref": "#/$defs/Concept"
+                            "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
                         },
                         {
                             "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
@@ -652,10 +517,6 @@
                 "@id": {
                     "type": "string",
                     "description": "Identifier for this LevelStructure node"
-                },
-                "cdi:catalogDetails": {
-                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails",
-                    "description": "Bundles the information useful for a data catalog entry.\n\nExamples would be creator, contributor, title, copyright, embargo, and license information\n\nA set of information useful for attribution, data discovery, and access. This is information that is tied to the identity of the object. If this information changes the version of the associated object changes."
                 },
                 "cdi:identifier": {
                     "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Identifier",

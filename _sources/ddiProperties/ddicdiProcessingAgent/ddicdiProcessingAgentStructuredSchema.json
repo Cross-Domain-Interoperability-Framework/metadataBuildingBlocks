@@ -52,70 +52,6 @@
         ]
       }
     },
-    "cdi:catalogDetails": {
-      "type": "object",
-      "description": "Catalog metadata for this agent",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:CatalogDetails"
-          },
-          "minItems": 1
-        },
-        "cdi:title": {
-          "$ref": "#/$defs/InternationalString",
-          "description": "Title for the catalog entry"
-        },
-        "cdi:summary": {
-          "$ref": "#/$defs/InternationalString",
-          "description": "Summary description"
-        },
-        "cdi:identifier": {
-          "description": "Catalog identifier",
-          "type": "object",
-          "properties": {
-            "cdi:identifierContent": {
-              "type": "string"
-            },
-            "cdi:isUri": {
-              "type": "boolean"
-            }
-          }
-        },
-        "cdi:creator": {
-          "type": "object",
-          "description": "Creator of the catalog entry",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:AgentInRole"
-              },
-              "minItems": 1
-            },
-            "cdi:agentName": {
-              "$ref": "#/$defs/InternationalString",
-              "description": "Name of the agent"
-            },
-            "cdi:reference": {
-              "$ref": "#/$defs/Reference",
-              "description": "Reference to the agent entity"
-            },
-            "cdi:role": {
-              "$ref": "#/$defs/ControlledVocabularyEntry",
-              "description": "Role of the agent"
-            }
-          }
-        }
-      }
-    },
     "cdi:identifier": {
       "type": "object",
       "description": "Formal identifier for this agent",
@@ -316,17 +252,8 @@
       }
     },
     "cdi:purpose": {
-      "$ref": "#/$defs/InternationalString",
-      "description": "Purpose or role of this agent"
-    }
-  },
-  "required": [
-    "@type"
-  ],
-  "$defs": {
-    "InternationalString": {
       "type": "object",
-      "description": "DDI-CDI internationalized string (dt-InternationalString)",
+      "description": "Purpose or role of this agent",
       "properties": {
         "@type": {
           "type": "array",
@@ -401,7 +328,12 @@
           ]
         }
       }
-    },
+    }
+  },
+  "required": [
+    "@type"
+  ],
+  "$defs": {
     "ControlledVocabularyEntry": {
       "type": "object",
       "description": "DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry). Allows for unstructured content which may be an entry from an externally maintained controlled vocabulary. When the content is from a controlled vocabulary, provide the code value of the entry along with a reference to the vocabulary from which the value is taken.",
