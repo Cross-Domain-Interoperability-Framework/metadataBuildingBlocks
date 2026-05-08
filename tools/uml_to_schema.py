@@ -317,6 +317,7 @@ class BuildContext:
     inline_or_ref_class_names: set[str]  # explicit inline-OR-id-reference (now also default)
     reference_class_names: set[str]   # uml:Class names to force as id-reference only
     exclude_class_names: set[str]     # uml:Class / uml:DataType names to drop entirely (any property typed by one of these is omitted; the type's $def is not registered)
+    exclude_property_specs: set[str]  # `ClassName.propertyName` pairs to drop. Use when an inherited UML property is conceptually wrong on a specific subclass (e.g. DataStructure.isDefinedBy belongs on DataStructureComponent subclasses, not on DataStructure variants).
     inline_datatypes: bool            # if True, never $ref shared bb; inline all
     strict_required: bool             # if True, emit `required` per UML lower>=1
     external_class_refs: dict[str, str]  # ClassName -> $ref target if defined in another BB
@@ -424,11 +425,51 @@ def _group_to_schema(group: list[Property], ctx: BuildContext) -> Optional[dict]
     return out
 
 
+def _target_type_name(prop: Property, ctx: BuildContext) -> Optional[str]:
+    """Return the simple class/datatype/enum name of a property's target,
+    or None for primitives / unresolvable targets / excluded targets."""
+    if prop.primitive or not prop.type_id:
+        return None
+    target = ctx.model.elements.get(prop.type_id)
+    if target is None:
+        return None
+    if target.name in ctx.exclude_class_names:
+        return None
+    return target.name
+
+
+def _has_distinct_named_targets(group: list[Property], ctx: BuildContext) -> bool:
+    """True when the group has at least two properties resolving to distinct
+    named targets (class / datatype / enum). Used to decide whether to
+    disambiguate same-named UML associations by suffixing the target class —
+    UCMIS / DDI-CDI re-use bare role names like `has` / `uses` for several
+    distinct targets within a single class, and emitting them as one anyOf
+    key strips type information from the JSON-LD tree."""
+    seen: set[str] = set()
+    for prop in group:
+        n = _target_type_name(prop, ctx)
+        if n is None:
+            continue
+        seen.add(n)
+        if len(seen) >= 2:
+            return True
+    return False
+
+
 def _build_properties_dict(
     prop_list: list[Property], ctx: BuildContext,
+    owner_class_name: Optional[str] = None,
 ) -> tuple[OrderedDict, list[str]]:
     """Group UML properties by role name, then build the JSON Schema
-    `properties` dict and the matching `required` list. Returns (props, required)."""
+    `properties` dict and the matching `required` list. When N>1 properties
+    share a role name and target distinct classes, emit one key per target
+    suffixed with `_<TargetName>` so each remains unambiguous in the JSON
+    tree (the source class is implicit from position).
+
+    `owner_class_name` is the name of the class/datatype whose properties
+    are being emitted; used to honour `--exclude-property
+    ClassName.propertyName` exclusions (e.g. drop an inherited property
+    from a specific subclass)."""
     groups: OrderedDict[str, list[Property]] = OrderedDict()
     for prop in prop_list:
         if not prop.name:
@@ -438,13 +479,39 @@ def _build_properties_dict(
     properties: OrderedDict = OrderedDict()
     required: list[str] = []
     for name, group in groups.items():
-        sub = _group_to_schema(group, ctx)
-        if sub is None:
-            continue
-        key = _qname(ctx.prefix, name)
-        properties[key] = sub
-        if ctx.strict_required and any(p.lower >= 1 for p in group):
-            required.append(key)
+        if owner_class_name and f"{owner_class_name}.{name}" in ctx.exclude_property_specs:
+            continue  # excluded for this owner
+        if len(group) > 1 and _has_distinct_named_targets(group, ctx):
+            # Disambiguate by suffixing each property with its target class.
+            # Properties to the same target are merged into a shared anyOf at
+            # the same suffixed key.
+            by_target: OrderedDict[str, list[Property]] = OrderedDict()
+            for prop in group:
+                tn = _target_type_name(prop, ctx)
+                if tn is None:
+                    print(
+                        f"WARN: cannot suffix '{name}' for prop id={prop.id} "
+                        "(primitive or excluded target); dropping",
+                        file=sys.stderr,
+                    )
+                    continue
+                by_target.setdefault(tn, []).append(prop)
+            for tn, sub_group in by_target.items():
+                sub = _group_to_schema(sub_group, ctx)
+                if sub is None:
+                    continue
+                key = _qname(ctx.prefix, f"{name}_{tn}")
+                properties[key] = sub
+                if ctx.strict_required and any(p.lower >= 1 for p in sub_group):
+                    required.append(key)
+        else:
+            sub = _group_to_schema(group, ctx)
+            if sub is None:
+                continue
+            key = _qname(ctx.prefix, name)
+            properties[key] = sub
+            if ctx.strict_required and any(p.lower >= 1 for p in group):
+                required.append(key)
     return properties, required
 
 
@@ -462,6 +529,7 @@ def datatype_to_def(dt: UmlClass, ctx: BuildContext) -> dict:
     }
     extra, required = _build_properties_dict(
         collect_inherited_properties(dt.id, ctx.model), ctx,
+        owner_class_name=dt.name,
     )
     props.update(extra)
     schema["properties"] = props
@@ -489,6 +557,7 @@ def class_to_node_def(cls: UmlClass, ctx: BuildContext) -> dict:
     }
     extra, extra_req = _build_properties_dict(
         collect_inherited_properties(cls.id, ctx.model), ctx,
+        owner_class_name=cls.name,
     )
     props.update(extra)
     required.extend(extra_req)
@@ -982,6 +1051,11 @@ def main(argv: Optional[list[str]] = None) -> int:
                          "Properties typed by an excluded class are omitted; the type's $def "
                          "is not emitted. Use for classes the project intentionally won't "
                          "implement (e.g. CatalogDetails).")
+    ap.add_argument("--exclude-property", default="",
+                    help="Comma-separated `ClassName.propertyName` pairs to drop. "
+                         "Use when an inherited UML property is conceptually wrong on a "
+                         "specific subclass (e.g. DataStructure.isDefinedBy belongs on "
+                         "DataStructureComponent subclasses, not on the DataStructure variants).")
     ap.add_argument("--inline-datatypes", action="store_true",
                     help="Inline all dt-types locally instead of $ref-ing the shared BB.")
     ap.add_argument("--schema-only", action="store_true",
@@ -1050,6 +1124,7 @@ def main(argv: Optional[list[str]] = None) -> int:
         inline_or_ref_class_names=set(_split_csv(args.inline_or_ref)),
         reference_class_names=set(_split_csv(args.reference)),
         exclude_class_names=set(_split_csv(args.exclude_class)),
+        exclude_property_specs=set(_split_csv(args.exclude_property)),
         inline_datatypes=args.inline_datatypes,
         strict_required=args.strict_required,
         external_class_refs=external_class_refs,
