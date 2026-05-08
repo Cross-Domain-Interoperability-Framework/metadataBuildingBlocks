@@ -110,80 +110,12 @@ properties:
     type: array
     items:
       anyOf:
-      - '$ref': '#/$defs/Concept'
+      - '$ref': ../../skosProperties/skosConcept/schema.yaml
       - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
     minItems: 1
 required:
 - '@type'
 '$defs':
-  Concept:
-    type: object
-    description: >-
-      Unit of thought differentiated by characteristics (from the Generic Statistical Information
-      Model version 1.2: https://statswiki.unece.org/display/clickablegsim/Concept).
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: 'cdi:Concept'
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this Concept node
-      'cdi:catalogDetails':
-        '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails'
-        description: >-
-          Bundles the information useful for a data catalog entry. Examples would be creator,
-          contributor, title, copyright, embargo, and license information. A set of information
-          useful for attribution, data discovery, and access. This is information that is
-          tied to the identity of the object. If this information changes the version of the
-          associated object changes.
-      'cdi:definition':
-        '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/InternationalString'
-        description: >-
-          Natural language statement conveying the meaning of a concept, differentiating it
-          from other concepts. Supports the use of multiple languages and structured text.
-          'externalDefinition' can't be used if 'definition' is used.
-      'cdi:displayLabel':
-        type: array
-        items:
-          '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay'
-        minItems: 1
-        description: >-
-          A human-readable display label for the object. Supports the use of multiple languages.
-          Repeat for labels with different content, for example, labels with differing length
-          limitations.
-      'cdi:externalDefinition':
-        '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/Reference'
-        description: >-
-          A reference to an external definition of a concept (that is, a concept which is
-          described outside the content of the DDI-CDI metadata description). An example is
-          a SKOS concept. The definition property is assumed to duplicate the external one
-          referenced if externalDefinition is used. Other corresponding properties are assumed
-          to be included unchanged if used.
-      'cdi:identifier':
-        '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/Identifier'
-        description: >-
-          Identifier for objects requiring short- or long-lasting referencing and management.
-      'cdi:name':
-        type: array
-        items:
-          '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/ObjectName'
-        minItems: 1
-        description: >-
-          Human understandable name (linguistic signifier, word, phrase, or mnemonic). May
-          follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage.
-      'cdi:uses':
-        type: array
-        items:
-          anyOf:
-          - '$ref': '#/$defs/Concept'
-          - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
-        minItems: 1
-    required:
-    - '@type'
   ConceptSystem:
     type: object
     description: Set of concepts structured by the relations among them [GSIM 1.1].
@@ -236,14 +168,14 @@ required:
         type: array
         items:
           anyOf:
-          - '$ref': '#/$defs/Concept'
+          - '$ref': ../../skosProperties/skosConcept/schema.yaml
           - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
         minItems: 1
       'cdi:has':
         type: array
         items:
           anyOf:
-          - '$ref': '#/$defs/Concept'
+          - '$ref': ../../skosProperties/skosConcept/schema.yaml
           - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
         minItems: 1
       'cdi:purpose':
@@ -425,7 +357,7 @@ required:
         type: array
         items:
           anyOf:
-          - '$ref': '#/$defs/Concept'
+          - '$ref': ../../skosProperties/skosConcept/schema.yaml
           - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
         minItems: 1
     required:
