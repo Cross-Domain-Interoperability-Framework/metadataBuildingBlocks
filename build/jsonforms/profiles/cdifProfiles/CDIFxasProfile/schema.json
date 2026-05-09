@@ -53,11 +53,11 @@
       "description": "The URI for the resource should be the @id value for the root of the JSON instance document tree. Must be an IRI (e.g. https://doi.org/..., urn:..., or a relative URI like #localid). Note that this identifier can be interpreted to identify the resource that is the subject of this metadata record, or the JSON-LD object that is the digital object containing the metadata information."
     },
     "@type": {
-      "description": "a schema.org Class that specifies the expected information content for the metadata record. The array must include at least one schema.org type value. Default is schema:Dataset.",
       "type": "array",
       "items": {
         "type": "string"
       },
+      "description": "a schema.org Class that specifies the expected information content for the metadata record. The array must include at least one schema.org type value. Default is schema:Dataset.",
       "default": "schema:Dataset"
     },
     "schema:name": {
@@ -165,7 +165,6 @@
       "description": "Web Location of a page describing the dataset (landing page), typically providing links or instructions to get the actual resource content; analogous to dcat:accessURL. If a direct link is available to get the data, put in distribution/contentUrl"
     },
     "schema:distribution": {
-      "description": "specifies how to download the data in a specific format or access via a web API. This property describes where to get the data and in what format by using the schema:DataDownload type. If user must access data through a landing page, provide link to landing page in the 'url' property for the dataset",
       "type": "array",
       "items": {
         "type": "object",
@@ -452,7 +451,8 @@
             }
           }
         }
-      }
+      },
+      "description": "specifies how to download the data in a specific format or access via a web API. This property describes where to get the data and in what format by using the schema:DataDownload type. If user must access data through a landing page, provide link to landing page in the 'url' property for the dataset"
     },
     "schema:relatedLink": {
       "type": "array",
@@ -510,8 +510,8 @@
       }
     },
     "schema:keywords": {
-      "description": "extends base CDIF keyword schema to require defined terms for the absorption edge and the target element for the analysis",
       "type": "array",
+      "description": "Keywords are an array of strings, an array of schema:DefinedTerms, or some combination of these. If you have information about a controlled vocabulary from which keywords come from, use schema:DefinedTerm to descibe that keyword. This allowed variability makes parsing metadata hard; recommend using DefinedTerm for all keywords if any of them are from a known vocabulary, otherwise an array of strings.",
       "items": {
         "type": "string"
       }
@@ -735,7 +735,6 @@
       }
     },
     "prov:wasGeneratedBy": {
-      "description": "Brief information about instruments, software or experimental protocols used",
       "type": "array",
       "items": {
         "title": "very simple links or names of software or instruments used to generate a resource.",
@@ -3673,7 +3672,8 @@
           }
         },
         "description": "Extended provenance activity building block for CDIF. Extends the minimal prov:Activity (generatedBy) with schema.org Action properties for comprehensive provenance documentation including agents, instruments, methodology, temporal bounds, action chaining, and more."
-      }
+      },
+      "description": "Brief information about instruments, software or experimental protocols used"
     },
     "prov:wasDerivedFrom": {
       "description": "Brief information about sources of data used in aggregate datasets",
@@ -3868,9 +3868,38 @@
       ]
     },
     "schema:measurementTechnique": {
-      "description": "Require DefinedTerms for both: absorption edge (XDI dict) and target element (SWEET).",
       "type": "array",
+      "description": "The technique, technology, or methodology used for measurement or determination of the dataset values.",
       "items": {
+        "description": "schema.org Defined Term schema",
+        "type": "object",
+        "properties": {
+          "@type": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "schema:DefinedTerm"
+              ]
+            }
+          },
+          "schema:name": {
+            "type": "string",
+            "description": "text label for the term that is useful to human user"
+          },
+          "schema:identifier": {
+            "type": "string",
+            "description": "Identifier"
+          },
+          "schema:inDefinedTermSet": {
+            "type": "string",
+            "description": "Name for the controlled vocabulary responsible for this keyword."
+          },
+          "schema:termCode": {
+            "type": "string",
+            "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+          }
+        },
         "anyOf": [
           {
             "type": "string"
@@ -3910,35 +3939,6 @@
             ]
           }
         ],
-        "description": "schema.org Defined Term schema",
-        "type": "object",
-        "properties": {
-          "@type": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "schema:DefinedTerm"
-              ]
-            }
-          },
-          "schema:name": {
-            "type": "string",
-            "description": "text label for the term that is useful to human user"
-          },
-          "schema:identifier": {
-            "type": "string",
-            "description": "Identifier"
-          },
-          "schema:inDefinedTermSet": {
-            "type": "string",
-            "description": "Name for the controlled vocabulary responsible for this keyword."
-          },
-          "schema:termCode": {
-            "type": "string",
-            "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
-          }
-        },
         "required": [
           "@type"
         ]
@@ -4234,5 +4234,26 @@
         ]
       }
     }
-  }
+  },
+  "required": [
+    "@id",
+    "@type",
+    "@context",
+    "schema:name",
+    "schema:identifier",
+    "schema:dateModified",
+    "schema:subjectOf"
+  ],
+  "anyOf": [
+    {
+      "required": [
+        "schema:license"
+      ]
+    },
+    {
+      "required": [
+        "schema:conditionsOfAccess"
+      ]
+    }
+  ]
 }
