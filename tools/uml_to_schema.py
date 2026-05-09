@@ -960,12 +960,21 @@ def discover_external_class_refs(
     $defs entries are intentionally NOT registered: they can be private
     inlinings rather than canonical homes, and registering them introduces
     order-dependence between BBs. The $ref-target is a relative path from
-    `out_bb_dir`."""
+    `out_bb_dir`.
+
+    When a class name appears as a root in multiple BBs (e.g. when the same
+    UML class has been cloned into a parallel directory like ddiProperties
+    vs ddiCDIFProperties), prefer the BB whose parent directory matches
+    out_bb_dir's parent — i.e. don't leak a cross-package reference."""
     import os
-    registry: dict[str, str] = {}
+    out_resolved = out_bb_dir.resolve()
+    out_parent = out_resolved.parent
+    # Collect candidates per class as (rel_path, same_parent) tuples,
+    # then pick the same-parent one if available; otherwise the first.
+    candidates: dict[str, list[tuple[str, bool]]] = {}
     for schema_path in sorted(sources_dir.rglob("schema.yaml")):
         bb_dir = schema_path.parent.resolve()
-        if bb_dir == out_bb_dir.resolve():
+        if bb_dir == out_resolved:
             continue
         try:
             with open(schema_path, encoding="utf-8") as f:
@@ -988,16 +997,18 @@ def discover_external_class_refs(
         if not root_classes:
             continue
         try:
-            rel = os.path.relpath(bb_dir, out_bb_dir.resolve()).replace(os.sep, "/")
+            rel = os.path.relpath(bb_dir, out_resolved).replace(os.sep, "/")
         except ValueError:
             continue
+        is_same_parent = bb_dir.parent == out_parent
         for root_class in root_classes:
-            if root_class not in registry:
-                # Multi-class root BBs all point at the BB schema as a whole;
-                # validation against the BB schema will then accept any of its
-                # root classes. The opposite-end constraint is encoded by the
-                # property's `cdi:` predicate, not enforced here.
-                registry[root_class] = f"{rel}/schema.yaml"
+            candidates.setdefault(root_class, []).append((rel, is_same_parent))
+
+    registry: dict[str, str] = {}
+    for cls, opts in candidates.items():
+        same = [o for o in opts if o[1]]
+        chosen = same[0] if same else opts[0]
+        registry[cls] = f"{chosen[0]}/schema.yaml"
     return registry
 
 
@@ -1111,6 +1122,13 @@ def main(argv: Optional[list[str]] = None) -> int:
     external_class_refs = discover_external_class_refs(
         out_bb_dir=bb_out_dir, sources_dir=SOURCES_DIR, prefix=args.prefix,
     )
+    # The current BB's own root classes win over any external registration
+    # (e.g. a cloned parallel BB). Without this, an inter-class reference
+    # like Descriptor.hasValueFrom -> DescriptorValueDomain would resolve to
+    # a parallel-package BB instead of the local $def.
+    own_root_names = {c.name for c in classes}
+    for own in own_root_names:
+        external_class_refs.pop(own, None)
     if external_class_refs:
         print(f"INFO: discovered {len(external_class_refs)} class definitions "
               f"in sibling BBs", file=sys.stderr)
