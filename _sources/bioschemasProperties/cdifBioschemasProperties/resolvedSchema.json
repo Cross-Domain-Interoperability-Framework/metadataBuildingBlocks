@@ -105,6 +105,59 @@
     }
   },
   "$defs": {
+    "LabProcess": {
+      "type": "object",
+      "description": "A Bioschemas LabProcess — a laboratory process execution. Used as an additionalType on a cdifProvActivity activity ([\"schema:Action\", \"prov:Activity\"]) to indicate that the activity represents a lab process. Carries bios:executesLabProtocol to link to the protocol followed and bios:parameterValue for actual instrument settings.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Must include bios:LabProcess as additionalType on the activity"
+        },
+        "@id": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "Short human-readable description of the execution"
+        },
+        "schema:description": {
+          "type": "string",
+          "description": "Details of the execution, e.g. command line arguments or notes"
+        },
+        "bios:executesLabProtocol": {
+          "description": "The executed protocol",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LabProtocol"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            }
+          ]
+        },
+        "bios:parameterValue": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ParameterValue"
+          }
+        }
+      },
+      "required": [
+        "@type",
+        "schema:name"
+      ]
+    },
     "LabProtocol": {
       "type": "object",
       "description": "A Bioschemas LabProtocol describing how a lab process should be carried out. Includes equipment, reagents, computational tools, and expected parameters. Maps to schema:HowTo in the cdifProvActivity context.",
@@ -259,6 +312,66 @@
         "schema:name"
       ]
     },
+    "Sample": {
+      "type": "object",
+      "description": "A Bioschemas Sample representing a physical or material entity used or produced by lab processes. In cdifProvActivity output, typed as schema:Thing with schema:additionalType bios:Sample.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Should include schema:Thing with additionalType bios:Sample"
+        },
+        "@id": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "Name or label of the sample"
+        },
+        "schema:description": {
+          "type": "string",
+          "description": "Description of the sample"
+        },
+        "schema:identifier": {
+          "description": "Formal sample identifier",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 1
+                },
+                "schema:propertyID": {
+                  "type": "string"
+                },
+                "schema:value": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        },
+        "schema:additionalProperty": {
+          "type": "array",
+          "description": "Sample-specific metadata (mass, preparation method, container, etc.)",
+          "items": {
+            "$ref": "#/$defs/ParameterValue"
+          }
+        }
+      },
+      "required": [
+        "schema:name"
+      ]
+    },
     "FormalParameter": {
       "type": "object",
       "description": "A Bioschemas FormalParameter describing the shape and type of inputs and outputs of a workflow protocol. Values are realized in process executions through bios:parameterValue PropertyValue objects. In cdifProvActivity output, mapped to schema:MediaObject with additionalType bios:FormalParameter.",
@@ -300,6 +413,127 @@
         }
       },
       "required": [
+        "schema:name"
+      ]
+    },
+    "ComputationalWorkflow": {
+      "type": "object",
+      "description": "A Bioschemas ComputationalWorkflow representing the prospective provenance of a computational or hybrid lab-computational workflow. Combined with LabProtocol in ARC profiles to bridge computational and laboratory domains. In cdifProvActivity output, mapped to schema:SoftwareApplication with additionalType bios:ComputationalWorkflow.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Should include schema:SoftwareApplication with additionalType bios:ComputationalWorkflow"
+        },
+        "@id": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "Descriptive title of the workflow"
+        },
+        "schema:description": {
+          "type": "string",
+          "description": "Textual explanation of the workflow"
+        },
+        "schema:version": {
+          "type": "string",
+          "description": "Version identifier"
+        },
+        "schema:programmingLanguage": {
+          "description": "Language or engine for the workflow",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "type": "string"
+                },
+                "schema:name": {
+                  "type": "string"
+                },
+                "schema:url": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          ]
+        },
+        "schema:object": {
+          "description": "Input FormalParameters",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/FormalParameter"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              }
+            ]
+          }
+        },
+        "schema:result": {
+          "description": "Output FormalParameters",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/FormalParameter"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              }
+            ]
+          }
+        },
+        "schema:hasPart": {
+          "description": "Sub-workflows, sub-protocols, or component tools",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              },
+              {
+                "type": "object"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "@type",
         "schema:name"
       ]
     },

@@ -54,16 +54,7 @@ except ImportError:
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
 
-# Root resolver (SchemaResolver class)
-_SchemaResolver = None
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
-try:
-    from schema_resolver import SchemaResolver as _SchemaResolver
-except ImportError:
-    pass
-
-# Tools resolver (fallback)
+# Tools resolver (the structured-form resolver is now the canonical artifact)
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 try:
@@ -71,29 +62,15 @@ try:
     _ts = _ilu.spec_from_file_location("tools_resolve", SCRIPT_DIR / "resolve_schema.py")
     _tm = _ilu.module_from_spec(_ts)
     _ts.loader.exec_module(_tm)
-    resolve_file = _tm.resolve_file
-    strip_metadata_keys = _tm.strip_metadata_keys
+    resolve_structured = _tm.resolve_structured
 except Exception:
-    resolve_file = None
-    strip_metadata_keys = None
+    resolve_structured = None
 
 
 def _resolve_for_audit(schema_path: Path) -> dict:
-    """Resolve a schema for audit purposes. Uses root SchemaResolver with
-    fallback to tools resolve_file for circular-ref schemas."""
-    if _SchemaResolver is not None:
-        try:
-            resolver = _SchemaResolver(verbose=False, inline_single_use=False)
-            resolved = resolver.resolve(str(schema_path.resolve()))
-            resolved.pop("$schema", None)
-            return resolved
-        except RecursionError:
-            pass
-    # Fallback to tools resolver
-    if resolve_file is not None:
-        resolved = resolve_file(schema_path.resolve(), set())
-        if strip_metadata_keys:
-            resolved = strip_metadata_keys(resolved)
+    """Resolve a schema (structured form) for audit freshness checks."""
+    if resolve_structured is not None:
+        resolved = resolve_structured(schema_path.resolve())
         resolved.pop("$schema", None)
         return resolved
     return None
@@ -299,7 +276,7 @@ def check_resolved_schema(bb_dir, name):
     if not schema_path.exists() or not resolved_path.exists():
         return issues
 
-    if _SchemaResolver is None and resolve_file is None:
+    if resolve_structured is None:
         issues.append("Cannot check resolvedSchema freshness (resolve_schema not importable)")
         return issues
 

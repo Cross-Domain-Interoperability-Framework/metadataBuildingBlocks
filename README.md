@@ -19,30 +19,25 @@ The schema pipeline transforms modular YAML source schemas into JSON Forms-compa
 
 ```
 schema.yaml → resolve_schema.py → resolvedSchema.json → convert_for_jsonforms.py → schema.json
-                                → <bbName>StructuredSchema.json (--structured)
                                 → augment_register.py → register.json (adds resolvedSchema URLs)
 ```
 
 ### Step 1: Resolve (`resolve_schema.py`)
 
-Recursively resolves all `$ref` references from modular YAML/JSON source schemas into one fully-inlined JSON Schema. Handles relative paths, fragment-only refs (`#/$defs/X`), cross-file fragments, URL refs (including transitive relative refs within fetched files), and both YAML/JSON extensions. Optionally flattens `allOf` entries.
-
-The `--structured` flag produces a compact alternative output (`<bbName>StructuredSchema.json`) that preserves building block structure via `$defs` and `$ref` links instead of fully inlining everything. For profiles, composing BBs are deep-merged into a single `properties` + `allOf`, while frequently-used type schemas (Person, Identifier, Organization, etc.) appear as named `$defs` with `$ref` links at usage sites. Types used ≤2 times are inlined. This typically reduces output size by 88–90% compared to fully-resolved schemas.
+Resolves all external `$ref` references from modular YAML/JSON source schemas into a single standalone JSON Schema and writes it to `resolvedSchema.json` next to each `schema.yaml`. Output is in **structured form**: composing BBs are deep-merged into `properties` + `allOf`, frequently-used type schemas (Person, Identifier, Organization, etc.) appear as named `$defs` with internal `$ref`s, and recursive types stay as `$ref` cycles. Types used ≤2 times are inlined at usage sites. The structured output is recursion-safe and typically 88–90% smaller than the older fully-inlined form. Handles relative paths, fragment-only refs (`#/$defs/X`), cross-file fragments, URL refs (including transitive relative refs within fetched files), and both YAML/JSON extensions.
 
 ```bash
 # Resolve a profile by name (searches cdifProfiles/ subdirectories)
 python tools/resolve_schema.py CDIFDiscoveryProfile
 
-# Produce structured output with $defs
-python tools/resolve_schema.py CDIFDiscoveryProfile --structured
-
-# Resolve all building blocks with external $refs
+# Resolve all building blocks with external $refs (writes each BB's resolvedSchema.json)
 python tools/resolve_schema.py --all
-python tools/resolve_schema.py --all --structured
 
 # Resolve an arbitrary schema file
-python tools/resolve_schema.py --file path/to/any/schema.yaml
+python tools/resolve_schema.py --file path/to/any/schema.yaml -o resolvedSchema.json
 ```
+
+The legacy `--structured` flag is accepted but ignored — structured form is the only output mode.
 
 **Requirements:** Python 3.6+ with `pyyaml` (`pip install pyyaml`)
 

@@ -395,6 +395,25 @@ def _inline_unresolved_defs(node: Any, defs: dict, base_dir: Path, seen: set,
         # Also resolve any leftover $ref
         if "$ref" in node:
             ref = node["$ref"]
+            # Handle same-document #/$defs/X refs with cycle protection — these
+            # can be self-recursive (e.g. StatisticalClassification.cdi:isVariantOf
+            # → StatisticalClassification) and naive expansion blows up.
+            if isinstance(ref, str) and ref.startswith("#/$defs/"):
+                def_name = ref[len("#/$defs/"):]
+                if def_name in defs and def_name not in resolving:
+                    replacement = copy.deepcopy(defs[def_name])
+                    replacement = _inline_unresolved_defs(
+                        replacement, defs, base_dir, seen, resolving | {def_name})
+                    siblings = {k: v for k, v in node.items() if k != "$ref"}
+                    if siblings and isinstance(replacement, dict):
+                        siblings = _inline_unresolved_defs(siblings, defs, base_dir, seen, resolving)
+                        replacement = deep_merge(replacement, siblings)
+                    return replacement
+                if def_name in resolving:
+                    stub = {k: v for k, v in node.items() if k != "$ref"}
+                    stub["type"] = "object"
+                    stub["$comment"] = f"cycle: {def_name}"
+                    return stub
             resolved = _resolve_ref(ref, base_dir, defs, seen)
             siblings = {k: v for k, v in node.items() if k != "$ref"}
             if siblings:
@@ -1203,21 +1222,10 @@ def resolve_structured(schema_path: Path) -> dict:
     return result
 
 
-def _structured_output_name(schema_path: Path) -> str:
-    """Derive the structured output filename from the schema's parent directory.
-
-    E.g., .../CDIFDiscoveryProfile/schema.yaml -> CDIFDiscoveryProfileStructuredSchema.json
-          .../cdifCore/schema.yaml       -> cdifCoreStructuredSchema.json
-    """
-    bb_name = schema_path.resolve().parent.name
-    return f"{bb_name}StructuredSchema.json"
-
-
 def resolve_and_write_structured(schema_path: Path) -> Path:
-    """Resolve structured and write <bbName>StructuredSchema.json next to schema. Returns output path."""
+    """Resolve structured and write resolvedSchema.json next to schema. Returns output path."""
     structured = resolve_structured(schema_path)
-    out_name = _structured_output_name(schema_path)
-    out_path = schema_path.parent / out_name
+    out_path = schema_path.parent / "resolvedSchema.json"
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(json.dumps(structured, indent=2, ensure_ascii=False) + "\n")
     return out_path
@@ -1296,36 +1304,6 @@ def find_all_schemas_with_external_refs() -> list[Path]:
     return results
 
 
-RESOLVED_SIZE_CAP_BYTES = 50 * 1024 * 1024  # 50 MB; GitHub hard-limits at 100 MB
-
-
-def resolve_and_write(schema_path: Path, flatten: bool) -> Path:
-    """Resolve a schema and write resolvedSchema.json next to it.
-
-    For BBs whose fully-inlined form is dominated by deep dt-type cycles
-    (cdi:Identifier, cdi:Reference, cdi:LanguageString, etc., reused at every
-    cross-reference), the resolved form can balloon into the hundreds of MB
-    even when the corresponding structured form stays under 200 KB. Such files
-    are unhelpful to downstream consumers and exceed GitHub's per-file push
-    limit. If the output exceeds RESOLVED_SIZE_CAP_BYTES we skip writing and
-    leave the existing file (or absence) in place; the structured schema is
-    the authoritative form for these BBs.
-    """
-    resolved = resolve_file(schema_path, seen=set())
-    resolved = strip_metadata_keys(resolved, is_root=True)
-    if flatten:
-        resolved = flatten_allof(resolved)
-    serialized = json.dumps(resolved, indent=2, ensure_ascii=False) + "\n"
-    out_path = schema_path.parent / "resolvedSchema.json"
-    size = len(serialized.encode("utf-8"))
-    if size > RESOLVED_SIZE_CAP_BYTES:
-        print(f"  SKIP {out_path.name}: would be {size/(1024*1024):.1f} MB "
-              f"(cap {RESOLVED_SIZE_CAP_BYTES/(1024*1024):.0f} MB); use the "
-              f"structured schema instead.", file=sys.stderr)
-        return out_path
-    with open(out_path, "w", encoding="utf-8") as f:
-        f.write(serialized)
-    return out_path
 
 
 # ---------------------------------------------------------------------------
@@ -1357,14 +1335,9 @@ def main():
         help="Write output to file (default: stdout). Ignored with --all.",
     )
     parser.add_argument(
-        "--flatten-allof",
-        action="store_true",
-        help="Merge allOf entries into single objects",
-    )
-    parser.add_argument(
         "--structured",
         action="store_true",
-        help="Produce structured output with $defs and merged allOf (writes structuredSchema.json)",
+        help="(deprecated, ignored — structured form is now the only output mode)",
     )
     args = parser.parse_args()
 
@@ -1373,12 +1346,8 @@ def main():
         print(f"Found {len(schemas)} building blocks with external $refs", file=sys.stderr)
         for schema_path in schemas:
             rel = schema_path.relative_to(REPO_ROOT)
-            if args.structured:
-                out_path = resolve_and_write_structured(schema_path)
-                print(f"  {rel} -> {out_path.name}", file=sys.stderr)
-            else:
-                out_path = resolve_and_write(schema_path, args.flatten_allof)
-                print(f"  {rel} -> {out_path.name}", file=sys.stderr)
+            out_path = resolve_and_write_structured(schema_path)
+            print(f"  {rel} -> {out_path.name}", file=sys.stderr)
         print(f"Resolved {len(schemas)} schemas", file=sys.stderr)
         return
 
@@ -1395,46 +1364,22 @@ def main():
 
     print(f"Resolving: {schema_path}", file=sys.stderr)
 
-    if args.structured:
-        structured = resolve_structured(schema_path)
-        output_json = json.dumps(structured, indent=2, ensure_ascii=False) + "\n"
+    structured = resolve_structured(schema_path)
+    output_json = json.dumps(structured, indent=2, ensure_ascii=False) + "\n"
 
-        if args.output:
-            out_path = args.output
-        else:
-            out_path = schema_path.parent / _structured_output_name(schema_path)
+    if args.output:
+        out_path = args.output
         out_path.parent.mkdir(parents=True, exist_ok=True)
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(output_json)
-        print(f"Wrote structured schema: {out_path}", file=sys.stderr)
-
-        # Report stats
-        defs = structured.get("$defs", {})
-        print(f"  $defs: {len(defs)} ({', '.join(sorted(defs.keys()))})",
-              file=sys.stderr)
-        print(f"  Size: {len(output_json):,} bytes", file=sys.stderr)
-        return
-
-    # Resolve all $ref recursively
-    resolved = resolve_file(schema_path, seen=set())
-
-    # Strip metadata keys
-    resolved = strip_metadata_keys(resolved, is_root=True)
-
-    # Optionally flatten allOf
-    if args.flatten_allof:
-        resolved = flatten_allof(resolved)
-
-    # Output
-    output_json = json.dumps(resolved, indent=2, ensure_ascii=False) + "\n"
-
-    if args.output:
-        args.output.parent.mkdir(parents=True, exist_ok=True)
-        with open(args.output, "w", encoding="utf-8") as f:
-            f.write(output_json)
-        print(f"Wrote: {args.output}", file=sys.stderr)
+        print(f"Wrote: {out_path}", file=sys.stderr)
     else:
         sys.stdout.write(output_json)
+
+    defs = structured.get("$defs", {})
+    print(f"  $defs: {len(defs)} ({', '.join(sorted(defs.keys()))})",
+          file=sys.stderr)
+    print(f"  Size: {len(output_json):,} bytes", file=sys.stderr)
 
 
 if __name__ == "__main__":

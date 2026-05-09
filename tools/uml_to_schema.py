@@ -728,12 +728,36 @@ def build_root_schema(
         # Multiple roots: $ref each at the root via anyOf, classes live in $defs.
         root["anyOf"] = [_ref_to_local(n) for n in node_def_names]
 
+    # Detect self-references to a single-root class: if the root class is
+    # referenced by `#/$defs/<name>` from anywhere (its own properties or a
+    # helper $def), keep that root class in $defs so the ref resolves.
+    self_referenced_roots: set[str] = set()
+    if len(node_def_names) == 1:
+        only_root = node_def_names[0]
+        target = f"#/$defs/{only_root}"
+        def _has_ref(o: Any) -> bool:
+            if isinstance(o, dict):
+                if o.get("$ref") == target:
+                    return True
+                return any(_has_ref(v) for v in o.values())
+            if isinstance(o, list):
+                return any(_has_ref(v) for v in o)
+            return False
+        scan_targets = [v for k, v in root.items() if k != "$defs"]
+        scan_targets.extend(v for k, v in ctx.local_defs.items() if k != only_root)
+        if any(_has_ref(t) for t in scan_targets):
+            self_referenced_roots.add(only_root)
+
     # $defs holds helpers (and, for the multi-root case, the root classes too).
     helper_keys = sorted(k for k in ctx.local_defs if k not in node_def_names)
     defs = OrderedDict()
     if len(node_def_names) > 1:
         for n in node_def_names:
             defs[n] = ctx.local_defs[n]
+    else:
+        for n in node_def_names:
+            if n in self_referenced_roots:
+                defs[n] = ctx.local_defs[n]
     for k in helper_keys:
         defs[k] = ctx.local_defs[k]
     if defs:
@@ -985,15 +1009,28 @@ def discover_external_class_refs(
             continue
         root_classes = _extract_root_class_names(doc, prefix)
         # Also derive a class name from the BB directory name (project
-        # convention: ddicdi<ClassName>). This catches abstract parents like
-        # `ValueDomain` whose concrete subclasses are roots of the same BB.
+        # convention: ddicdi<ClassName>; also kebab `ddi-cdif-<kebab-name>`).
+        # This catches abstract parents like `ValueDomain` whose concrete
+        # subclasses are roots of the same BB, and umbrella BBs like
+        # `ddi-cdif-agent` whose root is anyOf of sibling-BB $refs.
         bb_dir_name = bb_dir.name
-        for prefix_name in ("ddicdi", "cdif", "skos", "dcat", "schema", "prov", "xas"):
+        kebab_prefixes = ("ddi-cdif-",)
+        camel_prefixes = ("ddicdi", "cdif", "skos", "dcat", "schema", "prov", "xas")
+        derived: Optional[str] = None
+        for prefix_name in kebab_prefixes:
             if bb_dir_name.startswith(prefix_name) and len(bb_dir_name) > len(prefix_name):
-                derived = bb_dir_name[len(prefix_name):]
-                if derived[:1].isupper() and derived not in root_classes:
-                    root_classes.append(derived)
+                tail = bb_dir_name[len(prefix_name):]
+                derived = "".join(p[:1].upper() + p[1:] for p in tail.split("-") if p)
                 break
+        if derived is None:
+            for prefix_name in camel_prefixes:
+                if bb_dir_name.startswith(prefix_name) and len(bb_dir_name) > len(prefix_name):
+                    tail = bb_dir_name[len(prefix_name):]
+                    if tail[:1].isupper():
+                        derived = tail
+                    break
+        if derived and derived not in root_classes:
+            root_classes.append(derived)
         if not root_classes:
             continue
         try:
