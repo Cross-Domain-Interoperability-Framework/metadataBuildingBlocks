@@ -7,6 +7,7 @@ anyOf:
 - '$ref': '#/$defs/SubstantiveValueDomain'
 - '$ref': '#/$defs/SentinelValueDomain'
 - '$ref': '#/$defs/DescriptorValueDomain'
+- '$ref': '#/$defs/Descriptor'
 '$defs':
   SubstantiveValueDomain:
     type: object
@@ -158,6 +159,74 @@ anyOf:
         description: The data types that are recommended for use with this domain.
     required:
     - '@type'
+  Descriptor:
+    type: object
+    description: >-
+      Use of a code for variable identification in the context of a data structure and a variable
+      descriptor component.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: 'cdi:Descriptor'
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this Descriptor node
+      'cdi:refersTo':
+        type: array
+        items:
+          anyOf:
+          - '$ref': '#/$defs/ReferenceValue'
+          - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+        minItems: 1
+      'cdi:identifies':
+        anyOf:
+        - '$ref': ../ddicdiPresentationalVariable/schema.yaml
+        - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+      'cdi:hasValueFrom':
+        anyOf:
+        - '$ref': '#/$defs/DescriptorValueDomain'
+        - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+      'cdi:isBasedOn':
+        type: array
+        items:
+          anyOf:
+          - '$ref': ../ddicdiDataStructureComponent/schema.yaml
+          - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+        minItems: 1
+      'cdi:content':
+        '$ref': '#/$defs/TypedString'
+        description: The content of this value expressed as a string.
+      'cdi:identifier':
+        '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/Identifier'
+        description: >-
+          Identifier for objects requiring short- or long-lasting referencing and management.
+      'cdi:isStoredIn':
+        anyOf:
+        - '$ref': '#/$defs/DataPoint'
+        - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+      'cdi:represents':
+        anyOf:
+        - '$ref': '#/$defs/ConceptualValue'
+        - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+      'cdi:whiteSpace':
+        type: string
+        enum:
+        - Collapse
+        - Preserve
+        - Replace
+        description: >-
+          The usual setting "collapse" states that leading and trailing white space will be
+          removed and multiple adjacent white spaces will be treated as a single white space.
+          When setting to "replace" all occurrences of #x9 (tab), #xA (line feed) and #xD
+          (carriage return) are replaced with #x20 (space) but leading and trailing spaces
+          will be retained. If the existence of any of these white spaces is critical to the
+          understanding of the content, change the value of this attribute to "preserve".
+    required:
+    - '@type'
   ConceptSystem:
     type: object
     description: Set of concepts structured by the relations among them [GSIM 1.1].
@@ -215,6 +284,228 @@ anyOf:
       'cdi:purpose':
         '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/InternationalString'
         description: Intent or reason for the object/the description of the object.
+    required:
+    - '@type'
+  ConceptualDomain:
+    type: object
+    description: >-
+      Set of concepts, where each concept is intended to be used as the meaning (signified)
+      for a datum.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: 'cdi:ConceptualDomain'
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this ConceptualDomain node
+      'cdi:displayLabel':
+        type: array
+        items:
+          '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay'
+        minItems: 1
+        description: >-
+          A human-readable display label for the object. Supports the use of multiple languages.
+          Repeat for labels with different content, for example, labels with differing length
+          limitations.
+      'cdi:identifier':
+        '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/Identifier'
+        description: >-
+          Identifier for objects requiring short- or long-lasting referencing and management.
+      'cdi:isDescribedBy':
+        anyOf:
+        - '$ref': '#/$defs/ValueAndConceptDescription'
+        - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+      'cdi:takesConceptsFrom':
+        anyOf:
+        - '$ref': '#/$defs/ConceptSystem'
+        - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+    required:
+    - '@type'
+  ConceptualValue:
+    type: object
+    description: >-
+      Concept (with a notion of equality defined) being observed, captured, or derived which
+      is associated to a single data instance.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: 'cdi:ConceptualValue'
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this ConceptualValue node
+      'cdi:hasConceptFrom':
+        anyOf:
+        - '$ref': '#/$defs/ConceptualDomain'
+        - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+      'cdi:definition':
+        '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/InternationalString'
+        description: >-
+          Natural language statement conveying the meaning of a concept, differentiating it
+          from other concepts. Supports the use of multiple languages and structured text.
+          'externalDefinition' can't be used if 'definition' is used.
+      'cdi:displayLabel':
+        type: array
+        items:
+          '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay'
+        minItems: 1
+        description: >-
+          A human-readable display label for the object. Supports the use of multiple languages.
+          Repeat for labels with different content, for example, labels with differing length
+          limitations.
+      'cdi:externalDefinition':
+        '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/Reference'
+        description: >-
+          A reference to an external definition of a concept (that is, a concept which is
+          described outside the content of the DDI-CDI metadata description). An example is
+          a SKOS concept. The definition property is assumed to duplicate the external one
+          referenced if externalDefinition is used. Other corresponding properties are assumed
+          to be included unchanged if used.
+      'cdi:identifier':
+        '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/Identifier'
+        description: >-
+          Identifier for objects requiring short- or long-lasting referencing and management.
+      'cdi:name':
+        type: array
+        items:
+          '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/ObjectName'
+        minItems: 1
+        description: >-
+          Human understandable name (linguistic signifier, word, phrase, or mnemonic). May
+          follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage.
+      'cdi:uses':
+        type: array
+        items:
+          anyOf:
+          - '$ref': ../../skosProperties/skosConcept/schema.yaml
+          - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+        minItems: 1
+    required:
+    - '@type'
+  DataPoint:
+    type: object
+    description: Container for an instance value.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: 'cdi:DataPoint'
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this DataPoint node
+      'cdi:identifier':
+        '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/Identifier'
+        description: >-
+          Identifier for objects requiring short- or long-lasting referencing and management.
+      'cdi:correspondsTo':
+        type: array
+        items:
+          anyOf:
+          - '$ref': ../ddicdiDataStructureComponent/schema.yaml
+          - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+        minItems: 1
+      'cdi:isDescribedBy':
+        anyOf:
+        - '$ref': ../ddicdiInstanceVariable/schema.yaml
+        - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+    required:
+    - '@type'
+  ReferenceValue:
+    type: object
+    description: Recorded value in a variable value component. Value referenced by a descriptor.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: 'cdi:ReferenceValue'
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this ReferenceValue node
+      'cdi:correspondsTo':
+        anyOf:
+        - '$ref': ../ddicdiDataStructureComponent/schema.yaml
+        - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+      'cdi:hasValueFrom':
+        anyOf:
+        - '$ref': '#/$defs/ReferenceValueDomain'
+        - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+      'cdi:content':
+        '$ref': '#/$defs/TypedString'
+        description: The content of this value expressed as a string.
+      'cdi:identifier':
+        '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/Identifier'
+        description: >-
+          Identifier for objects requiring short- or long-lasting referencing and management.
+      'cdi:isStoredIn':
+        anyOf:
+        - '$ref': '#/$defs/DataPoint'
+        - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+      'cdi:represents':
+        anyOf:
+        - '$ref': '#/$defs/ConceptualValue'
+        - '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/id-reference'
+      'cdi:whiteSpace':
+        type: string
+        enum:
+        - Collapse
+        - Preserve
+        - Replace
+        description: >-
+          The usual setting "collapse" states that leading and trailing white space will be
+          removed and multiple adjacent white spaces will be treated as a single white space.
+          When setting to "replace" all occurrences of #x9 (tab), #xA (line feed) and #xD
+          (carriage return) are replaced with #x20 (space) but leading and trailing spaces
+          will be retained. If the existence of any of these white spaces is critical to the
+          understanding of the content, change the value of this attribute to "preserve".
+    required:
+    - '@type'
+  ReferenceValueDomain:
+    type: object
+    description: >-
+      Set of permissible values for a variable playing the role of a variable value component.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: 'cdi:ReferenceValueDomain'
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this ReferenceValueDomain node
+      'cdi:displayLabel':
+        type: array
+        items:
+          '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay'
+        minItems: 1
+        description: >-
+          A human-readable display label for the object. Supports the use of multiple languages.
+          Repeat for labels with different content, for example, labels with differing length
+          limitations.
+      'cdi:identifier':
+        '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/Identifier'
+        description: >-
+          Identifier for objects requiring short- or long-lasting referencing and management.
+      'cdi:recommendedDataType':
+        type: array
+        items:
+          '$ref': '../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry'
+        minItems: 1
+        description: The data types that are recommended for use with this domain.
     required:
     - '@type'
   SentinelConceptualDomain:
