@@ -7,6 +7,12 @@ DDI-CDI Activity class for CDIF metadata, describing tasks at a conceptual level
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
+## Description
+
+DDI-CDI Activity describes a task or process at the conceptual level, using the `cdi:Activity`, `cdi:Step`, and `cdi:Parameter` vocabulary from the DDI Cross-Domain Integration specification (DDICDILibrary/Classes/Process). An activity carries a structured name, definition, optional start/end timestamps, and may decompose into nested sub-activities (`cdi:hasSubActivity`) or ordered `cdi:Step` items via `cdi:has_Step`.
+
+Each step may receive and produce `cdi:Parameter` items (`cdi:receives`, `cdi:produces`), reference executable code via `cdi:script` (`cdi:CommandCode`, `cdi:CommandFile`, `cdi:Command`), and capture inputs and outputs through `cdi:entityUsed` and `cdi:entityProduced`. Activities can also be aligned to standard process models such as GSBPM via `cdi:standardModelMapping`, and linked to internal control logic through `cdi:hasInternal`. The BB is used wherever the provenance, processing chain, or transformation history of data needs to be described in machine-actionable form.
+
 ## Examples
 
 ### Example DDI-CDI activity.
@@ -307,17 +313,17 @@ ex:activity-statistical-compilation a cdi:Activity ;
             cdi:description "Harmonized regional employment dataset 2025" ;
             cdi:uri "https://doi.org/10.5281/zenodo.example-regional-employment-2025" ] ;
     cdi:entityUsed [ a cdi:Reference ;
-            cdi:description "Swiss Labour Force Survey 2024 microdata" ;
-            cdi:uri "https://example.org/datasets/national-lfs-2024-CH" ],
-        [ a cdi:Reference ;
-            cdi:description "Austrian Labour Force Survey 2024 microdata" ;
-            cdi:uri "https://example.org/datasets/national-lfs-2024-AT" ],
-        [ a cdi:Reference ;
             cdi:description "French Labour Force Survey 2024 microdata" ;
             cdi:uri "https://example.org/datasets/national-lfs-2024-FR" ],
         [ a cdi:Reference ;
             cdi:description "German Labour Force Survey 2024 microdata" ;
-            cdi:uri "https://example.org/datasets/national-lfs-2024-DE" ] ;
+            cdi:uri "https://example.org/datasets/national-lfs-2024-DE" ],
+        [ a cdi:Reference ;
+            cdi:description "Austrian Labour Force Survey 2024 microdata" ;
+            cdi:uri "https://example.org/datasets/national-lfs-2024-AT" ],
+        [ a cdi:Reference ;
+            cdi:description "Swiss Labour Force Survey 2024 microdata" ;
+            cdi:uri "https://example.org/datasets/national-lfs-2024-CH" ] ;
     cdi:has_Step ex:step-data-integration,
         ex:step-variable-harmonization ;
     cdi:identifier [ a cdi:Identifier ;

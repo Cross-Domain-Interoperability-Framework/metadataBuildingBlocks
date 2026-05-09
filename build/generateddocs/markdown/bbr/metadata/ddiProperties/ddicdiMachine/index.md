@@ -7,6 +7,12 @@ DDI-CDI Machine agent (software/hardware) with access location, function, and in
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
+## Description
+
+DDI-CDI Machine represents a software or hardware Agent (`cls-Machine`, extends `cdi:Agent`). The root `cdi:Machine` carries `cdi:accessLocation` (a `cdi:AccessLocation` with URI, MIME type, and physical location), `cdi:function` and `cdi:typeOfMachine` (controlled-vocabulary classifications), `cdi:machineInterface` describing the interface type, `cdi:ownerOperatorContact` for the responsible party, and `cdi:name`.
+
+Machine is one of the four agent subtypes composed by `ddicdiAgent`. It captures the systems involved in data production or processing — useful for documenting, e.g., the API endpoint of a service, the model identifier of an instrument, or the package used to run a transformation step.
+
 ## Examples
 
 ### Example DDI-CDI Machine agent.
@@ -200,9 +206,6 @@ properties:
   cdi:typeOfMachine:
     description: Classification of this machine
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry
-  cdi:catalogDetails:
-    description: Catalog metadata for this agent
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails
   cdi:identifier:
     description: Formal identifier for this agent
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier

@@ -7,6 +7,12 @@ DDI-CDI Organization agent (group/institution) with structured name, contact inf
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
+## Description
+
+DDI-CDI Organization represents a group or institution as an Agent (`cls-Organization`, extends `cdi:Agent`). The root `cdi:Organization` carries `cdi:organizationName` (one or more `OrganizationName` records, with abbreviation, formal/legal status, and effective dates), `cdi:contactInformation` for postal, email, telephone, messaging, and web contacts, plus the agent-shared `cdi:identifier`, `cdi:image`, and `cdi:purpose`.
+
+Organization is one of the four concrete agent types composed by `ddicdiAgent`, and is the typical target for `cdi:isMaintainedBy` on objects such as `ddicdiStatisticalClassification`.
+
 ## Examples
 
 ### Example DDI-CDI Organization agent.
@@ -192,9 +198,6 @@ properties:
     - type: array
       items:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ContactInformation
-  cdi:catalogDetails:
-    description: Catalog metadata for this agent
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails
   cdi:identifier:
     description: Formal identifier for this agent
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier

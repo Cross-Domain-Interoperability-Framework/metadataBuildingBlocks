@@ -1,0 +1,1630 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DDI-CDI Physical Data Set",
+  "description": "Organized collection of wide data. It is structured by a wide data structure.",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/WideDataSet"
+    },
+    {
+      "$ref": "#/$defs/LongDataSet"
+    },
+    {
+      "$ref": "#/$defs/DimensionalDataSet"
+    }
+  ],
+  "$defs": {
+    "WideDataSet": {
+      "type": "object",
+      "description": "Organized collection of wide data. It is structured by a wide data structure.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:WideDataSet"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this WideDataSet node"
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:isStructuredBy": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure/schema.json"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:has_DataPoint": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/DataPoint"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:has_Key": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Key"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "LongDataSet": {
+      "type": "object",
+      "description": "Organized collection of long data. It is structured by a long data structure.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:LongDataSet"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this LongDataSet node"
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:isStructuredBy": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure/schema.json"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:has_DataPoint": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/DataPoint"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:has_Key": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Key"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "DimensionalDataSet": {
+      "type": "object",
+      "description": "Organized collection of multidimensional data. It is structured by a dimensional data structure.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:DimensionalDataSet"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this DimensionalDataSet node"
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:represents": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ScopedMeasure"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:isStructuredBy": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure/schema.json"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:has_DataPoint": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/DataPoint"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:has_Key": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Key"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "Category": {
+      "type": "object",
+      "description": "Concept whose role is to define and measure a characteristic.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Category"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Category node"
+        },
+        "cdi:descriptiveText": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/InternationalString",
+          "description": "A short natural language account of the characteristics of the object."
+        },
+        "cdi:definition": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/InternationalString",
+          "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
+        },
+        "cdi:displayLabel": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/LabelForDisplay"
+          },
+          "minItems": 1,
+          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+        },
+        "cdi:externalDefinition": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Reference",
+          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:uses": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "ConceptSystem": {
+      "type": "object",
+      "description": "Set of concepts structured by the relations among them [GSIM 1.1].",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ConceptSystem"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this ConceptSystem node"
+        },
+        "cdi:allowsDuplicates": {
+          "type": "boolean",
+          "description": "If value is False, the members are unique within the collection - if True, there may be duplicates. (Note that a mathematical \u201cbag\u201d permits duplicates and is unordered - a \u201cset\u201d does not have duplicates and may be ordered.)"
+        },
+        "cdi:externalDefinition": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Reference",
+          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:isDefinedBy": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:has": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:purpose": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/InternationalString",
+          "description": "Intent or reason for the object/the description of the object."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "ConceptualDomain": {
+      "type": "object",
+      "description": "Set of concepts, where each concept is intended to be used as the meaning (signified) for a datum.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ConceptualDomain"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this ConceptualDomain node"
+        },
+        "cdi:displayLabel": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/LabelForDisplay"
+          },
+          "minItems": 1,
+          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:isDescribedBy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ValueAndConceptDescription"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:takesConceptsFrom": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ConceptSystem"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "ConceptualValue": {
+      "type": "object",
+      "description": "Concept (with a notion of equality defined) being observed, captured, or derived which is associated to a single data instance.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ConceptualValue"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this ConceptualValue node"
+        },
+        "cdi:hasConceptFrom": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ConceptualDomain"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:definition": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/InternationalString",
+          "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
+        },
+        "cdi:displayLabel": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/LabelForDisplay"
+          },
+          "minItems": 1,
+          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+        },
+        "cdi:externalDefinition": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Reference",
+          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:uses": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "DataPoint": {
+      "type": "object",
+      "description": "Container for an instance value.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:DataPoint"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this DataPoint node"
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:correspondsTo": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure-component/schema.json"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:isDescribedBy": {
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifVariableMeasured/schema.json"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "DimensionalKeyDefinition": {
+      "type": "object",
+      "description": "Collection of concepts that uniquely defines a collection of data points in a dimensional dataset.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:DimensionalKeyDefinition"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this DimensionalKeyDefinition node"
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:correspondsTo_Universe": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Universe"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:correspondsTo_Unit": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Unit"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:has": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/KeyDefinitionMember"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "InstanceValue": {
+      "type": "object",
+      "description": "Single data instance corresponding to a concept (with a notion of equality defined) being observed, captured, or derived.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:InstanceValue"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this InstanceValue node"
+        },
+        "cdi:content": {
+          "$ref": "#/$defs/TypedString",
+          "description": "The content of this value expressed as a string."
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:hasValueFrom": {
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-value-domain/schema.json"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:isStoredIn": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DataPoint"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:represents": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ConceptualValue"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:whiteSpace": {
+          "type": "string",
+          "enum": [
+            "Collapse",
+            "Preserve",
+            "Replace"
+          ],
+          "description": "The usual setting \"collapse\" states that leading and trailing white space will be removed and multiple adjacent white spaces will be treated as a single white space. When setting to \"replace\" all occurrences of #x9 (tab), #xA (line feed) and #xD (carriage return) are replaced with #x20 (space) but leading and trailing spaces will be retained. If the existence of any of these white spaces is critical to the understanding of the content, change the value of this attribute to \"preserve\"."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "Key": {
+      "type": "object",
+      "description": "Collection of data instances that uniquely identify a collection of data points in a dataset.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Key"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Key node"
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:correspondsTo_Unit": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Unit"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:correspondsTo_Universe": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Universe"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:represents": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/KeyDefinition"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:identifies": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/DataPoint"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:has": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/KeyMember"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "KeyDefinition": {
+      "type": "object",
+      "description": "Collection of concepts that uniquely defines a collection of data points in a dataset.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:KeyDefinition"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this KeyDefinition node"
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:correspondsTo_Universe": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Universe"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:correspondsTo_Unit": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Unit"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:has": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/KeyDefinitionMember"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "KeyDefinitionMember": {
+      "type": "object",
+      "description": "Single concept that is part of the structure of a key definition.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:KeyDefinitionMember"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this KeyDefinitionMember node"
+        },
+        "cdi:hasConceptFrom": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ConceptualDomain"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:definition": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/InternationalString",
+          "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
+        },
+        "cdi:displayLabel": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/LabelForDisplay"
+          },
+          "minItems": 1,
+          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+        },
+        "cdi:externalDefinition": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Reference",
+          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:uses": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "KeyMember": {
+      "type": "object",
+      "description": "Single data instance that is part of a key.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:KeyMember"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this KeyMember node"
+        },
+        "cdi:isBasedOn": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure-component/schema.json"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:content": {
+          "$ref": "#/$defs/TypedString",
+          "description": "The content of this value expressed as a string."
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:hasValueFrom": {
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-value-domain/schema.json"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:isStoredIn": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DataPoint"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:represents": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ConceptualValue"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:whiteSpace": {
+          "type": "string",
+          "enum": [
+            "Collapse",
+            "Preserve",
+            "Replace"
+          ],
+          "description": "The usual setting \"collapse\" states that leading and trailing white space will be removed and multiple adjacent white spaces will be treated as a single white space. When setting to \"replace\" all occurrences of #x9 (tab), #xA (line feed) and #xD (carriage return) are replaced with #x20 (space) but leading and trailing spaces will be retained. If the existence of any of these white spaces is critical to the understanding of the content, change the value of this attribute to \"preserve\"."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "Notation": {
+      "type": "object",
+      "description": "Representation of a category in the context of a code or a classification item, as opposed of the corresponding instance value which would appear when used in a dataset.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Notation"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Notation node"
+        },
+        "cdi:content": {
+          "$ref": "#/$defs/TypedString",
+          "description": "The actual content of this value as a string."
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:represents": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Category"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:whiteSpace": {
+          "type": "string",
+          "enum": [
+            "Collapse",
+            "Preserve",
+            "Replace"
+          ],
+          "description": "The usual setting \"collapse\" states that leading and trailing white space will be removed and multiple adjacent white spaces will be treated as a single white space. When setting to \"replace\" all occurrences of #x9 (tab), #xA (line feed) and #xD (carriage return) are replaced with #x20 (space) but leading and trailing spaces will be retained. If the existence of any of these white spaces is critical to the understanding of the content, change the value of this attribute to \"preserve\"."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "QualifiedMeasure": {
+      "type": "object",
+      "description": "A measure having a specific production method.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:QualifiedMeasure"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this QualifiedMeasure node"
+        },
+        "cdi:refines": {
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure-component/schema.json"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:isDefinedBy": {
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-represented-variable/schema.json"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:semantic": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/PairedControlledVocabularyEntry"
+          },
+          "minItems": 1,
+          "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
+        },
+        "cdi:specialization": {
+          "$ref": "#/$defs/SpecializationRole",
+          "description": "The role played by the component for the data set for purposes of harmonization and integration, typically regarding geography, time, etc."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "RevisableDatum": {
+      "type": "object",
+      "description": "A datum that can be qualified by a revision.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:RevisableDatum"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this RevisableDatum node"
+        },
+        "cdi:correspondsTo": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Revision"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:vintage": {
+          "type": "integer",
+          "description": "A revision sequence number for a datum."
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:uses_Notation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Notation"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:uses_InstanceValue": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/InstanceValue"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:denotes": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ConceptualValue"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:isBoundedBy": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifVariableMeasured/schema.json"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "Revision": {
+      "type": "object",
+      "description": "Algorithm applied to produce a revised datum.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Revision"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Revision node"
+        },
+        "cdi:algorithm": {
+          "type": "string",
+          "description": "Actual code or reference to specific algorithm"
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:overview": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/InternationalString",
+          "description": "Short natural language account of the information obtained from the combination of properties and relationships associated with an object."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "ScopedMeasure": {
+      "type": "object",
+      "description": "A qualified measure whose domain is a universe as an aggregate, i.e. a measure with a specific production method applied to a specific cell in a cube.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ScopedMeasure"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this ScopedMeasure node"
+        },
+        "cdi:frequency": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/InternationalString",
+          "description": "Time interval between successive measurements (i.e. applications) of a Scoped Measure."
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:circumscribes": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DimensionalKeyDefinition"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:restricts": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/QualifiedMeasure"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:generates": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RevisableDatum"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "SpecializationRole": {
+      "type": "object",
+      "description": "Specific roles played by represented variables in terms of time, geography, and other concepts which are important for the harmonization and integration of data.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:SpecializationRole"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "TypedString": {
+      "type": "object",
+      "description": "TypedString combines a type with content defined as a simple string. May be used wherever a simple string needs to support a type definition to clarify its content.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:TypedString"
+          },
+          "minItems": 1
+        },
+        "cdi:content": {
+          "type": "string",
+          "description": "Content of the property expressed as a simple string."
+        },
+        "cdi:typeOfContent": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ControlledVocabularyEntry",
+          "description": "Optional use of a controlled vocabulary to specifically type the associated content."
+        }
+      }
+    },
+    "Unit": {
+      "type": "object",
+      "description": "Individual object of interest for some statistical activity, such as data collection.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Unit"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Unit node"
+        },
+        "cdi:definition": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/InternationalString",
+          "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text."
+        },
+        "cdi:displayLabel": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/LabelForDisplay"
+          },
+          "minItems": 1,
+          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:has": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/UnitType"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "UnitType": {
+      "type": "object",
+      "description": "Unit type is a type or class of objects of interest (units).",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:UnitType"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this UnitType node"
+        },
+        "cdi:descriptiveText": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/InternationalString",
+          "description": "A short natural language account of the characteristics of the object."
+        },
+        "cdi:definition": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/InternationalString",
+          "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
+        },
+        "cdi:displayLabel": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/LabelForDisplay"
+          },
+          "minItems": 1,
+          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+        },
+        "cdi:externalDefinition": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Reference",
+          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:uses": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "Universe": {
+      "type": "object",
+      "description": "Specialized unit type, with the specialization based upon characteristics other than time and geography.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Universe"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Universe node"
+        },
+        "cdi:isInclusive": {
+          "type": "boolean",
+          "description": "Default value is True. The description statement of a universe is generally stated in inclusive terms such as \"All persons with university degree\". Occasionally a universe is defined by what it excludes, i.e., \"All persons except those with university degree\". In this case the value would be changed to False."
+        },
+        "cdi:descriptiveText": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/InternationalString",
+          "description": "A short natural language account of the characteristics of the object."
+        },
+        "cdi:definition": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/InternationalString",
+          "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
+        },
+        "cdi:displayLabel": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/LabelForDisplay"
+          },
+          "minItems": 1,
+          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+        },
+        "cdi:externalDefinition": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Reference",
+          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:uses": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "ValueAndConceptDescription": {
+      "type": "object",
+      "description": "Formal description of a set of values.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ValueAndConceptDescription"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this ValueAndConceptDescription node"
+        },
+        "cdi:classificationLevel": {
+          "type": "string",
+          "enum": [
+            "Continuous",
+            "Interval",
+            "Nominal",
+            "Ordinal",
+            "Ratio"
+          ],
+          "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
+        },
+        "cdi:description": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/InternationalString",
+          "description": "A formal description of the set of values in human-readable language."
+        },
+        "cdi:formatPattern": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ControlledVocabularyEntry",
+          "description": "A pattern for a number as described in Unicode Locale Data Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html) Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns) and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns) . Examples would be #,##0.### to describe the pattern for a decimal number, or yyyy.MM.dd G 'at' HH:mm:ss zzz for a datetime pattern."
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:logicalExpression": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ControlledVocabularyEntry",
+          "description": "A logical expression where the values of \"x\" making the expression true are the members of the set of valid values. For example, \"(all reals x such that x > 0)\" describes the real numbers greater than 0."
+        },
+        "cdi:maximumValueExclusive": {
+          "type": "string",
+          "description": "A string denoting the maximum possible value (excluding this value). From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"maxExclusive: An atomic property that contains a single number or string that is the maximum valid value (exclusive). The value of this property becomes the maximum exclusive annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+        },
+        "cdi:maximumValueInclusive": {
+          "type": "string",
+          "description": "A string denoting the maximum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"maximum: An atomic property that contains a single number or string that is the maximum valid value (inclusive); equivalent to maxInclusive. The value of this property becomes the maximum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+        },
+        "cdi:minimumValueExclusive": {
+          "type": "string",
+          "description": "A string denoting the minimum possible value (excluding this value). From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minExclusive: An atomic property that contains a single number or string that is the minimum valid value (exclusive). The value of this property becomes the minimum exclusive annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+        },
+        "cdi:minimumValueInclusive": {
+          "type": "string",
+          "description": "A string denoting the minimum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minimum: An atomic property that contains a single number or string that is the minimum valid value (inclusive); equivalent to minInclusive. The value of this property becomes the minimum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+        },
+        "cdi:regularExpression": {
+          "$ref": "#/$defs/TypedString",
+          "description": "A regular expression where strings matching the expression belong to the set of valid values. Use typeOfContent to specify the syntax of the regularExpression found in content."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    }
+  },
+  "x-jsonld-prefixes": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+  }
+}

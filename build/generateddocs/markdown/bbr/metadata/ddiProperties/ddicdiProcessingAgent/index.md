@@ -7,6 +7,12 @@ DDI-CDI ProcessingAgent that orchestrates production activities, linking agents 
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
+## Description
+
+DDI-CDI ProcessingAgent is an Agent that orchestrates production activities (`cls-ProcessingAgent`, extends `cdi:Agent`). The root `cdi:ProcessingAgent` carries `cdi:performs` (id-references to `cdi:Activity` nodes the agent executes) and `cdi:operatesOn` (id-references to `cdi:ProductionEnvironment` nodes), plus the agent-shared `cdi:identifier`, `cdi:image`, and `cdi:purpose`.
+
+ProcessingAgent is one of the four agent subtypes composed by `ddicdiAgent`. It is the link between an actor and the activities they carry out — typically used in provenance descriptions where a person, organization, or machine is responsible for the activities described by `ddicdiActivity`.
+
 ## Examples
 
 ### Example DDI-CDI ProcessingAgent.
@@ -166,9 +172,6 @@ properties:
     type: array
     items:
       $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-  cdi:catalogDetails:
-    description: Catalog metadata for this agent
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails
   cdi:identifier:
     description: Formal identifier for this agent
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier

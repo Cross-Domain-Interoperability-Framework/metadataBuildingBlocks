@@ -7,6 +7,12 @@ Data organization based on reusable data structure components.
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
+## Description
+
+DDI-CDI DataStructure describes how a dataset is organized in terms of reusable data structure components. Polymorphic root over `cdi:DataStructure`, `cdi:DimensionalDataStructure`, `cdi:KeyValueStructure`, `cdi:LongDataStructure`, and `cdi:WideDataStructure` — one variant per logical layout supported by DDI-CDI.
+
+Each variant carries `cdi:has_DataStructureComponent` (referencing the `ddicdiDataStructureComponent` BB), `cdi:has_ComponentPosition` for ordering, optional `cdi:has_PrimaryKey` and `cdi:has_ForeignKey` for referential structure, and a `cdi:specialization` slot for harmonization-related roles (time, geography, etc.). `DimensionalDataStructure` additionally references reusable `cdi:DimensionGroup` collections via `cdi:uses`. The BB is referenced from `ddicdiPhysicalDataSet` (`cdi:isStructuredBy`) and is the structural anchor for tabular, dimensional, key-value, and long/wide layouts in the CDIF Data Description profile.
+
 ## Examples
 
 ### Minimal DataStructure
@@ -38,19 +44,35 @@ $defs:
       '@id':
         type: string
         description: Identifier for this DataStructure node
-      cdi:has:
+      cdi:has_ForeignKey:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         minItems: 1
+      cdi:has_DataStructureComponent:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        minItems: 1
+      cdi:has_ComponentPosition:
+        type: array
+        items:
+          anyOf:
+          - $ref: '#/$defs/ComponentPosition'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        minItems: 1
+      cdi:has_PrimaryKey:
+        anyOf:
+        - $ref: '#/$defs/PrimaryKey'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-      cdi:isDefinedBy:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
       cdi:semantic:
         type: array
         items:
@@ -82,21 +104,39 @@ $defs:
       cdi:uses:
         type: array
         items:
-          $ref: '#/$defs/DimensionGroup'
+          anyOf:
+          - $ref: '#/$defs/DimensionGroup'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         minItems: 1
-      cdi:has:
+      cdi:has_ForeignKey:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         minItems: 1
+      cdi:has_DataStructureComponent:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        minItems: 1
+      cdi:has_ComponentPosition:
+        type: array
+        items:
+          anyOf:
+          - $ref: '#/$defs/ComponentPosition'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        minItems: 1
+      cdi:has_PrimaryKey:
+        anyOf:
+        - $ref: '#/$defs/PrimaryKey'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-      cdi:isDefinedBy:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
       cdi:semantic:
         type: array
         items:
@@ -126,19 +166,35 @@ $defs:
       '@id':
         type: string
         description: Identifier for this KeyValueStructure node
-      cdi:has:
+      cdi:has_ForeignKey:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         minItems: 1
+      cdi:has_DataStructureComponent:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        minItems: 1
+      cdi:has_ComponentPosition:
+        type: array
+        items:
+          anyOf:
+          - $ref: '#/$defs/ComponentPosition'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        minItems: 1
+      cdi:has_PrimaryKey:
+        anyOf:
+        - $ref: '#/$defs/PrimaryKey'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-      cdi:isDefinedBy:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
       cdi:semantic:
         type: array
         items:
@@ -168,19 +224,35 @@ $defs:
       '@id':
         type: string
         description: Identifier for this LongDataStructure node
-      cdi:has:
+      cdi:has_ForeignKey:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         minItems: 1
+      cdi:has_DataStructureComponent:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        minItems: 1
+      cdi:has_ComponentPosition:
+        type: array
+        items:
+          anyOf:
+          - $ref: '#/$defs/ComponentPosition'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        minItems: 1
+      cdi:has_PrimaryKey:
+        anyOf:
+        - $ref: '#/$defs/PrimaryKey'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-      cdi:isDefinedBy:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
       cdi:semantic:
         type: array
         items:
@@ -209,19 +281,35 @@ $defs:
       '@id':
         type: string
         description: Identifier for this WideDataStructure node
-      cdi:has:
+      cdi:has_ForeignKey:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         minItems: 1
+      cdi:has_DataStructureComponent:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        minItems: 1
+      cdi:has_ComponentPosition:
+        type: array
+        items:
+          anyOf:
+          - $ref: '#/$defs/ComponentPosition'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        minItems: 1
+      cdi:has_PrimaryKey:
+        anyOf:
+        - $ref: '#/$defs/PrimaryKey'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-      cdi:isDefinedBy:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
       cdi:semantic:
         type: array
         items:
@@ -233,6 +321,34 @@ $defs:
         $ref: '#/$defs/SpecializationRole'
         description: The role played by the component for the data set for purposes
           of harmonization and integration, typically regarding geography, time, etc.
+    required:
+    - '@type'
+  ComponentPosition:
+    type: object
+    description: Indexes the components in a data structure using integers with a
+      position indicated by incrementing upward from 0 or 1.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: cdi:ComponentPosition
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this ComponentPosition node
+      cdi:identifier:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+      cdi:indexes:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:value:
+        type: integer
+        description: Index value of the member in an ordered array.
     required:
     - '@type'
   DimensionGroup:
@@ -265,7 +381,9 @@ $defs:
       cdi:has:
         type: array
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         minItems: 1
     required:
     - '@type'
@@ -291,8 +409,89 @@ $defs:
       cdi:isComposedOf:
         type: array
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+          anyOf:
+          - $ref: '#/$defs/ForeignKeyComponent'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         minItems: 1
+    required:
+    - '@type'
+  ForeignKeyComponent:
+    type: object
+    description: Role of a data structure component for content referencing purposes
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: cdi:ForeignKeyComponent
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this ForeignKeyComponent node
+      cdi:identifier:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+      cdi:references:
+        anyOf:
+        - $ref: '#/$defs/PrimaryKeyComponent'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:correspondsTo:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+    required:
+    - '@type'
+  PrimaryKey:
+    type: object
+    description: Role of a set of data structure components for content linkage purposes
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: cdi:PrimaryKey
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this PrimaryKey node
+      cdi:identifier:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+      cdi:isComposedOf:
+        type: array
+        items:
+          anyOf:
+          - $ref: '#/$defs/PrimaryKeyComponent'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        minItems: 1
+    required:
+    - '@type'
+  PrimaryKeyComponent:
+    type: object
+    description: Role of a data structure component for content identification purposes
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: cdi:PrimaryKeyComponent
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this PrimaryKeyComponent node
+      cdi:identifier:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+      cdi:correspondsTo:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
     required:
     - '@type'
   SpecializationRole:
@@ -325,6 +524,12 @@ Links to the schema:
 {
   "@context": {
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "http://schema.org/",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "xas": "https://xas.org/dictionary/",
+    "nxs": "http://purl.org/nexusformat/definitions/",
+    "prov": "http://www.w3.org/ns/prov#",
     "@version": 1.1
   }
 }

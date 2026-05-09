@@ -694,6 +694,490 @@ x-defs:
       cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.skosProperties.skosConcept:
+    title: SKOS Concept
+    description: JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought
+      within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel),
+      notations, hierarchical relations (broader/narrower), associative relations
+      (related), cross-scheme mapping properties, scheme membership, and documentary
+      notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).
+    type: object
+    properties:
+      '@context':
+        description: JSON-LD context declaring the skos namespace prefix. May be a
+          single object or an array of strings and objects.
+        anyOf:
+        - type: object
+          properties:
+            skos:
+              enum:
+              - http://www.w3.org/2004/02/skos/core#
+          required:
+          - skos
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - type: object
+          contains:
+            type: object
+            properties:
+              skos:
+                enum:
+                - http://www.w3.org/2004/02/skos/core#
+            required:
+            - skos
+      '@id':
+        type: string
+        description: URI identifier for this concept.
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - skos:Concept
+        minItems: 1
+      skos:prefLabel:
+        description: Preferred lexical label for this concept. A single string, a
+          single language-tagged value, or an array of language-tagged values. Each
+          language should appear at most once.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:altLabel:
+        description: Alternative lexical labels (acronyms, abbreviations, variants).
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:hiddenLabel:
+        description: Labels accessible to free-text search but not displayed.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:notation:
+        description: Classification code for this concept within a scheme.
+        type: array
+        items:
+          type: string
+      skos:definition:
+        description: Formal explanation of the meaning of this concept.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:scopeNote:
+        description: Note clarifying meaning and/or intended use.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:note:
+        description: General note about this concept.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:historyNote:
+        description: Note about past state or use.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:changeNote:
+        description: Note documenting a change.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:editorialNote:
+        description: Note for editors and maintainers.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:example:
+        description: Example of use of this concept.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:inScheme:
+        description: Concept scheme(s) this concept belongs to.
+        anyOf:
+        - type: object
+          properties:
+            '@id':
+              type: string
+          required:
+          - '@id'
+        - type: array
+          items:
+            type: object
+            properties:
+              '@id':
+                type: string
+            required:
+            - '@id'
+      skos:topConceptOf:
+        description: Concept scheme(s) for which this is a top concept.
+        anyOf:
+        - type: object
+          properties:
+            '@id':
+              type: string
+          required:
+          - '@id'
+        - type: array
+          items:
+            type: object
+            properties:
+              '@id':
+                type: string
+            required:
+            - '@id'
+      skos:broader:
+        description: Broader (parent) concepts in the hierarchy. Items are inline
+          concept objects or @id references.
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+      skos:narrower:
+        description: Narrower (child) concepts in the hierarchy. Items are inline
+          concept objects or @id references.
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+      skos:related:
+        description: Associatively related concepts.
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+      skos:exactMatch:
+        description: Concepts in other schemes with equivalent meaning.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+      skos:closeMatch:
+        description: Concepts in other schemes with similar meaning.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+      skos:broadMatch:
+        description: Broader concepts in other schemes.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+      skos:narrowMatch:
+        description: Narrower concepts in other schemes.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+      skos:relatedMatch:
+        description: Related concepts in other schemes.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+    required:
+    - '@type'
+    - skos:prefLabel
+    $defs:
+      ConceptRef:
+        type: object
+        description: A reference to a SKOS Concept by URI.
+        properties:
+          '@id':
+            type: string
+            description: URI of the referenced concept.
+        required:
+        - '@id'
+      LanguageTaggedValue:
+        type: object
+        description: An RDF literal value with a language tag, serialized as a JSON-LD
+          value object.
+        properties:
+          '@value':
+            type: string
+            description: The text content.
+          '@language':
+            type: string
+            description: BCP 47 language tag (e.g. en, fr, de).
+        required:
+        - '@value'
+        - '@language'
+    x-jsonld-prefixes:
+      skos: http://www.w3.org/2004/02/skos/core#
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.ddiProperties.ddicdiAgent:
+    title: DDI-CDI Agent
+    description: DDI-CDI Agent class hierarchy. Covers Individual (person), Machine
+      (software/hardware), Organization (group/institution), and ProcessingAgent (orchestrates
+      production activities) using DDI Cross-Domain Integration vocabulary. Each agent
+      subtype is defined in its own building block; this schema composes them.
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiIndividual
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiMachine
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiOrganization
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiProcessingAgent
+    x-jsonld-prefixes:
+      cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.ddiProperties.ddicdiIndividual:
+    title: DDI-CDI Individual
+    description: DDI-CDI Individual agent (cls-Individual, extends Agent). Represents
+      a person with name, contact information, and identification.
+    type: object
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:Individual
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this individual node
+      cdi:individualName:
+        description: Name(s) of this individual
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/IndividualName
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/IndividualName
+      cdi:contactInformation:
+        description: Contact details for this individual
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ContactInformation
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ContactInformation
+      cdi:identifier:
+        description: Formal identifier for this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Identifier
+      cdi:image:
+        description: Image associated with this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/PrivateImage
+      cdi:purpose:
+        description: Purpose or role of this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+    required:
+    - '@type'
+    x-jsonld-prefixes:
+      cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiIndividual/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.ddiProperties.ddicdiMachine:
+    title: DDI-CDI Machine
+    description: DDI-CDI Machine agent (cls-Machine, extends Agent). Represents software
+      or hardware with access location, function, and interface specifications.
+    type: object
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:Machine
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this machine node
+      cdi:accessLocation:
+        description: Network or physical access point for this machine
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/AccessLocation
+      cdi:function:
+        description: Function performed by this machine
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ControlledVocabularyEntry
+      cdi:machineInterface:
+        description: Interface type for this machine
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ControlledVocabularyEntry
+      cdi:name:
+        description: Name(s) of this machine
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ObjectName
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ObjectName
+      cdi:ownerOperatorContact:
+        description: Contact information for the owner or operator
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ContactInformation
+      cdi:typeOfMachine:
+        description: Classification of this machine
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ControlledVocabularyEntry
+      cdi:identifier:
+        description: Formal identifier for this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Identifier
+      cdi:image:
+        description: Image associated with this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/PrivateImage
+      cdi:purpose:
+        description: Purpose or role of this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+    required:
+    - '@type'
+    x-jsonld-prefixes:
+      cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiMachine/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.ddiProperties.ddicdiOrganization:
+    title: DDI-CDI Organization
+    description: DDI-CDI Organization agent (cls-Organization, extends Agent). Represents
+      a group or institution with structured name, contact information, and identification.
+    type: object
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:Organization
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this organization node
+      cdi:organizationName:
+        description: Name(s) of this organization
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/OrganizationName
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/OrganizationName
+      cdi:contactInformation:
+        description: Contact details for this organization
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ContactInformation
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ContactInformation
+      cdi:identifier:
+        description: Formal identifier for this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Identifier
+      cdi:image:
+        description: Image associated with this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/PrivateImage
+      cdi:purpose:
+        description: Purpose or role of this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+    required:
+    - '@type'
+    x-jsonld-prefixes:
+      cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiOrganization/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.ddiProperties.ddicdiProcessingAgent:
+    title: DDI-CDI ProcessingAgent
+    description: DDI-CDI ProcessingAgent (cls-ProcessingAgent, extends Agent). Orchestrates
+      production activities, linking agents to the activities they perform and environments
+      they operate on.
+    type: object
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:ProcessingAgent
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this processing agent node
+      cdi:performs:
+        description: Activities this agent performs (cdi:Activity). Use @id references
+          to Activity nodes defined elsewhere in the graph.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+      cdi:operatesOn:
+        description: Production environments this agent operates on (cdi:ProductionEnvironment)
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+      cdi:identifier:
+        description: Formal identifier for this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Identifier
+      cdi:image:
+        description: Image associated with this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/PrivateImage
+      cdi:purpose:
+        description: Purpose or role of this agent
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+    required:
+    - '@type'
+    x-jsonld-prefixes:
+      cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiProcessingAgent/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
 title: DDI-CDI Code List
 description: List of codes and associated categories.
 type: object
@@ -715,10 +1199,19 @@ properties:
       - if True, there may be duplicates. (Note that a mathematical \u201Cbag\u201D
       permits duplicates and is unordered - a \u201Cset\u201D does not have duplicates
       and may be ordered.)"
-  cdi:has:
+  cdi:has_CodePosition:
     type: array
     items:
-      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+      anyOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/CodePosition
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+    minItems: 1
+  cdi:has_Code:
+    type: array
+    items:
+      anyOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/Code
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
     minItems: 1
   cdi:identifier:
     description: Identifier for objects requiring short- or long-lasting referencing
@@ -734,13 +1227,19 @@ properties:
       mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided
       to specify usage.
   cdi:uses:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/LevelStructure
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
   cdi:references:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/CategorySet
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
   cdi:isDefinedBy:
     type: array
     items:
-      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+      anyOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
     minItems: 1
   cdi:purpose:
     description: Intent or reason for the object/the description of the object.
@@ -748,6 +1247,554 @@ properties:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
 required:
 - '@type'
+$defs:
+  AuthorizationSource:
+    type: object
+    description: Identifies the authorizing agency and allows for the full text of
+      the authorization (law, regulation, or other form of authorization).
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:AuthorizationSource
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this AuthorizationSource node
+      cdi:authorizationDate:
+        description: Identifies the date of authorization.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/CombinedDate
+      cdi:identifier:
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Identifier
+      cdi:legalMandate:
+        description: Provide a legal citation to a law authorizing the study/data
+          collection. For example, a legal citation for a law authorizing a country's
+          census.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+      cdi:has:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiAgent
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+        minItems: 1
+      cdi:purpose:
+        description: Intent or reason for the object/the description of the object.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+      cdi:statementOfAuthorization:
+        description: Text of the authorization (law, mandate, approved business case).
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+    required:
+    - '@type'
+  Category:
+    type: object
+    description: Concept whose role is to define and measure a characteristic.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:Category
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this Category node
+      cdi:descriptiveText:
+        description: A short natural language account of the characteristics of the
+          object.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+      cdi:definition:
+        description: Natural language statement conveying the meaning of a concept,
+          differentiating it from other concepts. Supports the use of multiple languages
+          and structured text. 'externalDefinition' can't be used if 'definition'
+          is used.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+      cdi:displayLabel:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/LabelForDisplay
+        minItems: 1
+        description: A human-readable display label for the object. Supports the use
+          of multiple languages. Repeat for labels with different content, for example,
+          labels with differing length limitations.
+      cdi:externalDefinition:
+        description: A reference to an external definition of a concept (that is,
+          a concept which is described outside the content of the DDI-CDI metadata
+          description). An example is a SKOS concept. The definition property is assumed
+          to duplicate the external one referenced if externalDefinition is used.
+          Other corresponding properties are assumed to be included unchanged if used.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Reference
+      cdi:identifier:
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Identifier
+      cdi:name:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ObjectName
+        minItems: 1
+        description: Human understandable name (linguistic signifier, word, phrase,
+          or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
+          provided to specify usage.
+      cdi:uses:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+        minItems: 1
+    required:
+    - '@type'
+  CategoryPosition:
+    type: object
+    description: Assigns a sequence number to a category within a list.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:CategoryPosition
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this CategoryPosition node
+      cdi:identifier:
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Identifier
+      cdi:indexes:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/Category
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+      cdi:value:
+        type: integer
+        description: Index value of the member in an ordered array.
+    required:
+    - '@type'
+  CategorySet:
+    type: object
+    description: Concept system where the underlying concepts are categories.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:CategorySet
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this CategorySet node
+      cdi:has_Category:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/Category
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+        minItems: 1
+      cdi:has_CategoryPosition:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/CategoryPosition
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+        minItems: 1
+      cdi:allowsDuplicates:
+        type: boolean
+        description: "If value is False, the members are unique within the collection
+          - if True, there may be duplicates. (Note that a mathematical \u201Cbag\u201D
+          permits duplicates and is unordered - a \u201Cset\u201D does not have duplicates
+          and may be ordered.)"
+      cdi:externalDefinition:
+        description: A reference to an external definition of a concept (that is,
+          a concept which is described outside the content of the DDI-CDI metadata
+          description). An example is a SKOS concept. The definition property is assumed
+          to duplicate the external one referenced if externalDefinition is used.
+          Other corresponding properties are assumed to be included unchanged if used.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Reference
+      cdi:identifier:
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Identifier
+      cdi:name:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ObjectName
+        minItems: 1
+        description: Human understandable name (liguistic signifier, word, phrase,
+          or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
+          provided to specify usage.
+      cdi:isDefinedBy:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+        minItems: 1
+      cdi:purpose:
+        description: Intent or reason for the object/the description of the object.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+    required:
+    - '@type'
+  ClassificationItem:
+    type: object
+    description: A space for a category within a statistical classification.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:ClassificationItem
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this ClassificationItem node
+      cdi:changeFromPreviousVersion:
+        description: Describes the changes, which the item has been subject to from
+          the previous version to the actual statistical classification.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+      cdi:changeLog:
+        description: Describes the changes, which the item has been subject to during
+          the life time of the actual statistical classification.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+      cdi:explanatoryNotes:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+        minItems: 1
+        description: 'A classification item may be associated with explanatory notes,
+          which further describe and clarify the contents of the category. Explanatory
+          notes consist of: General note: Contains either additional information about
+          the category, or a general description of the category, which is not structured
+          according to the "includes", "includes also", "excludes" pattern. Includes:
+          Specifies the contents of the category. Includes also: A list of borderline
+          cases, which belong to the described category. Excludes: A list of borderline
+          cases, which do not belong to the described category. Excluded cases may
+          contain a reference to the classification items to which the excluded cases
+          belong.'
+      cdi:futureNotes:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+        minItems: 1
+        description: The future events describe an intended or implemented change
+          (or a number of changes) related to an invalid item (e.g., these changes
+          may have turned the now invalid item into one or several successor items).
+          This allows for the possibility of following successors of the item in the
+          future.
+      cdi:identifier:
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Identifier
+      cdi:isGenerated:
+        type: boolean
+        description: Indicates whether or not the item has been generated to make
+          the level to which it belongs complete.
+      cdi:isValid:
+        type: boolean
+        description: Indicates whether or not the item is currently valid. If updates
+          are allowed in the Statistical Classification, an item may be restricted
+          in its validity, i.e. it may become valid or invalid after the Statistical
+          Classification has been released.
+      cdi:name:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ObjectName
+        minItems: 1
+        description: Human understandable name (liguistic signifier, word, phrase,
+          or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
+          provided to specify usage. A Classification Item has an official name as
+          provided by the owner or maintenance unit. The name describes the content
+          of the category. The name is unique within the Statistical Classification
+          to which the item belongs, except for categories that are identical at more
+          than one level in a hierarchical classification. Use the context attribute
+          to differentiate official names or alternate names for the Classification
+          Item.
+      cdi:excludes:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/ClassificationItem
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+        minItems: 1
+      cdi:denotes:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/Category
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+      cdi:uses:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/Notation
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+      cdi:hasRulingBy:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/AuthorizationSource
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+        minItems: 1
+      cdi:validDates:
+        description: The dates describing the validity period of the object. The date
+          from which the object became valid must be defined if the map belongs to
+          a "floating" construct. The date at which the object became invalid must
+          be defined if the map belongs to a "floating" construct and is no longer
+          valid.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/DateRange
+    required:
+    - '@type'
+  Code:
+    type: object
+    description: The characters used as a symbol to designate a category within a
+      codelist or classification. (Formally, a sign for which the signifier is non-linguistic
+      alphanumeric string.)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:Code
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this Code node
+      cdi:identifier:
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Identifier
+      cdi:denotes:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/Category
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+      cdi:uses:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/Notation
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+    required:
+    - '@type'
+  CodePosition:
+    type: object
+    description: An index within an order intended for presentation (even though the
+      content within levels of the hierarchy may be conceptually unordered). Expressed
+      as an integer counting upward from 01 or 1.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:CodePosition
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this CodePosition node
+      cdi:identifier:
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Identifier
+      cdi:indexes:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/Code
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+      cdi:value:
+        type: integer
+        description: Index value of the member in an ordered array.
+    required:
+    - '@type'
+  Level:
+    type: object
+    description: Set of all classification items the same number of relationships
+      from the root (or top) classification item.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:Level
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this Level node
+      cdi:displayLabel:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/LabelForDisplay
+        minItems: 1
+        description: A human-readable display label for the object. Supports the use
+          of multiple languages. Repeat for labels with different content, for example,
+          labels with differing length limitations.
+      cdi:identifier:
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Identifier
+      cdi:levelNumber:
+        type: integer
+        description: Provides an association between a level number and optional concept
+          which defines it within an ordered array. Use is required.
+      cdi:isDefinedBy:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+      cdi:groups:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/ClassificationItem
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+        minItems: 1
+    required:
+    - '@type'
+  LevelStructure:
+    type: object
+    description: Nesting structure of a hierarchical collection.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:LevelStructure
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this LevelStructure node
+      cdi:identifier:
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Identifier
+      cdi:name:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ObjectName
+        minItems: 1
+        description: Human understandable name (liguistic signifier, word, phrase,
+          or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
+          provided to specify usage.
+      cdi:has:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/Level
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+        minItems: 1
+      cdi:usage:
+        description: Explanation of the ways in which the object is employed.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+      cdi:validDateRange:
+        description: The period for which the level object is valid, expressed as
+          a start and end date (supports both ISO-standard and non-ISO date formats).
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/DateRange
+    required:
+    - '@type'
+  Notation:
+    type: object
+    description: Representation of a category in the context of a code or a classification
+      item, as opposed of the corresponding instance value which would appear when
+      used in a dataset.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:Notation
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this Notation node
+      cdi:content:
+        description: The actual content of this value as a string.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/TypedString
+      cdi:identifier:
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Identifier
+      cdi:represents:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/$defs/Category
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
+        minItems: 1
+      cdi:whiteSpace:
+        type: string
+        enum:
+        - Collapse
+        - Preserve
+        - Replace
+        description: 'The usual setting "collapse" states that leading and trailing
+          white space will be removed and multiple adjacent white spaces will be treated
+          as a single white space. When setting to "replace" all occurrences of #x9
+          (tab), #xA (line feed) and #xD (carriage return) are replaced with #x20
+          (space) but leading and trailing spaces will be retained. If the existence
+          of any of these white spaces is critical to the understanding of the content,
+          change the value of this attribute to "preserve".'
+    required:
+    - '@type'
+  TypedString:
+    type: object
+    description: TypedString combines a type with content defined as a simple string.
+      May be used wherever a simple string needs to support a type definition to clarify
+      its content.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:TypedString
+        minItems: 1
+      cdi:content:
+        type: string
+        description: Content of the property expressed as a simple string.
+      cdi:typeOfContent:
+        description: Optional use of a controlled vocabulary to specifically type
+          the associated content.
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiCodeList/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ControlledVocabularyEntry
 x-jsonld-prefixes:
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
 x-schema-version: https://json-schema.org/draft/2020-12/schema

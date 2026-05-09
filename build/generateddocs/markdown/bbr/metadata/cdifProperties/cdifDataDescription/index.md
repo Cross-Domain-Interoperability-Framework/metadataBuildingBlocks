@@ -26,7 +26,7 @@ Example dataset with data description level properties including variable types 
         "dcat": "http://www.w3.org/ns/dcat#",
         "ex": "https://example.org/"
     },
-    "@id": "ex:dataset_datadesc_001",
+    "@id": "ex:dataset/oceanTemp2025",
     "@type": ["schema:Dataset"],
     "schema:name": "Ocean Temperature Monitoring Data",
     "schema:identifier": "https://doi.org/10.1234/ocean-temp-2025",
@@ -36,9 +36,9 @@ Example dataset with data description level properties including variable types 
     "schema:subjectOf": {
         "@type": ["schema:Dataset"],
         "schema:additionalType": ["dcat:CatalogRecord"],
-        "@id": "ex:metadata_datadesc_001",
+        "@id": "ex:dataset/oceanTemp2025/metadata",
         "schema:about": {
-            "@id": "ex:dataset_datadesc_001"
+            "@id": "ex:dataset/oceanTemp2025"
         },
         "dcterms:conformsTo": [
             {
@@ -48,9 +48,10 @@ Example dataset with data description level properties including variable types 
     },
     "schema:variableMeasured": [
         {
-            "@id": "ex:var_sea_water_temp",
+            "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp",
             "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
             "schema:name": "sea_water_temperature",
+            "schema:alternateName": ["sst", "TEMPST01"],
             "schema:description": "Temperature of sea water at measurement depth",
             "schema:propertyID": [
                 {
@@ -58,31 +59,64 @@ Example dataset with data description level properties including variable types 
                     "schema:name": "Sea Water Temperature",
                     "schema:identifier": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/",
                     "schema:inDefinedTermSet": "http://vocab.nerc.ac.uk/collection/P01/"
-                }
+                },
+                {
+                    "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+                },
+                "TEMPST01"
             ],
             "schema:unitText": "degrees Celsius",
-            "schema:unitCode": "CEL",
+            "schema:unitCode": {
+                "@type": ["schema:DefinedTerm"],
+                "schema:name": "degree Celsius",
+                "schema:identifier": "http://qudt.org/vocab/unit/DEG_C",
+                "schema:inDefinedTermSet": "http://qudt.org/vocab/unit/"
+            },
             "schema:minValue": -2.0,
             "schema:maxValue": 35.5,
-            "schema:measurementTechnique": "CTD sensor",
-            "cdi:physicalDataType": ["Numeric"],
+            "schema:measurementTechnique": {
+                "@type": ["schema:DefinedTerm"],
+                "schema:name": "CTD sensor",
+                "schema:identifier": "https://example.org/techniques/ctd"
+            },
+            "schema:url": "https://example.org/datasets/ocean-temp-2025/variables/sea_water_temperature",
+            "cdi:identifier": "ex:dataset/oceanTemp2025/var/seaWaterTemp",
+            "cdi:physicalDataType": [
+                "xsd:decimal",
+                {
+                    "@id": "http://www.w3.org/2001/XMLSchema#decimal"
+                },
+                {
+                    "@type": ["schema:DefinedTerm"],
+                    "schema:name": "decimal",
+                    "schema:identifier": "http://www.w3.org/2001/XMLSchema#decimal"
+                }
+            ],
             "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
             "cdi:role": "MeasureComponent",
             "cdi:name": "sea_water_temperature",
-            "cdi:displayLabel": "Water Temperature",
+            "cdi:displayLabel": "Sea Water Temperature",
             "cdi:describedUnitOfMeasure": {
                 "@type": ["schema:DefinedTerm"],
                 "schema:name": "degree Celsius",
-                "schema:identifier": "http://qudt.org/vocab/unit/DEG_C"
+                "schema:identifier": "http://qudt.org/vocab/unit/DEG_C",
+                "schema:inDefinedTermSet": "http://qudt.org/vocab/unit/"
             },
+            "cdi:simpleUnitOfMeasure": "Cel",
             "cdi:uses": [
                 {
                     "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+                },
+                "sea-water-temperature",
+                {
+                    "@type": ["schema:DefinedTerm"],
+                    "schema:name": "Sea water temperature",
+                    "schema:identifier": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
                 }
             ]
         },
         {
-            "@id": "ex:var_measurement_depth",
+            "@id": "ex:dataset/oceanTemp2025/var/measurementDepth",
             "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
             "schema:name": "measurement_depth",
             "schema:description": "Depth below sea surface at which temperature was recorded",
@@ -97,7 +131,7 @@ Example dataset with data description level properties including variable types 
             "schema:unitCode": "MTR",
             "schema:minValue": 0,
             "schema:maxValue": 5000,
-            "cdi:physicalDataType": ["Numeric"],
+            "cdi:physicalDataType": ["xsd:decimal"],
             "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
             "cdi:role": "DimensionComponent",
             "cdi:name": "measurement_depth",
@@ -105,16 +139,42 @@ Example dataset with data description level properties including variable types 
             "cdi:simpleUnitOfMeasure": "m"
         },
         {
-            "@id": "ex:var_station_id",
+            "@id": "ex:dataset/oceanTemp2025/var/stationId",
             "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
             "schema:name": "station_id",
             "schema:description": "Identifier for the monitoring station",
             "schema:propertyID": ["station_id"],
-            "cdi:physicalDataType": ["String"],
+            "cdi:physicalDataType": ["xsd:string"],
             "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#string",
             "cdi:role": "DescriptorComponent",
             "cdi:name": "station_id",
-            "cdi:identifier": "ex:var_station_id"
+            "cdi:identifier": "ex:dataset/oceanTemp2025/var/stationId"
+        },
+        {
+            "@id": "ex:dataset/oceanTemp2025/var/qcFlag",
+            "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+            "schema:name": "qc_flag",
+            "schema:description": "QARTOD-style quality control flag for the temperature observation",
+            "schema:propertyID": ["qc_flag"],
+            "cdi:physicalDataType": ["xsd:integer"],
+            "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#integer",
+            "cdi:role": "AttributeComponent",
+            "cdi:name": "qc_flag",
+            "cdi:displayLabel": "QC flag",
+            "cdi:qualifies": {
+                "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp"
+            }
+        },
+        {
+            "@id": "ex:dataset/oceanTemp2025/var/sourceCruise",
+            "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+            "schema:name": "source_cruise",
+            "schema:description": "Reference to the source cruise that produced this observation",
+            "schema:propertyID": ["source_cruise"],
+            "cdi:physicalDataType": ["xsd:string"],
+            "cdi:role": "ReferenceValueComponent",
+            "cdi:name": "source_cruise",
+            "cdi:displayLabel": "Source Cruise"
         }
     ],
     "schema:distribution": [
@@ -142,7 +202,7 @@ Example dataset with data description level properties including variable types 
                     "cdi:length": 20,
                     "cdi:isRequired": true,
                     "cdi:formats_InstanceVariable": {
-                        "@id": "ex:var_station_id"
+                        "@id": "ex:dataset/oceanTemp2025/var/stationId"
                     }
                 },
                 {
@@ -154,7 +214,7 @@ Example dataset with data description level properties including variable types 
                     "cdi:nullSequence": "-999.9",
                     "cdi:isRequired": true,
                     "cdi:formats_InstanceVariable": {
-                        "@id": "ex:var_measurement_depth"
+                        "@id": "ex:dataset/oceanTemp2025/var/measurementDepth"
                     }
                 },
                 {
@@ -169,7 +229,53 @@ Example dataset with data description level properties including variable types 
                     "cdi:maximumLength": 10,
                     "cdi:isRequired": false,
                     "cdi:formats_InstanceVariable": {
-                        "@id": "ex:var_sea_water_temp"
+                        "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp"
+                    }
+                },
+                {
+                    "cdi:index": 3,
+                    "cdi:physicalDataType": "Integer",
+                    "cdi:isRequired": false,
+                    "cdi:formats_InstanceVariable": {
+                        "@id": "ex:dataset/oceanTemp2025/var/qcFlag"
+                    }
+                },
+                {
+                    "cdi:index": 4,
+                    "cdi:physicalDataType": "String",
+                    "cdi:isRequired": false,
+                    "cdi:formats_InstanceVariable": {
+                        "@id": "ex:dataset/oceanTemp2025/var/sourceCruise"
+                    }
+                }
+            ]
+        },
+        {
+            "@type": ["schema:DataDownload", "cdi:StructuredDataSet"],
+            "schema:name": "Ocean temperature NetCDF cube",
+            "schema:contentUrl": "https://example.org/downloads/ocean-temp-2025.nc",
+            "schema:encodingFormat": ["application/x-netcdf"],
+            "cdi:characterSet": "UTF-8",
+            "cdi:fileSize": 240.0,
+            "cdi:fileSizeUofM": "MB",
+            "cdi:hasPhysicalMapping": [
+                {
+                    "cdi:index": 0,
+                    "cdi:physicalDataType": "float32",
+                    "cdi:locator": "/measurements/seaWaterTemperature",
+                    "cdi:nullSequence": "NaN",
+                    "cdi:isRequired": true,
+                    "cdi:formats_InstanceVariable": {
+                        "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp"
+                    }
+                },
+                {
+                    "cdi:index": 1,
+                    "cdi:physicalDataType": "float32",
+                    "cdi:locator": "/coordinates/depth",
+                    "cdi:isRequired": true,
+                    "cdi:formats_InstanceVariable": {
+                        "@id": "ex:dataset/oceanTemp2025/var/measurementDepth"
                     }
                 }
             ]
@@ -193,7 +299,7 @@ Example dataset with data description level properties including variable types 
       "ex": "https://example.org/"
     }
   ],
-  "@id": "ex:dataset_datadesc_001",
+  "@id": "ex:dataset/oceanTemp2025",
   "@type": [
     "schema:Dataset"
   ],
@@ -211,9 +317,9 @@ Example dataset with data description level properties including variable types 
     "schema:additionalType": [
       "dcat:CatalogRecord"
     ],
-    "@id": "ex:metadata_datadesc_001",
+    "@id": "ex:dataset/oceanTemp2025/metadata",
     "schema:about": {
-      "@id": "ex:dataset_datadesc_001"
+      "@id": "ex:dataset/oceanTemp2025"
     },
     "dcterms:conformsTo": [
       {
@@ -223,12 +329,16 @@ Example dataset with data description level properties including variable types 
   },
   "schema:variableMeasured": [
     {
-      "@id": "ex:var_sea_water_temp",
+      "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp",
       "@type": [
         "schema:PropertyValue",
         "cdi:InstanceVariable"
       ],
       "schema:name": "sea_water_temperature",
+      "schema:alternateName": [
+        "sst",
+        "TEMPST01"
+      ],
       "schema:description": "Temperature of sea water at measurement depth",
       "schema:propertyID": [
         {
@@ -238,35 +348,74 @@ Example dataset with data description level properties including variable types 
           "schema:name": "Sea Water Temperature",
           "schema:identifier": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/",
           "schema:inDefinedTermSet": "http://vocab.nerc.ac.uk/collection/P01/"
-        }
+        },
+        {
+          "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+        },
+        "TEMPST01"
       ],
       "schema:unitText": "degrees Celsius",
-      "schema:unitCode": "CEL",
+      "schema:unitCode": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "degree Celsius",
+        "schema:identifier": "http://qudt.org/vocab/unit/DEG_C",
+        "schema:inDefinedTermSet": "http://qudt.org/vocab/unit/"
+      },
       "schema:minValue": -2.0,
       "schema:maxValue": 35.5,
-      "schema:measurementTechnique": "CTD sensor",
+      "schema:measurementTechnique": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "CTD sensor",
+        "schema:identifier": "https://example.org/techniques/ctd"
+      },
+      "schema:url": "https://example.org/datasets/ocean-temp-2025/variables/sea_water_temperature",
+      "cdi:identifier": "ex:dataset/oceanTemp2025/var/seaWaterTemp",
       "cdi:physicalDataType": [
-        "Numeric"
+        "xsd:decimal",
+        {
+          "@id": "http://www.w3.org/2001/XMLSchema#decimal"
+        },
+        {
+          "@type": [
+            "schema:DefinedTerm"
+          ],
+          "schema:name": "decimal",
+          "schema:identifier": "http://www.w3.org/2001/XMLSchema#decimal"
+        }
       ],
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
       "cdi:role": "MeasureComponent",
       "cdi:name": "sea_water_temperature",
-      "cdi:displayLabel": "Water Temperature",
+      "cdi:displayLabel": "Sea Water Temperature",
       "cdi:describedUnitOfMeasure": {
         "@type": [
           "schema:DefinedTerm"
         ],
         "schema:name": "degree Celsius",
-        "schema:identifier": "http://qudt.org/vocab/unit/DEG_C"
+        "schema:identifier": "http://qudt.org/vocab/unit/DEG_C",
+        "schema:inDefinedTermSet": "http://qudt.org/vocab/unit/"
       },
+      "cdi:simpleUnitOfMeasure": "Cel",
       "cdi:uses": [
         {
           "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+        },
+        "sea-water-temperature",
+        {
+          "@type": [
+            "schema:DefinedTerm"
+          ],
+          "schema:name": "Sea water temperature",
+          "schema:identifier": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
         }
       ]
     },
     {
-      "@id": "ex:var_measurement_depth",
+      "@id": "ex:dataset/oceanTemp2025/var/measurementDepth",
       "@type": [
         "schema:PropertyValue",
         "cdi:InstanceVariable"
@@ -287,7 +436,7 @@ Example dataset with data description level properties including variable types 
       "schema:minValue": 0,
       "schema:maxValue": 5000,
       "cdi:physicalDataType": [
-        "Numeric"
+        "xsd:decimal"
       ],
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
       "cdi:role": "DimensionComponent",
@@ -296,7 +445,7 @@ Example dataset with data description level properties including variable types 
       "cdi:simpleUnitOfMeasure": "m"
     },
     {
-      "@id": "ex:var_station_id",
+      "@id": "ex:dataset/oceanTemp2025/var/stationId",
       "@type": [
         "schema:PropertyValue",
         "cdi:InstanceVariable"
@@ -307,12 +456,52 @@ Example dataset with data description level properties including variable types 
         "station_id"
       ],
       "cdi:physicalDataType": [
-        "String"
+        "xsd:string"
       ],
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#string",
       "cdi:role": "DescriptorComponent",
       "cdi:name": "station_id",
-      "cdi:identifier": "ex:var_station_id"
+      "cdi:identifier": "ex:dataset/oceanTemp2025/var/stationId"
+    },
+    {
+      "@id": "ex:dataset/oceanTemp2025/var/qcFlag",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "qc_flag",
+      "schema:description": "QARTOD-style quality control flag for the temperature observation",
+      "schema:propertyID": [
+        "qc_flag"
+      ],
+      "cdi:physicalDataType": [
+        "xsd:integer"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#integer",
+      "cdi:role": "AttributeComponent",
+      "cdi:name": "qc_flag",
+      "cdi:displayLabel": "QC flag",
+      "cdi:qualifies": {
+        "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp"
+      }
+    },
+    {
+      "@id": "ex:dataset/oceanTemp2025/var/sourceCruise",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "source_cruise",
+      "schema:description": "Reference to the source cruise that produced this observation",
+      "schema:propertyID": [
+        "source_cruise"
+      ],
+      "cdi:physicalDataType": [
+        "xsd:string"
+      ],
+      "cdi:role": "ReferenceValueComponent",
+      "cdi:name": "source_cruise",
+      "cdi:displayLabel": "Source Cruise"
     }
   ],
   "schema:distribution": [
@@ -345,7 +534,7 @@ Example dataset with data description level properties including variable types 
           "cdi:length": 20,
           "cdi:isRequired": true,
           "cdi:formats_InstanceVariable": {
-            "@id": "ex:var_station_id"
+            "@id": "ex:dataset/oceanTemp2025/var/stationId"
           }
         },
         {
@@ -357,7 +546,7 @@ Example dataset with data description level properties including variable types 
           "cdi:nullSequence": "-999.9",
           "cdi:isRequired": true,
           "cdi:formats_InstanceVariable": {
-            "@id": "ex:var_measurement_depth"
+            "@id": "ex:dataset/oceanTemp2025/var/measurementDepth"
           }
         },
         {
@@ -372,7 +561,58 @@ Example dataset with data description level properties including variable types 
           "cdi:maximumLength": 10,
           "cdi:isRequired": false,
           "cdi:formats_InstanceVariable": {
-            "@id": "ex:var_sea_water_temp"
+            "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp"
+          }
+        },
+        {
+          "cdi:index": 3,
+          "cdi:physicalDataType": "Integer",
+          "cdi:isRequired": false,
+          "cdi:formats_InstanceVariable": {
+            "@id": "ex:dataset/oceanTemp2025/var/qcFlag"
+          }
+        },
+        {
+          "cdi:index": 4,
+          "cdi:physicalDataType": "String",
+          "cdi:isRequired": false,
+          "cdi:formats_InstanceVariable": {
+            "@id": "ex:dataset/oceanTemp2025/var/sourceCruise"
+          }
+        }
+      ]
+    },
+    {
+      "@type": [
+        "schema:DataDownload",
+        "cdi:StructuredDataSet"
+      ],
+      "schema:name": "Ocean temperature NetCDF cube",
+      "schema:contentUrl": "https://example.org/downloads/ocean-temp-2025.nc",
+      "schema:encodingFormat": [
+        "application/x-netcdf"
+      ],
+      "cdi:characterSet": "UTF-8",
+      "cdi:fileSize": 240.0,
+      "cdi:fileSizeUofM": "MB",
+      "cdi:hasPhysicalMapping": [
+        {
+          "cdi:index": 0,
+          "cdi:physicalDataType": "float32",
+          "cdi:locator": "/measurements/seaWaterTemperature",
+          "cdi:nullSequence": "NaN",
+          "cdi:isRequired": true,
+          "cdi:formats_InstanceVariable": {
+            "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp"
+          }
+        },
+        {
+          "cdi:index": 1,
+          "cdi:physicalDataType": "float32",
+          "cdi:locator": "/coordinates/depth",
+          "cdi:isRequired": true,
+          "cdi:formats_InstanceVariable": {
+            "@id": "ex:dataset/oceanTemp2025/var/measurementDepth"
           }
         }
       ]
@@ -386,29 +626,48 @@ Example dataset with data description level properties including variable types 
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-ex:dataset_datadesc_001 a schema1:Dataset ;
+<https://example.org/dataset/oceanTemp2025> a schema1:Dataset ;
     schema1:dateModified "2025-09-01" ;
-    schema1:distribution [ a cdi:TabularTextDataSet,
+    schema1:distribution [ a cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            cdi:characterSet "UTF-8" ;
+            cdi:fileSize 2.4e+02 ;
+            cdi:fileSizeUofM "MB" ;
+            cdi:hasPhysicalMapping [ cdi:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
+                    cdi:index 1 ;
+                    cdi:isRequired true ;
+                    cdi:locator "/coordinates/depth" ;
+                    cdi:physicalDataType "float32" ],
+                [ cdi:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
+                    cdi:index 0 ;
+                    cdi:isRequired true ;
+                    cdi:locator "/measurements/seaWaterTemperature" ;
+                    cdi:nullSequence "NaN" ;
+                    cdi:physicalDataType "float32" ] ;
+            schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Ocean temperature NetCDF cube" ],
+        [ a cdi:TabularTextDataSet,
                 schema1:DataDownload ;
             cdi:characterSet "UTF-8" ;
             cdi:fileSize 1.2e+00 ;
             cdi:fileSizeUofM "MB" ;
-            cdi:hasPhysicalMapping [ cdi:decimalPositions 1 ;
-                    cdi:format "0.0" ;
-                    cdi:formats_InstanceVariable ex:var_measurement_depth ;
-                    cdi:index 1 ;
+            cdi:hasPhysicalMapping [ cdi:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
+                    cdi:index 4 ;
+                    cdi:isRequired false ;
+                    cdi:physicalDataType "String" ],
+                [ cdi:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
+                    cdi:index 0 ;
                     cdi:isRequired true ;
-                    cdi:nullSequence "-999.9" ;
-                    cdi:physicalDataType "Numeric" ;
-                    cdi:scale 1 ],
+                    cdi:length 20 ;
+                    cdi:physicalDataType "String" ],
                 [ cdi:decimalPositions 2 ;
                     cdi:defaultValue "NaN" ;
                     cdi:format "0.00" ;
-                    cdi:formats_InstanceVariable ex:var_sea_water_temp ;
+                    cdi:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
                     cdi:index 2 ;
                     cdi:isRequired false ;
                     cdi:maximumLength 10 ;
@@ -416,11 +675,18 @@ ex:dataset_datadesc_001 a schema1:Dataset ;
                     cdi:nullSequence "-999.99" ;
                     cdi:physicalDataType "Numeric" ;
                     cdi:scale 2 ],
-                [ cdi:formats_InstanceVariable ex:var_station_id ;
-                    cdi:index 0 ;
+                [ cdi:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
+                    cdi:index 3 ;
+                    cdi:isRequired false ;
+                    cdi:physicalDataType "Integer" ],
+                [ cdi:decimalPositions 1 ;
+                    cdi:format "0.0" ;
+                    cdi:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
+                    cdi:index 1 ;
                     cdi:isRequired true ;
-                    cdi:length 20 ;
-                    cdi:physicalDataType "String" ] ;
+                    cdi:nullSequence "-999.9" ;
+                    cdi:physicalDataType "Numeric" ;
+                    cdi:scale 1 ] ;
             cdi:isDelimited true ;
             schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.csv" ;
             schema1:encodingFormat "text/csv" ;
@@ -436,23 +702,58 @@ ex:dataset_datadesc_001 a schema1:Dataset ;
     schema1:identifier "https://doi.org/10.1234/ocean-temp-2025" ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:name "Ocean Temperature Monitoring Data" ;
-    schema1:subjectOf ex:metadata_datadesc_001 ;
+    schema1:subjectOf <https://example.org/dataset/oceanTemp2025/metadata> ;
     schema1:url "https://example.org/datasets/ocean-temp-2025" ;
-    schema1:variableMeasured ex:var_measurement_depth,
-        ex:var_sea_water_temp,
-        ex:var_station_id .
+    schema1:variableMeasured <https://example.org/dataset/oceanTemp2025/var/measurementDepth>,
+        <https://example.org/dataset/oceanTemp2025/var/qcFlag>,
+        <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp>,
+        <https://example.org/dataset/oceanTemp2025/var/sourceCruise>,
+        <https://example.org/dataset/oceanTemp2025/var/stationId> .
 
-ex:metadata_datadesc_001 a schema1:Dataset ;
+<https://example.org/dataset/oceanTemp2025/metadata> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/data_description/1.0> ;
-    schema1:about ex:dataset_datadesc_001 ;
+    schema1:about <https://example.org/dataset/oceanTemp2025> ;
     schema1:additionalType "dcat:CatalogRecord" .
 
-ex:var_measurement_depth a cdi:InstanceVariable,
+<https://example.org/dataset/oceanTemp2025/var/qcFlag> a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "QC flag" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#integer" ;
+    cdi:name "qc_flag" ;
+    cdi:physicalDataType "xsd:integer" ;
+    cdi:qualifies <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
+    cdi:role "AttributeComponent" ;
+    schema1:description "QARTOD-style quality control flag for the temperature observation" ;
+    schema1:name "qc_flag" ;
+    schema1:propertyID "qc_flag" .
+
+<https://example.org/dataset/oceanTemp2025/var/sourceCruise> a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "Source Cruise" ;
+    cdi:name "source_cruise" ;
+    cdi:physicalDataType "xsd:string" ;
+    cdi:role "ReferenceValueComponent" ;
+    schema1:description "Reference to the source cruise that produced this observation" ;
+    schema1:name "source_cruise" ;
+    schema1:propertyID "source_cruise" .
+
+<https://example.org/dataset/oceanTemp2025/var/stationId> a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:identifier "ex:dataset/oceanTemp2025/var/stationId" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#string" ;
+    cdi:name "station_id" ;
+    cdi:physicalDataType "xsd:string" ;
+    cdi:role "DescriptorComponent" ;
+    schema1:description "Identifier for the monitoring station" ;
+    schema1:name "station_id" ;
+    schema1:propertyID "station_id" .
+
+<https://example.org/dataset/oceanTemp2025/var/measurementDepth> a cdi:InstanceVariable,
         schema1:PropertyValue ;
     cdi:displayLabel "Measurement Depth" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     cdi:name "measurement_depth" ;
-    cdi:physicalDataType "Numeric" ;
+    cdi:physicalDataType "xsd:decimal" ;
     cdi:role "DimensionComponent" ;
     cdi:simpleUnitOfMeasure "m" ;
     schema1:description "Depth below sea surface at which temperature was recorded" ;
@@ -465,39 +766,49 @@ ex:var_measurement_depth a cdi:InstanceVariable,
     schema1:unitCode "MTR" ;
     schema1:unitText "meters" .
 
-ex:var_sea_water_temp a cdi:InstanceVariable,
+<https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> a cdi:InstanceVariable,
         schema1:PropertyValue ;
     cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
             schema1:identifier "http://qudt.org/vocab/unit/DEG_C" ;
+            schema1:inDefinedTermSet "http://qudt.org/vocab/unit/" ;
             schema1:name "degree Celsius" ] ;
-    cdi:displayLabel "Water Temperature" ;
+    cdi:displayLabel "Sea Water Temperature" ;
+    cdi:identifier "ex:dataset/oceanTemp2025/var/seaWaterTemp" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     cdi:name "sea_water_temperature" ;
-    cdi:physicalDataType "Numeric" ;
+    cdi:physicalDataType [ a schema1:DefinedTerm ;
+            schema1:identifier "http://www.w3.org/2001/XMLSchema#decimal" ;
+            schema1:name "decimal" ],
+        xsd:decimal,
+        "xsd:decimal" ;
     cdi:role "MeasureComponent" ;
-    cdi:uses <http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/> ;
+    cdi:simpleUnitOfMeasure "Cel" ;
+    cdi:uses [ a schema1:DefinedTerm ;
+            schema1:identifier "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/" ;
+            schema1:name "Sea water temperature" ],
+        <http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/>,
+        "sea-water-temperature" ;
+    schema1:alternateName "TEMPST01",
+        "sst" ;
     schema1:description "Temperature of sea water at measurement depth" ;
     schema1:maxValue 3.55e+01 ;
-    schema1:measurementTechnique "CTD sensor" ;
+    schema1:measurementTechnique [ a schema1:DefinedTerm ;
+            schema1:identifier "https://example.org/techniques/ctd" ;
+            schema1:name "CTD sensor" ] ;
     schema1:minValue -2e+00 ;
     schema1:name "sea_water_temperature" ;
     schema1:propertyID [ a schema1:DefinedTerm ;
             schema1:identifier "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/" ;
             schema1:inDefinedTermSet "http://vocab.nerc.ac.uk/collection/P01/" ;
-            schema1:name "Sea Water Temperature" ] ;
-    schema1:unitCode "CEL" ;
-    schema1:unitText "degrees Celsius" .
-
-ex:var_station_id a cdi:InstanceVariable,
-        schema1:PropertyValue ;
-    cdi:identifier "ex:var_station_id" ;
-    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#string" ;
-    cdi:name "station_id" ;
-    cdi:physicalDataType "String" ;
-    cdi:role "DescriptorComponent" ;
-    schema1:description "Identifier for the monitoring station" ;
-    schema1:name "station_id" ;
-    schema1:propertyID "station_id" .
+            schema1:name "Sea Water Temperature" ],
+        <http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/>,
+        "TEMPST01" ;
+    schema1:unitCode [ a schema1:DefinedTerm ;
+            schema1:identifier "http://qudt.org/vocab/unit/DEG_C" ;
+            schema1:inDefinedTermSet "http://qudt.org/vocab/unit/" ;
+            schema1:name "degree Celsius" ] ;
+    schema1:unitText "degrees Celsius" ;
+    schema1:url "https://example.org/datasets/ocean-temp-2025/variables/sea_water_temperature" .
 
 
 ```

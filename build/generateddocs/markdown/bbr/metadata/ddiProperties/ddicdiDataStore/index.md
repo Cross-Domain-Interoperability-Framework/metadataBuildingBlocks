@@ -1,0 +1,316 @@
+
+# DDI-CDI Data Store (Schema)
+
+`cdif.bbr.metadata.ddiProperties.ddicdiDataStore` *v0.1*
+
+Collection of logical records.
+
+[*Status*](http://www.opengis.net/def/status): Under development
+
+## Description
+
+DDI-CDI DataStore models a collection of logical records held together as a managed datastore (delimited file, fixed-record-length file, relational database, etc.). The root `cdi:DataStore` carries `cdi:has_LogicalRecord` (members from the `ddicdiLogicalRecord` BB), `cdi:has_LogicalRecordPosition` to order them, optional `cdi:has_RecordRelation` describing relationships across records, and characterization properties `cdi:dataStoreType`, `cdi:characterSet`, `cdi:recordCount`, and `cdi:aboutMissing`.
+
+Cross-record linkage is expressed through the local `$defs/RecordRelation` and `$defs/InstanceVariableMap` constructs, which capture key relationships between source and target instance variables along with a `CorrespondenceDefinition` describing how they match. DataStore is the top-level container that ties together the structural-description side of the CDIF Data Description profile.
+
+## Examples
+
+### Minimal DataStore
+TODO: replace with a JSON-LD example.
+## Schema
+
+```yaml
+$schema: https://json-schema.org/draft/2020-12/schema
+title: DDI-CDI Data Store
+description: Collection of logical records.
+type: object
+properties:
+  '@type':
+    type: array
+    items:
+      type: string
+    contains:
+      const: cdi:DataStore
+    minItems: 1
+  '@id':
+    type: string
+    description: Identifier for this DataStore node
+  cdi:aboutMissing:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
+    description: General information about missing data, e.g., that missing data have
+      been standardized across the collection, missing data are present because of
+      merging, etc.- corresponds to DDI2.5 dataMsng.
+  cdi:allowsDuplicates:
+    type: boolean
+    description: "If value is False, the members are unique within the collection
+      - if True, there may be duplicates. (Note that a mathematical \u201Cbag\u201D
+      permits duplicates and is unordered - a \u201Cset\u201D does not have duplicates
+      and may be ordered.)"
+  cdi:characterSet:
+    type: string
+    description: Default character set used in the Data Store.
+  cdi:dataStoreType:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry
+    description: The type of datastore. Could be delimited file, fixed record length
+      file, relational database, etc. Points to an external definition which can be
+      part of a controlled vocabulary maintained by the DDI Alliance.
+  cdi:identifier:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
+    description: Identifier for objects requiring short- or long-lasting referencing
+      and management.
+  cdi:name:
+    type: array
+    items:
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
+    minItems: 1
+    description: Human understandable name (liguistic signifier, word, phrase, or
+      mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided
+      to specify usage.
+  cdi:isDefinedBy:
+    type: array
+    items:
+      anyOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+    minItems: 1
+  cdi:has_LogicalRecordPosition:
+    type: array
+    items:
+      anyOf:
+      - $ref: '#/$defs/LogicalRecordPosition'
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+    minItems: 1
+  cdi:has_LogicalRecord:
+    type: array
+    items:
+      anyOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiLogicalRecord/schema.yaml
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+    minItems: 1
+  cdi:has_RecordRelation:
+    anyOf:
+    - $ref: '#/$defs/RecordRelation'
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+  cdi:purpose:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
+    description: Intent or reason for the object/the description of the object.
+  cdi:recordCount:
+    type: integer
+    description: The number of records in the Data Store.
+required:
+- '@type'
+$defs:
+  CorrespondenceDefinition:
+    type: object
+    description: Describes the commonalities and differences between two members using
+      a textual description of both commonalities and differences plus an optional
+      coding of the type of commonality.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: cdi:CorrespondenceDefinition
+        minItems: 1
+      cdi:commonality:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
+        description: A description of the common features of the two items. Supports
+          multiple language versions of the same content as well as optional formatting
+          of the content.
+      cdi:commonalityCode:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry
+        minItems: 1
+        description: Commonality expressed as a term or code. Supports the use of
+          an external controlled vocabulary. If repeated, clarify each external controlled
+          vocabulary used.
+      cdi:difference:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
+        description: A description of the differences between the two items. Supports
+          multiple language versions of the same content as well as optional formatting
+          of the content.
+      cdi:matching:
+        type: string
+        enum:
+        - CloseMatch
+        - Disjoint
+        - ExactMatch
+        description: Allows specification of exact match, close match, or disjoint.
+          These relationships can be further defined by describing commonalities or
+          differences or providing additional controlled vocabulary descriptions of
+          relationships.
+  InstanceVariableMap:
+    type: object
+    description: Key value relationship for two or more logical records where the
+      key is one or more equivalent instance variables and the value is a defined
+      relationship or a relationship to a set value.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: cdi:InstanceVariableMap
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this InstanceVariableMap node
+      cdi:comparison:
+        type: string
+        enum:
+        - Equal
+        - GreaterThan
+        - GreaterThanOrEqualTo
+        - LessThan
+        - LessThanOrEqualTo
+        - NotEqual
+        description: Relationship between the source and target instance variables
+          or to the setValue if provided.
+      cdi:correspondence:
+        $ref: '#/$defs/CorrespondenceDefinition'
+        description: Describes the relationship between the source and target members
+          using both controlled vocabularies and descriptive text. In this context
+          the correspondence refers to the two instance variables, not their value.
+          The relationship would normally be ExactMatch.
+      cdi:identifier:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+      cdi:hasTarget:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifVariableMeasured/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        minItems: 1
+      cdi:hasSource:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifVariableMeasured/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        minItems: 1
+      cdi:setValue:
+        type: string
+        description: A fixed value for the key source Instance Variables.
+    required:
+    - '@type'
+  LogicalRecordPosition:
+    type: object
+    description: Assigns a position of the logical record within the data store.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: cdi:LogicalRecordPosition
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this LogicalRecordPosition node
+      cdi:identifier:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+      cdi:indexes:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiLogicalRecord/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:value:
+        type: integer
+        description: Index value of the member in an ordered array.
+    required:
+    - '@type'
+  RecordRelation:
+    type: object
+    description: Relationships among record types within and between logical records.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: cdi:RecordRelation
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this RecordRelation node
+      cdi:displayLabel:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay
+        minItems: 1
+        description: A human-readable display label for the object. Supports the use
+          of multiple languages. Repeat for labels with different content, for example,
+          labels with differing length limitations.
+      cdi:identifier:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+      cdi:maps:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiLogicalRecord/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        minItems: 2
+      cdi:has:
+        type: array
+        items:
+          anyOf:
+          - $ref: '#/$defs/InstanceVariableMap'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        minItems: 1
+      cdi:purpose:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
+        description: Intent or reason for the object/the description of the object.
+      cdi:usage:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
+        description: Explanation of the ways in which the object is employed.
+    required:
+    - '@type'
+x-jsonld-prefixes:
+  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+
+```
+
+Links to the schema:
+
+* YAML version: [schema.yaml](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStore/schema.json)
+* JSON version: [schema.json](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStore/schema.yaml)
+
+
+# JSON-LD Context
+
+```jsonld
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "http://schema.org/",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "xas": "https://xas.org/dictionary/",
+    "nxs": "http://purl.org/nexusformat/definitions/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "@version": 1.1
+  }
+}
+```
+
+You can find the full JSON-LD context here:
+[context.jsonld](https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStore/context.jsonld)
+
+## Sources
+
+* [DDI-CDI 1.0 Specification](https://ddialliance.org/Specification/DDI-CDI/1.0/)
+
+# For developers
+
+The source code for this Building Block can be found in the following repository:
+
+* URL: [https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks](https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks)
+* Path: `_sources/ddiProperties/ddicdiDataStore`
+

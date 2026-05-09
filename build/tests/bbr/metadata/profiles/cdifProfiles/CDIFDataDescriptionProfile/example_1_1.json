@@ -3,9 +3,12 @@
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
     "geosparql": "http://www.opengis.net/ont/geosparql#",
+    "sf": "http://www.opengis.net/ont/sf#",
     "spdx": "http://spdx.org/rdf/terms#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "csvw": "http://www.w3.org/ns/csvw#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "time": "http://www.w3.org/2006/time#",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcat": "http://www.w3.org/ns/dcat#",
@@ -487,6 +490,9 @@
         "spdx:algorithm": "SHA256",
         "spdx:checksumValue": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
       },
+      "cdi:characterSet": "UTF-8",
+      "cdi:fileSize": 4.6,
+      "cdi:fileSizeUofM": "MB",
       "cdi:isDelimited": true,
       "csvw:delimiter": ",",
       "csvw:header": true,
@@ -718,8 +724,27 @@
       "schema:minValue": 67.0,
       "schema:maxValue": 98.0,
       "schema:url": "http://example.com/resource?foo=bar#furlong",
+      "cdi:identifier": "ex:KJTFKurNFu",
       "cdi:physicalDataType": [
         "float64"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdi:role": "MeasureComponent",
+      "cdi:name": "RbMivCtraTmzms",
+      "cdi:displayLabel": "Sea Water Temperature",
+      "cdi:describedUnitOfMeasure": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "degree Celsius",
+        "schema:identifier": "http://qudt.org/vocab/unit/DEG_C",
+        "schema:inDefinedTermSet": "http://qudt.org/vocab/unit/"
+      },
+      "cdi:simpleUnitOfMeasure": "Cel",
+      "cdi:uses": [
+        {
+          "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+        }
       ]
     },
     {
@@ -755,9 +780,153 @@
       "schema:minValue": 36.0,
       "schema:maxValue": 74.0,
       "schema:url": "http://example.com/resource?foo=bar#stone",
+      "cdi:identifier": "ex:OjHgIDO",
       "cdi:physicalDataType": [
         "float32"
-      ]
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#float",
+      "cdi:role": "DimensionComponent",
+      "cdi:name": "jzgZCegiTFYBSmsSh",
+      "cdi:displayLabel": "Measurement Depth",
+      "cdi:simpleUnitOfMeasure": "m",
+      "cdi:qualifies": {
+        "@id": "ex:KJTFKurNFu"
+      }
+    }
+  ],
+  "schema:measurementTechnique": [
+    "Conductivity-Temperature-Depth (CTD) profiler",
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "CTD profiler",
+      "schema:identifier": "https://example.org/techniques/ctd",
+      "schema:inDefinedTermSet": "https://example.org/techniques",
+      "schema:termCode": "ctd"
+    }
+  ],
+  "schema:spatialCoverage": [
+    {
+      "@type": [
+        "schema:Place"
+      ],
+      "schema:name": "Gulf of Maine",
+      "schema:identifier": "https://www.geonames.org/4965561",
+      "schema:additionalType": [
+        "marine-region"
+      ],
+      "schema:alternateName": [
+        "Maine Gulf"
+      ],
+      "schema:geo": {
+        "@type": [
+          "schema:GeoShape"
+        ],
+        "schema:box": "41.0 -71.0 45.0 -65.0"
+      },
+      "geosparql:hasGeometry": {
+        "@type": [
+          "sf:Polygon"
+        ],
+        "geosparql:asWKT": {
+          "@type": [
+            "geosparql:wktLiteral"
+          ],
+          "@value": "POLYGON((-71 41,-65 41,-65 45,-71 45,-71 41))"
+        },
+        "geosparql:crs": {
+          "@id": "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+        }
+      }
+    },
+    {
+      "@type": [
+        "schema:Place"
+      ],
+      "schema:name": "Station GoM-A1",
+      "schema:geo": {
+        "@type": [
+          "schema:GeoCoordinates"
+        ],
+        "schema:latitude": 43.5,
+        "schema:longitude": -68.0
+      }
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2024-01-01/2025-09-01",
+    {
+      "@context": {
+        "time": "http://www.w3.org/2006/time#",
+        "schema": "http://schema.org/"
+      },
+      "@type": [
+        "time:ProperInterval"
+      ],
+      "schema:description": "Monitoring window for ocean temperature 2024-2025 release",
+      "time:hasBeginning": {
+        "@type": [
+          "time:Instant"
+        ],
+        "time:inTimePosition": {
+          "@type": [
+            "time:TimePosition"
+          ],
+          "time:hasTRS": "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian",
+          "time:numericPosition": 2024.0
+        }
+      },
+      "time:hasEnd": {
+        "@type": [
+          "time:Instant"
+        ],
+        "time:inTimePosition": {
+          "@type": [
+            "time:TimePosition"
+          ],
+          "time:hasTRS": "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian",
+          "time:numericPosition": 2025.67
+        }
+      }
+    }
+  ],
+  "dqv:hasQualityMeasurement": [
+    {
+      "@type": [
+        "dqv:QualityMeasurement"
+      ],
+      "dqv:isMeasurementOf": "completeness",
+      "dqv:value": "0.987"
+    },
+    {
+      "@type": [
+        "dqv:QualityMeasurement"
+      ],
+      "dqv:isMeasurementOf": {
+        "@id": "https://example.org/quality/temperatureAccuracy"
+      },
+      "dqv:value": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "high accuracy",
+        "schema:identifier": "https://example.org/quality/levels/high",
+        "schema:termCode": "HIGH"
+      }
+    },
+    {
+      "@type": [
+        "dqv:QualityMeasurement"
+      ],
+      "dqv:isMeasurementOf": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "QARTOD primary level pass rate",
+        "schema:identifier": "https://example.org/quality/qartod-pass-rate"
+      },
+      "dqv:value": "0.96"
     }
   ],
   "schema:subjectOf": {

@@ -1,0 +1,82 @@
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/vd/temperatureCelsius> a cdi:SubstantiveValueDomain ;
+    cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Temperatura del agua de mar (grados Celsius)" ;
+                    cdi:language "es" ] ;
+            cdi:maxLength 60 ],
+        [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Sea Water Temperature (degrees Celsius)" ;
+                    cdi:language "en" ] ;
+            cdi:locationVariant [ a cdi:ControlledVocabularyEntry ;
+                    cdi:entryValue "en-US" ;
+                    cdi:name "BCP47" ] ;
+            cdi:maxLength 40 ] ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:ddiIdentifier [ a cdi:InternationalRegistrationDataIdentifier ;
+                    cdi:dataIdentifier "OCEAN-VD-TEMP-C" ;
+                    cdi:registrationAuthorityIdentifier "0000.0000.0000" ;
+                    cdi:versionIdentifier "1.0.0" ] ;
+            cdi:nonDdiIdentifier [ a cdi:NonDdiIdentifier ;
+                    cdi:identifierContent "VD/TEMP-C/v1" ;
+                    cdi:managingAgency "Example Ocean Data Center" ] ;
+            cdi:uri "https://example.org/vd/temperatureCelsius" ] ;
+    cdi:isDescribedBy <https://example.org/vd/temperatureCelsius/desc> ;
+    cdi:recommendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryReference [ a cdi:Reference ;
+                    cdi:uri "http://www.w3.org/2001/XMLSchema#double" ] ;
+            cdi:entryValue "xsd:double" ;
+            cdi:name "XML Schema Datatypes" ],
+        [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryReference [ a cdi:Reference ;
+                    cdi:uri "http://www.w3.org/2001/XMLSchema#decimal" ] ;
+            cdi:entryValue "xsd:decimal" ;
+            cdi:name "XML Schema Datatypes" ;
+            cdi:vocabulary [ a cdi:Reference ;
+                    cdi:description "W3C XML Schema Definition Language datatypes" ;
+                    cdi:uri "http://www.w3.org/2001/XMLSchema" ] ] ;
+    cdi:takesConceptsFrom <https://example.org/cd/seaWaterTemperature> ;
+    cdi:takesValuesFrom <https://example.org/enum/temperatureSampleEnum> .
+
+<https://example.org/cd/seaWaterTemperature> a cdi:SubstantiveConceptualDomain ;
+    cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Sea Water Temperature (concept)" ;
+                    cdi:language "en" ] ] ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/cd/seaWaterTemperature" ] ;
+    cdi:isDescribedBy <https://example.org/vd/temperatureCelsius/desc> ;
+    cdi:takesConceptsFrom <https://example.org/cs/oceanographicConcepts> .
+
+<https://example.org/vd/temperatureCelsius/desc> a cdi:ValueAndConceptDescription ;
+    cdi:classificationLevel "Continuous" ;
+    cdi:description [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Temperatures du seuil oceanographique en degres Celsius." ;
+                    cdi:language "fr" ],
+                [ a cdi:LanguageString ;
+                    cdi:content "Real-valued sea water temperatures, expressed in degrees Celsius, in the plausible oceanographic range from -2 (freezing seawater) up to 35.5 (warm tropical surface)." ;
+                    cdi:language "en" ] ] ;
+    cdi:formatPattern [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "#0.00" ;
+            cdi:name "LDML number pattern" ;
+            cdi:vocabulary [ a cdi:Reference ;
+                    cdi:uri "http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns" ] ] ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/vd/temperatureCelsius/desc" ] ;
+    cdi:logicalExpression [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "all reals x such that -2 <= x <= 35.5" ;
+            cdi:name "informal range expression" ] ;
+    cdi:maximumValueExclusive "40.0" ;
+    cdi:maximumValueInclusive "35.5" ;
+    cdi:minimumValueExclusive "-3.0" ;
+    cdi:minimumValueInclusive "-2.0" ;
+    cdi:regularExpression [ a cdi:TypedString ;
+            cdi:content "^-?\\d+(\\.\\d+)?$" ;
+            cdi:typeOfContent [ a cdi:ControlledVocabularyEntry ;
+                    cdi:entryValue "ECMAScript" ;
+                    cdi:name "regex syntax" ] ] .
+

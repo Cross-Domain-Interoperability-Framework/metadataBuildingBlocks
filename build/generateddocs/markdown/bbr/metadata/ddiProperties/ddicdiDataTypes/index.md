@@ -7,6 +7,12 @@ Shared DDI-CDI structured data types from DDICDILibrary/DataTypes: identifiers, 
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
+## Description
+
+Shared library of DDI-CDI structured data types from `DDICDILibrary/DataTypes`. This BB has no root class — it is a `$defs`-only schema flagged with `isTypeLibrary: true` in `bblock.json`, providing reusable named types that other DDI-CDI BBs reference via `$ref` to `ddicdiDataTypes/schema.yaml#/$defs/<TypeName>`.
+
+The library covers identifier and reference types (`Identifier`, `InternationalRegistrationDataIdentifier`, `NonDdiIdentifier`, `Reference`, `id-reference`), name types (`ObjectName`, `OrganizationName`, `IndividualName`, `LabelForDisplay`), contact information (`ContactInformation`, `Address`, `Email`, `Telephone`, `WebLink`, `ElectronicMessageSystem`), agent-related helpers (`AccessLocation`, `PrivateImage`, `CatalogDetails`, `AgentInRole`, `SexSpecification`), controlled-vocabulary entries (`ControlledVocabularyEntry`, `PairedControlledVocabularyEntry`), and common scalars (`InternationalString`, `LanguageString`, `DateRange`, `CombinedDate`). Centralizing these types here keeps every DDI-CDI BB consistent and lets the resolver flatten them into a single shared schema.
+
 ## Schema
 
 ```yaml

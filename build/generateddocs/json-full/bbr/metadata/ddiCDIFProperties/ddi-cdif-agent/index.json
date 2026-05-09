@@ -1,0 +1,93 @@
+
+
+{
+  "itemIdentifier": "cdif.bbr.metadata.ddiCDIFProperties.ddi-cdif-agent",
+  "$schema": "metaschema.yaml",
+  "name": "DDI-CDI Agent",
+  "abstract": "DDI-CDI Agent class hierarchy for CDIF metadata. Covers Agent (abstract base) and its subclasses: Individual (person), Machine (software/hardware), Organization (group/institution), and ProcessingAgent (orchestrates production). Defines properties for identification, contact information, naming, and agent-activity relationships.",
+  "status": "under-development",
+  "dateTimeAddition": "2026-03-29T00:00:00Z",
+  "itemClass": "schema",
+  "register": "cdif-building-block-register",
+  "version": "0.1",
+  "dateOfLastChange": "2026-05-09",
+  "link": "https://github.com/usgin/metadataBuildingBlocks",
+  "maturity": "draft",
+  "scope": "unstable",
+  "tags": [
+    "CDIF",
+    "DDI-CDI",
+    "agent",
+    "person",
+    "organization",
+    "machine"
+  ],
+  "sources": [
+    {
+      "title": "DDI-CDI 1.0 Specification",
+      "link": "https://ddialliance.org/Specification/DDI-CDI/1.0/"
+    }
+  ],
+  "shaclShapes": {
+    "cdif.bbr.metadata.ddiCDIFProperties.ddi-cdif-organization": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiCDIFProperties/ddi-cdif-organization/rules.shacl"
+    ],
+    "cdif.bbr.metadata.ddiCDIFProperties.ddi-cdif-processing-agent": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiCDIFProperties/ddi-cdif-processing-agent/rules.shacl"
+    ],
+    "cdif.bbr.metadata.ddiCDIFProperties.ddi-cdif-individual": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiCDIFProperties/ddi-cdif-individual/rules.shacl"
+    ],
+    "cdif.bbr.metadata.ddiCDIFProperties.ddi-cdif-machine": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiCDIFProperties/ddi-cdif-machine/rules.shacl"
+    ]
+  },
+  "dependsOn": [
+    "cdif.bbr.metadata.ddiCDIFProperties.ddi-cdif-organization",
+    "cdif.bbr.metadata.ddiCDIFProperties.ddi-cdif-processing-agent",
+    "cdif.bbr.metadata.ddiCDIFProperties.ddi-cdif-individual",
+    "cdif.bbr.metadata.ddiCDIFProperties.ddi-cdif-machine"
+  ],
+  "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-agent/context.jsonld",
+  "schema": {
+    "application/yaml": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-agent/schema.yaml",
+    "application/json": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-agent/schema.json"
+  },
+  "sourceSchema": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiCDIFProperties/ddi-cdif-agent/schema.yaml",
+  "sourceLdContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiCDIFProperties/ddi-cdif-agent/context.jsonld",
+  "resolvedSchemaProperties": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-agent/resolvedProperties.json",
+  "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiCDIFProperties/ddi-cdif-agent/",
+  "validationPassed": true,
+  "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/ddiCDIFProperties/ddi-cdif-agent/",
+  "description": "DDI-CDI Agent is the abstract supertype for entities that can act, hold roles, or be referenced from provenance and process metadata. This BB is a thin polymorphic wrapper that composes the four concrete Agent subtypes via `anyOf`: `cdi:Individual` (a person), `cdi:Machine` (software or hardware), `cdi:Organization` (a group or institution), and `cdi:ProcessingAgent` (an agent that orchestrates production activities).\n\nEach subtype is defined in its own building block (`ddicdiIndividual`, `ddicdiMachine`, `ddicdiOrganization`, `ddicdiProcessingAgent`); use this BB when a property's range is `cdi:Agent` and any of the four subclasses is acceptable.\n",
+  "examples": [
+    {
+      "title": "Example DDI-CDI agent hierarchy.",
+      "content": "Demonstrates Individual, Organization, and ProcessingAgent\nagent types with identification, contact information, and\nactivity relationships.",
+      "prefixes": {
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiCDIFProperties/ddi-cdif-agent/exampleDdicdiAgent.json",
+          "code": "{\n  \"@context\": {\n    \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@id\": \"ex:researcher-jane-doe\",\n  \"@type\": [\n    \"cdi:Individual\"\n  ],\n  \"cdi:individualName\": {\n    \"@type\": [\n      \"cdi:IndividualName\"\n    ],\n    \"cdi:firstGiven\": \"Jane\",\n    \"cdi:lastFamily\": \"Doe\",\n    \"cdi:prefix\": \"Dr.\",\n    \"cdi:fullName\": {\n      \"@type\": [\n        \"cdi:InternationalString\"\n      ],\n      \"cdi:languageSpecificString\": {\n        \"@type\": [\n          \"cdi:LanguageString\"\n        ],\n        \"cdi:content\": \"Dr. Jane Doe\",\n        \"cdi:language\": \"en\"\n      }\n    },\n    \"cdi:isPreferred\": true\n  },\n  \"cdi:contactInformation\": {\n    \"@type\": [\n      \"cdi:ContactInformation\"\n    ],\n    \"cdi:email\": {\n      \"@type\": [\n        \"cdi:Email\"\n      ],\n      \"cdi:internetEmail\": \"jane.doe@example.org\",\n      \"cdi:typeOfEmail\": {\n        \"@type\": [\n          \"cdi:ControlledVocabularyEntry\"\n        ],\n        \"cdi:entryValue\": [\n          \"work\"\n        ]\n      },\n      \"cdi:isPreferred\": true\n    },\n    \"cdi:address\": {\n      \"@type\": [\n        \"cdi:Address\"\n      ],\n      \"cdi:line\": [\n        \"Department of Earth Sciences\",\n        \"123 University Avenue\"\n      ],\n      \"cdi:cityPlaceLocal\": \"Reno\",\n      \"cdi:stateProvince\": \"Nevada\",\n      \"cdi:postalCode\": \"89557\",\n      \"cdi:countryCode\": {\n        \"@type\": [\n          \"cdi:ControlledVocabularyEntry\"\n        ],\n        \"cdi:entryValue\": [\n          \"US\"\n        ]\n      },\n      \"cdi:typeOfAddress\": {\n        \"@type\": [\n          \"cdi:ControlledVocabularyEntry\"\n        ],\n        \"cdi:entryValue\": [\n          \"work\"\n        ]\n      }\n    }\n  },\n  \"cdi:identifier\": {\n    \"@type\": [\n      \"cdi:Identifier\"\n    ],\n    \"cdi:nonDdiIdentifier\": {\n      \"@type\": [\n        \"cdi:NonDdiIdentifier\"\n      ],\n      \"cdi:identifierContent\": \"https://orcid.org/0000-0002-1234-5678\",\n      \"cdi:managingAgency\": \"ORCID\"\n    }\n  }\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/ddiCDIFProperties/ddi-cdif-agent/example_1_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-agent/context.jsonld\",\n    {\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@id\": \"ex:researcher-jane-doe\",\n  \"@type\": [\n    \"cdi:Individual\"\n  ],\n  \"cdi:individualName\": {\n    \"@type\": [\n      \"cdi:IndividualName\"\n    ],\n    \"cdi:firstGiven\": \"Jane\",\n    \"cdi:lastFamily\": \"Doe\",\n    \"cdi:prefix\": \"Dr.\",\n    \"cdi:fullName\": {\n      \"@type\": [\n        \"cdi:InternationalString\"\n      ],\n      \"cdi:languageSpecificString\": {\n        \"@type\": [\n          \"cdi:LanguageString\"\n        ],\n        \"cdi:content\": \"Dr. Jane Doe\",\n        \"cdi:language\": \"en\"\n      }\n    },\n    \"cdi:isPreferred\": true\n  },\n  \"cdi:contactInformation\": {\n    \"@type\": [\n      \"cdi:ContactInformation\"\n    ],\n    \"cdi:email\": {\n      \"@type\": [\n        \"cdi:Email\"\n      ],\n      \"cdi:internetEmail\": \"jane.doe@example.org\",\n      \"cdi:typeOfEmail\": {\n        \"@type\": [\n          \"cdi:ControlledVocabularyEntry\"\n        ],\n        \"cdi:entryValue\": [\n          \"work\"\n        ]\n      },\n      \"cdi:isPreferred\": true\n    },\n    \"cdi:address\": {\n      \"@type\": [\n        \"cdi:Address\"\n      ],\n      \"cdi:line\": [\n        \"Department of Earth Sciences\",\n        \"123 University Avenue\"\n      ],\n      \"cdi:cityPlaceLocal\": \"Reno\",\n      \"cdi:stateProvince\": \"Nevada\",\n      \"cdi:postalCode\": \"89557\",\n      \"cdi:countryCode\": {\n        \"@type\": [\n          \"cdi:ControlledVocabularyEntry\"\n        ],\n        \"cdi:entryValue\": [\n          \"US\"\n        ]\n      },\n      \"cdi:typeOfAddress\": {\n        \"@type\": [\n          \"cdi:ControlledVocabularyEntry\"\n        ],\n        \"cdi:entryValue\": [\n          \"work\"\n        ]\n      }\n    }\n  },\n  \"cdi:identifier\": {\n    \"@type\": [\n      \"cdi:Identifier\"\n    ],\n    \"cdi:nonDdiIdentifier\": {\n      \"@type\": [\n        \"cdi:NonDdiIdentifier\"\n      ],\n      \"cdi:identifierContent\": \"https://orcid.org/0000-0002-1234-5678\",\n      \"cdi:managingAgency\": \"ORCID\"\n    }\n  }\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/ddiCDIFProperties/ddi-cdif-agent/example_1_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix ex: <https://example.org/> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\nex:researcher-jane-doe a cdi:Individual ;\n    cdi:contactInformation [ a cdi:ContactInformation ;\n            cdi:address [ a cdi:Address ;\n                    cdi:cityPlaceLocal \"Reno\" ;\n                    cdi:countryCode [ a cdi:ControlledVocabularyEntry ;\n                            cdi:entryValue \"US\" ] ;\n                    cdi:line \"123 University Avenue\",\n                        \"Department of Earth Sciences\" ;\n                    cdi:postalCode \"89557\" ;\n                    cdi:stateProvince \"Nevada\" ;\n                    cdi:typeOfAddress [ a cdi:ControlledVocabularyEntry ;\n                            cdi:entryValue \"work\" ] ] ;\n            cdi:email [ a cdi:Email ;\n                    cdi:internetEmail \"jane.doe@example.org\" ;\n                    cdi:isPreferred true ;\n                    cdi:typeOfEmail [ a cdi:ControlledVocabularyEntry ;\n                            cdi:entryValue \"work\" ] ] ] ;\n    cdi:identifier [ a cdi:Identifier ;\n            cdi:nonDdiIdentifier [ a cdi:NonDdiIdentifier ;\n                    cdi:identifierContent \"https://orcid.org/0000-0002-1234-5678\" ;\n                    cdi:managingAgency \"ORCID\" ] ] ;\n    cdi:individualName [ a cdi:IndividualName ;\n            cdi:firstGiven \"Jane\" ;\n            cdi:fullName [ a cdi:InternationalString ;\n                    cdi:languageSpecificString [ a cdi:LanguageString ;\n                            cdi:content \"Dr. Jane Doe\" ;\n                            cdi:language \"en\" ] ] ;\n            cdi:isPreferred true ;\n            cdi:lastFamily \"Doe\" ;\n            cdi:prefix \"Dr.\" ] .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/ddiCDIFProperties/ddi-cdif-agent/example_1_1.ttl"
+        }
+      ]
+    }
+  ],
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: DDI-CDI Agent\ndescription: DDI-CDI Agent class hierarchy. Covers Individual (person), Machine (software/hardware),\n  Organization (group/institution), and ProcessingAgent (orchestrates production activities)\n  using DDI Cross-Domain Integration vocabulary. Each agent subtype is defined in\n  its own building block; this schema composes them.\nanyOf:\n- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-individual/schema.yaml\n- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-machine/schema.yaml\n- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-organization/schema.yaml\n- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-processing-agent/schema.yaml\nx-jsonld-prefixes:\n  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\n",
+  "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "gitPath": "_sources/ddiCDIFProperties/ddi-cdif-agent"
+}
