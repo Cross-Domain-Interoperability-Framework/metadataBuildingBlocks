@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "definitions for roles used in XAS profile",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "uniqueItems": true,
+      "allOf": [
+        {
+          "contains": {
+            "const": "schema:Product"
+          },
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "const": "schema:Thing"
+          },
+          "minContains": 1
+        }
+      ]
+    },
+    "schema:additionalType": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "uniqueItems": true,
+      "allOf": [
+        {
+          "contains": {
+            "const": "MaterialSample"
+          },
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "const": "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+          },
+          "minContains": 1
+        }
+      ]
+    },
+    "schema:name": {
+      "type": "string"
+    },
+    "schema:identifier": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/$defs/Identifier"
+        }
+      ]
+    },
+    "schema:description": {
+      "type": "string"
+    },
+    "schema:additionalProperty": {
+      "type": "array",
+      "description": "extend base definition (AdditionalProperty) with some expected propertyID values from NEXUS and XDI specs added in the enum",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/AdditionalProperty"
+          },
+          {
+            "properties": {
+              "schema:propertyID": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.json#/$defs/propertyID_item"
+                    },
+                    {
+                      "enum": [
+                        "xas:stoichiometry",
+                        "xas:samplePreparation",
+                        "nxs:Field/NXsample/mass",
+                        "nxs:Field/NXsample/point_group",
+                        "nxs:Field/NXsample/unit_cell",
+                        "xas:parentSample",
+                        "xas:materialState"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "@type",
+    "schema:additionalType",
+    "schema:name"
+  ],
+  "$defs": {
+    "Identifier": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.json"
+    },
+    "AdditionalProperty": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.json"
+    }
+  },
+  "x-jsonld-prefixes": {
+    "schema": "http://schema.org/"
+  }
+}

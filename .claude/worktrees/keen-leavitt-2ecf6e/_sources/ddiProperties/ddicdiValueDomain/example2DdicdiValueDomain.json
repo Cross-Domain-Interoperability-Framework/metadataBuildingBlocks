@@ -1,0 +1,178 @@
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": [
+    "cdi:SentinelValueDomain"
+  ],
+  "@id": "ex:vd/temperatureSentinel",
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/vd/temperatureSentinel"
+  },
+  "cdi:displayLabel": [
+    {
+      "@type": [
+        "cdi:LabelForDisplay"
+      ],
+      "cdi:maxLength": 64,
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Sentinel codes for missing temperature observations",
+        "cdi:language": "en"
+      }
+    }
+  ],
+  "cdi:platformType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "SPSSstyle"
+    ],
+    "cdi:name": "DDI-CDI sentinel platform types",
+    "cdi:vocabulary": {
+      "@type": [
+        "cdi:Reference"
+      ],
+      "cdi:uri": "https://ddialliance.org/Specification/DDI-CDI/1.0/sentinel-platforms"
+    }
+  },
+  "cdi:recommendedDataType": [
+    {
+      "@type": [
+        "cdi:ControlledVocabularyEntry"
+      ],
+      "cdi:entryValue": [
+        "xsd:decimal"
+      ],
+      "cdi:name": "XML Schema Datatypes",
+      "cdi:entryReference": [
+        {
+          "@type": [
+            "cdi:Reference"
+          ],
+          "cdi:uri": "http://www.w3.org/2001/XMLSchema#decimal"
+        }
+      ]
+    }
+  ],
+  "cdi:takesConceptsFrom": {
+    "@type": [
+      "cdi:SentinelConceptualDomain"
+    ],
+    "@id": "ex:cd/temperatureSentinelConcepts",
+    "cdi:identifier": {
+      "@type": [
+        "cdi:Identifier"
+      ],
+      "cdi:uri": "https://example.org/cd/temperatureSentinelConcepts"
+    },
+    "cdi:displayLabel": [
+      {
+        "@type": [
+          "cdi:LabelForDisplay"
+        ],
+        "cdi:languageSpecificString": {
+          "@type": [
+            "cdi:LanguageString"
+          ],
+          "cdi:content": "Concepts for missing temperature values",
+          "cdi:language": "en"
+        }
+      }
+    ],
+    "cdi:isDescribedBy": {
+      "@id": "ex:vd/temperatureSentinel/desc"
+    },
+    "cdi:takesConceptsFrom": {
+      "@type": [
+        "cdi:ConceptSystem"
+      ],
+      "@id": "ex:cs/missingnessReasons",
+      "cdi:allowsDuplicates": false,
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/cs/missingnessReasons"
+      },
+      "cdi:name": [
+        {
+          "@type": [
+            "cdi:ObjectName"
+          ],
+          "cdi:name": "MissingnessReasons",
+          "cdi:context": {
+            "@type": [
+              "cdi:ControlledVocabularyEntry"
+            ],
+            "cdi:entryValue": [
+              "technical-name"
+            ]
+          }
+        }
+      ],
+      "cdi:purpose": {
+        "@type": [
+          "cdi:InternationalString"
+        ],
+        "cdi:languageSpecificString": {
+          "@type": [
+            "cdi:LanguageString"
+          ],
+          "cdi:content": "Reasons that sea-water temperature observations may be missing.",
+          "cdi:language": "en"
+        }
+      },
+      "cdi:isDefinedBy": [
+        {
+          "@id": "https://example.org/skos/missingness/notObserved"
+        }
+      ],
+      "cdi:has": [
+        {
+          "@id": "https://example.org/skos/missingness/sensorFailure"
+        },
+        {
+          "@id": "https://example.org/skos/missingness/notApplicable"
+        }
+      ]
+    }
+  },
+  "cdi:isDescribedBy": {
+    "@type": [
+      "cdi:ValueAndConceptDescription"
+    ],
+    "@id": "ex:vd/temperatureSentinel/desc",
+    "cdi:classificationLevel": "Nominal",
+    "cdi:description": {
+      "@type": [
+        "cdi:InternationalString"
+      ],
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "SPSS-style codes (-9999, -8888, -7777) used to indicate missing, non-applicable, or below-detection-limit temperatures.",
+        "cdi:language": "en"
+      }
+    },
+    "cdi:logicalExpression": {
+      "@type": [
+        "cdi:ControlledVocabularyEntry"
+      ],
+      "cdi:entryValue": [
+        "x in {-9999, -8888, -7777}"
+      ]
+    }
+  },
+  "cdi:takesValuesFrom": {
+    "@id": "ex:enum/missingTemperatureCodes"
+  }
+}

@@ -13,115 +13,7 @@ properties:
   '@id':
     type: string
     description: Identifier for this InstanceVariable node
-  'cdi:has_PhysicalSegmentLayout':
-    type: array
-    items:
-      anyOf:
-      - '$ref': ../ddi-cdif-physical-segment-layout/schema.yaml
-      - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
-    minItems: 1
-  'cdi:has_ValueMapping':
-    anyOf:
-    - '$ref': '#/$defs/ValueMapping'
-    - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
-  'cdi:physicalDataType':
-    '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry'
-    description: >-
-      The data type of this variable. Supports the optional use of an external controlled
-      vocabulary.
-  'cdi:platformType':
-    '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry'
-    description: >-
-      Describes the application or technical system context in which the variable has been
-      realized. Typically a statistical processing package or other processing environment.
-  'cdi:source':
-    '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/Reference'
-    description: Reference capturing provenance information.
-  'cdi:variableFunction':
-    type: array
-    items:
-      '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry'
-    minItems: 1
-    description: >-
-      Immutable characteristic of the variable such as geographic designator, weight, temporal
-      designation, etc.
-  'cdi:describedUnitOfMeasure':
-    '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry'
-    description: >-
-      The unit in which the data values are measured (kg, pound, euro), expressed as a value
-      from a controlled system of entries (i.e., QDT). Supports the provision of an identifier
-      for the entry in the authoritative source (a URI, etc.), and the specific vocabulary.
-  'cdi:hasIntendedDataType':
-    '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry'
-    description: >-
-      The data type intended to be used by this variable. Supports the optional use of an
-      external controlled vocabulary.
-  'cdi:takesSentinelValuesFrom':
-    type: array
-    items:
-      anyOf:
-      - '$ref': ../ddi-cdif-value-domain/schema.yaml
-      - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
-    minItems: 1
-  'cdi:takesSubstantiveValuesFrom':
-    anyOf:
-    - '$ref': ../ddi-cdif-value-domain/schema.yaml
-    - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
-  'cdi:simpleUnitOfMeasure':
-    type: string
-    description: >-
-      The unit in which the data values are measured (kg, pound, euro), expressed as a simple
-      string, in cases where no additional information is available (in the legacy system)
-      or needed (as in the case of broad agreement within the community of use [i.e., ISO
-      country codes, currencies, etc. in SDMX])
-  'cdi:descriptiveText':
-    '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/InternationalString'
-    description: A short natural language account of the characteristics of the object.
-  'cdi:takesSentinelConceptsFrom':
-    anyOf:
-    - '$ref': '#/$defs/SentinelConceptualDomain'
-    - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
-  'cdi:takesSubstantiveConceptsFrom':
-    anyOf:
-    - '$ref': '#/$defs/SubstantiveConceptualDomain'
-    - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
-  'cdi:measures':
-    anyOf:
-    - '$ref': '#/$defs/UnitType'
-    - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
-  'cdi:unitOfMeasureKind':
-    '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry'
-    description: >-
-      Kind of unit of measure, so that it may be prone to translation to equivalent UOMs.
-      Example values include "acceleration," "temperature," "salinity", etc. This description
-      exists at the conceptual level, indicating a limitation on the type of representations
-      which may be used for the variable as it is made more concrete.
-  'cdi:definition':
-    '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/InternationalString'
-    description: >-
-      Natural language statement conveying the meaning of a concept, differentiating it from
-      other concepts. Supports the use of multiple languages and structured text. 'externalDefinition'
-      can't be used if 'definition' is used.
-  'cdi:displayLabel':
-    type: array
-    items:
-      '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/LabelForDisplay'
-    minItems: 1
-    description: >-
-      A human-readable display label for the object. Supports the use of multiple languages.
-      Repeat for labels with different content, for example, labels with differing length
-      limitations.
-  'cdi:externalDefinition':
-    '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/Reference'
-    description: >-
-      A reference to an external definition of a concept (that is, a concept which is described
-      outside the content of the DDI-CDI metadata description). An example is a SKOS concept.
-      The definition property is assumed to duplicate the external one referenced if externalDefinition
-      is used. Other corresponding properties are assumed to be included unchanged if used.
-  'cdi:identifier':
-    '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/Identifier'
-    description: >-
-      Identifier for objects requiring short- or long-lasting referencing and management.
+# properties defined in AG202511 CDIF_data_description profile
   'cdi:name':
     type: array
     items:
@@ -130,15 +22,71 @@ properties:
     description: >-
       Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow
       ISO/IEC 11179-5 naming principles, and have context provided to specify usage.
-  'cdi:uses':
+  'cdi:definition':
+    '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/InternationalString'
+    description: >-
+      Natural language statement conveying the meaning of a concept, differentiating it from
+      other concepts. Supports the use of multiple languages and structured text. 'externalDefinition'
+      can't be used if 'definition' is used.
+  'cdi:describedUnitOfMeasure':
+    '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry'
+    description: >-
+      The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary.
+  'cdi:unitOfMeasureKind':
+    '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry'
+    description: >-
+      Kind of unit of measure, so that it may be prone to translation to equivalent UOMs.
+      Example values include "acceleration," "temperature," "salinity", etc. This description
+      exists at the conceptual level, indicating a limitation on the type of representations
+      which may be used for the variable as it is made more concrete.
+  'cdi:measures':
+    anyOf:
+    - '$ref': '#/$defs/UnitType'
+    - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+  'cdi:takesSubstantiveValuesFrom':
+    anyOf:
+    - '$ref': ../ddi-cdif-value-domain/schema.yaml
+    - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+
+  'cdi:takesSentinelValuesFrom':
     type: array
     items:
       anyOf:
-      - '$ref': ../../skosProperties/skosConcept/schema.yaml
+      - '$ref': ../ddi-cdif-value-domain/schema.yaml
       - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
     minItems: 1
+# properties in current cdif
+  'cdi:physicalDataType':
+    '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry'
+    description: >-
+      The data type of this variable. Supports the optional use of an external controlled
+      vocabulary.
+  'cdi:role':
+    type: string
+    enum:
+      - MeasureComponent
+      - AttributeComponent
+      - DimensionComponent
+      - DescriptorComponent
+      - ReferenceValueComponent
+    description: Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes.
+  'cdi:qualifies':
+        type: object
+        properties:
+           '@id':
+            type: string
+        description: reference to an instance variable defined for this dataset
+
+
+  
+
+
 required:
 - '@type'
+- 'cdi:name'
+- 'cdi:definition'
+- 'cdi:takesSubstantiveValuesFrom'
+
 '$defs':
   ConceptSystem:
     type: object

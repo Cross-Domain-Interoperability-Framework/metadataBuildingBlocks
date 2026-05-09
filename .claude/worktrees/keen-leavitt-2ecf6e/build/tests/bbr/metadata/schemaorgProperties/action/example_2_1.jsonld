@@ -1,0 +1,106 @@
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/action/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "ex": "https://example.org/",
+      "dcterms": "http://purl.org/dc/terms/"
+    }
+  ],
+  "@id": "ex:ActionComplete_001",
+  "@type": [
+    "schema:SearchAction"
+  ],
+  "schema:name": "Search and Download Geochemical Data",
+  "schema:target": {
+    "@type": [
+      "schema:EntryPoint"
+    ],
+    "schema:description": "REST endpoint for querying geochemical analysis results by element, sample type, and date range",
+    "schema:urlTemplate": "https://geochem.example.org/api/v2/analyses?element={element}&sample_type={sample_type}&start={start_date}&end={end_date}&format={format}",
+    "schema:httpMethod": [
+      "GET",
+      "POST"
+    ],
+    "schema:contentType": [
+      "application/json",
+      "text/csv",
+      "application/xml"
+    ]
+  },
+  "schema:result": {
+    "@type": [
+      "schema:DataDownload"
+    ],
+    "schema:encodingFormat": [
+      "application/json",
+      "text/csv"
+    ],
+    "schema:description": "Tabular geochemical analysis results with sample metadata, element concentrations, and measurement uncertainties"
+  },
+  "schema:object": {
+    "@type": [
+      "schema:DataFeed"
+    ],
+    "schema:description": "Geochemical analysis database containing major and trace element concentrations from rock and sediment samples",
+    "schema:encodingFormat-input": [
+      "application/json"
+    ]
+  },
+  "schema:query-input": [
+    {
+      "@id": "ex:input_element",
+      "@type": [
+        "schema:PropertyValueSpecification"
+      ],
+      "schema:valueName": "element",
+      "schema:description": "Chemical element symbol or comma-separated list of elements to query (e.g., Fe, Si, Al)",
+      "schema:valueRequired": true,
+      "schema:valuePattern": "^[A-Z][a-z]?(,[A-Z][a-z]?)*$"
+    },
+    {
+      "@id": "ex:input_sample_type",
+      "@type": [
+        "schema:PropertyValueSpecification"
+      ],
+      "schema:valueName": "sample_type",
+      "schema:description": "Type of sample material (e.g., rock, sediment, soil, water)",
+      "schema:valueRequired": false,
+      "schema:valuePattern": "^[a-z]+$"
+    },
+    {
+      "@id": "ex:input_start_date",
+      "@type": [
+        "schema:PropertyValueSpecification"
+      ],
+      "schema:valueName": "start_date",
+      "schema:description": "Start date for analysis date range filter in ISO 8601 format",
+      "schema:valueRequired": false,
+      "schema:valuePattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    {
+      "@id": "ex:input_end_date",
+      "@type": [
+        "schema:PropertyValueSpecification"
+      ],
+      "schema:valueName": "end_date",
+      "schema:description": "End date for analysis date range filter in ISO 8601 format",
+      "schema:valueRequired": false,
+      "schema:valuePattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    {
+      "@id": "ex:input_format",
+      "@type": [
+        "schema:PropertyValueSpecification"
+      ],
+      "schema:valueName": "format",
+      "schema:description": "Desired output format for query results",
+      "schema:valueRequired": false,
+      "schema:valuePattern": "^(json|csv|xml)$"
+    }
+  ]
+}

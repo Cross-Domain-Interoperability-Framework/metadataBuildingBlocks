@@ -1,0 +1,44 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: DDI-CDI ProcessingAgent
+description: DDI-CDI ProcessingAgent (cls-ProcessingAgent, extends Agent). Orchestrates
+  production activities, linking agents to the activities they perform and environments
+  they operate on.
+type: object
+properties:
+  '@type':
+    type: array
+    items:
+      type: string
+    contains:
+      const: cdi:ProcessingAgent
+    minItems: 1
+  '@id':
+    type: string
+    description: Identifier for this processing agent node
+  cdi:performs:
+    description: Activities this agent performs (cdi:Activity). Use @id references
+      to Activity nodes defined elsewhere in the graph.
+    type: array
+    items:
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+  cdi:operatesOn:
+    description: Production environments this agent operates on (cdi:ProductionEnvironment)
+    type: array
+    items:
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+  cdi:catalogDetails:
+    description: Catalog metadata for this agent
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/CatalogDetails
+  cdi:identifier:
+    description: Formal identifier for this agent
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
+  cdi:image:
+    description: Image associated with this agent
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/PrivateImage
+  cdi:purpose:
+    description: Purpose or role of this agent
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
+required:
+- '@type'
+x-jsonld-prefixes:
+  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/

@@ -1,0 +1,186 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix cdi:         <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+cdifd:ddicdiStatisticalClassificationShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:StatisticalClassification ;
+
+	# -- RECOMMENDED (Warning) --
+
+	sh:property [
+		sh:path cdi:name ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI StatisticalClassification should have at least one cdi:name (ObjectName)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:has_ClassificationItem ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI StatisticalClassification should reference at least one cdi:has_ClassificationItem (ClassificationItem or id-reference)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:has_ClassificationItemPosition ;
+		sh:severity sh:Info ;
+		sh:message "cdi:has_ClassificationItemPosition may carry one or more ClassificationItemPosition references (or id-references) recording the order of items" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:has_LevelStructure ;
+		sh:severity sh:Info ;
+		sh:message "cdi:has_LevelStructure may carry a LevelStructure reference (or id-reference) describing the classification levels" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isMaintainedBy ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI StatisticalClassification should be maintained by at least one cdi:isMaintainedBy Organization (or id-reference)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isDefinedBy ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI StatisticalClassification should be defined by at least one cdi:isDefinedBy Concept (or id-reference)" ;
+	] ;
+
+	# -- INFORMATIONAL (Info) --
+
+	sh:property [
+		sh:path cdi:identifier ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI StatisticalClassification may include a cdi:identifier" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:allowsDuplicates ;
+		sh:datatype xsd:boolean ;
+		sh:severity sh:Info ;
+		sh:message "cdi:allowsDuplicates indicates whether duplicate members are permitted" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:availableLanguage ;
+		sh:severity sh:Info ;
+		sh:message "cdi:availableLanguage may list languages (RFC 1766) in which the classification is available" ;
+	] ;
+
+
+	sh:property [
+		sh:path cdi:changeFromBase ;
+		sh:severity sh:Info ;
+		sh:message "cdi:changeFromBase may describe the relationship between a variant and its base classification" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:copyright ;
+		sh:severity sh:Info ;
+		sh:message "cdi:copyright may carry copyright information for the classification" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:displayLabel ;
+		sh:severity sh:Info ;
+		sh:message "cdi:displayLabel may carry one or more LabelForDisplay entries" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isCurrent ;
+		sh:datatype xsd:boolean ;
+		sh:severity sh:Info ;
+		sh:message "cdi:isCurrent indicates whether the classification is currently valid" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isFloating ;
+		sh:datatype xsd:boolean ;
+		sh:severity sh:Info ;
+		sh:message "cdi:isFloating indicates whether the classification is a floating classification" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isIndexedBy ;
+		sh:severity sh:Info ;
+		sh:message "cdi:isIndexedBy may reference one or more ClassificationIndex entries" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isVariantOf ;
+		sh:severity sh:Info ;
+		sh:message "cdi:isVariantOf may reference the base StatisticalClassification when this is a variant" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isSuccessorOf ;
+		sh:severity sh:Info ;
+		sh:message "cdi:isSuccessorOf may reference predecessor classifications" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isPredecessorOf ;
+		sh:severity sh:Info ;
+		sh:message "cdi:isPredecessorOf may reference successor classifications" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:purposeOfVariant ;
+		sh:severity sh:Info ;
+		sh:message "cdi:purposeOfVariant may explain the purpose for which a variant was developed" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:rationale ;
+		sh:severity sh:Info ;
+		sh:message "cdi:rationale may explain the reason(s) the classification exists" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:releaseDate ;
+		sh:severity sh:Info ;
+		sh:message "cdi:releaseDate may give the release date of the current version" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:updateChanges ;
+		sh:severity sh:Info ;
+		sh:message "cdi:updateChanges may summarise changes since the most recent version" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:usage ;
+		sh:severity sh:Info ;
+		sh:message "cdi:usage may explain how the classification is employed" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:validDates ;
+		sh:severity sh:Info ;
+		sh:message "cdi:validDates may carry the validity period as a DateRange" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:uses ;
+		sh:severity sh:Info ;
+		sh:message "cdi:uses may reference the LevelStructure (or id-reference)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:references ;
+		sh:severity sh:Info ;
+		sh:message "cdi:references may reference a CategorySet (or id-reference)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:purpose ;
+		sh:severity sh:Info ;
+		sh:message "cdi:purpose may carry the intent or reason for the classification" ;
+	] ;
+	.

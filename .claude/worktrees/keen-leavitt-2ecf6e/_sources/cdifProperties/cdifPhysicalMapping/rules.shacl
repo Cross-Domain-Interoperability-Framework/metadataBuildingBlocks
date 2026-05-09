@@ -1,0 +1,31 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema:      <http://schema.org/> .
+@prefix cdi:         <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# Validates physical mapping nodes (values of cdi:hasPhysicalMapping).
+# JSON schema defines cdi:formats_InstanceVariable, cdi:index, cdi:format, etc.
+cdifd:physicalMappingShape
+    a sh:NodeShape ;
+    sh:target [
+        a sh:SPARQLTarget ;
+        sh:select """
+            PREFIX cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/>
+            SELECT ?this
+            WHERE {
+                ?parent cdi:hasPhysicalMapping ?this .
+            }
+        """ ;
+    ] ;
+    sh:property [
+        sh:path cdi:formats_InstanceVariable ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable)." ;
+    ] ;
+    sh:message "Physical mapping nodes should link to their corresponding variable definition." ;
+    .

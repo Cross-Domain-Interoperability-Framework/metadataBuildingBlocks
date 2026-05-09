@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "definitions for roles used in XAS profile",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "contains": {
+        "const": "cdi:WideDataStructure"
+      },
+      "minItems": 1
+    },
+    "cdi:has_DataStructureComponent": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "@type": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "oneOf": [
+              {
+                "contains": {
+                  "const": "cdi:IdentifierComponent"
+                }
+              },
+              {
+                "contains": {
+                  "const": "cdi:MeasureComponent"
+                }
+              }
+            ]
+          },
+          "cdi:isDefinedBy_InstanceVariable": {
+            "type": "object",
+            "description": "this must be a reference to a variable defined in the schema:variableMeasured part of the metadata record; This condition will need to be validated by SHACL rule",
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            }
+          },
+          "cdi:has": {
+            "type": "object",
+            "properties": {
+              "@type": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "contains": {
+                  "const": "cdi:ValueMapping"
+                },
+                "minItems": 1
+              },
+              "cdi:hasIndex": {
+                "type": "integer"
+              },
+              "cdi:haslength": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "@type"
+            ]
+          }
+        },
+        "required": [
+          "cdi:isDefinedBy_InstanceVariable",
+          "cdi:has"
+        ]
+      }
+    },
+    "cdi:allowsDuplicates": {
+      "type": "boolean",
+      "default": false
+    },
+    "cdi:arrayBase": {
+      "type": "integer",
+      "default": 1
+    },
+    "cdi:commentPrefix": {
+      "type": "string"
+    },
+    "cdi:hasHeader": {
+      "type": "boolean"
+    },
+    "cdi:headerRowCount": {
+      "type": "integer"
+    },
+    "cdi:skipInitialSpace": {
+      "type": "boolean",
+      "default": true
+    },
+    "cdi:isDelimited": {
+      "type": "boolean",
+      "default": false
+    },
+    "cdi:isFixedWidth": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "@type",
+    "cdi:has_DataStructureComponent",
+    "cdi:hasHeader",
+    "cdi:headerRowCount"
+  ]
+}

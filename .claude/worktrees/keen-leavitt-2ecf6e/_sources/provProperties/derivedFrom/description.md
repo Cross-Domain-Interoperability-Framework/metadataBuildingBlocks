@@ -1,0 +1,3 @@
+## PROV derived from properties
+
+Defines a set of properties for specifying sources of data or interpretation used in the generation of a derived resource.  Uses terms from the base prov vocabulary. For the schema.org implementation of the [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) discovery profile.

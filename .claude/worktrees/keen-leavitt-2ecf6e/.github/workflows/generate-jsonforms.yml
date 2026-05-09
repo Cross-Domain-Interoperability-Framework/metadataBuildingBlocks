@@ -1,0 +1,42 @@
+name: Generate JSON Forms schemas
+
+on:
+  workflow_run:
+    workflows: ["Validate and process Building Blocks"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-jsonforms:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Generate JSON Forms schemas
+        run: python tools/convert_for_jsonforms.py --all --verbose
+
+      - name: Add resolvedSchema URLs to register.json
+        run: python tools/augment_register.py
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add build/jsonforms/ build/register.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Generate JSON Forms schemas [automated]"
+            git push
+          fi

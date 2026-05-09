@@ -1,0 +1,36 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix cdi:         <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdifd:       <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# ------------------------------------------------------------
+# ddi-cdif-descriptor shape -- the CDIF Data Description profile
+# form of cdi:Descriptor. `identifies` targets cdi:InstanceVariable
+# (the logical variable being measured) per Appendix 4 of the
+# profile. The canonical DDI-CDI XMI form uses cdi:ReferenceVariable
+# instead; both forms are mutually satisfiable since
+# ReferenceVariable rdfs:subClassOf InstanceVariable.
+# ------------------------------------------------------------
+
+cdifd:ddi-cdif-descriptorShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:Descriptor ;
+
+	sh:property [
+		sh:path cdi:content ;
+		sh:minCount 1 ;
+		sh:datatype xsd:string ;
+		sh:severity sh:Violation ;
+		sh:message "A CDIF Descriptor must carry a cdi:content string (the code value appearing in the Long Data Set)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:identifies ;
+		sh:minCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "A CDIF Descriptor must identify the cdi:InstanceVariable whose values appear in the corresponding Reference Variable column (or supply an id-reference to one)" ;
+	] ;
+	.

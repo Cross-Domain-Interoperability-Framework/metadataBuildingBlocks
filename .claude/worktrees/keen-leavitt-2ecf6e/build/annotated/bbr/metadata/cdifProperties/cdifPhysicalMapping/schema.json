@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Physical Mapping Type",
+  "description": "Defines implementation-specific properties for the representation of a variable in a dataset. Aligned with CDIF 2026 schema using DDI-CDI flat per-column mapping structure.",
+  "type": "object",
+  "properties": {
+    "cdi:index": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Non-negative integer that orders the fields in the data structure (column number)."
+    },
+    "cdi:format": {
+      "type": "string",
+      "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
+    },
+    "cdi:physicalDataType": {
+      "type": "string"
+    },
+    "cdi:length": {
+      "type": "integer",
+      "description": "The column width if the tabular text is fixed width."
+    },
+    "cdi:nullSequence": {
+      "type": "string",
+      "description": "The value of this property becomes the null annotation for the described column."
+    },
+    "cdi:defaultValue": {
+      "type": "string",
+      "description": "A default string indicating the value to substitute for an empty string."
+    },
+    "cdi:scale": {
+      "type": "integer"
+    },
+    "cdi:decimalPositions": {
+      "type": "integer"
+    },
+    "cdi:minimumLength": {
+      "type": "integer"
+    },
+    "cdi:maximumLength": {
+      "type": "integer"
+    },
+    "cdi:isRequired": {
+      "type": "boolean",
+      "default": false
+    },
+    "cdi:formats_InstanceVariable": {
+      "type": "object",
+      "description": "Reference to a variable defined in schema:variableMeasured.",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "This should be a reference to a variable defined in the schema:variableMeasured section."
+        }
+      }
+    }
+  },
+  "x-jsonld-prefixes": {
+    "schema": "http://schema.org/",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+  }
+}

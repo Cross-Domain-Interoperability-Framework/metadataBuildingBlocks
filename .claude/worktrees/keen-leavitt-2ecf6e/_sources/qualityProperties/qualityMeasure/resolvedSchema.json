@@ -1,0 +1,268 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "definitions for simple quality measure property",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "contains": {
+        "const": "dqv:QualityMeasurement"
+      },
+      "minItems": 1
+    },
+    "dqv:isMeasurementOf": {
+      "description": "specify the quality measure that is reported, by name, with an ID ref, or as a Defined Term",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "a resolvable reference to a representation of a quality measure"
+            }
+          }
+        },
+        {
+          "description": "schema.org Defined Term schema",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "schema:DefinedTerm"
+              },
+              "minItems": 1
+            },
+            "schema:name": {
+              "type": "string",
+              "description": "text label for the term that is useful to human user"
+            },
+            "schema:identifier": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "description": "Properties for a schema.org identifier",
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "schema:PropertyValue"
+                      },
+                      "minItems": 1
+                    },
+                    "schema:propertyID": {
+                      "type": "string",
+                      "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                    },
+                    "schema:value": {
+                      "type": "string",
+                      "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                    },
+                    "schema:url": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "required": [
+                        "@type"
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "required": [
+                            "schema:value"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "schema:url"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "schema:inDefinedTermSet": {
+              "type": "string",
+              "description": "Name for the controlled vocabulary responsible for this keyword."
+            },
+            "schema:termCode": {
+              "type": "string",
+              "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+            }
+          },
+          "allOf": [
+            {
+              "required": [
+                "@type"
+              ]
+            },
+            {
+              "anyOf": [
+                {
+                  "required": [
+                    "schema:name"
+                  ]
+                },
+                {
+                  "required": [
+                    "schema:identifier"
+                  ]
+                },
+                {
+                  "required": [
+                    "schema:termCode"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "dqv:value": {
+      "description": "the reported result of the quality measure, either as a string or a defined term from a vocabulary",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "description": "schema.org Defined Term schema",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "schema:DefinedTerm"
+              },
+              "minItems": 1
+            },
+            "schema:name": {
+              "type": "string",
+              "description": "text label for the term that is useful to human user"
+            },
+            "schema:identifier": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "description": "Properties for a schema.org identifier",
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "schema:PropertyValue"
+                      },
+                      "minItems": 1
+                    },
+                    "schema:propertyID": {
+                      "type": "string",
+                      "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                    },
+                    "schema:value": {
+                      "type": "string",
+                      "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                    },
+                    "schema:url": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "required": [
+                        "@type"
+                      ]
+                    },
+                    {
+                      "anyOf": [
+                        {
+                          "required": [
+                            "schema:value"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "schema:url"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "schema:inDefinedTermSet": {
+              "type": "string",
+              "description": "Name for the controlled vocabulary responsible for this keyword."
+            },
+            "schema:termCode": {
+              "type": "string",
+              "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+            }
+          },
+          "allOf": [
+            {
+              "required": [
+                "@type"
+              ]
+            },
+            {
+              "anyOf": [
+                {
+                  "required": [
+                    "schema:name"
+                  ]
+                },
+                {
+                  "required": [
+                    "schema:identifier"
+                  ]
+                },
+                {
+                  "required": [
+                    "schema:termCode"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "dqv:isMeasurementOf",
+    "dqv:value"
+  ]
+}

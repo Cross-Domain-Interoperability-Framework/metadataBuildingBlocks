@@ -1,0 +1,116 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix cdi:         <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+cdifd:ddi-cdif-represented-variableShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:RepresentedVariable ;
+
+	# -- RECOMMENDED (Warning) --
+
+	sh:property [
+		sh:path cdi:name ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI RepresentedVariable should have at least one cdi:name (ObjectName)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:takesSubstantiveValuesFrom ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI RepresentedVariable should specify cdi:takesSubstantiveValuesFrom (a substantive ValueDomain or id-reference)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:uses ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI RepresentedVariable should use at least one cdi:uses Concept (or id-reference)" ;
+	] ;
+
+	# -- INFORMATIONAL (Info) --
+
+	sh:property [
+		sh:path cdi:identifier ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI RepresentedVariable may include a cdi:identifier" ;
+	] ;
+
+
+	sh:property [
+		sh:path cdi:definition ;
+		sh:severity sh:Info ;
+		sh:message "cdi:definition may carry an InternationalString definition" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:displayLabel ;
+		sh:severity sh:Info ;
+		sh:message "cdi:displayLabel may carry one or more LabelForDisplay entries" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:descriptiveText ;
+		sh:severity sh:Info ;
+		sh:message "cdi:descriptiveText may carry an InternationalString account of the variable" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:externalDefinition ;
+		sh:severity sh:Info ;
+		sh:message "cdi:externalDefinition may reference an external definition (e.g., a SKOS concept)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:describedUnitOfMeasure ;
+		sh:severity sh:Info ;
+		sh:message "cdi:describedUnitOfMeasure may identify the unit via a controlled vocabulary entry" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:simpleUnitOfMeasure ;
+		sh:datatype xsd:string ;
+		sh:severity sh:Info ;
+		sh:message "cdi:simpleUnitOfMeasure may carry the unit as a simple string" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:unitOfMeasureKind ;
+		sh:severity sh:Info ;
+		sh:message "cdi:unitOfMeasureKind may classify the kind of unit (e.g. acceleration, temperature)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:hasIntendedDataType ;
+		sh:severity sh:Info ;
+		sh:message "cdi:hasIntendedDataType may identify the intended data type via a controlled vocabulary entry" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:measures ;
+		sh:severity sh:Info ;
+		sh:message "cdi:measures may reference the UnitType being measured" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:takesSentinelValuesFrom ;
+		sh:severity sh:Info ;
+		sh:message "cdi:takesSentinelValuesFrom may reference one or more sentinel ValueDomains" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:takesSubstantiveConceptsFrom ;
+		sh:severity sh:Info ;
+		sh:message "cdi:takesSubstantiveConceptsFrom may reference a SubstantiveConceptualDomain" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:takesSentinelConceptsFrom ;
+		sh:severity sh:Info ;
+		sh:message "cdi:takesSentinelConceptsFrom may reference a SentinelConceptualDomain" ;
+	] ;
+	.

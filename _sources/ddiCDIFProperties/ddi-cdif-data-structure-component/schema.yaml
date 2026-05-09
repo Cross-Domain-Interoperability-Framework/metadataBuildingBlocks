@@ -29,28 +29,18 @@ anyOf:
       '@id':
         type: string
         description: Identifier for this IdentifierComponent node
-      'cdi:identifier':
-        '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/Identifier'
-        description: >-
-          Identifier for objects requiring short- or long-lasting referencing and management.
       'cdi:isDefinedBy':
         anyOf:
         - '$ref': ../ddi-cdif-represented-variable/schema.yaml
         - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
-      'cdi:semantic':
-        type: array
-        items:
-          '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/PairedControlledVocabularyEntry'
-        minItems: 1
-        description: >-
-          Qualifies the purpose or use expressed as a paired external controlled vocabulary.
-      'cdi:specialization':
+
         '$ref': '#/$defs/SpecializationRole'
         description: >-
           The role played by the component for the data set for purposes of harmonization
           and integration, typically regarding geography, time, etc.
     required:
     - '@type'
+    - 'cdi:isDefinedBy'
   MeasureComponent:
     type: object
     description: >-
@@ -148,7 +138,7 @@ anyOf:
       Role given to a represented variable in the context of a dimensional data structure
       to identify the universes associated with data points. The variable acts as a field
       in the compound identifier (the key structure) to disambiguate the cells in the multi-dimensional
-      "cube".
+      "cube".  AG: references to the variables which are the components of a compound identifier, in which each variable is a single field - an axis - in a coordinate system addressing a location in a matrix. These variables are often categorical, but also commonly include time. Unlike other Components, they may be ordered using instances of cdi:ComponentPosition.
     properties:
       '@type':
         type: array
@@ -160,38 +150,14 @@ anyOf:
       '@id':
         type: string
         description: Identifier for this DimensionComponent node
-      'cdi:categoricalAdditivity':
-        type: boolean
-        description: |-
-          Indicates whether categories at a specific level can be combined to provide the value for their shared parent category. Value is True if categories can be added together (collapsed) to create higher-level categories.
-
-          An example would be age categories. Five-year age categories can be collapsed into 10-year age categories.
-      'cdi:isStructuredBy':
-        anyOf:
-        - '$ref': ../ddi-cdif-value-domain/schema.yaml
-        - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
-      'cdi:identifier':
-        '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/Identifier'
-        description: >-
-          Identifier for objects requiring short- or long-lasting referencing and management.
       'cdi:isDefinedBy':
         anyOf:
         - '$ref': ../ddi-cdif-represented-variable/schema.yaml
         - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
-      'cdi:semantic':
-        type: array
-        items:
-          '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/PairedControlledVocabularyEntry'
-        minItems: 1
-        description: >-
-          Qualifies the purpose or use expressed as a paired external controlled vocabulary.
-      'cdi:specialization':
-        '$ref': '#/$defs/SpecializationRole'
-        description: >-
-          The role played by the component for the data set for purposes of harmonization
-          and integration, typically regarding geography, time, etc.
+ 
     required:
     - '@type'
+    - 'cdi:isDefinedBy'
   VariableValueComponent:
     type: object
     description: >-
@@ -308,16 +274,4 @@ anyOf:
           and integration, typically regarding geography, time, etc.
     required:
     - '@type'
-  SpecializationRole:
-    type: object
-    description: >-
-      Specific roles played by represented variables in terms of time, geography, and other
-      concepts which are important for the harmonization and integration of data.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: 'cdi:SpecializationRole'
-        minItems: 1
+

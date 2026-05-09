@@ -1,0 +1,214 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Tabular Data Type
+description: >-
+  Tabular data type aligned with CDIF 2026 schema using DDI-CDI and CSVW
+  properties. Typed as cdi:TabularTextDataSet and ada:tabularData.
+type: object
+properties:
+"anyOf": [
+  {"@type":
+    type: array
+    items:
+      type: string
+    minItems: 2
+    allOf:
+      - contains:
+          const: "cdi:TabularTextDataSet"
+      - contains:
+          const: "ada:tabularData"
+  componentType:
+    anyOf:
+      - type: object
+        properties:
+          "@type":
+            type: string
+            enum:
+              - "ada:AMSRawData"
+              - "ada:AMSProcessedData"
+              - "ada:DSCResultsTabular"
+              - "ada:FTICRMSTabular"
+              - "ada:GPYCProcessedTabular"
+              - "ada:GPYCRawTabular"
+              - "ada:HRICPMSProcessed"
+              - "ada:HRICPMSRaw"
+              - "ada:ICPOESIntermediateTabular"
+              - "ada:ICPOESProcessedTabular"
+              - "ada:ICPOESRawTabular"
+              - "ada:ICTabular"
+              - "ada:MCICPMSTabular"
+              - "ada:NGNSMSRaw"
+              - "ada:NGNSMSProcessed"
+              - "ada:QICPMSProcessedTabular"
+              - "ada:QICPMSRawTabular"
+              - "ada:RAMANRawTabular"
+              - "ada:RITOFNGMSTabular"
+              - "ada:RITOFNGMSCollection"
+              - "ada:SEMEDSPointData"
+              - "ada:SIMSTabular"
+              - "ada:STEMEDSTabular"
+              - "ada:STEMEELSTabular"
+              - "ada:SVRUECTabular"
+              - "ada:XANESRawTabular"
+              - "ada:XANESProcessedTabular"
+        required:
+          - "@type"
+      - $ref: ../detailDSC/schema.yaml
+      - $ref: ../detailEAIRMS/schema.yaml
+      - $ref: ../detailEMPA/schema.yaml
+      - $ref: ../detailLAF/schema.yaml
+      - $ref: ../detailNanoSIMS/schema.yaml
+      - $ref: ../detailNanoIR/schema.yaml
+      - $ref: ../detailPSFD/schema.yaml
+      - $ref: ../detailVNMIR/schema.yaml
+      - $ref: ../detailXRD/schema.yaml
+  "cdi:arrayBase":
+    type: integer
+  "csvw:commentPrefix":
+    type: string
+    description: >-
+      An atomic property that sets the comment prefix flag to the single
+      provided value, which MUST be a string. The default is '#'.
+  "csvw:delimiter":
+    type: string
+    description: >-
+      Sets the delimiter flag to the single provided value, which MUST be
+      a string. The default is ','.
+  "csvw:header":
+    type: boolean
+    description: >-
+      If true, sets the header row count flag to 1, and if false to 0,
+      unless headerRowCount is provided, in which case the value provided
+      for the header property is ignored. The default is true.
+  "csvw:headerRowCount":
+    type: integer
+    minimum: 0
+    default: 1
+    description: >-
+      A numeric atomic property that sets the header row count flag to the
+      single provided value, which MUST be a non-negative integer.
+  "cdi:isDelimited":
+    type: boolean
+    description: >-
+      Schema constraint is that one of {'isDelimited','isFixedWidth'} must
+      be present with a True value; the other one may be present or omitted,
+      but if present must have a false value.
+  "cdi:isFixedWidth":
+    type: boolean
+  "csvw:lineTerminators":
+    type: string
+    enum:
+      - "CRLF"
+      - "LF"
+      - "\r\n"
+      - "\n"
+  "csvw:quoteChar":
+    type: string
+    default: "\""
+    description: >-
+      Same as DDI-CDI quoteCharacter. The string that is used around escaped
+      cells.
+  "csvw:skipBlankRows":
+    type: boolean
+    default: false
+  "csvw:skipColumns":
+    type: integer
+    default: 0
+    description: The number of columns to skip at the beginning of each row.
+  "csvw:skipInitialSpace":
+    type: boolean
+    default: true
+  "csvw:skipRows":
+    type: integer
+    description: >-
+      The number of rows to skip at the beginning of the file, before a
+      header row or tabular data.
+    default: 0
+  "cdi:hasPhysicalMapping":
+    type: array
+    description: Links variables to their physical representation in this dataset.
+    items:
+      $ref: ../physicalMapping/schema.yaml
+  countRows:
+    type: integer
+  countColumns:
+    type: integer
+  xCoordCol:
+    description: >-
+      The column names are redundant, they are lists in the hasPhysicalMapping
+      array. Include here for convenience.
+    type: string
+  yCoordCol:
+    type: string
+  zCoordCol:
+    type: string
+  coordUnits:
+    type: string
+  spatialRegistration:
+    $ref: ../spatialRegistration/schema.yaml
+oneOf:
+  - properties:
+      "cdi:isDelimited":
+        const: true
+      "cdi:isFixedWidth":
+        const: false
+    required:
+      - "cdi:isDelimited"
+  - properties:
+      "cdi:isDelimited":
+        const: false
+      "cdi:isFixedWidth":
+        const: true
+    required:
+      - "cdi:isFixedWidth"
+required:
+  - "@type"
+  - componentType
+  },
+  {  "@type":
+    type: array
+    items:
+      type: string
+    minItems: 2
+    allOf:
+      - contains:
+          const: "ada:dataCube"
+      - contains:
+          const: "cdi:StructuredDataSet"
+  componentType:
+    anyOf:
+      - type: object
+        properties:
+          "@type":
+            enum:
+              - "ada:GCMSCollection"
+              - "ada:GCMSCube"
+              - "ada:FTICRMSCube"
+              - "ada:LCMSCollection"
+              - "ada:SEMEBSDGrainImageMapCube"
+              - "ada:SEMEDSElementalMapsCube"
+              - "ada:SEMEDSPointDataCube"
+              - "ada:SEMHRCLCube"
+              - "ada:STEMEDSCube"
+              - "ada:STEMEDSTomo"
+              - "ada:STEMEELSCube"
+              - "ada:VNMIRSpectralMap"
+        required:
+          - "@type"
+      - $ref: ../detailL2MS/schema.yaml
+  dataComponentResource:
+    type: string
+  "cdi:hasPhysicalMapping":
+    type: array
+    description: Links variables to their physical representation in this dataset.
+    items:
+      allOf:
+        - $ref: ../physicalMapping/schema.yaml
+        - type: object
+          properties:
+            "cdi:locator":
+              type: string
+              description: >-
+                String that can be used by software to locate values of the
+                variable in this physical dataset.
+}
+  ]

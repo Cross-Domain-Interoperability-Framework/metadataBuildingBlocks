@@ -1,0 +1,54 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix cdi:         <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+cdifd:ddicdiEnumerationDomainShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:EnumerationDomain ;
+
+	# -- RECOMMENDED (Warning) --
+
+	sh:property [
+		sh:path cdi:name ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI EnumerationDomain should have at least one cdi:name (ObjectName)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isDefinedBy ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI EnumerationDomain should be defined by at least one cdi:isDefinedBy Concept (or id-reference)" ;
+	] ;
+
+	# -- INFORMATIONAL (Info) --
+
+	sh:property [
+		sh:path cdi:identifier ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI EnumerationDomain may include a cdi:identifier" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:uses ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI EnumerationDomain may use a cdi:uses LevelStructure (or id-reference)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:references ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI EnumerationDomain may reference a cdi:references CategorySet (or id-reference)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:purpose ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI EnumerationDomain may include a cdi:purpose (InternationalString)" ;
+	] ;
+	.

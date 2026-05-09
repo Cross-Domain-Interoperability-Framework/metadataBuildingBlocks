@@ -1,0 +1,51 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: DDI-CDI Machine
+description: >-
+  DDI-CDI Machine agent (cls-Machine, extends Agent).
+  Represents software or hardware with access location,
+  function, and interface specifications.
+
+type: object
+properties:
+  "@type":
+    type: array
+    items:
+      type: string
+    contains:
+      const: "cdi:Machine"
+    minItems: 1
+  "@id":
+    type: string
+    description: Identifier for this machine node
+  "cdi:accessLocation":
+    description: Network or physical access point for this machine
+    $ref: "../ddi-cdif-data-types/schema.yaml#/$defs/AccessLocation"
+  "cdi:function":
+    description: Function performed by this machine
+    $ref: "../ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry"
+  "cdi:machineInterface":
+    description: Interface type for this machine
+    $ref: "../ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry"
+  "cdi:name":
+    description: Name(s) of this machine
+    anyOf:
+      - $ref: "../ddi-cdif-data-types/schema.yaml#/$defs/ObjectName"
+      - type: array
+        items:
+          $ref: "../ddi-cdif-data-types/schema.yaml#/$defs/ObjectName"
+  "cdi:ownerOperatorContact":
+    description: Contact information for the owner or operator
+    $ref: "../ddi-cdif-data-types/schema.yaml#/$defs/ContactInformation"
+  "cdi:typeOfMachine":
+    description: Classification of this machine
+    $ref: "../ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry"
+  "cdi:identifier":
+    description: Formal identifier for this agent
+    $ref: "../ddi-cdif-data-types/schema.yaml#/$defs/Identifier"
+  "cdi:image":
+    description: Image associated with this agent
+    $ref: "../ddi-cdif-data-types/schema.yaml#/$defs/PrivateImage"
+  "cdi:purpose":
+    description: Purpose or role of this agent
+    $ref: "../ddi-cdif-data-types/schema.yaml#/$defs/InternationalString"
+required: ["@type"]

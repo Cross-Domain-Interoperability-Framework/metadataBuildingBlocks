@@ -1,0 +1,77 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema:      <http://schema.org/>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix prov:        <http://www.w3.org/ns/prov#> .
+@prefix cdi:        <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/>.
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# CDIFcomplete profile: composes cdifCore, cdifOptional,
+# cdifDataDescription, cdifArchiveDistribution, and cdifProvenance.
+# Validation rules for each component are in their respective
+# rules.shacl files; this file adds the profile-level conformance
+# check and any cross-cutting constraints specific to the complete profile.
+
+# Datasets at the complete profile level should have provenance,
+# data description variables, and distribution.
+cdifd:CDIFCompleteDatasetShape
+	a sh:NodeShape ;
+	sh:target [
+	  a sh:SPARQLTarget ;
+    sh:select """
+       PREFIX schema: <http://schema.org/>
+            SELECT ?this
+            WHERE {
+              ?this a schema:Dataset .
+              MINUS {
+                ?parent a schema:Dataset .
+                ?parent ?p ?this .
+                FILTER (?parent != ?this)
+                FILTER (?p != schema:about)
+              }
+            }
+          """ ;
+	] ;
+	sh:property [
+		sh:path prov:wasGeneratedBy ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A CDIFcomplete dataset should include provenance (prov:wasGeneratedBy)." ;
+	] ;
+	sh:property [
+		sh:path schema:variableMeasured ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A CDIFcomplete dataset should describe its variables (schema:variableMeasured)." ;
+	] ;
+	sh:property [
+		sh:path schema:distribution ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A CDIFcomplete dataset should have at least one distribution." ;
+	] ;
+	.
+
+# Conformance declaration for the complete profile in the catalog record.
+cdifd:CDIFCompleteConformsToShape a sh:NodeShape ;
+    sh:target [
+      a sh:SPARQLTarget ;
+        sh:select  """
+            PREFIX schema: <http://schema.org/>
+            SELECT ?this
+            WHERE {
+            ?this a schema:Dataset ;
+             schema:about ?parent.
+            }
+        """;
+    ] ;
+    sh:property [
+        a sh:PropertyShape ;
+        sh:path dcterms:conformsTo ;
+        sh:hasValue <https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFcomplete> ;
+        sh:severity sh:Warning ;
+        sh:message "Metadata record for CDIFcomplete profile should declare conformance to https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFcomplete" ;
+    ] .

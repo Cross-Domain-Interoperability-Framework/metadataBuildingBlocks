@@ -1,0 +1,84 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Funding acknowledgement properties, profile of schema.org/MonetaryGrant",
+    "type": "object",
+    "properties": {
+        "@id": {
+            "type": "string",
+            "description": "URI identifier for this funding record"
+        },
+        "@type": {
+            "default": "schema:MonetaryGrant",
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "contains": {
+                "const": "schema:MonetaryGrant"
+            },
+            "minItems": 1
+        },
+        "schema:identifier": {
+            "$ref": "#/$defs/Identifier",
+            "description": "identifier for a particular grant"
+        },
+        "schema:description": {
+            "type": "string",
+            "description": "description of the funding or grant"
+        },
+        "schema:name": {
+            "type": "string",
+            "description": "title of the grant"
+        },
+        "schema:funder": {
+            "anyOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "type": "string",
+                            "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+                        }
+                    },
+                    "required": [
+                        "@id"
+                    ]
+                },
+                {
+                    "$ref": "#/$defs/Person"
+                },
+                {
+                    "$ref": "#/$defs/Organization"
+                }
+            ]
+        }
+    },
+    "anyOf": [
+        {
+            "required": [
+                "schema:funder"
+            ]
+        },
+        {
+            "required": [
+                "schema:identifier"
+            ]
+        },
+        {
+            "required": [
+                "schema:name"
+            ]
+        }
+    ],
+    "$defs": {
+        "Person": {
+            "$ref": "../person/personSchema.json"
+        },
+        "Organization": {
+            "$ref": "../organization/organizationSchema.json"
+        },
+        "Identifier": {
+            "$ref": "../identifier/identifierSchema.json"
+        }
+    }
+}

@@ -13,33 +13,30 @@ properties:
   '@id':
     type: string
     description: Identifier for this LogicalRecord node
-  'cdi:identifier':
-    '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/Identifier'
-    description: >-
-      Identifier for objects requiring short- or long-lasting referencing and management.
   'cdi:organizes':
     type: array
+    description: object reference(s) to datasets that use this logicalRecord; 
     items:
-      anyOf:
-      - '$ref': '#/$defs/DataSet'
-      - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+     - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
     minItems: 1
   'cdi:isDefinedBy':
     type: array
+    description: points to a Unit Type, Universe, or Population which provides a description of the subject of the Logical Record.
     items:
       anyOf:
-      - '$ref': ../../skosProperties/skosConcept/schema.yaml
+      - '$ref': ../ddi-cdif-controlled-vocabulary-entry/schema.yaml
       - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
     minItems: 1
-  'cdi:has':
+  'cdi:has_InstanceVariable':
     type: array
     items:
       anyOf:
-      - '$ref': ../../cdifProperties/cdifVariableMeasured/schema.yaml
+      - '$ref': '../ddi-cdif-instance-variable/schema.yaml'
       - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
     minItems: 1
 required:
 - '@type'
+- 'has_InstanceVariable'
 '$defs':
   ConceptSystem:
     type: object

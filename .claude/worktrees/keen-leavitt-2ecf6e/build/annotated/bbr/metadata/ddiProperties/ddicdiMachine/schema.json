@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DDI-CDI Machine",
+  "description": "DDI-CDI Machine agent (cls-Machine, extends Agent). Represents software or hardware with access location, function, and interface specifications.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "contains": {
+        "const": "cdi:Machine"
+      },
+      "minItems": 1
+    },
+    "@id": {
+      "type": "string",
+      "description": "Identifier for this machine node"
+    },
+    "cdi:accessLocation": {
+      "description": "Network or physical access point for this machine",
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/AccessLocation"
+    },
+    "cdi:function": {
+      "description": "Function performed by this machine",
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ControlledVocabularyEntry"
+    },
+    "cdi:machineInterface": {
+      "description": "Interface type for this machine",
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ControlledVocabularyEntry"
+    },
+    "cdi:name": {
+      "description": "Name(s) of this machine",
+      "anyOf": [
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ObjectName"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ObjectName"
+          }
+        }
+      ]
+    },
+    "cdi:ownerOperatorContact": {
+      "description": "Contact information for the owner or operator",
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ContactInformation"
+    },
+    "cdi:typeOfMachine": {
+      "description": "Classification of this machine",
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ControlledVocabularyEntry"
+    },
+    "cdi:catalogDetails": {
+      "description": "Catalog metadata for this agent",
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/CatalogDetails"
+    },
+    "cdi:identifier": {
+      "description": "Formal identifier for this agent",
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/Identifier"
+    },
+    "cdi:image": {
+      "description": "Image associated with this agent",
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/PrivateImage"
+    },
+    "cdi:purpose": {
+      "description": "Purpose or role of this agent",
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/InternationalString"
+    }
+  },
+  "required": [
+    "@type"
+  ],
+  "x-jsonld-prefixes": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+  }
+}

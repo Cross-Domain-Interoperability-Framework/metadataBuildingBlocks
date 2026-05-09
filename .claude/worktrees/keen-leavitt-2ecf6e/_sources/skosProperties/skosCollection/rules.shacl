@@ -1,0 +1,49 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix skosv:  <https://cdif.org/validation/0.1/skos#> .
+@base <https://www.ogc.org/rules/template/> .
+
+skosv:CollectionShape a sh:NodeShape ;
+    sh:targetClass skos:Collection ;
+    sh:property skosv:collectionPrefLabelProperty ;
+    sh:property skosv:collectionMemberProperty ;
+    sh:message "A SKOS Collection must have a prefLabel and at least one member."
+    .
+
+skosv:collectionPrefLabelProperty
+    a sh:PropertyShape ;
+    sh:path skos:prefLabel ;
+    sh:minCount 1 ;
+    sh:message "Every skos:Collection must have at least one skos:prefLabel."
+    .
+
+skosv:collectionMemberProperty
+    a sh:PropertyShape ;
+    sh:path skos:member ;
+    sh:minCount 1 ;
+    sh:message "A skos:Collection must have at least one skos:member."
+    .
+
+skosv:OrderedCollectionShape a sh:NodeShape ;
+    sh:targetClass skos:OrderedCollection ;
+    sh:property skosv:orderedCollectionPrefLabelProperty ;
+    sh:property skosv:orderedCollectionMemberListProperty ;
+    sh:message "A SKOS OrderedCollection must have a prefLabel and a memberList."
+    .
+
+skosv:orderedCollectionPrefLabelProperty
+    a sh:PropertyShape ;
+    sh:path skos:prefLabel ;
+    sh:minCount 1 ;
+    sh:message "Every skos:OrderedCollection must have at least one skos:prefLabel."
+    .
+
+skosv:orderedCollectionMemberListProperty
+    a sh:PropertyShape ;
+    sh:path skos:memberList ;
+    sh:minCount 1 ;
+    sh:message "A skos:OrderedCollection must have a skos:memberList."
+    .

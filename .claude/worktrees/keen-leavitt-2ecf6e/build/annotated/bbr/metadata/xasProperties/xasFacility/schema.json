@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "definitions a Facility location, type schema:Place",
+  "type": "object",
+  "properties": {
+    "@id": {
+      "type": "string"
+    },
+    "@type": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "contains": {
+        "const": "schema:Place"
+      },
+      "minItems": 1
+    },
+    "schema:additionalType": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "contains": {
+        "const": "xas:Facility"
+      },
+      "minItems": 1
+    },
+    "schema:identifier": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/$defs/Identifier"
+        }
+      ]
+    },
+    "schema:name": {
+      "type": "string"
+    },
+    "schema:additionalProperty": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/AdditionalProperty"
+      }
+    }
+  },
+  "required": [
+    "@type",
+    "schema:additionalType",
+    "schema:name"
+  ],
+  "$defs": {
+    "AdditionalProperty": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.json"
+    },
+    "Identifier": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.json"
+    }
+  },
+  "x-jsonld-extra-terms": {
+    "schema": "http://schema.org"
+  },
+  "x-jsonld-prefixes": {
+    "xas": "https://xas.org/dictionary/"
+  }
+}

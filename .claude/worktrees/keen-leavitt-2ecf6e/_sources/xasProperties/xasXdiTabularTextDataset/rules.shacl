@@ -1,0 +1,23 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema:      <http://schema.org/>.
+@prefix cdifd:       <https://cdif.org/validation/0.1/shacl#> .
+@prefix cdi:         <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@base <https://www.ogc.org/rules/template/> .
+
+#  this is just a starting point to generate a full set of validation rules for the data structure description
+cdifd:XDIDataStructureShape
+  a sh:NodeShape ;
+  sh:targetClass cdi:WideDataStructure ;
+  sh:property [
+    sh:path cdi:has_DataStructureComponent ;
+    sh:minCount 1 ;
+    sh:or (
+      [ sh:class cdi:IdentifierComponent ]
+      [ sh:class cdi:MeasureComponent ]
+    )
+  ] ;
+    sh:message "XDI structure description must describe the data structure components." ;
+	.

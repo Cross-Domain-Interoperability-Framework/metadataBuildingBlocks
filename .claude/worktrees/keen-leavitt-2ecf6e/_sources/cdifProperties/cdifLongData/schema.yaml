@@ -1,0 +1,78 @@
+---
+$schema: https://json-schema.org/draft/2020-12/schema
+type: object
+title: Long Data Structure Type
+description: Long (narrow) data structure using DDI-CDI. Typed as cdi:LongStructureDataSet.
+  In long format each row represents a single observation, with a descriptor column
+  identifying which variable is measured and a reference column holding the value.
+  The descriptor and reference roles are expressed via cdi:role on InstanceVariables
+  in schema:variableMeasured (DescriptorComponent and ReferenceValueComponent).
+properties:
+  '@type':
+    type: array
+    items:
+      type: string
+    allOf:
+    - contains:
+        const: cdi:LongStructureDataSet
+  cdi:hasPhysicalMapping:
+    type: array
+    description: Links variables to their physical representation in this dataset.
+    items:
+      $ref: ../cdifPhysicalMapping/schema.yaml
+  cdi:arrayBase:
+    type: integer
+  csvw:delimiter:
+    type: string
+    description: Sets the delimiter flag to the single provided value, which MUST be a string. The default
+      is ','.
+  csvw:header:
+    type: boolean
+    description: If true, sets the header row count flag to 1, and if false to 0, unless headerRowCount
+      is provided, in which case the value provided for the header property is ignored. The default is
+      true.
+  csvw:headerRowCount:
+    type: integer
+    minimum: 0
+    default: 1
+    description: A numeric atomic property that sets the header row count flag to the single provided
+      value, which MUST be a non-negative integer.
+  csvw:commentPrefix:
+    type: string
+    description: An atomic property that sets the comment prefix flag to the single provided value, which
+      MUST be a string. The default is '#'.
+  csvw:skipBlankRows:
+    type: boolean
+    default: false
+  csvw:skipInitialSpace:
+    type: boolean
+    default: true
+  csvw:skipRows:
+    type: integer
+    description: The number of rows to skip at the beginning of the file, before a header row or tabular
+      data.
+    default: 0
+  csvw:lineTerminators:
+    type: string
+    enum:
+    - CRLF
+    - LF
+    - "\r\n"
+    - |2+
+
+  csvw:quoteChar:
+    type: string
+    default: '"'
+    description: Same as DDI-CDI quoteCharacter. The string that is used around escaped cells.
+  cdi:isDelimited:
+    type: boolean
+    description: Indicates whether the data uses a delimiter to separate fields.
+  cdi:isFixedWidth:
+    type: boolean
+    description: Indicates whether the data uses fixed-width fields.
+  cdi:escapeCharacter:
+    type: string
+    description: The character used to escape special characters in the data. From DDI-CDI
+      PhysicalSegmentLayout.escapeCharacter.
+required:
+- '@type'

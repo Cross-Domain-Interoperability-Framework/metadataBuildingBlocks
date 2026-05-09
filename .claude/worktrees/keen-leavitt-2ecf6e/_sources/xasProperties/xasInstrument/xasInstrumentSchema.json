@@ -1,0 +1,34 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "XAS Instrument",
+    "description": "XAS-specific instrument building block. Extends the generic instrument building block with required wd:Q3099911 (Wikidata scientific instrument) additionalType classification.",
+    "allOf": [
+        {
+            "$ref": "../../schemaorgProperties/instrument/instrumentSchema.json"
+        },
+        {
+            "type": "object",
+            "properties": {
+                "schema:additionalType": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 1,
+                    "uniqueItems": true,
+                    "allOf": [
+                        {
+                            "contains": {
+                                "const": "wd:Q3099911"
+                            },
+                            "description": "wd:Q3099911 is Wikidata scientific instrument. Declare prefix wd: https://www.wikidata.org/entity/"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "schema:additionalType"
+            ]
+        }
+    ]
+}

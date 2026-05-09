@@ -1,0 +1,92 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema:      <http://schema.org/>.
+@prefix bios:        <https://bioschemas.org/> .
+@prefix cdifd:       <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+
+cdifd:BioschemasLabProtocolShape
+    a sh:NodeShape ;
+    sh:target [
+      a sh:SPARQLTarget ;
+      sh:select """
+      PREFIX bios: <https://bioschemas.org/>
+      PREFIX schema: <http://schema.org/>
+      SELECT DISTINCT ?this
+        WHERE {
+        ?this a bios:LabProtocol .
+      }"""
+    ] ;
+    sh:property [
+        sh:path schema:name ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Bioschemas rules. A LabProtocol must have a schema:name." ;
+    ] ;
+    .
+
+cdifd:BioschemasLabEquipmentShape
+    a sh:NodeShape ;
+    sh:target [
+      a sh:SPARQLTarget ;
+      sh:select """
+      PREFIX bios: <https://bioschemas.org/>
+      PREFIX schema: <http://schema.org/>
+      SELECT DISTINCT ?this
+        WHERE {
+        ?s bios:labEquipment ?this .
+        ?this a schema:Thing .
+      }"""
+    ] ;
+    sh:property [
+        sh:path schema:name ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Bioschemas rules. Lab equipment must have a schema:name." ;
+    ] ;
+    .
+
+cdifd:BioschemasParameterValueShape
+    a sh:NodeShape ;
+    sh:target [
+      a sh:SPARQLTarget ;
+      sh:select """
+      PREFIX bios: <https://bioschemas.org/>
+      PREFIX schema: <http://schema.org/>
+      SELECT DISTINCT ?this
+        WHERE {
+        ?s bios:parameterValue ?this .
+        ?this a schema:PropertyValue .
+      }"""
+    ] ;
+    sh:property [
+        sh:path schema:name ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Bioschemas rules. A parameterValue PropertyValue must have a schema:name." ;
+    ] ;
+    .
+
+cdifd:BioschemasComputationalToolShape
+    a sh:NodeShape ;
+    sh:target [
+      a sh:SPARQLTarget ;
+      sh:select """
+      PREFIX bios: <https://bioschemas.org/>
+      PREFIX schema: <http://schema.org/>
+      SELECT DISTINCT ?this
+        WHERE {
+        ?s bios:computationalTool ?this .
+        ?this a schema:SoftwareApplication .
+      }"""
+    ] ;
+    sh:property [
+        sh:path schema:name ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Bioschemas rules. A computational tool must have a schema:name." ;
+    ] ;
+    .

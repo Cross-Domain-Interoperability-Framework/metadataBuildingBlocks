@@ -1,0 +1,36 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema:      <http://schema.org/>.
+@prefix cdifd:       <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+
+cdifd:CDIFDefinedTermSetShape
+    a sh:NodeShape ;
+    sh:targetClass schema:DefinedTermSet ;
+    sh:property [
+        sh:path schema:hasDefinedTerm ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:message "A schema:DefinedTermSet must contain at least one schema:hasDefinedTerm entry." ;
+    ] ;
+    sh:or (
+        [sh:property [
+            sh:path schema:name ;
+            sh:minCount 1 ;
+            sh:datatype xsd:string ;
+            sh:minLength 1 ;
+            sh:message "schema:name (label) for the term set should be provided." ;
+        ] ;]
+        [sh:property [
+            sh:path schema:identifier ;
+            sh:minCount 1 ;
+            sh:message "schema:identifier for the term set should be provided." ;
+        ] ;]
+        [sh:nodeKind sh:IRI ;
+         sh:message "term set node should be IRI-identified if no schema:name or schema:identifier is given." ;]
+    ) ;
+    sh:message "A schema:DefinedTermSet should have at least one of @id (IRI), schema:name, or schema:identifier."
+    .

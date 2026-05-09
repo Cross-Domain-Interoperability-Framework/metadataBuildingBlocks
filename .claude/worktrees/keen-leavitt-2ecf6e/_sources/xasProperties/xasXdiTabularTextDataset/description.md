@@ -1,0 +1,3 @@
+## XDI format tabular text data structure properties
+
+Defintion of properties to describe structure of tabular data formatted following the xdi specification.  This is a very simplified description for tabular text data with fixed width columns. TBD--generalize for generic delimited tabular text formats, based on CSV for the web, Croissant, other applicable specifications.[Format specification](https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md)

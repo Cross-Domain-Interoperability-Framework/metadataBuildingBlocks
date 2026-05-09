@@ -1,0 +1,40 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema:      <http://schema.org/>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+
+cdifd:CDIFDataDownloadShape
+    a sh:NodeShape ;
+    sh:targetClass schema:DataDownload ;
+	sh:property [
+    	sh:path schema:contentUrl;
+    	sh:minCount 1 ;
+    	sh:datatype xsd:string ;
+        sh:pattern "^[a-zA-Z][a-zA-Z0-9+.-]*:[^\\s]*$";
+    	];
+    sh:message "a datadownload must have a URL that will get the described resource" ;
+	.
+
+cdifd:XasDiscoveryConformsToShape a sh:NodeShape ;
+    sh:target [
+      a sh:SPARQLTarget ;
+        sh:select  """
+            PREFIX schema: <http://schema.org/>
+            SELECT ?this
+            WHERE {
+            ?this a schema:Dataset ;
+             schema:about ?parent.
+            }
+        """;
+    ] ;
+    sh:property [
+        a sh:PropertyShape ;
+        sh:path dcterms:conformsTo ;
+        sh:hasValue <https://w3id.org/cdif/xasDiscovery/1.0> ;
+        sh:message "Metadata record must declare conformance to the CDIF XAS discovery profile (https://w3id.org/cdif/xasDiscovery/1.0)" ;
+    ] .

@@ -1,0 +1,69 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "schema for description of structure of an XDI file. This is a fixed-width tabular text data format for x-ray absorption spectroscopy.",
+    "type": "object",
+    "properties": {
+        "@type": {"const": "cdi:WideDataStructure"},
+        "cdi:has_DataStructureComponent": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "@type": {
+                        "oneOf": [
+                            {"const": "cdi:IdentifierComponent"},
+                            {"const": "cdi:MeasureComponent"}
+                        ]
+                    },
+                    "cdi:isDefinedBy_InstanceVariable": {
+                        "type": "object",
+                        "description": "this must be a reference to a variable defined in the schema:variableMeasured part of the metadata record; This condition will need to be validated by SHACL rule",
+                        "properties": {
+                            "@id": {"type": "string"}
+                        }
+                    },
+                    "cdi:has": {
+                        "type": "object",
+                        "properties": {
+                            "@type": {"const": "cdi:ValueMapping"},
+                            "cdi:hasIndex": {"type": "integer"},
+                            "cdi:haslength": {"type": "integer"}
+                        },
+                        "required": ["cdi:ValueMapping"]
+                    }
+                },
+                "required":["cdi:isDefinedBy_InstanceVariable",
+                "cdi:has"]
+            }
+        },
+        "cdi:allowsDuplicates": {
+            "type": "boolean",
+            "default": false
+        },
+        "cdi:arrayBase": {
+            "type": "integer",
+            "default": 1
+        },
+        "cdi:commentPrefix": {"type": "string"},
+        "cdi:hasHeader": {"type": "boolean"},
+        "cdi:headerRowCount": {"type": "integer"},
+        "cdi:skipInitialSpace": {
+            "type": "boolean",
+            "default": true
+        },
+        "cdi:isDelimited": {
+            "type": "boolean",
+            "default": false
+        },
+        "cdi:isFixedWidth": {
+            "type": "boolean",
+            "default": true
+        }
+    },
+    "required": [
+        "@type",
+        "cdi:has_DataStructureComponent",
+        "cdi:hasHeader",
+        "cdi:headerRowCount"
+    ]
+}

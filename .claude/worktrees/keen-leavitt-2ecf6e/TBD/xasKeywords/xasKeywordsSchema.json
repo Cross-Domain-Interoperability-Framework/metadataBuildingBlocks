@@ -1,0 +1,57 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+        "@type": {
+            "type": "array",
+            "description": "implement as array because extensions might need to add additional types",
+            "items": {"type": "string"},
+            "contains": {"const": "schema:DataDownload"},
+            "minItems": 1
+        },
+        "schema:name": {"type": "string"},
+        "schema:contentUrl": {
+            "type": "string",
+            "format": "uri"
+        },
+        "schema:encodingFormat": {
+            "type": "array",
+            "items": {"type": "string"}
+        },
+        "spdx:checksum": {
+            "type": "object",
+            "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
+            "properties": {
+                "spdx:algorithm": {"type": "string"},
+                "spdx:checksumValue": {"type": "string"}
+            }
+        },
+        "schema:provider": {
+            "type": "array",
+            "description": "Party who maintains this particular distribution option for the dataset. Use this property if there are multiple distributions from different providers",
+            "items": {
+                "anyOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "@id": {
+                                "type": "string",
+                                "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+                            }
+                        }
+                    },
+                    {"$ref": "#/$defs/Person"},
+                    {"$ref": "#/$defs/Organization"}
+                ]
+            }
+        }
+    },
+    "required": [
+        "schema:contentUrl",
+        "@type"
+    ],
+    "$defs": {
+        "Person": {"$ref": "../person/personSchema.json"},
+        "Organization": {"$ref": "../organization/organizationSchema.json"}
+    }
+}

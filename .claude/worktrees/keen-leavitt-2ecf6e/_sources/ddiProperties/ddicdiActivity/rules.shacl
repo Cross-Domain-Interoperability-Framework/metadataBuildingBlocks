@@ -1,0 +1,139 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix cdi:         <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+
+# ------------------------------------------------------------
+# Activity shape -- targets cdi:Activity nodes
+# Uses SPARQL target because cdi:Activity may appear in
+# @graph documents without explicit rdf:type triples
+# ------------------------------------------------------------
+
+cdifd:ddicdiActivityShape
+	a sh:NodeShape ;
+	sh:target [
+	  a sh:SPARQLTarget ;
+	  sh:select """
+	  PREFIX cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/>
+	  SELECT DISTINCT ?this
+	    WHERE {
+	    ?this a cdi:Activity .
+	  }"""
+	] ;
+
+	# -- REQUIRED (Violation) --
+
+	sh:property [
+		sh:path cdi:name ;
+		sh:minCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "A DDI-CDI Activity must have at least one cdi:name (ObjectName)" ;
+	] ;
+
+	# -- RECOMMENDED (Warning) --
+
+	sh:property [
+		sh:path cdi:description ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI Activity should have a cdi:description" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:entityUsed ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI Activity should specify at least one cdi:entityUsed (Reference)" ;
+	] ;
+
+	# -- INFORMATIONAL (Info) --
+
+	sh:property [
+		sh:path cdi:entityProduced ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI Activity may specify cdi:entityProduced (Reference) for output entities" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:has_Step ;
+		sh:or (
+			[sh:nodeKind sh:IRI ;]
+			[sh:nodeKind sh:BlankNode ;]
+		) ;
+		sh:severity sh:Info ;
+		sh:message "cdi:has_Step should reference Step nodes (IRI or blank node)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:hasSubActivity ;
+		sh:or (
+			[sh:nodeKind sh:IRI ;]
+			[sh:nodeKind sh:BlankNode ;]
+		) ;
+		sh:severity sh:Info ;
+		sh:message "cdi:hasSubActivity should reference Activity nodes (IRI or blank node)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:start ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI Activity may specify cdi:start for the activity start time" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:end ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI Activity may specify cdi:end for the activity end time" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:definition ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI Activity may include a cdi:definition (InternationalString)" ;
+	] ;
+	.
+
+
+# ------------------------------------------------------------
+# Step shape -- validates DDI-CDI Step nodes
+# ------------------------------------------------------------
+
+cdifd:ddicdiActivityStepShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:Step ;
+
+	sh:property [
+		sh:path cdi:name ;
+		sh:minCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "A DDI-CDI Step must have at least one cdi:name (ObjectName)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:script ;
+		sh:severity sh:Info ;
+		sh:message "A DDI-CDI Step may include a cdi:script (CommandCode) for executable code" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:receives ;
+		sh:or (
+			[sh:nodeKind sh:IRI ;]
+			[sh:nodeKind sh:BlankNode ;]
+		) ;
+		sh:severity sh:Info ;
+		sh:message "cdi:receives should reference Parameter nodes" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:produces ;
+		sh:or (
+			[sh:nodeKind sh:IRI ;]
+			[sh:nodeKind sh:BlankNode ;]
+		) ;
+		sh:severity sh:Info ;
+		sh:message "cdi:produces should reference Parameter nodes" ;
+	] ;
+	.

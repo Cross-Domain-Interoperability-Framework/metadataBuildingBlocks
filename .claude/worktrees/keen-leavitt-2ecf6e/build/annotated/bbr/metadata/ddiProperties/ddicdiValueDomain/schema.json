@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DDI-CDI Value Domain",
+  "description": "Unified DDI-CDI ValueDomain building block covering both SubstantiveValueDomain (subject-matter values) and SentinelValueDomain (processing/missing-value codes). Both inherit from ValueDomain. SentinelValueDomain adds an optional cdi:platformType property. Supports described domains (ValueAndConceptDescription), enumerated domains (EnumerationDomain), and conceptual domain references.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "description": "Must include either cdi:SubstantiveValueDomain or cdi:SentinelValueDomain",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "anyOf": [
+        {
+          "contains": {
+            "const": "cdi:SubstantiveValueDomain"
+          }
+        },
+        {
+          "contains": {
+            "const": "cdi:SentinelValueDomain"
+          }
+        }
+      ],
+      "minItems": 1
+    },
+    "@id": {
+      "type": "string",
+      "description": "Identifier for this value domain node"
+    },
+    "cdi:catalogDetails": {
+      "description": "Administrative catalog metadata for this value domain",
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/CatalogDetails"
+    },
+    "cdi:displayLabel": {
+      "description": "Multilingual display label",
+      "anyOf": [
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/LabelForDisplay"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/LabelForDisplay"
+          }
+        }
+      ]
+    },
+    "cdi:identifier": {
+      "description": "Formal identifier for this value domain",
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/Identifier"
+    },
+    "cdi:recommendedDataType": {
+      "description": "Recommended physical data type for values in this domain",
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ControlledVocabularyEntry"
+    },
+    "cdi:isDescribedBy": {
+      "description": "Description of the value domain constraints (0..1). Inline ValueAndConceptDescription or @id reference.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ValueAndConceptDescription"
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+        }
+      ]
+    },
+    "cdi:takesValuesFrom": {
+      "description": "Enumeration domain providing the set of permissible coded values (0..1). Inline EnumerationDomain or @id reference.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/EnumerationDomain"
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+        }
+      ]
+    },
+    "cdi:takesConceptsFrom": {
+      "description": "Reference to a conceptual domain (SubstantiveConceptualDomain or SentinelConceptualDomain) that provides conceptual grounding for this value domain (0..1). @id reference only.",
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+    },
+    "cdi:platformType": {
+      "description": "(SentinelValueDomain only) The type of software platform under which sentinel codes will be used. Statistical software platforms use different sets of codes to indicate missing values. Example values: SASNumeric, SPSSstyle, Rstyle, StataNumeric, BlankString, EmptyString, Unrestricted.",
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ControlledVocabularyEntry"
+    }
+  },
+  "required": [
+    "@type"
+  ],
+  "$defs": {
+    "ValueAndConceptDescription": {
+      "type": "object",
+      "description": "DDI-CDI description of value constraints and measurement level (cls-ValueAndConceptDescription)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ValueAndConceptDescription"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this description node"
+        },
+        "cdi:classificationLevel": {
+          "type": "string",
+          "description": "Level of measurement",
+          "enum": [
+            "Continuous",
+            "Interval",
+            "Nominal",
+            "Ordinal",
+            "Ratio"
+          ]
+        },
+        "cdi:description": {
+          "description": "Textual description of the value domain constraints",
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/InternationalString"
+        },
+        "cdi:formatPattern": {
+          "description": "Expected format pattern for values",
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ControlledVocabularyEntry"
+        },
+        "cdi:identifier": {
+          "description": "Formal identifier",
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/Identifier"
+        },
+        "cdi:logicalExpression": {
+          "description": "Logical expression constraining valid values",
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ControlledVocabularyEntry"
+        },
+        "cdi:maximumValueExclusive": {
+          "type": "string",
+          "description": "Exclusive upper bound for valid values"
+        },
+        "cdi:maximumValueInclusive": {
+          "type": "string",
+          "description": "Inclusive upper bound for valid values"
+        },
+        "cdi:minimumValueExclusive": {
+          "type": "string",
+          "description": "Exclusive lower bound for valid values"
+        },
+        "cdi:minimumValueInclusive": {
+          "type": "string",
+          "description": "Inclusive lower bound for valid values"
+        },
+        "cdi:regularExpression": {
+          "description": "Regular expression constraining valid value syntax",
+          "$ref": "#/$defs/TypedString"
+        }
+      }
+    },
+    "TypedString": {
+      "type": "object",
+      "description": "DDI-CDI typed string value (dt-TypedString)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:TypedString"
+          },
+          "minItems": 1
+        },
+        "cdi:content": {
+          "type": "string",
+          "description": "The string content"
+        },
+        "cdi:typeOfContent": {
+          "description": "Type or format of the content",
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ControlledVocabularyEntry"
+        }
+      }
+    },
+    "EnumerationDomain": {
+      "type": "object",
+      "description": "DDI-CDI enumeration domain providing a set of permissible coded values (cls-EnumerationDomain)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:EnumerationDomain"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this enumeration domain node"
+        },
+        "cdi:identifier": {
+          "description": "Formal identifier",
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/Identifier"
+        },
+        "cdi:name": {
+          "description": "Structured name for this enumeration domain",
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ObjectName"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ObjectName"
+              }
+            }
+          ]
+        },
+        "cdi:purpose": {
+          "description": "Purpose of this enumeration domain",
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/InternationalString"
+        },
+        "cdi:uses": {
+          "description": "Reference to a LevelStructure that organizes the enumeration. @id reference only.",
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+        },
+        "cdi:isDefinedBy": {
+          "description": "References to Concepts that define the enumerated values. Array of @id references.",
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+          }
+        },
+        "cdi:references": {
+          "description": "Reference to the CategorySet providing the value categories. @id reference only.",
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+        }
+      }
+    }
+  },
+  "x-jsonld-prefixes": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+  }
+}

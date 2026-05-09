@@ -1,0 +1,3 @@
+DDI-CDI Agent is the abstract supertype for entities that can act, hold roles, or be referenced from provenance and process metadata. This BB is a thin polymorphic wrapper that composes the four concrete Agent subtypes via `anyOf`: `cdi:Individual` (a person), `cdi:Machine` (software or hardware), `cdi:Organization` (a group or institution), and `cdi:ProcessingAgent` (an agent that orchestrates production activities).
+
+Each subtype is defined in its own building block (`ddicdiIndividual`, `ddicdiMachine`, `ddicdiOrganization`, `ddicdiProcessingAgent`); use this BB when a property's range is `cdi:Agent` and any of the four subclasses is acceptable.

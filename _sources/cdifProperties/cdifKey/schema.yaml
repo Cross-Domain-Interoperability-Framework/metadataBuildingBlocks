@@ -1,0 +1,48 @@
+'$schema': 'https://json-schema.org/draft/2020-12/schema'
+title: CDI Dataset Key
+description: profile of ddi-cdi Key or primary key, with ordered compponent link to InstanceVariables with object references. Role of a set of data structure components that uniquely identify data instance
+type: object
+properties:
+  '@type':
+    type: array
+    items:
+      type: string
+    contains:
+      const: 'cdif:Key'
+    minItems: 1
+  '@id':
+    type: string
+    description: Identifier for this key datastructure component
+  'cdif:isComposedOf':
+    type: array
+    items:
+      type: object
+      description: >-
+        Indexes the components in a data structure using integers with a position indicated
+        by incrementing upward from 0 or 1.
+      properties:
+        '@type':
+          type: array
+          items:
+            type: string
+          contains:
+            const: 'cdif:ComponentPosition'
+          minItems: 1
+        '@id':
+          type: string
+          description: Identifier for this ComponentPosition node
+        'cdif:indexes':
+          anyOf:
+          - '$ref': ../ddi-cdif-data-structure-component/schema.yaml
+          - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+        'cdif:value':
+          type: integer
+          description: Index value of the member in an ordered array.
+      required:
+      - '@type'
+      - 'cdif:indexes'
+      - 'cdif:value'
+    minItems: 1
+required:
+- '@type'
+- 'cdif:isComposedOf'

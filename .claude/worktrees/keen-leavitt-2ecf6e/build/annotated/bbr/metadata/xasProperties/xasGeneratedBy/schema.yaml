@@ -1,0 +1,70 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: XAS Analysis Event activity
+description: XAS-specific provenance activity building block. Extends cdifProvActivity
+  with XAS analysis event typing (xas:AnalysisEvent), XAS facility location, sample
+  object, XAS-specific instrument type, and XAS additional properties (edge_energy,
+  calibration method, instrument configuration, installedOptions).
+allOf:
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/schema.yaml
+- type: object
+  properties:
+    '@type':
+      type: array
+      items:
+        type: string
+      contains:
+        const: xas:AnalysisEvent
+    schema:startDate:
+      type: string
+      description: Date/time the XAS analysis started
+    prov:used:
+      type: array
+      items:
+        anyOf:
+        - type: object
+          required:
+          - schema:instrument
+          properties:
+            schema:instrument:
+              $ref: '#/$defs/Instrument'
+        - type: string
+        - type: object
+          properties:
+            '@id':
+              type: string
+    schema:additionalProperty:
+      type: array
+      description: XAS-specific additional properties for the analysis activity
+      items:
+        allOf:
+        - $ref: '#/$defs/AdditionalProperty'
+        - properties:
+            schema:propertyID:
+              type: array
+              minItems: 1
+              items:
+                anyOf:
+                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml#/$defs/propertyID_item
+                - enum:
+                  - xas:edge_energy
+                  - calibration method
+                  - Instrument configuration
+                  - xas:installedOptions
+    schema:location:
+      $ref: '#/$defs/Facility'
+    schema:object:
+      description: Sample being analyzed (per Ocean Info Hub recommendation)
+      $ref: '#/$defs/Sample'
+$defs:
+  Identifier:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
+  Sample:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema.yaml
+  AdditionalProperty:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
+  Facility:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasFacility/schema.yaml
+  Instrument:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasInstrument/schema.yaml
+x-jsonld-prefixes:
+  schema: http://schema.org/

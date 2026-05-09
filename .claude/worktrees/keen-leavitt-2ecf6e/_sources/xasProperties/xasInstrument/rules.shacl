@@ -1,0 +1,43 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema:      <http://schema.org/>.
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@prefix xas: <https://xas.org/dictionary/> .
+@prefix nxs: <http://purl.org/nexusformat/definitions/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix wd: <https://www.wikidata.org/entity/> .
+@base <https://www.ogc.org/rules/template/> .
+
+
+cdifd:xasInstrumentNode
+	a sh:NodeShape; 
+	    sh:target [
+	  a sh:SPARQLTarget ;
+	  # Q309991 is wikidata scientific instrument
+      sh:select  """
+      PREFIX schema: <http://schema.org/>
+      SELECT DISTINCT ?this
+        WHERE {
+          ?this schema:additionalType "wd:Q3099911".
+          }""";
+	] ;
+    sh:property [
+      sh:path rdf:type ;
+      sh:hasValue schema:Thing ;
+      sh:message "Must have rdf:type schema:Thing."
+    ] ;
+    sh:property [
+      sh:path rdf:type ;
+      sh:hasValue schema:Product ;
+      sh:message "Must have rdf:type schema:Product."
+    ] ;
+    sh:property [
+      sh:path schema:name ;
+      sh:minCount 1 ;
+      sh:datatype xsd:string ;
+	  sh:minLength 5 ;
+	  # sh:severity sh:Warning ;
+      sh:message "a name for the instrument must be provided, and have a length of at least 5 characters."
+    ] .
