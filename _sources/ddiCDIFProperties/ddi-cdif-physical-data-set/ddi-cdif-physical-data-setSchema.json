@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "DDI-CDI Physical Data Set",
-    "description": "Organized collection of wide data. It is structured by a wide data structure.",
+    "description": "Information needed for understanding the physical structure of data coming from a file or other source. Physical data set is the entry point for information about a file or other source. It includes information about the name of a file, the structure of segments in a file. Because this is information about a particular file it is implemented as a property of a schema:DataDownload in the distribution section of the metadata..",
     "anyOf": [
         {
             "$ref": "#/$defs/WideDataSet"
@@ -50,20 +50,6 @@
                     },
                     "minItems": 1
                 },
-                "cdi:has_DataPoint": {
-                    "type": "array",
-                    "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/$defs/DataPoint"
-                            },
-                            {
-                                "$ref": "../ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
-                            }
-                        ]
-                    },
-                    "minItems": 1
-                },
                 "cdi:has_Key": {
                     "type": "array",
                     "items": {
@@ -85,7 +71,7 @@
         },
         "LongDataSet": {
             "type": "object",
-            "description": "Organized collection of long data. It is structured by a long data structure.",
+            "description": "Organized collection of long data. It is structured by a long data structure. LongDataSet must have at least three components-- an identifier that is the subject of the value in each role, a predicate in the descriptor component, and the value for the predicate property on the subject instance in the ReferenceVariable component. there might be attributes on the referenceVariable.",
             "properties": {
                 "@type": {
                     "type": "array",
@@ -119,20 +105,6 @@
                     },
                     "minItems": 1
                 },
-                "cdi:has_DataPoint": {
-                    "type": "array",
-                    "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/$defs/DataPoint"
-                            },
-                            {
-                                "$ref": "../ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
-                            }
-                        ]
-                    },
-                    "minItems": 1
-                },
                 "cdi:has_Key": {
                     "type": "array",
                     "items": {
@@ -154,7 +126,7 @@
         },
         "DimensionalDataSet": {
             "type": "object",
-            "description": "Organized collection of multidimensional data. It is structured by a dimensional data structure.",
+            "description": "Organized collection of multidimensional data. It is structured by a dimensional data structure. This represents a data set where each measurement and associated attributes are defined by a set of dimensions. The data set can be understood as a “cube”.",
             "properties": {
                 "@type": {
                     "type": "array",
@@ -178,20 +150,6 @@
                     "minItems": 1,
                     "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
                 },
-                "cdi:represents": {
-                    "type": "array",
-                    "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/$defs/ScopedMeasure"
-                            },
-                            {
-                                "$ref": "../ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
-                            }
-                        ]
-                    },
-                    "minItems": 1
-                },
                 "cdi:identifier": {
                     "$ref": "../ddi-cdif-data-types/schema.yaml#/$defs/Identifier",
                     "description": "Identifier for objects requiring short- or long-lasting referencing and management."
@@ -202,20 +160,6 @@
                         "anyOf": [
                             {
                                 "$ref": "../ddi-cdif-data-structure/ddi-cdif-data-structureSchema.json"
-                            },
-                            {
-                                "$ref": "../ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
-                            }
-                        ]
-                    },
-                    "minItems": 1
-                },
-                "cdi:has_DataPoint": {
-                    "type": "array",
-                    "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/$defs/DataPoint"
                             },
                             {
                                 "$ref": "../ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
@@ -240,7 +184,9 @@
                 }
             },
             "required": [
-                "@type"
+                "@type",
+                "cdi:name",
+                "cdi:isStructuredBy"
             ]
         },
         "Category": {

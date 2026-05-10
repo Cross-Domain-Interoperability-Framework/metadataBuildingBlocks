@@ -1,0 +1,53 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix cdi:    <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif:   <https://cdif.org/0.1/> .
+@prefix cdifd:  <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# ------------------------------------------------------------
+# cdif:Key — ordered set of cdi:InstanceVariables that uniquely
+# identify a data instance.
+# ------------------------------------------------------------
+
+cdifd:cdifKeyShape
+	a sh:NodeShape ;
+	sh:targetClass cdif:Key ;
+
+	sh:property [
+		sh:path cdif:isComposedOf ;
+		sh:minCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "A cdif:Key must have at least one cdif:isComposedOf entry (a cdif:ComponentPosition wrapping a cdi:InstanceVariable)." ;
+	] ;
+	.
+
+# ------------------------------------------------------------
+# cdif:ComponentPosition — wrapper carrying the (variable, position)
+# pair for a single member of a key.
+# ------------------------------------------------------------
+
+cdifd:cdifComponentPositionShape
+	a sh:NodeShape ;
+	sh:targetClass cdif:ComponentPosition ;
+
+	sh:property [
+		sh:path cdif:indexes ;
+		sh:minCount 1 ;
+		sh:maxCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "A cdif:ComponentPosition must reference exactly one cdi:InstanceVariable via cdif:indexes (inline cdifVariableMeasured node or @id reference)." ;
+	] ;
+
+	sh:property [
+		sh:path cdif:value ;
+		sh:minCount 1 ;
+		sh:maxCount 1 ;
+		sh:datatype xsd:integer ;
+		sh:minInclusive 0 ;
+		sh:severity sh:Violation ;
+		sh:message "A cdif:ComponentPosition must have a single integer cdif:value >= 0 indicating its position within the key." ;
+	] ;
+	.

@@ -1,6 +1,10 @@
 '$schema': 'https://json-schema.org/draft/2020-12/schema'
-title: CDI Dataset Key
-description: profile of ddi-cdi Key or primary key, with ordered compponent link to InstanceVariables with object references. Role of a set of data structure components that uniquely identify data instance
+title: CDIF Key
+description: >-
+  Profile of ddi-cdi Key/PrimaryKey: a CDIF Key is the role of an ordered set of
+  cdi:InstanceVariables (referenced via cdifVariableMeasured) that uniquely identify
+  a data instance. Composed of cdif:ComponentPosition wrappers giving each component
+  variable an integer position.
 type: object
 properties:
   '@type':
@@ -12,14 +16,14 @@ properties:
     minItems: 1
   '@id':
     type: string
-    description: Identifier for this key datastructure component
+    description: Identifier for this Key node.
   'cdif:isComposedOf':
     type: array
     items:
       type: object
       description: >-
-        Indexes the components in a data structure using integers with a position indicated
-        by incrementing upward from 0 or 1.
+        Indexes the cdi:InstanceVariables (via cdifVariableMeasured) that compose
+        this Key, using integers to indicate ordered position starting at 0 or 1.
       properties:
         '@type':
           type: array
@@ -30,11 +34,11 @@ properties:
           minItems: 1
         '@id':
           type: string
-          description: Identifier for this ComponentPosition node
+          description: Identifier for this ComponentPosition node.
         'cdif:indexes':
           anyOf:
-          - '$ref': ../ddi-cdif-data-structure-component/schema.yaml
-          - '$ref': '../ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+          - '$ref': '../cdifVariableMeasured/schema.yaml#/$defs/CdifVariableMeasuredNode'
+          - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
         'cdif:value':
           type: integer
           description: Index value of the member in an ordered array.
