@@ -1,0 +1,51 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <http://schema.org/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix cdi:    <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif:   <https://cdif.org/0.1/> .
+@prefix cdifd:  <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# ------------------------------------------------------------
+# cdif:EnumerationDomain — extension point documenting a
+# codification vocabulary as an enumerated value domain.
+# ------------------------------------------------------------
+
+cdifd:cdifEnumerationDomainShape
+	a sh:NodeShape ;
+	sh:targetClass cdif:EnumerationDomain ;
+
+	# -- RECOMMENDED (Warning) --
+
+	sh:property [
+		sh:path schema:name ;
+		sh:minCount 1 ;
+		sh:datatype xsd:string ;
+		sh:severity sh:Warning ;
+		sh:message "A cdif:EnumerationDomain should carry a schema:name (human-readable label)" ;
+	] ;
+
+	sh:property [
+		sh:path schema:inDefinedTermSet ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A cdif:EnumerationDomain should reference a schema:inDefinedTermSet (a skos:ConceptScheme or @id-reference to the codification)" ;
+	] ;
+
+	# -- INFORMATIONAL (Info) --
+
+	sh:property [
+		sh:path cdi:identifier ;
+		sh:severity sh:Info ;
+		sh:message "A cdif:EnumerationDomain may include a cdi:identifier (schema:identifier / PropertyValue)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:purpose ;
+		sh:severity sh:Info ;
+		sh:message "A cdif:EnumerationDomain may include a cdi:purpose (InternationalString) describing intent or use" ;
+	] ;
+	.
