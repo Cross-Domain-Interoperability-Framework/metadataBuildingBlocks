@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "CDIF Key",
-  "description": "Profile of ddi-cdi Key/PrimaryKey: a CDIF Key is the role of an ordered set of cdi:InstanceVariables (referenced via cdifVariableMeasured) that uniquely identify a data instance. Composed of cdif:ComponentPosition wrappers giving each component variable an integer position.",
+  "description": "Profile of ddi-cdi Key/PrimaryKey: a CDIF Key is the role of an ordered set of cdi:InstanceVariables (referenced via cdifInstanceVariable) that uniquely identify a data instance. Composed of cdif:ComponentPosition wrappers giving each component variable an integer position.",
   "type": "object",
   "properties": {
     "@type": {
@@ -22,7 +22,7 @@
       "type": "array",
       "items": {
         "type": "object",
-        "description": "Indexes the cdi:InstanceVariables (via cdifVariableMeasured) that compose this Key, using integers to indicate ordered position starting at 0 or 1.",
+        "description": "Indexes the cdi:InstanceVariables (via cdifInstanceVariable) that compose this Key, using integers to indicate ordered position starting at 0 or 1.",
         "properties": {
           "@type": {
             "type": "array",
@@ -41,7 +41,7 @@
           "cdif:indexes": {
             "anyOf": [
               {
-                "$ref": "#/$defs/CdifVariableMeasuredNode"
+                "$ref": "#/$defs/CdifInstanceVariableNode"
               },
               {
                 "$ref": "#/$defs/id-reference"
@@ -2473,11 +2473,9 @@
                 "cdi:organizes": {
                   "type": "array",
                   "description": "object reference(s) to datasets that use this logicalRecord;",
-                  "items": [
-                    {
-                      "$ref": "#/$defs/id-reference"
-                    }
-                  ],
+                  "items": {
+                    "$ref": "#/$defs/id-reference"
+                  },
                   "minItems": 1
                 },
                 "cdi:isDefinedBy": {
@@ -2729,7 +2727,7 @@
               },
               "required": [
                 "@type",
-                "has_InstanceVariable"
+                "cdi:has_InstanceVariable"
               ]
             },
             {
@@ -2827,7 +2825,7 @@
         "@type"
       ]
     },
-    "CdifVariableMeasuredNode": {
+    "CdifInstanceVariableNode": {
       "type": "object",
       "properties": {
         "@type": {
@@ -5532,17 +5530,18 @@
         "cdi:isDescribedBy": {
           "anyOf": [
             {
-              "description": "Extends cdif variableMeasured with properties for DDI-CDI InstanceVariable",
+              "title": "CDIF Instance Variable",
+              "description": "CDIF Instance Variable — profile of the cdi:InstanceVariable / schema:PropertyValue node that appears in schema:variableMeasured arrays. Adds DDI-CDI properties (cdif:physicalDataType, cdi:role, cdif:simpleUnitOfMeasure, cdif:uses, cdi:qualifies) on top of the base schemaorgProperties/variableMeasured and ddiCDIFProperties/ddi-cdif-instance-variable shapes.",
               "anyOf": [
                 {
-                  "$ref": "#/$defs/CdifVariableMeasuredNode",
+                  "$ref": "#/$defs/CdifInstanceVariableNode",
                   "description": "Single InstanceVariable node"
                 },
                 {
                   "description": "Unwrapped @graph array of nodes (OGC pipeline)",
                   "type": "array",
                   "contains": {
-                    "$ref": "#/$defs/CdifVariableMeasuredNode"
+                    "$ref": "#/$defs/CdifInstanceVariableNode"
                   },
                   "items": {
                     "if": {
@@ -5560,7 +5559,7 @@
                       ]
                     },
                     "then": {
-                      "$ref": "#/$defs/CdifVariableMeasuredNode"
+                      "$ref": "#/$defs/CdifInstanceVariableNode"
                     }
                   }
                 },
@@ -5572,7 +5571,7 @@
                     "@graph": {
                       "type": "array",
                       "contains": {
-                        "$ref": "#/$defs/CdifVariableMeasuredNode"
+                        "$ref": "#/$defs/CdifInstanceVariableNode"
                       },
                       "items": {
                         "if": {
@@ -5590,7 +5589,7 @@
                           ]
                         },
                         "then": {
-                          "$ref": "#/$defs/CdifVariableMeasuredNode"
+                          "$ref": "#/$defs/CdifInstanceVariableNode"
                         }
                       }
                     }
@@ -6443,17 +6442,18 @@
         "cdi:isDescribedBy": {
           "anyOf": [
             {
-              "description": "Extends cdif variableMeasured with properties for DDI-CDI InstanceVariable",
+              "title": "CDIF Instance Variable",
+              "description": "CDIF Instance Variable — profile of the cdi:InstanceVariable / schema:PropertyValue node that appears in schema:variableMeasured arrays. Adds DDI-CDI properties (cdif:physicalDataType, cdi:role, cdif:simpleUnitOfMeasure, cdif:uses, cdi:qualifies) on top of the base schemaorgProperties/variableMeasured and ddiCDIFProperties/ddi-cdif-instance-variable shapes.",
               "anyOf": [
                 {
-                  "$ref": "#/$defs/CdifVariableMeasuredNode",
+                  "$ref": "#/$defs/CdifInstanceVariableNode",
                   "description": "Single InstanceVariable node"
                 },
                 {
                   "description": "Unwrapped @graph array of nodes (OGC pipeline)",
                   "type": "array",
                   "contains": {
-                    "$ref": "#/$defs/CdifVariableMeasuredNode"
+                    "$ref": "#/$defs/CdifInstanceVariableNode"
                   },
                   "items": {
                     "if": {
@@ -6471,7 +6471,7 @@
                       ]
                     },
                     "then": {
-                      "$ref": "#/$defs/CdifVariableMeasuredNode"
+                      "$ref": "#/$defs/CdifInstanceVariableNode"
                     }
                   }
                 },
@@ -6483,7 +6483,7 @@
                     "@graph": {
                       "type": "array",
                       "contains": {
-                        "$ref": "#/$defs/CdifVariableMeasuredNode"
+                        "$ref": "#/$defs/CdifInstanceVariableNode"
                       },
                       "items": {
                         "if": {
@@ -6501,7 +6501,7 @@
                           ]
                         },
                         "then": {
-                          "$ref": "#/$defs/CdifVariableMeasuredNode"
+                          "$ref": "#/$defs/CdifInstanceVariableNode"
                         }
                       }
                     }

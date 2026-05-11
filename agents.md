@@ -41,7 +41,7 @@ metadataBuildingBlocks/
 │   │   ├── cdifLongData/            # CDIF long data description
 │   │   ├── cdifArchive/              # CDIF archive item (DataDownload with hasPart)
 │   │   ├── cdifArchiveDistribution/ # CDIF archive distribution (schema:distribution wrapper)
-│   │   ├── cdifVariableMeasured/    # CDIF variable measured extension (cdi:InstanceVariable with cdi:qualifies)
+│   │   ├── cdifInstanceVariable/    # CDIF Instance Variable: profile of cdi:InstanceVariable / schema:PropertyValue for schema:variableMeasured items (with cdi:role / cdi:qualifies)
 │   │   ├── cdifPhysicalMapping/     # CDIF physical mapping (cdi:PhysicalSegmentLayout serialization metadata)
 │   │   └── cdifOpenApi/             # OpenAPI-aligned WebAPI distribution (alternative to schemaorgProperties/webAPI)
 │   ├── provProperties/              # W3C PROV provenance types

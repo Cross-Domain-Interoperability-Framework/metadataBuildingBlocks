@@ -21,10 +21,10 @@ SOURCES_DIR = os.path.normpath(os.path.join(
     os.path.dirname(__file__), '..', '_sources'
 ))
 
-# Special naming overrides (dir_name -> Schema.json filename)
-NAME_OVERRIDES = {
-    'cdifVariableMeasured': 'cdiVariableMeasuredSchema.json',
-}
+# Special naming overrides (dir_name -> Schema.json filename).
+# Empty after the cdifVariableMeasured -> cdifInstanceVariable rename
+# (cdifInstanceVariable follows the default <dir_name>Schema.json convention).
+NAME_OVERRIDES = {}
 
 
 def get_schema_json_name(dir_name):

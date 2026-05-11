@@ -34,7 +34,7 @@ def main():
         'identifier',
         'variableMeasured',
         'additionalProperty',
-        'cdifVariableMeasured\n(extends variableMeasured)',
+        'cdifInstanceVariable\n(extends variableMeasured)',
         'bioschemas\nParameterValue',
     ]
 
@@ -325,7 +325,7 @@ def main():
         'identifier: Used for schema:identifier property. PropertyValue encodes structured identifiers (DOI, ARK, ORCID, etc.). Requires either schema:value or schema:url.',
         'variableMeasured: Used for schema:variableMeasured property. PropertyValue describes a measured variable in a dataset with its name, units, range, and measurement technique.',
         'additionalProperty: Used for schema:additionalProperty property. PropertyValue defines soft-typed key-value properties. Requires schema:name and schema:value; schema:propertyID is required (minItems: 1) for semantic identification.',
-        'cdifVariableMeasured: Extends variableMeasured via allOf composition with DDI-CDI InstanceVariable properties. Inherits all variableMeasured properties and adds CDI-specific fields for data structure roles, types, and cross-variable references.',
+        'cdifInstanceVariable: Extends variableMeasured via allOf composition with DDI-CDI InstanceVariable properties. Inherits all variableMeasured properties and adds CDI-specific fields for data structure roles, types, and cross-variable references.',
         'bioschemas ParameterValue: Used for bios:parameterValue in lab process descriptions. Records actual instrument settings or measurement conditions (temperature, flow rate, etc.) during a process execution.',
         'Cardinality notation: "1" = exactly one (required), "0..1" = optional single value, "1..*" = required array (one or more), "0..*" = optional array (zero or more), "-" = not present in this context.',
     ]
@@ -341,7 +341,7 @@ def main():
         ('identifier', '_sources/schemaorgProperties/identifier/schema.yaml'),
         ('variableMeasured', '_sources/schemaorgProperties/variableMeasured/schema.yaml'),
         ('additionalProperty', '_sources/schemaorgProperties/additionalProperty/schema.yaml'),
-        ('cdifVariableMeasured', '_sources/cdifProperties/cdifVariableMeasured/schema.yaml'),
+        ('cdifInstanceVariable', '_sources/cdifProperties/cdifInstanceVariable/schema.yaml'),
         ('bioschemas ParameterValue', '_sources/bioschemasProperties/cdifBioschemasProperties/schema.yaml (ParameterValue $def)'),
     ]
     for name, path in sources:

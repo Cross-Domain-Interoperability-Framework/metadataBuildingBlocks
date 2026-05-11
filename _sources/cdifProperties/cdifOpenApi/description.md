@@ -32,7 +32,7 @@ This BB is an alternative to [`schemaorgProperties/webAPI`](../../schemaorgPrope
 - OAS `License Object` maps to `spdx:license` when an SPDX expression is available; otherwise express via `LabeledLink` or use `schema:license` at the resource level.
 - OAS Responses Object is a map keyed by HTTP code; this BB represents it as an array, with each item carrying `oas:code` explicitly. `oas:code` defaults to `"200"`.
 - OAS Media Type maps similarly: an array where each item carries `schema:encodingFormat` (the MIME type) instead of using the media type as a JSON key.
-- For complex payload schemas (request bodies, responses), the `oas:schema` element supports a basic `oas:type`/`oas:format`/`oas:pattern`/`oas:enum` shape and an `oas:$ref` URL pointing to an external JSON Schema or XML Schema document. For tabular outputs, the referenced schema may align with `cdifVariableMeasured` InstanceVariable definitions.
+- For complex payload schemas (request bodies, responses), the `oas:schema` element supports a basic `oas:type`/`oas:format`/`oas:pattern`/`oas:enum` shape and an `oas:$ref` URL pointing to an external JSON Schema or XML Schema document. For tabular outputs, the referenced schema may align with `cdifInstanceVariable` InstanceVariable definitions.
 
 ### Dependencies
 
