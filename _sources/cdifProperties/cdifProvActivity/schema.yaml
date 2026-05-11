@@ -195,10 +195,6 @@ $defs:
     $ref: ../../schemaorgProperties/identifier/schema.yaml
   Instrument:
     $ref: ../../schemaorgProperties/instrument/schema.yaml
-  DefinedTerm:
-    $ref: ../../schemaorgProperties/definedTerm/schema.yaml
-  LabeledLink:
-    $ref: ../../schemaorgProperties/labeledLink/schema.yaml
   SpatialExtent:
     $ref: ../../schemaorgProperties/spatialExtent/schema.yaml
   AdditionalProperty:
@@ -265,39 +261,3 @@ $defs:
     required:
     - '@type'
     - schema:name
-  Claim:
-    type: object
-    description: A statement or assertion about the dataset, such as a quality claim
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: schema:Claim
-        minItems: 1
-      '@id':
-        type: string
-      'schema:claimReviewed':
-        type: string
-        description: The claim being reviewed or asserted
-      'schema:author':
-        description: Author of this claim
-        anyOf:
-        - $ref: '#/$defs/Person'
-        - $ref: '#/$defs/Organization'
-        - type: object
-          properties:
-            '@id':
-              type: string
-      'schema:datePublished':
-        type: string
-        description: ISO8601 date when this claim was published
-      'schema:appearance':
-        description: Where this claim appears
-        anyOf:
-        - type: string
-        - $ref: '#/$defs/LabeledLink'
-    required:
-    - '@type'
-    - schema:claimReviewed
