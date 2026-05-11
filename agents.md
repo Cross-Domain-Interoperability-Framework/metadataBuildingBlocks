@@ -41,9 +41,11 @@ metadataBuildingBlocks/
 │   │   ├── cdifLongData/            # CDIF long data description
 │   │   ├── cdifArchive/              # CDIF archive item (DataDownload with hasPart)
 │   │   ├── cdifArchiveDistribution/ # CDIF archive distribution (schema:distribution wrapper)
-│   │   ├── cdifInstanceVariable/    # CDIF Instance Variable: profile of cdi:InstanceVariable / schema:PropertyValue for schema:variableMeasured items (with cdi:role / cdi:qualifies)
+│   │   ├── cdifInstanceVariable/    # CDIF Instance Variable: profile of cdi:InstanceVariable / schema:PropertyValue for schema:variableMeasured items (with cdi:role / cdi:qualifies). Renamed 2026-05 from cdifVariableMeasured.
 │   │   ├── cdifPhysicalMapping/     # CDIF physical mapping (cdi:PhysicalSegmentLayout serialization metadata)
-│   │   └── cdifOpenApi/             # OpenAPI-aligned WebAPI distribution (alternative to schemaorgProperties/webAPI)
+│   │   ├── cdifOpenApi/             # OpenAPI-aligned WebAPI distribution (alternative to schemaorgProperties/webAPI)
+│   │   ├── cdifKey/                 # CDIF Key — ordered set of cdi:InstanceVariables (referenced via cdifInstanceVariable) that uniquely identify a data instance; CDIF profile of ddi-cdi Key/PrimaryKey
+│   │   └── cdifEnumerationDomain/   # CDIF Enumeration Domain — extension point that documents any codification (skos:ConceptScheme, schema:DefinedTermSet, or @id-only reference) as a cdif:EnumerationDomain
 │   ├── provProperties/              # W3C PROV provenance types
 │   │   ├── generatedBy/             # prov:wasGeneratedBy (Activity)
 │   │   ├── provActivity/            # PROV-O native activity (extends generatedBy)

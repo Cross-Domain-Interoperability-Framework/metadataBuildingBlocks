@@ -59,7 +59,7 @@ python tools/convert_for_jsonforms.py CDIFDiscoveryProfile -v
 
 ### Step 3: Augment register.json (`augment_register.py`)
 
-Adds `resolvedSchema` URLs to `build/register.json` for each profile building block that has a `resolvedSchema.json` file. This enables the bblocks-viewer's "Resolved (JSON)" button to fetch and display the fully resolved schema (all `$ref` inlined, `allOf` flattened).
+Adds `resolvedSchema` URLs to `build/register.json` for each profile building block that has a `resolvedSchema.json` file. This enables the bblocks-viewer's "Resolved (JSON)" button to fetch and display the standalone resolved schema (structured form — external `$ref`s resolved into `$defs` + internal `$ref`s; recursive types stay as `$ref` cycles).
 
 ```bash
 python tools/augment_register.py
