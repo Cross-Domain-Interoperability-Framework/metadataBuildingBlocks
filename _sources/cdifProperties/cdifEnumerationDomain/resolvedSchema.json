@@ -19,58 +19,12 @@
       "description": "Identifier for this EnumerationDomain node"
     },
     "cdi:identifier": {
-      "description": "Identifier for this enumerated (categorical) domain.",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "schema:PropertyValue"
-          },
-          "minItems": 1
-        },
-        "schema:propertyID": {
-          "type": "string",
-          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-        },
-        "schema:value": {
-          "type": "string",
-          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri",
-          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-        }
-      },
-      "allOf": [
-        {
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "anyOf": [
-            {
-              "required": [
-                "schema:value"
-              ]
-            },
-            {
-              "required": [
-                "schema:url"
-              ]
-            }
-          ]
-        }
-      ]
+      "$ref": "#/$defs/Identifier",
+      "description": "Identifier for this enumerated (categorical) domain."
     },
     "schema:name": {
       "type": "string",
-      "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). "
+      "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic)."
     },
     "schema:inDefinedTermSet": {
       "anyOf": [
@@ -501,6 +455,146 @@
           ]
         },
         {
+          "description": "schema.org Defined Term Set schema. A controlled vocabulary or named list of schema:DefinedTerm objects.",
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "Persistent identifier (URI) for this DefinedTermSet."
+            },
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "schema:DefinedTermSet"
+              },
+              "minItems": 1
+            },
+            "schema:name": {
+              "type": "string",
+              "description": "Human-readable name (label) for the term set."
+            },
+            "schema:description": {
+              "type": "string",
+              "description": "Description of the scope and purpose of the term set."
+            },
+            "schema:identifier": {
+              "description": "Formal identifier for the term set, as a string or structured PropertyValue.",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/$defs/Identifier"
+                }
+              ]
+            },
+            "schema:url": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL where the term set is published."
+            },
+            "schema:hasDefinedTerm": {
+              "type": "array",
+              "minItems": 1,
+              "description": "The terms that make up this set. Each item is a schema:DefinedTerm.",
+              "items": {
+                "description": "schema.org Defined Term schema",
+                "type": "object",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "schema:DefinedTerm"
+                    },
+                    "minItems": 1
+                  },
+                  "schema:name": {
+                    "type": "string",
+                    "description": "text label for the term that is useful to human user"
+                  },
+                  "schema:identifier": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/Identifier"
+                      }
+                    ]
+                  },
+                  "schema:inDefinedTermSet": {
+                    "type": "string",
+                    "description": "Name for the controlled vocabulary responsible for this keyword."
+                  },
+                  "schema:termCode": {
+                    "type": "string",
+                    "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                  }
+                },
+                "allOf": [
+                  {
+                    "required": [
+                      "@type"
+                    ]
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "schema:name"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "schema:identifier"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "schema:termCode"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "allOf": [
+            {
+              "required": [
+                "@type",
+                "schema:hasDefinedTerm"
+              ]
+            },
+            {
+              "anyOf": [
+                {
+                  "required": [
+                    "schema:name"
+                  ]
+                },
+                {
+                  "required": [
+                    "schema:identifier"
+                  ]
+                },
+                {
+                  "required": [
+                    "@id"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
           "type": "object",
           "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
           "properties": {
@@ -598,6 +692,56 @@
     "@type"
   ],
   "$defs": {
+    "Identifier": {
+      "description": "Properties for a schema.org identifier",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:PropertyValue"
+          },
+          "minItems": 1
+        },
+        "schema:propertyID": {
+          "type": "string",
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+        },
+        "schema:value": {
+          "type": "string",
+          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:value"
+              ]
+            },
+            {
+              "required": [
+                "schema:url"
+              ]
+            }
+          ]
+        }
+      ]
+    },
     "Concept": {
       "title": "SKOS Concept",
       "description": "JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel), notations, hierarchical relations (broader/narrower), associative relations (related), cross-scheme mapping properties, scheme membership, and documentary notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).",
@@ -1070,109 +1214,6 @@
       "required": [
         "@id"
       ]
-    },
-    "ControlledVocabularyEntry": {
-      "type": "object",
-      "description": "DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry). Allows for unstructured content which may be an entry from an externally maintained controlled vocabulary. When the content is from a controlled vocabulary, provide the code value of the entry along with a reference to the vocabulary from which the value is taken.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:ControlledVocabularyEntry"
-          },
-          "minItems": 1
-        },
-        "cdi:entryReference": {
-          "description": "A reference to the specific item in the vocabulary referenced by cdi:vocabulary, using a URI or other resolvable identifier.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Reference"
-          },
-          "minItems": 1
-        },
-        "cdi:entryValue": {
-          "description": "The value of the entry of the controlled vocabulary. If no controlled vocabulary is used the term is entered here and none of the properties defining the controlled vocabulary location are used.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 1
-        },
-        "cdi:name": {
-          "type": "string",
-          "description": "The name of the code list (controlled vocabulary)."
-        },
-        "cdi:valueForOther": {
-          "type": "string",
-          "description": "If the value of the string is \"Other\" or the equivalent from the codelist, this attribute can provide a more specific value not found in the codelist."
-        },
-        "cdi:vocabulary": {
-          "$ref": "#/$defs/Reference",
-          "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier."
-        }
-      }
-    },
-    "Reference": {
-      "type": "object",
-      "description": "DDI-CDI reference to an entity (dt-Reference)",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:Reference"
-          },
-          "minItems": 1
-        },
-        "cdi:uri": {
-          "type": "string",
-          "format": "uri",
-          "description": "URI of the referenced entity"
-        },
-        "cdi:description": {
-          "type": "string",
-          "description": "Human-readable description of the reference"
-        },
-        "cdi:ddiReference": {
-          "type": "object",
-          "description": "DDI IRDI reference",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:InternationalRegistrationDataIdentifier"
-              },
-              "minItems": 1
-            },
-            "cdi:dataIdentifier": {
-              "type": "string"
-            },
-            "cdi:registrationAuthorityIdentifier": {
-              "type": "string"
-            },
-            "cdi:versionIdentifier": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "cdi:dataIdentifier",
-            "cdi:registrationAuthorityIdentifier",
-            "cdi:versionIdentifier"
-          ]
-        },
-        "cdi:semantic": {
-          "$ref": "#/$defs/ControlledVocabularyEntry",
-          "description": "Semantic role of this reference"
-        }
-      }
     }
   }
 }
