@@ -108,6 +108,7 @@ metadataBuildingBlocks/
 │   ├── update_conformsto_uris.py    # Updates conformsTo URIs in building block schemas
 │   ├── audit_building_blocks.py     # Comprehensive BB repo audit (pluggable to any repo)
 │   ├── audit_shacl_coverage.py      # Compares schema.yaml properties vs rules.shacl shapes
+│   ├── audit_cdi_property_types.py  # Audits cdi:* properties in cdifProperties vs canonical DDI-CDI XMI
 │   ├── generate_custom_report.py    # Custom validation report with SHACL severity breakdown
 │   ├── add_property_tree.py         # Adds propertyTree worksheets to Excel workbooks
 │   ├── generate_property_tree2.py   # Generates propertyTree_2 worksheets from resolved schemas
@@ -714,6 +715,26 @@ python tools/audit_shacl_coverage.py --verbose
 Always manually verify MISSING_REQUIRED findings before acting on them.
 
 **Requirements:** `pyyaml`
+
+## audit_cdi_property_types.py
+
+Audits every `cdi:X` property used in `_sources/cdifProperties/*/schema.yaml` against the canonical DDI-CDI XMI. For each property, prints the XMI-declared owning class, target class, and multiplicity alongside the JSON Schema value shape allowed in each cdifProperties BB. Flags obvious mismatches (e.g. plain `type=string` where XMI says the target is a class).
+
+Enforces the project's namespace hygiene rule: `cdi:` is reserved for properties defined in the canonical DDI-CDI XMI and used with value types compatible with the XMI definition. Anything CDIF invents, simplifies, or diverges from must use `cdif:` instead. Re-run after:
+- adding a new cdifProperties BB that introduces `cdi:` keys
+- updating the canonical DDI-CDI XMI
+- broader schema refactors that change value shapes
+
+**Usage:**
+```bash
+python tools/audit_cdi_property_types.py
+```
+
+**Output:** plain-text report on stdout, grouped by `cdi:X` property — XMI definitions on top, cdifProperties usages below, with `!! flag` lines on detected mismatches. Review manually; the mismatch heuristic is conservative (primitives vs objects, plain strings where classes are expected) and won't catch every divergence.
+
+**Config:** the XMI path is hardcoded at the top of the script (`XMI = Path(r'C:/.../to-canonical-xmi/ddi-cdi_canonical-unique-names.xmi')`). Update if you keep the canonical XMI in a different location.
+
+**Requirements:** Python 3.6+ with `pyyaml` (uses stdlib `xml.etree.ElementTree`).
 
 ## generate_property_tree2.py
 
