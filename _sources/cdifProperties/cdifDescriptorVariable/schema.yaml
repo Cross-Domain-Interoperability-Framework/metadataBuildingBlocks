@@ -20,7 +20,7 @@ properties:
   'cdi:hasValuesFrom':
     description: >-
       A cdi:DescriptorValueDomain enumerating the codes that can appear in the descriptor column,
-      each paired (via cdif:isDefinedBy) with the InstanceVariable that the code names.
+      each paired (via cdif:isDefinedBy) with the RepresentedVariable that the code names.
     '$ref': '#/$defs/DescriptorValueDomain'
   'cdi:name':
     type: array
@@ -38,7 +38,7 @@ required:
     type: object
     description: >-
       Set of permissible values for a variable playing the role of a variable descriptor component.
-      Each entry pairs a code (cdif:value) with the InstanceVariable that the code identifies
+      Each entry pairs a code (cdif:value) with the RepresentedVariable that the code identifies
       (cdif:isDefinedBy).
     properties:
       '@type':
@@ -55,8 +55,8 @@ required:
         type: array
         description: >-
           Ordered list of descriptor entries. Each entry has a cdif:value (the code as it appears
-          in the descriptor column) and a cdif:isDefinedBy pointer to the InstanceVariable that
-          the code names.
+          in the descriptor column) and a cdif:isDefinedBy pointer to the RepresentedVariable
+          that the code names.
         items:
           type: object
           properties:
@@ -65,9 +65,9 @@ required:
               description: The code value as it appears in the descriptor column.
             'cdif:isDefinedBy':
               anyOf:
-              - '$ref': '../cdifInstanceVariable/schema.yaml'
+              - '$ref': '../cdifRepresentedVariable/schema.yaml'
               - type: object
-                description: object reference via URI or URI fragment to an InstanceVariable defined elsewhere in the document
+                description: object reference via URI or URI fragment to a RepresentedVariable defined elsewhere in the document
                 properties:
                   '@id':
                     type: string

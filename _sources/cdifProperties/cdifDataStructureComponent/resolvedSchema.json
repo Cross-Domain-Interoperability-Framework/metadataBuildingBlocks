@@ -311,7 +311,7 @@
                 },
                 "cdi:hasValuesFrom": {
                   "type": "object",
-                  "description": "A cdi:DescriptorValueDomain enumerating the codes that can appear in the descriptor column, each paired (via cdif:isDefinedBy) with the InstanceVariable that the code names.",
+                  "description": "A cdi:DescriptorValueDomain enumerating the codes that can appear in the descriptor column, each paired (via cdif:isDefinedBy) with the RepresentedVariable that the code names.",
                   "properties": {
                     "@type": {
                       "type": "array",
@@ -329,7 +329,7 @@
                     },
                     "cdif:takesValuesFrom": {
                       "type": "array",
-                      "description": "Ordered list of descriptor entries. Each entry has a cdif:value (the code as it appears in the descriptor column) and a cdif:isDefinedBy pointer to the InstanceVariable that the code names.",
+                      "description": "Ordered list of descriptor entries. Each entry has a cdif:value (the code as it appears in the descriptor column) and a cdif:isDefinedBy pointer to the RepresentedVariable that the code names.",
                       "items": {
                         "type": "object",
                         "properties": {
@@ -340,268 +340,11 @@
                           "cdif:isDefinedBy": {
                             "anyOf": [
                               {
-                                "title": "CDIF Instance Variable",
-                                "type": "object",
-                                "properties": {
-                                  "@type": {
-                                    "type": "array",
-                                    "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
-                                    "items": {
-                                      "type": "string"
-                                    },
-                                    "contains": {
-                                      "const": "cdi:InstanceVariable"
-                                    }
-                                  },
-                                  "cdif:physicalDataType": {
-                                    "type": "array",
-                                    "items": {
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "object",
-                                          "properties": {
-                                            "@id": {
-                                              "type": "string",
-                                              "description": "reference to a skos concept for the data type"
-                                            }
-                                          }
-                                        },
-                                        {
-                                          "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
-                                        }
-                                      ]
-                                    },
-                                    "description": "identifier or name for the data type concept."
-                                  },
-                                  "cdif:role": {
-                                    "type": "string",
-                                    "enum": [
-                                      "UnitIdentifier",
-                                      "Measure",
-                                      "Attribute",
-                                      "Dimension",
-                                      "Descriptor",
-                                      "ReferenceVariable"
-                                    ],
-                                    "description": "Specifies the role this variable plays in a data structure. UnitIdentifier names the unit a row describes; Measure holds observed/derived values; Attribute qualifies an observation; Dimension addresses a cell in a multi-dimensional cube; Descriptor names the variable that a Reference column records values for (long format); ReferenceVariable holds those recorded values."
-                                  },
-                                  "cdif:simpleUnitOfMeasure": {
-                                    "anyOf": [
-                                      {
-                                        "type": "string"
-                                      },
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "@id": {
-                                            "type": "string",
-                                            "description": "reference to a skos concept for the data type"
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
-                                      }
-                                    ]
-                                  },
-                                  "cdif:uses": {
-                                    "type": "array",
-                                    "items": {
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "object",
-                                          "properties": {
-                                            "@id": {
-                                              "type": "string",
-                                              "description": "reference to a skos concept for the property"
-                                            }
-                                          }
-                                        },
-                                        {
-                                          "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
-                                        }
-                                      ]
-                                    },
-                                    "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents."
-                                  },
-                                  "cdi:qualifies": {
-                                    "type": "object",
-                                    "properties": {
-                                      "@id": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "description": "reference to an instance variable defined for this dataset"
-                                  }
-                                },
-                                "allOf": [
-                                  {
-                                    "required": [
-                                      "@type"
-                                    ]
-                                  },
-                                  {
-                                    "description": "Schema.org PropertyValue-based variableMeasured. Defines properties for a measured variable in a dataset, typed as schema:PropertyValue.",
-                                    "type": "object",
-                                    "properties": {
-                                      "@type": {
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string"
-                                        },
-                                        "contains": {
-                                          "const": "schema:PropertyValue"
-                                        },
-                                        "minItems": 1
-                                      },
-                                      "@id": {
-                                        "type": "string"
-                                      },
-                                      "schema:name": {
-                                        "type": "string",
-                                        "description": "string label associated with the variable in the dataset serialization"
-                                      },
-                                      "schema:description": {
-                                        "type": "string",
-                                        "default": "missing"
-                                      },
-                                      "schema:alternateName": {
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string",
-                                          "description": "human intelligible name for variable that conveys semantics"
-                                        }
-                                      },
-                                      "schema:measurementTechnique": {
-                                        "anyOf": [
-                                          {
-                                            "type": "string"
-                                          },
-                                          {
-                                            "type": "object",
-                                            "properties": {
-                                              "@id": {
-                                                "type": "string",
-                                                "description": "reference to a skos concept"
-                                              }
-                                            }
-                                          },
-                                          {
-                                            "$ref": "#/$defs/DefinedTerm"
-                                          }
-                                        ],
-                                        "description": "Text description or URI specifying how values for the variable were obtained."
-                                      },
-                                      "schema:propertyID": {
-                                        "type": "array",
-                                        "items": {
-                                          "anyOf": [
-                                            {
-                                              "type": "string"
-                                            },
-                                            {
-                                              "type": "object",
-                                              "properties": {
-                                                "@id": {
-                                                  "type": "string"
-                                                }
-                                              }
-                                            },
-                                            {
-                                              "$ref": "#/$defs/DefinedTerm"
-                                            }
-                                          ]
-                                        },
-                                        "description": "identifier or name for the property concept"
-                                      },
-                                      "schema:unitText": {
-                                        "type": "string",
-                                        "description": "unit of measurement as text"
-                                      },
-                                      "schema:unitCode": {
-                                        "anyOf": [
-                                          {
-                                            "type": "string"
-                                          },
-                                          {
-                                            "type": "object",
-                                            "properties": {
-                                              "@id": {
-                                                "type": "string"
-                                              }
-                                            }
-                                          },
-                                          {
-                                            "$ref": "#/$defs/DefinedTerm"
-                                          }
-                                        ],
-                                        "description": "URI or code identifying the unit of measure"
-                                      },
-                                      "schema:minValue": {
-                                        "type": "number",
-                                        "description": "minimum numeric value in the dataset"
-                                      },
-                                      "schema:maxValue": {
-                                        "type": "number",
-                                        "description": "maximum numeric value in the dataset"
-                                      },
-                                      "schema:url": {
-                                        "anyOf": [
-                                          {
-                                            "type": "string",
-                                            "format": "uri",
-                                            "description": "link to a web page useful for interpreting the variable"
-                                          },
-                                          {
-                                            "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
-                                            "type": "object",
-                                            "properties": {
-                                              "@type": {
-                                                "default": "schema:CreativeWork",
-                                                "type": "array",
-                                                "items": {
-                                                  "type": "string"
-                                                },
-                                                "contains": {
-                                                  "const": "schema:CreativeWork"
-                                                },
-                                                "minItems": 1
-                                              },
-                                              "schema:name": {
-                                                "type": "string"
-                                              },
-                                              "schema:description": {
-                                                "type": "string"
-                                              },
-                                              "schema:url": {
-                                                "type": "string",
-                                                "format": "uri"
-                                              }
-                                            },
-                                            "required": [
-                                              "@type",
-                                              "schema:url"
-                                            ]
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "@type",
-                                      "schema:name"
-                                    ]
-                                  }
-                                ]
+                                "$ref": "#/$defs/CdifRepresentedVariable"
                               },
                               {
                                 "type": "object",
-                                "description": "object reference via URI or URI fragment to an InstanceVariable defined elsewhere in the document",
+                                "description": "object reference via URI or URI fragment to a RepresentedVariable defined elsewhere in the document",
                                 "properties": {
                                   "@id": {
                                     "type": "string"
@@ -792,8 +535,54 @@
                                 "description": "Identifier for this EnumerationDomain node"
                               },
                               "cdif:identifier": {
-                                "$ref": "#/$defs/Identifier",
-                                "description": "Identifier for this enumerated (categorical) domain."
+                                "description": "Identifier for this enumerated (categorical) domain.",
+                                "type": "object",
+                                "properties": {
+                                  "@type": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "contains": {
+                                      "const": "schema:PropertyValue"
+                                    },
+                                    "minItems": 1
+                                  },
+                                  "schema:propertyID": {
+                                    "type": "string",
+                                    "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                                  },
+                                  "schema:value": {
+                                    "type": "string",
+                                    "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                                  },
+                                  "schema:url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                                  }
+                                },
+                                "allOf": [
+                                  {
+                                    "required": [
+                                      "@type"
+                                    ]
+                                  },
+                                  {
+                                    "anyOf": [
+                                      {
+                                        "required": [
+                                          "schema:value"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "schema:url"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
                               },
                               "schema:name": {
                                 "type": "string",
@@ -1333,8 +1122,54 @@
                                 "description": "Identifier for this EnumerationDomain node"
                               },
                               "cdif:identifier": {
-                                "$ref": "#/$defs/Identifier",
-                                "description": "Identifier for this enumerated (categorical) domain."
+                                "description": "Identifier for this enumerated (categorical) domain.",
+                                "type": "object",
+                                "properties": {
+                                  "@type": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "contains": {
+                                      "const": "schema:PropertyValue"
+                                    },
+                                    "minItems": 1
+                                  },
+                                  "schema:propertyID": {
+                                    "type": "string",
+                                    "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                                  },
+                                  "schema:value": {
+                                    "type": "string",
+                                    "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                                  },
+                                  "schema:url": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                                  }
+                                },
+                                "allOf": [
+                                  {
+                                    "required": [
+                                      "@type"
+                                    ]
+                                  },
+                                  {
+                                    "anyOf": [
+                                      {
+                                        "required": [
+                                          "schema:value"
+                                        ]
+                                      },
+                                      {
+                                        "required": [
+                                          "schema:url"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
                               },
                               "schema:name": {
                                 "type": "string",
@@ -1889,8 +1724,54 @@
                               "description": "Identifier for this EnumerationDomain node"
                             },
                             "cdif:identifier": {
-                              "$ref": "#/$defs/Identifier",
-                              "description": "Identifier for this enumerated (categorical) domain."
+                              "description": "Identifier for this enumerated (categorical) domain.",
+                              "type": "object",
+                              "properties": {
+                                "@type": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  },
+                                  "contains": {
+                                    "const": "schema:PropertyValue"
+                                  },
+                                  "minItems": 1
+                                },
+                                "schema:propertyID": {
+                                  "type": "string",
+                                  "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                                },
+                                "schema:value": {
+                                  "type": "string",
+                                  "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                                },
+                                "schema:url": {
+                                  "type": "string",
+                                  "format": "uri",
+                                  "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                                }
+                              },
+                              "allOf": [
+                                {
+                                  "required": [
+                                    "@type"
+                                  ]
+                                },
+                                {
+                                  "anyOf": [
+                                    {
+                                      "required": [
+                                        "schema:value"
+                                      ]
+                                    },
+                                    {
+                                      "required": [
+                                        "schema:url"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
                             },
                             "schema:name": {
                               "type": "string",
@@ -2430,8 +2311,54 @@
                               "description": "Identifier for this EnumerationDomain node"
                             },
                             "cdif:identifier": {
-                              "$ref": "#/$defs/Identifier",
-                              "description": "Identifier for this enumerated (categorical) domain."
+                              "description": "Identifier for this enumerated (categorical) domain.",
+                              "type": "object",
+                              "properties": {
+                                "@type": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  },
+                                  "contains": {
+                                    "const": "schema:PropertyValue"
+                                  },
+                                  "minItems": 1
+                                },
+                                "schema:propertyID": {
+                                  "type": "string",
+                                  "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                                },
+                                "schema:value": {
+                                  "type": "string",
+                                  "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                                },
+                                "schema:url": {
+                                  "type": "string",
+                                  "format": "uri",
+                                  "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                                }
+                              },
+                              "allOf": [
+                                {
+                                  "required": [
+                                    "@type"
+                                  ]
+                                },
+                                {
+                                  "anyOf": [
+                                    {
+                                      "required": [
+                                        "schema:value"
+                                      ]
+                                    },
+                                    {
+                                      "required": [
+                                        "schema:url"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
                             },
                             "schema:name": {
                               "type": "string",
@@ -3515,56 +3442,6 @@
         "@type"
       ]
     },
-    "Identifier": {
-      "description": "Properties for a schema.org identifier",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "schema:PropertyValue"
-          },
-          "minItems": 1
-        },
-        "schema:propertyID": {
-          "type": "string",
-          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-        },
-        "schema:value": {
-          "type": "string",
-          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri",
-          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-        }
-      },
-      "allOf": [
-        {
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "anyOf": [
-            {
-              "required": [
-                "schema:value"
-              ]
-            },
-            {
-              "required": [
-                "schema:url"
-              ]
-            }
-          ]
-        }
-      ]
-    },
     "Concept": {
       "title": "SKOS Concept",
       "description": "JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel), notations, hierarchical relations (broader/narrower), associative relations (related), cross-scheme mapping properties, scheme membership, and documentary notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).",
@@ -4007,70 +3884,6 @@
         "skos:prefLabel"
       ]
     },
-    "DefinedTerm": {
-      "description": "schema.org Defined Term schema",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "schema:DefinedTerm"
-          },
-          "minItems": 1
-        },
-        "schema:name": {
-          "type": "string",
-          "description": "text label for the term that is useful to human user"
-        },
-        "schema:identifier": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/Identifier"
-            }
-          ]
-        },
-        "schema:inDefinedTermSet": {
-          "type": "string",
-          "description": "Name for the controlled vocabulary responsible for this keyword."
-        },
-        "schema:termCode": {
-          "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
-        }
-      },
-      "allOf": [
-        {
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "anyOf": [
-            {
-              "required": [
-                "schema:name"
-              ]
-            },
-            {
-              "required": [
-                "schema:identifier"
-              ]
-            },
-            {
-              "required": [
-                "schema:termCode"
-              ]
-            }
-          ]
-        }
-      ]
-    },
     "ControlledVocabularyEntry": {
       "type": "object",
       "description": "DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry). Allows for unstructured content which may be an entry from an externally maintained controlled vocabulary. When the content is from a controlled vocabulary, provide the code value of the entry along with a reference to the vocabulary from which the value is taken.",
@@ -4414,16 +4227,6 @@
       },
       "required": [
         "@id"
-      ]
-    },
-    "CdifInstanceVariable_DefinedTerm": {
-      "anyOf": [
-        {
-          "$ref": "#/$defs/DefinedTerm"
-        },
-        {
-          "$ref": "#/$defs/Concept"
-        }
       ]
     },
     "PairedControlledVocabularyEntry": {

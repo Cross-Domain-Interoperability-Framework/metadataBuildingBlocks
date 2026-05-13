@@ -33,7 +33,7 @@
       "schema:name": "measure_name",
       "cdif:physicalDataType": ["xsd:string"],
       "cdif:uses": [
-        { "@id": "ex:struct/vitalsLong/rv/measureName" }
+        { "@id": "ex:struct/vitalsLong/dv/measureName" }
       ]
     },
     {
@@ -53,34 +53,6 @@
       "cdif:uses": [
         { "@id": "ex:struct/vitalsLong/rv/observedAt" }
       ]
-    },
-    {
-      "@id": "ex:var/systolicBP",
-      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
-      "schema:name": "systolic_bp",
-      "schema:description": "Systolic blood pressure in mmHg.",
-      "cdif:physicalDataType": ["xsd:decimal"]
-    },
-    {
-      "@id": "ex:var/diastolicBP",
-      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
-      "schema:name": "diastolic_bp",
-      "schema:description": "Diastolic blood pressure in mmHg.",
-      "cdif:physicalDataType": ["xsd:decimal"]
-    },
-    {
-      "@id": "ex:var/heartRate",
-      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
-      "schema:name": "heart_rate",
-      "schema:description": "Heart rate in beats per minute.",
-      "cdif:physicalDataType": ["xsd:decimal"]
-    },
-    {
-      "@id": "ex:var/temperatureC",
-      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
-      "schema:name": "temperature_c",
-      "schema:description": "Body temperature in degrees Celsius.",
-      "cdif:physicalDataType": ["xsd:decimal"]
     }
   ],
   "cdif:hasPrimaryKey": {
@@ -149,19 +121,63 @@
                 "cdif:takesValuesFrom": [
                   {
                     "cdif:value": "systolic_bp",
-                    "cdif:isDefinedBy": { "@id": "ex:var/systolicBP" }
+                    "cdif:isDefinedBy": {
+                      "@type": ["cdi:RepresentedVariable"],
+                      "@id": "ex:struct/vitalsLong/rv/systolicBP",
+                      "cdi:name": [
+                        { "@type": ["cdi:ObjectName"], "cdi:name": "systolic_blood_pressure" }
+                      ],
+                      "cdi:simpleUnitOfMeasure": "mmHg",
+                      "cdi:hasIntendedDataType": {
+                        "@type": ["cdi:ControlledVocabularyEntry"],
+                        "cdi:entryValue": ["xsd:decimal"]
+                      }
+                    }
                   },
                   {
                     "cdif:value": "diastolic_bp",
-                    "cdif:isDefinedBy": { "@id": "ex:var/diastolicBP" }
+                    "cdif:isDefinedBy": {
+                      "@type": ["cdi:RepresentedVariable"],
+                      "@id": "ex:struct/vitalsLong/rv/diastolicBP",
+                      "cdi:name": [
+                        { "@type": ["cdi:ObjectName"], "cdi:name": "diastolic_blood_pressure" }
+                      ],
+                      "cdi:simpleUnitOfMeasure": "mmHg",
+                      "cdi:hasIntendedDataType": {
+                        "@type": ["cdi:ControlledVocabularyEntry"],
+                        "cdi:entryValue": ["xsd:decimal"]
+                      }
+                    }
                   },
                   {
                     "cdif:value": "heart_rate",
-                    "cdif:isDefinedBy": { "@id": "ex:var/heartRate" }
+                    "cdif:isDefinedBy": {
+                      "@type": ["cdi:RepresentedVariable"],
+                      "@id": "ex:struct/vitalsLong/rv/heartRate",
+                      "cdi:name": [
+                        { "@type": ["cdi:ObjectName"], "cdi:name": "heart_rate" }
+                      ],
+                      "cdi:simpleUnitOfMeasure": "bpm",
+                      "cdi:hasIntendedDataType": {
+                        "@type": ["cdi:ControlledVocabularyEntry"],
+                        "cdi:entryValue": ["xsd:decimal"]
+                      }
+                    }
                   },
                   {
                     "cdif:value": "temp_c",
-                    "cdif:isDefinedBy": { "@id": "ex:var/temperatureC" }
+                    "cdif:isDefinedBy": {
+                      "@type": ["cdi:RepresentedVariable"],
+                      "@id": "ex:struct/vitalsLong/rv/temperatureC",
+                      "cdi:name": [
+                        { "@type": ["cdi:ObjectName"], "cdi:name": "body_temperature_celsius" }
+                      ],
+                      "cdi:simpleUnitOfMeasure": "Cel",
+                      "cdi:hasIntendedDataType": {
+                        "@type": ["cdi:ControlledVocabularyEntry"],
+                        "cdi:entryValue": ["xsd:decimal"]
+                      }
+                    }
                   }
                 ]
               }

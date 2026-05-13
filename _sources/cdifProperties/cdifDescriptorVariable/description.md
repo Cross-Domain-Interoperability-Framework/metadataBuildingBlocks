@@ -9,7 +9,7 @@ For example, in a long-format vitals table:
 | P001 | systolic_bp | 132 |
 | P001 | heart_rate | 78 |
 
-`measure_name` is the descriptor column; the values it takes (`systolic_bp`, `heart_rate`) are descriptor codes that name the logical InstanceVariables they identify.
+`measure_name` is the descriptor column; the values it takes (`systolic_bp`, `heart_rate`) are descriptor codes that name the conceptual RepresentedVariables they identify.
 
 ## Structure
 
@@ -25,9 +25,9 @@ A `cdi:DescriptorVariable` carries:
 The **`cdi:DescriptorValueDomain`** has a required `cdif:takesValuesFrom` array of descriptor entries. Each entry pairs:
 
 - `cdif:value` — the code as it appears in the descriptor column (e.g. `"systolic_bp"`).
-- `cdif:isDefinedBy` — an inline `cdifInstanceVariable` or `@id`-reference to one declared elsewhere in the document, identifying the logical variable the code names.
+- `cdif:isDefinedBy` — an inline `cdifRepresentedVariable` or `@id`-reference to one declared elsewhere in the document, identifying the conceptual variable the code names.
 
-This is the controlled-vocabulary descriptor pattern: strings in the descriptor column map to InstanceVariables in `schema:variableMeasured`. No SKOS Concept indirection.
+This is the controlled-vocabulary descriptor pattern: strings in the descriptor column map to RepresentedVariables (the conceptual definitions of the variables those codes name). No SKOS Concept indirection.
 
 ## Use in DataStructure
 
@@ -35,5 +35,5 @@ A `cdi:VariableDescriptorComponent` (in [cdifDataStructureComponent](../cdifData
 
 ## Dependencies
 
-- [cdifInstanceVariable](../cdifInstanceVariable/) — target of `cdif:isDefinedBy` in each descriptor entry.
+- [cdifRepresentedVariable](../cdifRepresentedVariable/) — target of `cdif:isDefinedBy` in each descriptor entry.
 - [ddi-cdif-data-types](../../ddiCDIFProperties/ddi-cdif-data-types/) — `cdi:ObjectName` for `cdi:name`.
