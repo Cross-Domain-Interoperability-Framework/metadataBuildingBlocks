@@ -45,7 +45,12 @@ metadataBuildingBlocks/
 │   │   ├── cdifPhysicalMapping/     # CDIF physical mapping (cdi:PhysicalSegmentLayout serialization metadata)
 │   │   ├── cdifOpenApi/             # OpenAPI-aligned WebAPI distribution (alternative to schemaorgProperties/webAPI)
 │   │   ├── cdifKey/                 # CDIF Key — ordered set of cdi:InstanceVariables (referenced via cdifInstanceVariable) that uniquely identify a data instance; CDIF profile of ddi-cdi Key/PrimaryKey
-│   │   └── cdifEnumerationDomain/   # CDIF Enumeration Domain — extension point that documents any codification (skos:ConceptScheme, schema:DefinedTermSet, or @id-only reference) as a cdif:EnumerationDomain
+│   │   ├── cdifEnumerationDomain/   # CDIF Enumeration Domain — extension point that documents any codification (skos:ConceptScheme, schema:DefinedTermSet, or @id-only reference) as a cdif:EnumerationDomain
+│   │   ├── cdifValueDomain/         # CDIF Value Domain — cdi:SubstantiveValueDomain + cdi:SentinelValueDomain, with bounds, regex, takesValuesFrom (cdifEnumerationDomain), takesConceptsFrom (skos:Concept)
+│   │   ├── cdifRepresentedVariable/ # CDIF RepresentedVariable — conceptual variable definition referenced by Data Structure components; carries name, definition, intended data type, unit-of-measure, takesSubstantiveValuesFrom / takesSentinelValuesFrom
+│   │   ├── cdifDataStructure/       # CDIF DataStructure — root `anyOf` over cdi:DataStructure / cdi:DimensionalDataStructure / cdi:LongDataStructure / cdi:WideDataStructure; carries components, primary key, foreign keys, dimension groups. LongDataStructure enforces 1× IdentifierComponent / 1× VariableDescriptorComponent / 1× VariableValueComponent (+ 0..* Attribute) via Draft 2020-12 `contains` + `minContains`/`maxContains`.
+│   │   ├── cdifDataStructureComponent/  # CDIF DataStructureComponent — component subclasses (cdi:IdentifierComponent, cdi:MeasureComponent, cdi:AttributeComponent, cdi:DimensionComponent, cdi:VariableValueComponent, cdi:VariableDescriptorComponent); `cdi:isDefinedBy` refs cdifRepresentedVariable (or cdifDescriptorVariable for the descriptor variant); `AttributeComponent.cdi:qualifies` carries the attribute-qualifies-measure relationship at component level.
+│   │   └── cdifDescriptorVariable/  # CDIF DescriptorVariable + DescriptorValueDomain — long-format pattern where a descriptor-column code maps to the RepresentedVariable it names; `cdif:takesValuesFrom` entries pair `cdif:value` (the code) with `cdif:isDefinedBy → cdi:RepresentedVariable`
 │   ├── provProperties/              # W3C PROV provenance types
 │   │   ├── generatedBy/             # prov:wasGeneratedBy (Activity)
 │   │   ├── provActivity/            # PROV-O native activity (extends generatedBy)
@@ -87,7 +92,8 @@ metadataBuildingBlocks/
 │           ├── CDIFCodelistProfile/        # CDIF Codelist profile (SKOS ConceptScheme validation)
 │           ├── CDIFDiscoveryProfile/       # CDIF Discovery profile
 │           ├── CDIFcompleteProfile/        # CDIF Complete profile (discovery + data description + provenance + archive)
-│           ├── CDIFDataDescriptionProfile/ # CDIF Data Description profile
+│           ├── CDIFDataDescriptionProfile/ # CDIF Data Description profile (flat: InstanceVariables with cdif:role / cdi:qualifies; no component classes)
+│           ├── CDIFDataStructureProfile/   # CDIF Data Structure profile (full DDI-CDI: cdifDataStructure + cdifDataStructureComponent + cdifRepresentedVariable + cdifValueDomain; distributions must carry cdi:isStructuredBy)
 │           └── CDIFxasProfile/             # CDIF XAS profile
 ├── tools/
 │   ├── resolve_schema.py            # Schema resolver (see below)
@@ -203,6 +209,33 @@ Building blocks that add properties to `schema:distribution` items must use part
         - anyOf: [...]
 ```
 
+## Namespace Conventions: `cdi:` vs `cdif:`
+
+The `cdi:` prefix (`http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/`) is reserved for properties and classes defined in the canonical DDI-CDI 1.0 XMI model. The `cdif:` prefix (`https://cdif.org/0.1/`) is used for CDIF inventions, simplifications, or properties whose CDIF semantics diverge from the canonical XMI definition.
+
+Audit rule: if a property in a `cdifProperties/` BB carries the `cdi:` prefix, the values it accepts must be type-compatible with the corresponding `ddiProperties/` definition. If CDIF needs to allow a value shape the XMI doesn't sanction (e.g. literal vs node, or a different target class), rename the property to `cdif:` so the divergence is namespace-visible. Recent renames driven by this audit (May 2026):
+- `cdi:fileSize` → `cdif:fileSize`, `cdi:fileSizeUofM` → `cdif:fileSizeUofM` (file metadata; not in XMI)
+- `cdi:role` → `cdif:role` (role-on-InstanceVariable; CDIF-only simplification)
+- `cdi:content` retained inside `cdi:LanguageString` / `cdi:LabelForDisplay` (canonical use); migrated to `cdif:content` only outside those structured-string contexts
+
+## Data Description vs Data Structure profiles
+
+CDIF carries two parallel ways to describe a dataset's variables:
+
+- **CDIFDataDescriptionProfile** — flat: each `schema:variableMeasured` item is a `cdi:InstanceVariable` with `cdif:role` (Identifier / Measure / Attribute / Dimension / Descriptor / ReferenceVariable) and, for Attribute, `cdi:qualifies` pointing at the qualified InstanceVariable. No component classes, no DataStructure node required.
+- **CDIFDataStructureProfile** — full DDI-CDI: `schema:variableMeasured` items still carry InstanceVariables (for physical-column identity), but `cdi:role` and `cdi:qualifies` are forbidden at this level (redundant — the component subclass on `cdi:isStructuredBy` encodes role, and `AttributeComponent.cdi:qualifies` encodes the qualifies relation). The structural commitments live on `cdi:isStructuredBy → cdi:DataStructure / cdi:DimensionalDataStructure / cdi:LongDataStructure / cdi:WideDataStructure`, which carries `cdi:has_DataStructureComponent` items (IdentifierComponent, MeasureComponent, AttributeComponent, DimensionComponent, VariableValueComponent, VariableDescriptorComponent), `cdi:has_PrimaryKey`, foreign keys, and dimension groups. RepresentedVariables and value domains hang off `cdi:isDefinedBy` on each component.
+
+### Conditional distribution typing rules (Data Structure profile)
+
+Two `if/then` constraints sit at the profile level on `schema:distribution.items` (inline in the profile's `schema.yaml`, not via BB composition, because the resolver's `deep_merge` would drop them otherwise):
+
+| `@type` includes... | `cdif:hasPhysicalMapping` | `cdi:isStructuredBy` |
+|---|---|---|
+| `cdi:TabularTextDataSet` or `cdi:StructuredDataSet` | **required** | any DataStructure variant |
+| `cdi:PhysicalDataSet` only (no subclass) | not required | abstract `cdi:DataStructure` only — `cdi:LongDataStructure` / `cdi:DimensionalDataStructure` / `cdi:WideDataStructure` are forbidden (an `@id`-only reference also passes) |
+
+The bare-`cdi:PhysicalDataSet` case is the "structure reuse" pattern: a dataset that points at a Data Structure node defining RepresentedVariables + components without committing to a specific physical file layout.
+
 ## Building Block Conformance URIs
 
 Building blocks that represent CDIF specification components declare required `dcterms:conformsTo` URIs in the metadata catalog record (`schema:subjectOf`). Each building block's `schema.yaml` adds a `contains` constraint on `schema:subjectOf` → `dcterms:conformsTo` requiring its specific URI. Corresponding SHACL shapes enforce the same constraint via `sh:hasValue`.
@@ -225,6 +258,7 @@ Building blocks that represent CDIF specification components declare required `d
 |---|---|
 | CDIFDiscoveryProfile | `core/1.0` + `discovery/1.0` |
 | CDIFDataDescriptionProfile | `core/1.0` + `discovery/1.0` + `data_description/1.0` |
+| CDIFDataStructureProfile | `core/1.0` + `data_description/1.0` + `data_structure/1.0` |
 | CDIFcompleteProfile | `core/1.0` + `discovery/1.0` + `data_description/1.0` + `manifest/1.0` + `provenance/1.0` |
 | CDIFCodelistProfile | *(no conformsTo constraints — uses SKOS ConceptScheme, not dataset metadata)* |
 | CDIFxasProfile | `core/1.0` + `discovery/1.0` + `xasDiscovery/1.0` + `xasCore/1.0` |

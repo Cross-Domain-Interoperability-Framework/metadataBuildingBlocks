@@ -1680,6 +1680,99 @@
           "items": {
             "required": [
               "cdi:isStructuredBy"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "@type": {
+                      "anyOf": [
+                        {
+                          "contains": {
+                            "const": "cdi:TabularTextDataSet"
+                          }
+                        },
+                        {
+                          "contains": {
+                            "const": "cdi:StructuredDataSet"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "cdif:hasPhysicalMapping"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "@type": {
+                          "contains": {
+                            "const": "cdi:PhysicalDataSet"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "@type": {
+                          "not": {
+                            "contains": {
+                              "const": "cdi:TabularTextDataSet"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "@type": {
+                          "not": {
+                            "contains": {
+                              "const": "cdi:StructuredDataSet"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "cdi:isStructuredBy": {
+                      "properties": {
+                        "@type": {
+                          "not": {
+                            "anyOf": [
+                              {
+                                "contains": {
+                                  "const": "cdi:LongDataStructure"
+                                }
+                              },
+                              {
+                                "contains": {
+                                  "const": "cdi:DimensionalDataStructure"
+                                }
+                              },
+                              {
+                                "contains": {
+                                  "const": "cdi:WideDataStructure"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             ]
           }
         },
