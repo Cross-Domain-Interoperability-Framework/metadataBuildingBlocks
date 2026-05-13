@@ -1583,11 +1583,11 @@
         "allOf": [
           {
             "type": "object",
-            "description": "All variableMeasured items at data description level must have an @id and cdi:physicalDataType so physical mappings can reference them.",
+            "description": "All variableMeasured items at data description level must have an @id and cdif:physicalDataType so physical mappings can reference them.",
             "properties": {
               "@id": {
                 "type": "string",
-                "description": "URI identifier for this variable, used as the target of cdi:formats_InstanceVariable references in physical mappings."
+                "description": "URI identifier for this variable, used as the target of cdif:formats_InstanceVariable references in physical mappings."
               }
             },
             "required": [
@@ -5649,7 +5649,7 @@
                               },
                               "minItems": 1
                             },
-                            "cdi:content": {
+                            "cdif:content": {
                               "type": "string",
                               "description": "Content of the property expressed as a simple string."
                             },
@@ -5870,7 +5870,7 @@
                               },
                               "minItems": 1
                             },
-                            "cdi:content": {
+                            "cdif:content": {
                               "type": "string",
                               "description": "Content of the property expressed as a simple string."
                             },
@@ -6369,9 +6369,9 @@
                   "type": "string",
                   "description": "Identifier for this DescriptorVariable node"
                 },
-                "cdi:hasValuesFrom": {
+                "cdif:hasValuesFrom": {
                   "type": "object",
-                  "description": "A cdi:DescriptorValueDomain enumerating the codes that can appear in the descriptor column, each paired (via cdif:isDefinedBy) with the InstanceVariable that the code names.",
+                  "description": "A cdi:DescriptorValueDomain enumerating the codes that can appear in the descriptor column, each paired (via cdif:isDefinedBy) with the RepresentedVariable that the code names.",
                   "properties": {
                     "@type": {
                       "type": "array",
@@ -6389,7 +6389,7 @@
                     },
                     "cdif:takesValuesFrom": {
                       "type": "array",
-                      "description": "Ordered list of descriptor entries. Each entry has a cdif:value (the code as it appears in the descriptor column) and a cdif:isDefinedBy pointer to the InstanceVariable that the code names.",
+                      "description": "Ordered list of descriptor entries. Each entry has a cdif:value (the code as it appears in the descriptor column) and a cdif:isDefinedBy pointer to the RepresentedVariable that the code names.",
                       "items": {
                         "type": "object",
                         "properties": {
@@ -6400,11 +6400,11 @@
                           "cdif:isDefinedBy": {
                             "anyOf": [
                               {
-                                "$ref": "#/$defs/CdifInstanceVariable"
+                                "$ref": "#/$defs/CdifRepresentedVariable"
                               },
                               {
                                 "type": "object",
-                                "description": "object reference via URI or URI fragment to an InstanceVariable defined elsewhere in the document",
+                                "description": "object reference via URI or URI fragment to a RepresentedVariable defined elsewhere in the document",
                                 "properties": {
                                   "@id": {
                                     "type": "string"
@@ -6441,7 +6441,7 @@
               },
               "required": [
                 "@type",
-                "cdi:hasValuesFrom"
+                "cdif:hasValuesFrom"
               ]
             },
             {

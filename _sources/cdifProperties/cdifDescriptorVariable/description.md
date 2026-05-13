@@ -19,7 +19,7 @@ A `cdi:DescriptorVariable` carries:
 |---|---|---|
 | `@type` | required | Must include `cdi:DescriptorVariable`. |
 | `@id` | recommended | Identifier for the variable node. |
-| `cdi:hasValuesFrom` | **required** | A `cdi:DescriptorValueDomain` enumerating the descriptor codes (see below). |
+| `cdif:hasValuesFrom` | **required** | A `cdi:DescriptorValueDomain` enumerating the descriptor codes (see below). |
 | `cdi:name` | optional | Array of `cdi:ObjectName` (formal naming per ISO 11179-5). |
 
 The **`cdi:DescriptorValueDomain`** has a required `cdif:takesValuesFrom` array of descriptor entries. Each entry pairs:
