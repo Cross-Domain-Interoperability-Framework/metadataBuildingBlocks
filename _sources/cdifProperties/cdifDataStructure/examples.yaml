@@ -1,0 +1,59 @@
+- title: Minimal CDIF Data Structure
+  content: |-
+    A bare cdi:DataStructure root with a single cdi:has_DataStructureComponent
+    entry, given as an @id-reference to a component declared elsewhere in the
+    document. The base DataStructure variant imposes no constraints on which
+    component subclasses are present — useful when the layout doesn't fit the
+    Dimensional / Long / Wide shapes.
+  prefixes:
+    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+  snippets:
+    - language: json
+      ref: exampleCdifDataStructureMinimal.json
+- title: Complete CDIF Data Structure (Long)
+  content: |-
+    A cdi:LongDataStructure exercising the array-level cardinality constraint:
+    exactly one IdentifierComponent (patient id), exactly one
+    VariableDescriptorComponent (the column naming which vital sign is in each
+    row), exactly one VariableValueComponent (the value column), plus one
+    optional AttributeComponent (observation timestamp) that cdi:qualifies the
+    value column. The cdif:PrimaryKey is given as a flat ordered array of three
+    @id-references to InstanceVariables — array order is position; no
+    ComponentPosition wrapper.
+  prefixes:
+    schema: http://schema.org/
+    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    cdif: https://cdif.org/0.1/
+  snippets:
+    - language: json
+      ref: exampleCdifDataStructureComplete.json
+- title: Complete CDIF Data Structure (Dimensional)
+  content: |-
+    A cdi:DimensionalDataStructure describing a sales cube. Three
+    DimensionComponents form the addressing axes (country, quarter, product
+    category), one MeasureComponent holds the sales amount, and one
+    AttributeComponent (currency) qualifies the measure. The cdif:PrimaryKey
+    composes the three dimension variables — together they uniquely address
+    each cell in the cube.
+  prefixes:
+    schema: http://schema.org/
+    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    cdif: https://cdif.org/0.1/
+  snippets:
+    - language: json
+      ref: exampleCdifDataStructureDimensional.json
+- title: Complete CDIF Data Structure (Wide)
+  content: |-
+    A cdi:WideDataStructure for a patient-vitals wide table: one
+    IdentifierComponent (patientId) identifies the row, three
+    MeasureComponents hold systolic BP, diastolic BP, and heart rate as
+    separate columns, and one AttributeComponent (observedAt) attaches the
+    measurement time to the row. The cdif:PrimaryKey is a single-element
+    array — wide-format rows are uniquely identified by patientId alone.
+  prefixes:
+    schema: http://schema.org/
+    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    cdif: https://cdif.org/0.1/
+  snippets:
+    - language: json
+      ref: exampleCdifDataStructureWide.json

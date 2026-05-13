@@ -1,0 +1,86 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:LongDataStructure"],
+  "@id": "ex:struct/vitalsLong",
+  "cdi:has_DataStructureComponent": [
+    {
+      "@type": ["cdi:IdentifierComponent"],
+      "@id": "ex:struct/vitalsLong/comp/patientId",
+      "cdi:isDefinedBy": {
+        "@type": ["cdi:RepresentedVariable"],
+        "@id": "ex:struct/vitalsLong/rv/patientId",
+        "cdi:name": [
+          { "@type": ["cdi:ObjectName"], "cdi:name": "patient_id" }
+        ],
+        "cdi:hasIntendedDataType": {
+          "@type": ["cdi:ControlledVocabularyEntry"],
+          "cdi:entryValue": ["xsd:string"]
+        }
+      }
+    },
+    {
+      "@type": ["cdi:VariableDescriptorComponent"],
+      "@id": "ex:struct/vitalsLong/comp/measureName",
+      "cdi:isDefinedBy": {
+        "@type": ["cdi:RepresentedVariable"],
+        "@id": "ex:struct/vitalsLong/rv/measureName",
+        "cdi:name": [
+          { "@type": ["cdi:ObjectName"], "cdi:name": "measure_name" }
+        ],
+        "cdi:hasIntendedDataType": {
+          "@type": ["cdi:ControlledVocabularyEntry"],
+          "cdi:entryValue": ["xsd:string"]
+        }
+      },
+      "cdi:refersTo": { "@id": "ex:struct/vitalsLong/comp/measureValue" }
+    },
+    {
+      "@type": ["cdi:VariableValueComponent"],
+      "@id": "ex:struct/vitalsLong/comp/measureValue",
+      "cdi:isDefinedBy": {
+        "@type": ["cdi:RepresentedVariable"],
+        "@id": "ex:struct/vitalsLong/rv/measureValue",
+        "cdi:name": [
+          { "@type": ["cdi:ObjectName"], "cdi:name": "measure_value" }
+        ],
+        "cdi:hasIntendedDataType": {
+          "@type": ["cdi:ControlledVocabularyEntry"],
+          "cdi:entryValue": ["xsd:decimal"]
+        }
+      }
+    },
+    {
+      "@type": ["cdi:AttributeComponent"],
+      "@id": "ex:struct/vitalsLong/comp/observedAt",
+      "cdi:qualifies": [
+        { "@id": "ex:struct/vitalsLong/comp/measureValue" }
+      ],
+      "cdi:isDefinedBy": {
+        "@type": ["cdi:RepresentedVariable"],
+        "@id": "ex:struct/vitalsLong/rv/observedAt",
+        "cdi:name": [
+          { "@type": ["cdi:ObjectName"], "cdi:name": "observed_at" }
+        ],
+        "cdi:hasIntendedDataType": {
+          "@type": ["cdi:ControlledVocabularyEntry"],
+          "cdi:entryValue": ["xsd:dateTime"]
+        }
+      }
+    }
+  ],
+  "cdi:has_PrimaryKey": {
+    "@type": ["cdif:PrimaryKey"],
+    "@id": "ex:struct/vitalsLong/pk",
+    "cdif:isComposedOf": [
+      { "@id": "ex:var/patientId" },
+      { "@id": "ex:var/measureName" },
+      { "@id": "ex:var/observedAt" }
+    ]
+  }
+}

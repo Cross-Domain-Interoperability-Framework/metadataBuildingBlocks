@@ -25,10 +25,68 @@ allOf:
           const: "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
         cdif:
           const: "https://cdif.org/0.1/"
+    'schema:variableMeasured':
+      items:
+        properties:
+          'cdif:role': false
+          'cdi:qualifies': false
+        description: >-
+          In the Data Structure profile, variable role is encoded by the
+          component class type (IdentifierComponent, MeasureComponent,
+          AttributeComponent, DimensionComponent, VariableValueComponent,
+          VariableDescriptorComponent) on cdi:isStructuredBy, and the
+          attribute-qualifies-measure relationship is encoded at the
+          component level (AttributeComponent.cdi:qualifies pointing at
+          the qualified component). Carrying cdif:role or cdi:qualifies
+          on the InstanceVariable would be redundant and is therefore
+          disallowed at this profile level.
     'schema:distribution':
       items:
         required:
         - 'cdi:isStructuredBy'
+        allOf:
+        # Rule 1: distributions typed as cdi:TabularTextDataSet or cdi:StructuredDataSet
+        # (a specific physical realization) must carry cdif:hasPhysicalMapping.
+        - if:
+            properties:
+              '@type':
+                anyOf:
+                - contains: { const: 'cdi:TabularTextDataSet' }
+                - contains: { const: 'cdi:StructuredDataSet' }
+          then:
+            required:
+            - 'cdif:hasPhysicalMapping'
+        # Rule 2: distributions typed as bare cdi:PhysicalDataSet (no subclass) describe
+        # a dataset that reuses a Data Structure's RepresentedVariables / components
+        # without specifying physical file layout. cdif:hasPhysicalMapping is not
+        # required; cdi:isStructuredBy must reference the abstract cdi:DataStructure
+        # variant (not Long / Dimensional / Wide subclasses, which imply a specific
+        # physical realization).
+        - if:
+            allOf:
+            - properties:
+                '@type':
+                  contains: { const: 'cdi:PhysicalDataSet' }
+            - properties:
+                '@type':
+                  not:
+                    contains: { const: 'cdi:TabularTextDataSet' }
+            - properties:
+                '@type':
+                  not:
+                    contains: { const: 'cdi:StructuredDataSet' }
+          then:
+            properties:
+              'cdi:isStructuredBy':
+                # Either an @id-only reference (no inlined @type), or an inline node
+                # whose @type does NOT include any Long/Dimensional/Wide subclass.
+                properties:
+                  '@type':
+                    not:
+                      anyOf:
+                      - contains: { const: 'cdi:LongDataStructure' }
+                      - contains: { const: 'cdi:DimensionalDataStructure' }
+                      - contains: { const: 'cdi:WideDataStructure' }
     'schema:subjectOf':
       properties:
         'dcterms:conformsTo':

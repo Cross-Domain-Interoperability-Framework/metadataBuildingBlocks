@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "CDIF Data Description properties",
-    "description": "Additional constraints for CDIF data description level. Adds cdi:physicalDataType requirement on variableMeasured items and distribution-level cdi properties for file characterization (characterSet, fileSize, fileSizeUofM).",
+    "description": "Additional constraints for CDIF data description level. Adds cdif:physicalDataType requirement on variableMeasured items and distribution-level cdi properties for file characterization (characterSet, fileSize, fileSizeUofM).",
     "type": "object",
     "properties": {
         "cdif:hasPrimaryKey": {
@@ -64,11 +64,11 @@
                 "allOf": [
                     {
                         "type": "object",
-                        "description": "All variableMeasured items at data description level must have an @id and cdi:physicalDataType so physical mappings can reference them.",
+                        "description": "All variableMeasured items at data description level must have an @id and cdif:physicalDataType so physical mappings can reference them.",
                         "properties": {
                             "@id": {
                                 "type": "string",
-                                "description": "URI identifier for this variable, used as the target of cdi:formats_InstanceVariable references in physical mappings."
+                                "description": "URI identifier for this variable, used as the target of cdif:formats_InstanceVariable references in physical mappings."
                             }
                         },
                         "required": [
@@ -82,23 +82,9 @@
             }
         },
         "schema:distribution": {
+            "description": "Each schema:DataDownload distribution item SHOULD additionally be typed as cdi:PhysicalDataSet or one of its subclasses (cdi:TabularTextDataSet, cdi:StructuredDataSet). schema:WebAPI distribution items do not require a cdi: dataset type. Not enforced at schema level (the merge with cdifCore and cdifArchiveDistribution drops the @type constraint at profile resolution); consider a SHACL rule if runtime enforcement is needed.",
             "items": {
                 "properties": {
-                    "@type": {
-                        "description": "Each distribution item is additionally typed as a cdi:PhysicalDataSet or cdi:LogicalDataSet (alongside the base schema:DataDownload / schema:WebAPI).",
-                        "anyOf": [
-                            {
-                                "contains": {
-                                    "const": "cdi:PhysicalDataSet"
-                                }
-                            },
-                            {
-                                "contains": {
-                                    "const": "cdi:LogicalDataSet"
-                                }
-                            }
-                        ]
-                    },
                     "cdi:isStructuredBy": {
                         "description": "Points at the Data Structure node that describes how this distribution's bytes are organized. Inline cdifDataStructure or @id-reference to a node defined elsewhere in the document.",
                         "anyOf": [
@@ -122,11 +108,11 @@
                         "type": "string",
                         "description": "The character set used in the distribution (e.g., UTF-8, ASCII)."
                     },
-                    "cdi:fileSize": {
+                    "cdif:fileSize": {
                         "type": "number",
                         "description": "The size of the distribution file."
                     },
-                    "cdi:fileSizeUofM": {
+                    "cdif:fileSizeUofM": {
                         "type": "string",
                         "description": "Unit of measure for the file size (e.g., bytes, KB, MB, GB)."
                     }

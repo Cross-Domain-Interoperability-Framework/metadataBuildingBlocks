@@ -7,8 +7,8 @@ Profile for the schema.org implementation of the [Cross Domain Interoperability 
 - **cdifCore** -- all required and optional core metadata properties
 - **Discovery properties** -- measurement technique, variables measured, spatial/temporal coverage, quality measurements
 - **Data description extensions**:
-  - `schema:variableMeasured` items at this level require `cdi:InstanceVariable` typing and `cdi:physicalDataType`
-  - `schema:distribution` items may include `cdi:characterSet`, `cdi:fileSize`, `cdi:fileSizeUofM`
+  - `schema:variableMeasured` items at this level require `cdi:InstanceVariable` typing and `cdif:physicalDataType`
+  - `schema:distribution` items may include `cdi:characterSet`, `cdif:fileSize`, `cdif:fileSizeUofM`
 
 ### Conformance
 

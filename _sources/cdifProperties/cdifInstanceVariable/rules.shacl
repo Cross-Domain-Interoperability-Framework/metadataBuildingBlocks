@@ -6,6 +6,7 @@
 @prefix owl:        <http://www.w3.org/2002/07/owl#> .
 @prefix cdifd:      <https://cdif.org/validation/0.1/shacl#> .
 @prefix cdi:        <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/>.
+@prefix cdif:       <https://cdif.org/0.1/> .
 @prefix xas:        <https://xas.org/dictionary/>.
 @base <https://www.ogc.org/rules/template/> .
 
@@ -101,22 +102,24 @@ cdifd:QualifiesRequiredForAttributeShape
         a sh:SPARQLTarget ;
         sh:prefixes (
             [ sh:prefix "cdi" ; sh:namespace "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/" ]
+            [ sh:prefix "cdif" ; sh:namespace "https://cdif.org/0.1/" ]
             [ sh:prefix "schema" ; sh:namespace "http://schema.org/" ]
         ) ;
         sh:select """
             PREFIX cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/>
+            PREFIX cdif: <https://cdif.org/0.1/>
             PREFIX schema: <http://schema.org/>
             SELECT DISTINCT ?this
             WHERE {
                 ?this a cdi:InstanceVariable .
-                ?this cdi:role "Attribute" .
+                ?this cdif:role "Attribute" .
             }""" ;
     ] ;
     sh:property [
         sh:path cdi:qualifies ;
         sh:minCount 1 ;
         sh:severity sh:Violation ;
-        sh:message "cdi:qualifies is required when cdi:role is Attribute." ;
+        sh:message "cdi:qualifies is required when cdif:role is Attribute." ;
     ] ;
     sh:property [
         sh:path cdi:qualifies ;
@@ -128,10 +131,12 @@ cdifd:QualifiesRequiredForAttributeShape
         a sh:SPARQLConstraint ;
         sh:prefixes (
             [ sh:prefix "cdi" ; sh:namespace "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/" ]
+            [ sh:prefix "cdif" ; sh:namespace "https://cdif.org/0.1/" ]
             [ sh:prefix "schema" ; sh:namespace "http://schema.org/" ]
         ) ;
         sh:select """
             PREFIX cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/>
+            PREFIX cdif: <https://cdif.org/0.1/>
             PREFIX schema: <http://schema.org/>
             SELECT $this (cdi:qualifies AS ?path) (?target AS ?value)
             WHERE {
@@ -152,18 +157,20 @@ cdifd:QualifiesNotAllowedWithoutAttributeShape
         a sh:SPARQLTarget ;
         sh:prefixes (
             [ sh:prefix "cdi" ; sh:namespace "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/" ]
+            [ sh:prefix "cdif" ; sh:namespace "https://cdif.org/0.1/" ]
             [ sh:prefix "schema" ; sh:namespace "http://schema.org/" ]
         ) ;
         sh:select """
             PREFIX cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/>
+            PREFIX cdif: <https://cdif.org/0.1/>
             PREFIX schema: <http://schema.org/>
             SELECT DISTINCT ?this
             WHERE {
                 ?this a cdi:InstanceVariable .
                 FILTER (
-                    NOT EXISTS { ?this cdi:role ?role . }
+                    NOT EXISTS { ?this cdif:role ?role . }
                     ||
-                    EXISTS { ?this cdi:role ?role . FILTER (?role != "Attribute") }
+                    EXISTS { ?this cdif:role ?role . FILTER (?role != "Attribute") }
                 )
             }""" ;
     ] ;
@@ -171,7 +178,7 @@ cdifd:QualifiesNotAllowedWithoutAttributeShape
         sh:path cdi:qualifies ;
         sh:maxCount 0 ;
         sh:severity sh:Warning ;
-        sh:message "cdi:qualifies should not be used when cdi:role is absent or not Attribute." ;
+        sh:message "cdi:qualifies should not be used when cdif:role is absent or not Attribute." ;
     ]
     .
 
@@ -179,7 +186,7 @@ cdifd:CDIFxasInstanceVariableShape
   a sh:NodeShape;
   sh:targetClass cdi:InstanceVariable ;
   sh:property [
-   sh:path cdi:physicalDataType;
+   sh:path cdif:physicalDataType;
    sh:or (
 	  [sh:nodeKind sh:IRI ] 
 	  [sh:datatype xsd:string;  

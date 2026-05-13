@@ -155,7 +155,8 @@ CDIF profiles are in `_sources/profiles/cdifProfiles/`:
 |---|---|
 | `CDIFCodelistProfile` | CDIF Codelist profile (allOf: skosConceptScheme + CDIF codelist constraints) |
 | `CDIFDiscoveryProfile` | CDIF Discovery profile (allOf: cdifCore + discovery properties) |
-| `CDIFDataDescriptionProfile` | CDIF Data Description profile (allOf: cdifCore + cdifDataDescription + discovery properties) |
+| `CDIFDataDescriptionProfile` | CDIF Data Description profile (allOf: cdifCore + cdifDataDescription + discovery properties). Flat: InstanceVariables with `cdif:role` / `cdi:qualifies`; no component classes. |
+| `CDIFDataStructureProfile` | CDIF Data Structure profile (allOf: cdifCore + cdifDataDescription + cdifDataStructure + cdifDataStructureComponent + cdifRepresentedVariable + cdifValueDomain). Adds full DDI-CDI structural complexity: component subclasses (Identifier / Measure / Attribute / Dimension / VariableValue / VariableDescriptor), DataStructure variants (Dimensional / Long / Wide), RepresentedVariables, value domains, and DescriptorVariable for long-format data. Distributions must carry `cdi:isStructuredBy`; conditional rules govern when `cdif:hasPhysicalMapping` is required and which DataStructure subclass is allowed. |
 | `CDIFcompleteProfile` | CDIF Complete profile (allOf: cdifCore + cdifDataDescription + cdifArchiveDistribution + cdifProvenance + discovery properties) |
 | `CDIFxasProfile` | CDIF XAS profile (allOf: cdifCore + xasOptional + xasCore + discovery properties) |
 
@@ -179,7 +180,7 @@ For example, `cdifProvActivity` defines the schema for a single provenance Activ
 | Category | Directory | Description |
 |----------|-----------|-------------|
 | schemaorgProperties | `_sources/schemaorgProperties/` | schema.org vocabulary building blocks (person, organization, identifier, definedTerm, instrument, etc.) |
-| cdifProperties | `_sources/cdifProperties/` | CDIF-specific properties (core, optional, provenance, tabular data, long data, OpenAPI-aligned WebAPI, etc.) |
+| cdifProperties | `_sources/cdifProperties/` | CDIF-specific properties (core, provenance, tabular/long data, OpenAPI-aligned WebAPI, plus the DDI-CDI structural family: `cdifInstanceVariable`, `cdifKey`, `cdifEnumerationDomain`, `cdifValueDomain`, `cdifRepresentedVariable`, `cdifDataStructure`, `cdifDataStructureComponent`, `cdifDescriptorVariable`) |
 | ddiProperties | `_sources/ddiProperties/` | DDI-CDI vocabulary building blocks |
 | provProperties | `_sources/provProperties/` | PROV-O provenance (generatedBy, derivedFrom, provActivity) |
 | skosProperties | `_sources/skosProperties/` | W3C SKOS vocabulary building blocks (ConceptScheme, Concept, Collection) |
@@ -268,6 +269,7 @@ Each building block that represents a CDIF specification component declares a re
 | `cdifCore` | `https://w3id.org/cdif/core/1.0` |
 | `CDIFDiscoveryProfile` | `https://w3id.org/cdif/discovery/1.0` |
 | `cdifDataDescription` | `https://w3id.org/cdif/data_description/1.0` |
+| `CDIFDataStructureProfile` | `https://w3id.org/cdif/data_structure/1.0` |
 | `cdifArchiveDistribution` | `https://w3id.org/cdif/manifest/1.0` |
 | `cdifProvenance` | `https://w3id.org/cdif/provenance/1.0` |
 | `xasOptional` | `https://w3id.org/cdif/xasDiscovery/1.0` |

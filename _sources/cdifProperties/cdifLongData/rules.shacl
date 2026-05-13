@@ -4,7 +4,8 @@
 @prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
 @prefix schema:      <http://schema.org/> .
 @prefix cdi:         <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@prefix cdif:        <https://cdif.org/0.1/> .
+@prefix cdifd:       <https://cdif.org/validation/0.1/shacl#> .
 @base <https://www.ogc.org/rules/template/> .
 
 # Validates long data structure nodes typed as cdi:LongStructureDataSet.
@@ -17,34 +18,34 @@ cdifd:longDataShape
 
     # Must have at least one physical mapping
     sh:property [
-        sh:path cdi:hasPhysicalMapping ;
+        sh:path cdif:hasPhysicalMapping ;
         sh:minCount 1 ;
         sh:severity sh:Warning ;
-        sh:message "A LongStructureDataSet should have physical mappings (cdi:hasPhysicalMapping) linking variables to columns." ;
+        sh:message "A LongStructureDataSet should have physical mappings (cdif:hasPhysicalMapping) linking variables to columns." ;
     ] ;
 
     # Exactly one formatted variable must have role Descriptor.
-    # Path: cdi:hasPhysicalMapping -> cdi:formats_InstanceVariable -> cdi:role
+    # Path: cdif:hasPhysicalMapping -> cdif:formats_InstanceVariable -> cdif:role
     sh:property [
-        sh:path ( cdi:hasPhysicalMapping cdi:formats_InstanceVariable cdi:role ) ;
+        sh:path ( cdif:hasPhysicalMapping cdif:formats_InstanceVariable cdif:role ) ;
         sh:qualifiedValueShape [
             sh:hasValue "Descriptor" ;
         ] ;
         sh:qualifiedMinCount 1 ;
         sh:qualifiedMaxCount 1 ;
         sh:severity sh:Violation ;
-        sh:message "A LongStructureDataSet must format exactly one InstanceVariable with cdi:role 'Descriptor' (the column identifying which variable each row measures)." ;
+        sh:message "A LongStructureDataSet must format exactly one InstanceVariable with cdif:role 'Descriptor' (the column identifying which variable each row measures)." ;
     ] ;
 
     # At least one formatted variable must have role ReferenceVariable.
-    # Path: cdi:hasPhysicalMapping -> cdi:formats_InstanceVariable -> cdi:role
+    # Path: cdif:hasPhysicalMapping -> cdif:formats_InstanceVariable -> cdif:role
     sh:property [
-        sh:path ( cdi:hasPhysicalMapping cdi:formats_InstanceVariable cdi:role ) ;
+        sh:path ( cdif:hasPhysicalMapping cdif:formats_InstanceVariable cdif:role ) ;
         sh:qualifiedValueShape [
             sh:hasValue "ReferenceVariable" ;
         ] ;
         sh:qualifiedMinCount 1 ;
         sh:severity sh:Violation ;
-        sh:message "A LongStructureDataSet must format at least one InstanceVariable with cdi:role 'ReferenceVariable' (the column holding the actual measured values)." ;
+        sh:message "A LongStructureDataSet must format at least one InstanceVariable with cdif:role 'ReferenceVariable' (the column holding the actual measured values)." ;
     ] ;
     .

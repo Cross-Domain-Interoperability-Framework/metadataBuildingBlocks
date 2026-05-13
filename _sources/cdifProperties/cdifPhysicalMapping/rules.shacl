@@ -7,8 +7,8 @@
 @prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
 @base <https://www.ogc.org/rules/template/> .
 
-# Validates physical mapping nodes (values of cdi:hasPhysicalMapping).
-# JSON schema defines cdi:formats_InstanceVariable, cdi:index, cdi:format, etc.
+# Validates physical mapping nodes (values of cdif:hasPhysicalMapping).
+# JSON schema defines cdif:formats_InstanceVariable, cdif:index, cdif:format, etc.
 cdifd:physicalMappingShape
     a sh:NodeShape ;
     sh:target [
@@ -17,15 +17,15 @@ cdifd:physicalMappingShape
             PREFIX cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/>
             SELECT ?this
             WHERE {
-                ?parent cdi:hasPhysicalMapping ?this .
+                ?parent cdif:hasPhysicalMapping ?this .
             }
         """ ;
     ] ;
     sh:property [
-        sh:path cdi:formats_InstanceVariable ;
+        sh:path cdif:formats_InstanceVariable ;
         sh:minCount 1 ;
         sh:severity sh:Warning ;
-        sh:message "A physical mapping should reference the variable it formats (cdi:formats_InstanceVariable)." ;
+        sh:message "A physical mapping should reference the variable it formats (cdif:formats_InstanceVariable)." ;
     ] ;
     sh:message "Physical mapping nodes should link to their corresponding variable definition." ;
     .
