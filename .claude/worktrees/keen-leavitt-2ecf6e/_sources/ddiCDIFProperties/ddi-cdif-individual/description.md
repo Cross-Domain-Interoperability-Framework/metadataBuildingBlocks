@@ -1,3 +1,0 @@
-DDI-CDI Individual represents a person as an Agent (`cls-Individual`, extends `cdi:Agent`). The root `cdi:Individual` carries `cdi:individualName` (one or more `IndividualName` records), `cdi:contactInformation` for postal, email, telephone, messaging, and web contacts, plus the agent-shared properties `cdi:identifier`, `cdi:image`, and `cdi:purpose`.
-
-Individual is one of the four concrete agent types composed by `ddicdiAgent`; alongside `ddicdiOrganization`, `ddicdiMachine`, and `ddicdiProcessingAgent` it covers the people involved in producing, maintaining, or using the data being described.
