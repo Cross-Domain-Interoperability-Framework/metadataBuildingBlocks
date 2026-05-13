@@ -1,0 +1,208 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:dataset/vitalsLong",
+  "@type": ["schema:Dataset"],
+  "schema:name": "Patient vital signs (long-format observations)",
+  "schema:description": "Time-series of vital sign measurements (heart rate, systolic BP, diastolic BP, temperature) in long format: one row per observation with a descriptor column naming the measure and a reference column holding the value.",
+  "schema:identifier": "https://doi.org/10.1234/vitals-long-2025",
+  "schema:dateModified": "2025-09-15",
+  "schema:license": ["https://creativecommons.org/licenses/by/4.0/"],
+  "schema:variableMeasured": [
+    {
+      "@id": "ex:var/patientId",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "patient_id",
+      "cdif:uses": [
+        { "@id": "ex:struct/vitalsLong/rv/patientId" }
+      ]
+    },
+    {
+      "@id": "ex:var/measureName",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "measure_name",
+      "cdif:uses": [
+        { "@id": "ex:struct/vitalsLong/rv/measureName" }
+      ]
+    },
+    {
+      "@id": "ex:var/measureValue",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "measure_value",
+      "cdif:uses": [
+        { "@id": "ex:struct/vitalsLong/rv/measureValue" }
+      ]
+    },
+    {
+      "@id": "ex:var/observedAt",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "observed_at",
+      "cdif:uses": [
+        { "@id": "ex:struct/vitalsLong/rv/observedAt" }
+      ]
+    }
+  ],
+  "cdif:hasPrimaryKey": {
+    "@type": ["cdif:Key"],
+    "@id": "ex:dataset/vitalsLong/pk",
+    "cdif:isComposedOf": [
+      { "@id": "ex:var/patientId" },
+      { "@id": "ex:var/measureName" },
+      { "@id": "ex:var/observedAt" }
+    ]
+  },
+  "schema:distribution": [
+    {
+      "@type": ["schema:DataDownload", "cdi:TabularTextDataSet", "cdi:PhysicalDataSet"],
+      "schema:name": "vitals-long.csv",
+      "schema:contentUrl": "https://example.org/downloads/vitals-long.csv",
+      "schema:encodingFormat": ["text/csv"],
+      "cdi:characterSet": "UTF-8",
+      "cdif:fileSize": 2.4,
+      "cdif:fileSizeUofM": "MB",
+      "cdi:isDelimited": true,
+      "csvw:delimiter": ",",
+      "csvw:header": true,
+      "csvw:headerRowCount": 1,
+      "cdi:isStructuredBy": {
+        "@type": ["cdi:LongDataStructure"],
+        "@id": "ex:struct/vitalsLong",
+        "cdi:has_DataStructureComponent": [
+          {
+            "@type": ["cdi:IdentifierComponent"],
+            "@id": "ex:struct/vitalsLong/comp/patientId",
+            "cdi:isDefinedBy": {
+              "@type": ["cdi:RepresentedVariable"],
+              "@id": "ex:struct/vitalsLong/rv/patientId",
+              "cdi:name": [
+                { "@type": ["cdi:ObjectName"], "cdi:name": "patient_id" }
+              ],
+              "cdi:definition": {
+                "@type": ["cdi:InternationalString"],
+                "cdi:languageSpecificString": [
+                  {
+                    "@type": ["cdi:LanguageString"],
+                    "cdi:content": "Pseudonymous patient identifier.",
+                    "cdi:language": "en"
+                  }
+                ]
+              },
+              "cdi:hasIntendedDataType": {
+                "@type": ["cdi:ControlledVocabularyEntry"],
+                "cdi:entryValue": ["xsd:string"]
+              }
+            }
+          },
+          {
+            "@type": ["cdi:VariableDescriptorComponent"],
+            "@id": "ex:struct/vitalsLong/comp/measureName",
+            "cdi:isDefinedBy": {
+              "@type": ["cdi:RepresentedVariable"],
+              "@id": "ex:struct/vitalsLong/rv/measureName",
+              "cdi:name": [
+                { "@type": ["cdi:ObjectName"], "cdi:name": "measure_name" }
+              ],
+              "cdi:definition": {
+                "@type": ["cdi:InternationalString"],
+                "cdi:languageSpecificString": [
+                  {
+                    "@type": ["cdi:LanguageString"],
+                    "cdi:content": "Code naming which vital sign each row records.",
+                    "cdi:language": "en"
+                  }
+                ]
+              },
+              "cdi:hasIntendedDataType": {
+                "@type": ["cdi:ControlledVocabularyEntry"],
+                "cdi:entryValue": ["xsd:string"]
+              }
+            },
+            "cdi:refersTo": { "@id": "ex:struct/vitalsLong/comp/measureValue" }
+          },
+          {
+            "@type": ["cdi:VariableValueComponent"],
+            "@id": "ex:struct/vitalsLong/comp/measureValue",
+            "cdi:isDefinedBy": {
+              "@type": ["cdi:RepresentedVariable"],
+              "@id": "ex:struct/vitalsLong/rv/measureValue",
+              "cdi:name": [
+                { "@type": ["cdi:ObjectName"], "cdi:name": "measure_value" }
+              ],
+              "cdi:definition": {
+                "@type": ["cdi:InternationalString"],
+                "cdi:languageSpecificString": [
+                  {
+                    "@type": ["cdi:LanguageString"],
+                    "cdi:content": "Numeric value of the vital sign named by measure_name.",
+                    "cdi:language": "en"
+                  }
+                ]
+              },
+              "cdi:hasIntendedDataType": {
+                "@type": ["cdi:ControlledVocabularyEntry"],
+                "cdi:entryValue": ["xsd:decimal"]
+              }
+            }
+          },
+          {
+            "@type": ["cdi:AttributeComponent"],
+            "@id": "ex:struct/vitalsLong/comp/observedAt",
+            "cdi:qualifies": [
+              { "@id": "ex:struct/vitalsLong/comp/measureValue" }
+            ],
+            "cdi:isDefinedBy": {
+              "@type": ["cdi:RepresentedVariable"],
+              "@id": "ex:struct/vitalsLong/rv/observedAt",
+              "cdi:name": [
+                { "@type": ["cdi:ObjectName"], "cdi:name": "observed_at" }
+              ],
+              "cdi:definition": {
+                "@type": ["cdi:InternationalString"],
+                "cdi:languageSpecificString": [
+                  {
+                    "@type": ["cdi:LanguageString"],
+                    "cdi:content": "Timestamp of the observation; qualifies measure_value.",
+                    "cdi:language": "en"
+                  }
+                ]
+              },
+              "cdi:hasIntendedDataType": {
+                "@type": ["cdi:ControlledVocabularyEntry"],
+                "cdi:entryValue": ["xsd:dateTime"]
+              }
+            }
+          }
+        ],
+        "cdi:has_PrimaryKey": {
+          "@type": ["cdif:PrimaryKey"],
+          "@id": "ex:struct/vitalsLong/pk",
+          "cdif:isComposedOf": [
+            { "@id": "ex:var/patientId" },
+            { "@id": "ex:var/measureName" },
+            { "@id": "ex:var/observedAt" }
+          ]
+        }
+      }
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ex:dataset/vitalsLong/metadata",
+    "@type": ["schema:Dataset"],
+    "schema:additionalType": ["dcat:CatalogRecord"],
+    "schema:about": { "@id": "ex:dataset/vitalsLong" },
+    "dcterms:conformsTo": [
+      { "@id": "https://w3id.org/cdif/core/1.0" },
+      { "@id": "https://w3id.org/cdif/data_description/1.0" },
+      { "@id": "https://w3id.org/cdif/data_structure/1.0" }
+    ]
+  }
+}

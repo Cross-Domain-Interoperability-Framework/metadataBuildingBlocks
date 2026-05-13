@@ -1,0 +1,42 @@
+- title: Minimal CDIF Data Structure Profile
+  content: |-
+    Smallest valid Data Structure profile record: a wide-format patient
+    vitals dataset with two InstanceVariables (patientId as UnitIdentifier,
+    systolicBP as Measure) and a single distribution whose
+    cdi:isStructuredBy points by @id at a Data Structure node declared
+    elsewhere. The conformsTo array carries the three required URIs
+    (core/1.0, data_description/1.0, data_structure/1.0).
+  prefixes:
+    schema: http://schema.org/
+    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    cdif: https://cdif.org/0.1/
+    dcterms: http://purl.org/dc/terms/
+    dcat: http://www.w3.org/ns/dcat#
+  snippets:
+    - language: json
+      ref: exampleCDIFDataStructureMinimal.json
+- title: Complete CDIF Data Structure Profile (Long format)
+  content: |-
+    Fully-described long-format vital-signs dataset. Four InstanceVariables
+    in schema:variableMeasured cover the four cdif:role values used by
+    long-format data: UnitIdentifier (patientId), Descriptor (measureName),
+    ReferenceVariable (measureValue), Attribute (observedAt, qualifying
+    measureValue). The Dataset's cdif:hasPrimaryKey composes patientId +
+    measureName + observedAt as an ordered array. The distribution item is
+    typed as cdi:TabularTextDataSet + cdi:PhysicalDataSet, carries CSVW
+    physical layout properties, and inlines a full cdi:LongDataStructure
+    via cdi:isStructuredBy — the structure carries all four components
+    (matching the LongDataStructure cardinality constraint of exactly one
+    each UnitIdentifier / VariableDescriptor / VariableValue plus the
+    optional Attribute) and its own cdif:PrimaryKey.
+  prefixes:
+    schema: http://schema.org/
+    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    cdif: https://cdif.org/0.1/
+    csvw: http://www.w3.org/ns/csvw#
+    dcterms: http://purl.org/dc/terms/
+    dcat: http://www.w3.org/ns/dcat#
+    xsd: http://www.w3.org/2001/XMLSchema#
+  snippets:
+    - language: json
+      ref: exampleCDIFDataStructureComplete.json

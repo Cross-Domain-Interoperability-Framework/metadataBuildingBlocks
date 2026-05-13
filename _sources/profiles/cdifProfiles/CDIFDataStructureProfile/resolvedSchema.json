@@ -174,7 +174,7 @@
       "description": "Web Location of a page describing the dataset (landing page), typically providing links or instructions to get the actual resource content; analogous to dcat:accessURL. If a direct link is available to get the data, put in distribution/contentUrl"
     },
     "schema:distribution": {
-      "description": "specifies how to download the data in a specific format or access via a web API. This property describes where to get the data and in what format by using the schema:DataDownload type. If user must access data through a landing page, provide link to landing page in the 'url' property for the dataset",
+      "description": "Each schema:DataDownload distribution item SHOULD additionally be typed as cdi:PhysicalDataSet or one of its subclasses (cdi:TabularTextDataSet, cdi:StructuredDataSet). schema:WebAPI distribution items do not require a cdi: dataset type. Not enforced at schema level (the merge with cdifCore and cdifArchiveDistribution drops the @type constraint at profile resolution); consider a SHACL rule if runtime enforcement is needed.",
       "type": "array",
       "items": {
         "anyOf": [
@@ -526,21 +526,6 @@
           }
         ],
         "properties": {
-          "@type": {
-            "description": "Each distribution item is additionally typed as a cdi:PhysicalDataSet or cdi:LogicalDataSet (alongside the base schema:DataDownload / schema:WebAPI).",
-            "anyOf": [
-              {
-                "contains": {
-                  "const": "cdi:PhysicalDataSet"
-                }
-              },
-              {
-                "contains": {
-                  "const": "cdi:LogicalDataSet"
-                }
-              }
-            ]
-          },
           "cdi:isStructuredBy": {
             "description": "Points at the Data Structure node that describes how this distribution's bytes are organized. Inline cdifDataStructure or @id-reference to a node defined elsewhere in the document.",
             "anyOf": [
@@ -742,7 +727,7 @@
                         "items": {
                           "anyOf": [
                             {
-                              "$ref": "#/$defs/UnitIdentifierComponent"
+                              "$ref": "#/$defs/IdentifierComponent"
                             },
                             {
                               "type": "object",
@@ -871,65 +856,14 @@
                       },
                       "cdi:has_DataStructureComponent": {
                         "type": "array",
+                        "description": "A LongDataStructure must include exactly one IdentifierComponent, exactly one VariableDescriptorComponent, exactly one VariableValueComponent, plus zero or more AttributeComponents.",
                         "items": {
                           "anyOf": [
                             {
-                              "$ref": "#/$defs/UnitIdentifierComponent"
+                              "$ref": "#/$defs/IdentifierComponent"
                             },
                             {
-                              "type": "object",
-                              "description": "Role given to a represented variable in the context of a data structure to provide codes for variable identification.",
-                              "properties": {
-                                "@type": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  },
-                                  "contains": {
-                                    "const": "cdi:VariableDescriptorComponent"
-                                  },
-                                  "minItems": 1
-                                },
-                                "@id": {
-                                  "type": "string",
-                                  "description": "Identifier for this VariableDescriptorComponent node"
-                                },
-                                "cdi:isDefinedBy": {
-                                  "anyOf": [
-                                    {
-                                      "$ref": "#/$defs/DdiCdifPresentationalVariable"
-                                    },
-                                    {
-                                      "$ref": "#/$defs/id-reference"
-                                    }
-                                  ]
-                                },
-                                "cdi:refersTo": {
-                                  "anyOf": [
-                                    {
-                                      "$ref": "#/$defs/VariableValueComponent"
-                                    },
-                                    {
-                                      "$ref": "#/$defs/id-reference"
-                                    }
-                                  ]
-                                },
-                                "cdi:identifier": {
-                                  "$ref": "#/$defs/DdiCdifDataTypes_Identifier",
-                                  "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-                                },
-                                "cdi:semantic": {
-                                  "type": "array",
-                                  "items": {
-                                    "$ref": "#/$defs/PairedControlledVocabularyEntry"
-                                  },
-                                  "minItems": 1,
-                                  "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
-                                }
-                              },
-                              "required": [
-                                "@type"
-                              ]
+                              "$ref": "#/$defs/VariableDescriptorComponent"
                             },
                             {
                               "$ref": "#/$defs/VariableValueComponent"
@@ -939,6 +873,29 @@
                             }
                           ]
                         },
+                        "allOf": [
+                          {
+                            "contains": {
+                              "$ref": "#/$defs/IdentifierComponent"
+                            },
+                            "minContains": 1,
+                            "maxContains": 1
+                          },
+                          {
+                            "contains": {
+                              "$ref": "#/$defs/VariableDescriptorComponent"
+                            },
+                            "minContains": 1,
+                            "maxContains": 1
+                          },
+                          {
+                            "contains": {
+                              "$ref": "#/$defs/VariableValueComponent"
+                            },
+                            "minContains": 1,
+                            "maxContains": 1
+                          }
+                        ],
                         "minItems": 3
                       },
                       "cdi:has_PrimaryKey": {
@@ -1021,11 +978,11 @@
             "type": "string",
             "description": "The character set used in the distribution (e.g., UTF-8, ASCII)."
           },
-          "cdi:fileSize": {
+          "cdif:fileSize": {
             "type": "number",
             "description": "The size of the distribution file."
           },
-          "cdi:fileSizeUofM": {
+          "cdif:fileSizeUofM": {
             "type": "string",
             "description": "Unit of measure for the file size (e.g., bytes, KB, MB, GB)."
           }
@@ -1710,6 +1667,15 @@
             }
           }
         },
+        "schema:variableMeasured": {
+          "items": {
+            "properties": {
+              "cdif:role": false,
+              "cdi:qualifies": false
+            },
+            "description": "In the Data Structure profile, variable role is encoded by the component class type (IdentifierComponent, MeasureComponent, AttributeComponent, DimensionComponent, VariableValueComponent, VariableDescriptorComponent) on cdi:isStructuredBy, and the attribute-qualifies-measure relationship is encoded at the component level (AttributeComponent.cdi:qualifies pointing at the qualified component). Carrying cdif:role or cdi:qualifies on the InstanceVariable would be redundant and is therefore disallowed at this profile level."
+          }
+        },
         "schema:distribution": {
           "items": {
             "required": [
@@ -2135,7 +2101,7 @@
           },
           "description": "identifier or name for the data type concept."
         },
-        "cdi:role": {
+        "cdif:role": {
           "type": "string",
           "enum": [
             "UnitIdentifier",
@@ -2777,7 +2743,7 @@
       "description": "Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.",
       "anyOf": [
         {
-          "$ref": "#/$defs/UnitIdentifierComponent"
+          "$ref": "#/$defs/IdentifierComponent"
         },
         {
           "type": "object",
@@ -2873,59 +2839,7 @@
           "$ref": "#/$defs/VariableValueComponent"
         },
         {
-          "type": "object",
-          "description": "Role given to a represented variable in the context of a data structure to provide codes for variable identification.",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:VariableDescriptorComponent"
-              },
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string",
-              "description": "Identifier for this VariableDescriptorComponent node"
-            },
-            "cdi:isDefinedBy": {
-              "anyOf": [
-                {
-                  "$ref": "#/$defs/DdiCdifPresentationalVariable"
-                },
-                {
-                  "$ref": "#/$defs/id-reference"
-                }
-              ]
-            },
-            "cdi:refersTo": {
-              "anyOf": [
-                {
-                  "$ref": "#/$defs/VariableValueComponent"
-                },
-                {
-                  "$ref": "#/$defs/id-reference"
-                }
-              ]
-            },
-            "cdi:identifier": {
-              "$ref": "#/$defs/DdiCdifDataTypes_Identifier",
-              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-            },
-            "cdi:semantic": {
-              "type": "array",
-              "items": {
-                "$ref": "#/$defs/PairedControlledVocabularyEntry"
-              },
-              "minItems": 1,
-              "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
-            }
-          },
-          "required": [
-            "@type"
-          ]
+          "$ref": "#/$defs/VariableDescriptorComponent"
         }
       ]
     },
@@ -7955,7 +7869,7 @@
         "@id"
       ]
     },
-    "UnitIdentifierComponent": {
+    "IdentifierComponent": {
       "type": "object",
       "description": "Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.",
       "properties": {
@@ -7965,13 +7879,13 @@
             "type": "string"
           },
           "contains": {
-            "const": "cdi:UnitIdentifierComponent"
+            "const": "cdi:IdentifierComponent"
           },
           "minItems": 1
         },
         "@id": {
           "type": "string",
-          "description": "Identifier for this UnitIdentifierComponent node"
+          "description": "Identifier for this IdentifierComponent node"
         },
         "cdi:isDefinedBy": {
           "anyOf": [
@@ -8121,6 +8035,61 @@
               "$ref": "#/$defs/id-reference"
             }
           ]
+        },
+        "cdi:semantic": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PairedControlledVocabularyEntry"
+          },
+          "minItems": 1,
+          "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "VariableDescriptorComponent": {
+      "type": "object",
+      "description": "Role given to a represented variable in the context of a data structure to provide codes for variable identification.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:VariableDescriptorComponent"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this VariableDescriptorComponent node"
+        },
+        "cdi:isDefinedBy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DdiCdifPresentationalVariable"
+            },
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:refersTo": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/VariableValueComponent"
+            },
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/DdiCdifDataTypes_Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
         },
         "cdi:semantic": {
           "type": "array",
