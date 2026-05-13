@@ -27,10 +27,92 @@ Component files may optionally include CDIF data description extensions to descr
 
 ## Examples
 
-### Example CDIF archive distribution.
-Example DataDownload distribution for a zip archive containing multiple
+### Minimal CDIF Archive
+Bare DataDownload archive with a single MediaObject part — the smallest
+shape that exercises the schema:hasPart pattern.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/"
+  },
+  "@type": ["schema:DataDownload"],
+  "schema:name": "Geochemistry data archive",
+  "schema:contentUrl": "https://example.org/data/geochem.zip",
+  "schema:encodingFormat": ["application/zip"],
+  "schema:hasPart": [
+    {
+      "@id": "#sample-data",
+      "@type": ["schema:MediaObject"],
+      "schema:name": "sample.csv",
+      "schema:encodingFormat": ["text/csv"]
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/"
+    }
+  ],
+  "@type": [
+    "schema:DataDownload"
+  ],
+  "schema:name": "Geochemistry data archive",
+  "schema:contentUrl": "https://example.org/data/geochem.zip",
+  "schema:encodingFormat": [
+    "application/zip"
+  ],
+  "schema:hasPart": [
+    {
+      "@id": "#sample-data",
+      "@type": [
+        "schema:MediaObject"
+      ],
+      "schema:name": "sample.csv",
+      "schema:encodingFormat": [
+        "text/csv"
+      ]
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix schema1: <http://schema.org/> .
+
+<file:///github/workspace/#sample-data> a schema1:MediaObject ;
+    schema1:encodingFormat "text/csv" ;
+    schema1:name "sample.csv" .
+
+[] a schema1:DataDownload ;
+    schema1:contentUrl "https://example.org/data/geochem.zip" ;
+    schema1:encodingFormat "application/zip" ;
+    schema1:hasPart <file:///github/workspace/#sample-data> ;
+    schema1:name "Geochemistry data archive" .
+
+
+```
+
+
+### Complete CDIF Archive
+DataDownload distribution for a zip archive containing multiple
 component files described via schema:hasPart, with optional CDIF data
-description extensions (TabularTextDataSet, StructuredDataSet).
+description extensions (TabularTextDataSet, StructuredDataSet) and
+SPDX checksum.
 #### json
 ```json
 {

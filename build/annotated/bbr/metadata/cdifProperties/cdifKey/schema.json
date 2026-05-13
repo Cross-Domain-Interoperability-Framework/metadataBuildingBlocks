@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CDIF Key",
+  "description": "Profile of ddi-cdi Key/PrimaryKey: a CDIF Key is the role of an ordered set of cdi:InstanceVariables (referenced via cdifInstanceVariable) that uniquely identify a data instance. Array order of cdif:isComposedOf items is the position; no intermediate ComponentPosition wrapper.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "contains": {
+        "const": "cdif:Key"
+      },
+      "minItems": 1
+    },
+    "@id": {
+      "type": "string",
+      "description": "Identifier for this Key node."
+    },
+    "cdif:isComposedOf": {
+      "type": "array",
+      "description": "Ordered list of cdi:InstanceVariables (inline cdifInstanceVariable or @id-reference to one declared elsewhere in the dataset). Position is implicit in array order.",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.json"
+          },
+          {
+            "type": "object",
+            "description": "object reference via URI or URI fragment to a variable declared in the same document",
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "@id"
+            ]
+          }
+        ]
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "@type",
+    "cdif:isComposedOf"
+  ],
+  "x-jsonld-prefixes": {
+    "schema": "http://schema.org/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/"
+  }
+}

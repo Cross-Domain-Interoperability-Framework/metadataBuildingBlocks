@@ -323,12 +323,6 @@
         "Instrument": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument"
         },
-        "DefinedTerm": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
-        },
-        "LabeledLink": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink"
-        },
         "SpatialExtent": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent"
         },
@@ -428,69 +422,6 @@
           "required": [
             "@type",
             "schema:name"
-          ]
-        },
-        "Claim": {
-          "type": "object",
-          "description": "A statement or assertion about the dataset, such as a quality claim",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "schema:Claim"
-                ]
-              },
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string"
-            },
-            "schema:claimReviewed": {
-              "type": "string",
-              "description": "The claim being reviewed or asserted"
-            },
-            "schema:author": {
-              "description": "Author of this claim",
-              "anyOf": [
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Person"
-                },
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Organization"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "type": "string"
-                    }
-                  }
-                }
-              ]
-            },
-            "schema:datePublished": {
-              "type": "string",
-              "description": "ISO8601 date when this claim was published"
-            },
-            "schema:appearance": {
-              "description": "Where this claim appears",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/LabeledLink"
-                }
-              ]
-            }
-          },
-          "required": [
-            "@type",
-            "schema:claimReviewed"
           ]
         }
       },
@@ -1671,115 +1602,6 @@
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
-    "cdif.bbr.metadata.schemaorgProperties.definedTerm": {
-      "description": "schema.org Defined Term schema",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:DefinedTerm"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:name": {
-          "type": "string",
-          "description": "text label for the term that is useful to human user"
-        },
-        "schema:identifier": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
-            }
-          ]
-        },
-        "schema:inDefinedTermSet": {
-          "type": "string",
-          "description": "Name for the controlled vocabulary responsible for this keyword."
-        },
-        "schema:termCode": {
-          "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
-        }
-      },
-      "allOf": [
-        {
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "anyOf": [
-            {
-              "required": [
-                "schema:name"
-              ]
-            },
-            {
-              "required": [
-                "schema:identifier"
-              ]
-            },
-            {
-              "required": [
-                "schema:termCode"
-              ]
-            }
-          ]
-        }
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.labeledLink": {
-      "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "default": "schema:CreativeWork",
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:CreativeWork"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:name": {
-          "type": "string"
-        },
-        "schema:description": {
-          "type": "string"
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri"
-        }
-      },
-      "required": [
-        "@type",
-        "schema:url"
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
     "cdif.bbr.metadata.schemaorgProperties.spatialExtent": {
       "description": "Spatial Extent description for CDIF discovery profile.  Note required prefix declaration for geoSparql ( http://www.opengis.net/ont/geosparql#) and OGC simple features (sf: http://www.opengis.net/ont/sf#)",
       "type": "object",
@@ -2111,6 +1933,115 @@
         "nxs": "http://purl.org/nexusformat/definitions/"
       },
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm": {
+      "description": "schema.org Defined Term schema",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "schema:DefinedTerm"
+            ]
+          },
+          "minItems": 1
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "text label for the term that is useful to human user"
+        },
+        "schema:identifier": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
+            }
+          ]
+        },
+        "schema:inDefinedTermSet": {
+          "type": "string",
+          "description": "Name for the controlled vocabulary responsible for this keyword."
+        },
+        "schema:termCode": {
+          "type": "string",
+          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:identifier"
+              ]
+            },
+            {
+              "required": [
+                "schema:termCode"
+              ]
+            }
+          ]
+        }
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.labeledLink": {
+      "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "default": "schema:CreativeWork",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "schema:CreativeWork"
+            ]
+          },
+          "minItems": 1
+        },
+        "schema:name": {
+          "type": "string"
+        },
+        "schema:description": {
+          "type": "string"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "@type",
+        "schema:url"
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     }
   },

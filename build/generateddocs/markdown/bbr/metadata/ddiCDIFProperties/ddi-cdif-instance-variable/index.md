@@ -16,7 +16,886 @@ It also carries the conceptual-level properties shared with `ddicdiRepresentedVa
 ## Examples
 
 ### Minimal InstanceVariable
-TODO: replace with a JSON-LD example.
+Bare cdi:InstanceVariable meeting the schema's required properties:
+@type, cdi:name (ObjectName), cdi:definition (InternationalString),
+and an @id-only cdi:takesSubstantiveValuesFrom reference.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:InstanceVariable"],
+  "@id": "ex:var/sample-id",
+  "cdi:name": [
+    {
+      "@type": ["cdi:ObjectName"],
+      "cdi:name": "sample-id"
+    }
+  ],
+  "cdi:definition": {
+    "@type": ["cdi:InternationalString"],
+    "cdi:languageSpecificString": [
+      {
+        "@type": ["cdi:LanguageString"],
+        "cdi:content": "Identifier for the biological sample associated with the observation.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:takesSubstantiveValuesFrom": { "@id": "ex:value-domain/string" }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-instance-variable/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:InstanceVariable"
+  ],
+  "@id": "ex:var/sample-id",
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "sample-id"
+    }
+  ],
+  "cdi:definition": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": [
+      {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Identifier for the biological sample associated with the observation.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:takesSubstantiveValuesFrom": {
+    "@id": "ex:value-domain/string"
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/var/sample-id> a cdi:InstanceVariable ;
+    cdi:definition [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Identifier for the biological sample associated with the observation." ;
+                    cdi:language "en" ] ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "sample-id" ] ;
+    cdi:takesSubstantiveValuesFrom <https://example.org/value-domain/string> .
+
+
+```
+
+
+### Complete InstanceVariable
+Fully described InstanceVariable exercising every property: identifier,
+name(s), definition, displayLabel, role/qualifies, substantive/sentinel
+value- and concept-domain references, physical data type, intended type,
+simple/described units of measure, physical segment layout, and value
+mapping.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": [
+    "cdi:InstanceVariable"
+  ],
+  "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp",
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/dataset/oceanTemp2025/var/seaWaterTemp",
+    "cdi:ddiIdentifier": {
+      "@type": [
+        "cdi:InternationalRegistrationDataIdentifier"
+      ],
+      "cdi:dataIdentifier": "OCEAN-IV-SST-2025",
+      "cdi:registrationAuthorityIdentifier": "0000.0000.0000",
+      "cdi:versionIdentifier": "1.0.0"
+    }
+  },
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "sea_water_temperature",
+      "cdi:context": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "technical-name"
+        ]
+      }
+    }
+  ],
+  "cdi:displayLabel": [
+    {
+      "@type": [
+        "cdi:LabelForDisplay"
+      ],
+      "cdi:maxLength": 32,
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Sea Water Temperature",
+        "cdi:language": "en"
+      }
+    }
+  ],
+  "cdi:descriptiveText": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Sea water temperature column as realised in the ocean-temperature 2025 release.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:definition": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Decimal-valued sea water temperature observation as stored in the ocean-temperature 2025 dataset.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:externalDefinition": {
+    "@type": [
+      "cdi:Reference"
+    ],
+    "cdi:uri": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/",
+    "cdi:description": "BODC P01 sea water temperature parameter usage"
+  },
+  "cdi:source": {
+    "@type": [
+      "cdi:Reference"
+    ],
+    "cdi:uri": "https://example.org/processing/sst-2025-pipeline",
+    "cdi:description": "Provenance: derived by the ocean temperature 2025 processing pipeline."
+  },
+  "cdi:variableFunction": [
+    {
+      "@type": [
+        "cdi:ControlledVocabularyEntry"
+      ],
+      "cdi:entryValue": [
+        "measure"
+      ],
+      "cdi:name": "DDI-CDI variable function"
+    }
+  ],
+  "cdi:physicalDataType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "xsd:decimal"
+    ],
+    "cdi:name": "XML Schema Datatypes",
+    "cdi:entryReference": [
+      {
+        "@type": [
+          "cdi:Reference"
+        ],
+        "cdi:uri": "http://www.w3.org/2001/XMLSchema#decimal"
+      }
+    ]
+  },
+  "cdi:hasIntendedDataType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "xsd:decimal"
+    ],
+    "cdi:name": "XML Schema Datatypes"
+  },
+  "cdi:platformType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "SPSSstyle"
+    ],
+    "cdi:name": "DDI-CDI sentinel platform types"
+  },
+  "cdi:describedUnitOfMeasure": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "DEG_C"
+    ],
+    "cdi:name": "QUDT Units",
+    "cdi:entryReference": [
+      {
+        "@type": [
+          "cdi:Reference"
+        ],
+        "cdi:uri": "http://qudt.org/vocab/unit/DEG_C"
+      }
+    ]
+  },
+  "cdi:simpleUnitOfMeasure": "Cel",
+  "cdi:unitOfMeasureKind": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "temperature"
+    ]
+  },
+  "cdi:takesSubstantiveValuesFrom": {
+    "@id": "ex:vd/temperatureCelsius"
+  },
+  "cdi:takesSentinelValuesFrom": [
+    {
+      "@id": "ex:vd/temperatureSentinel"
+    }
+  ],
+  "cdi:takesSubstantiveConceptsFrom": {
+    "@id": "ex:cd/seaWaterTemperatureConcept"
+  },
+  "cdi:takesSentinelConceptsFrom": {
+    "@id": "ex:cd/temperatureSentinelConcepts"
+  },
+  "cdi:measures": {
+    "@id": "ex:ut/oceanographicStation"
+  },
+  "cdi:has_PhysicalSegmentLayout": [
+    {
+      "@type": [
+        "cdi:PhysicalSegmentLayout"
+      ],
+      "@id": "ex:dataset/oceanTemp2025/segmentLayout",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/dataset/oceanTemp2025/segmentLayout"
+      },
+      "cdi:name": [
+        {
+          "@type": [
+            "cdi:ObjectName"
+          ],
+          "cdi:name": "OceanTemp2025CSVLayout"
+        }
+      ],
+      "cdi:overview": {
+        "@type": [
+          "cdi:InternationalString"
+        ],
+        "cdi:languageSpecificString": {
+          "@type": [
+            "cdi:LanguageString"
+          ],
+          "cdi:content": "Comma-delimited UTF-8 CSV layout for ocean temperature 2025 release.",
+          "cdi:language": "en"
+        }
+      },
+      "cdi:purpose": {
+        "@type": [
+          "cdi:InternationalString"
+        ],
+        "cdi:languageSpecificString": {
+          "@type": [
+            "cdi:LanguageString"
+          ],
+          "cdi:content": "Describes the physical CSV layout in which sea water temperature values are stored.",
+          "cdi:language": "en"
+        }
+      },
+      "cdi:allowsDuplicates": false,
+      "cdi:arrayBase": 1,
+      "cdi:commentPrefix": "#",
+      "cdi:delimiter": ",",
+      "cdi:encoding": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "UTF-8"
+        ],
+        "cdi:name": "IANA character sets"
+      },
+      "cdi:escapeCharacter": "\\",
+      "cdi:hasHeader": true,
+      "cdi:headerIsCaseSensitive": false,
+      "cdi:headerRowCount": 1,
+      "cdi:isDelimited": true,
+      "cdi:isFixedWidth": false,
+      "cdi:lineTerminator": [
+        "\r\n",
+        "\n"
+      ],
+      "cdi:nullSequence": "-9999",
+      "cdi:quoteCharacter": "\"",
+      "cdi:skipBlankRows": true,
+      "cdi:skipDataColumns": 0,
+      "cdi:skipInitialSpace": true,
+      "cdi:skipRows": 0,
+      "cdi:tableDirection": "Ltr",
+      "cdi:textDirection": "Inherit",
+      "cdi:treatConsecutiveDelimitersAsOne": false,
+      "cdi:trim": "Both",
+      "cdi:isDefinedBy": [
+        {
+          "@id": "https://example.org/skos/csvLayoutConcept"
+        }
+      ],
+      "cdi:has_ValueMapping": [
+        {
+          "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp/valueMapping"
+        }
+      ]
+    }
+  ],
+  "cdi:has_ValueMapping": {
+    "@type": [
+      "cdi:ValueMapping"
+    ],
+    "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp/valueMapping",
+    "cdi:identifier": {
+      "@type": [
+        "cdi:Identifier"
+      ],
+      "cdi:uri": "https://example.org/dataset/oceanTemp2025/var/seaWaterTemp/valueMapping"
+    },
+    "cdi:decimalPositions": 2,
+    "cdi:defaultDecimalSeparator": ".",
+    "cdi:defaultDigitGroupSeparator": ",",
+    "cdi:defaultValue": "NaN",
+    "cdi:format": {
+      "@type": [
+        "cdi:ControlledVocabularyEntry"
+      ],
+      "cdi:entryValue": [
+        "#0.00"
+      ],
+      "cdi:name": "LDML number pattern"
+    },
+    "cdi:isRequired": true,
+    "cdi:length": 6,
+    "cdi:maximumLength": 8,
+    "cdi:minimumLength": 1,
+    "cdi:nullSequence": "-9999",
+    "cdi:numberPattern": "#0.00",
+    "cdi:scale": 1,
+    "cdi:physicalDataType": {
+      "@type": [
+        "cdi:ControlledVocabularyEntry"
+      ],
+      "cdi:entryValue": [
+        "xsd:decimal"
+      ]
+    }
+  },
+  "cdi:uses": [
+    {
+      "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-instance-variable/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:InstanceVariable"
+  ],
+  "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp",
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/dataset/oceanTemp2025/var/seaWaterTemp",
+    "cdi:ddiIdentifier": {
+      "@type": [
+        "cdi:InternationalRegistrationDataIdentifier"
+      ],
+      "cdi:dataIdentifier": "OCEAN-IV-SST-2025",
+      "cdi:registrationAuthorityIdentifier": "0000.0000.0000",
+      "cdi:versionIdentifier": "1.0.0"
+    }
+  },
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "sea_water_temperature",
+      "cdi:context": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "technical-name"
+        ]
+      }
+    }
+  ],
+  "cdi:displayLabel": [
+    {
+      "@type": [
+        "cdi:LabelForDisplay"
+      ],
+      "cdi:maxLength": 32,
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Sea Water Temperature",
+        "cdi:language": "en"
+      }
+    }
+  ],
+  "cdi:descriptiveText": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Sea water temperature column as realised in the ocean-temperature 2025 release.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:definition": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Decimal-valued sea water temperature observation as stored in the ocean-temperature 2025 dataset.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:externalDefinition": {
+    "@type": [
+      "cdi:Reference"
+    ],
+    "cdi:uri": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/",
+    "cdi:description": "BODC P01 sea water temperature parameter usage"
+  },
+  "cdi:source": {
+    "@type": [
+      "cdi:Reference"
+    ],
+    "cdi:uri": "https://example.org/processing/sst-2025-pipeline",
+    "cdi:description": "Provenance: derived by the ocean temperature 2025 processing pipeline."
+  },
+  "cdi:variableFunction": [
+    {
+      "@type": [
+        "cdi:ControlledVocabularyEntry"
+      ],
+      "cdi:entryValue": [
+        "measure"
+      ],
+      "cdi:name": "DDI-CDI variable function"
+    }
+  ],
+  "cdi:physicalDataType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "xsd:decimal"
+    ],
+    "cdi:name": "XML Schema Datatypes",
+    "cdi:entryReference": [
+      {
+        "@type": [
+          "cdi:Reference"
+        ],
+        "cdi:uri": "http://www.w3.org/2001/XMLSchema#decimal"
+      }
+    ]
+  },
+  "cdi:hasIntendedDataType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "xsd:decimal"
+    ],
+    "cdi:name": "XML Schema Datatypes"
+  },
+  "cdi:platformType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "SPSSstyle"
+    ],
+    "cdi:name": "DDI-CDI sentinel platform types"
+  },
+  "cdi:describedUnitOfMeasure": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "DEG_C"
+    ],
+    "cdi:name": "QUDT Units",
+    "cdi:entryReference": [
+      {
+        "@type": [
+          "cdi:Reference"
+        ],
+        "cdi:uri": "http://qudt.org/vocab/unit/DEG_C"
+      }
+    ]
+  },
+  "cdi:simpleUnitOfMeasure": "Cel",
+  "cdi:unitOfMeasureKind": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "temperature"
+    ]
+  },
+  "cdi:takesSubstantiveValuesFrom": {
+    "@id": "ex:vd/temperatureCelsius"
+  },
+  "cdi:takesSentinelValuesFrom": [
+    {
+      "@id": "ex:vd/temperatureSentinel"
+    }
+  ],
+  "cdi:takesSubstantiveConceptsFrom": {
+    "@id": "ex:cd/seaWaterTemperatureConcept"
+  },
+  "cdi:takesSentinelConceptsFrom": {
+    "@id": "ex:cd/temperatureSentinelConcepts"
+  },
+  "cdi:measures": {
+    "@id": "ex:ut/oceanographicStation"
+  },
+  "cdi:has_PhysicalSegmentLayout": [
+    {
+      "@type": [
+        "cdi:PhysicalSegmentLayout"
+      ],
+      "@id": "ex:dataset/oceanTemp2025/segmentLayout",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/dataset/oceanTemp2025/segmentLayout"
+      },
+      "cdi:name": [
+        {
+          "@type": [
+            "cdi:ObjectName"
+          ],
+          "cdi:name": "OceanTemp2025CSVLayout"
+        }
+      ],
+      "cdi:overview": {
+        "@type": [
+          "cdi:InternationalString"
+        ],
+        "cdi:languageSpecificString": {
+          "@type": [
+            "cdi:LanguageString"
+          ],
+          "cdi:content": "Comma-delimited UTF-8 CSV layout for ocean temperature 2025 release.",
+          "cdi:language": "en"
+        }
+      },
+      "cdi:purpose": {
+        "@type": [
+          "cdi:InternationalString"
+        ],
+        "cdi:languageSpecificString": {
+          "@type": [
+            "cdi:LanguageString"
+          ],
+          "cdi:content": "Describes the physical CSV layout in which sea water temperature values are stored.",
+          "cdi:language": "en"
+        }
+      },
+      "cdi:allowsDuplicates": false,
+      "cdi:arrayBase": 1,
+      "cdi:commentPrefix": "#",
+      "cdi:delimiter": ",",
+      "cdi:encoding": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "UTF-8"
+        ],
+        "cdi:name": "IANA character sets"
+      },
+      "cdi:escapeCharacter": "\\",
+      "cdi:hasHeader": true,
+      "cdi:headerIsCaseSensitive": false,
+      "cdi:headerRowCount": 1,
+      "cdi:isDelimited": true,
+      "cdi:isFixedWidth": false,
+      "cdi:lineTerminator": [
+        "\r\n",
+        "\n"
+      ],
+      "cdi:nullSequence": "-9999",
+      "cdi:quoteCharacter": "\"",
+      "cdi:skipBlankRows": true,
+      "cdi:skipDataColumns": 0,
+      "cdi:skipInitialSpace": true,
+      "cdi:skipRows": 0,
+      "cdi:tableDirection": "Ltr",
+      "cdi:textDirection": "Inherit",
+      "cdi:treatConsecutiveDelimitersAsOne": false,
+      "cdi:trim": "Both",
+      "cdi:isDefinedBy": [
+        {
+          "@id": "https://example.org/skos/csvLayoutConcept"
+        }
+      ],
+      "cdi:has_ValueMapping": [
+        {
+          "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp/valueMapping"
+        }
+      ]
+    }
+  ],
+  "cdi:has_ValueMapping": {
+    "@type": [
+      "cdi:ValueMapping"
+    ],
+    "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp/valueMapping",
+    "cdi:identifier": {
+      "@type": [
+        "cdi:Identifier"
+      ],
+      "cdi:uri": "https://example.org/dataset/oceanTemp2025/var/seaWaterTemp/valueMapping"
+    },
+    "cdi:decimalPositions": 2,
+    "cdi:defaultDecimalSeparator": ".",
+    "cdi:defaultDigitGroupSeparator": ",",
+    "cdi:defaultValue": "NaN",
+    "cdi:format": {
+      "@type": [
+        "cdi:ControlledVocabularyEntry"
+      ],
+      "cdi:entryValue": [
+        "#0.00"
+      ],
+      "cdi:name": "LDML number pattern"
+    },
+    "cdi:isRequired": true,
+    "cdi:length": 6,
+    "cdi:maximumLength": 8,
+    "cdi:minimumLength": 1,
+    "cdi:nullSequence": "-9999",
+    "cdi:numberPattern": "#0.00",
+    "cdi:scale": 1,
+    "cdi:physicalDataType": {
+      "@type": [
+        "cdi:ControlledVocabularyEntry"
+      ],
+      "cdi:entryValue": [
+        "xsd:decimal"
+      ]
+    }
+  },
+  "cdi:uses": [
+    {
+      "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> a cdi:InstanceVariable ;
+    cdi:definition [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Decimal-valued sea water temperature observation as stored in the ocean-temperature 2025 dataset." ;
+                    cdi:language "en" ] ] ;
+    cdi:describedUnitOfMeasure [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryReference [ a cdi:Reference ;
+                    cdi:uri "http://qudt.org/vocab/unit/DEG_C" ] ;
+            cdi:entryValue "DEG_C" ;
+            cdi:name "QUDT Units" ] ;
+    cdi:descriptiveText [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Sea water temperature column as realised in the ocean-temperature 2025 release." ;
+                    cdi:language "en" ] ] ;
+    cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Sea Water Temperature" ;
+                    cdi:language "en" ] ;
+            cdi:maxLength 32 ] ;
+    cdi:externalDefinition [ a cdi:Reference ;
+            cdi:description "BODC P01 sea water temperature parameter usage" ;
+            cdi:uri "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/" ] ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:decimal" ;
+            cdi:name "XML Schema Datatypes" ] ;
+    cdi:has_PhysicalSegmentLayout <https://example.org/dataset/oceanTemp2025/segmentLayout> ;
+    cdi:has_ValueMapping <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp/valueMapping> ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:ddiIdentifier [ a cdi:InternationalRegistrationDataIdentifier ;
+                    cdi:dataIdentifier "OCEAN-IV-SST-2025" ;
+                    cdi:registrationAuthorityIdentifier "0000.0000.0000" ;
+                    cdi:versionIdentifier "1.0.0" ] ;
+            cdi:uri "https://example.org/dataset/oceanTemp2025/var/seaWaterTemp" ] ;
+    cdi:measures <https://example.org/ut/oceanographicStation> ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:context [ a cdi:ControlledVocabularyEntry ;
+                    cdi:entryValue "technical-name" ] ;
+            cdi:name "sea_water_temperature" ] ;
+    cdi:physicalDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryReference [ a cdi:Reference ;
+                    cdi:uri "http://www.w3.org/2001/XMLSchema#decimal" ] ;
+            cdi:entryValue "xsd:decimal" ;
+            cdi:name "XML Schema Datatypes" ] ;
+    cdi:platformType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "SPSSstyle" ;
+            cdi:name "DDI-CDI sentinel platform types" ] ;
+    cdi:simpleUnitOfMeasure "Cel" ;
+    cdi:source [ a cdi:Reference ;
+            cdi:description "Provenance: derived by the ocean temperature 2025 processing pipeline." ;
+            cdi:uri "https://example.org/processing/sst-2025-pipeline" ] ;
+    cdi:takesSentinelConceptsFrom <https://example.org/cd/temperatureSentinelConcepts> ;
+    cdi:takesSentinelValuesFrom <https://example.org/vd/temperatureSentinel> ;
+    cdi:takesSubstantiveConceptsFrom <https://example.org/cd/seaWaterTemperatureConcept> ;
+    cdi:takesSubstantiveValuesFrom <https://example.org/vd/temperatureCelsius> ;
+    cdi:unitOfMeasureKind [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "temperature" ] ;
+    cdi:uses <http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/> ;
+    cdi:variableFunction [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "measure" ;
+            cdi:name "DDI-CDI variable function" ] .
+
+<https://example.org/dataset/oceanTemp2025/segmentLayout> a cdi:PhysicalSegmentLayout ;
+    cdi:allowsDuplicates false ;
+    cdi:arrayBase 1 ;
+    cdi:commentPrefix "#" ;
+    cdi:delimiter "," ;
+    cdi:encoding [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "UTF-8" ;
+            cdi:name "IANA character sets" ] ;
+    cdi:escapeCharacter "\\" ;
+    cdi:hasHeader true ;
+    cdi:has_ValueMapping <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp/valueMapping> ;
+    cdi:headerIsCaseSensitive false ;
+    cdi:headerRowCount 1 ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/dataset/oceanTemp2025/segmentLayout" ] ;
+    cdi:isDefinedBy <https://example.org/skos/csvLayoutConcept> ;
+    cdi:isDelimited true ;
+    cdi:isFixedWidth false ;
+    cdi:lineTerminator """
+""",
+        """\r
+""" ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "OceanTemp2025CSVLayout" ] ;
+    cdi:nullSequence "-9999" ;
+    cdi:overview [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Comma-delimited UTF-8 CSV layout for ocean temperature 2025 release." ;
+                    cdi:language "en" ] ] ;
+    cdi:purpose [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Describes the physical CSV layout in which sea water temperature values are stored." ;
+                    cdi:language "en" ] ] ;
+    cdi:quoteCharacter "\"" ;
+    cdi:skipBlankRows true ;
+    cdi:skipDataColumns 0 ;
+    cdi:skipInitialSpace true ;
+    cdi:skipRows 0 ;
+    cdi:tableDirection "Ltr" ;
+    cdi:textDirection "Inherit" ;
+    cdi:treatConsecutiveDelimitersAsOne false ;
+    cdi:trim "Both" .
+
+<https://example.org/dataset/oceanTemp2025/var/seaWaterTemp/valueMapping> a cdi:ValueMapping ;
+    cdi:decimalPositions 2 ;
+    cdi:defaultDecimalSeparator "." ;
+    cdi:defaultDigitGroupSeparator "," ;
+    cdi:defaultValue "NaN" ;
+    cdi:format [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "#0.00" ;
+            cdi:name "LDML number pattern" ] ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/dataset/oceanTemp2025/var/seaWaterTemp/valueMapping" ] ;
+    cdi:isRequired true ;
+    cdi:length 6 ;
+    cdi:maximumLength 8 ;
+    cdi:minimumLength 1 ;
+    cdi:nullSequence "-9999" ;
+    cdi:numberPattern "#0.00" ;
+    cdi:physicalDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:decimal" ] ;
+    cdi:scale 1 .
+
+
+```
+
 ## Schema
 
 ```yaml
@@ -35,109 +914,6 @@ properties:
   '@id':
     type: string
     description: Identifier for this InstanceVariable node
-  cdi:has_PhysicalSegmentLayout:
-    type: array
-    items:
-      anyOf:
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-physical-segment-layout/schema.yaml
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-    minItems: 1
-  cdi:has_ValueMapping:
-    anyOf:
-    - $ref: '#/$defs/ValueMapping'
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-  cdi:physicalDataType:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
-    description: The data type of this variable. Supports the optional use of an external
-      controlled vocabulary.
-  cdi:platformType:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
-    description: Describes the application or technical system context in which the
-      variable has been realized. Typically a statistical processing package or other
-      processing environment.
-  cdi:source:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Reference
-    description: Reference capturing provenance information.
-  cdi:variableFunction:
-    type: array
-    items:
-      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
-    minItems: 1
-    description: Immutable characteristic of the variable such as geographic designator,
-      weight, temporal designation, etc.
-  cdi:describedUnitOfMeasure:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
-    description: The unit in which the data values are measured (kg, pound, euro),
-      expressed as a value from a controlled system of entries (i.e., QDT). Supports
-      the provision of an identifier for the entry in the authoritative source (a
-      URI, etc.), and the specific vocabulary.
-  cdi:hasIntendedDataType:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
-    description: The data type intended to be used by this variable. Supports the
-      optional use of an external controlled vocabulary.
-  cdi:takesSentinelValuesFrom:
-    type: array
-    items:
-      anyOf:
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-value-domain/schema.yaml
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-    minItems: 1
-  cdi:takesSubstantiveValuesFrom:
-    anyOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-value-domain/schema.yaml
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-  cdi:simpleUnitOfMeasure:
-    type: string
-    description: The unit in which the data values are measured (kg, pound, euro),
-      expressed as a simple string, in cases where no additional information is available
-      (in the legacy system) or needed (as in the case of broad agreement within the
-      community of use [i.e., ISO country codes, currencies, etc. in SDMX])
-  cdi:descriptiveText:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString
-    description: A short natural language account of the characteristics of the object.
-  cdi:takesSentinelConceptsFrom:
-    anyOf:
-    - $ref: '#/$defs/SentinelConceptualDomain'
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-  cdi:takesSubstantiveConceptsFrom:
-    anyOf:
-    - $ref: '#/$defs/SubstantiveConceptualDomain'
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-  cdi:measures:
-    anyOf:
-    - $ref: '#/$defs/UnitType'
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-  cdi:unitOfMeasureKind:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
-    description: Kind of unit of measure, so that it may be prone to translation to
-      equivalent UOMs. Example values include "acceleration," "temperature," "salinity",
-      etc. This description exists at the conceptual level, indicating a limitation
-      on the type of representations which may be used for the variable as it is made
-      more concrete.
-  cdi:definition:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString
-    description: Natural language statement conveying the meaning of a concept, differentiating
-      it from other concepts. Supports the use of multiple languages and structured
-      text. 'externalDefinition' can't be used if 'definition' is used.
-  cdi:displayLabel:
-    type: array
-    items:
-      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/LabelForDisplay
-    minItems: 1
-    description: A human-readable display label for the object. Supports the use of
-      multiple languages. Repeat for labels with different content, for example, labels
-      with differing length limitations.
-  cdi:externalDefinition:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Reference
-    description: A reference to an external definition of a concept (that is, a concept
-      which is described outside the content of the DDI-CDI metadata description).
-      An example is a SKOS concept. The definition property is assumed to duplicate
-      the external one referenced if externalDefinition is used. Other corresponding
-      properties are assumed to be included unchanged if used.
-  cdi:identifier:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
-    description: Identifier for objects requiring short- or long-lasting referencing
-      and management.
   cdi:name:
     type: array
     items:
@@ -146,15 +922,64 @@ properties:
     description: Human understandable name (linguistic signifier, word, phrase, or
       mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided
       to specify usage.
-  cdi:uses:
+  cdi:definition:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString
+    description: Natural language statement conveying the meaning of a concept, differentiating
+      it from other concepts. Supports the use of multiple languages and structured
+      text. 'externalDefinition' can't be used if 'definition' is used.
+  cdi:describedUnitOfMeasure:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
+    description: The unit in which the data values are measured (kg, pound, euro),
+      expressed as a value from a controlled system of entries (i.e., QDT). Supports
+      the provision of an identifier for the entry in the authoritative source (a
+      URI, etc.), and the specific vocabulary.
+  cdi:unitOfMeasureKind:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
+    description: Kind of unit of measure, so that it may be prone to translation to
+      equivalent UOMs. Example values include "acceleration," "temperature," "salinity",
+      etc. This description exists at the conceptual level, indicating a limitation
+      on the type of representations which may be used for the variable as it is made
+      more concrete.
+  cdi:measures:
+    anyOf:
+    - $ref: '#/$defs/UnitType'
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+  cdi:takesSubstantiveValuesFrom:
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-value-domain/schema.yaml
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+  cdi:takesSentinelValuesFrom:
     type: array
     items:
       anyOf:
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-value-domain/schema.yaml
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
     minItems: 1
+  cdi:physicalDataType:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
+    description: The data type of this variable. Supports the optional use of an external
+      controlled vocabulary.
+  cdi:role:
+    type: string
+    enum:
+    - MeasureComponent
+    - AttributeComponent
+    - DimensionComponent
+    - DescriptorComponent
+    - ReferenceValueComponent
+    description: Specifies the relation of the variable to the data structure, corresponding
+      to DDI-CDI DataStructureComponent subtypes.
+  cdi:qualifies:
+    type: object
+    properties:
+      '@id':
+        type: string
+    description: reference to an instance variable defined for this dataset
 required:
 - '@type'
+- cdi:name
+- cdi:definition
+- cdi:takesSubstantiveValuesFrom
 $defs:
   ConceptSystem:
     type: object
@@ -241,7 +1066,7 @@ $defs:
         minItems: 1
       cdi:isDescribedBy:
         anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifVariableMeasured/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
     required:
     - '@type'
@@ -707,11 +1532,6 @@ Links to the schema:
   "@context": {
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "schema": "http://schema.org/",
-    "spdx": "http://spdx.org/rdf/terms#",
-    "xas": "https://xas.org/dictionary/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
-    "prov": "http://www.w3.org/ns/prov#",
     "@version": 1.1
   }
 }

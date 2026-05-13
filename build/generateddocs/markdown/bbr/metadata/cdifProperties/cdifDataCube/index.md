@@ -15,8 +15,51 @@ Describes structured data files-- hierarchical datastructures like JSON, and mul
 
 ## Examples
 
-### Example Data Cube
-Example multi-dimensional data cube structure with physical mappings.
+### Minimal Data Cube
+Bare cdi:StructuredDataSet — schema only constrains @type to contain
+that const.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+  },
+  "@type": ["cdi:StructuredDataSet"]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataCube/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    }
+  ],
+  "@type": [
+    "cdi:StructuredDataSet"
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+[] a cdi:StructuredDataSet .
+
+
+```
+
+
+### Complete Data Cube
+Multi-dimensional data cube with cdi:hasPhysicalMapping entries that
+use cdi:locator HDF5-style paths for each variable.
 #### json
 ```json
 {
@@ -99,14 +142,14 @@ Example multi-dimensional data cube structure with physical mappings.
 
 [] a cdi:StructuredDataSet ;
     cdi:hasPhysicalMapping [ cdi:format "float64" ;
-            cdi:formats_InstanceVariable ex:var-temperature ;
-            cdi:index 0 ;
-            cdi:locator "/temperature[*][*]" ;
-            cdi:physicalDataType "Numeric" ],
-        [ cdi:format "float64" ;
             cdi:formats_InstanceVariable ex:var-pressure ;
             cdi:index 1 ;
             cdi:locator "/pressure[*][*]" ;
+            cdi:physicalDataType "Numeric" ],
+        [ cdi:format "float64" ;
+            cdi:formats_InstanceVariable ex:var-temperature ;
+            cdi:index 0 ;
+            cdi:locator "/temperature[*][*]" ;
             cdi:physicalDataType "Numeric" ] .
 
 

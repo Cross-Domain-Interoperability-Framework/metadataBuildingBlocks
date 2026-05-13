@@ -16,7 +16,179 @@ Both `cdi:content` and `cdi:identifies` are required per Appendix 4 of the CDIF 
 ## Examples
 
 ### Minimal Descriptor
-TODO: replace with a JSON-LD example.
+Bare Descriptor with the required cdi:content code value and an
+@id-only cdi:identifies reference to the InstanceVariable.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:Descriptor"],
+  "@id": "ex:dataset/longClinical/descriptor/temp",
+  "cdi:content": "Temp",
+  "cdi:identifies": {
+    "@id": "ex:dataset/longClinical/var/temperature"
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-descriptor/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:Descriptor"
+  ],
+  "@id": "ex:dataset/longClinical/descriptor/temp",
+  "cdi:content": "Temp",
+  "cdi:identifies": {
+    "@id": "ex:dataset/longClinical/var/temperature"
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/dataset/longClinical/descriptor/temp> a cdi:Descriptor ;
+    cdi:content "Temp" ;
+    cdi:identifies <https://example.org/dataset/longClinical/var/temperature> .
+
+
+```
+
+
+### Complete Descriptor
+Long Data Set Descriptor for the "Temp" row identifying a body-temperature
+InstanceVariable with full schema.org/cdi structure inlined — exercises
+every property of the Descriptor (cdi:content, cdi:identifies inline form)
+and demonstrates a fully-described target InstanceVariable.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/",
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@type": ["cdi:Descriptor"],
+  "@id": "ex:dataset/longClinical/descriptor/temp",
+  "cdi:content": "Temp",
+  "cdi:identifies": {
+    "@type": [
+      "cdi:InstanceVariable",
+      "schema:PropertyValue"
+    ],
+    "@id": "ex:dataset/longClinical/var/temperature",
+    "schema:name": "temperature",
+    "schema:alternateName": ["Body temperature"],
+    "schema:description": "Patient body temperature in degrees Celsius.",
+    "schema:unitText": "°C",
+    "cdi:identifier": {
+      "@type": ["cdi:Identifier"],
+      "cdi:uri": "https://example.org/dataset/longClinical/var/temperature"
+    },
+    "cdi:physicalDataType": ["xsd:decimal"],
+    "cdi:simpleUnitOfMeasure": "°C",
+    "cdi:name": "temperature",
+    "cdi:displayLabel": "Body temperature",
+    "cdi:role": "ReferenceValueComponent"
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "schema": "http://schema.org/",
+      "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-descriptor/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/",
+      "schema": "http://schema.org/",
+      "xsd": "http://www.w3.org/2001/XMLSchema#"
+    }
+  ],
+  "@type": [
+    "cdi:Descriptor"
+  ],
+  "@id": "ex:dataset/longClinical/descriptor/temp",
+  "cdi:content": "Temp",
+  "cdi:identifies": {
+    "@type": [
+      "cdi:InstanceVariable",
+      "schema:PropertyValue"
+    ],
+    "@id": "ex:dataset/longClinical/var/temperature",
+    "schema:name": "temperature",
+    "schema:alternateName": [
+      "Body temperature"
+    ],
+    "schema:description": "Patient body temperature in degrees Celsius.",
+    "schema:unitText": "\u00b0C",
+    "cdi:identifier": {
+      "@type": [
+        "cdi:Identifier"
+      ],
+      "cdi:uri": "https://example.org/dataset/longClinical/var/temperature"
+    },
+    "cdi:physicalDataType": [
+      "xsd:decimal"
+    ],
+    "cdi:simpleUnitOfMeasure": "\u00b0C",
+    "cdi:name": "temperature",
+    "cdi:displayLabel": "Body temperature",
+    "cdi:role": "ReferenceValueComponent"
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix schema1: <http://schema.org/> .
+
+<https://example.org/dataset/longClinical/descriptor/temp> a cdi:Descriptor ;
+    cdi:content "Temp" ;
+    cdi:identifies <https://example.org/dataset/longClinical/var/temperature> .
+
+<https://example.org/dataset/longClinical/var/temperature> a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "Body temperature" ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/dataset/longClinical/var/temperature" ] ;
+    cdi:name "temperature" ;
+    cdi:physicalDataType "xsd:decimal" ;
+    cdi:role "ReferenceValueComponent" ;
+    cdi:simpleUnitOfMeasure "°C" ;
+    schema1:alternateName "Body temperature" ;
+    schema1:description "Patient body temperature in degrees Celsius." ;
+    schema1:name "temperature" ;
+    schema1:unitText "°C" .
+
+
+```
+
 ## Schema
 
 ```yaml
@@ -41,11 +213,11 @@ properties:
   '@id':
     type: string
     description: Identifier for this Descriptor node.
-  cdi:content:
+  cdif:content:
     type: string
     description: The descriptor value appearing in the Long Data Set, expressed as
       a simple string (e.g. "Temp", "Pulse", "Weight").
-  cdi:identifies:
+  cdif:identifies:
     anyOf:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-instance-variable/schema.yaml
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
@@ -75,11 +247,6 @@ Links to the schema:
   "@context": {
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "schema": "http://schema.org/",
-    "spdx": "http://spdx.org/rdf/terms#",
-    "xas": "https://xas.org/dictionary/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
-    "prov": "http://www.w3.org/ns/prov#",
     "@version": 1.1
   }
 }

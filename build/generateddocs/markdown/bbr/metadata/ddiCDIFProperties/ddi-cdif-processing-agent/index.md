@@ -15,9 +15,54 @@ ProcessingAgent is one of the four agent subtypes composed by `ddicdiAgent`. It 
 
 ## Examples
 
-### Example DDI-CDI ProcessingAgent.
-Demonstrates a ProcessingAgent with activity and environment
-references, identifier, and purpose.
+### Minimal ProcessingAgent
+Bare cdi:ProcessingAgent — schema only requires @type.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:ProcessingAgent"],
+  "@id": "ex:processing-agent/etl-runner"
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-processing-agent/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:ProcessingAgent"
+  ],
+  "@id": "ex:processing-agent/etl-runner"
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/processing-agent/etl-runner> a cdi:ProcessingAgent .
+
+
+```
+
+
+### Complete ProcessingAgent
+ProcessingAgent with activity and environment references, identifier,
+and purpose.
 #### json
 ```json
 {

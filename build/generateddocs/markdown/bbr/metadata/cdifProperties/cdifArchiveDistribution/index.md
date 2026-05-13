@@ -19,8 +19,119 @@ Adds archive distribution as a valid `schema:distribution` item type. The `cdifO
 
 ## Examples
 
-### Example CDIF Archive Distribution record
-Example dataset with an archive distribution containing component files.
+### Minimal CDIF Archive Distribution
+Bare schema:Dataset with one archive distribution exercising
+cdifArchive at the smallest valid shape.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["schema:Dataset"],
+  "@id": "ex:dataset/minimal-archived",
+  "schema:name": "Minimal archived dataset",
+  "schema:subjectOf": {
+    "dcterms:conformsTo": [
+      { "@id": "https://w3id.org/cdif/manifest/1.0" }
+    ]
+  },
+  "schema:distribution": [
+    {
+      "@type": ["schema:DataDownload"],
+      "schema:name": "Bundle",
+      "schema:contentUrl": "https://example.org/data/bundle.zip",
+      "schema:encodingFormat": ["application/zip"],
+      "schema:hasPart": [
+        {
+          "@id": "#part-1",
+          "@type": ["schema:MediaObject"],
+          "schema:name": "data.csv"
+        }
+      ]
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "schema:Dataset"
+  ],
+  "@id": "ex:dataset/minimal-archived",
+  "schema:name": "Minimal archived dataset",
+  "schema:subjectOf": {
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/manifest/1.0"
+      }
+    ]
+  },
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload"
+      ],
+      "schema:name": "Bundle",
+      "schema:contentUrl": "https://example.org/data/bundle.zip",
+      "schema:encodingFormat": [
+        "application/zip"
+      ],
+      "schema:hasPart": [
+        {
+          "@id": "#part-1",
+          "@type": [
+            "schema:MediaObject"
+          ],
+          "schema:name": "data.csv"
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix schema1: <http://schema.org/> .
+
+<https://example.org/dataset/minimal-archived> a schema1:Dataset ;
+    schema1:distribution [ a schema1:DataDownload ;
+            schema1:contentUrl "https://example.org/data/bundle.zip" ;
+            schema1:encodingFormat "application/zip" ;
+            schema1:hasPart <file:///github/workspace/#part-1> ;
+            schema1:name "Bundle" ] ;
+    schema1:name "Minimal archived dataset" ;
+    schema1:subjectOf [ dcterms:conformsTo <https://w3id.org/cdif/manifest/1.0> ] .
+
+<file:///github/workspace/#part-1> a schema1:MediaObject ;
+    schema1:name "data.csv" .
+
+
+```
+
+
+### Complete CDIF Archive Distribution
+Geochemistry-package Dataset with full schema:subjectOf CatalogRecord,
+SPDX checksum on the archive distribution, and a full hasPart manifest.
 #### json
 ```json
 {
@@ -127,6 +238,12 @@ Example dataset with an archive distribution containing component files.
 ```jsonld
 {
   "@context": [
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "spdx": "http://spdx.org/rdf/terms#"
+    },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchiveDistribution/context.jsonld",
     {
       "schema": "http://schema.org/",

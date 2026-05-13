@@ -15,9 +15,54 @@ Individual is one of the four concrete agent types composed by `ddicdiAgent`; al
 
 ## Examples
 
-### Example DDI-CDI Individual agent.
-Demonstrates an Individual (person) with structured name,
-contact information, and ORCID identifier.
+### Minimal Individual
+Bare cdi:Individual — schema only requires @type.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:Individual"],
+  "@id": "ex:person/jane-doe"
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-individual/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:Individual"
+  ],
+  "@id": "ex:person/jane-doe"
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/person/jane-doe> a cdi:Individual .
+
+
+```
+
+
+### Complete Individual
+Individual (person) with structured name, contact information,
+and ORCID identifier.
 #### json
 ```json
 {

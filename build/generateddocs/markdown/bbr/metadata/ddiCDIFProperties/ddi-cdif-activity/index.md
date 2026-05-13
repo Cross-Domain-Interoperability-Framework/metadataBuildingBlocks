@@ -15,7 +15,65 @@ Each step may receive and produce `cdi:Parameter` items (`cdi:receives`, `cdi:pr
 
 ## Examples
 
-### Example DDI-CDI activity.
+### Minimal Activity
+Bare Activity with just an ObjectName — the schema only requires
+@type and cdi:name.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:Activity"],
+  "@id": "ex:activity/data-collection",
+  "cdi:name": {
+    "@type": ["cdi:ObjectName"],
+    "cdi:name": "Data collection"
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-activity/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:Activity"
+  ],
+  "@id": "ex:activity/data-collection",
+  "cdi:name": {
+    "@type": [
+      "cdi:ObjectName"
+    ],
+    "cdi:name": "Data collection"
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/activity/data-collection> a cdi:Activity ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "Data collection" ] .
+
+
+```
+
+
+### Complete Activity
 Data processing activity expressed in DDI-CDI vocabulary.
 Demonstrates Activity with entityUsed/entityProduced, Steps with
 script and Parameters, start/end timestamps, and definition.
@@ -313,9 +371,6 @@ ex:activity-statistical-compilation a cdi:Activity ;
             cdi:description "Harmonized regional employment dataset 2025" ;
             cdi:uri "https://doi.org/10.5281/zenodo.example-regional-employment-2025" ] ;
     cdi:entityUsed [ a cdi:Reference ;
-            cdi:description "German Labour Force Survey 2024 microdata" ;
-            cdi:uri "https://example.org/datasets/national-lfs-2024-DE" ],
-        [ a cdi:Reference ;
             cdi:description "French Labour Force Survey 2024 microdata" ;
             cdi:uri "https://example.org/datasets/national-lfs-2024-FR" ],
         [ a cdi:Reference ;
@@ -323,7 +378,10 @@ ex:activity-statistical-compilation a cdi:Activity ;
             cdi:uri "https://example.org/datasets/national-lfs-2024-CH" ],
         [ a cdi:Reference ;
             cdi:description "Austrian Labour Force Survey 2024 microdata" ;
-            cdi:uri "https://example.org/datasets/national-lfs-2024-AT" ] ;
+            cdi:uri "https://example.org/datasets/national-lfs-2024-AT" ],
+        [ a cdi:Reference ;
+            cdi:description "German Labour Force Survey 2024 microdata" ;
+            cdi:uri "https://example.org/datasets/national-lfs-2024-DE" ] ;
     cdi:has_Step ex:step-data-integration,
         ex:step-variable-harmonization ;
     cdi:identifier [ a cdi:Identifier ;

@@ -9,14 +9,190 @@ Collection of instance variables.
 
 ## Description
 
-DDI-CDI LogicalRecord describes a collection of instance variables grouped into a single record type. The root `cdi:LogicalRecord` carries `cdi:has` (linking to `cdifVariableMeasured` items that constitute the record's columns), `cdi:organizes` referencing the `cdi:DataSet` instances the record holds, `cdi:isDefinedBy` linking to one or more SKOS concepts, and `cdi:identifier`.
+DDI-CDI LogicalRecord describes a collection of instance variables grouped into a single record type. The root `cdi:LogicalRecord` carries `cdi:has` (linking to `cdifInstanceVariable` items that constitute the record's columns), `cdi:organizes` referencing the `cdi:DataSet` instances the record holds, `cdi:isDefinedBy` linking to one or more SKOS concepts, and `cdi:identifier`.
 
 Logical records are the units that `ddicdiDataStore` aggregates (`cdi:has_LogicalRecord`) and that `cdi:RecordRelation` cross-links via instance-variable maps. The BB sits at the join between the conceptual variable description and the physical datastore in the CDIF Data Description profile.
 
 ## Examples
 
 ### Minimal LogicalRecord
-TODO: replace with a JSON-LD example.
+Bare LogicalRecord with two @id-only InstanceVariable references —
+the smallest valid shape (schema requires @type and cdi:has_InstanceVariable).
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:LogicalRecord"],
+  "@id": "ex:logical-record/observations",
+  "cdi:has_InstanceVariable": [
+    { "@id": "ex:var/observation-id" },
+    { "@id": "ex:var/observation-value" }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-logical-record/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:LogicalRecord"
+  ],
+  "@id": "ex:logical-record/observations",
+  "cdi:has_InstanceVariable": [
+    {
+      "@id": "ex:var/observation-id"
+    },
+    {
+      "@id": "ex:var/observation-value"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/logical-record/observations> a cdi:LogicalRecord ;
+    cdi:has_InstanceVariable <https://example.org/var/observation-id>,
+        <https://example.org/var/observation-value> .
+
+
+```
+
+
+### Complete LogicalRecord
+Clinical visits LogicalRecord exercising every property:
+cdi:organizes (dataset @id-refs), cdi:isDefinedBy with an inline
+ControlledVocabularyEntry for UnitType, and multiple
+cdi:has_InstanceVariable @id-refs.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:LogicalRecord"],
+  "@id": "ex:logical-record/visits-2026",
+  "cdi:organizes": [
+    { "@id": "ex:dataset/visits-2026-wide" },
+    { "@id": "ex:dataset/visits-2026-long" }
+  ],
+  "cdi:isDefinedBy": [
+    {
+      "@type": ["cdi:ControlledVocabularyEntry"],
+      "cdi:name": "DDI-CDI UnitType vocabulary",
+      "cdi:vocabulary": {
+        "@type": ["cdi:Reference"],
+        "cdi:uri": "https://ddialliance.org/Specification/DDI-CDI/1.0/CV/UnitType"
+      },
+      "cdi:entryValue": ["Patient"]
+    }
+  ],
+  "cdi:has_InstanceVariable": [
+    { "@id": "ex:var/patient-id" },
+    { "@id": "ex:var/visit-date" },
+    { "@id": "ex:var/temperature" },
+    { "@id": "ex:var/heart-rate" }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-logical-record/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:LogicalRecord"
+  ],
+  "@id": "ex:logical-record/visits-2026",
+  "cdi:organizes": [
+    {
+      "@id": "ex:dataset/visits-2026-wide"
+    },
+    {
+      "@id": "ex:dataset/visits-2026-long"
+    }
+  ],
+  "cdi:isDefinedBy": [
+    {
+      "@type": [
+        "cdi:ControlledVocabularyEntry"
+      ],
+      "cdi:name": "DDI-CDI UnitType vocabulary",
+      "cdi:vocabulary": {
+        "@type": [
+          "cdi:Reference"
+        ],
+        "cdi:uri": "https://ddialliance.org/Specification/DDI-CDI/1.0/CV/UnitType"
+      },
+      "cdi:entryValue": [
+        "Patient"
+      ]
+    }
+  ],
+  "cdi:has_InstanceVariable": [
+    {
+      "@id": "ex:var/patient-id"
+    },
+    {
+      "@id": "ex:var/visit-date"
+    },
+    {
+      "@id": "ex:var/temperature"
+    },
+    {
+      "@id": "ex:var/heart-rate"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/logical-record/visits-2026> a cdi:LogicalRecord ;
+    cdi:has_InstanceVariable <https://example.org/var/heart-rate>,
+        <https://example.org/var/patient-id>,
+        <https://example.org/var/temperature>,
+        <https://example.org/var/visit-date> ;
+    cdi:isDefinedBy [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "Patient" ;
+            cdi:name "DDI-CDI UnitType vocabulary" ;
+            cdi:vocabulary [ a cdi:Reference ;
+                    cdi:uri "https://ddialliance.org/Specification/DDI-CDI/1.0/CV/UnitType" ] ] ;
+    cdi:organizes <https://example.org/dataset/visits-2026-long>,
+        <https://example.org/dataset/visits-2026-wide> .
+
+
+```
+
 ## Schema
 
 ```yaml
@@ -35,33 +211,31 @@ properties:
   '@id':
     type: string
     description: Identifier for this LogicalRecord node
-  cdi:identifier:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
-    description: Identifier for objects requiring short- or long-lasting referencing
-      and management.
   cdi:organizes:
     type: array
+    description: object reference(s) to datasets that use this logicalRecord;
     items:
-      anyOf:
-      - $ref: '#/$defs/DataSet'
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
     minItems: 1
   cdi:isDefinedBy:
     type: array
+    description: points to a Unit Type, Universe, or Population which provides a description
+      of the subject of the Logical Record.
     items:
       anyOf:
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-controlled-vocabulary-entry/schema.yaml
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
     minItems: 1
-  cdi:has:
+  cdi:has_InstanceVariable:
     type: array
     items:
       anyOf:
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifVariableMeasured/schema.yaml
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-instance-variable/schema.yaml
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
     minItems: 1
 required:
 - '@type'
+- cdi:has_InstanceVariable
 $defs:
   ConceptSystem:
     type: object
@@ -246,7 +420,7 @@ $defs:
         minItems: 1
       cdi:isDescribedBy:
         anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifVariableMeasured/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
     required:
     - '@type'
@@ -789,11 +963,6 @@ Links to the schema:
   "@context": {
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "schema": "http://schema.org/",
-    "spdx": "http://spdx.org/rdf/terms#",
-    "xas": "https://xas.org/dictionary/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
-    "prov": "http://www.w3.org/ns/prov#",
     "@version": 1.1
   }
 }

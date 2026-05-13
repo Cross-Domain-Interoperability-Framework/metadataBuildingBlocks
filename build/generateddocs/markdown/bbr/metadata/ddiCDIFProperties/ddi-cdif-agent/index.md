@@ -15,7 +15,54 @@ Each subtype is defined in its own building block (`ddicdiIndividual`, `ddicdiMa
 
 ## Examples
 
-### Example DDI-CDI agent hierarchy.
+### Minimal Agent
+Bare cdi:Individual — the BB root is an anyOf of Individual, Machine,
+Organization, or ProcessingAgent. Any of those subtypes with @type only
+satisfies the umbrella schema.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:Individual"],
+  "@id": "ex:person/alice"
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-agent/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:Individual"
+  ],
+  "@id": "ex:person/alice"
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/person/alice> a cdi:Individual .
+
+
+```
+
+
+### Complete Agent hierarchy
 Demonstrates Individual, Organization, and ProcessingAgent
 agent types with identification, contact information, and
 activity relationships.

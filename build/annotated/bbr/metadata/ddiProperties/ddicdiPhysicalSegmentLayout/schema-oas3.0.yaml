@@ -995,7 +995,7 @@ x-defs:
         type: array
         items:
           anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifInstanceVariable
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
         minItems: 1
     required:
@@ -1199,7 +1199,7 @@ x-defs:
             minItems: 1
           cdi:isDescribedBy:
             anyOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifInstanceVariable
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
         required:
         - '@type'
@@ -2116,141 +2116,82 @@ x-defs:
       cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.cdifProperties.cdifVariableMeasured:
-    description: Extends cdif variableMeasured with properties for DDI-CDI InstanceVariable
-    anyOf:
-    - description: Single InstanceVariable node
-      allOf:
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/CdifVariableMeasuredNode
-    - description: Unwrapped @graph array of nodes (OGC pipeline)
-      type: array
-      contains:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/CdifVariableMeasuredNode
-      items:
-        if:
-          type: object
-          properties:
-            '@type':
-              type: array
-              contains:
-                enum:
-                - cdi:InstanceVariable
-          required:
-          - '@type'
-        then:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/CdifVariableMeasuredNode
-    - description: JSON-LD document with @context and @graph
-      type: object
-      properties:
-        '@context': {}
-        '@graph':
-          type: array
-          contains:
-            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/CdifVariableMeasuredNode
-          items:
-            if:
-              type: object
-              properties:
-                '@type':
-                  type: array
-                  contains:
-                    enum:
-                    - cdi:InstanceVariable
-              required:
-              - '@type'
-            then:
-              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/CdifVariableMeasuredNode
-      required:
-      - '@graph'
-    $defs:
-      DefinedTerm:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
-      CdifVariableMeasuredNode:
-        type: object
-        properties:
-          '@type':
-            type: array
-            description: Must include both schema:PropertyValue and cdi:InstanceVariable.
-              Additional types may be included.
-            items:
-              type: string
-            contains:
-              enum:
-              - cdi:InstanceVariable
-          cdi:identifier:
-            type: string
-          cdi:physicalDataType:
-            type: array
-            items:
-              anyOf:
-              - type: string
-              - type: object
-                properties:
-                  '@id':
-                    type: string
-                    description: reference to a skos concept for the data type
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/DefinedTerm
-            description: identifier or name for the data type concept.
-          cdi:intendedDataType:
-            type: string
-            description: The intended data type for values of this variable, from
-              DDI-CDI RepresentedVariable.hasIntendedDataType. Recommended values
-              are XML Schema datatypes (e.g. https://www.w3.org/TR/xmlschema-2/#decimal).
-          cdi:role:
-            type: string
-            enum:
-            - MeasureComponent
-            - AttributeComponent
-            - DimensionComponent
-            - DescriptorComponent
-            - ReferenceValueComponent
-            description: Specifies the relation of the variable to the data structure,
-              corresponding to DDI-CDI DataStructureComponent subtypes.
-          cdi:describedUnitOfMeasure:
-            description: A structured unit of measure from a controlled vocabulary,
-              from DDI-CDI RepresentedVariable.describedUnitOfMeasure.
-            allOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/DefinedTerm
-          cdi:simpleUnitOfMeasure:
-            anyOf:
-            - type: string
-            - type: object
-              properties:
-                '@id':
-                  type: string
-                  description: reference to a skos concept for the data type
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/DefinedTerm
-          cdi:uses:
-            type: array
-            items:
-              anyOf:
-              - type: string
-              - type: object
-                properties:
-                  '@id':
-                    type: string
-                    description: reference to a skos concept for the property
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured/$defs/DefinedTerm
-            description: Essentially the same as schema:propertyID. References to
-              concepts that this variable measures or represents.
-          cdi:name:
-            type: string
-            description: DDI-CDI Concept.name. The name of this variable in the DDI-CDI
-              model.
-          cdi:displayLabel:
-            type: string
-            description: DDI-CDI Concept.displayLabel. A human-readable label for
-              display purposes.
-          cdi:qualifies:
-            type: object
+  cdif.bbr.metadata.cdifProperties.cdifInstanceVariable:
+    title: CDIF Instance Variable
+    type: object
+    properties:
+      '@type':
+        type: array
+        description: Must include both schema:PropertyValue and cdi:InstanceVariable.
+          Additional types may be included.
+        items:
+          type: string
+        contains:
+          enum:
+          - cdi:InstanceVariable
+      cdif:physicalDataType:
+        type: array
+        items:
+          anyOf:
+          - type: string
+          - type: object
             properties:
               '@id':
                 type: string
-            description: reference to an instance variable defined for this dataset
-        allOf:
-        - required:
-          - '@type'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured
+                description: reference to a skos concept for the data type
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifInstanceVariable/$defs/DefinedTerm
+        description: identifier or name for the data type concept.
+      cdi:role:
+        type: string
+        enum:
+        - UnitIdentifier
+        - Measure
+        - Attribute
+        - Dimension
+        - Descriptor
+        - ReferenceVariable
+        description: Specifies the role this variable plays in a data structure. UnitIdentifier
+          names the unit a row describes; Measure holds observed/derived values; Attribute
+          qualifies an observation; Dimension addresses a cell in a multi-dimensional
+          cube; Descriptor names the variable that a Reference column records values
+          for (long format); ReferenceVariable holds those recorded values.
+      cdif:simpleUnitOfMeasure:
+        anyOf:
+        - type: string
+        - type: object
+          properties:
+            '@id':
+              type: string
+              description: reference to a skos concept for the data type
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifInstanceVariable/$defs/DefinedTerm
+      cdif:uses:
+        type: array
+        items:
+          anyOf:
+          - type: string
+          - type: object
+            properties:
+              '@id':
+                type: string
+                description: reference to a skos concept for the property
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifInstanceVariable/$defs/DefinedTerm
+        description: Essentially the same as schema:propertyID. References to concepts
+          that this variable measures or represents.
+      cdi:qualifies:
+        type: object
+        properties:
+          '@id':
+            type: string
+        description: reference to an instance variable defined for this dataset
+    allOf:
+    - required:
+      - '@type'
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured
+    $defs:
+      DefinedTerm:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
     x-jsonld-prefixes:
       schema: http://schema.org/
       spdx: http://spdx.org/rdf/terms#
@@ -2259,7 +2200,7 @@ x-defs:
       xas: https://xas.org/dictionary/
       nxs: http://purl.org/nexusformat/definitions/
       prov: http://www.w3.org/ns/prov#
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifVariableMeasured/schema.yaml
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.ddiProperties.ddicdiDataStructure:
     title: DDI-CDI Data Structure
@@ -2267,7 +2208,6 @@ x-defs:
     anyOf:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataStructure/$defs/DataStructure
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataStructure/$defs/DimensionalDataStructure
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataStructure/$defs/KeyValueStructure
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataStructure/$defs/LongDataStructure
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataStructure/$defs/WideDataStructure
     $defs:
@@ -2355,68 +2295,6 @@ x-defs:
               - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataStructure/$defs/DimensionGroup
               - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
             minItems: 1
-          cdi:has_ForeignKey:
-            type: array
-            items:
-              anyOf:
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataStructure/$defs/ForeignKey
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
-            minItems: 1
-          cdi:has_DataStructureComponent:
-            type: array
-            items:
-              anyOf:
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataStructureComponent
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
-            minItems: 1
-          cdi:has_ComponentPosition:
-            type: array
-            items:
-              anyOf:
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataStructure/$defs/ComponentPosition
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
-            minItems: 1
-          cdi:has_PrimaryKey:
-            anyOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataStructure/$defs/PrimaryKey
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
-          cdi:identifier:
-            description: Identifier for objects requiring short- or long-lasting referencing
-              and management.
-            allOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/Identifier
-          cdi:semantic:
-            type: array
-            items:
-              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/PairedControlledVocabularyEntry
-            minItems: 1
-            description: Qualifies the purpose or use expressed as a paired external
-              controlled vocabulary.
-          cdi:specialization:
-            description: The role played by the component for the data set for purposes
-              of harmonization and integration, typically regarding geography, time,
-              etc.
-            allOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataStructure/$defs/SpecializationRole
-        required:
-        - '@type'
-      KeyValueStructure:
-        type: object
-        description: Structure of a key-value datastore (organized collection of key-value
-          data). It is described by identifier, contextual, synthetic id, dimension,
-          variable descriptor and variable value components.
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            contains:
-              enum:
-              - cdi:KeyValueStructure
-            minItems: 1
-          '@id':
-            type: string
-            description: Identifier for this KeyValueStructure node
           cdi:has_ForeignKey:
             type: array
             items:
@@ -4375,7 +4253,7 @@ x-defs:
             minItems: 1
           cdi:isDescribedBy:
             anyOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifInstanceVariable
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
         required:
         - '@type'
@@ -4894,46 +4772,6 @@ x-defs:
       cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPresentationalVariable/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.definedTerm:
-    description: schema.org Defined Term schema
-    type: object
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          enum:
-          - schema:DefinedTerm
-        minItems: 1
-      schema:name:
-        type: string
-        description: text label for the term that is useful to human user
-      schema:identifier:
-        anyOf:
-        - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
-      schema:inDefinedTermSet:
-        type: string
-        description: Name for the controlled vocabulary responsible for this keyword.
-      schema:termCode:
-        type: string
-        description: A representative code for this keyword in the controlled vocabulary.
-          Analogous to skos:Notation
-    allOf:
-    - required:
-      - '@type'
-    - anyOf:
-      - required:
-        - schema:name
-      - required:
-        - schema:identifier
-      - required:
-        - schema:termCode
-    x-jsonld-prefixes:
-      schema: http://schema.org/
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.variableMeasured:
     description: Schema.org PropertyValue-based variableMeasured. Defines properties
       for a measured variable in a dataset, typed as schema:PropertyValue.
@@ -5017,6 +4855,46 @@ x-defs:
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.definedTerm:
+    description: schema.org Defined Term schema
+    type: object
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:DefinedTerm
+        minItems: 1
+      schema:name:
+        type: string
+        description: text label for the term that is useful to human user
+      schema:identifier:
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+      schema:inDefinedTermSet:
+        type: string
+        description: Name for the controlled vocabulary responsible for this keyword.
+      schema:termCode:
+        type: string
+        description: A representative code for this keyword in the controlled vocabulary.
+          Analogous to skos:Notation
+    allOf:
+    - required:
+      - '@type'
+    - anyOf:
+      - required:
+        - schema:name
+      - required:
+        - schema:identifier
+      - required:
+        - schema:termCode
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.ddiProperties.ddicdiEnumerationDomain:
     title: DDI-CDI Enumeration Domain
@@ -5806,7 +5684,7 @@ x-defs:
             minItems: 1
           cdi:isDescribedBy:
             anyOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifInstanceVariable
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
         required:
         - '@type'
@@ -6595,7 +6473,7 @@ x-defs:
             minItems: 1
           cdi:isDescribedBy:
             anyOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifInstanceVariable
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
         required:
         - '@type'
@@ -6850,6 +6728,33 @@ x-defs:
       cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.labeledLink:
+    description: schema for a labeled link, a profile of schema.org/CreativeWork
+    type: object
+    properties:
+      '@type':
+        default: schema:CreativeWork
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:CreativeWork
+        minItems: 1
+      schema:name:
+        type: string
+      schema:description:
+        type: string
+      schema:url:
+        type: string
+        format: uri
+    required:
+    - '@type'
+    - schema:url
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.identifier:
     description: Properties for a schema.org identifier
     type: object
@@ -6887,33 +6792,6 @@ x-defs:
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.labeledLink:
-    description: schema for a labeled link, a profile of schema.org/CreativeWork
-    type: object
-    properties:
-      '@type':
-        default: schema:CreativeWork
-        type: array
-        items:
-          type: string
-        contains:
-          enum:
-          - schema:CreativeWork
-        minItems: 1
-      schema:name:
-        type: string
-      schema:description:
-        type: string
-      schema:url:
-        type: string
-        format: uri
-    required:
-    - '@type'
-    - schema:url
-    x-jsonld-prefixes:
-      schema: http://schema.org/
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.ddiProperties.ddicdiAgent:
     title: DDI-CDI Agent
@@ -7435,7 +7313,7 @@ $defs:
         minItems: 1
       cdi:isDescribedBy:
         anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifVariableMeasured
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifInstanceVariable
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalSegmentLayout/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/id-reference
     required:
     - '@type'

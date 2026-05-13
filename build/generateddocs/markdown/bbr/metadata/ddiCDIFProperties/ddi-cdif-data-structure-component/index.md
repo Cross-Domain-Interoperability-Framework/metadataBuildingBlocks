@@ -15,8 +15,192 @@ Most variants associate the component with a `ddicdiRepresentedVariable` via `cd
 
 ## Examples
 
-### Minimal IdentifierComponent
-TODO: replace with a JSON-LD example.
+### Minimal DataStructureComponent (MeasureComponent)
+A bare MeasureComponent with just @type, @id, and the SHACL-recommended
+cdi:isDefinedBy @id-ref to a RepresentedVariable. The other component
+subtypes (IdentifierComponent, AttributeComponent, DimensionComponent,
+VariableValueComponent, VariableDescriptorComponent) follow the same
+minimal shape.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:MeasureComponent"],
+  "@id": "ex:component/temperature",
+  "cdi:isDefinedBy": { "@id": "ex:rep-var/temperature" }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure-component/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:MeasureComponent"
+  ],
+  "@id": "ex:component/temperature",
+  "cdi:isDefinedBy": {
+    "@id": "ex:rep-var/temperature"
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/component/temperature> a cdi:MeasureComponent ;
+    cdi:isDefinedBy <https://example.org/rep-var/temperature> .
+
+
+```
+
+
+### Complete DataStructureComponent (MeasureComponent)
+Fully-described MeasureComponent exercising cdi:identifier, cdi:name,
+cdi:isDefinedBy, and cdi:semantic (PairedControlledVocabularyEntry
+with purpose and use entries linked to QUDT).
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:MeasureComponent"],
+  "@id": "ex:component/temperature",
+  "cdi:identifier": {
+    "@type": ["cdi:Identifier"],
+    "cdi:uri": "https://example.org/component/temperature"
+  },
+  "cdi:name": [
+    {
+      "@type": ["cdi:ObjectName"],
+      "cdi:name": "temperature"
+    }
+  ],
+  "cdi:isDefinedBy": { "@id": "ex:rep-var/temperature" },
+  "cdi:semantic": [
+    {
+      "@type": ["cdi:PairedControlledVocabularyEntry"],
+      "cdi:purposeEntry": {
+        "@type": ["cdi:ControlledVocabularyEntry"],
+        "cdi:entryValue": ["temperature"],
+        "cdi:vocabulary": {
+          "@type": ["cdi:Reference"],
+          "cdi:uri": "https://qudt.org/vocab/quantitykind/Temperature"
+        }
+      },
+      "cdi:useEntry": {
+        "@type": ["cdi:ControlledVocabularyEntry"],
+        "cdi:entryValue": ["measurement"]
+      }
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure-component/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:MeasureComponent"
+  ],
+  "@id": "ex:component/temperature",
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/component/temperature"
+  },
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "temperature"
+    }
+  ],
+  "cdi:isDefinedBy": {
+    "@id": "ex:rep-var/temperature"
+  },
+  "cdi:semantic": [
+    {
+      "@type": [
+        "cdi:PairedControlledVocabularyEntry"
+      ],
+      "cdi:purposeEntry": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "temperature"
+        ],
+        "cdi:vocabulary": {
+          "@type": [
+            "cdi:Reference"
+          ],
+          "cdi:uri": "https://qudt.org/vocab/quantitykind/Temperature"
+        }
+      },
+      "cdi:useEntry": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "measurement"
+        ]
+      }
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/component/temperature> a cdi:MeasureComponent ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/component/temperature" ] ;
+    cdi:isDefinedBy <https://example.org/rep-var/temperature> ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "temperature" ] ;
+    cdi:semantic [ a cdi:PairedControlledVocabularyEntry ;
+            cdi:purposeEntry [ a cdi:ControlledVocabularyEntry ;
+                    cdi:entryValue "temperature" ;
+                    cdi:vocabulary [ a cdi:Reference ;
+                            cdi:uri "https://qudt.org/vocab/quantitykind/Temperature" ] ] ;
+            cdi:useEntry [ a cdi:ControlledVocabularyEntry ;
+                    cdi:entryValue "measurement" ] ] .
+
+
+```
+
 ## Schema
 
 ```yaml
@@ -50,27 +234,13 @@ $defs:
       '@id':
         type: string
         description: Identifier for this IdentifierComponent node
-      cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
-        description: Identifier for objects requiring short- or long-lasting referencing
-          and management.
       cdi:isDefinedBy:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-represented-variable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-      cdi:semantic:
-        type: array
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/PairedControlledVocabularyEntry
-        minItems: 1
-        description: Qualifies the purpose or use expressed as a paired external controlled
-          vocabulary.
-      cdi:specialization:
-        $ref: '#/$defs/SpecializationRole'
-        description: The role played by the component for the data set for purposes
-          of harmonization and integration, typically regarding geography, time, etc.
     required:
     - '@type'
+    - cdi:isDefinedBy
   MeasureComponent:
     type: object
     description: Role given to a represented variable in the context of a data structure
@@ -109,10 +279,6 @@ $defs:
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
-      cdi:specialization:
-        $ref: '#/$defs/SpecializationRole'
-        description: The role played by the component for the data set for purposes
-          of harmonization and integration, typically regarding geography, time, etc.
     required:
     - '@type'
   AttributeComponent:
@@ -152,18 +318,18 @@ $defs:
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
-      cdi:specialization:
-        $ref: '#/$defs/SpecializationRole'
-        description: The role played by the component for the data set for purposes
-          of harmonization and integration, typically regarding geography, time, etc.
     required:
     - '@type'
   DimensionComponent:
     type: object
-    description: Role given to a represented variable in the context of a dimensional
+    description: 'Role given to a represented variable in the context of a dimensional
       data structure to identify the universes associated with data points. The variable
       acts as a field in the compound identifier (the key structure) to disambiguate
-      the cells in the multi-dimensional "cube".
+      the cells in the multi-dimensional "cube".  AG: references to the variables
+      which are the components of a compound identifier, in which each variable is
+      a single field - an axis - in a coordinate system addressing a location in a
+      matrix. These variables are often categorical, but also commonly include time.
+      Unlike other Components, they may be ordered using instances of cdi:ComponentPosition.'
     properties:
       '@type':
         type: array
@@ -175,40 +341,13 @@ $defs:
       '@id':
         type: string
         description: Identifier for this DimensionComponent node
-      cdi:categoricalAdditivity:
-        type: boolean
-        description: 'Indicates whether categories at a specific level can be combined
-          to provide the value for their shared parent category. Value is True if
-          categories can be added together (collapsed) to create higher-level categories.
-
-
-          An example would be age categories. Five-year age categories can be collapsed
-          into 10-year age categories.'
-      cdi:isStructuredBy:
-        anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-value-domain/schema.yaml
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-      cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
-        description: Identifier for objects requiring short- or long-lasting referencing
-          and management.
       cdi:isDefinedBy:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-represented-variable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-      cdi:semantic:
-        type: array
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/PairedControlledVocabularyEntry
-        minItems: 1
-        description: Qualifies the purpose or use expressed as a paired external controlled
-          vocabulary.
-      cdi:specialization:
-        $ref: '#/$defs/SpecializationRole'
-        description: The role played by the component for the data set for purposes
-          of harmonization and integration, typically regarding geography, time, etc.
     required:
     - '@type'
+    - cdi:isDefinedBy
   VariableValueComponent:
     type: object
     description: Role given to a represented variable in the context of a data structure
@@ -239,10 +378,6 @@ $defs:
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
-      cdi:specialization:
-        $ref: '#/$defs/SpecializationRole'
-        description: The role played by the component for the data set for purposes
-          of harmonization and integration, typically regarding geography, time, etc.
     required:
     - '@type'
   VariableDescriptorComponent:
@@ -279,10 +414,6 @@ $defs:
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
-      cdi:specialization:
-        $ref: '#/$defs/SpecializationRole'
-        description: The role played by the component for the data set for purposes
-          of harmonization and integration, typically regarding geography, time, etc.
     required:
     - '@type'
   DataStructureComponent:
@@ -314,25 +445,8 @@ $defs:
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
-      cdi:specialization:
-        $ref: '#/$defs/SpecializationRole'
-        description: The role played by the component for the data set for purposes
-          of harmonization and integration, typically regarding geography, time, etc.
     required:
     - '@type'
-  SpecializationRole:
-    type: object
-    description: Specific roles played by represented variables in terms of time,
-      geography, and other concepts which are important for the harmonization and
-      integration of data.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: cdi:SpecializationRole
-        minItems: 1
 x-jsonld-prefixes:
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
 

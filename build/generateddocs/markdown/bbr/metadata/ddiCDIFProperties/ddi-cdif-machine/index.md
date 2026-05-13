@@ -15,9 +15,54 @@ Machine is one of the four agent subtypes composed by `ddicdiAgent`. It captures
 
 ## Examples
 
-### Example DDI-CDI Machine agent.
-Demonstrates a Machine (HPC cluster) with access location,
-type classification, and identifier.
+### Minimal Machine
+Bare cdi:Machine — schema only requires @type.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:Machine"],
+  "@id": "ex:software/process-pipeline-v1"
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-machine/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:Machine"
+  ],
+  "@id": "ex:software/process-pipeline-v1"
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/software/process-pipeline-v1> a cdi:Machine .
+
+
+```
+
+
+### Complete Machine
+Machine (HPC cluster) with access location, type classification,
+and identifier.
 #### json
 ```json
 {

@@ -16,7 +16,272 @@ Both variants carry `cdi:takesValuesFrom` (pointing at a local presentational va
 ## Examples
 
 ### Minimal ReferenceVariable
-TODO: replace with a JSON-LD example.
+Bare ReferenceVariable — the BB root is anyOf of ReferenceVariable or
+DescriptorVariable; only @type is required.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:ReferenceVariable"],
+  "@id": "ex:ref-var/measurement-value"
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-presentational-variable/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:ReferenceVariable"
+  ],
+  "@id": "ex:ref-var/measurement-value"
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/ref-var/measurement-value> a cdi:ReferenceVariable .
+
+
+```
+
+
+### Complete ReferenceVariable
+Long-data ReferenceVariable exercising every schema property:
+cdi:descriptiveText, cdi:simpleUnitOfMeasure / cdi:describedUnitOfMeasure,
+cdi:physicalDataType / cdi:hasIntendedDataType, cdi:platformType,
+cdi:source, cdi:variableFunction, the four substantive/sentinel value/
+concept domain references, cdi:takesValuesFrom (ReferenceValueDomain),
+cdi:has_PhysicalSegmentLayout, and cdi:has_ValueMapping.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:ReferenceVariable"],
+  "@id": "ex:ref-var/measurement-value",
+  "cdi:descriptiveText": {
+    "@type": ["cdi:InternationalString"],
+    "cdi:languageSpecificString": [
+      {
+        "@type": ["cdi:LanguageString"],
+        "cdi:content": "Long-data-format reference variable holding the actual measured value.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:simpleUnitOfMeasure": "varies",
+  "cdi:physicalDataType": {
+    "@type": ["cdi:ControlledVocabularyEntry"],
+    "cdi:entryValue": ["xsd:string"]
+  },
+  "cdi:hasIntendedDataType": {
+    "@type": ["cdi:ControlledVocabularyEntry"],
+    "cdi:entryValue": ["xsd:decimal"]
+  },
+  "cdi:platformType": {
+    "@type": ["cdi:ControlledVocabularyEntry"],
+    "cdi:entryValue": ["SAS"]
+  },
+  "cdi:describedUnitOfMeasure": {
+    "@type": ["cdi:ControlledVocabularyEntry"],
+    "cdi:entryValue": ["mixed"],
+    "cdi:vocabulary": {
+      "@type": ["cdi:Reference"],
+      "cdi:uri": "https://qudt.org/vocab/unit"
+    }
+  },
+  "cdi:source": {
+    "@type": ["cdi:Reference"],
+    "cdi:uri": "https://example.org/provenance/measurement-value"
+  },
+  "cdi:variableFunction": [
+    {
+      "@type": ["cdi:ControlledVocabularyEntry"],
+      "cdi:entryValue": ["measurement"]
+    }
+  ],
+  "cdi:takesSubstantiveValuesFrom": { "@id": "ex:value-domain/decimal" },
+  "cdi:takesSentinelValuesFrom": [
+    { "@id": "ex:value-domain/missing-codes" }
+  ],
+  "cdi:takesSubstantiveConceptsFrom": { "@id": "ex:concept-domain/measurement" },
+  "cdi:takesSentinelConceptsFrom": { "@id": "ex:concept-domain/missing" },
+  "cdi:takesValuesFrom": { "@id": "ex:ref-value-domain/decimal" },
+  "cdi:has_PhysicalSegmentLayout": [
+    { "@id": "ex:layout/observations.csv" }
+  ],
+  "cdi:has_ValueMapping": { "@id": "ex:value-mapping/measurement-value" }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-presentational-variable/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:ReferenceVariable"
+  ],
+  "@id": "ex:ref-var/measurement-value",
+  "cdi:descriptiveText": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": [
+      {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Long-data-format reference variable holding the actual measured value.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:simpleUnitOfMeasure": "varies",
+  "cdi:physicalDataType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "xsd:string"
+    ]
+  },
+  "cdi:hasIntendedDataType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "xsd:decimal"
+    ]
+  },
+  "cdi:platformType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "SAS"
+    ]
+  },
+  "cdi:describedUnitOfMeasure": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "mixed"
+    ],
+    "cdi:vocabulary": {
+      "@type": [
+        "cdi:Reference"
+      ],
+      "cdi:uri": "https://qudt.org/vocab/unit"
+    }
+  },
+  "cdi:source": {
+    "@type": [
+      "cdi:Reference"
+    ],
+    "cdi:uri": "https://example.org/provenance/measurement-value"
+  },
+  "cdi:variableFunction": [
+    {
+      "@type": [
+        "cdi:ControlledVocabularyEntry"
+      ],
+      "cdi:entryValue": [
+        "measurement"
+      ]
+    }
+  ],
+  "cdi:takesSubstantiveValuesFrom": {
+    "@id": "ex:value-domain/decimal"
+  },
+  "cdi:takesSentinelValuesFrom": [
+    {
+      "@id": "ex:value-domain/missing-codes"
+    }
+  ],
+  "cdi:takesSubstantiveConceptsFrom": {
+    "@id": "ex:concept-domain/measurement"
+  },
+  "cdi:takesSentinelConceptsFrom": {
+    "@id": "ex:concept-domain/missing"
+  },
+  "cdi:takesValuesFrom": {
+    "@id": "ex:ref-value-domain/decimal"
+  },
+  "cdi:has_PhysicalSegmentLayout": [
+    {
+      "@id": "ex:layout/observations.csv"
+    }
+  ],
+  "cdi:has_ValueMapping": {
+    "@id": "ex:value-mapping/measurement-value"
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/ref-var/measurement-value> a cdi:ReferenceVariable ;
+    cdi:describedUnitOfMeasure [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "mixed" ;
+            cdi:vocabulary [ a cdi:Reference ;
+                    cdi:uri "https://qudt.org/vocab/unit" ] ] ;
+    cdi:descriptiveText [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Long-data-format reference variable holding the actual measured value." ;
+                    cdi:language "en" ] ] ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:decimal" ] ;
+    cdi:has_PhysicalSegmentLayout <https://example.org/layout/observations.csv> ;
+    cdi:has_ValueMapping <https://example.org/value-mapping/measurement-value> ;
+    cdi:physicalDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:string" ] ;
+    cdi:platformType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "SAS" ] ;
+    cdi:simpleUnitOfMeasure "varies" ;
+    cdi:source [ a cdi:Reference ;
+            cdi:uri "https://example.org/provenance/measurement-value" ] ;
+    cdi:takesSentinelConceptsFrom <https://example.org/concept-domain/missing> ;
+    cdi:takesSentinelValuesFrom <https://example.org/value-domain/missing-codes> ;
+    cdi:takesSubstantiveConceptsFrom <https://example.org/concept-domain/measurement> ;
+    cdi:takesSubstantiveValuesFrom <https://example.org/value-domain/decimal> ;
+    cdi:takesValuesFrom <https://example.org/ref-value-domain/decimal> ;
+    cdi:variableFunction [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "measurement" ] .
+
+
+```
+
 ## Schema
 
 ```yaml
@@ -173,7 +438,10 @@ $defs:
   DescriptorVariable:
     type: object
     description: Variable that provides codes for variable identification in the context
-      of a data structure. Variable playing the role of a variable descriptor component.
+      of a data structure. Descriptor Variables hold values which reference the logical
+      variables in the data set, indicating which one the associated value in the
+      corresponding Reference Variable is a measure/value for. Descriptor Variables
+      are presentational variables found only in Long Data Sets.
     properties:
       '@type':
         type: array
@@ -186,111 +454,12 @@ $defs:
         type: string
         description: Identifier for this DescriptorVariable node
       cdi:takesSubstantiveValuesFrom:
+        description: a link to an instance of cdi:DescriptorValueDomain, which in
+          turn provides information about logical variables to which each enumerated
+          value corresponds, using the cdi:Descriptor class.
         anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-value-domain/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-value-domain/schema.yaml#/$defs/DescriptorValueDomain
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-      cdi:has_PhysicalSegmentLayout:
-        type: array
-        items:
-          anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-physical-segment-layout/schema.yaml
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-        minItems: 1
-      cdi:has_ValueMapping:
-        anyOf:
-        - $ref: '#/$defs/ValueMapping'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-      cdi:physicalDataType:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
-        description: The data type of this variable. Supports the optional use of
-          an external controlled vocabulary.
-      cdi:platformType:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
-        description: Describes the application or technical system context in which
-          the variable has been realized. Typically a statistical processing package
-          or other processing environment.
-      cdi:source:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Reference
-        description: Reference capturing provenance information.
-      cdi:variableFunction:
-        type: array
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
-        minItems: 1
-        description: Immutable characteristic of the variable such as geographic designator,
-          weight, temporal designation, etc.
-      cdi:describedUnitOfMeasure:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
-        description: The unit in which the data values are measured (kg, pound, euro),
-          expressed as a value from a controlled system of entries (i.e., QDT). Supports
-          the provision of an identifier for the entry in the authoritative source
-          (a URI, etc.), and the specific vocabulary.
-      cdi:hasIntendedDataType:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
-        description: The data type intended to be used by this variable. Supports
-          the optional use of an external controlled vocabulary.
-      cdi:takesSentinelValuesFrom:
-        type: array
-        items:
-          anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-value-domain/schema.yaml
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-        minItems: 1
-      cdi:simpleUnitOfMeasure:
-        type: string
-        description: The unit in which the data values are measured (kg, pound, euro),
-          expressed as a simple string, in cases where no additional information is
-          available (in the legacy system) or needed (as in the case of broad agreement
-          within the community of use [i.e., ISO country codes, currencies, etc. in
-          SDMX])
-      cdi:descriptiveText:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString
-        description: A short natural language account of the characteristics of the
-          object.
-      cdi:takesSentinelConceptsFrom:
-        anyOf:
-        - $ref: '#/$defs/SentinelConceptualDomain'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-      cdi:takesSubstantiveConceptsFrom:
-        anyOf:
-        - $ref: '#/$defs/SubstantiveConceptualDomain'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-      cdi:measures:
-        anyOf:
-        - $ref: '#/$defs/UnitType'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-      cdi:unitOfMeasureKind:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
-        description: Kind of unit of measure, so that it may be prone to translation
-          to equivalent UOMs. Example values include "acceleration," "temperature,"
-          "salinity", etc. This description exists at the conceptual level, indicating
-          a limitation on the type of representations which may be used for the variable
-          as it is made more concrete.
-      cdi:definition:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString
-        description: Natural language statement conveying the meaning of a concept,
-          differentiating it from other concepts. Supports the use of multiple languages
-          and structured text. 'externalDefinition' can't be used if 'definition'
-          is used.
-      cdi:displayLabel:
-        type: array
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/LabelForDisplay
-        minItems: 1
-        description: A human-readable display label for the object. Supports the use
-          of multiple languages. Repeat for labels with different content, for example,
-          labels with differing length limitations.
-      cdi:externalDefinition:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Reference
-        description: A reference to an external definition of a concept (that is,
-          a concept which is described outside the content of the DDI-CDI metadata
-          description). An example is a SKOS concept. The definition property is assumed
-          to duplicate the external one referenced if externalDefinition is used.
-          Other corresponding properties are assumed to be included unchanged if used.
-      cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
-        description: Identifier for objects requiring short- or long-lasting referencing
-          and management.
       cdi:name:
         type: array
         items:
@@ -308,6 +477,8 @@ $defs:
         minItems: 1
     required:
     - '@type'
+    - cdi:name
+    - cdi:takesSubstantiveValuesFrom
   ConceptSystem:
     type: object
     description: Set of concepts structured by the relations among them [GSIM 1.1].
@@ -393,7 +564,7 @@ $defs:
         minItems: 1
       cdi:isDescribedBy:
         anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifVariableMeasured/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
     required:
     - '@type'

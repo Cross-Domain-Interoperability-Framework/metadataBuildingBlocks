@@ -66,6 +66,9 @@ Example CDIF discovery instance with mandatory properties only.
   "schema:license": [
     "https://creativecommons.org/publicdomain/zero/1.0/"
   ],
+  "schema:variableMeasured": [
+    "bathymetric depth"
+  ],
   "schema:subjectOf": {
     "@type": [
       "schema:Dataset"
@@ -151,6 +154,9 @@ Example CDIF discovery instance with mandatory properties only.
   "schema:license": [
     "https://creativecommons.org/publicdomain/zero/1.0/"
   ],
+  "schema:variableMeasured": [
+    "bathymetric depth"
+  ],
   "schema:subjectOf": {
     "@type": [
       "schema:Dataset"
@@ -230,7 +236,8 @@ ex:baseDiscovery23578 a schema1:Dataset ;
     schema1:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     schema1:name "Bathymetry Bay of Biscay" ;
     schema1:subjectOf ex:URIforMetadata3575 ;
-    schema1:url "https://example.org/landingPage254266" .
+    schema1:url "https://example.org/landingPage254266" ;
+    schema1:variableMeasured "bathymetric depth" .
 
 ex:maintainerIdentifier a schema1:PropertyValue ;
     schema1:propertyID "https://registry.identifiers.org/registry/orcid" ;
@@ -272,6 +279,9 @@ Simplest valid CDIF core instance with only required properties.
   "schema:dateModified": "2022-12-12",
   "schema:license": [
     "https://creativecommons.org/publicdomain/zero/1.0/"
+  ],
+  "schema:variableMeasured": [
+    "bathymetric depth"
   ],
   "schema:subjectOf": {
     "@type": [
@@ -322,6 +332,9 @@ Simplest valid CDIF core instance with only required properties.
   "schema:license": [
     "https://creativecommons.org/publicdomain/zero/1.0/"
   ],
+  "schema:variableMeasured": [
+    "bathymetric depth"
+  ],
   "schema:subjectOf": {
     "@type": [
       "schema:Dataset"
@@ -359,7 +372,8 @@ ex:coreMin23578 a schema1:Dataset ;
     schema1:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     schema1:name "Bathymetry Bay of Biscay" ;
     schema1:subjectOf ex:URIforMetadata3575 ;
-    schema1:url "https://example.org/landingPage254266" .
+    schema1:url "https://example.org/landingPage254266" ;
+    schema1:variableMeasured "bathymetric depth" .
 
 
 ```
@@ -701,6 +715,10 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
       "schema:name": "Argo Raw Profile Database",
       "schema:url": "https://example.org/argo-raw"
     }
+  ],
+  "schema:variableMeasured": [
+    "sea water temperature",
+    "sea water salinity"
   ],
   "schema:subjectOf": {
     "@type": [
@@ -1100,6 +1118,10 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
       "schema:url": "https://example.org/argo-raw"
     }
   ],
+  "schema:variableMeasured": [
+    "sea water temperature",
+    "sea water salinity"
+  ],
   "schema:subjectOf": {
     "@type": [
       "schema:Dataset"
@@ -1212,15 +1234,15 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
     schema1:identifier ex:datasetIdentifier001 ;
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
-            schema1:name "Sea water temperature" ;
-            schema1:termCode "TEMPPR01" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "https://vocab.nerc.ac.uk/collection/L06/current/46/" ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L06/current/" ;
             schema1:name "Argo" ;
             schema1:termCode "L06:46" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
+            schema1:name "Sea water temperature" ;
+            schema1:termCode "TEMPPR01" ],
         "ocean temperature" ;
     schema1:license [ a schema1:CreativeWork ;
             schema1:name "Creative Commons Attribution 4.0" ;
@@ -1241,6 +1263,8 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
         "https://doi.org/10.5281/zenodo.99001" ;
     schema1:subjectOf ex:metadataRecord99001 ;
     schema1:url "https://example.org/datasets/ocean-temp-profiles" ;
+    schema1:variableMeasured "sea water salinity",
+        "sea water temperature" ;
     schema1:version "3.2" ;
     prov:wasDerivedFrom ex:argoRawProfiles ;
     prov:wasGeneratedBy [ a prov:Activity ;

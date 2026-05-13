@@ -2,8 +2,8 @@
   "title": "Validation report for cdif.bbr.metadata.ddiCDIFProperties.ddi-cdif-agent - DDI-CDI Agent",
   "bblockName": "DDI-CDI Agent",
   "bblockId": "cdif.bbr.metadata.ddiCDIFProperties.ddi-cdif-agent",
-  "generated": "2026-05-09T18:50:19.975100+00:00",
-  "result": true,
+  "generated": "2026-05-13T19:51:43.708170+00:00",
+  "result": false,
   "items": [
     {
       "source": {
@@ -15,7 +15,7 @@
         "snippetIndex": 1,
         "language": "application/json"
       },
-      "result": true,
+      "result": false,
       "sections": [
         {
           "name": "FILES",
@@ -23,7 +23,7 @@
           "entries": [
             {
               "isError": false,
-              "message": "Using exampleDdicdiAgent.json from examples"
+              "message": "Using exampleDdiCdifAgentMinimal.json from examples"
             },
             {
               "op": "jsonld-uplift",
@@ -40,7 +40,7 @@
               "op": "ttl-create",
               "empty": false,
               "filename": "example_1_1.ttl",
-              "size": 41,
+              "size": 1,
               "isError": false,
               "message": "Output Turtle example_1_1.ttl created"
             }
@@ -64,6 +64,23 @@
           "entries": [
             {
               "op": "shacl-report",
+              "shaclFile": "_sources/ddiCDIFProperties/ddi-cdif-machine/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/ddiCDIFProperties/ddi-cdif-machine/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiCDIFProperties/ddi-cdif-machine/rules.shacl",
+              "focusNodes": {
+                "cdifd:ddi-cdif-machineShape": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiCDIFProperties/ddi-cdif-machine/rules.shacl:\n - Shape cdifd:ddi-cdif-machineShape: *none*\n"
+            },
+            {
+              "op": "shacl-report",
               "shaclFile": "_sources/ddiCDIFProperties/ddi-cdif-organization/rules.shacl",
               "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
               "isError": false,
@@ -81,6 +98,25 @@
             },
             {
               "op": "shacl-report",
+              "shaclFile": "_sources/ddiCDIFProperties/ddi-cdif-individual/rules.shacl",
+              "graph": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode <https://example.org/person/alice> ;\n            sh:resultMessage \"A DDI-CDI Individual should have at least one cdi:individualName\" ;\n            sh:resultPath cdi:individualName ;\n            sh:resultSeverity sh:Warning ;\n            sh:sourceConstraintComponent sh:MinCountConstraintComponent ;\n            sh:sourceShape [ sh:message \"A DDI-CDI Individual should have at least one cdi:individualName\" ;\n                    sh:minCount 1 ;\n                    sh:path cdi:individualName ;\n                    sh:severity sh:Warning ] ] .\n\n",
+              "isError": true,
+              "message": "Validation result for _sources/ddiCDIFProperties/ddi-cdif-individual/rules.shacl:\n  Validation Report\n  Conforms: False\n  Results (1):\n  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n  \tSeverity: sh:Warning\n  \tSource Shape: [ sh:message Literal(\"A DDI-CDI Individual should have at least one cdi:individualName\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path cdi:individualName ; sh:severity sh:Warning ]\n  \tFocus Node: <https://example.org/person/alice>\n  \tResult Path: cdi:individualName\n  \tMessage: A DDI-CDI Individual should have at least one cdi:individualName\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiCDIFProperties/ddi-cdif-individual/rules.shacl",
+              "focusNodes": {
+                "cdifd:ddi-cdif-individualShape": {
+                  "nodes": [
+                    "<https://example.org/person/alice>"
+                  ]
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiCDIFProperties/ddi-cdif-individual/rules.shacl:\n - Shape cdifd:ddi-cdif-individualShape: <https://example.org/person/alice>\n"
+            },
+            {
+              "op": "shacl-report",
               "shaclFile": "_sources/ddiCDIFProperties/ddi-cdif-processing-agent/rules.shacl",
               "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
               "isError": false,
@@ -89,21 +125,116 @@
             {
               "shaclFile": "_sources/ddiCDIFProperties/ddi-cdif-processing-agent/rules.shacl",
               "focusNodes": {
-                "cdifd:ddi-cdif-processing-agentShape": {
-                  "nodes": []
-                },
                 "cdifd:ddi-cdif-processing-agentShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "_:nbfb39ed64cb44dc68a5e32019653cd09b3": {
+                "_:n663fa069d2f94d969b4b930159242b06b3": {
                   "nodes": []
                 },
-                "_:nbfb39ed64cb44dc68a5e32019653cd09b8": {
+                "_:n663fa069d2f94d969b4b930159242b06b8": {
+                  "nodes": []
+                },
+                "cdifd:ddi-cdif-processing-agentShape": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/ddiCDIFProperties/ddi-cdif-processing-agent/rules.shacl:\n - Shape cdifd:ddi-cdif-processing-agentShape: *none*\n - Shape cdifd:ddi-cdif-processing-agentShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nbfb39ed64cb44dc68a5e32019653cd09b3: *none*\n - Shape _:nbfb39ed64cb44dc68a5e32019653cd09b8: *none*\n - Shape cdifd:ddi-cdif-processing-agentShape/sh:property/sh:or/rdf:first: *none*\n"
+              "message": "Focus nodes for _sources/ddiCDIFProperties/ddi-cdif-processing-agent/rules.shacl:\n - Shape cdifd:ddi-cdif-processing-agentShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n663fa069d2f94d969b4b930159242b06b3: *none*\n - Shape _:n663fa069d2f94d969b4b930159242b06b8: *none*\n - Shape cdifd:ddi-cdif-processing-agentShape: *none*\n - Shape cdifd:ddi-cdif-processing-agentShape/sh:property/sh:or/rdf:first: *none*\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "source": {
+        "type": "EXAMPLE",
+        "requireFail": false,
+        "filename": "build/tests/bbr/metadata/ddiCDIFProperties/ddi-cdif-agent/example_2_1.json",
+        "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/ddiCDIFProperties/ddi-cdif-agent/example_2_1.json",
+        "exampleIndex": 2,
+        "snippetIndex": 1,
+        "language": "application/json"
+      },
+      "result": true,
+      "sections": [
+        {
+          "name": "FILES",
+          "title": "Files",
+          "entries": [
+            {
+              "isError": false,
+              "message": "Using exampleDdicdiAgent.json from examples"
+            },
+            {
+              "op": "jsonld-uplift",
+              "isError": false,
+              "message": "JSON-LD context is present - uplifting"
+            },
+            {
+              "op": "jsonld-create",
+              "filename": "example_2_1.jsonld",
+              "isError": false,
+              "message": "Output JSON-LD example_2_1.jsonld created"
+            },
+            {
+              "op": "ttl-create",
+              "empty": false,
+              "filename": "example_2_1.ttl",
+              "size": 41,
+              "isError": false,
+              "message": "Output Turtle example_2_1.ttl created"
+            }
+          ]
+        },
+        {
+          "name": "JSON_SCHEMA",
+          "title": "JSON Schema",
+          "entries": [
+            {
+              "op": "validation",
+              "result": true,
+              "isError": false,
+              "message": "Validation passed"
+            }
+          ]
+        },
+        {
+          "name": "SHACL",
+          "title": "SHACL",
+          "entries": [
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/ddiCDIFProperties/ddi-cdif-machine/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/ddiCDIFProperties/ddi-cdif-machine/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiCDIFProperties/ddi-cdif-machine/rules.shacl",
+              "focusNodes": {
+                "cdifd:ddi-cdif-machineShape": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiCDIFProperties/ddi-cdif-machine/rules.shacl:\n - Shape cdifd:ddi-cdif-machineShape: *none*\n"
+            },
+            {
+              "op": "shacl-report",
+              "shaclFile": "_sources/ddiCDIFProperties/ddi-cdif-organization/rules.shacl",
+              "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
+              "isError": false,
+              "message": "Validation result for _sources/ddiCDIFProperties/ddi-cdif-organization/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+            },
+            {
+              "shaclFile": "_sources/ddiCDIFProperties/ddi-cdif-organization/rules.shacl",
+              "focusNodes": {
+                "cdifd:ddi-cdif-organizationShape": {
+                  "nodes": []
+                }
+              },
+              "isError": false,
+              "message": "Focus nodes for _sources/ddiCDIFProperties/ddi-cdif-organization/rules.shacl:\n - Shape cdifd:ddi-cdif-organizationShape: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -126,20 +257,29 @@
             },
             {
               "op": "shacl-report",
-              "shaclFile": "_sources/ddiCDIFProperties/ddi-cdif-machine/rules.shacl",
+              "shaclFile": "_sources/ddiCDIFProperties/ddi-cdif-processing-agent/rules.shacl",
               "graph": "@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms true .\n\n",
               "isError": false,
-              "message": "Validation result for _sources/ddiCDIFProperties/ddi-cdif-machine/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
+              "message": "Validation result for _sources/ddiCDIFProperties/ddi-cdif-processing-agent/rules.shacl:\n  Validation Report\n  Conforms: True\n  "
             },
             {
-              "shaclFile": "_sources/ddiCDIFProperties/ddi-cdif-machine/rules.shacl",
+              "shaclFile": "_sources/ddiCDIFProperties/ddi-cdif-processing-agent/rules.shacl",
               "focusNodes": {
-                "cdifd:ddi-cdif-machineShape": {
+                "cdifd:ddi-cdif-processing-agentShape/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n663fa069d2f94d969b4b930159242b06b3": {
+                  "nodes": []
+                },
+                "_:n663fa069d2f94d969b4b930159242b06b8": {
+                  "nodes": []
+                },
+                "cdifd:ddi-cdif-processing-agentShape": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/ddiCDIFProperties/ddi-cdif-machine/rules.shacl:\n - Shape cdifd:ddi-cdif-machineShape: *none*\n"
+              "message": "Focus nodes for _sources/ddiCDIFProperties/ddi-cdif-processing-agent/rules.shacl:\n - Shape cdifd:ddi-cdif-processing-agentShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n663fa069d2f94d969b4b930159242b06b3: *none*\n - Shape _:n663fa069d2f94d969b4b930159242b06b8: *none*\n - Shape cdifd:ddi-cdif-processing-agentShape: *none*\n - Shape cdifd:ddi-cdif-processing-agentShape/sh:property/sh:or/rdf:first: *none*\n"
             }
           ]
         }
@@ -148,8 +288,8 @@
   ],
   "globalErrors": {},
   "counts": {
-    "total": 1,
+    "total": 2,
     "passed": 1,
-    "failed": 0
+    "failed": 1
   }
 }

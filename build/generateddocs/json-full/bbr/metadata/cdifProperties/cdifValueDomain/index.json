@@ -1,0 +1,121 @@
+
+
+{
+  "itemIdentifier": "cdif.bbr.metadata.cdifProperties.cdifValueDomain",
+  "$schema": "metaschema.yaml",
+  "name": "CDIF Value Domain",
+  "abstract": "CDIF profile of the DDI-CDI ValueDomain. A single node is either a cdif:SubstantiveValueDomain (subject-matter values) or a cdif:SentinelValueDomain (processing/missing-value codes). Each carries cdif:takesValuesFrom (refs cdifEnumerationDomain), cdif:displayLabel, and an array cdif:recommendedDataType of xsd: type tokens; at least one of takesValuesFrom or recommendedDataType is required.",
+  "status": "under-development",
+  "dateTimeAddition": "2026-05-12T00:00:00Z",
+  "itemClass": "schema",
+  "register": "cdif-building-block-register",
+  "version": "0.1",
+  "dateOfLastChange": "2026-05-13",
+  "link": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "maturity": "draft",
+  "scope": "unstable",
+  "tags": [
+    "cdif",
+    "value-domain",
+    "ddi-cdi"
+  ],
+  "sources": [
+    {
+      "title": "DDI-CDI 1.0 Specification",
+      "link": "https://ddialliance.org/Specification/DDI-CDI/1.0/"
+    }
+  ],
+  "shaclShapes": {
+    "cdif.bbr.metadata.cdifProperties.cdifValueDomain": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifValueDomain/rules.shacl"
+    ],
+    "cdif.bbr.metadata.cdifProperties.cdifEnumerationDomain": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifEnumerationDomain/rules.shacl"
+    ],
+    "cdif.bbr.metadata.skosProperties.skosConceptScheme": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConceptScheme/rules.shacl"
+    ],
+    "cdif.bbr.metadata.skosProperties.skosConcept": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
+    ]
+  },
+  "dependsOn": [
+    "cdif.bbr.metadata.cdifProperties.cdifEnumerationDomain"
+  ],
+  "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifValueDomain/context.jsonld",
+  "schema": {
+    "application/yaml": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifValueDomain/schema.yaml",
+    "application/json": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifValueDomain/schema.json"
+  },
+  "sourceSchema": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifValueDomain/schema.yaml",
+  "sourceLdContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifValueDomain/context.jsonld",
+  "resolvedSchemaProperties": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifValueDomain/resolvedProperties.json",
+  "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifValueDomain/",
+  "validationPassed": false,
+  "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/cdifProperties/cdifValueDomain/",
+  "description": "# CDIF Value Domain\n\nA **CDIF Value Domain** describes the set of values a variable may take \u2014 either *substantive* (subject-matter values of interest) or *sentinel* (processing or missing-value codes like SAS `.R`, SPSS `999`, \"not applicable\", etc.).\n\nThis is a CDIF profile of the DDI-CDI `ValueDomain` family. A single node is **one of**:\n\n- `cdif:SubstantiveValueDomain` \u2014 the real values a variable measures.\n- `cdif:SentinelValueDomain` \u2014 codes that flag missing, refused, not-applicable, or otherwise non-substantive observations.\n\nThe schema discriminates the two via `@type` (a `oneOf` over the two `$defs`).\n\n## Structure\n\nEach subclass carries the same shape:\n\n| Property | Type | Notes |\n|---|---|---|\n| `@type` | array | Must contain `cdif:SubstantiveValueDomain` or `cdif:SentinelValueDomain` |\n| `@id` | string | Optional IRI for the domain node |\n| `cdif:takesValuesFrom` | anyOf | Inline [cdifEnumerationDomain](../cdifEnumerationDomain/) or `{@id}` reference |\n| `cdif:displayLabel` | string | Short human-readable label (multilingual via repeat) |\n| `cdif:recommendedDataType` | array | One or more `xsd:` type tokens (e.g. `xsd:decimal`, `xsd:date`) drawn from the enum in `$defs/xsdDataType` |\n\n`@type` is required, plus **at least one of** `cdif:takesValuesFrom` or `cdif:recommendedDataType` \u2014 a value domain that pins neither an enumeration nor a recommended data type is not informative.\n\n## Relationship to other BBs\n\n- **[cdifEnumerationDomain](../cdifEnumerationDomain/)** \u2014 `cdif:takesValuesFrom` refs this BB when the value set is a controlled vocabulary, codelist, or classification.\n- **[cdifInstanceVariable](../cdifInstanceVariable/)** \u2014 references a CDIF Value Domain to describe permissible values for the variable.\n- **[ddicdiValueDomain](../../ddiProperties/ddicdiValueDomain/)** \u2014 the native DDI-CDI version (covers ValueAndConceptDescription, conceptual domain pointers, platformType). This CDIF profile is intentionally slimmer.\n\n## Notes\n\n- Where DDI-CDI uses `cdi:ValueAndConceptDescription` for value/concept description, CDIF uses `skos:Concept` (via [skosConcept](../../skosProperties/skosConcept/)) as the general pattern. This BB does not yet expose a description pointer; add `cdif:isDescribedBy` \u2192 `skosConcept` if/when needed.\n- The `xsdDataType` enum is the same fixed list used elsewhere in CDIF for advertising recommended XML Schema datatypes.\n",
+  "examples": [
+    {
+      "title": "Minimal CDIF Value Domain",
+      "content": "A bare cdif:SubstantiveValueDomain that recommends a single xsd:nonNegativeInteger\ndata type for an age-in-years variable. Schema requires @type plus at least one of\ncdif:takesValuesFrom or cdif:recommendedDataType; this example satisfies the latter.",
+      "prefixes": {
+        "schema": "http://schema.org/",
+        "cdif": "https://cdif.org/0.1/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifValueDomain/exampleCdifValueDomainMinimal.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"cdif\": \"https://cdif.org/0.1/\",\n    \"xsd\": \"http://www.w3.org/2001/XMLSchema#\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@type\": [\"cdif:SubstantiveValueDomain\"],\n  \"@id\": \"ex:vd/age-years\",\n  \"cdif:recommendedDataType\": [\"xsd:nonNegativeInteger\"]\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifValueDomain/example_1_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\",\n      \"cdif\": \"https://cdif.org/0.1/\",\n      \"xsd\": \"http://www.w3.org/2001/XMLSchema#\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifValueDomain/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"cdif\": \"https://cdif.org/0.1/\",\n      \"xsd\": \"http://www.w3.org/2001/XMLSchema#\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@type\": [\n    \"cdif:SubstantiveValueDomain\"\n  ],\n  \"@id\": \"ex:vd/age-years\",\n  \"cdif:recommendedDataType\": [\n    \"xsd:nonNegativeInteger\"\n  ]\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifValueDomain/example_1_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix cdif: <https://cdif.org/0.1/> .\n\n<https://example.org/vd/age-years> a cdif:SubstantiveValueDomain ;\n    cdif:recommendedDataType \"xsd:nonNegativeInteger\" .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifValueDomain/example_1_1.ttl"
+        }
+      ]
+    },
+    {
+      "title": "Complete CDIF Value Domain",
+      "content": "A cdif:SubstantiveValueDomain for ISO 3166-1 alpha-2 country codes \u2014 exercises\nevery property: cdif:takesValuesFrom (inline cdifEnumerationDomain),\ncdif:displayLabel, and cdif:recommendedDataType (two xsd: types).",
+      "prefixes": {
+        "schema": "http://schema.org/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "cdif": "https://cdif.org/0.1/",
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifValueDomain/exampleCdifValueDomainComplete.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n    \"cdif\": \"https://cdif.org/0.1/\",\n    \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n    \"xsd\": \"http://www.w3.org/2001/XMLSchema#\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@type\": [\"cdif:SubstantiveValueDomain\"],\n  \"@id\": \"ex:vd/country-iso3166\",\n  \"cdif:displayLabel\": \"ISO 3166-1 alpha-2 country code\",\n  \"cdif:takesValuesFrom\": {\n    \"@type\": [\"cdif:EnumerationDomain\"],\n    \"@id\": \"ex:enum-domain/iso3166\",\n    \"schema:name\": \"ISO 3166-1 alpha-2 country codes\",\n    \"schema:inDefinedTermSet\": {\n      \"@id\": \"https://www.iso.org/obp/ui/#iso:pub:PUB500001\"\n    }\n  },\n  \"cdif:recommendedDataType\": [\"xsd:string\", \"xsd:token\"]\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifValueDomain/example_2_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\",\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n      \"cdif\": \"https://cdif.org/0.1/\",\n      \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n      \"xsd\": \"http://www.w3.org/2001/XMLSchema#\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifValueDomain/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n      \"cdif\": \"https://cdif.org/0.1/\",\n      \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n      \"xsd\": \"http://www.w3.org/2001/XMLSchema#\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@type\": [\n    \"cdif:SubstantiveValueDomain\"\n  ],\n  \"@id\": \"ex:vd/country-iso3166\",\n  \"cdif:displayLabel\": \"ISO 3166-1 alpha-2 country code\",\n  \"cdif:takesValuesFrom\": {\n    \"@type\": [\n      \"cdif:EnumerationDomain\"\n    ],\n    \"@id\": \"ex:enum-domain/iso3166\",\n    \"schema:name\": \"ISO 3166-1 alpha-2 country codes\",\n    \"schema:inDefinedTermSet\": {\n      \"@id\": \"https://www.iso.org/obp/ui/#iso:pub:PUB500001\"\n    }\n  },\n  \"cdif:recommendedDataType\": [\n    \"xsd:string\",\n    \"xsd:token\"\n  ]\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifValueDomain/example_2_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix cdif: <https://cdif.org/0.1/> .\n@prefix schema1: <http://schema.org/> .\n\n<https://example.org/vd/country-iso3166> a cdif:SubstantiveValueDomain ;\n    cdif:displayLabel \"ISO 3166-1 alpha-2 country code\" ;\n    cdif:recommendedDataType \"xsd:string\",\n        \"xsd:token\" ;\n    cdif:takesValuesFrom <https://example.org/enum-domain/iso3166> .\n\n<https://example.org/enum-domain/iso3166> a cdif:EnumerationDomain ;\n    schema1:inDefinedTermSet <https://www.iso.org/obp/ui/#iso:pub:PUB500001> ;\n    schema1:name \"ISO 3166-1 alpha-2 country codes\" .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifValueDomain/example_2_1.ttl"
+        }
+      ]
+    }
+  ],
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: CDIF Value Domain\ndescription: \"Value domain for substantive or sentinel values for a variable. Typically\n  a description and/or enumeration of allowed values of interest. CDIF profile of\n  the DDI-CDI ValueDomain \\u2014 a single node is either a cdif:SubstantiveValueDomain\n  (subject-matter values) or a cdif:SentinelValueDomain (processing/missing-value\n  codes).\"\noneOf:\n- $ref: '#/$defs/SubstantiveValueDomain'\n- $ref: '#/$defs/SentinelValueDomain'\n$defs:\n  SubstantiveValueDomain:\n    type: object\n    description: Value domain for a substantive conceptual domain. Typically a description\n      and/or enumeration of allowed values of interest.\n    properties:\n      '@type':\n        type: array\n        items:\n          type: string\n        contains:\n          const: cdif:SubstantiveValueDomain\n        minItems: 1\n      '@id':\n        type: string\n        description: Identifier for this SubstantiveValueDomain node\n      cdif:takesValuesFrom:\n        anyOf:\n        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifEnumerationDomain/schema.yaml\n        - type: object\n          description: JSON-LD @id reference to a node defined elsewhere in the graph\n          properties:\n            '@id':\n              type: string\n              description: IRI or blank node identifier of the referenced node\n          required:\n          - '@id'\n      cdif:displayLabel:\n        type: string\n        description: A human-readable display label for the object. Supports the use\n          of multiple languages. Repeat for labels with different content, for example,\n          labels with differing length limitations.\n      cdif:recommendedDataType:\n        type: array\n        description: The data types that are recommended for use with this domain.\n        items:\n          $ref: '#/$defs/xsdDataType'\n        minItems: 1\n    required:\n    - '@type'\n    anyOf:\n    - required:\n      - cdif:takesValuesFrom\n    - required:\n      - cdif:recommendedDataType\n  SentinelValueDomain:\n    type: object\n    description: Value domain for a sentinel conceptual domain.\n    properties:\n      '@type':\n        type: array\n        items:\n          type: string\n        contains:\n          const: cdif:SentinelValueDomain\n        minItems: 1\n      '@id':\n        type: string\n        description: Identifier for this SentinelValueDomain node\n      cdif:takesValuesFrom:\n        anyOf:\n        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifEnumerationDomain/schema.yaml\n        - type: object\n          description: JSON-LD @id reference to a node defined elsewhere in the graph\n          properties:\n            '@id':\n              type: string\n              description: IRI or blank node identifier of the referenced node\n          required:\n          - '@id'\n      cdif:displayLabel:\n        type: string\n        description: A human-readable display label for the object. Supports the use\n          of multiple languages. Repeat for labels with different content, for example,\n          labels with differing length limitations.\n      cdif:recommendedDataType:\n        type: array\n        description: The data types that are recommended for use with this domain.\n        items:\n          $ref: '#/$defs/xsdDataType'\n        minItems: 1\n    required:\n    - '@type'\n    anyOf:\n    - required:\n      - cdif:takesValuesFrom\n    - required:\n      - cdif:recommendedDataType\n  xsdDataType:\n    type: string\n    enum:\n    - xsd:anyURI\n    - xsd:base64Binary\n    - xsd:boolean\n    - xsd:byte\n    - xsd:date\n    - xsd:dateTime\n    - xsd:decimal\n    - xsd:double\n    - xsd:float\n    - xsd:gDay\n    - xsd:gMonth\n    - xsd:gMonthDay\n    - xsd:gYear\n    - xsd:gYearMonth\n    - xsd:hexBinary\n    - xsd:int\n    - xsd:integer\n    - xsd:language\n    - xsd:long\n    - xsd:Name\n    - xsd:NCName\n    - xsd:NMTOKEN\n    - xsd:negativeInteger\n    - xsd:nonNegativeInteger\n    - xsd:nonPositiveInteger\n    - xsd:normalizedString\n    - xsd:positiveInteger\n    - xsd:short\n    - xsd:string\n    - xsd:time\n    - xsd:token\n    - xsd:unsignedByte\n    - xsd:unsignedInt\n    - xsd:unsignedLong\n    - xsd:unsignedShort\nx-jsonld-prefixes:\n  schema: http://schema.org/\n  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\n  cdif: https://cdif.org/0.1/\n  skos: http://www.w3.org/2004/02/skos/core#\n  xsd: http://www.w3.org/2001/XMLSchema#\n",
+  "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "gitPath": "_sources/cdifProperties/cdifValueDomain"
+}

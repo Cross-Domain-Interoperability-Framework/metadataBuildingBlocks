@@ -1,0 +1,125 @@
+
+
+{
+  "itemIdentifier": "cdif.bbr.metadata.cdifProperties.cdifKey",
+  "$schema": "metaschema.yaml",
+  "name": "CDIF Key",
+  "abstract": "Profile of ddi-cdi Key/PrimaryKey: a CDIF Key is the role of an ordered set of cdi:InstanceVariables (referenced via cdifInstanceVariable) that uniquely identify a data instance. Defines properties: @type, cdif:isComposedOf. Each cdif:ComponentPosition entry carries cdif:indexes (the InstanceVariable) and cdif:value (the integer position). Composes building block: cdifInstanceVariable (cdifProperties).",
+  "status": "under-development",
+  "dateTimeAddition": "2026-05-10T00:00:00Z",
+  "itemClass": "schema",
+  "register": "cdif-building-block-register",
+  "version": "0.1",
+  "dateOfLastChange": "2026-05-13",
+  "link": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "maturity": "draft",
+  "scope": "unstable",
+  "tags": [
+    "cdif",
+    "key",
+    "primary-key",
+    "ddi-cdi"
+  ],
+  "sources": [
+    {
+      "title": "DDI-CDI 1.0 Specification",
+      "link": "https://ddialliance.org/Specification/DDI-CDI/1.0/"
+    }
+  ],
+  "shaclShapes": {
+    "cdif.bbr.metadata.cdifProperties.cdifKey": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifKey/rules.shacl"
+    ],
+    "cdif.bbr.metadata.cdifProperties.cdifInstanceVariable": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifInstanceVariable/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.variableMeasured": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/variableMeasured/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.labeledLink": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/labeledLink/rules.shacl"
+    ],
+    "cdif.bbr.metadata.skosProperties.skosConcept": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
+    ]
+  },
+  "dependsOn": [
+    "cdif.bbr.metadata.cdifProperties.cdifInstanceVariable"
+  ],
+  "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifKey/context.jsonld",
+  "schema": {
+    "application/yaml": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifKey/schema.yaml",
+    "application/json": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifKey/schema.json"
+  },
+  "sourceSchema": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifKey/schema.yaml",
+  "sourceLdContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifKey/context.jsonld",
+  "resolvedSchemaProperties": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifKey/resolvedProperties.json",
+  "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifKey/",
+  "validationPassed": true,
+  "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/cdifProperties/cdifKey/",
+  "description": "# CDIF Key\n\nA **CDIF Key** is the role of an ordered set of `cdi:InstanceVariable`s that uniquely identifies a data instance \u2014 typically the primary key of a tabular dataset, but the same shape covers any composite identifier role.\n\nThis is a CDIF profile of DDI-CDI's `Key` / `PrimaryKey` concept. Where the canonical DDI-CDI form composes a Key from `cdi:DataStructureComponent` nodes, the CDIF profile composes it from `cdi:InstanceVariable` nodes (referenced through the `cdifInstanceVariable` building block) so the Key references the actual measured variables rather than an intermediate component layer.\n\n## Structure\n\n- `@type` must contain `\"cdif:Key\"`.\n- `cdif:isComposedOf` is an ordered array of one or more `cdif:ComponentPosition` entries.\n- Each `cdif:ComponentPosition` carries:\n  - `cdif:indexes` \u2014 the `cdi:InstanceVariable` (inline `cdifInstanceVariable` node, or an `@id`-only reference);\n  - `cdif:value` \u2014 an integer indicating the position of this component within the key, counting upward from `0` or `1`.\n\nThe `cdif:value` ordering matters for composite (multi-column) keys: it determines the canonical sort/lookup order so that `(year, country)` and `(country, year)` keys are distinguishable.\n",
+  "examples": [
+    {
+      "title": "Minimal CDIF Key",
+      "content": "Single-component key referencing one cdi:InstanceVariable by @id only.\nThis is the smallest valid cdif:Key \u2014 schema requires @type=cdif:Key,\na non-empty cdif:isComposedOf array, and each entry carrying\n@type=cdif:ComponentPosition + cdif:indexes + cdif:value.",
+      "prefixes": {
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "cdif": "https://cdif.org/0.1/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifKey/exampleCdifKeyMinimal.json",
+          "code": "{\n  \"@context\": {\n    \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n    \"cdif\": \"https://cdif.org/0.1/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@type\": [\"cdif:Key\"],\n  \"cdif:isComposedOf\": [\n    { \"@id\": \"ex:var/sampleId\" }\n  ]\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifKey/example_1_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n      \"cdif\": \"https://cdif.org/0.1/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifKey/context.jsonld\",\n    {\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n      \"cdif\": \"https://cdif.org/0.1/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@type\": [\n    \"cdif:Key\"\n  ],\n  \"cdif:isComposedOf\": [\n    {\n      \"@id\": \"ex:var/sampleId\"\n    }\n  ]\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifKey/example_1_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix cdif: <https://cdif.org/0.1/> .\n\n[] a cdif:Key ;\n    cdif:isComposedOf <https://example.org/var/sampleId> .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifKey/example_1_1.ttl"
+        }
+      ]
+    },
+    {
+      "title": "Complete CDIF Key",
+      "content": "Composite (two-column) key with a fully-described inline cdifInstanceVariable\nnode for the first component and an @id-only reference for the second.\nDemonstrates the inline-or-ref pattern, cdif:value ordering, and use of\nevery property the schema permits including @id on the Key itself.",
+      "prefixes": {
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "cdif": "https://cdif.org/0.1/",
+        "schema": "http://schema.org/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifKey/exampleCdifKeyComplete.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"xsd\": \"http://www.w3.org/2001/XMLSchema#\",\n    \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n    \"cdif\": \"https://cdif.org/0.1/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@type\": [\"cdif:Key\"],\n  \"@id\": \"ex:dataset/observations/key/primary\",\n  \"cdif:isComposedOf\": [\n    {\n      \"@id\": \"ex:var/year\",\n      \"@type\": [\n        \"cdi:InstanceVariable\",\n        \"schema:PropertyValue\"\n      ],\n      \"schema:name\": \"year\",\n      \"schema:alternateName\": [\"Observation year\"],\n      \"schema:description\": \"Calendar year in which the observation was recorded.\",\n      \"schema:propertyID\": [\"ex:concept/calendarYear\"],\n      \"schema:unitText\": \"year\",\n      \"cdi:identifier\": \"ex:var/year\",\n      \"cdi:physicalDataType\": [\"xsd:gYear\"],\n      \"cdi:simpleUnitOfMeasure\": \"year\",\n      \"cdi:name\": \"year\",\n      \"cdi:displayLabel\": \"Observation year\",\n      \"cdi:role\": \"Dimension\"\n    },\n    { \"@id\": \"ex:var/countryCode\" }\n  ]\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifKey/example_2_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n      \"cdif\": \"https://cdif.org/0.1/\",\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifKey/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"xsd\": \"http://www.w3.org/2001/XMLSchema#\",\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n      \"cdif\": \"https://cdif.org/0.1/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@type\": [\n    \"cdif:Key\"\n  ],\n  \"@id\": \"ex:dataset/observations/key/primary\",\n  \"cdif:isComposedOf\": [\n    {\n      \"@id\": \"ex:var/year\",\n      \"@type\": [\n        \"cdi:InstanceVariable\",\n        \"schema:PropertyValue\"\n      ],\n      \"schema:name\": \"year\",\n      \"schema:alternateName\": [\n        \"Observation year\"\n      ],\n      \"schema:description\": \"Calendar year in which the observation was recorded.\",\n      \"schema:propertyID\": [\n        \"ex:concept/calendarYear\"\n      ],\n      \"schema:unitText\": \"year\",\n      \"cdi:identifier\": \"ex:var/year\",\n      \"cdi:physicalDataType\": [\n        \"xsd:gYear\"\n      ],\n      \"cdi:simpleUnitOfMeasure\": \"year\",\n      \"cdi:name\": \"year\",\n      \"cdi:displayLabel\": \"Observation year\",\n      \"cdi:role\": \"Dimension\"\n    },\n    {\n      \"@id\": \"ex:var/countryCode\"\n    }\n  ]\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifKey/example_2_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix cdif: <https://cdif.org/0.1/> .\n@prefix schema1: <http://schema.org/> .\n\n<https://example.org/dataset/observations/key/primary> a cdif:Key ;\n    cdif:isComposedOf <https://example.org/var/countryCode>,\n        <https://example.org/var/year> .\n\n<https://example.org/var/year> a cdi:InstanceVariable,\n        schema1:PropertyValue ;\n    cdi:displayLabel \"Observation year\" ;\n    cdi:identifier \"ex:var/year\" ;\n    cdi:name \"year\" ;\n    cdi:physicalDataType \"xsd:gYear\" ;\n    cdi:role \"Dimension\" ;\n    cdi:simpleUnitOfMeasure \"year\" ;\n    schema1:alternateName \"Observation year\" ;\n    schema1:description \"Calendar year in which the observation was recorded.\" ;\n    schema1:name \"year\" ;\n    schema1:propertyID \"ex:concept/calendarYear\" ;\n    schema1:unitText \"year\" .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifKey/example_2_1.ttl"
+        }
+      ]
+    }
+  ],
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: CDIF Key\ndescription: 'Profile of ddi-cdi Key/PrimaryKey: a CDIF Key is the role of an ordered\n  set of cdi:InstanceVariables (referenced via cdifInstanceVariable) that uniquely\n  identify a data instance. Array order of cdif:isComposedOf items is the position;\n  no intermediate ComponentPosition wrapper.'\ntype: object\nproperties:\n  '@type':\n    type: array\n    items:\n      type: string\n    contains:\n      const: cdif:Key\n    minItems: 1\n  '@id':\n    type: string\n    description: Identifier for this Key node.\n  cdif:isComposedOf:\n    type: array\n    description: Ordered list of cdi:InstanceVariables (inline cdifInstanceVariable\n      or @id-reference to one declared elsewhere in the dataset). Position is implicit\n      in array order.\n    items:\n      anyOf:\n      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml\n      - type: object\n        description: object reference via URI or URI fragment to a variable declared\n          in the same document\n        properties:\n          '@id':\n            type: string\n        required:\n        - '@id'\n    minItems: 1\nrequired:\n- '@type'\n- cdif:isComposedOf\nx-jsonld-prefixes:\n  schema: http://schema.org/\n  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\n  cdif: https://cdif.org/0.1/\n",
+  "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "gitPath": "_sources/cdifProperties/cdifKey"
+}

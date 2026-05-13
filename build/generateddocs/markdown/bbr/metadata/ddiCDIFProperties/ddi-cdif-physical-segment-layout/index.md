@@ -16,7 +16,411 @@ It is referenced from `ddicdiInstanceVariable` and `ddicdiPresentationalVariable
 ## Examples
 
 ### Minimal PhysicalSegmentLayout
-TODO: replace with a JSON-LD example.
+Bare PhysicalSegmentLayout — only @type is required.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:PhysicalSegmentLayout"],
+  "@id": "ex:layout/observations.csv"
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-physical-segment-layout/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:PhysicalSegmentLayout"
+  ],
+  "@id": "ex:layout/observations.csv"
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/layout/observations.csv> a cdi:PhysicalSegmentLayout .
+
+
+```
+
+
+### Complete PhysicalSegmentLayout
+RFC 4180-style CSV layout exercising every property: identifier, name,
+purpose, overview, all CSVW-style dialect flags (delimited, fixed-width,
+delimiter, quote/escape, header, line terminators, null sequence, trim,
+skip flags, table/text direction), encoding (CVE), isDefinedBy concept,
+a formats link to a LogicalRecord, plus an inline ValueMapping (with
+every numeric/physical-data-type property) and an ordered
+ValueMappingPosition.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:PhysicalSegmentLayout"],
+  "@id": "ex:layout/observations.csv",
+  "cdi:identifier": {
+    "@type": ["cdi:Identifier"],
+    "cdi:uri": "https://example.org/layout/observations.csv"
+  },
+  "cdi:name": [
+    {
+      "@type": ["cdi:ObjectName"],
+      "cdi:name": "observations.csv layout"
+    }
+  ],
+  "cdi:purpose": {
+    "@type": ["cdi:InternationalString"],
+    "cdi:languageSpecificString": [
+      {
+        "@type": ["cdi:LanguageString"],
+        "cdi:content": "CSV layout for the observations dataset.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:overview": {
+    "@type": ["cdi:InternationalString"],
+    "cdi:languageSpecificString": [
+      {
+        "@type": ["cdi:LanguageString"],
+        "cdi:content": "RFC 4180-compliant CSV with header row, UTF-8 encoding, comma delimiter.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:isDelimited": true,
+  "cdi:isFixedWidth": false,
+  "cdi:delimiter": ",",
+  "cdi:quoteCharacter": "\"",
+  "cdi:escapeCharacter": "\"",
+  "cdi:commentPrefix": "#",
+  "cdi:hasHeader": true,
+  "cdi:headerRowCount": 1,
+  "cdi:headerIsCaseSensitive": false,
+  "cdi:lineTerminator": ["\r\n", "\n"],
+  "cdi:nullSequence": "",
+  "cdi:skipBlankRows": true,
+  "cdi:skipDataColumns": 0,
+  "cdi:skipRows": 0,
+  "cdi:skipInitialSpace": false,
+  "cdi:treatConsecutiveDelimitersAsOne": false,
+  "cdi:trim": "Both",
+  "cdi:arrayBase": 1,
+  "cdi:allowsDuplicates": false,
+  "cdi:tableDirection": "Auto",
+  "cdi:textDirection": "Inherit",
+  "cdi:encoding": {
+    "@type": ["cdi:ControlledVocabularyEntry"],
+    "cdi:entryValue": ["utf-8"]
+  },
+  "cdi:isDefinedBy": [
+    { "@id": "ex:concept/csv-layout" }
+  ],
+  "cdi:formats": { "@id": "ex:logical-record/observations" },
+  "cdi:has_ValueMapping": [
+    {
+      "@type": ["cdi:ValueMapping"],
+      "@id": "ex:layout/observations.csv/vm/temperature",
+      "cdi:identifier": {
+        "@type": ["cdi:Identifier"],
+        "cdi:uri": "https://example.org/layout/observations.csv/vm/temperature"
+      },
+      "cdi:length": 8,
+      "cdi:minimumLength": 1,
+      "cdi:maximumLength": 12,
+      "cdi:decimalPositions": 2,
+      "cdi:defaultDecimalSeparator": ".",
+      "cdi:defaultDigitGroupSeparator": "",
+      "cdi:defaultValue": "",
+      "cdi:numberPattern": "#0.00",
+      "cdi:isRequired": true,
+      "cdi:scale": 1,
+      "cdi:nullSequence": "NA",
+      "cdi:physicalDataType": {
+        "@type": ["cdi:ControlledVocabularyEntry"],
+        "cdi:entryValue": ["xsd:decimal"]
+      },
+      "cdi:format": {
+        "@type": ["cdi:ControlledVocabularyEntry"],
+        "cdi:entryValue": ["decimal"]
+      },
+      "cdi:uses": { "@id": "ex:layout/observations.csv/loc/col-3" },
+      "cdi:formats": [
+        { "@id": "ex:datapoint/temperature-row-1" }
+      ]
+    }
+  ],
+  "cdi:has_ValueMappingPosition": [
+    {
+      "@type": ["cdi:ValueMappingPosition"],
+      "@id": "ex:layout/observations.csv/vmp/0",
+      "cdi:indexes": { "@id": "ex:layout/observations.csv/vm/temperature" },
+      "cdi:value": 0
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-physical-segment-layout/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:PhysicalSegmentLayout"
+  ],
+  "@id": "ex:layout/observations.csv",
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/layout/observations.csv"
+  },
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "observations.csv layout"
+    }
+  ],
+  "cdi:purpose": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": [
+      {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "CSV layout for the observations dataset.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:overview": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": [
+      {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "RFC 4180-compliant CSV with header row, UTF-8 encoding, comma delimiter.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:isDelimited": true,
+  "cdi:isFixedWidth": false,
+  "cdi:delimiter": ",",
+  "cdi:quoteCharacter": "\"",
+  "cdi:escapeCharacter": "\"",
+  "cdi:commentPrefix": "#",
+  "cdi:hasHeader": true,
+  "cdi:headerRowCount": 1,
+  "cdi:headerIsCaseSensitive": false,
+  "cdi:lineTerminator": [
+    "\r\n",
+    "\n"
+  ],
+  "cdi:nullSequence": "",
+  "cdi:skipBlankRows": true,
+  "cdi:skipDataColumns": 0,
+  "cdi:skipRows": 0,
+  "cdi:skipInitialSpace": false,
+  "cdi:treatConsecutiveDelimitersAsOne": false,
+  "cdi:trim": "Both",
+  "cdi:arrayBase": 1,
+  "cdi:allowsDuplicates": false,
+  "cdi:tableDirection": "Auto",
+  "cdi:textDirection": "Inherit",
+  "cdi:encoding": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "utf-8"
+    ]
+  },
+  "cdi:isDefinedBy": [
+    {
+      "@id": "ex:concept/csv-layout"
+    }
+  ],
+  "cdi:formats": {
+    "@id": "ex:logical-record/observations"
+  },
+  "cdi:has_ValueMapping": [
+    {
+      "@type": [
+        "cdi:ValueMapping"
+      ],
+      "@id": "ex:layout/observations.csv/vm/temperature",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/layout/observations.csv/vm/temperature"
+      },
+      "cdi:length": 8,
+      "cdi:minimumLength": 1,
+      "cdi:maximumLength": 12,
+      "cdi:decimalPositions": 2,
+      "cdi:defaultDecimalSeparator": ".",
+      "cdi:defaultDigitGroupSeparator": "",
+      "cdi:defaultValue": "",
+      "cdi:numberPattern": "#0.00",
+      "cdi:isRequired": true,
+      "cdi:scale": 1,
+      "cdi:nullSequence": "NA",
+      "cdi:physicalDataType": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "xsd:decimal"
+        ]
+      },
+      "cdi:format": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "decimal"
+        ]
+      },
+      "cdi:uses": {
+        "@id": "ex:layout/observations.csv/loc/col-3"
+      },
+      "cdi:formats": [
+        {
+          "@id": "ex:datapoint/temperature-row-1"
+        }
+      ]
+    }
+  ],
+  "cdi:has_ValueMappingPosition": [
+    {
+      "@type": [
+        "cdi:ValueMappingPosition"
+      ],
+      "@id": "ex:layout/observations.csv/vmp/0",
+      "cdi:indexes": {
+        "@id": "ex:layout/observations.csv/vm/temperature"
+      },
+      "cdi:value": 0
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/layout/observations.csv> a cdi:PhysicalSegmentLayout ;
+    cdi:allowsDuplicates false ;
+    cdi:arrayBase 1 ;
+    cdi:commentPrefix "#" ;
+    cdi:delimiter "," ;
+    cdi:encoding [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "utf-8" ] ;
+    cdi:escapeCharacter "\"" ;
+    cdi:formats <https://example.org/logical-record/observations> ;
+    cdi:hasHeader true ;
+    cdi:has_ValueMapping <https://example.org/layout/observations.csv/vm/temperature> ;
+    cdi:has_ValueMappingPosition <https://example.org/layout/observations.csv/vmp/0> ;
+    cdi:headerIsCaseSensitive false ;
+    cdi:headerRowCount 1 ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/layout/observations.csv" ] ;
+    cdi:isDefinedBy <https://example.org/concept/csv-layout> ;
+    cdi:isDelimited true ;
+    cdi:isFixedWidth false ;
+    cdi:lineTerminator """
+""",
+        """\r
+""" ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "observations.csv layout" ] ;
+    cdi:nullSequence "" ;
+    cdi:overview [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "RFC 4180-compliant CSV with header row, UTF-8 encoding, comma delimiter." ;
+                    cdi:language "en" ] ] ;
+    cdi:purpose [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "CSV layout for the observations dataset." ;
+                    cdi:language "en" ] ] ;
+    cdi:quoteCharacter "\"" ;
+    cdi:skipBlankRows true ;
+    cdi:skipDataColumns 0 ;
+    cdi:skipInitialSpace false ;
+    cdi:skipRows 0 ;
+    cdi:tableDirection "Auto" ;
+    cdi:textDirection "Inherit" ;
+    cdi:treatConsecutiveDelimitersAsOne false ;
+    cdi:trim "Both" .
+
+<https://example.org/layout/observations.csv/vmp/0> a cdi:ValueMappingPosition ;
+    cdi:indexes <https://example.org/layout/observations.csv/vm/temperature> ;
+    cdi:value 0 .
+
+<https://example.org/layout/observations.csv/vm/temperature> a cdi:ValueMapping ;
+    cdi:decimalPositions 2 ;
+    cdi:defaultDecimalSeparator "." ;
+    cdi:defaultDigitGroupSeparator "" ;
+    cdi:defaultValue "" ;
+    cdi:format [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "decimal" ] ;
+    cdi:formats <https://example.org/datapoint/temperature-row-1> ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/layout/observations.csv/vm/temperature" ] ;
+    cdi:isRequired true ;
+    cdi:length 8 ;
+    cdi:maximumLength 12 ;
+    cdi:minimumLength 1 ;
+    cdi:nullSequence "NA" ;
+    cdi:numberPattern "#0.00" ;
+    cdi:physicalDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:decimal" ] ;
+    cdi:scale 1 ;
+    cdi:uses <https://example.org/layout/observations.csv/loc/col-3> .
+
+
+```
+
 ## Schema
 
 ```yaml
@@ -312,7 +716,7 @@ $defs:
         minItems: 1
       cdi:isDescribedBy:
         anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifVariableMeasured/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
     required:
     - '@type'

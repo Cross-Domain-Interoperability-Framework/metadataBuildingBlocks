@@ -15,9 +15,53 @@ Organization is one of the four concrete agent types composed by `ddicdiAgent`, 
 
 ## Examples
 
-### Example DDI-CDI Organization agent.
-Demonstrates an Organization with structured name,
-website contact, and ROR identifier.
+### Minimal Organization
+Bare cdi:Organization — schema only requires @type.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:Organization"],
+  "@id": "ex:org/eurostat"
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-organization/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:Organization"
+  ],
+  "@id": "ex:org/eurostat"
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/org/eurostat> a cdi:Organization .
+
+
+```
+
+
+### Complete Organization
+Organization with structured name, website contact, and ROR identifier.
 #### json
 ```json
 {

@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-05-09",
+  "dateOfLastChange": "2026-05-13",
   "link": "https://github.com/usgin/metadataBuildingBlocks",
   "maturity": "draft",
   "scope": "unstable",
@@ -44,8 +44,8 @@
   "description": "# Data structure description\n\nDescribes tabular/structured data files. Typed as `cdi:PhysicalDataSet` and `ada:tabularData`. Supports DDI-CDI WideDataStructure for column layout description, spatial registration, and various analytical technique-specific component types, hierarchical datastructures like JSON, and multidimensional data array structures serialized in data cube format like hdf5 or netCDF.\n",
   "examples": [
     {
-      "title": "Example Physical Mapping",
-      "content": "Example physical mapping defining column format and data type for a variable.",
+      "title": "Minimal Physical Mapping",
+      "content": "Date column mapping with index, format, physical data type, null sequence,\nisRequired flag, and a single formats_InstanceVariable reference.",
       "prefixes": {
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
       },
@@ -65,6 +65,31 @@
           "language": "ttl",
           "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix ex: <https://example.org/> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] cdi:format \"YYYY-MM-DD\" ;\n    cdi:formats_InstanceVariable ex:var-collection-date ;\n    cdi:index 0 ;\n    cdi:isRequired true ;\n    cdi:nullSequence \"NA\" ;\n    cdi:physicalDataType \"Date\" .\n\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifPhysicalMapping/example_1_1.ttl"
+        }
+      ]
+    },
+    {
+      "title": "Complete Physical Mapping",
+      "content": "Numeric column mapping exercising every CSVW-aligned property: index,\nformat, physicalDataType, length (with min/max), scale, decimalPositions,\nnullSequence, defaultValue, isRequired, and formats_InstanceVariable.",
+      "prefixes": {
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifPhysicalMapping/exampleCdifPhysicalMappingComplete.json",
+          "code": "{\n  \"@context\": {\n    \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"cdi:index\": 3,\n  \"cdi:format\": \"#,##0.00\",\n  \"cdi:physicalDataType\": \"Numeric\",\n  \"cdi:length\": 12,\n  \"cdi:minimumLength\": 1,\n  \"cdi:maximumLength\": 12,\n  \"cdi:scale\": 1,\n  \"cdi:decimalPositions\": 2,\n  \"cdi:nullSequence\": \"NA\",\n  \"cdi:defaultValue\": \"\",\n  \"cdi:isRequired\": true,\n  \"cdi:formats_InstanceVariable\": {\n    \"@id\": \"ex:var-temperature\"\n  }\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifPhysicalMapping/example_2_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/context.jsonld\",\n    {\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"cdi:index\": 3,\n  \"cdi:format\": \"#,##0.00\",\n  \"cdi:physicalDataType\": \"Numeric\",\n  \"cdi:length\": 12,\n  \"cdi:minimumLength\": 1,\n  \"cdi:maximumLength\": 12,\n  \"cdi:scale\": 1,\n  \"cdi:decimalPositions\": 2,\n  \"cdi:nullSequence\": \"NA\",\n  \"cdi:defaultValue\": \"\",\n  \"cdi:isRequired\": true,\n  \"cdi:formats_InstanceVariable\": {\n    \"@id\": \"ex:var-temperature\"\n  }\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifPhysicalMapping/example_2_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix ex: <https://example.org/> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] cdi:decimalPositions 2 ;\n    cdi:defaultValue \"\" ;\n    cdi:format \"#,##0.00\" ;\n    cdi:formats_InstanceVariable ex:var-temperature ;\n    cdi:index 3 ;\n    cdi:isRequired true ;\n    cdi:length 12 ;\n    cdi:maximumLength 12 ;\n    cdi:minimumLength 1 ;\n    cdi:nullSequence \"NA\" ;\n    cdi:physicalDataType \"Numeric\" ;\n    cdi:scale 1 .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifPhysicalMapping/example_2_1.ttl"
         }
       ]
     }

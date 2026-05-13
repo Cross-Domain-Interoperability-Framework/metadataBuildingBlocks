@@ -1,0 +1,128 @@
+
+
+{
+  "itemIdentifier": "cdif.bbr.metadata.cdifProperties.cdifInstanceVariable",
+  "$schema": "metaschema.yaml",
+  "name": "CDIF Instance Variable",
+  "abstract": "Profile of cdi:InstanceVariable / schema:PropertyValue used as a member of a schema:variableMeasured array. Adds DDI-CDI properties (cdif:physicalDataType, cdi:role, cdif:simpleUnitOfMeasure, cdif:uses, cdi:qualifies) on top of schemaorgProperties/variableMeasured and ddiCDIFProperties/ddi-cdif-instance-variable. Accepts a single node, an unwrapped @graph array of nodes (OGC pipeline), or a JSON-LD document with @context and @graph.",
+  "status": "under-development",
+  "dateTimeAddition": "2025-10-30T00:00:00Z",
+  "itemClass": "schema",
+  "register": "cdif-building-block-register",
+  "version": "0.2",
+  "dateOfLastChange": "2026-05-13",
+  "link": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "sources": [
+    {
+      "title": "DDI-CDI 1.0 Specification",
+      "link": "https://ddialliance.org/Specification/DDI-CDI/1.0/"
+    },
+    {
+      "title": "schema.org/variableMeasured",
+      "link": "https://schema.org/variableMeasured"
+    }
+  ],
+  "maturity": "draft",
+  "scope": "unstable",
+  "tags": [
+    "cdif",
+    "instance-variable",
+    "ddi-cdi"
+  ],
+  "shaclShapes": {
+    "cdif.bbr.metadata.cdifProperties.cdifInstanceVariable": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifInstanceVariable/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.variableMeasured": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/variableMeasured/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.labeledLink": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/labeledLink/rules.shacl"
+    ],
+    "cdif.bbr.metadata.skosProperties.skosConcept": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
+    ]
+  },
+  "dependsOn": [
+    "cdif.bbr.metadata.schemaorgProperties.variableMeasured",
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm",
+    "cdif.bbr.metadata.skosProperties.skosConcept"
+  ],
+  "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/context.jsonld",
+  "schema": {
+    "application/yaml": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml",
+    "application/json": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.json"
+  },
+  "sourceSchema": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifInstanceVariable/schema.yaml",
+  "sourceLdContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifInstanceVariable/context.jsonld",
+  "resolvedSchemaProperties": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/resolvedProperties.json",
+  "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifInstanceVariable/",
+  "validationPassed": false,
+  "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/cdifProperties/cdifInstanceVariable/",
+  "description": "## CDIF Instance Variable\n\nProfile of `cdi:InstanceVariable` / `schema:PropertyValue` for use as a member of a `schema:variableMeasured` array. Extends the base [variableMeasured](../../schemaorgProperties/variableMeasured/) and [ddi-cdif-instance-variable](../../ddiCDIFProperties/ddi-cdif-instance-variable/) building blocks with the DDI-CDI properties most commonly needed for variable description in CDIF integration profiles.\n\nThe BB accepts three shapes interchangeably:\n\n1. a single CDIF Instance Variable node;\n2. an unwrapped array of such nodes (OGC pipeline `@graph` form);\n3. a full JSON-LD document with `@context` and `@graph`.\n\n### Defined properties\n\n- **@type** \u2014 must include `schema:PropertyValue` and `cdi:InstanceVariable`\n- **cdi:identifier** \u2014 identifier for this variable\n- **cdif:physicalDataType** \u2014 physical data type concept (string, URI reference, or DefinedTerm)\n- **cdi:intendedDataType** \u2014 intended data type for values (recommended: XML Schema datatypes)\n- **cdi:role** \u2014 role of variable in data structure (`UnitIdentifier`, `Measure`, `Attribute`, `Dimension`, `Descriptor`, `ReferenceVariable`)\n- **cdi:describedUnitOfMeasure** \u2014 structured unit of measure from controlled vocabulary (DefinedTerm)\n- **cdif:simpleUnitOfMeasure** \u2014 simple unit of measure (string, URI reference, or DefinedTerm)\n- **cdif:uses** \u2014 concepts that this variable measures or represents\n- **cdi:qualifies** \u2014 `@id` reference to another instance variable in the same dataset; required when `cdi:role` is `Attribute`\n- **cdi:name** \u2014 name of variable in DDI-CDI model\n- **cdi:displayLabel** \u2014 human-readable label for display purposes\n\n### Dependencies\n\n- [variableMeasured](../../schemaorgProperties/variableMeasured/) \u2014 base variable measured properties\n- [ddi-cdif-instance-variable](../../ddiCDIFProperties/ddi-cdif-instance-variable/) \u2014 full DDI-CDI InstanceVariable shape\n- [definedTerm](../../schemaorgProperties/definedTerm/) \u2014 controlled vocabulary term\n",
+  "examples": [
+    {
+      "title": "Minimal CDIF Instance Variable",
+      "content": "Single PropertyValue + cdi:InstanceVariable node with the four\nproperties required by the CdifInstanceVariableNode shape (which\ninherits ddi-cdif-instance-variable's required list): @type, cdi:name,\ncdi:definition, cdi:takesSubstantiveValuesFrom.",
+      "prefixes": {
+        "schema": "http://schema.org/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifInstanceVariable/exampleCdifInstanceVariableMinimal.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@type\": [\"cdi:InstanceVariable\", \"schema:PropertyValue\"],\n  \"@id\": \"ex:var/temperature\",\n  \"schema:name\": \"temperature\",\n  \"cdi:name\": [\n    {\n      \"@type\": [\"cdi:ObjectName\"],\n      \"cdi:name\": \"temperature\"\n    }\n  ],\n  \"cdi:definition\": {\n    \"@type\": [\"cdi:InternationalString\"],\n    \"cdi:languageSpecificString\": [\n      {\n        \"@type\": [\"cdi:LanguageString\"],\n        \"cdi:content\": \"Air temperature measurement.\",\n        \"cdi:language\": \"en\"\n      }\n    ]\n  },\n  \"cdi:takesSubstantiveValuesFrom\": { \"@id\": \"ex:value-domain/decimal\" }\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifInstanceVariable/example_1_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\",\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@type\": [\n    \"cdi:InstanceVariable\",\n    \"schema:PropertyValue\"\n  ],\n  \"@id\": \"ex:var/temperature\",\n  \"schema:name\": \"temperature\",\n  \"cdi:name\": [\n    {\n      \"@type\": [\n        \"cdi:ObjectName\"\n      ],\n      \"cdi:name\": \"temperature\"\n    }\n  ],\n  \"cdi:definition\": {\n    \"@type\": [\n      \"cdi:InternationalString\"\n    ],\n    \"cdi:languageSpecificString\": [\n      {\n        \"@type\": [\n          \"cdi:LanguageString\"\n        ],\n        \"cdi:content\": \"Air temperature measurement.\",\n        \"cdi:language\": \"en\"\n      }\n    ]\n  },\n  \"cdi:takesSubstantiveValuesFrom\": {\n    \"@id\": \"ex:value-domain/decimal\"\n  }\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifInstanceVariable/example_1_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix schema1: <http://schema.org/> .\n\n<https://example.org/var/temperature> a cdi:InstanceVariable,\n        schema1:PropertyValue ;\n    cdi:definition [ a cdi:InternationalString ;\n            cdi:languageSpecificString [ a cdi:LanguageString ;\n                    cdi:content \"Air temperature measurement.\" ;\n                    cdi:language \"en\" ] ] ;\n    cdi:name [ a cdi:ObjectName ;\n            cdi:name \"temperature\" ] ;\n    cdi:takesSubstantiveValuesFrom <https://example.org/value-domain/decimal> ;\n    schema1:name \"temperature\" .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifInstanceVariable/example_1_1.ttl"
+        }
+      ]
+    },
+    {
+      "title": "Complete CDIF Instance Variable (XAS)",
+      "content": "Implementation of Schema.org PropertyValue as value for variableMeasured\nproperty, adding cdi:InstanceVariable type and several other DDI-CDI\nproperties. From the X-Ray Absorption profile testing corpus, with two\nInstanceVariables in an @graph and a parent schema:Dataset that references\nthem via schema:variableMeasured.",
+      "prefixes": {
+        "schema": "http://schema.org/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "xas": "https://xas.org/dictionary/",
+        "skos": "http://www.w3.org/2004/02/skos/core#"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifInstanceVariable/exampleCdifInstanceVariableComplete.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\",\n    \"xsd\": \"http://www.w3.org/2001/XMLSchema#\",\n    \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n    \"cdif\": \"https://cdif.org/0.1/\",\n    \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n    \"xas\": \"https://xas.org/dictionary/\"\n  },\n  \"@type\": [\n    \"cdi:InstanceVariable\",\n    \"schema:PropertyValue\"\n  ],\n  \"@id\": \"xas:monochromatorEnergy\",\n  \"schema:name\": \"energy\",\n  \"schema:alternateName\": [\"Monochromator energy\"],\n  \"schema:description\": \"Incident photon energy selected by the monochromator during the XAS scan.\",\n  \"schema:propertyID\": [\"xas:monochromatorEnergyConcept\"],\n  \"schema:unitText\": \"eV\",\n  \"cdi:identifier\": {\n    \"@type\": [\"cdi:Identifier\"],\n    \"cdi:uri\": \"https://xas.org/dictionary/monochromatorEnergy\"\n  },\n  \"cdi:name\": [\n    {\n      \"@type\": [\"cdi:ObjectName\"],\n      \"cdi:name\": \"energy\"\n    }\n  ],\n  \"cdi:displayLabel\": [\n    {\n      \"@type\": [\"cdi:LabelForDisplay\"],\n      \"cdi:content\": \"Monochromator energy\",\n      \"cdi:language\": \"en\"\n    }\n  ],\n  \"cdi:definition\": {\n    \"@type\": [\"cdi:InternationalString\"],\n    \"cdi:languageSpecificString\": [\n      {\n        \"@type\": [\"cdi:LanguageString\"],\n        \"cdi:content\": \"Incident photon energy selected by the monochromator during the XAS scan.\",\n        \"cdi:language\": \"en\"\n      }\n    ]\n  },\n  \"cdif:physicalDataType\": [\n    {\n      \"@type\": [\"cdi:ControlledVocabularyEntry\"],\n      \"cdi:entryValue\": [\"xsd:decimal\"]\n    }\n  ],\n  \"cdi:takesSubstantiveValuesFrom\": { \"@id\": \"ex:value-domain/decimal-eV\" },\n  \"cdif:simpleUnitOfMeasure\": \"eV\",\n  \"cdif:uses\": [\"xas:monochromatorEnergyConcept\"],\n  \"cdi:role\": \"Attribute\",\n  \"cdi:qualifies\": { \"@id\": \"ex:temperatureVariable\" }\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifInstanceVariable/example_2_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\",\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n      \"xas\": \"https://xas.org/dictionary/\",\n      \"skos\": \"http://www.w3.org/2004/02/skos/core#\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\",\n      \"xsd\": \"http://www.w3.org/2001/XMLSchema#\",\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n      \"cdif\": \"https://cdif.org/0.1/\",\n      \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n      \"xas\": \"https://xas.org/dictionary/\"\n    }\n  ],\n  \"@type\": [\n    \"cdi:InstanceVariable\",\n    \"schema:PropertyValue\"\n  ],\n  \"@id\": \"xas:monochromatorEnergy\",\n  \"schema:name\": \"energy\",\n  \"schema:alternateName\": [\n    \"Monochromator energy\"\n  ],\n  \"schema:description\": \"Incident photon energy selected by the monochromator during the XAS scan.\",\n  \"schema:propertyID\": [\n    \"xas:monochromatorEnergyConcept\"\n  ],\n  \"schema:unitText\": \"eV\",\n  \"cdi:identifier\": {\n    \"@type\": [\n      \"cdi:Identifier\"\n    ],\n    \"cdi:uri\": \"https://xas.org/dictionary/monochromatorEnergy\"\n  },\n  \"cdi:name\": [\n    {\n      \"@type\": [\n        \"cdi:ObjectName\"\n      ],\n      \"cdi:name\": \"energy\"\n    }\n  ],\n  \"cdi:displayLabel\": [\n    {\n      \"@type\": [\n        \"cdi:LabelForDisplay\"\n      ],\n      \"cdi:content\": \"Monochromator energy\",\n      \"cdi:language\": \"en\"\n    }\n  ],\n  \"cdi:definition\": {\n    \"@type\": [\n      \"cdi:InternationalString\"\n    ],\n    \"cdi:languageSpecificString\": [\n      {\n        \"@type\": [\n          \"cdi:LanguageString\"\n        ],\n        \"cdi:content\": \"Incident photon energy selected by the monochromator during the XAS scan.\",\n        \"cdi:language\": \"en\"\n      }\n    ]\n  },\n  \"cdif:physicalDataType\": [\n    {\n      \"@type\": [\n        \"cdi:ControlledVocabularyEntry\"\n      ],\n      \"cdi:entryValue\": [\n        \"xsd:decimal\"\n      ]\n    }\n  ],\n  \"cdi:takesSubstantiveValuesFrom\": {\n    \"@id\": \"ex:value-domain/decimal-eV\"\n  },\n  \"cdif:simpleUnitOfMeasure\": \"eV\",\n  \"cdif:uses\": [\n    \"xas:monochromatorEnergyConcept\"\n  ],\n  \"cdi:role\": \"Attribute\",\n  \"cdi:qualifies\": {\n    \"@id\": \"ex:temperatureVariable\"\n  }\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifInstanceVariable/example_2_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix cdif: <https://cdif.org/0.1/> .\n@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n@prefix xas: <https://xas.org/dictionary/> .\n\nxas:monochromatorEnergy a cdi:InstanceVariable,\n        schema1:PropertyValue ;\n    cdi:definition [ a cdi:InternationalString ;\n            cdi:languageSpecificString [ a cdi:LanguageString ;\n                    cdi:content \"Incident photon energy selected by the monochromator during the XAS scan.\" ;\n                    cdi:language \"en\" ] ] ;\n    cdi:displayLabel [ a cdi:LabelForDisplay ;\n            cdi:content \"Monochromator energy\" ;\n            cdi:language \"en\" ] ;\n    cdi:identifier [ a cdi:Identifier ;\n            cdi:uri \"https://xas.org/dictionary/monochromatorEnergy\" ] ;\n    cdi:name [ a cdi:ObjectName ;\n            cdi:name \"energy\" ] ;\n    cdi:qualifies ex:temperatureVariable ;\n    cdi:role \"Attribute\" ;\n    cdi:takesSubstantiveValuesFrom <https://example.org/value-domain/decimal-eV> ;\n    schema1:alternateName \"Monochromator energy\" ;\n    schema1:description \"Incident photon energy selected by the monochromator during the XAS scan.\" ;\n    schema1:name \"energy\" ;\n    schema1:propertyID \"xas:monochromatorEnergyConcept\" ;\n    schema1:unitText \"eV\" ;\n    cdif:physicalDataType [ a cdi:ControlledVocabularyEntry ;\n            cdi:entryValue \"xsd:decimal\" ] ;\n    cdif:simpleUnitOfMeasure \"eV\" ;\n    cdif:uses \"xas:monochromatorEnergyConcept\" .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifInstanceVariable/example_2_1.ttl"
+        }
+      ]
+    }
+  ],
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: CDIF Instance Variable\ntype: object\nproperties:\n  '@type':\n    type: array\n    description: Must include both schema:PropertyValue and cdi:InstanceVariable.\n      Additional types may be included.\n    items:\n      type: string\n    contains:\n      const: cdi:InstanceVariable\n  cdif:physicalDataType:\n    type: array\n    items:\n      anyOf:\n      - type: string\n      - type: object\n        properties:\n          '@id':\n            type: string\n            description: reference to a skos concept for the data type\n      - $ref: '#/$defs/DefinedTerm'\n    description: identifier or name for the data type concept.\n  cdi:role:\n    type: string\n    enum:\n    - UnitIdentifier\n    - Measure\n    - Attribute\n    - Dimension\n    - Descriptor\n    - ReferenceVariable\n    description: Specifies the role this variable plays in a data structure. UnitIdentifier\n      names the unit a row describes; Measure holds observed/derived values; Attribute\n      qualifies an observation; Dimension addresses a cell in a multi-dimensional\n      cube; Descriptor names the variable that a Reference column records values for\n      (long format); ReferenceVariable holds those recorded values.\n  cdif:simpleUnitOfMeasure:\n    anyOf:\n    - type: string\n    - type: object\n      properties:\n        '@id':\n          type: string\n          description: reference to a skos concept for the data type\n    - $ref: '#/$defs/DefinedTerm'\n  cdif:uses:\n    type: array\n    items:\n      anyOf:\n      - type: string\n      - type: object\n        properties:\n          '@id':\n            type: string\n            description: reference to a skos concept for the property\n      - $ref: '#/$defs/DefinedTerm'\n    description: Essentially the same as schema:propertyID. References to concepts\n      that this variable measures or represents.\n  cdi:qualifies:\n    type: object\n    properties:\n      '@id':\n        type: string\n    description: reference to an instance variable defined for this dataset\nallOf:\n- required:\n  - '@type'\n- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml\n$defs:\n  DefinedTerm:\n    anyOf:\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml\nx-jsonld-prefixes:\n  schema: http://schema.org/\n  spdx: http://spdx.org/rdf/terms#\n  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\n  skos: http://www.w3.org/2004/02/skos/core#\n  xas: https://xas.org/dictionary/\n  nxs: http://purl.org/nexusformat/definitions/\n  prov: http://www.w3.org/ns/prov#\n",
+  "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "gitPath": "_sources/cdifProperties/cdifInstanceVariable"
+}

@@ -10,9 +10,6 @@
       "$ref": "#/$defs/DimensionalDataStructure"
     },
     {
-      "$ref": "#/$defs/KeyValueStructure"
-    },
-    {
       "$ref": "#/$defs/LongDataStructure"
     },
     {
@@ -66,20 +63,6 @@
           },
           "minItems": 1
         },
-        "cdi:has_ComponentPosition": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/ComponentPosition"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
-              }
-            ]
-          },
-          "minItems": 1
-        },
         "cdi:has_PrimaryKey": {
           "anyOf": [
             {
@@ -101,10 +84,6 @@
           },
           "minItems": 1,
           "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
-        },
-        "cdi:specialization": {
-          "$ref": "#/$defs/SpecializationRole",
-          "description": "The role played by the component for the data set for purposes of harmonization and integration, typically regarding geography, time, etc."
         }
       },
       "required": [
@@ -129,54 +108,12 @@
           "type": "string",
           "description": "Identifier for this DimensionalDataStructure node"
         },
-        "cdi:uses": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/DimensionGroup"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
-              }
-            ]
-          },
-          "minItems": 1
-        },
-        "cdi:has_ForeignKey": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/ForeignKey"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
-              }
-            ]
-          },
-          "minItems": 1
-        },
         "cdi:has_DataStructureComponent": {
           "type": "array",
           "items": {
             "anyOf": [
               {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure-component/schema.json"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
-              }
-            ]
-          },
-          "minItems": 1
-        },
-        "cdi:has_ComponentPosition": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/ComponentPosition"
               },
               {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
@@ -194,117 +131,12 @@
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
             }
           ]
-        },
-        "cdi:identifier": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-        },
-        "cdi:semantic": {
-          "type": "array",
-          "items": {
-            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/PairedControlledVocabularyEntry"
-          },
-          "minItems": 1,
-          "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
-        },
-        "cdi:specialization": {
-          "$ref": "#/$defs/SpecializationRole",
-          "description": "The role played by the component for the data set for purposes of harmonization and integration, typically regarding geography, time, etc."
         }
       },
       "required": [
-        "@type"
-      ]
-    },
-    "KeyValueStructure": {
-      "type": "object",
-      "description": "Structure of a key-value datastore (organized collection of key-value data). It is described by identifier, contextual, synthetic id, dimension, variable descriptor and variable value components.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:KeyValueStructure"
-          },
-          "minItems": 1
-        },
-        "@id": {
-          "type": "string",
-          "description": "Identifier for this KeyValueStructure node"
-        },
-        "cdi:has_ForeignKey": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/ForeignKey"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
-              }
-            ]
-          },
-          "minItems": 1
-        },
-        "cdi:has_DataStructureComponent": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure-component/schema.json"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
-              }
-            ]
-          },
-          "minItems": 1
-        },
-        "cdi:has_ComponentPosition": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/ComponentPosition"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
-              }
-            ]
-          },
-          "minItems": 1
-        },
-        "cdi:has_PrimaryKey": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/PrimaryKey"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
-            }
-          ]
-        },
-        "cdi:identifier": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-        },
-        "cdi:semantic": {
-          "type": "array",
-          "items": {
-            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/PairedControlledVocabularyEntry"
-          },
-          "minItems": 1,
-          "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
-        },
-        "cdi:specialization": {
-          "$ref": "#/$defs/SpecializationRole",
-          "description": "The role played by the component for the data set for purposes of harmonization and integration, typically regarding geography, time, etc."
-        }
-      },
-      "required": [
-        "@type"
+        "@type",
+        "cdi:has_DataStructureComponent",
+        "cdi:has_PrimaryKey"
       ]
     },
     "LongDataStructure": {
@@ -325,40 +157,12 @@
           "type": "string",
           "description": "Identifier for this LongDataStructure node"
         },
-        "cdi:has_ForeignKey": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/ForeignKey"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
-              }
-            ]
-          },
-          "minItems": 1
-        },
         "cdi:has_DataStructureComponent": {
           "type": "array",
           "items": {
             "anyOf": [
               {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure-component/schema.json"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
-              }
-            ]
-          },
-          "minItems": 1
-        },
-        "cdi:has_ComponentPosition": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/ComponentPosition"
               },
               {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
@@ -376,22 +180,6 @@
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
             }
           ]
-        },
-        "cdi:identifier": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-        },
-        "cdi:semantic": {
-          "type": "array",
-          "items": {
-            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/PairedControlledVocabularyEntry"
-          },
-          "minItems": 1,
-          "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
-        },
-        "cdi:specialization": {
-          "$ref": "#/$defs/SpecializationRole",
-          "description": "The role played by the component for the data set for purposes of harmonization and integration, typically regarding geography, time, etc."
         }
       },
       "required": [
@@ -416,40 +204,12 @@
           "type": "string",
           "description": "Identifier for this WideDataStructure node"
         },
-        "cdi:has_ForeignKey": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/ForeignKey"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
-              }
-            ]
-          },
-          "minItems": 1
-        },
         "cdi:has_DataStructureComponent": {
           "type": "array",
           "items": {
             "anyOf": [
               {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure-component/schema.json"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
-              }
-            ]
-          },
-          "minItems": 1
-        },
-        "cdi:has_ComponentPosition": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/ComponentPosition"
               },
               {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
@@ -467,26 +227,11 @@
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
             }
           ]
-        },
-        "cdi:identifier": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-        },
-        "cdi:semantic": {
-          "type": "array",
-          "items": {
-            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/PairedControlledVocabularyEntry"
-          },
-          "minItems": 1,
-          "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
-        },
-        "cdi:specialization": {
-          "$ref": "#/$defs/SpecializationRole",
-          "description": "The role played by the component for the data set for purposes of harmonization and integration, typically regarding geography, time, etc."
         }
       },
       "required": [
-        "@type"
+        "@type",
+        "cdi:has_DataStructureComponent"
       ]
     },
     "ComponentPosition": {
@@ -507,10 +252,6 @@
           "type": "string",
           "description": "Identifier for this ComponentPosition node"
         },
-        "cdi:identifier": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-        },
         "cdi:indexes": {
           "anyOf": [
             {
@@ -527,7 +268,9 @@
         }
       },
       "required": [
-        "@type"
+        "@type",
+        "cdi:indexes",
+        "cdi:value"
       ]
     },
     "DimensionGroup": {
@@ -669,7 +412,7 @@
     },
     "PrimaryKey": {
       "type": "object",
-      "description": "Role of a set of data structure components for content linkage purposes",
+      "description": "Role of a set of data structure components that uniquely identify data instance",
       "properties": {
         "@type": {
           "type": "array",
@@ -677,7 +420,7 @@
             "type": "string"
           },
           "contains": {
-            "const": "cdi:PrimaryKey"
+            "const": "cdif:PrimaryKey"
           },
           "minItems": 1
         },
@@ -685,20 +428,45 @@
           "type": "string",
           "description": "Identifier for this PrimaryKey node"
         },
-        "cdi:identifier": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-        },
-        "cdi:isComposedOf": {
+        "cdif:isComposedOf": {
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/PrimaryKeyComponent"
+            "type": "object",
+            "description": "Indexes the components in a data structure using integers with a position indicated by incrementing upward from 0 or 1.",
+            "properties": {
+              "@type": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "contains": {
+                  "const": "cdi:ComponentPosition"
+                },
+                "minItems": 1
               },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              "@id": {
+                "type": "string",
+                "description": "Identifier for this ComponentPosition node"
+              },
+              "cdi:indexes": {
+                "anyOf": [
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure-component/schema.json"
+                  },
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+                  }
+                ]
+              },
+              "cdi:value": {
+                "type": "integer",
+                "description": "Index value of the member in an ordered array."
               }
+            },
+            "required": [
+              "@type",
+              "cdi:indexes",
+              "cdi:value"
             ]
           },
           "minItems": 1
@@ -744,22 +512,6 @@
       "required": [
         "@type"
       ]
-    },
-    "SpecializationRole": {
-      "type": "object",
-      "description": "Specific roles played by represented variables in terms of time, geography, and other concepts which are important for the harmonization and integration of data.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:SpecializationRole"
-          },
-          "minItems": 1
-        }
-      }
     }
   },
   "x-jsonld-prefixes": {

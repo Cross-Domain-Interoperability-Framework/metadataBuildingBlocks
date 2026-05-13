@@ -16,7 +16,379 @@ The local `$defs` cover the supporting types DDI-CDI uses to express controlled 
 ## Examples
 
 ### Minimal CodeList
-TODO: replace with a JSON-LD example.
+A two-code Sex codelist using @id-only references for the Codes,
+a single ObjectName, and one isDefinedBy SKOS concept reference.
+Meets schema requirements and the CodeList SHACL Warning-level
+recommendations (cdi:name, cdi:has_Code, cdi:isDefinedBy).
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@type": ["cdi:CodeList"],
+  "@id": "ex:codelist/sex",
+  "cdi:name": [
+    {
+      "@type": ["cdi:ObjectName"],
+      "cdi:name": "Sex"
+    }
+  ],
+  "cdi:has_Code": [
+    {
+      "@type": ["cdi:Code"],
+      "@id": "ex:codelist/sex/code/m"
+    },
+    {
+      "@type": ["cdi:Code"],
+      "@id": "ex:codelist/sex/code/f"
+    }
+  ],
+  "cdi:isDefinedBy": [
+    { "@id": "ex:concept/sex" }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "skos": "http://www.w3.org/2004/02/skos/core#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-code-list/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/",
+      "skos": "http://www.w3.org/2004/02/skos/core#"
+    }
+  ],
+  "@type": [
+    "cdi:CodeList"
+  ],
+  "@id": "ex:codelist/sex",
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "Sex"
+    }
+  ],
+  "cdi:has_Code": [
+    {
+      "@type": [
+        "cdi:Code"
+      ],
+      "@id": "ex:codelist/sex/code/m"
+    },
+    {
+      "@type": [
+        "cdi:Code"
+      ],
+      "@id": "ex:codelist/sex/code/f"
+    }
+  ],
+  "cdi:isDefinedBy": [
+    {
+      "@id": "ex:concept/sex"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/codelist/sex> a cdi:CodeList ;
+    cdi:has_Code <https://example.org/codelist/sex/code/f>,
+        <https://example.org/codelist/sex/code/m> ;
+    cdi:isDefinedBy <https://example.org/concept/sex> ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "Sex" ] .
+
+<https://example.org/codelist/sex/code/f> a cdi:Code .
+
+<https://example.org/codelist/sex/code/m> a cdi:Code .
+
+
+```
+
+
+### Complete CodeList
+Full ISO 3166-1 alpha-2 EU subset CodeList exercising every
+schema property: cdi:identifier, cdi:name, cdi:purpose,
+cdi:allowsDuplicates, cdi:isDefinedBy, cdi:uses (LevelStructure
+@id-ref), cdi:references (CategorySet @id-ref), inline
+cdi:has_Code entries with full Code structure (identifier, denotes,
+uses), and ordered cdi:has_CodePosition wrappers.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@type": ["cdi:CodeList"],
+  "@id": "ex:codelist/iso3166-alpha2-eu",
+  "cdi:identifier": {
+    "@type": ["cdi:Identifier"],
+    "cdi:uri": "https://example.org/codelist/iso3166-alpha2-eu"
+  },
+  "cdi:name": [
+    {
+      "@type": ["cdi:ObjectName"],
+      "cdi:name": "ISO 3166-1 alpha-2 — EU subset",
+      "cdi:context": {
+        "@type": ["cdi:ControlledVocabularyEntry"],
+        "cdi:entryValue": ["preferred"]
+      }
+    }
+  ],
+  "cdi:purpose": {
+    "@type": ["cdi:InternationalString"],
+    "cdi:languageSpecificString": [
+      {
+        "@type": ["cdi:LanguageString"],
+        "cdi:content": "Subset of ISO 3166-1 alpha-2 country codes covering EU member states.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:allowsDuplicates": false,
+  "cdi:isDefinedBy": [
+    { "@id": "ex:concept/euCountryCode" }
+  ],
+  "cdi:uses": { "@id": "ex:levelStructure/iso3166-alpha2" },
+  "cdi:references": { "@id": "ex:categorySet/euCountries" },
+  "cdi:has_Code": [
+    {
+      "@type": ["cdi:Code"],
+      "@id": "ex:codelist/iso3166-alpha2-eu/code/DE",
+      "cdi:identifier": {
+        "@type": ["cdi:Identifier"],
+        "cdi:uri": "https://example.org/codelist/iso3166-alpha2-eu/code/DE"
+      },
+      "cdi:denotes": { "@id": "ex:category/germany" },
+      "cdi:uses": { "@id": "ex:notation/DE" }
+    },
+    {
+      "@type": ["cdi:Code"],
+      "@id": "ex:codelist/iso3166-alpha2-eu/code/FR",
+      "cdi:identifier": {
+        "@type": ["cdi:Identifier"],
+        "cdi:uri": "https://example.org/codelist/iso3166-alpha2-eu/code/FR"
+      },
+      "cdi:denotes": { "@id": "ex:category/france" },
+      "cdi:uses": { "@id": "ex:notation/FR" }
+    }
+  ],
+  "cdi:has_CodePosition": [
+    {
+      "@type": ["cdi:CodePosition"],
+      "@id": "ex:codelist/iso3166-alpha2-eu/pos/0",
+      "cdi:indexes": { "@id": "ex:codelist/iso3166-alpha2-eu/code/DE" },
+      "cdi:value": 0
+    },
+    {
+      "@type": ["cdi:CodePosition"],
+      "@id": "ex:codelist/iso3166-alpha2-eu/pos/1",
+      "cdi:indexes": { "@id": "ex:codelist/iso3166-alpha2-eu/code/FR" },
+      "cdi:value": 1
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "skos": "http://www.w3.org/2004/02/skos/core#",
+      "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-code-list/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/",
+      "skos": "http://www.w3.org/2004/02/skos/core#",
+      "xsd": "http://www.w3.org/2001/XMLSchema#"
+    }
+  ],
+  "@type": [
+    "cdi:CodeList"
+  ],
+  "@id": "ex:codelist/iso3166-alpha2-eu",
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/codelist/iso3166-alpha2-eu"
+  },
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "ISO 3166-1 alpha-2 \u2014 EU subset",
+      "cdi:context": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "preferred"
+        ]
+      }
+    }
+  ],
+  "cdi:purpose": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": [
+      {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Subset of ISO 3166-1 alpha-2 country codes covering EU member states.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:allowsDuplicates": false,
+  "cdi:isDefinedBy": [
+    {
+      "@id": "ex:concept/euCountryCode"
+    }
+  ],
+  "cdi:uses": {
+    "@id": "ex:levelStructure/iso3166-alpha2"
+  },
+  "cdi:references": {
+    "@id": "ex:categorySet/euCountries"
+  },
+  "cdi:has_Code": [
+    {
+      "@type": [
+        "cdi:Code"
+      ],
+      "@id": "ex:codelist/iso3166-alpha2-eu/code/DE",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/codelist/iso3166-alpha2-eu/code/DE"
+      },
+      "cdi:denotes": {
+        "@id": "ex:category/germany"
+      },
+      "cdi:uses": {
+        "@id": "ex:notation/DE"
+      }
+    },
+    {
+      "@type": [
+        "cdi:Code"
+      ],
+      "@id": "ex:codelist/iso3166-alpha2-eu/code/FR",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/codelist/iso3166-alpha2-eu/code/FR"
+      },
+      "cdi:denotes": {
+        "@id": "ex:category/france"
+      },
+      "cdi:uses": {
+        "@id": "ex:notation/FR"
+      }
+    }
+  ],
+  "cdi:has_CodePosition": [
+    {
+      "@type": [
+        "cdi:CodePosition"
+      ],
+      "@id": "ex:codelist/iso3166-alpha2-eu/pos/0",
+      "cdi:indexes": {
+        "@id": "ex:codelist/iso3166-alpha2-eu/code/DE"
+      },
+      "cdi:value": 0
+    },
+    {
+      "@type": [
+        "cdi:CodePosition"
+      ],
+      "@id": "ex:codelist/iso3166-alpha2-eu/pos/1",
+      "cdi:indexes": {
+        "@id": "ex:codelist/iso3166-alpha2-eu/code/FR"
+      },
+      "cdi:value": 1
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/codelist/iso3166-alpha2-eu> a cdi:CodeList ;
+    cdi:allowsDuplicates false ;
+    cdi:has_Code <https://example.org/codelist/iso3166-alpha2-eu/code/DE>,
+        <https://example.org/codelist/iso3166-alpha2-eu/code/FR> ;
+    cdi:has_CodePosition <https://example.org/codelist/iso3166-alpha2-eu/pos/0>,
+        <https://example.org/codelist/iso3166-alpha2-eu/pos/1> ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/codelist/iso3166-alpha2-eu" ] ;
+    cdi:isDefinedBy <https://example.org/concept/euCountryCode> ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:context [ a cdi:ControlledVocabularyEntry ;
+                    cdi:entryValue "preferred" ] ;
+            cdi:name "ISO 3166-1 alpha-2 — EU subset" ] ;
+    cdi:purpose [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Subset of ISO 3166-1 alpha-2 country codes covering EU member states." ;
+                    cdi:language "en" ] ] ;
+    cdi:references <https://example.org/categorySet/euCountries> ;
+    cdi:uses <https://example.org/levelStructure/iso3166-alpha2> .
+
+<https://example.org/codelist/iso3166-alpha2-eu/pos/0> a cdi:CodePosition ;
+    cdi:indexes <https://example.org/codelist/iso3166-alpha2-eu/code/DE> ;
+    cdi:value 0 .
+
+<https://example.org/codelist/iso3166-alpha2-eu/pos/1> a cdi:CodePosition ;
+    cdi:indexes <https://example.org/codelist/iso3166-alpha2-eu/code/FR> ;
+    cdi:value 1 .
+
+<https://example.org/codelist/iso3166-alpha2-eu/code/DE> a cdi:Code ;
+    cdi:denotes <https://example.org/category/germany> ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/codelist/iso3166-alpha2-eu/code/DE" ] ;
+    cdi:uses <https://example.org/notation/DE> .
+
+<https://example.org/codelist/iso3166-alpha2-eu/code/FR> a cdi:Code ;
+    cdi:denotes <https://example.org/category/france> ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/codelist/iso3166-alpha2-eu/code/FR" ] ;
+    cdi:uses <https://example.org/notation/FR> .
+
+
+```
+
 ## Schema
 
 ```yaml

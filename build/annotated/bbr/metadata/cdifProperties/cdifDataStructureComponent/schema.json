@@ -1,0 +1,355 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DDI-CDI Data Structure Component",
+  "description": "Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/UnitIdentifierComponent"
+    },
+    {
+      "$ref": "#/$defs/MeasureComponent"
+    },
+    {
+      "$ref": "#/$defs/AttributeComponent"
+    },
+    {
+      "$ref": "#/$defs/DimensionComponent"
+    },
+    {
+      "$ref": "#/$defs/VariableValueComponent"
+    },
+    {
+      "$ref": "#/$defs/VariableDescriptorComponent"
+    }
+  ],
+  "$defs": {
+    "UnitIdentifierComponent": {
+      "type": "object",
+      "description": "Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:UnitIdentifierComponent"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this UnitIdentifierComponent node"
+        },
+        "cdi:isDefinedBy": {
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.json"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        }
+      },
+      "required": [
+        "@type",
+        "cdi:isDefinedBy"
+      ]
+    },
+    "MeasureComponent": {
+      "type": "object",
+      "description": "Role given to a represented variable in the context of a data structure to hold the observed/derived values.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:MeasureComponent"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this MeasureComponent node"
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:isDefinedBy": {
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.json"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:semantic": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/PairedControlledVocabularyEntry"
+          },
+          "minItems": 1,
+          "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "AttributeComponent": {
+      "type": "object",
+      "description": "Role given to a represented variable in the context of a data structure to qualify observations or provide other types of supplementary information.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:AttributeComponent"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this AttributeComponent node"
+        },
+        "cdi:qualifies": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/DataStructureComponent"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:isDefinedBy": {
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.json"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:semantic": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/PairedControlledVocabularyEntry"
+          },
+          "minItems": 1,
+          "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "DimensionComponent": {
+      "type": "object",
+      "description": "Role given to a represented variable in the context of a dimensional data structure to identify the universes associated with data points. The variable acts as a field in the compound identifier (the key structure) to disambiguate the cells in the multi-dimensional \"cube\".  AG: references to the variables which are the components of a compound identifier, in which each variable is a single field - an axis - in a coordinate system addressing a location in a matrix. These variables are often categorical, but also commonly include time. Unlike other Components, they may be ordered using instances of cdi:ComponentPosition.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:DimensionComponent"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this DimensionComponent node"
+        },
+        "cdi:isDefinedBy": {
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.json"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        }
+      },
+      "required": [
+        "@type",
+        "cdi:isDefinedBy"
+      ]
+    },
+    "VariableValueComponent": {
+      "type": "object",
+      "description": "Role given to a represented variable in the context of a data structure to record values of multiple variables.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:VariableValueComponent"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this VariableValueComponent node"
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:isDefinedBy": {
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.json"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:semantic": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/PairedControlledVocabularyEntry"
+          },
+          "minItems": 1,
+          "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "VariableDescriptorComponent": {
+      "type": "object",
+      "description": "Role given to a represented variable in the context of a data structure to provide codes for variable identification.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:VariableDescriptorComponent"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this VariableDescriptorComponent node"
+        },
+        "cdi:isDefinedBy": {
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-presentational-variable/schema.json"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:refersTo": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/VariableValueComponent"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:semantic": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/PairedControlledVocabularyEntry"
+          },
+          "minItems": 1,
+          "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "DataStructureComponent": {
+      "type": "object",
+      "description": "Role given to a represented variable in the context of a data structure.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:DataStructureComponent"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this DataStructureComponent node"
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:isDefinedBy": {
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.json"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:semantic": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/PairedControlledVocabularyEntry"
+          },
+          "minItems": 1,
+          "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    }
+  },
+  "x-jsonld-prefixes": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+  }
+}

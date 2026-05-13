@@ -16,7 +16,538 @@ The hierarchy is expressed via `cdi:has_Level` and `cdi:has_ClassificationItem` 
 ## Examples
 
 ### Minimal StatisticalClassification
-TODO: replace with a JSON-LD example.
+ISCO-08 stub with a single ObjectName and two @id-only
+ClassificationItem references — the smallest classification shape
+that meets schema requirements.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:StatisticalClassification"],
+  "@id": "ex:classification/isco-08",
+  "cdi:name": [
+    {
+      "@type": ["cdi:ObjectName"],
+      "cdi:name": "ISCO-08"
+    }
+  ],
+  "cdi:has_ClassificationItem": [
+    { "@id": "ex:classification/isco-08/item/1" },
+    { "@id": "ex:classification/isco-08/item/2" }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-statistical-classification/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:StatisticalClassification"
+  ],
+  "@id": "ex:classification/isco-08",
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "ISCO-08"
+    }
+  ],
+  "cdi:has_ClassificationItem": [
+    {
+      "@id": "ex:classification/isco-08/item/1"
+    },
+    {
+      "@id": "ex:classification/isco-08/item/2"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/classification/isco-08> a cdi:StatisticalClassification ;
+    cdi:has_ClassificationItem <https://example.org/classification/isco-08/item/1>,
+        <https://example.org/classification/isco-08/item/2> ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "ISCO-08" ] .
+
+
+```
+
+
+### Complete StatisticalClassification
+Full ISCO-08 description exercising every schema property:
+identifier, name, displayLabel, availableLanguage, allowsDuplicates,
+isCurrent/isFloating, isMaintainedBy/isIndexedBy, isVariantOf/
+isSuccessorOf/isPredecessorOf (lineage), has_ClassificationItem and
+ordered has_ClassificationItemPosition, has_LevelStructure, uses,
+purposeOfVariant, rationale, releaseDate, validDates, changeFromBase,
+copyright, updateChanges, usage, and purpose.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:StatisticalClassification"],
+  "@id": "ex:classification/isco-08",
+  "cdi:identifier": {
+    "@type": ["cdi:Identifier"],
+    "cdi:uri": "https://example.org/classification/isco-08"
+  },
+  "cdi:name": [
+    {
+      "@type": ["cdi:ObjectName"],
+      "cdi:name": "ISCO-08"
+    }
+  ],
+  "cdi:displayLabel": [
+    {
+      "@type": ["cdi:LabelForDisplay"],
+      "cdi:content": "International Standard Classification of Occupations, 2008 revision",
+      "cdi:language": "en"
+    }
+  ],
+  "cdi:availableLanguage": ["en", "fr", "es"],
+  "cdi:allowsDuplicates": false,
+  "cdi:isCurrent": true,
+  "cdi:isFloating": false,
+  "cdi:isMaintainedBy": [
+    { "@id": "ex:org/ilo" }
+  ],
+  "cdi:isIndexedBy": [
+    { "@id": "ex:classification-index/isco-08" }
+  ],
+  "cdi:isVariantOf": { "@id": "ex:classification/isco-88" },
+  "cdi:isSuccessorOf": [
+    { "@id": "ex:classification/isco-88" }
+  ],
+  "cdi:isPredecessorOf": [
+    { "@id": "ex:classification/isco-2028-draft" }
+  ],
+  "cdi:has_ClassificationItem": [
+    { "@id": "ex:classification/isco-08/item/1" },
+    { "@id": "ex:classification/isco-08/item/2" }
+  ],
+  "cdi:has_ClassificationItemPosition": [
+    {
+      "@type": ["cdi:ClassificationItemPosition"],
+      "cdi:indexes": { "@id": "ex:classification/isco-08/item/1" },
+      "cdi:value": 0
+    },
+    {
+      "@type": ["cdi:ClassificationItemPosition"],
+      "cdi:indexes": { "@id": "ex:classification/isco-08/item/2" },
+      "cdi:value": 1
+    }
+  ],
+  "cdi:has_LevelStructure": { "@id": "ex:classification/isco-08/level-structure" },
+  "cdi:uses": { "@id": "ex:classification/isco-08/level-structure" },
+  "cdi:purposeOfVariant": {
+    "@type": ["cdi:InternationalString"],
+    "cdi:languageSpecificString": [
+      {
+        "@type": ["cdi:LanguageString"],
+        "cdi:content": "Major revision of ISCO-88 aligning occupational groupings to skill-level structure.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:rationale": {
+    "@type": ["cdi:InternationalString"],
+    "cdi:languageSpecificString": [
+      {
+        "@type": ["cdi:LanguageString"],
+        "cdi:content": "Updated to reflect changes in labour market organisation since 1988.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:releaseDate": {
+    "@type": ["cdi:CombinedDate"],
+    "cdi:simpleDate": "2008-12-08"
+  },
+  "cdi:validDates": {
+    "@type": ["cdi:DateRange"],
+    "cdi:startDate": {
+      "@type": ["cdi:CombinedDate"],
+      "cdi:simpleDate": "2008-12-08"
+    }
+  },
+  "cdi:changeFromBase": {
+    "@type": ["cdi:InternationalString"],
+    "cdi:languageSpecificString": [
+      {
+        "@type": ["cdi:LanguageString"],
+        "cdi:content": "Restructured Major Group 1 (managers) and split Major Group 3 (technicians).",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:copyright": [
+    {
+      "@type": ["cdi:InternationalString"],
+      "cdi:languageSpecificString": [
+        {
+          "@type": ["cdi:LanguageString"],
+          "cdi:content": "© International Labour Organization, 2008.",
+          "cdi:language": "en"
+        }
+      ]
+    }
+  ],
+  "cdi:updateChanges": [
+    {
+      "@type": ["cdi:InternationalString"],
+      "cdi:languageSpecificString": [
+        {
+          "@type": ["cdi:LanguageString"],
+          "cdi:content": "Reissued in 2016 with editorial corrections to titles in sub-group 213.",
+          "cdi:language": "en"
+        }
+      ]
+    }
+  ],
+  "cdi:usage": {
+    "@type": ["cdi:InternationalString"],
+    "cdi:languageSpecificString": [
+      {
+        "@type": ["cdi:LanguageString"],
+        "cdi:content": "National labour-force and census coding of occupational data.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:purpose": {
+    "@type": ["cdi:InternationalString"],
+    "cdi:languageSpecificString": [
+      {
+        "@type": ["cdi:LanguageString"],
+        "cdi:content": "Provide an internationally comparable classification of occupations.",
+        "cdi:language": "en"
+      }
+    ]
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-statistical-classification/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:StatisticalClassification"
+  ],
+  "@id": "ex:classification/isco-08",
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/classification/isco-08"
+  },
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "ISCO-08"
+    }
+  ],
+  "cdi:displayLabel": [
+    {
+      "@type": [
+        "cdi:LabelForDisplay"
+      ],
+      "cdi:content": "International Standard Classification of Occupations, 2008 revision",
+      "cdi:language": "en"
+    }
+  ],
+  "cdi:availableLanguage": [
+    "en",
+    "fr",
+    "es"
+  ],
+  "cdi:allowsDuplicates": false,
+  "cdi:isCurrent": true,
+  "cdi:isFloating": false,
+  "cdi:isMaintainedBy": [
+    {
+      "@id": "ex:org/ilo"
+    }
+  ],
+  "cdi:isIndexedBy": [
+    {
+      "@id": "ex:classification-index/isco-08"
+    }
+  ],
+  "cdi:isVariantOf": {
+    "@id": "ex:classification/isco-88"
+  },
+  "cdi:isSuccessorOf": [
+    {
+      "@id": "ex:classification/isco-88"
+    }
+  ],
+  "cdi:isPredecessorOf": [
+    {
+      "@id": "ex:classification/isco-2028-draft"
+    }
+  ],
+  "cdi:has_ClassificationItem": [
+    {
+      "@id": "ex:classification/isco-08/item/1"
+    },
+    {
+      "@id": "ex:classification/isco-08/item/2"
+    }
+  ],
+  "cdi:has_ClassificationItemPosition": [
+    {
+      "@type": [
+        "cdi:ClassificationItemPosition"
+      ],
+      "cdi:indexes": {
+        "@id": "ex:classification/isco-08/item/1"
+      },
+      "cdi:value": 0
+    },
+    {
+      "@type": [
+        "cdi:ClassificationItemPosition"
+      ],
+      "cdi:indexes": {
+        "@id": "ex:classification/isco-08/item/2"
+      },
+      "cdi:value": 1
+    }
+  ],
+  "cdi:has_LevelStructure": {
+    "@id": "ex:classification/isco-08/level-structure"
+  },
+  "cdi:uses": {
+    "@id": "ex:classification/isco-08/level-structure"
+  },
+  "cdi:purposeOfVariant": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": [
+      {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Major revision of ISCO-88 aligning occupational groupings to skill-level structure.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:rationale": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": [
+      {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Updated to reflect changes in labour market organisation since 1988.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:releaseDate": {
+    "@type": [
+      "cdi:CombinedDate"
+    ],
+    "cdi:simpleDate": "2008-12-08"
+  },
+  "cdi:validDates": {
+    "@type": [
+      "cdi:DateRange"
+    ],
+    "cdi:startDate": {
+      "@type": [
+        "cdi:CombinedDate"
+      ],
+      "cdi:simpleDate": "2008-12-08"
+    }
+  },
+  "cdi:changeFromBase": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": [
+      {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Restructured Major Group 1 (managers) and split Major Group 3 (technicians).",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:copyright": [
+    {
+      "@type": [
+        "cdi:InternationalString"
+      ],
+      "cdi:languageSpecificString": [
+        {
+          "@type": [
+            "cdi:LanguageString"
+          ],
+          "cdi:content": "\u00a9 International Labour Organization, 2008.",
+          "cdi:language": "en"
+        }
+      ]
+    }
+  ],
+  "cdi:updateChanges": [
+    {
+      "@type": [
+        "cdi:InternationalString"
+      ],
+      "cdi:languageSpecificString": [
+        {
+          "@type": [
+            "cdi:LanguageString"
+          ],
+          "cdi:content": "Reissued in 2016 with editorial corrections to titles in sub-group 213.",
+          "cdi:language": "en"
+        }
+      ]
+    }
+  ],
+  "cdi:usage": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": [
+      {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "National labour-force and census coding of occupational data.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:purpose": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": [
+      {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Provide an internationally comparable classification of occupations.",
+        "cdi:language": "en"
+      }
+    ]
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/classification/isco-08> a cdi:StatisticalClassification ;
+    cdi:allowsDuplicates false ;
+    cdi:availableLanguage "en",
+        "es",
+        "fr" ;
+    cdi:changeFromBase [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Restructured Major Group 1 (managers) and split Major Group 3 (technicians)." ;
+                    cdi:language "en" ] ] ;
+    cdi:copyright [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "© International Labour Organization, 2008." ;
+                    cdi:language "en" ] ] ;
+    cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:content "International Standard Classification of Occupations, 2008 revision" ;
+            cdi:language "en" ] ;
+    cdi:has_ClassificationItem <https://example.org/classification/isco-08/item/1>,
+        <https://example.org/classification/isco-08/item/2> ;
+    cdi:has_ClassificationItemPosition [ a cdi:ClassificationItemPosition ;
+            cdi:indexes <https://example.org/classification/isco-08/item/1> ;
+            cdi:value 0 ],
+        [ a cdi:ClassificationItemPosition ;
+            cdi:indexes <https://example.org/classification/isco-08/item/2> ;
+            cdi:value 1 ] ;
+    cdi:has_LevelStructure <https://example.org/classification/isco-08/level-structure> ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/classification/isco-08" ] ;
+    cdi:isCurrent true ;
+    cdi:isFloating false ;
+    cdi:isIndexedBy <https://example.org/classification-index/isco-08> ;
+    cdi:isMaintainedBy <https://example.org/org/ilo> ;
+    cdi:isPredecessorOf <https://example.org/classification/isco-2028-draft> ;
+    cdi:isSuccessorOf <https://example.org/classification/isco-88> ;
+    cdi:isVariantOf <https://example.org/classification/isco-88> ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "ISCO-08" ] ;
+    cdi:purpose [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Provide an internationally comparable classification of occupations." ;
+                    cdi:language "en" ] ] ;
+    cdi:purposeOfVariant [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Major revision of ISCO-88 aligning occupational groupings to skill-level structure." ;
+                    cdi:language "en" ] ] ;
+    cdi:rationale [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Updated to reflect changes in labour market organisation since 1988." ;
+                    cdi:language "en" ] ] ;
+    cdi:releaseDate [ a cdi:CombinedDate ;
+            cdi:simpleDate "2008-12-08" ] ;
+    cdi:updateChanges [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Reissued in 2016 with editorial corrections to titles in sub-group 213." ;
+                    cdi:language "en" ] ] ;
+    cdi:usage [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "National labour-force and census coding of occupational data." ;
+                    cdi:language "en" ] ] ;
+    cdi:uses <https://example.org/classification/isco-08/level-structure> ;
+    cdi:validDates [ a cdi:DateRange ;
+            cdi:startDate [ a cdi:CombinedDate ;
+                    cdi:simpleDate "2008-12-08" ] ] .
+
+
+```
+
 ## Schema
 
 ```yaml

@@ -320,12 +320,6 @@
     "Instrument": {
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema.json"
     },
-    "DefinedTerm": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.json"
-    },
-    "LabeledLink": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.json"
-    },
     "SpatialExtent": {
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.json"
     },
@@ -421,67 +415,6 @@
       "required": [
         "@type",
         "schema:name"
-      ]
-    },
-    "Claim": {
-      "type": "object",
-      "description": "A statement or assertion about the dataset, such as a quality claim",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "schema:Claim"
-          },
-          "minItems": 1
-        },
-        "@id": {
-          "type": "string"
-        },
-        "schema:claimReviewed": {
-          "type": "string",
-          "description": "The claim being reviewed or asserted"
-        },
-        "schema:author": {
-          "description": "Author of this claim",
-          "anyOf": [
-            {
-              "$ref": "#/$defs/Person"
-            },
-            {
-              "$ref": "#/$defs/Organization"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              }
-            }
-          ]
-        },
-        "schema:datePublished": {
-          "type": "string",
-          "description": "ISO8601 date when this claim was published"
-        },
-        "schema:appearance": {
-          "description": "Where this claim appears",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LabeledLink"
-            }
-          ]
-        }
-      },
-      "required": [
-        "@type",
-        "schema:claimReviewed"
       ]
     }
   },

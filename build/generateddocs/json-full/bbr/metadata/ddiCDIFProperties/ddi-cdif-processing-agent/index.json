@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-05-09",
+  "dateOfLastChange": "2026-05-13",
   "link": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
   "maturity": "draft",
   "scope": "unstable",
@@ -43,13 +43,38 @@
   "sourceLdContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiCDIFProperties/ddi-cdif-processing-agent/context.jsonld",
   "resolvedSchemaProperties": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-processing-agent/resolvedProperties.json",
   "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiCDIFProperties/ddi-cdif-processing-agent/",
-  "validationPassed": true,
+  "validationPassed": false,
   "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/ddiCDIFProperties/ddi-cdif-processing-agent/",
   "description": "DDI-CDI ProcessingAgent is an Agent that orchestrates production activities (`cls-ProcessingAgent`, extends `cdi:Agent`). The root `cdi:ProcessingAgent` carries `cdi:performs` (id-references to `cdi:Activity` nodes the agent executes) and `cdi:operatesOn` (id-references to `cdi:ProductionEnvironment` nodes), plus the agent-shared `cdi:identifier`, `cdi:image`, and `cdi:purpose`.\n\nProcessingAgent is one of the four agent subtypes composed by `ddicdiAgent`. It is the link between an actor and the activities they carry out \u2014 typically used in provenance descriptions where a person, organization, or machine is responsible for the activities described by `ddicdiActivity`.\n",
   "examples": [
     {
-      "title": "Example DDI-CDI ProcessingAgent.",
-      "content": "Demonstrates a ProcessingAgent with activity and environment\nreferences, identifier, and purpose.",
+      "title": "Minimal ProcessingAgent",
+      "content": "Bare cdi:ProcessingAgent \u2014 schema only requires @type.",
+      "prefixes": {
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiCDIFProperties/ddi-cdif-processing-agent/exampleDdiCdifProcessingAgentMinimal.json",
+          "code": "{\n  \"@context\": {\n    \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@type\": [\"cdi:ProcessingAgent\"],\n  \"@id\": \"ex:processing-agent/etl-runner\"\n}\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/ddiCDIFProperties/ddi-cdif-processing-agent/example_1_1.json"
+        },
+        {
+          "language": "jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-processing-agent/context.jsonld\",\n    {\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@type\": [\n    \"cdi:ProcessingAgent\"\n  ],\n  \"@id\": \"ex:processing-agent/etl-runner\"\n}",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/ddiCDIFProperties/ddi-cdif-processing-agent/example_1_1.jsonld"
+        },
+        {
+          "language": "ttl",
+          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n\n<https://example.org/processing-agent/etl-runner> a cdi:ProcessingAgent .\n\n",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/ddiCDIFProperties/ddi-cdif-processing-agent/example_1_1.ttl"
+        }
+      ]
+    },
+    {
+      "title": "Complete ProcessingAgent",
+      "content": "ProcessingAgent with activity and environment references, identifier,\nand purpose.",
       "prefixes": {
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
       },
@@ -58,17 +83,17 @@
           "language": "json",
           "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiCDIFProperties/ddi-cdif-processing-agent/exampleDdicdiProcessingAgent.json",
           "code": "{\n  \"@context\": {\n    \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@id\": \"ex:agent-data-pipeline\",\n  \"@type\": [\n    \"cdi:ProcessingAgent\"\n  ],\n  \"cdi:identifier\": {\n    \"@type\": [\n      \"cdi:Identifier\"\n    ],\n    \"cdi:nonDdiIdentifier\": {\n      \"@type\": [\n        \"cdi:NonDdiIdentifier\"\n      ],\n      \"cdi:identifierContent\": \"pipeline-agent-v2.1\",\n      \"cdi:managingAgency\": \"ESRI internal\"\n    }\n  },\n  \"cdi:purpose\": {\n    \"@type\": [\n      \"cdi:InternationalString\"\n    ],\n    \"cdi:languageSpecificString\": {\n      \"@type\": [\n        \"cdi:LanguageString\"\n      ],\n      \"cdi:content\": \"Automated data processing and quality control pipeline\",\n      \"cdi:language\": \"en\"\n    }\n  },\n  \"cdi:performs\": [\n    {\n      \"@id\": \"ex:activity-soil-chem-analysis\"\n    }\n  ],\n  \"cdi:operatesOn\": [\n    {\n      \"@id\": \"ex:env-hpc-cluster\"\n    }\n  ]\n}\n",
-          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/ddiCDIFProperties/ddi-cdif-processing-agent/example_1_1.json"
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/ddiCDIFProperties/ddi-cdif-processing-agent/example_2_1.json"
         },
         {
           "language": "jsonld",
           "code": "{\n  \"@context\": [\n    {\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-processing-agent/context.jsonld\",\n    {\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@id\": \"ex:agent-data-pipeline\",\n  \"@type\": [\n    \"cdi:ProcessingAgent\"\n  ],\n  \"cdi:identifier\": {\n    \"@type\": [\n      \"cdi:Identifier\"\n    ],\n    \"cdi:nonDdiIdentifier\": {\n      \"@type\": [\n        \"cdi:NonDdiIdentifier\"\n      ],\n      \"cdi:identifierContent\": \"pipeline-agent-v2.1\",\n      \"cdi:managingAgency\": \"ESRI internal\"\n    }\n  },\n  \"cdi:purpose\": {\n    \"@type\": [\n      \"cdi:InternationalString\"\n    ],\n    \"cdi:languageSpecificString\": {\n      \"@type\": [\n        \"cdi:LanguageString\"\n      ],\n      \"cdi:content\": \"Automated data processing and quality control pipeline\",\n      \"cdi:language\": \"en\"\n    }\n  },\n  \"cdi:performs\": [\n    {\n      \"@id\": \"ex:activity-soil-chem-analysis\"\n    }\n  ],\n  \"cdi:operatesOn\": [\n    {\n      \"@id\": \"ex:env-hpc-cluster\"\n    }\n  ]\n}",
-          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/ddiCDIFProperties/ddi-cdif-processing-agent/example_1_1.jsonld"
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/ddiCDIFProperties/ddi-cdif-processing-agent/example_2_1.jsonld"
         },
         {
           "language": "ttl",
           "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix ex: <https://example.org/> .\n\nex:agent-data-pipeline a cdi:ProcessingAgent ;\n    cdi:identifier [ a cdi:Identifier ;\n            cdi:nonDdiIdentifier [ a cdi:NonDdiIdentifier ;\n                    cdi:identifierContent \"pipeline-agent-v2.1\" ;\n                    cdi:managingAgency \"ESRI internal\" ] ] ;\n    cdi:operatesOn ex:env-hpc-cluster ;\n    cdi:performs ex:activity-soil-chem-analysis ;\n    cdi:purpose [ a cdi:InternationalString ;\n            cdi:languageSpecificString [ a cdi:LanguageString ;\n                    cdi:content \"Automated data processing and quality control pipeline\" ;\n                    cdi:language \"en\" ] ] .\n\n",
-          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/ddiCDIFProperties/ddi-cdif-processing-agent/example_1_1.ttl"
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/ddiCDIFProperties/ddi-cdif-processing-agent/example_2_1.ttl"
         }
       ]
     }

@@ -16,7 +16,1159 @@ It is referenced from `ddicdiDataStructureComponent` via `cdi:isDefinedBy` so th
 ## Examples
 
 ### Minimal RepresentedVariable
-TODO: replace with a JSON-LD example.
+Bare cdi:RepresentedVariable — schema only requires @type.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:RepresentedVariable"],
+  "@id": "ex:rep-var/age-in-years"
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-represented-variable/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:RepresentedVariable"
+  ],
+  "@id": "ex:rep-var/age-in-years"
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/rep-var/age-in-years> a cdi:RepresentedVariable .
+
+
+```
+
+
+### Complete RepresentedVariable
+Fully described RepresentedVariable exercising every schema property
+including substantive/sentinel conceptual domain references, unit type,
+value and concept descriptions, controlled vocabulary entries, and SKOS
+concept references.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "ex": "https://example.org/"
+  },
+  "@type": [
+    "cdi:RepresentedVariable"
+  ],
+  "@id": "ex:rv/seaWaterTemperature",
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/rv/seaWaterTemperature",
+    "cdi:ddiIdentifier": {
+      "@type": [
+        "cdi:InternationalRegistrationDataIdentifier"
+      ],
+      "cdi:dataIdentifier": "OCEAN-RV-SEA_WATER_TEMP",
+      "cdi:registrationAuthorityIdentifier": "0000.0000.0000",
+      "cdi:versionIdentifier": "1.0.0"
+    },
+    "cdi:nonDdiIdentifier": [
+      {
+        "@type": [
+          "cdi:NonDdiIdentifier"
+        ],
+        "cdi:identifierContent": "ODC-RV-SST-1",
+        "cdi:managingAgency": "Example Ocean Data Center"
+      }
+    ]
+  },
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "sea_water_temperature",
+      "cdi:context": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "technical-name"
+        ],
+        "cdi:name": "DDI-CDI naming context",
+        "cdi:vocabulary": {
+          "@type": [
+            "cdi:Reference"
+          ],
+          "cdi:uri": "https://ddialliance.org/Specification/DDI-CDI/1.0/naming-context"
+        }
+      }
+    },
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "Sea Water Temperature",
+      "cdi:context": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "display-name"
+        ]
+      }
+    }
+  ],
+  "cdi:displayLabel": [
+    {
+      "@type": [
+        "cdi:LabelForDisplay"
+      ],
+      "cdi:maxLength": 32,
+      "cdi:locationVariant": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "en-US"
+        ]
+      },
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Sea Water Temperature",
+        "cdi:language": "en"
+      }
+    },
+    {
+      "@type": [
+        "cdi:LabelForDisplay"
+      ],
+      "cdi:maxLength": 80,
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Temperature de l'eau de mer",
+        "cdi:language": "fr"
+      }
+    }
+  ],
+  "cdi:descriptiveText": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": [
+      {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "In-situ temperature of sea water at a stated depth and station, expressed in degrees Celsius.",
+        "cdi:language": "en"
+      },
+      {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Temperatura del agua de mar in situ a una profundidad y estacion declaradas, en grados Celsius.",
+        "cdi:language": "es"
+      }
+    ]
+  },
+  "cdi:definition": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Temperature of the water column measured in situ by a CTD or other oceanographic sensor at a specified depth.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:externalDefinition": {
+    "@type": [
+      "cdi:Reference"
+    ],
+    "cdi:uri": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/",
+    "cdi:description": "BODC P01 'Temperature of the water column' parameter usage",
+    "cdi:semantic": {
+      "@type": [
+        "cdi:ControlledVocabularyEntry"
+      ],
+      "cdi:entryValue": [
+        "definedBy"
+      ]
+    }
+  },
+  "cdi:describedUnitOfMeasure": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "DEG_C"
+    ],
+    "cdi:name": "QUDT Units",
+    "cdi:entryReference": [
+      {
+        "@type": [
+          "cdi:Reference"
+        ],
+        "cdi:uri": "http://qudt.org/vocab/unit/DEG_C",
+        "cdi:description": "degree Celsius"
+      }
+    ],
+    "cdi:vocabulary": {
+      "@type": [
+        "cdi:Reference"
+      ],
+      "cdi:uri": "http://qudt.org/vocab/unit/"
+    }
+  },
+  "cdi:simpleUnitOfMeasure": "Cel",
+  "cdi:unitOfMeasureKind": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "temperature"
+    ],
+    "cdi:name": "Kinds of unit of measure",
+    "cdi:vocabulary": {
+      "@type": [
+        "cdi:Reference"
+      ],
+      "cdi:uri": "http://qudt.org/vocab/quantitykind/"
+    }
+  },
+  "cdi:hasIntendedDataType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "xsd:decimal"
+    ],
+    "cdi:name": "XML Schema Datatypes",
+    "cdi:entryReference": [
+      {
+        "@type": [
+          "cdi:Reference"
+        ],
+        "cdi:uri": "http://www.w3.org/2001/XMLSchema#decimal"
+      }
+    ]
+  },
+  "cdi:takesSubstantiveValuesFrom": {
+    "@id": "ex:vd/temperatureCelsius"
+  },
+  "cdi:takesSentinelValuesFrom": [
+    {
+      "@id": "ex:vd/temperatureSentinel"
+    },
+    {
+      "@type": [
+        "cdi:SentinelValueDomain"
+      ],
+      "@id": "ex:vd/temperatureSentinelInline",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/vd/temperatureSentinelInline"
+      },
+      "cdi:displayLabel": [
+        {
+          "@type": [
+            "cdi:LabelForDisplay"
+          ],
+          "cdi:languageSpecificString": {
+            "@type": [
+              "cdi:LanguageString"
+            ],
+            "cdi:content": "Inline R-style sentinel domain",
+            "cdi:language": "en"
+          }
+        }
+      ],
+      "cdi:platformType": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "Rstyle"
+        ]
+      }
+    }
+  ],
+  "cdi:takesSubstantiveConceptsFrom": {
+    "@type": [
+      "cdi:SubstantiveConceptualDomain"
+    ],
+    "@id": "ex:cd/seaWaterTemperatureConcept",
+    "cdi:identifier": {
+      "@type": [
+        "cdi:Identifier"
+      ],
+      "cdi:uri": "https://example.org/cd/seaWaterTemperatureConcept"
+    },
+    "cdi:displayLabel": [
+      {
+        "@type": [
+          "cdi:LabelForDisplay"
+        ],
+        "cdi:languageSpecificString": {
+          "@type": [
+            "cdi:LanguageString"
+          ],
+          "cdi:content": "Sea water temperature conceptual domain",
+          "cdi:language": "en"
+        }
+      }
+    ],
+    "cdi:isDescribedBy": {
+      "@type": [
+        "cdi:ValueAndConceptDescription"
+      ],
+      "@id": "ex:cd/seaWaterTemperatureConcept/desc",
+      "cdi:classificationLevel": "Continuous",
+      "cdi:description": {
+        "@type": [
+          "cdi:InternationalString"
+        ],
+        "cdi:languageSpecificString": {
+          "@type": [
+            "cdi:LanguageString"
+          ],
+          "cdi:content": "Continuous conceptual domain of plausible sea water temperatures.",
+          "cdi:language": "en"
+        }
+      },
+      "cdi:minimumValueInclusive": "-2.0",
+      "cdi:maximumValueInclusive": "35.5"
+    },
+    "cdi:takesConceptsFrom": {
+      "@id": "ex:cs/oceanographicConcepts"
+    }
+  },
+  "cdi:takesSentinelConceptsFrom": {
+    "@id": "ex:cd/temperatureSentinelConcepts"
+  },
+  "cdi:measures": {
+    "@type": [
+      "cdi:UnitType"
+    ],
+    "@id": "ex:ut/oceanographicStation",
+    "cdi:identifier": {
+      "@type": [
+        "cdi:Identifier"
+      ],
+      "cdi:uri": "https://example.org/ut/oceanographicStation"
+    },
+    "cdi:name": [
+      {
+        "@type": [
+          "cdi:ObjectName"
+        ],
+        "cdi:name": "OceanographicStation"
+      }
+    ],
+    "cdi:displayLabel": [
+      {
+        "@type": [
+          "cdi:LabelForDisplay"
+        ],
+        "cdi:languageSpecificString": {
+          "@type": [
+            "cdi:LanguageString"
+          ],
+          "cdi:content": "Oceanographic monitoring station",
+          "cdi:language": "en"
+        }
+      }
+    ],
+    "cdi:descriptiveText": {
+      "@type": [
+        "cdi:InternationalString"
+      ],
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Fixed or moored oceanographic monitoring station hosting a CTD or comparable temperature sensor.",
+        "cdi:language": "en"
+      }
+    },
+    "cdi:definition": {
+      "@type": [
+        "cdi:InternationalString"
+      ],
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Unit type for fixed oceanographic monitoring stations, the bearer of in-situ temperature observations.",
+        "cdi:language": "en"
+      }
+    },
+    "cdi:uses": [
+      {
+        "@type": [
+          "cdi:Concept"
+        ],
+        "@id": "ex:concept/monitoringStation",
+        "cdi:identifier": {
+          "@type": [
+            "cdi:Identifier"
+          ],
+          "cdi:uri": "https://example.org/concept/monitoringStation"
+        },
+        "cdi:name": [
+          {
+            "@type": [
+              "cdi:ObjectName"
+            ],
+            "cdi:name": "monitoringStation"
+          }
+        ],
+        "cdi:displayLabel": [
+          {
+            "@type": [
+              "cdi:LabelForDisplay"
+            ],
+            "cdi:languageSpecificString": {
+              "@type": [
+                "cdi:LanguageString"
+              ],
+              "cdi:content": "monitoring station concept",
+              "cdi:language": "en"
+            }
+          }
+        ],
+        "cdi:definition": {
+          "@type": [
+            "cdi:InternationalString"
+          ],
+          "cdi:languageSpecificString": {
+            "@type": [
+              "cdi:LanguageString"
+            ],
+            "cdi:content": "A site at which environmental observations are recorded over time.",
+            "cdi:language": "en"
+          }
+        }
+      }
+    ]
+  },
+  "cdi:uses": [
+    {
+      "@type": [
+        "cdi:Concept"
+      ],
+      "@id": "ex:concept/temperatureMeasurement",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/concept/temperatureMeasurement"
+      },
+      "cdi:name": [
+        {
+          "@type": [
+            "cdi:ObjectName"
+          ],
+          "cdi:name": "temperatureMeasurement"
+        }
+      ],
+      "cdi:displayLabel": [
+        {
+          "@type": [
+            "cdi:LabelForDisplay"
+          ],
+          "cdi:languageSpecificString": {
+            "@type": [
+              "cdi:LanguageString"
+            ],
+            "cdi:content": "temperature measurement",
+            "cdi:language": "en"
+          }
+        }
+      ],
+      "cdi:definition": {
+        "@type": [
+          "cdi:InternationalString"
+        ],
+        "cdi:languageSpecificString": {
+          "@type": [
+            "cdi:LanguageString"
+          ],
+          "cdi:content": "The act of measuring temperature with a calibrated sensor.",
+          "cdi:language": "en"
+        }
+      }
+    },
+    {
+      "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-represented-variable/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "skos": "http://www.w3.org/2004/02/skos/core#",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:RepresentedVariable"
+  ],
+  "@id": "ex:rv/seaWaterTemperature",
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/rv/seaWaterTemperature",
+    "cdi:ddiIdentifier": {
+      "@type": [
+        "cdi:InternationalRegistrationDataIdentifier"
+      ],
+      "cdi:dataIdentifier": "OCEAN-RV-SEA_WATER_TEMP",
+      "cdi:registrationAuthorityIdentifier": "0000.0000.0000",
+      "cdi:versionIdentifier": "1.0.0"
+    },
+    "cdi:nonDdiIdentifier": [
+      {
+        "@type": [
+          "cdi:NonDdiIdentifier"
+        ],
+        "cdi:identifierContent": "ODC-RV-SST-1",
+        "cdi:managingAgency": "Example Ocean Data Center"
+      }
+    ]
+  },
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "sea_water_temperature",
+      "cdi:context": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "technical-name"
+        ],
+        "cdi:name": "DDI-CDI naming context",
+        "cdi:vocabulary": {
+          "@type": [
+            "cdi:Reference"
+          ],
+          "cdi:uri": "https://ddialliance.org/Specification/DDI-CDI/1.0/naming-context"
+        }
+      }
+    },
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "Sea Water Temperature",
+      "cdi:context": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "display-name"
+        ]
+      }
+    }
+  ],
+  "cdi:displayLabel": [
+    {
+      "@type": [
+        "cdi:LabelForDisplay"
+      ],
+      "cdi:maxLength": 32,
+      "cdi:locationVariant": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "en-US"
+        ]
+      },
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Sea Water Temperature",
+        "cdi:language": "en"
+      }
+    },
+    {
+      "@type": [
+        "cdi:LabelForDisplay"
+      ],
+      "cdi:maxLength": 80,
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Temperature de l'eau de mer",
+        "cdi:language": "fr"
+      }
+    }
+  ],
+  "cdi:descriptiveText": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": [
+      {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "In-situ temperature of sea water at a stated depth and station, expressed in degrees Celsius.",
+        "cdi:language": "en"
+      },
+      {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Temperatura del agua de mar in situ a una profundidad y estacion declaradas, en grados Celsius.",
+        "cdi:language": "es"
+      }
+    ]
+  },
+  "cdi:definition": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": {
+      "@type": [
+        "cdi:LanguageString"
+      ],
+      "cdi:content": "Temperature of the water column measured in situ by a CTD or other oceanographic sensor at a specified depth.",
+      "cdi:language": "en"
+    }
+  },
+  "cdi:externalDefinition": {
+    "@type": [
+      "cdi:Reference"
+    ],
+    "cdi:uri": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/",
+    "cdi:description": "BODC P01 'Temperature of the water column' parameter usage",
+    "cdi:semantic": {
+      "@type": [
+        "cdi:ControlledVocabularyEntry"
+      ],
+      "cdi:entryValue": [
+        "definedBy"
+      ]
+    }
+  },
+  "cdi:describedUnitOfMeasure": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "DEG_C"
+    ],
+    "cdi:name": "QUDT Units",
+    "cdi:entryReference": [
+      {
+        "@type": [
+          "cdi:Reference"
+        ],
+        "cdi:uri": "http://qudt.org/vocab/unit/DEG_C",
+        "cdi:description": "degree Celsius"
+      }
+    ],
+    "cdi:vocabulary": {
+      "@type": [
+        "cdi:Reference"
+      ],
+      "cdi:uri": "http://qudt.org/vocab/unit/"
+    }
+  },
+  "cdi:simpleUnitOfMeasure": "Cel",
+  "cdi:unitOfMeasureKind": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "temperature"
+    ],
+    "cdi:name": "Kinds of unit of measure",
+    "cdi:vocabulary": {
+      "@type": [
+        "cdi:Reference"
+      ],
+      "cdi:uri": "http://qudt.org/vocab/quantitykind/"
+    }
+  },
+  "cdi:hasIntendedDataType": {
+    "@type": [
+      "cdi:ControlledVocabularyEntry"
+    ],
+    "cdi:entryValue": [
+      "xsd:decimal"
+    ],
+    "cdi:name": "XML Schema Datatypes",
+    "cdi:entryReference": [
+      {
+        "@type": [
+          "cdi:Reference"
+        ],
+        "cdi:uri": "http://www.w3.org/2001/XMLSchema#decimal"
+      }
+    ]
+  },
+  "cdi:takesSubstantiveValuesFrom": {
+    "@id": "ex:vd/temperatureCelsius"
+  },
+  "cdi:takesSentinelValuesFrom": [
+    {
+      "@id": "ex:vd/temperatureSentinel"
+    },
+    {
+      "@type": [
+        "cdi:SentinelValueDomain"
+      ],
+      "@id": "ex:vd/temperatureSentinelInline",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/vd/temperatureSentinelInline"
+      },
+      "cdi:displayLabel": [
+        {
+          "@type": [
+            "cdi:LabelForDisplay"
+          ],
+          "cdi:languageSpecificString": {
+            "@type": [
+              "cdi:LanguageString"
+            ],
+            "cdi:content": "Inline R-style sentinel domain",
+            "cdi:language": "en"
+          }
+        }
+      ],
+      "cdi:platformType": {
+        "@type": [
+          "cdi:ControlledVocabularyEntry"
+        ],
+        "cdi:entryValue": [
+          "Rstyle"
+        ]
+      }
+    }
+  ],
+  "cdi:takesSubstantiveConceptsFrom": {
+    "@type": [
+      "cdi:SubstantiveConceptualDomain"
+    ],
+    "@id": "ex:cd/seaWaterTemperatureConcept",
+    "cdi:identifier": {
+      "@type": [
+        "cdi:Identifier"
+      ],
+      "cdi:uri": "https://example.org/cd/seaWaterTemperatureConcept"
+    },
+    "cdi:displayLabel": [
+      {
+        "@type": [
+          "cdi:LabelForDisplay"
+        ],
+        "cdi:languageSpecificString": {
+          "@type": [
+            "cdi:LanguageString"
+          ],
+          "cdi:content": "Sea water temperature conceptual domain",
+          "cdi:language": "en"
+        }
+      }
+    ],
+    "cdi:isDescribedBy": {
+      "@type": [
+        "cdi:ValueAndConceptDescription"
+      ],
+      "@id": "ex:cd/seaWaterTemperatureConcept/desc",
+      "cdi:classificationLevel": "Continuous",
+      "cdi:description": {
+        "@type": [
+          "cdi:InternationalString"
+        ],
+        "cdi:languageSpecificString": {
+          "@type": [
+            "cdi:LanguageString"
+          ],
+          "cdi:content": "Continuous conceptual domain of plausible sea water temperatures.",
+          "cdi:language": "en"
+        }
+      },
+      "cdi:minimumValueInclusive": "-2.0",
+      "cdi:maximumValueInclusive": "35.5"
+    },
+    "cdi:takesConceptsFrom": {
+      "@id": "ex:cs/oceanographicConcepts"
+    }
+  },
+  "cdi:takesSentinelConceptsFrom": {
+    "@id": "ex:cd/temperatureSentinelConcepts"
+  },
+  "cdi:measures": {
+    "@type": [
+      "cdi:UnitType"
+    ],
+    "@id": "ex:ut/oceanographicStation",
+    "cdi:identifier": {
+      "@type": [
+        "cdi:Identifier"
+      ],
+      "cdi:uri": "https://example.org/ut/oceanographicStation"
+    },
+    "cdi:name": [
+      {
+        "@type": [
+          "cdi:ObjectName"
+        ],
+        "cdi:name": "OceanographicStation"
+      }
+    ],
+    "cdi:displayLabel": [
+      {
+        "@type": [
+          "cdi:LabelForDisplay"
+        ],
+        "cdi:languageSpecificString": {
+          "@type": [
+            "cdi:LanguageString"
+          ],
+          "cdi:content": "Oceanographic monitoring station",
+          "cdi:language": "en"
+        }
+      }
+    ],
+    "cdi:descriptiveText": {
+      "@type": [
+        "cdi:InternationalString"
+      ],
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Fixed or moored oceanographic monitoring station hosting a CTD or comparable temperature sensor.",
+        "cdi:language": "en"
+      }
+    },
+    "cdi:definition": {
+      "@type": [
+        "cdi:InternationalString"
+      ],
+      "cdi:languageSpecificString": {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "Unit type for fixed oceanographic monitoring stations, the bearer of in-situ temperature observations.",
+        "cdi:language": "en"
+      }
+    },
+    "cdi:uses": [
+      {
+        "@type": [
+          "cdi:Concept"
+        ],
+        "@id": "ex:concept/monitoringStation",
+        "cdi:identifier": {
+          "@type": [
+            "cdi:Identifier"
+          ],
+          "cdi:uri": "https://example.org/concept/monitoringStation"
+        },
+        "cdi:name": [
+          {
+            "@type": [
+              "cdi:ObjectName"
+            ],
+            "cdi:name": "monitoringStation"
+          }
+        ],
+        "cdi:displayLabel": [
+          {
+            "@type": [
+              "cdi:LabelForDisplay"
+            ],
+            "cdi:languageSpecificString": {
+              "@type": [
+                "cdi:LanguageString"
+              ],
+              "cdi:content": "monitoring station concept",
+              "cdi:language": "en"
+            }
+          }
+        ],
+        "cdi:definition": {
+          "@type": [
+            "cdi:InternationalString"
+          ],
+          "cdi:languageSpecificString": {
+            "@type": [
+              "cdi:LanguageString"
+            ],
+            "cdi:content": "A site at which environmental observations are recorded over time.",
+            "cdi:language": "en"
+          }
+        }
+      }
+    ]
+  },
+  "cdi:uses": [
+    {
+      "@type": [
+        "cdi:Concept"
+      ],
+      "@id": "ex:concept/temperatureMeasurement",
+      "cdi:identifier": {
+        "@type": [
+          "cdi:Identifier"
+        ],
+        "cdi:uri": "https://example.org/concept/temperatureMeasurement"
+      },
+      "cdi:name": [
+        {
+          "@type": [
+            "cdi:ObjectName"
+          ],
+          "cdi:name": "temperatureMeasurement"
+        }
+      ],
+      "cdi:displayLabel": [
+        {
+          "@type": [
+            "cdi:LabelForDisplay"
+          ],
+          "cdi:languageSpecificString": {
+            "@type": [
+              "cdi:LanguageString"
+            ],
+            "cdi:content": "temperature measurement",
+            "cdi:language": "en"
+          }
+        }
+      ],
+      "cdi:definition": {
+        "@type": [
+          "cdi:InternationalString"
+        ],
+        "cdi:languageSpecificString": {
+          "@type": [
+            "cdi:LanguageString"
+          ],
+          "cdi:content": "The act of measuring temperature with a calibrated sensor.",
+          "cdi:language": "en"
+        }
+      }
+    },
+    {
+      "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/rv/seaWaterTemperature> a cdi:RepresentedVariable ;
+    cdi:definition [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Temperature of the water column measured in situ by a CTD or other oceanographic sensor at a specified depth." ;
+                    cdi:language "en" ] ] ;
+    cdi:describedUnitOfMeasure [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryReference [ a cdi:Reference ;
+                    cdi:description "degree Celsius" ;
+                    cdi:uri "http://qudt.org/vocab/unit/DEG_C" ] ;
+            cdi:entryValue "DEG_C" ;
+            cdi:name "QUDT Units" ;
+            cdi:vocabulary [ a cdi:Reference ;
+                    cdi:uri "http://qudt.org/vocab/unit/" ] ] ;
+    cdi:descriptiveText [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "In-situ temperature of sea water at a stated depth and station, expressed in degrees Celsius." ;
+                    cdi:language "en" ],
+                [ a cdi:LanguageString ;
+                    cdi:content "Temperatura del agua de mar in situ a una profundidad y estacion declaradas, en grados Celsius." ;
+                    cdi:language "es" ] ] ;
+    cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Temperature de l'eau de mer" ;
+                    cdi:language "fr" ] ;
+            cdi:maxLength 80 ],
+        [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Sea Water Temperature" ;
+                    cdi:language "en" ] ;
+            cdi:locationVariant [ a cdi:ControlledVocabularyEntry ;
+                    cdi:entryValue "en-US" ] ;
+            cdi:maxLength 32 ] ;
+    cdi:externalDefinition [ a cdi:Reference ;
+            cdi:description "BODC P01 'Temperature of the water column' parameter usage" ;
+            cdi:semantic [ a cdi:ControlledVocabularyEntry ;
+                    cdi:entryValue "definedBy" ] ;
+            cdi:uri "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/" ] ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryReference [ a cdi:Reference ;
+                    cdi:uri "http://www.w3.org/2001/XMLSchema#decimal" ] ;
+            cdi:entryValue "xsd:decimal" ;
+            cdi:name "XML Schema Datatypes" ] ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:ddiIdentifier [ a cdi:InternationalRegistrationDataIdentifier ;
+                    cdi:dataIdentifier "OCEAN-RV-SEA_WATER_TEMP" ;
+                    cdi:registrationAuthorityIdentifier "0000.0000.0000" ;
+                    cdi:versionIdentifier "1.0.0" ] ;
+            cdi:nonDdiIdentifier [ a cdi:NonDdiIdentifier ;
+                    cdi:identifierContent "ODC-RV-SST-1" ;
+                    cdi:managingAgency "Example Ocean Data Center" ] ;
+            cdi:uri "https://example.org/rv/seaWaterTemperature" ] ;
+    cdi:measures <https://example.org/ut/oceanographicStation> ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:context [ a cdi:ControlledVocabularyEntry ;
+                    cdi:entryValue "technical-name" ;
+                    cdi:name "DDI-CDI naming context" ;
+                    cdi:vocabulary [ a cdi:Reference ;
+                            cdi:uri "https://ddialliance.org/Specification/DDI-CDI/1.0/naming-context" ] ] ;
+            cdi:name "sea_water_temperature" ],
+        [ a cdi:ObjectName ;
+            cdi:context [ a cdi:ControlledVocabularyEntry ;
+                    cdi:entryValue "display-name" ] ;
+            cdi:name "Sea Water Temperature" ] ;
+    cdi:simpleUnitOfMeasure "Cel" ;
+    cdi:takesSentinelConceptsFrom <https://example.org/cd/temperatureSentinelConcepts> ;
+    cdi:takesSentinelValuesFrom <https://example.org/vd/temperatureSentinel>,
+        <https://example.org/vd/temperatureSentinelInline> ;
+    cdi:takesSubstantiveConceptsFrom <https://example.org/cd/seaWaterTemperatureConcept> ;
+    cdi:takesSubstantiveValuesFrom <https://example.org/vd/temperatureCelsius> ;
+    cdi:unitOfMeasureKind [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "temperature" ;
+            cdi:name "Kinds of unit of measure" ;
+            cdi:vocabulary [ a cdi:Reference ;
+                    cdi:uri "http://qudt.org/vocab/quantitykind/" ] ] ;
+    cdi:uses <http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/>,
+        <https://example.org/concept/temperatureMeasurement> .
+
+<https://example.org/cd/seaWaterTemperatureConcept> a cdi:SubstantiveConceptualDomain ;
+    cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Sea water temperature conceptual domain" ;
+                    cdi:language "en" ] ] ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/cd/seaWaterTemperatureConcept" ] ;
+    cdi:isDescribedBy <https://example.org/cd/seaWaterTemperatureConcept/desc> ;
+    cdi:takesConceptsFrom <https://example.org/cs/oceanographicConcepts> .
+
+<https://example.org/cd/seaWaterTemperatureConcept/desc> a cdi:ValueAndConceptDescription ;
+    cdi:classificationLevel "Continuous" ;
+    cdi:description [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Continuous conceptual domain of plausible sea water temperatures." ;
+                    cdi:language "en" ] ] ;
+    cdi:maximumValueInclusive "35.5" ;
+    cdi:minimumValueInclusive "-2.0" .
+
+<https://example.org/concept/monitoringStation> a cdi:Concept ;
+    cdi:definition [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "A site at which environmental observations are recorded over time." ;
+                    cdi:language "en" ] ] ;
+    cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "monitoring station concept" ;
+                    cdi:language "en" ] ] ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/concept/monitoringStation" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "monitoringStation" ] .
+
+<https://example.org/concept/temperatureMeasurement> a cdi:Concept ;
+    cdi:definition [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "The act of measuring temperature with a calibrated sensor." ;
+                    cdi:language "en" ] ] ;
+    cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "temperature measurement" ;
+                    cdi:language "en" ] ] ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/concept/temperatureMeasurement" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "temperatureMeasurement" ] .
+
+<https://example.org/ut/oceanographicStation> a cdi:UnitType ;
+    cdi:definition [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Unit type for fixed oceanographic monitoring stations, the bearer of in-situ temperature observations." ;
+                    cdi:language "en" ] ] ;
+    cdi:descriptiveText [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Fixed or moored oceanographic monitoring station hosting a CTD or comparable temperature sensor." ;
+                    cdi:language "en" ] ] ;
+    cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Oceanographic monitoring station" ;
+                    cdi:language "en" ] ] ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/ut/oceanographicStation" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "OceanographicStation" ] ;
+    cdi:uses <https://example.org/concept/monitoringStation> .
+
+<https://example.org/vd/temperatureSentinelInline> a cdi:SentinelValueDomain ;
+    cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Inline R-style sentinel domain" ;
+                    cdi:language "en" ] ] ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/vd/temperatureSentinelInline" ] ;
+    cdi:platformType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "Rstyle" ] .
+
+
+```
+
 ## Schema
 
 ```yaml

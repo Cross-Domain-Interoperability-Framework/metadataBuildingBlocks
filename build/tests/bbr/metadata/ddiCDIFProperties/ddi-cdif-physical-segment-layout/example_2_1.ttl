@@ -1,0 +1,72 @@
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/layout/observations.csv> a cdi:PhysicalSegmentLayout ;
+    cdi:allowsDuplicates false ;
+    cdi:arrayBase 1 ;
+    cdi:commentPrefix "#" ;
+    cdi:delimiter "," ;
+    cdi:encoding [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "utf-8" ] ;
+    cdi:escapeCharacter "\"" ;
+    cdi:formats <https://example.org/logical-record/observations> ;
+    cdi:hasHeader true ;
+    cdi:has_ValueMapping <https://example.org/layout/observations.csv/vm/temperature> ;
+    cdi:has_ValueMappingPosition <https://example.org/layout/observations.csv/vmp/0> ;
+    cdi:headerIsCaseSensitive false ;
+    cdi:headerRowCount 1 ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/layout/observations.csv" ] ;
+    cdi:isDefinedBy <https://example.org/concept/csv-layout> ;
+    cdi:isDelimited true ;
+    cdi:isFixedWidth false ;
+    cdi:lineTerminator """
+""",
+        """\r
+""" ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "observations.csv layout" ] ;
+    cdi:nullSequence "" ;
+    cdi:overview [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "RFC 4180-compliant CSV with header row, UTF-8 encoding, comma delimiter." ;
+                    cdi:language "en" ] ] ;
+    cdi:purpose [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "CSV layout for the observations dataset." ;
+                    cdi:language "en" ] ] ;
+    cdi:quoteCharacter "\"" ;
+    cdi:skipBlankRows true ;
+    cdi:skipDataColumns 0 ;
+    cdi:skipInitialSpace false ;
+    cdi:skipRows 0 ;
+    cdi:tableDirection "Auto" ;
+    cdi:textDirection "Inherit" ;
+    cdi:treatConsecutiveDelimitersAsOne false ;
+    cdi:trim "Both" .
+
+<https://example.org/layout/observations.csv/vmp/0> a cdi:ValueMappingPosition ;
+    cdi:indexes <https://example.org/layout/observations.csv/vm/temperature> ;
+    cdi:value 0 .
+
+<https://example.org/layout/observations.csv/vm/temperature> a cdi:ValueMapping ;
+    cdi:decimalPositions 2 ;
+    cdi:defaultDecimalSeparator "." ;
+    cdi:defaultDigitGroupSeparator "" ;
+    cdi:defaultValue "" ;
+    cdi:format [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "decimal" ] ;
+    cdi:formats <https://example.org/datapoint/temperature-row-1> ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/layout/observations.csv/vm/temperature" ] ;
+    cdi:isRequired true ;
+    cdi:length 8 ;
+    cdi:maximumLength 12 ;
+    cdi:minimumLength 1 ;
+    cdi:nullSequence "NA" ;
+    cdi:numberPattern "#0.00" ;
+    cdi:physicalDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:decimal" ] ;
+    cdi:scale 1 ;
+    cdi:uses <https://example.org/layout/observations.csv/loc/col-3> .
+

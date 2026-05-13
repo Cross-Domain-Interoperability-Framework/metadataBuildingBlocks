@@ -15,8 +15,9 @@ Describes tabular/structured data files. Typed as `cdi:PhysicalDataSet` and `ada
 
 ## Examples
 
-### Example Tabular Data
-Example delimited tabular data structure with CSV settings and physical mappings.
+### Minimal Tabular Data
+Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
+(the oneOf branch requires either isDelimited or isFixedWidth = true).
 #### json
 ```json
 {
@@ -63,7 +64,8 @@ Example delimited tabular data structure with CSV settings and physical mappings
   "@context": [
     {
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "csvw": "http://www.w3.org/ns/csvw#"
+      "csvw": "http://www.w3.org/ns/csvw#",
+      "schema": "http://schema.org/"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularData/context.jsonld",
     {
@@ -134,6 +136,199 @@ Example delimited tabular data structure with CSV settings and physical mappings
 
 ```
 
+
+### Complete Tabular Data
+Delimited tabular dataset exercising every CSVW dialect property
+(delimiter, quote/escape, header, lineTerminators, skipBlankRows/
+skipColumns/skipRows, table/text direction, trim), plus arrayBase,
+headerIsCaseSensitive, treatConsecutiveDelimitersAsOne, countRows/Cols,
+and three physical-mapping entries.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:TabularTextDataSet", "schema:Dataset"],
+  "cdi:isDelimited": true,
+  "cdi:isFixedWidth": false,
+  "cdi:arrayBase": 1,
+  "csvw:delimiter": ",",
+  "csvw:quoteChar": "\"",
+  "cdi:escapeCharacter": "\"",
+  "csvw:header": true,
+  "csvw:headerRowCount": 1,
+  "csvw:commentPrefix": "#",
+  "csvw:lineTerminators": "CRLF",
+  "csvw:skipBlankRows": false,
+  "csvw:skipColumns": 0,
+  "csvw:skipInitialSpace": true,
+  "csvw:skipRows": 0,
+  "cdi:headerIsCaseSensitive": false,
+  "cdi:treatConsecutiveDelimitersAsOne": false,
+  "csvw:tableDirection": "Ltr",
+  "csvw:textDirection": "Inherit",
+  "csvw:trim": "true",
+  "countRows": 1500,
+  "countColumns": 3,
+  "cdi:hasPhysicalMapping": [
+    {
+      "cdi:index": 0,
+      "cdi:physicalDataType": "String",
+      "cdi:length": 16,
+      "cdi:isRequired": true,
+      "cdi:formats_InstanceVariable": {"@id": "ex:var-station-id"}
+    },
+    {
+      "cdi:index": 1,
+      "cdi:format": "YYYY-MM-DD",
+      "cdi:physicalDataType": "Date",
+      "cdi:nullSequence": "NA",
+      "cdi:formats_InstanceVariable": {"@id": "ex:var-date"}
+    },
+    {
+      "cdi:index": 2,
+      "cdi:format": "#,##0.00",
+      "cdi:physicalDataType": "Numeric",
+      "cdi:length": 12,
+      "cdi:scale": 1,
+      "cdi:decimalPositions": 2,
+      "cdi:formats_InstanceVariable": {"@id": "ex:var-temperature"}
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "csvw": "http://www.w3.org/ns/csvw#",
+      "schema": "http://schema.org/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularData/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "csvw": "http://www.w3.org/ns/csvw#",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:TabularTextDataSet",
+    "schema:Dataset"
+  ],
+  "cdi:isDelimited": true,
+  "cdi:isFixedWidth": false,
+  "cdi:arrayBase": 1,
+  "csvw:delimiter": ",",
+  "csvw:quoteChar": "\"",
+  "cdi:escapeCharacter": "\"",
+  "csvw:header": true,
+  "csvw:headerRowCount": 1,
+  "csvw:commentPrefix": "#",
+  "csvw:lineTerminators": "CRLF",
+  "csvw:skipBlankRows": false,
+  "csvw:skipColumns": 0,
+  "csvw:skipInitialSpace": true,
+  "csvw:skipRows": 0,
+  "cdi:headerIsCaseSensitive": false,
+  "cdi:treatConsecutiveDelimitersAsOne": false,
+  "csvw:tableDirection": "Ltr",
+  "csvw:textDirection": "Inherit",
+  "csvw:trim": "true",
+  "countRows": 1500,
+  "countColumns": 3,
+  "cdi:hasPhysicalMapping": [
+    {
+      "cdi:index": 0,
+      "cdi:physicalDataType": "String",
+      "cdi:length": 16,
+      "cdi:isRequired": true,
+      "cdi:formats_InstanceVariable": {
+        "@id": "ex:var-station-id"
+      }
+    },
+    {
+      "cdi:index": 1,
+      "cdi:format": "YYYY-MM-DD",
+      "cdi:physicalDataType": "Date",
+      "cdi:nullSequence": "NA",
+      "cdi:formats_InstanceVariable": {
+        "@id": "ex:var-date"
+      }
+    },
+    {
+      "cdi:index": 2,
+      "cdi:format": "#,##0.00",
+      "cdi:physicalDataType": "Numeric",
+      "cdi:length": 12,
+      "cdi:scale": 1,
+      "cdi:decimalPositions": 2,
+      "cdi:formats_InstanceVariable": {
+        "@id": "ex:var-temperature"
+      }
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] a cdi:TabularTextDataSet,
+        schema1:Dataset ;
+    cdi:arrayBase 1 ;
+    cdi:escapeCharacter "\"" ;
+    cdi:hasPhysicalMapping [ cdi:formats_InstanceVariable ex:var-station-id ;
+            cdi:index 0 ;
+            cdi:isRequired true ;
+            cdi:length 16 ;
+            cdi:physicalDataType "String" ],
+        [ cdi:format "YYYY-MM-DD" ;
+            cdi:formats_InstanceVariable ex:var-date ;
+            cdi:index 1 ;
+            cdi:nullSequence "NA" ;
+            cdi:physicalDataType "Date" ],
+        [ cdi:decimalPositions 2 ;
+            cdi:format "#,##0.00" ;
+            cdi:formats_InstanceVariable ex:var-temperature ;
+            cdi:index 2 ;
+            cdi:length 12 ;
+            cdi:physicalDataType "Numeric" ;
+            cdi:scale 1 ] ;
+    cdi:headerIsCaseSensitive false ;
+    cdi:isDelimited true ;
+    cdi:isFixedWidth false ;
+    cdi:treatConsecutiveDelimitersAsOne false ;
+    csvw:commentPrefix "#" ;
+    csvw:delimiter "," ;
+    csvw:header true ;
+    csvw:headerRowCount 1 ;
+    csvw:lineTerminators "CRLF" ;
+    csvw:quoteChar "\"" ;
+    csvw:skipBlankRows false ;
+    csvw:skipColumns 0 ;
+    csvw:skipInitialSpace true ;
+    csvw:skipRows 0 ;
+    csvw:tableDirection "Ltr" ;
+    csvw:textDirection "Inherit" ;
+    csvw:trim "true" .
+
+
+```
+
 ## Schema
 
 ```yaml
@@ -141,7 +336,7 @@ $schema: https://json-schema.org/draft/2020-12/schema
 type: object
 title: Tabular Data Type
 description: Tabular data type aligned with CDIF 2026 schema using DDI-CDI and CSVW
-  properties. Typed as cdi:TabularTextDataSet and ada:tabularData.
+  properties. Typed as cdi:TabularTextDataSet.
 properties:
   '@type':
     type: array
@@ -275,6 +470,7 @@ oneOf:
   - cdi:isFixedWidth
 required:
 - '@type'
+- cdi:hasPhysicalMapping
 x-jsonld-prefixes:
   schema: http://schema.org/
   ada: https://ada.astromat.org/metadata/

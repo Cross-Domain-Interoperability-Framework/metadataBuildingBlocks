@@ -2,196 +2,31 @@
   "@context": [
     {
       "schema": "http://schema.org/",
-      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "csvw": "http://www.w3.org/ns/csvw#",
-      "spdx": "http://spdx.org/rdf/terms#",
       "dcterms": "http://purl.org/dc/terms/"
     },
-    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/context.jsonld"
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/"
+    }
   ],
   "@type": [
     "schema:DataDownload"
   ],
-  "schema:name": "Geochemistry analysis data package",
-  "schema:contentUrl": "https://example.org/data/geochem-package.zip",
+  "schema:name": "Geochemistry data archive",
+  "schema:contentUrl": "https://example.org/data/geochem.zip",
   "schema:encodingFormat": [
     "application/zip"
   ],
-  "dcterms:conformsTo": [
-    {
-      "@id": "https://www.iana.org/assignments/media-types/application/zip"
-    }
-  ],
-  "schema:description": "This data product is distributed as a zip archive; contents of the archive are listed as parts. The component files are not individually accessible.",
-  "spdx:checksum": {
-    "@type": [
-      "spdx:Checksum"
-    ],
-    "spdx:algorithm": "SHA256",
-    "spdx:checksumValue": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
-  },
   "schema:hasPart": [
     {
+      "@id": "#sample-data",
       "@type": [
         "schema:MediaObject"
       ],
-      "@id": "#e0fee3cccca4292d76dcb5238224e677",
-      "schema:name": "20260101_GEOCHEM_LAB_SAMPLE-001_results.csv",
-      "schema:description": "Geochemistry analysis results in tabular format. sha256:f962af0b2e2f02752aa258a58cede1263f05c7a78e3b9d162da960368f7dc54b",
+      "schema:name": "sample.csv",
       "schema:encodingFormat": [
         "text/csv"
-      ],
-      "schema:size": {
-        "@type": [
-          "schema:QuantitativeValue"
-        ],
-        "schema:value": 10860,
-        "schema:unitText": "byte"
-      },
-      "spdx:checksum": {
-        "@type": [
-          "spdx:Checksum"
-        ],
-        "spdx:algorithm": "SHA256",
-        "spdx:checksumValue": "f962af0b2e2f02752aa258a58cede1263f05c7a78e3b9d162da960368f7dc54b"
-      }
-    },
-    {
-      "@type": [
-        "schema:MediaObject",
-        "cdi:TabularTextDataSet"
-      ],
-      "@id": "#7c6ef03f6b0e88dec54d9897f591deab",
-      "schema:name": "20260101_GEOCHEM_LAB_SAMPLE-001_measurements.csv",
-      "schema:description": "Measurement data with column structure described via CSVW and physical mappings.",
-      "schema:encodingFormat": [
-        "text/csv"
-      ],
-      "schema:size": {
-        "@type": [
-          "schema:QuantitativeValue"
-        ],
-        "schema:value": 6249,
-        "schema:unitText": "byte"
-      },
-      "cdi:isDelimited": true,
-      "csvw:delimiter": ",",
-      "csvw:header": true,
-      "csvw:headerRowCount": 1,
-      "countRows": 144,
-      "countColumns": 3,
-      "cdi:hasPhysicalMapping": [
-        {
-          "cdi:index": 0,
-          "cdi:format": "string",
-          "cdi:physicalDataType": "string",
-          "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
-            "@id": "#var-sample-id"
-          }
-        },
-        {
-          "cdi:index": 1,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float64",
-          "cdi:nullSequence": "NA",
-          "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
-            "@id": "#var-concentration"
-          }
-        },
-        {
-          "cdi:index": 2,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float64",
-          "cdi:nullSequence": "NA",
-          "cdi:isRequired": false,
-          "cdi:formats_InstanceVariable": {
-            "@id": "#var-uncertainty"
-          }
-        }
-      ]
-    },
-    {
-      "@type": [
-        "schema:MediaObject",
-        "cdi:StructuredDataSet"
-      ],
-      "@id": "#a6143a557a62f78ae39fcb80578b74a3",
-      "schema:name": "20260101_GEOCHEM_LAB_SAMPLE-001_spectra.nc",
-      "schema:description": "Spectral data cube with wavelength and intensity dimensions.",
-      "schema:encodingFormat": [
-        "application/x-netcdf"
-      ],
-      "schema:size": {
-        "@type": [
-          "schema:QuantitativeValue"
-        ],
-        "schema:value": 13743003,
-        "schema:unitText": "byte"
-      },
-      "cdi:hasPhysicalMapping": [
-        {
-          "cdi:index": 0,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/spectra/wavelength",
-          "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
-            "@id": "#var-wavelength"
-          }
-        },
-        {
-          "cdi:index": 1,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/spectra/intensity",
-          "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
-            "@id": "#var-intensity"
-          }
-        }
-      ]
-    },
-    {
-      "@type": [
-        "schema:MediaObject"
-      ],
-      "@id": "#3eaec0f86900d58d874bd7c18bedb156",
-      "schema:name": "20260101_GEOCHEM_LAB_SAMPLE-001_method.pdf",
-      "schema:description": "Method description document for the analysis.",
-      "schema:encodingFormat": [
-        "application/pdf"
-      ],
-      "schema:size": {
-        "@type": [
-          "schema:QuantitativeValue"
-        ],
-        "schema:value": 56062,
-        "schema:unitText": "byte"
-      }
-    },
-    {
-      "@type": [
-        "schema:MediaObject"
-      ],
-      "@id": "#d640488b65b53b6bcc1abcb66b3cde7e",
-      "schema:name": "20260101_GEOCHEM_LAB_SAMPLE-001_results.yaml",
-      "schema:description": "Metadata sidecar for the results CSV file.",
-      "schema:encodingFormat": [
-        "application/yaml"
-      ],
-      "schema:size": {
-        "@type": [
-          "schema:QuantitativeValue"
-        ],
-        "schema:value": 2281,
-        "schema:unitText": "byte"
-      },
-      "schema:about": [
-        {
-          "@id": "#e0fee3cccca4292d76dcb5238224e677"
-        }
       ]
     }
   ]

@@ -15,8 +15,9 @@ Describes tabular/structured data files. Typed as `cdi:PhysicalDataSet` and `ada
 
 ## Examples
 
-### Example Physical Mapping
-Example physical mapping defining column format and data type for a variable.
+### Minimal Physical Mapping
+Date column mapping with index, format, physical data type, null sequence,
+isRequired flag, and a single formats_InstanceVariable reference.
 #### json
 ```json
 {
@@ -72,6 +73,88 @@ Example physical mapping defining column format and data type for a variable.
     cdi:isRequired true ;
     cdi:nullSequence "NA" ;
     cdi:physicalDataType "Date" .
+
+
+```
+
+
+### Complete Physical Mapping
+Numeric column mapping exercising every CSVW-aligned property: index,
+format, physicalDataType, length (with min/max), scale, decimalPositions,
+nullSequence, defaultValue, isRequired, and formats_InstanceVariable.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "cdi:index": 3,
+  "cdi:format": "#,##0.00",
+  "cdi:physicalDataType": "Numeric",
+  "cdi:length": 12,
+  "cdi:minimumLength": 1,
+  "cdi:maximumLength": 12,
+  "cdi:scale": 1,
+  "cdi:decimalPositions": 2,
+  "cdi:nullSequence": "NA",
+  "cdi:defaultValue": "",
+  "cdi:isRequired": true,
+  "cdi:formats_InstanceVariable": {
+    "@id": "ex:var-temperature"
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "cdi:index": 3,
+  "cdi:format": "#,##0.00",
+  "cdi:physicalDataType": "Numeric",
+  "cdi:length": 12,
+  "cdi:minimumLength": 1,
+  "cdi:maximumLength": 12,
+  "cdi:scale": 1,
+  "cdi:decimalPositions": 2,
+  "cdi:nullSequence": "NA",
+  "cdi:defaultValue": "",
+  "cdi:isRequired": true,
+  "cdi:formats_InstanceVariable": {
+    "@id": "ex:var-temperature"
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix ex: <https://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] cdi:decimalPositions 2 ;
+    cdi:defaultValue "" ;
+    cdi:format "#,##0.00" ;
+    cdi:formats_InstanceVariable ex:var-temperature ;
+    cdi:index 3 ;
+    cdi:isRequired true ;
+    cdi:length 12 ;
+    cdi:maximumLength 12 ;
+    cdi:minimumLength 1 ;
+    cdi:nullSequence "NA" ;
+    cdi:physicalDataType "Numeric" ;
+    cdi:scale 1 .
 
 
 ```

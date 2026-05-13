@@ -16,7 +16,199 @@ Local `$defs` mirror the supporting types from `ddicdiCodeList` (`Code`, `Catego
 ## Examples
 
 ### Minimal EnumerationDomain
-TODO: replace with a JSON-LD example.
+Bare EnumerationDomain with a single ObjectName and one isDefinedBy
+concept reference — the minimum that meets schema requirements and the
+EnumerationDomain SHACL Warning-level recommendations.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:EnumerationDomain"],
+  "@id": "ex:enum-domain/yes-no",
+  "cdi:name": [
+    {
+      "@type": ["cdi:ObjectName"],
+      "cdi:name": "Yes/No"
+    }
+  ],
+  "cdi:isDefinedBy": [
+    { "@id": "ex:concept/binaryAnswer" }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-enumeration-domain/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:EnumerationDomain"
+  ],
+  "@id": "ex:enum-domain/yes-no",
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "Yes/No"
+    }
+  ],
+  "cdi:isDefinedBy": [
+    {
+      "@id": "ex:concept/binaryAnswer"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/enum-domain/yes-no> a cdi:EnumerationDomain ;
+    cdi:isDefinedBy <https://example.org/concept/binaryAnswer> ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "Yes/No" ] .
+
+
+```
+
+
+### Complete EnumerationDomain
+EU-country EnumerationDomain exercising every schema property:
+cdi:identifier, cdi:name, cdi:purpose (InternationalString),
+cdi:isDefinedBy, cdi:uses (LevelStructure @id-ref), cdi:references
+(CategorySet @id-ref).
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:EnumerationDomain"],
+  "@id": "ex:enum-domain/iso3166-eu",
+  "cdi:identifier": {
+    "@type": ["cdi:Identifier"],
+    "cdi:uri": "https://example.org/enum-domain/iso3166-eu"
+  },
+  "cdi:name": [
+    {
+      "@type": ["cdi:ObjectName"],
+      "cdi:name": "ISO 3166 — EU subset"
+    }
+  ],
+  "cdi:purpose": {
+    "@type": ["cdi:InternationalString"],
+    "cdi:languageSpecificString": [
+      {
+        "@type": ["cdi:LanguageString"],
+        "cdi:content": "EU-subset country enumeration used as the value domain for residence questions.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:isDefinedBy": [
+    { "@id": "ex:concept/euCountry" }
+  ],
+  "cdi:uses": { "@id": "ex:levelStructure/iso3166" },
+  "cdi:references": { "@id": "ex:categorySet/euCountries" }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-enumeration-domain/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:EnumerationDomain"
+  ],
+  "@id": "ex:enum-domain/iso3166-eu",
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/enum-domain/iso3166-eu"
+  },
+  "cdi:name": [
+    {
+      "@type": [
+        "cdi:ObjectName"
+      ],
+      "cdi:name": "ISO 3166 \u2014 EU subset"
+    }
+  ],
+  "cdi:purpose": {
+    "@type": [
+      "cdi:InternationalString"
+    ],
+    "cdi:languageSpecificString": [
+      {
+        "@type": [
+          "cdi:LanguageString"
+        ],
+        "cdi:content": "EU-subset country enumeration used as the value domain for residence questions.",
+        "cdi:language": "en"
+      }
+    ]
+  },
+  "cdi:isDefinedBy": [
+    {
+      "@id": "ex:concept/euCountry"
+    }
+  ],
+  "cdi:uses": {
+    "@id": "ex:levelStructure/iso3166"
+  },
+  "cdi:references": {
+    "@id": "ex:categorySet/euCountries"
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/enum-domain/iso3166-eu> a cdi:EnumerationDomain ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/enum-domain/iso3166-eu" ] ;
+    cdi:isDefinedBy <https://example.org/concept/euCountry> ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "ISO 3166 — EU subset" ] ;
+    cdi:purpose [ a cdi:InternationalString ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "EU-subset country enumeration used as the value domain for residence questions." ;
+                    cdi:language "en" ] ] ;
+    cdi:references <https://example.org/categorySet/euCountries> ;
+    cdi:uses <https://example.org/levelStructure/iso3166> .
+
+
+```
+
 ## Schema
 
 ```yaml

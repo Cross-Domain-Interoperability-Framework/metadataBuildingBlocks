@@ -43,7 +43,7 @@ This BB is an alternative to [`schemaorgProperties/webAPI`](../../schemaorgPrope
 - OAS `License Object` maps to `spdx:license` when an SPDX expression is available; otherwise express via `LabeledLink` or use `schema:license` at the resource level.
 - OAS Responses Object is a map keyed by HTTP code; this BB represents it as an array, with each item carrying `oas:code` explicitly. `oas:code` defaults to `"200"`.
 - OAS Media Type maps similarly: an array where each item carries `schema:encodingFormat` (the MIME type) instead of using the media type as a JSON key.
-- For complex payload schemas (request bodies, responses), the `oas:schema` element supports a basic `oas:type`/`oas:format`/`oas:pattern`/`oas:enum` shape and an `oas:$ref` URL pointing to an external JSON Schema or XML Schema document. For tabular outputs, the referenced schema may align with `cdifVariableMeasured` InstanceVariable definitions.
+- For complex payload schemas (request bodies, responses), the `oas:schema` element supports a basic `oas:type`/`oas:format`/`oas:pattern`/`oas:enum` shape and an `oas:$ref` URL pointing to an external JSON Schema or XML Schema document. For tabular outputs, the referenced schema may align with `cdifInstanceVariable` InstanceVariable definitions.
 
 ### Dependencies
 
@@ -52,11 +52,140 @@ This BB is an alternative to [`schemaorgProperties/webAPI`](../../schemaorgPrope
 
 ## Examples
 
-### OpenAPI-aligned WebAPI distribution example.
-Example of a CDIF WebAPI distribution described with OpenAPI-aligned operation,
-parameter, requestBody, and response structure under the oas namespace. Includes
-a GET search operation with query parameters and multiple response media types,
-and a POST create operation with a request body.
+### Minimal CDIF OpenAPI WebAPI
+Single GET search operation with a 200 response — the minimum that
+satisfies the WebAPI/EntryPoint/Response required-fields chain
+(@type, schema:serviceType, schema:termsOfService, schema:potentialAction
+plus EntryPoint.schema:urlTemplate + EntryPoint.oas:response with
+oas:code/schema:description/oas:content).
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "oas": "https://spec.openapis.org/oas/3.1#",
+    "ex": "https://example.org/"
+  },
+  "@type": ["schema:WebAPI"],
+  "@id": "ex:api/minimal",
+  "schema:serviceType": {
+    "@type": ["schema:DefinedTerm"],
+    "schema:name": "Minimal data service v1",
+    "schema:termCode": "minimal-api/v1"
+  },
+  "schema:termsOfService": "https://example.org/api/terms",
+  "schema:potentialAction": [
+    {
+      "@type": ["schema:SearchAction"],
+      "schema:name": "search",
+      "schema:target": {
+        "@type": ["schema:EntryPoint"],
+        "schema:urlTemplate": "https://example.org/api/search?q={query}",
+        "schema:httpMethod": ["GET"],
+        "oas:response": [
+          {
+            "oas:code": "200",
+            "schema:description": "Successful response.",
+            "oas:content": [
+              {
+                "schema:encodingFormat": "application/json"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "oas": "https://spec.openapis.org/oas/3.1#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifOpenApi/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "oas": "https://spec.openapis.org/oas/3.1#",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "schema:WebAPI"
+  ],
+  "@id": "ex:api/minimal",
+  "schema:serviceType": {
+    "@type": [
+      "schema:DefinedTerm"
+    ],
+    "schema:name": "Minimal data service v1",
+    "schema:termCode": "minimal-api/v1"
+  },
+  "schema:termsOfService": "https://example.org/api/terms",
+  "schema:potentialAction": [
+    {
+      "@type": [
+        "schema:SearchAction"
+      ],
+      "schema:name": "search",
+      "schema:target": {
+        "@type": [
+          "schema:EntryPoint"
+        ],
+        "schema:urlTemplate": "https://example.org/api/search?q={query}",
+        "schema:httpMethod": [
+          "GET"
+        ],
+        "oas:response": [
+          {
+            "oas:code": "200",
+            "schema:description": "Successful response.",
+            "oas:content": [
+              {
+                "schema:encodingFormat": "application/json"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix oas: <https://spec.openapis.org/oas/3.1#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://example.org/api/minimal> a schema1:WebAPI ;
+    schema1:potentialAction [ a schema1:SearchAction ;
+            schema1:name "search" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:httpMethod "GET" ;
+                    schema1:urlTemplate "https://example.org/api/search?q={query}" ;
+                    oas:response [ schema1:description "Successful response." ;
+                            oas:code "200" ;
+                            oas:content [ schema1:encodingFormat "application/json" ] ] ] ] ;
+    schema1:serviceType [ a schema1:DefinedTerm ;
+            schema1:name "Minimal data service v1" ;
+            schema1:termCode "minimal-api/v1" ] ;
+    schema1:termsOfService "https://example.org/api/terms" .
+
+
+```
+
+
+### Complete CDIF OpenAPI WebAPI
+Full WebAPI distribution described with OpenAPI-aligned operation,
+parameter, requestBody, and response structure under the oas namespace.
+Includes a GET search operation with query parameters and multiple
+response media types, and a POST create operation with a request body.
 #### json
 ```json
 {
@@ -512,12 +641,12 @@ ex:op_searchAnalyses a schema1:SearchAction ;
                             oas:schema [ oas:type "object" ] ] ],
                 [ schema1:description "Tabular geochemical analysis results matching the query." ;
                     oas:code "200" ;
-                    oas:content [ schema1:encodingFormat "text/csv" ;
-                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.csv-frictionless.json" ;
-                                    oas:type "string" ] ],
-                        [ schema1:encodingFormat "application/json" ;
+                    oas:content [ schema1:encodingFormat "application/json" ;
                             oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.json" ;
-                                    oas:type "object" ] ] ] ] .
+                                    oas:type "object" ] ],
+                        [ schema1:encodingFormat "text/csv" ;
+                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.csv-frictionless.json" ;
+                                    oas:type "string" ] ] ] ] .
 
 ex:op_submitAnalysis a schema1:CreateAction ;
     schema1:description "Submit a new geochemical analysis record. Requires authentication." ;
@@ -530,12 +659,12 @@ ex:op_submitAnalysis a schema1:CreateAction ;
                             oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisSubmission.json" ;
                                     oas:type "object" ] ] ;
                     oas:required true ] ;
-            oas:response [ schema1:description "Analysis accepted; response payload contains the assigned identifier." ;
-                    oas:code "201" ;
+            oas:response [ schema1:description "Authentication required." ;
+                    oas:code "401" ;
                     oas:content [ schema1:encodingFormat "application/json" ;
                             oas:schema [ oas:type "object" ] ] ],
-                [ schema1:description "Authentication required." ;
-                    oas:code "401" ;
+                [ schema1:description "Analysis accepted; response payload contains the assigned identifier." ;
+                    oas:code "201" ;
                     oas:content [ schema1:encodingFormat "application/json" ;
                             oas:schema [ oas:type "object" ] ] ] ] .
 
@@ -836,7 +965,7 @@ $defs:
         description: schema describing the structure of the payload. May reference
           an external JSON Schema or XML Schema document via oas:$ref. For tabular
           outputs, the referenced schema may align with InstanceVariable definitions
-          in cdifVariableMeasured.
+          in cdifInstanceVariable.
         $ref: '#/$defs/Schema'
     required:
     - schema:encodingFormat

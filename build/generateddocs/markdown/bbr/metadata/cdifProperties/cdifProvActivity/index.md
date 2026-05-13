@@ -47,12 +47,68 @@ Extended provenance activity for CDIF metadata, adding schema.org Action propert
 
 ## Examples
 
-### Example CDIF provenance activity.
-Soil chemistry analysis activity demonstrating extended cdifProvActivity building
-block features: multi-typed activity (schema:Action + prov:Activity), agent
-with ORCID, DefinedTerm instrument with detection limit, prov:used array
-(vocab URI, string, CreativeWork), action chaining via schema:object/result,
-schema:actionProcess HowTo with ordered steps, and facility location.
+### Minimal CDIF Provenance Activity
+Bare schema:Action + prov:Activity with a name — the smallest shape
+the BB allows.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "ex": "https://example.org/"
+  },
+  "@type": ["schema:Action", "prov:Activity"],
+  "@id": "ex:activity/sample-prep",
+  "schema:name": "Sample preparation"
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "prov": "http://www.w3.org/ns/prov#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "prov": "http://www.w3.org/ns/prov#",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "schema:Action",
+    "prov:Activity"
+  ],
+  "@id": "ex:activity/sample-prep",
+  "schema:name": "Sample preparation"
+}
+```
+
+#### ttl
+```ttl
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://example.org/activity/sample-prep> a schema1:Action,
+        prov:Activity ;
+    schema1:name "Sample preparation" .
+
+
+```
+
+
+### Complete CDIF Provenance Activity
+Soil chemistry analysis activity demonstrating extended cdifProvActivity
+block features: multi-typed activity (schema:Action + prov:Activity),
+agent with ORCID, DefinedTerm instrument with detection limit, prov:used
+array (vocab URI, string, CreativeWork), action chaining via
+schema:object/result, schema:actionProcess HowTo with ordered steps,
+and facility location.
 #### json
 ```json
 {
@@ -318,13 +374,13 @@ ex:activity-soil-chem-analysis a schema1:Action,
             schema1:description "Combined XRF screening and ICP-MS confirmatory analysis for major and trace elements in soil matrices." ;
             schema1:name "EPA 6200 / ICP-MS Soil Geochemistry Protocol" ;
             schema1:step [ a schema1:HowToStep ;
-                    schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards." ;
-                    schema1:name "ICP-MS measurement and calibration" ;
-                    schema1:position 2 ],
-                [ a schema1:HowToStep ;
                     schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels." ;
                     schema1:name "Sample preparation and acid digestion" ;
-                    schema1:position 1 ] ] ;
+                    schema1:position 1 ],
+                [ a schema1:HowToStep ;
+                    schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards." ;
+                    schema1:name "ICP-MS measurement and calibration" ;
+                    schema1:position 2 ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:agent [ a schema1:Person ;
             schema1:contactPoint [ a schema1:ContactPoint ;
@@ -565,10 +621,6 @@ $defs:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
   Instrument:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema.yaml
-  DefinedTerm:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
-  LabeledLink:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
   SpatialExtent:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
   AdditionalProperty:
@@ -635,42 +687,6 @@ $defs:
     required:
     - '@type'
     - schema:name
-  Claim:
-    type: object
-    description: A statement or assertion about the dataset, such as a quality claim
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: schema:Claim
-        minItems: 1
-      '@id':
-        type: string
-      schema:claimReviewed:
-        type: string
-        description: The claim being reviewed or asserted
-      schema:author:
-        description: Author of this claim
-        anyOf:
-        - $ref: '#/$defs/Person'
-        - $ref: '#/$defs/Organization'
-        - type: object
-          properties:
-            '@id':
-              type: string
-      schema:datePublished:
-        type: string
-        description: ISO8601 date when this claim was published
-      schema:appearance:
-        description: Where this claim appears
-        anyOf:
-        - type: string
-        - $ref: '#/$defs/LabeledLink'
-    required:
-    - '@type'
-    - schema:claimReviewed
 x-jsonld-prefixes:
   schema: http://schema.org/
   prov: http://www.w3.org/ns/prov#

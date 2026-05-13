@@ -583,10 +583,6 @@ x-defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
       Instrument:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument
-      DefinedTerm:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
-      LabeledLink:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
       SpatialExtent:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent
       AdditionalProperty:
@@ -656,44 +652,6 @@ x-defs:
         required:
         - '@type'
         - schema:name
-      Claim:
-        type: object
-        description: A statement or assertion about the dataset, such as a quality
-          claim
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            contains:
-              enum:
-              - schema:Claim
-            minItems: 1
-          '@id':
-            type: string
-          schema:claimReviewed:
-            type: string
-            description: The claim being reviewed or asserted
-          schema:author:
-            description: Author of this claim
-            anyOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Person
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Organization
-            - type: object
-              properties:
-                '@id':
-                  type: string
-          schema:datePublished:
-            type: string
-            description: ISO8601 date when this claim was published
-          schema:appearance:
-            description: Where this claim appears
-            anyOf:
-            - type: string
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasCore/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/LabeledLink
-        required:
-        - '@type'
-        - schema:claimReviewed
     x-jsonld-prefixes:
       schema: http://schema.org/
       prov: http://www.w3.org/ns/prov#

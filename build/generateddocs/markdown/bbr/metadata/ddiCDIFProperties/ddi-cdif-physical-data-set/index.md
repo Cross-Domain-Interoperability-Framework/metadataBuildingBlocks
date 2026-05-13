@@ -16,13 +16,138 @@ Each variant references its structure via `cdi:isStructuredBy` (pointing at a `d
 ## Examples
 
 ### Minimal WideDataSet
-TODO: replace with a JSON-LD example.
+Bare WideDataSet — the BB root is anyOf of WideDataSet, LongDataSet, or
+DimensionalDataSet; only @type is required.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:WideDataSet"],
+  "@id": "ex:dataset/observations-wide"
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-physical-data-set/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:WideDataSet"
+  ],
+  "@id": "ex:dataset/observations-wide"
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/dataset/observations-wide> a cdi:WideDataSet .
+
+
+```
+
+
+### Complete LongDataSet
+LongDataSet variant exercising every property the schema permits at
+this root variant: cdi:identifier, cdi:isStructuredBy (DataStructure
+@id-ref), and cdi:has_Key (Key @id-ref).
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["cdi:LongDataSet"],
+  "@id": "ex:dataset/observations-long",
+  "cdi:identifier": {
+    "@type": ["cdi:Identifier"],
+    "cdi:uri": "https://example.org/dataset/observations-long"
+  },
+  "cdi:isStructuredBy": [
+    { "@id": "ex:datastructure/observations-long" }
+  ],
+  "cdi:has_Key": [
+    { "@id": "ex:key/observation-primary" }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-physical-data-set/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "cdi:LongDataSet"
+  ],
+  "@id": "ex:dataset/observations-long",
+  "cdi:identifier": {
+    "@type": [
+      "cdi:Identifier"
+    ],
+    "cdi:uri": "https://example.org/dataset/observations-long"
+  },
+  "cdi:isStructuredBy": [
+    {
+      "@id": "ex:datastructure/observations-long"
+    }
+  ],
+  "cdi:has_Key": [
+    {
+      "@id": "ex:key/observation-primary"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+<https://example.org/dataset/observations-long> a cdi:LongDataSet ;
+    cdi:has_Key <https://example.org/key/observation-primary> ;
+    cdi:identifier [ a cdi:Identifier ;
+            cdi:uri "https://example.org/dataset/observations-long" ] ;
+    cdi:isStructuredBy <https://example.org/datastructure/observations-long> .
+
+
+```
+
 ## Schema
 
 ```yaml
 $schema: https://json-schema.org/draft/2020-12/schema
 title: DDI-CDI Physical Data Set
-description: Organized collection of wide data. It is structured by a wide data structure.
+description: Information needed for understanding the physical structure of data coming
+  from a file or other source. Physical data set is the entry point for information
+  about a file or other source. It includes information about the name of a file,
+  the structure of segments in a file. Because this is information about a particular
+  file it is implemented as a property of a schema:DataDownload in the distribution
+  section of the metadata..
 anyOf:
 - $ref: '#/$defs/WideDataSet'
 - $ref: '#/$defs/LongDataSet'
@@ -54,13 +179,6 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
         minItems: 1
-      cdi:has_DataPoint:
-        type: array
-        items:
-          anyOf:
-          - $ref: '#/$defs/DataPoint'
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_Key:
         type: array
         items:
@@ -73,7 +191,10 @@ $defs:
   LongDataSet:
     type: object
     description: Organized collection of long data. It is structured by a long data
-      structure.
+      structure. LongDataSet must have at least three components-- an identifier that
+      is the subject of the value in each role, a predicate in the descriptor component,
+      and the value for the predicate property on the subject instance in the ReferenceVariable
+      component. there might be attributes on the referenceVariable.
     properties:
       '@type':
         type: array
@@ -96,13 +217,6 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
         minItems: 1
-      cdi:has_DataPoint:
-        type: array
-        items:
-          anyOf:
-          - $ref: '#/$defs/DataPoint'
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_Key:
         type: array
         items:
@@ -114,8 +228,10 @@ $defs:
     - '@type'
   DimensionalDataSet:
     type: object
-    description: Organized collection of multidimensional data. It is structured by
-      a dimensional data structure.
+    description: "Organized collection of multidimensional data. It is structured
+      by a dimensional data structure. This represents a data set where each measurement
+      and associated attributes are defined by a set of dimensions. The data set can
+      be understood as a \u201Ccube\u201D."
     properties:
       '@type':
         type: array
@@ -135,13 +251,6 @@ $defs:
         description: Human understandable name (liguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
-      cdi:represents:
-        type: array
-        items:
-          anyOf:
-          - $ref: '#/$defs/ScopedMeasure'
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
@@ -153,13 +262,6 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
         minItems: 1
-      cdi:has_DataPoint:
-        type: array
-        items:
-          anyOf:
-          - $ref: '#/$defs/DataPoint'
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_Key:
         type: array
         items:
@@ -169,6 +271,8 @@ $defs:
         minItems: 1
     required:
     - '@type'
+    - cdi:name
+    - cdi:isStructuredBy
   Category:
     type: object
     description: Concept whose role is to define and measure a characteristic.
@@ -412,7 +516,7 @@ $defs:
         minItems: 1
       cdi:isDescribedBy:
         anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifVariableMeasured/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
     required:
     - '@type'
@@ -785,10 +889,6 @@ $defs:
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
-      cdi:specialization:
-        $ref: '#/$defs/SpecializationRole'
-        description: The role played by the component for the data set for purposes
-          of harmonization and integration, typically regarding geography, time, etc.
     required:
     - '@type'
   RevisableDatum:
@@ -835,7 +935,7 @@ $defs:
         type: array
         items:
           anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifVariableMeasured/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
         minItems: 1
     required:
@@ -905,19 +1005,6 @@ $defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
     required:
     - '@type'
-  SpecializationRole:
-    type: object
-    description: Specific roles played by represented variables in terms of time,
-      geography, and other concepts which are important for the harmonization and
-      integration of data.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: cdi:SpecializationRole
-        minItems: 1
   TypedString:
     type: object
     description: TypedString combines a type with content defined as a simple string.

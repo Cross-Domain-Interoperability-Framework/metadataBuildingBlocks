@@ -13,14 +13,58 @@ metadata to document long (narrow) data structure where each row is a single obs
 
 Describes data in **long (narrow) format**, where each row represents a single observation. A descriptor column identifies which variable the row measures, and a reference column holds the actual value. This contrasts with wide format (one row per entity with each variable in its own column) and data cube format (multi-dimensional arrays).
 
-Uses DDI-CDI `LongStructureDataSet` type. The descriptor and reference variable roles are expressed via `cdi:role` on `cdi:InstanceVariable` entries in `schema:variableMeasured`, using the values `DescriptorComponent` and `ReferenceValueComponent`.
+Uses DDI-CDI `LongStructureDataSet` type. The descriptor and reference variable roles are expressed via `cdi:role` on `cdi:InstanceVariable` entries in `schema:variableMeasured`, using the values `Descriptor` and `ReferenceVariable`.
 
 Optional CSVW and DDI-CDI physical properties may be provided when the long data is serialized as delimited text.
 
 ## Examples
 
-### Example Long Data Structure
-Example long (narrow) data structure with delimiter and header settings.
+### Minimal Long Data Structure
+Bare cdi:LongStructureDataSet — schema only requires @type contains
+that const.
+#### json
+```json
+{
+  "@context": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+  },
+  "@type": ["cdi:LongStructureDataSet"]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifLongData/context.jsonld",
+    {
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    }
+  ],
+  "@type": [
+    "cdi:LongStructureDataSet"
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+
+[] a cdi:LongStructureDataSet .
+
+
+```
+
+
+### Complete Long Data Structure
+Long (narrow) data structure with delimiter and header settings plus
+two physical-mapping entries linking the descriptor and value columns
+to their InstanceVariables.
 #### json
 ```json
 {
@@ -105,12 +149,12 @@ Example long (narrow) data structure with delimiter and header settings.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 [] a cdi:LongStructureDataSet ;
-    cdi:hasPhysicalMapping [ cdi:formats_InstanceVariable ex:var-descriptor ;
-            cdi:index 0 ;
-            cdi:physicalDataType "String" ],
-        [ cdi:formats_InstanceVariable ex:var-value ;
+    cdi:hasPhysicalMapping [ cdi:formats_InstanceVariable ex:var-value ;
             cdi:index 1 ;
-            cdi:physicalDataType "Numeric" ] ;
+            cdi:physicalDataType "Numeric" ],
+        [ cdi:formats_InstanceVariable ex:var-descriptor ;
+            cdi:index 0 ;
+            cdi:physicalDataType "String" ] ;
     cdi:isDelimited true ;
     csvw:delimiter "," ;
     csvw:header true ;
@@ -129,7 +173,9 @@ description: Long (narrow) data structure using DDI-CDI. Typed as cdi:LongStruct
   In long format each row represents a single observation, with a descriptor column
   identifying which variable is measured and a reference column holding the value.
   The descriptor and reference roles are expressed via cdi:role on InstanceVariables
-  in schema:variableMeasured (DescriptorComponent and ReferenceValueComponent).
+  in schema:variableMeasured (Descriptor and ReferenceVariable). Structural detail
+  (LongDataStructure, components, RepresentedVariable, ValueDomain) lives in the CDIF
+  Data Structure profile and is referenced via cdif:isStructuredBy.
 properties:
   '@type':
     type: array
@@ -143,6 +189,17 @@ properties:
     description: Links variables to their physical representation in this dataset.
     items:
       $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml
+  cdif:isStructuredBy:
+    description: Reference to the LongDataStructure node (cdifDataStructure $def)
+      that describes how this distribution's bytes are organized.
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructure/schema.yaml#/$defs/LongDataStructure
+    - type: object
+      properties:
+        '@id':
+          type: string
+      required:
+      - '@id'
   cdi:arrayBase:
     type: integer
   csvw:delimiter:
@@ -221,6 +278,14 @@ Links to the schema:
     "schema": "http://schema.org/",
     "ada": "https://ada.astromat.org/metadata/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "xas": "https://xas.org/dictionary/",
+    "nxs": "http://purl.org/nexusformat/definitions/",
+    "prov": "http://www.w3.org/ns/prov#",
     "@version": 1.1
   }
 }

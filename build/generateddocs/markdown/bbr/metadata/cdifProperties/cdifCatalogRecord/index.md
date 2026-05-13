@@ -15,8 +15,82 @@ Defines properties for a metadata-about-metadata catalog record node in the sche
 
 ## Examples
 
-### Example CDIF catalog record (metadata about metadata).
-Example instance of properties for a catalog record describing information about the metadata record itself, typed as dcat:CatalogRecord.
+### Minimal CDIF CatalogRecord
+Bare metadata-about-metadata record with the required @type,
+schema:additionalType (dcat:CatalogRecord), schema:about, and
+dcterms:conformsTo (pointing at the CDIF core specification).
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "ex": "https://example.org/"
+  },
+  "@type": ["schema:Dataset"],
+  "@id": "ex:metadata-record/0001",
+  "schema:additionalType": ["dcat:CatalogRecord"],
+  "schema:about": { "@id": "ex:dataset/0001" },
+  "dcterms:conformsTo": [
+    { "@id": "https://w3id.org/cdif/core/1.0" }
+  ]
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "dcterms": "http://purl.org/dc/terms/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCatalogRecord/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "dcterms": "http://purl.org/dc/terms/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@type": [
+    "schema:Dataset"
+  ],
+  "@id": "ex:metadata-record/0001",
+  "schema:additionalType": [
+    "dcat:CatalogRecord"
+  ],
+  "schema:about": {
+    "@id": "ex:dataset/0001"
+  },
+  "dcterms:conformsTo": [
+    {
+      "@id": "https://w3id.org/cdif/core/1.0"
+    }
+  ]
+}
+```
+
+#### ttl
+```ttl
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix schema1: <http://schema.org/> .
+
+<https://example.org/metadata-record/0001> a schema1:Dataset ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/1.0> ;
+    schema1:about <https://example.org/dataset/0001> ;
+    schema1:additionalType "dcat:CatalogRecord" .
+
+
+```
+
+
+### Complete CDIF CatalogRecord
+Catalog record with schema:maintainer (ORCID), dateModified, alternateName,
+and full metadata-about-metadata structure.
 #### json
 ```json
 {

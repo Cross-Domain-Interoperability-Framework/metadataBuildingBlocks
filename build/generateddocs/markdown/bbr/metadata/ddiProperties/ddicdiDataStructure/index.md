@@ -9,9 +9,9 @@ Data organization based on reusable data structure components.
 
 ## Description
 
-DDI-CDI DataStructure describes how a dataset is organized in terms of reusable data structure components. Polymorphic root over `cdi:DataStructure`, `cdi:DimensionalDataStructure`, `cdi:KeyValueStructure`, `cdi:LongDataStructure`, and `cdi:WideDataStructure` — one variant per logical layout supported by DDI-CDI.
+DDI-CDI DataStructure describes how a dataset is organized in terms of reusable data structure components. Polymorphic root over `cdi:DataStructure`, `cdi:DimensionalDataStructure`, `cdi:LongDataStructure`, and `cdi:WideDataStructure` — one variant per logical layout supported by DDI-CDI.
 
-Each variant carries `cdi:has_DataStructureComponent` (referencing the `ddicdiDataStructureComponent` BB), `cdi:has_ComponentPosition` for ordering, optional `cdi:has_PrimaryKey` and `cdi:has_ForeignKey` for referential structure, and a `cdi:specialization` slot for harmonization-related roles (time, geography, etc.). `DimensionalDataStructure` additionally references reusable `cdi:DimensionGroup` collections via `cdi:uses`. The BB is referenced from `ddicdiPhysicalDataSet` (`cdi:isStructuredBy`) and is the structural anchor for tabular, dimensional, key-value, and long/wide layouts in the CDIF Data Description profile.
+Each variant carries `cdi:has_DataStructureComponent` (referencing the `ddicdiDataStructureComponent` BB), `cdi:has_ComponentPosition` for ordering, optional `cdi:has_PrimaryKey` and `cdi:has_ForeignKey` for referential structure, and a `cdi:specialization` slot for harmonization-related roles (time, geography, etc.). `DimensionalDataStructure` additionally references reusable `cdi:DimensionGroup` collections via `cdi:uses`. The BB is referenced from `ddicdiPhysicalDataSet` (`cdi:isStructuredBy`) and is the structural anchor for tabular, dimensional, and long/wide layouts in the CDIF Data Description profile.
 
 ## Examples
 
@@ -26,7 +26,6 @@ description: Data organization based on reusable data structure components.
 anyOf:
 - $ref: '#/$defs/DataStructure'
 - $ref: '#/$defs/DimensionalDataStructure'
-- $ref: '#/$defs/KeyValueStructure'
 - $ref: '#/$defs/LongDataStructure'
 - $ref: '#/$defs/WideDataStructure'
 $defs:
@@ -108,64 +107,6 @@ $defs:
           - $ref: '#/$defs/DimensionGroup'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         minItems: 1
-      cdi:has_ForeignKey:
-        type: array
-        items:
-          anyOf:
-          - $ref: '#/$defs/ForeignKey'
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
-      cdi:has_DataStructureComponent:
-        type: array
-        items:
-          anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
-      cdi:has_ComponentPosition:
-        type: array
-        items:
-          anyOf:
-          - $ref: '#/$defs/ComponentPosition'
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
-      cdi:has_PrimaryKey:
-        anyOf:
-        - $ref: '#/$defs/PrimaryKey'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-      cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
-        description: Identifier for objects requiring short- or long-lasting referencing
-          and management.
-      cdi:semantic:
-        type: array
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/PairedControlledVocabularyEntry
-        minItems: 1
-        description: Qualifies the purpose or use expressed as a paired external controlled
-          vocabulary.
-      cdi:specialization:
-        $ref: '#/$defs/SpecializationRole'
-        description: The role played by the component for the data set for purposes
-          of harmonization and integration, typically regarding geography, time, etc.
-    required:
-    - '@type'
-  KeyValueStructure:
-    type: object
-    description: Structure of a key-value datastore (organized collection of key-value
-      data). It is described by identifier, contextual, synthetic id, dimension, variable
-      descriptor and variable value components.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: cdi:KeyValueStructure
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this KeyValueStructure node
       cdi:has_ForeignKey:
         type: array
         items:
