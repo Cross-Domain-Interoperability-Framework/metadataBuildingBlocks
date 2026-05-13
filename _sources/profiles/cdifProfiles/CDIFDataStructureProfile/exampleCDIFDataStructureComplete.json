@@ -22,6 +22,7 @@
       "@id": "ex:var/patientId",
       "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
       "schema:name": "patient_id",
+      "cdif:physicalDataType": ["xsd:string"],
       "cdif:uses": [
         { "@id": "ex:struct/vitalsLong/rv/patientId" }
       ]
@@ -30,6 +31,7 @@
       "@id": "ex:var/measureName",
       "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
       "schema:name": "measure_name",
+      "cdif:physicalDataType": ["xsd:string"],
       "cdif:uses": [
         { "@id": "ex:struct/vitalsLong/rv/measureName" }
       ]
@@ -38,6 +40,7 @@
       "@id": "ex:var/measureValue",
       "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
       "schema:name": "measure_value",
+      "cdif:physicalDataType": ["xsd:decimal"],
       "cdif:uses": [
         { "@id": "ex:struct/vitalsLong/rv/measureValue" }
       ]
@@ -46,9 +49,38 @@
       "@id": "ex:var/observedAt",
       "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
       "schema:name": "observed_at",
+      "cdif:physicalDataType": ["xsd:dateTime"],
       "cdif:uses": [
         { "@id": "ex:struct/vitalsLong/rv/observedAt" }
       ]
+    },
+    {
+      "@id": "ex:var/systolicBP",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "systolic_bp",
+      "schema:description": "Systolic blood pressure in mmHg.",
+      "cdif:physicalDataType": ["xsd:decimal"]
+    },
+    {
+      "@id": "ex:var/diastolicBP",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "diastolic_bp",
+      "schema:description": "Diastolic blood pressure in mmHg.",
+      "cdif:physicalDataType": ["xsd:decimal"]
+    },
+    {
+      "@id": "ex:var/heartRate",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "heart_rate",
+      "schema:description": "Heart rate in beats per minute.",
+      "cdif:physicalDataType": ["xsd:decimal"]
+    },
+    {
+      "@id": "ex:var/temperatureC",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "temperature_c",
+      "schema:description": "Body temperature in degrees Celsius.",
+      "cdif:physicalDataType": ["xsd:decimal"]
     }
   ],
   "cdif:hasPrimaryKey": {
@@ -106,24 +138,32 @@
             "@type": ["cdi:VariableDescriptorComponent"],
             "@id": "ex:struct/vitalsLong/comp/measureName",
             "cdi:isDefinedBy": {
-              "@type": ["cdi:RepresentedVariable"],
-              "@id": "ex:struct/vitalsLong/rv/measureName",
+              "@type": ["cdi:DescriptorVariable"],
+              "@id": "ex:struct/vitalsLong/dv/measureName",
               "cdi:name": [
                 { "@type": ["cdi:ObjectName"], "cdi:name": "measure_name" }
               ],
-              "cdi:definition": {
-                "@type": ["cdi:InternationalString"],
-                "cdi:languageSpecificString": [
+              "cdi:hasValuesFrom": {
+                "@type": ["cdi:DescriptorValueDomain"],
+                "@id": "ex:struct/vitalsLong/vd/measureName",
+                "cdif:takesValuesFrom": [
                   {
-                    "@type": ["cdi:LanguageString"],
-                    "cdi:content": "Code naming which vital sign each row records.",
-                    "cdi:language": "en"
+                    "cdif:value": "systolic_bp",
+                    "cdif:isDefinedBy": { "@id": "ex:var/systolicBP" }
+                  },
+                  {
+                    "cdif:value": "diastolic_bp",
+                    "cdif:isDefinedBy": { "@id": "ex:var/diastolicBP" }
+                  },
+                  {
+                    "cdif:value": "heart_rate",
+                    "cdif:isDefinedBy": { "@id": "ex:var/heartRate" }
+                  },
+                  {
+                    "cdif:value": "temp_c",
+                    "cdif:isDefinedBy": { "@id": "ex:var/temperatureC" }
                   }
                 ]
-              },
-              "cdi:hasIntendedDataType": {
-                "@type": ["cdi:ControlledVocabularyEntry"],
-                "cdi:entryValue": ["xsd:string"]
               }
             },
             "cdi:refersTo": { "@id": "ex:struct/vitalsLong/comp/measureValue" }
