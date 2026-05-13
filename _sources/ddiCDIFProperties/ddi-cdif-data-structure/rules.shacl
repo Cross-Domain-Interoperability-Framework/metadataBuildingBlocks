@@ -7,10 +7,10 @@
 @base <https://www.ogc.org/rules/template/> .
 
 # ------------------------------------------------------------
-# DataStructure BB covers five alternative root classes
-# (DataStructure, DimensionalDataStructure, KeyValueStructure,
-#  LongDataStructure, WideDataStructure). They share most
-#  property constraints; DimensionalDataStructure adds cdi:uses.
+# DataStructure BB covers four alternative root classes
+# (DataStructure, DimensionalDataStructure, LongDataStructure,
+#  WideDataStructure). They share most property constraints;
+#  DimensionalDataStructure adds cdi:uses.
 # ------------------------------------------------------------
 
 cdifd:ddi-cdif-data-structureShape
@@ -52,12 +52,6 @@ cdifd:ddi-cdif-data-structureShape
 		sh:path cdi:semantic ;
 		sh:severity sh:Info ;
 		sh:message "cdi:semantic may carry one or more PairedControlledVocabularyEntry values" ;
-	] ;
-
-	sh:property [
-		sh:path cdi:specialization ;
-		sh:severity sh:Info ;
-		sh:message "cdi:specialization may carry a SpecializationRole describing the component's role" ;
 	] ;
 	.
 
@@ -109,61 +103,6 @@ cdifd:ddi-cdif-dimensional-data-structureShape
 		sh:severity sh:Info ;
 		sh:message "cdi:semantic may carry one or more PairedControlledVocabularyEntry values" ;
 	] ;
-
-	sh:property [
-		sh:path cdi:specialization ;
-		sh:severity sh:Info ;
-		sh:message "cdi:specialization may carry a SpecializationRole" ;
-	] ;
-	.
-
-
-cdifd:ddi-cdif-key-value-structureShape
-	a sh:NodeShape ;
-	sh:targetClass cdi:KeyValueStructure ;
-
-	sh:property [
-		sh:path cdi:has_DataStructureComponent ;
-		sh:minCount 1 ;
-		sh:severity sh:Warning ;
-		sh:message "A DDI-CDI KeyValueStructure should reference at least one cdi:has_DataStructureComponent (DataStructureComponent or id-reference)" ;
-	] ;
-
-	sh:property [
-		sh:path cdi:has_ComponentPosition ;
-		sh:severity sh:Info ;
-		sh:message "cdi:has_ComponentPosition may carry one or more ComponentPosition references (or id-references)" ;
-	] ;
-
-	sh:property [
-		sh:path cdi:has_PrimaryKey ;
-		sh:severity sh:Info ;
-		sh:message "cdi:has_PrimaryKey may carry a PrimaryKey reference (or id-reference)" ;
-	] ;
-
-	sh:property [
-		sh:path cdi:has_ForeignKey ;
-		sh:severity sh:Info ;
-		sh:message "cdi:has_ForeignKey may carry one or more ForeignKey references (or id-references)" ;
-	] ;
-
-	sh:property [
-		sh:path cdi:identifier ;
-		sh:severity sh:Info ;
-		sh:message "A DDI-CDI KeyValueStructure may include a cdi:identifier" ;
-	] ;
-
-	sh:property [
-		sh:path cdi:semantic ;
-		sh:severity sh:Info ;
-		sh:message "cdi:semantic may carry one or more PairedControlledVocabularyEntry values" ;
-	] ;
-
-	sh:property [
-		sh:path cdi:specialization ;
-		sh:severity sh:Info ;
-		sh:message "cdi:specialization may carry a SpecializationRole" ;
-	] ;
 	.
 
 
@@ -207,12 +146,6 @@ cdifd:ddi-cdif-long-data-structureShape
 		sh:severity sh:Info ;
 		sh:message "cdi:semantic may carry one or more PairedControlledVocabularyEntry values" ;
 	] ;
-
-	sh:property [
-		sh:path cdi:specialization ;
-		sh:severity sh:Info ;
-		sh:message "cdi:specialization may carry a SpecializationRole" ;
-	] ;
 	.
 
 
@@ -255,11 +188,5 @@ cdifd:ddi-cdif-wide-data-structureShape
 		sh:path cdi:semantic ;
 		sh:severity sh:Info ;
 		sh:message "cdi:semantic may carry one or more PairedControlledVocabularyEntry values" ;
-	] ;
-
-	sh:property [
-		sh:path cdi:specialization ;
-		sh:severity sh:Info ;
-		sh:message "cdi:specialization may carry a SpecializationRole" ;
 	] ;
 	.

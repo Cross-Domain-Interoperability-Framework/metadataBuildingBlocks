@@ -1,0 +1,67 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <http://schema.org/> .
+@prefix cdi:    <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif:   <https://cdif.org/0.1/> .
+@prefix cdifd:  <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# ------------------------------------------------------------
+# cdif:SubstantiveValueDomain — subject-matter values.
+# ------------------------------------------------------------
+
+cdifd:cdifSubstantiveValueDomainShape
+	a sh:NodeShape ;
+	sh:targetClass cdif:SubstantiveValueDomain ;
+
+	# -- REQUIRED (Violation) --
+	# At least one of cdif:takesValuesFrom or cdif:recommendedDataType
+	# must be present. Expressed as sh:or over two property-min-count shapes.
+
+	sh:or (
+		[ sh:path cdif:takesValuesFrom ; sh:minCount 1 ; ]
+		[ sh:path cdif:recommendedDataType ; sh:minCount 1 ; ]
+	) ;
+	sh:message "A cdif:SubstantiveValueDomain must carry at least one of cdif:takesValuesFrom or cdif:recommendedDataType" ;
+	sh:severity sh:Violation ;
+
+	# -- RECOMMENDED (Warning) --
+
+	sh:property [
+		sh:path cdif:displayLabel ;
+		sh:minCount 1 ;
+		sh:datatype xsd:string ;
+		sh:severity sh:Warning ;
+		sh:message "A cdif:SubstantiveValueDomain should carry a cdif:displayLabel (human-readable label)" ;
+	] ;
+	.
+
+# ------------------------------------------------------------
+# cdif:SentinelValueDomain — processing/missing-value codes.
+# ------------------------------------------------------------
+
+cdifd:cdifSentinelValueDomainShape
+	a sh:NodeShape ;
+	sh:targetClass cdif:SentinelValueDomain ;
+
+	# -- REQUIRED (Violation) --
+
+	sh:or (
+		[ sh:path cdif:takesValuesFrom ; sh:minCount 1 ; ]
+		[ sh:path cdif:recommendedDataType ; sh:minCount 1 ; ]
+	) ;
+	sh:message "A cdif:SentinelValueDomain must carry at least one of cdif:takesValuesFrom or cdif:recommendedDataType" ;
+	sh:severity sh:Violation ;
+
+	# -- RECOMMENDED (Warning) --
+
+	sh:property [
+		sh:path cdif:displayLabel ;
+		sh:minCount 1 ;
+		sh:datatype xsd:string ;
+		sh:severity sh:Warning ;
+		sh:message "A cdif:SentinelValueDomain should carry a cdif:displayLabel (human-readable label)" ;
+	] ;
+	.

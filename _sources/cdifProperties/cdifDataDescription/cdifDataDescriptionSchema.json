@@ -4,6 +4,26 @@
     "description": "Additional constraints for CDIF data description level. Adds cdi:physicalDataType requirement on variableMeasured items and distribution-level cdi properties for file characterization (characterSet, fileSize, fileSizeUofM).",
     "type": "object",
     "properties": {
+        "cdif:hasPrimaryKey": {
+            "anyOf": [
+                {
+                    "$ref": "../cdifKey/cdifKeySchema.json"
+                },
+                {
+                    "type": "object",
+                    "description": "object reference via URI or URI fragment to a cdif:Key defined elsewhere in the same document",
+                    "properties": {
+                        "@id": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "@id"
+                    ]
+                }
+            ],
+            "description": "Primary key of the dataset: a cdif:Key whose cdif:isComposedOf is an ordered list of cdi:InstanceVariables (from schema:variableMeasured) that uniquely identify each data instance."
+        },
         "schema:subjectOf": {
             "properties": {
                 "dcterms:conformsTo": {
@@ -56,7 +76,7 @@
                         ]
                     },
                     {
-                        "$ref": "#/$defs/cdifInstanceVariable"
+                        "$ref": "../cdifInstanceVariable/cdifInstanceVariableSchema.json"
                     }
                 ]
             }
@@ -64,6 +84,40 @@
         "schema:distribution": {
             "items": {
                 "properties": {
+                    "@type": {
+                        "description": "Each distribution item is additionally typed as a cdi:PhysicalDataSet or cdi:LogicalDataSet (alongside the base schema:DataDownload / schema:WebAPI).",
+                        "anyOf": [
+                            {
+                                "contains": {
+                                    "const": "cdi:PhysicalDataSet"
+                                }
+                            },
+                            {
+                                "contains": {
+                                    "const": "cdi:LogicalDataSet"
+                                }
+                            }
+                        ]
+                    },
+                    "cdi:isStructuredBy": {
+                        "description": "Points at the Data Structure node that describes how this distribution's bytes are organized. Inline cdifDataStructure or @id-reference to a node defined elsewhere in the document.",
+                        "anyOf": [
+                            {
+                                "$ref": "../cdifDataStructure/cdifDataStructureSchema.json"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "@id"
+                                ]
+                            }
+                        ]
+                    },
                     "cdi:characterSet": {
                         "type": "string",
                         "description": "The character set used in the distribution (e.g., UTF-8, ASCII)."
@@ -80,9 +134,7 @@
             }
         }
     },
-    "$defs": {
-        "cdifInstanceVariable": {
-            "$ref": "../cdifInstanceVariable/cdifInstanceVariableSchema.json"
-        }
-    }
+    "required": [
+        "schema:variableMeasured"
+    ]
 }

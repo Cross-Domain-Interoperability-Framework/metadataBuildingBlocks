@@ -23,28 +23,28 @@ cdifd:longDataShape
         sh:message "A LongStructureDataSet should have physical mappings (cdi:hasPhysicalMapping) linking variables to columns." ;
     ] ;
 
-    # Exactly one formatted variable must have role DescriptorComponent.
+    # Exactly one formatted variable must have role Descriptor.
     # Path: cdi:hasPhysicalMapping -> cdi:formats_InstanceVariable -> cdi:role
     sh:property [
         sh:path ( cdi:hasPhysicalMapping cdi:formats_InstanceVariable cdi:role ) ;
         sh:qualifiedValueShape [
-            sh:hasValue "DescriptorComponent" ;
+            sh:hasValue "Descriptor" ;
         ] ;
         sh:qualifiedMinCount 1 ;
         sh:qualifiedMaxCount 1 ;
         sh:severity sh:Violation ;
-        sh:message "A LongStructureDataSet must format exactly one InstanceVariable with cdi:role 'DescriptorComponent' (the column identifying which variable each row measures)." ;
+        sh:message "A LongStructureDataSet must format exactly one InstanceVariable with cdi:role 'Descriptor' (the column identifying which variable each row measures)." ;
     ] ;
 
-    # At least one formatted variable must have role ReferenceValueComponent.
+    # At least one formatted variable must have role ReferenceVariable.
     # Path: cdi:hasPhysicalMapping -> cdi:formats_InstanceVariable -> cdi:role
     sh:property [
         sh:path ( cdi:hasPhysicalMapping cdi:formats_InstanceVariable cdi:role ) ;
         sh:qualifiedValueShape [
-            sh:hasValue "ReferenceValueComponent" ;
+            sh:hasValue "ReferenceVariable" ;
         ] ;
         sh:qualifiedMinCount 1 ;
         sh:severity sh:Violation ;
-        sh:message "A LongStructureDataSet must format at least one InstanceVariable with cdi:role 'ReferenceValueComponent' (the column holding the actual measured values)." ;
+        sh:message "A LongStructureDataSet must format at least one InstanceVariable with cdi:role 'ReferenceVariable' (the column holding the actual measured values)." ;
     ] ;
     .

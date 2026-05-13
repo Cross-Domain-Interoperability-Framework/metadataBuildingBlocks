@@ -3,8 +3,8 @@ title: CDIF Key
 description: >-
   Profile of ddi-cdi Key/PrimaryKey: a CDIF Key is the role of an ordered set of
   cdi:InstanceVariables (referenced via cdifInstanceVariable) that uniquely identify
-  a data instance. Composed of cdif:ComponentPosition wrappers giving each component
-  variable an integer position.
+  a data instance. Array order of cdif:isComposedOf items is the position;
+  no intermediate ComponentPosition wrapper.
 type: object
 properties:
   '@type':
@@ -19,33 +19,18 @@ properties:
     description: Identifier for this Key node.
   'cdif:isComposedOf':
     type: array
+    description: >-
+      Ordered list of cdi:InstanceVariables (inline cdifInstanceVariable or @id-reference
+      to one declared elsewhere in the dataset). Position is implicit in array order.
     items:
-      type: object
-      description: >-
-        Indexes the cdi:InstanceVariables (via cdifInstanceVariable) that compose
-        this Key, using integers to indicate ordered position starting at 0 or 1.
-      properties:
-        '@type':
-          type: array
-          items:
+      anyOf:
+      - '$ref': '../cdifInstanceVariable/schema.yaml'
+      - type: object
+        description: object reference via URI or URI fragment to a variable declared in the same document
+        properties:
+          '@id':
             type: string
-          contains:
-            const: 'cdif:ComponentPosition'
-          minItems: 1
-        '@id':
-          type: string
-          description: Identifier for this ComponentPosition node.
-        'cdif:indexes':
-          anyOf:
-          - '$ref': '../cdifInstanceVariable/schema.yaml#/$defs/CdifInstanceVariableNode'
-          - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
-        'cdif:value':
-          type: integer
-          description: Index value of the member in an ordered array.
-      required:
-      - '@type'
-      - 'cdif:indexes'
-      - 'cdif:value'
+        required: ['@id']
     minItems: 1
 required:
 - '@type'

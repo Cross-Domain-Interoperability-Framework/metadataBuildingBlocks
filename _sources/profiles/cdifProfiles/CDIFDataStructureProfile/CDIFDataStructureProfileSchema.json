@@ -1,0 +1,72 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "title": "CDIF Data Structure metadata profile",
+    "description": "CDIF Data Structure profile. Extends the Data Description profile with full DDI-CDI structural complexity: composing cdifDataStructure (DataStructure + Dimensional/Long/Wide variants), cdifDataStructureComponent (component subclasses), cdifRepresentedVariable, and cdifValueDomain. Distributions are expected to carry cdi:isStructuredBy pointing at a Data Structure node.",
+    "allOf": [
+        {
+            "$ref": "../../../cdifProperties/cdifCore/cdifCoreSchema.json"
+        },
+        {
+            "$ref": "../../../cdifProperties/cdifDataDescription/cdifDataDescriptionSchema.json"
+        },
+        {
+            "type": "object",
+            "properties": {
+                "@context": {
+                    "type": "object",
+                    "description": "Additional JSON-LD namespace prefixes for the data structure profile.",
+                    "properties": {
+                        "geosparql": {
+                            "const": "http://www.opengis.net/ont/geosparql#"
+                        },
+                        "dqv": {
+                            "const": "http://www.w3.org/ns/dqv#"
+                        },
+                        "cdi": {
+                            "const": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+                        },
+                        "cdif": {
+                            "const": "https://cdif.org/0.1/"
+                        }
+                    }
+                },
+                "schema:distribution": {
+                    "items": {
+                        "required": [
+                            "cdi:isStructuredBy"
+                        ]
+                    }
+                },
+                "schema:subjectOf": {
+                    "properties": {
+                        "dcterms:conformsTo": {
+                            "contains": {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "const": "https://w3id.org/cdif/data_structure/1.0"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "$defs": {
+        "CdifDataStructure": {
+            "$ref": "../../../cdifProperties/cdifDataStructure/cdifDataStructureSchema.json"
+        },
+        "CdifDataStructureComponent": {
+            "$ref": "../../../cdifProperties/cdifDataStructureComponent/cdifDataStructureComponentSchema.json"
+        },
+        "CdifRepresentedVariable": {
+            "$ref": "../../../cdifProperties/cdifRepresentedVariable/cdifRepresentedVariableSchema.json"
+        },
+        "CdifValueDomain": {
+            "$ref": "../../../cdifProperties/cdifValueDomain/cdifValueDomainSchema.json"
+        }
+    }
+}

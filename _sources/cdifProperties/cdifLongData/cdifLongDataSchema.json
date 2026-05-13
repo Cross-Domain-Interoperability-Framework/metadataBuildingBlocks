@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
     "title": "Long Data Structure Type",
-    "description": "Long (narrow) data structure using DDI-CDI. Typed as cdi:LongStructureDataSet. In long format each row represents a single observation, with a descriptor column identifying which variable is measured and a reference column holding the value. The descriptor and reference roles are expressed via cdi:role on InstanceVariables in schema:variableMeasured (DescriptorComponent and ReferenceValueComponent).",
+    "description": "Long (narrow) data structure using DDI-CDI. Typed as cdi:LongStructureDataSet. In long format each row represents a single observation, with a descriptor column identifying which variable is measured and a reference column holding the value. The descriptor and reference roles are expressed via cdi:role on InstanceVariables in schema:variableMeasured (Descriptor and ReferenceVariable). Structural detail (LongDataStructure, components, RepresentedVariable, ValueDomain) lives in the CDIF Data Structure profile and is referenced via cdif:isStructuredBy.",
     "properties": {
         "@type": {
             "type": "array",
@@ -23,6 +23,25 @@
             "items": {
                 "$ref": "../cdifPhysicalMapping/cdifPhysicalMappingSchema.json"
             }
+        },
+        "cdif:isStructuredBy": {
+            "description": "Reference to the LongDataStructure node (cdifDataStructure $def) that describes how this distribution's bytes are organized.",
+            "anyOf": [
+                {
+                    "$ref": "../cdifDataStructure/schema.yaml#/$defs/LongDataStructure"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "@id"
+                    ]
+                }
+            ]
         },
         "cdi:arrayBase": {
             "type": "integer"

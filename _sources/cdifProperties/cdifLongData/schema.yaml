@@ -6,7 +6,9 @@ description: Long (narrow) data structure using DDI-CDI. Typed as cdi:LongStruct
   In long format each row represents a single observation, with a descriptor column
   identifying which variable is measured and a reference column holding the value.
   The descriptor and reference roles are expressed via cdi:role on InstanceVariables
-  in schema:variableMeasured (DescriptorComponent and ReferenceValueComponent).
+  in schema:variableMeasured (Descriptor and ReferenceVariable). Structural detail
+  (LongDataStructure, components, RepresentedVariable, ValueDomain) lives in the
+  CDIF Data Structure profile and is referenced via cdif:isStructuredBy.
 properties:
   '@type':
     type: array
@@ -20,6 +22,17 @@ properties:
     description: Links variables to their physical representation in this dataset.
     items:
       $ref: ../cdifPhysicalMapping/schema.yaml
+  cdif:isStructuredBy:
+    description: >-
+      Reference to the LongDataStructure node (cdifDataStructure $def) that
+      describes how this distribution's bytes are organized.
+    anyOf:
+    - $ref: '../cdifDataStructure/schema.yaml#/$defs/LongDataStructure'
+    - type: object
+      properties:
+        '@id':
+          type: string
+      required: ['@id']
   cdi:arrayBase:
     type: integer
   csvw:delimiter:

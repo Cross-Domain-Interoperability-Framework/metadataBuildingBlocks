@@ -14,7 +14,7 @@ properties:
   '@id':
     type: string
     description: Identifier for this EnumerationDomain node
-  'cdi:identifier':
+  'cdif:identifier':
     '$ref': '../../schemaorgProperties/identifier/schema.yaml'
     description: >-
       Identifier for this enumerated (categorical) domain.
@@ -22,13 +22,18 @@ properties:
     type: string
     description: >-
       Human understandable name (liguistic signifier, word, phrase, or mnemonic).
-  'schema:inDefinedTermSet':
+  'cdif:references':
+    description: SKOS concept scheme that contains concepts defining the allowed values of this enumeration domain.
     anyOf:
     - '$ref': '../../skosProperties/skosConceptScheme/schema.yaml'
-    - '$ref': '../../schemaorgProperties/definedTermSet/schema.yaml'
-    - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
-  'cdi:purpose':
-    '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString'
+    - type: object
+      description: object reference via URI or URI fragment referencing an @id in the same document
+      properties: 
+        '@id':
+          type: string
+  'cdif:purpose':
+    type: string
     description: Intent or reason for the object/the description of the object.
 required:
 - '@type'
+- 'cdif:references'

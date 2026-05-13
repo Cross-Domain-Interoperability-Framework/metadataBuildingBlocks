@@ -14,11 +14,11 @@ The BB accepts three shapes interchangeably:
 - **cdi:identifier** — identifier for this variable
 - **cdif:physicalDataType** — physical data type concept (string, URI reference, or DefinedTerm)
 - **cdi:intendedDataType** — intended data type for values (recommended: XML Schema datatypes)
-- **cdi:role** — role of variable in data structure (`MeasureComponent`, `AttributeComponent`, `DimensionComponent`, `DescriptorComponent`, `ReferenceValueComponent`)
+- **cdi:role** — role of variable in data structure (`UnitIdentifier`, `Measure`, `Attribute`, `Dimension`, `Descriptor`, `ReferenceVariable`)
 - **cdi:describedUnitOfMeasure** — structured unit of measure from controlled vocabulary (DefinedTerm)
 - **cdif:simpleUnitOfMeasure** — simple unit of measure (string, URI reference, or DefinedTerm)
 - **cdif:uses** — concepts that this variable measures or represents
-- **cdi:qualifies** — `@id` reference to another instance variable in the same dataset; required when `cdi:role` is `AttributeComponent`
+- **cdi:qualifies** — `@id` reference to another instance variable in the same dataset; required when `cdi:role` is `Attribute`
 - **cdi:name** — name of variable in DDI-CDI model
 - **cdi:displayLabel** — human-readable label for display purposes
 

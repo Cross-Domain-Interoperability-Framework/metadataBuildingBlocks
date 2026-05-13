@@ -1,0 +1,48 @@
+---
+$schema: https://json-schema.org/draft/2020-12/schema
+type: object
+title: CDIF Data Structure metadata profile
+description: >-
+  CDIF Data Structure profile. Extends the Data Description profile with
+  full DDI-CDI structural complexity: composing cdifDataStructure (DataStructure
+  + Dimensional/Long/Wide variants), cdifDataStructureComponent (component
+  subclasses), cdifRepresentedVariable, and cdifValueDomain. Distributions are
+  expected to carry cdi:isStructuredBy pointing at a Data Structure node.
+allOf:
+- $ref: ../../../cdifProperties/cdifCore/schema.yaml
+- $ref: ../../../cdifProperties/cdifDataDescription/schema.yaml
+- type: object
+  properties:
+    '@context':
+      type: object
+      description: Additional JSON-LD namespace prefixes for the data structure profile.
+      properties:
+        geosparql:
+          const: "http://www.opengis.net/ont/geosparql#"
+        dqv:
+          const: "http://www.w3.org/ns/dqv#"
+        cdi:
+          const: "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+        cdif:
+          const: "https://cdif.org/0.1/"
+    'schema:distribution':
+      items:
+        required:
+        - 'cdi:isStructuredBy'
+    'schema:subjectOf':
+      properties:
+        'dcterms:conformsTo':
+          contains:
+            type: object
+            properties:
+              '@id':
+                const: 'https://w3id.org/cdif/data_structure/1.0'
+$defs:
+  CdifDataStructure:
+    $ref: ../../../cdifProperties/cdifDataStructure/schema.yaml
+  CdifDataStructureComponent:
+    $ref: ../../../cdifProperties/cdifDataStructureComponent/schema.yaml
+  CdifRepresentedVariable:
+    $ref: ../../../cdifProperties/cdifRepresentedVariable/schema.yaml
+  CdifValueDomain:
+    $ref: ../../../cdifProperties/cdifValueDomain/schema.yaml

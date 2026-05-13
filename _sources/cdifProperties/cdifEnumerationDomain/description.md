@@ -8,10 +8,10 @@ This is a CDIF profile of the DDI-CDI `EnumerationDomain` extension point. It is
 
 - `@type` must contain `"cdif:EnumerationDomain"`.
 - `@id` — recommended URI for the domain itself.
-- `cdi:identifier` — formal `schema:identifier` for the domain.
+- `cdif:identifier` — formal `schema:identifier` for the domain.
 - `schema:name` — short human label.
-- `schema:inDefinedTermSet` — anyOf an inline `skos:ConceptScheme`, an inline `schema:DefinedTermSet`, or an `@id`-only id-reference to a domain defined elsewhere.
-- `cdi:purpose` — multilingual `InternationalString` describing intent/use.
+- `cdif:references` *(required)* — anyOf an inline `skos:ConceptScheme` or an `@id`-only id-reference to a domain defined elsewhere. Points at the SKOS concept scheme whose concepts define the permitted values.
+- `cdif:purpose` — short string describing intent/use.
 
 ## Relationship to other BBs
 

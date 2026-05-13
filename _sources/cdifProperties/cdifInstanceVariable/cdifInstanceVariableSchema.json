@@ -1,188 +1,123 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "CDIF Instance Variable",
-    "description": "CDIF Instance Variable — profile of the cdi:InstanceVariable / schema:PropertyValue node that appears in schema:variableMeasured arrays. Adds DDI-CDI properties (cdif:physicalDataType, cdi:role, cdif:simpleUnitOfMeasure, cdif:uses, cdi:qualifies) on top of the base schemaorgProperties/variableMeasured and ddiCDIFProperties/ddi-cdif-instance-variable shapes.",
-    "anyOf": [
-        {
-            "description": "Single InstanceVariable node",
-            "$ref": "#/$defs/CdifInstanceVariableNode"
-        },
-        {
-            "description": "Unwrapped @graph array of nodes (OGC pipeline)",
+    "type": "object",
+    "properties": {
+        "@type": {
             "type": "array",
-            "contains": {
-                "$ref": "#/$defs/CdifInstanceVariableNode"
-            },
+            "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
             "items": {
-                "if": {
-                    "type": "object",
-                    "properties": {
-                        "@type": {
-                            "type": "array",
-                            "contains": {
-                                "const": "cdi:InstanceVariable"
+                "type": "string"
+            },
+            "contains": {
+                "const": "cdi:InstanceVariable"
+            }
+        },
+        "cdif:physicalDataType": {
+            "type": "array",
+            "items": {
+                "anyOf": [
+                    {
+                        "type": "string"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "@id": {
+                                "type": "string",
+                                "description": "reference to a skos concept for the data type"
                             }
                         }
                     },
-                    "required": [
-                        "@type"
-                    ]
-                },
-                "then": {
-                    "$ref": "#/$defs/CdifInstanceVariableNode"
-                }
-            }
+                    {
+                        "$ref": "#/$defs/DefinedTerm"
+                    }
+                ]
+            },
+            "description": "identifier or name for the data type concept."
         },
-        {
-            "description": "JSON-LD document with @context and @graph",
-            "type": "object",
-            "properties": {
-                "@context": {},
-                "@graph": {
-                    "type": "array",
-                    "contains": {
-                        "$ref": "#/$defs/CdifInstanceVariableNode"
-                    },
-                    "items": {
-                        "if": {
-                            "type": "object",
-                            "properties": {
-                                "@type": {
-                                    "type": "array",
-                                    "contains": {
-                                        "const": "cdi:InstanceVariable"
-                                    }
-                                }
-                            },
-                            "required": [
-                                "@type"
-                            ]
-                        },
-                        "then": {
-                            "$ref": "#/$defs/CdifInstanceVariableNode"
+        "cdi:role": {
+            "type": "string",
+            "enum": [
+                "UnitIdentifier",
+                "Measure",
+                "Attribute",
+                "Dimension",
+                "Descriptor",
+                "ReferenceVariable"
+            ],
+            "description": "Specifies the role this variable plays in a data structure. UnitIdentifier names the unit a row describes; Measure holds observed/derived values; Attribute qualifies an observation; Dimension addresses a cell in a multi-dimensional cube; Descriptor names the variable that a Reference column records values for (long format); ReferenceVariable holds those recorded values."
+        },
+        "cdif:simpleUnitOfMeasure": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "type": "string",
+                            "description": "reference to a skos concept for the data type"
                         }
                     }
+                },
+                {
+                    "$ref": "#/$defs/DefinedTerm"
+                }
+            ]
+        },
+        "cdif:uses": {
+            "type": "array",
+            "items": {
+                "anyOf": [
+                    {
+                        "type": "string"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "@id": {
+                                "type": "string",
+                                "description": "reference to a skos concept for the property"
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/$defs/DefinedTerm"
+                    }
+                ]
+            },
+            "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents."
+        },
+        "cdi:qualifies": {
+            "type": "object",
+            "properties": {
+                "@id": {
+                    "type": "string"
                 }
             },
+            "description": "reference to an instance variable defined for this dataset"
+        }
+    },
+    "allOf": [
+        {
             "required": [
-                "@graph"
+                "@type"
             ]
+        },
+        {
+            "$ref": "../../schemaorgProperties/variableMeasured/variableMeasuredSchema.json"
         }
     ],
     "$defs": {
         "DefinedTerm": {
-            "$ref": "../../schemaorgProperties/definedTerm/definedTermSchema.json"
-        },
-        "CdifInstanceVariableNode": {
-            "type": "object",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "cdi:InstanceVariable"
-                    }
-                },
-                "cdif:physicalDataType": {
-                    "type": "array",
-                    "items": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object",
-                                "properties": {
-                                    "@id": {
-                                        "type": "string",
-                                        "description": "reference to a skos concept for the data type"
-                                    }
-                                }
-                            },
-                            {
-                                "$ref": "#/$defs/DefinedTerm"
-                            }
-                        ]
-                    },
-                    "description": "identifier or name for the data type concept."
-                },
-                "cdi:role": {
-                    "type": "string",
-                    "enum": [
-                        "MeasureComponent",
-                        "AttributeComponent",
-                        "DimensionComponent",
-                        "DescriptorComponent",
-                        "ReferenceValueComponent"
-                    ],
-                    "description": "Specifies the relation of the variable to the data structure, corresponding to DDI-CDI DataStructureComponent subtypes."
-                },
-                "cdif:simpleUnitOfMeasure": {
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "object",
-                            "properties": {
-                                "@id": {
-                                    "type": "string",
-                                    "description": "reference to a skos concept for the data type"
-                                }
-                            }
-                        },
-                        {
-                            "$ref": "#/$defs/DefinedTerm"
-                        }
-                    ]
-                },
-                "cdif:uses": {
-                    "type": "array",
-                    "items": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object",
-                                "properties": {
-                                    "@id": {
-                                        "type": "string",
-                                        "description": "reference to a skos concept for the property"
-                                    }
-                                }
-                            },
-                            {
-                                "$ref": "#/$defs/DefinedTerm"
-                            }
-                        ]
-                    },
-                    "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents."
-                },
-                "cdi:qualifies": {
-                    "type": "object",
-                    "properties": {
-                        "@id": {
-                            "type": "string"
-                        }
-                    },
-                    "description": "reference to an instance variable defined for this dataset"
-                }
-            },
-            "allOf": [
+            "anyOf": [
                 {
-                    "required": [
-                        "@type"
-                    ]
+                    "$ref": "../../schemaorgProperties/definedTerm/definedTermSchema.json"
                 },
                 {
-                    "$ref": "../../schemaorgProperties/variableMeasured/variableMeasuredSchema.json"
-                },
-                {
-                    "$ref": "../../ddiCDIFProperties/ddi-cdif-instance-variable/ddi-cdif-instance-variableSchema.json"
+                    "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
                 }
             ]
         }

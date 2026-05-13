@@ -18,7 +18,7 @@
             "type": "string",
             "description": "Identifier for this EnumerationDomain node"
         },
-        "cdi:identifier": {
+        "cdif:identifier": {
             "$ref": "../../schemaorgProperties/identifier/identifierSchema.json",
             "description": "Identifier for this enumerated (categorical) domain."
         },
@@ -26,25 +26,30 @@
             "type": "string",
             "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic)."
         },
-        "schema:inDefinedTermSet": {
+        "cdif:references": {
+            "description": "SKOS concept scheme that contains concepts defining the allowed values of this enumeration domain.",
             "anyOf": [
                 {
                     "$ref": "../../skosProperties/skosConceptScheme/skosConceptSchemeSchema.json"
                 },
                 {
-                    "$ref": "../../schemaorgProperties/definedTermSet/definedTermSetSchema.json"
-                },
-                {
-                    "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
+                    "type": "object",
+                    "description": "object reference via URI or URI fragment referencing an @id in the same document",
+                    "properties": {
+                        "@id": {
+                            "type": "string"
+                        }
+                    }
                 }
             ]
         },
-        "cdi:purpose": {
-            "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString",
+        "cdif:purpose": {
+            "type": "string",
             "description": "Intent or reason for the object/the description of the object."
         }
     },
     "required": [
-        "@type"
+        "@type",
+        "cdif:references"
     ]
 }
