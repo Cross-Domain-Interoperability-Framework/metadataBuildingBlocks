@@ -43,3 +43,35 @@ cdifd:cdifVariableDescriptorComponentShape
         sh:message "cdi:refersTo on a cdi:VariableDescriptorComponent must be an object reference to a cdi:VariableValueComponent in the same data structure." ;
     ] ;
     .
+
+# ------------------------------------------------------------
+# cdi:IdentifierComponent / cdi:DimensionComponent
+#
+# The JSON Schema makes cdif:isDefinedBy_RepresentedVariable a
+# required property on these two component subclasses (it is
+# optional on the others). These shapes mirror that.
+# ------------------------------------------------------------
+
+cdifd:cdifIdentifierComponentShape
+    a sh:NodeShape ;
+    sh:targetClass cdi:IdentifierComponent ;
+
+    sh:property [
+        sh:path cdif:isDefinedBy_RepresentedVariable ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "A cdi:IdentifierComponent must carry cdif:isDefinedBy_RepresentedVariable (the RepresentedVariable it is a role of)." ;
+    ] ;
+    .
+
+cdifd:cdifDimensionComponentShape
+    a sh:NodeShape ;
+    sh:targetClass cdi:DimensionComponent ;
+
+    sh:property [
+        sh:path cdif:isDefinedBy_RepresentedVariable ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "A cdi:DimensionComponent must carry cdif:isDefinedBy_RepresentedVariable (the RepresentedVariable it is a role of)." ;
+    ] ;
+    .

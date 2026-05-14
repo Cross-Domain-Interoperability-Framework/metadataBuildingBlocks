@@ -1,0 +1,73 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix cdi:    <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif:   <https://cdif.org/0.1/> .
+@prefix cdifd:  <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# ------------------------------------------------------------
+# cdifDataStructure — DataStructure (and its Dimensional / Long /
+# Wide variants) plus the shared key structures. Rules mirror the
+# JSON Schema `required` lists: every DataStructure variant must
+# carry cdi:has_DataStructureComponent, and a cdif:PrimaryKey must
+# carry cdif:isComposedOf.
+# ------------------------------------------------------------
+
+cdifd:cdifDataStructure_DataStructureShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:DataStructure ;
+	sh:property [
+		sh:path cdi:has_DataStructureComponent ;
+		sh:minCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "A cdi:DataStructure must carry at least one cdi:has_DataStructureComponent." ;
+	] ;
+	.
+
+cdifd:cdifDataStructure_DimensionalDataStructureShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:DimensionalDataStructure ;
+	sh:property [
+		sh:path cdi:has_DataStructureComponent ;
+		sh:minCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "A cdi:DimensionalDataStructure must carry at least one cdi:has_DataStructureComponent." ;
+	] ;
+	.
+
+cdifd:cdifDataStructure_LongDataStructureShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:LongDataStructure ;
+	sh:property [
+		sh:path cdi:has_DataStructureComponent ;
+		sh:minCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "A cdi:LongDataStructure must carry at least one cdi:has_DataStructureComponent." ;
+	] ;
+	.
+
+cdifd:cdifDataStructure_WideDataStructureShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:WideDataStructure ;
+	sh:property [
+		sh:path cdi:has_DataStructureComponent ;
+		sh:minCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "A cdi:WideDataStructure must carry at least one cdi:has_DataStructureComponent." ;
+	] ;
+	.
+
+# cdif:PrimaryKey — an ordered set of cdi:InstanceVariables that
+# uniquely identify a data instance.
+cdifd:cdifDataStructure_PrimaryKeyShape
+	a sh:NodeShape ;
+	sh:targetClass cdif:PrimaryKey ;
+	sh:property [
+		sh:path cdif:isComposedOf ;
+		sh:minCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "A cdif:PrimaryKey must carry at least one cdif:isComposedOf entry." ;
+	] ;
+	.

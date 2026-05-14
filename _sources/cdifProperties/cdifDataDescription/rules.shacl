@@ -5,9 +5,39 @@
 @prefix schema:      <http://schema.org/>.
 @prefix dcterms: <http://purl.org/dc/terms/>.
 @prefix cdi:        <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/>.
+@prefix cdif:       <https://cdif.org/0.1/>.
 @prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
 @base <https://www.ogc.org/rules/template/> .
 
+
+# At the data description level, the root Dataset must carry
+# schema:variableMeasured (the JSON Schema makes it required). Scoped
+# to the root dataset via SPARQL target, matching cdifCore's pattern,
+# so it does not flag nested/embedded dataset nodes.
+cdifd:dataDescriptionDatasetShape
+	a sh:NodeShape ;
+	sh:target [
+	  a sh:SPARQLTarget ;
+	  sh:select """
+	       PREFIX schema: <http://schema.org/>
+	            SELECT ?this
+	            WHERE {
+	              ?this a schema:Dataset .
+	              MINUS {
+	                ?parent a schema:Dataset .
+	                ?parent ?p ?this .
+	                FILTER (?parent != ?this)
+	                FILTER (?p != schema:about)
+	              }
+	            }
+	          """ ;
+	] ;
+	sh:property [
+		sh:path schema:variableMeasured ;
+		sh:minCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "A data-description-level Dataset must carry at least one schema:variableMeasured." ;
+	] .
 
 # At the data description level, variableMeasured items typed as
 # cdi:InstanceVariable must include cdif:physicalDataType.
