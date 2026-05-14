@@ -42,7 +42,8 @@ metadataBuildingBlocks/
 │   │   ├── cdifArchive/              # CDIF archive item (DataDownload with hasPart)
 │   │   ├── cdifArchiveDistribution/ # CDIF archive distribution (schema:distribution wrapper)
 │   │   ├── cdifInstanceVariable/    # CDIF Instance Variable: profile of cdi:InstanceVariable / schema:PropertyValue for schema:variableMeasured items (with cdi:role / cdi:qualifies). Renamed 2026-05 from cdifVariableMeasured.
-│   │   ├── cdifPhysicalMapping/     # CDIF physical mapping (cdi:PhysicalSegmentLayout serialization metadata)
+│   │   ├── cdifPhysicalMapping/     # CDIF physical mapping — per-field physical representation of a variable in a distribution (cdif:index, cdif:format, cdif:physicalDataType, cdi:nullSequence, cdif:formats_InstanceVariable)
+│   │   ├── cdifStatistics/          # CDIF Statistics / CategoryStatistics / StatisticsCollection — summary values for a dataset/variable; cdif:appliesTo links the variable, cdif:has_* are target-suffixed (cdi:has is polymorphic in DDI-CDI)
 │   │   ├── cdifOpenApi/             # OpenAPI-aligned WebAPI distribution (alternative to schemaorgProperties/webAPI)
 │   │   ├── cdifKey/                 # CDIF Key — ordered set of cdi:InstanceVariables (referenced via cdifInstanceVariable) that uniquely identify a data instance; CDIF profile of ddi-cdi Key/PrimaryKey
 │   │   ├── cdifEnumerationDomain/   # CDIF Enumeration Domain — extension point that documents any codification (skos:ConceptScheme, schema:DefinedTermSet, or @id-only reference) as a cdif:EnumerationDomain
@@ -55,21 +56,31 @@ metadataBuildingBlocks/
 │   │   ├── generatedBy/             # prov:wasGeneratedBy (Activity)
 │   │   ├── provActivity/            # PROV-O native activity (extends generatedBy)
 │   │   └── derivedFrom/             # prov:wasDerivedFrom
-│   ├── ddiProperties/               # DDI-CDI data description types (most generated from XMI via tools/uml_to_schema.py)
+│   ├── ddiProperties/               # DDI-CDI data description types (most generated from XMI via tools/uml_to_schema.py; reconciled with the 2026-03 DDI-CDI model)
 │   │   ├── ddicdiActivity/          # DDI-CDI Activity (Process package)
 │   │   ├── ddicdiAgent/             # DDI-CDI Agent (umbrella: refs 4 agent sub-BBs)
 │   │   ├── ddicdiIndividual/        # DDI-CDI Individual (person)
 │   │   ├── ddicdiMachine/           # DDI-CDI Machine (software/hardware)
 │   │   ├── ddicdiOrganization/      # DDI-CDI Organization (group/institution)
 │   │   ├── ddicdiProcessingAgent/   # DDI-CDI ProcessingAgent (orchestrates activities)
-│   │   ├── ddicdiDataTypes/          # DDI-CDI structured data types (from DDICDILibrary/DataTypes)
+│   │   ├── ddicdiDataTypes/          # DDI-CDI structured data types (from DDICDILibrary/DataTypes; incl. CorrespondenceDefinition, StructureSpecification)
 │   │   ├── ddicdiValueDomain/       # DDI-CDI ValueDomain (SubstantiveValueDomain + SentinelValueDomain)
 │   │   ├── ddicdiEnumerationDomain/ # DDI-CDI EnumerationDomain (base for codifications)
 │   │   ├── ddicdiCodeList/          # DDI-CDI CodeList (Code + CodePosition collections)
 │   │   ├── ddicdiStatisticalClassification/  # DDI-CDI StatisticalClassification (with ClassificationItems and LevelStructure)
 │   │   ├── ddicdiControlledVocabularyEntry/  # DDI-CDI ControlledVocabularyEntry (entry in an external vocabulary)
-│   │   ├── ddicdiDataStructure/     # DDI-CDI DataStructure (Dimensional/KeyValue/Long/Wide variants)
-│   │   └── ddicdiRepresentedVariable/  # DDI-CDI RepresentedVariable (variable definition with VD/CD ranges)
+│   │   ├── ddicdiInstanceVariable/  # DDI-CDI InstanceVariable + RepresentedVariable property set (ConceptualVariable-level props excluded)
+│   │   ├── ddicdiRepresentedVariable/  # DDI-CDI RepresentedVariable (variable definition with VD/CD ranges)
+│   │   ├── ddicdiPresentationalVariable/  # DDI-CDI ReferenceVariable / DescriptorVariable (long-format presentational variables)
+│   │   ├── ddicdiLogicalRecord/     # DDI-CDI LogicalRecord
+│   │   ├── ddicdiLogicalRecordRepository/  # DDI-CDI LogicalRecordRepository — successor to the retired DataStore class (+ LogicalRecordRepositoryStructure, LogicalRecordRelationship, InstanceVariableMap)
+│   │   ├── ddicdiPhysicalDataSet/   # DDI-CDI PhysicalDataSet subclasses (Wide/Long/Dimensional/Tabular/Structured DataSet)
+│   │   ├── ddicdiPhysicalMapping/   # DDI-CDI PhysicalMapping / TextMapping / LocatorMapping — successor to the retired ValueMapping class
+│   │   ├── ddicdiDataStructure/     # DDI-CDI DataStructure (Dimensional/Long/Wide variants + shared key structures)
+│   │   ├── ddicdiDataStructureComponent/  # DDI-CDI DataStructureComponent subclasses
+│   │   ├── ddicdiStatistics/        # DDI-CDI Statistics / CategoryStatistics / StatisticsCollection
+│   │   ├── ddicdiKeyValueStructure/ # DDI-CDI KeyValue package (KeyValueStructure, KeyValueDataStore, InstanceKey, ...)
+│   │   └── ddicdiCollections/       # DDI-CDI CollectionsPattern (Collection, List, Map, Member, Structure, ...)
 │   ├── skosProperties/               # W3C SKOS vocabulary types
 │   │   ├── skosConceptScheme/       # skos:ConceptScheme
 │   │   ├── skosConcept/            # skos:Concept
@@ -97,7 +108,7 @@ metadataBuildingBlocks/
 │           └── CDIFxasProfile/             # CDIF XAS profile
 ├── tools/
 │   ├── resolve_schema.py            # Schema resolver (see below)
-│   ├── uml_to_schema.py             # Generate a BB schema.yaml from canonical UML 2.5 / XMI 2.5.1 (see below)
+│   ├── uml_to_schema.py             # Generate a BB schema.yaml from a DDI-CDI XMI (canonical 2.5.1 or EA-native 1.1, auto-detected; see below)
 │   ├── convert_for_jsonforms.py     # JSON Forms converter (see below)
 │   ├── compare_schemas.py           # Schema comparison tool
 │   ├── validate_instance.py         # Profile-aware validation tool
@@ -109,6 +120,8 @@ metadataBuildingBlocks/
 │   ├── audit_building_blocks.py     # Comprehensive BB repo audit (pluggable to any repo)
 │   ├── audit_shacl_coverage.py      # Compares schema.yaml properties vs rules.shacl shapes
 │   ├── audit_cdi_property_types.py  # Audits cdi:* properties in cdifProperties vs canonical DDI-CDI XMI
+│   ├── audit_ddi_xmi_consistency.py # Audits ddiProperties BBs vs a DDI-CDI EA XMI export (missing/renamed classes, attr/assoc drift; --dump-class)
+│   ├── audit_cdif_vs_ddi.py         # Audits cdi:* property value-types in cdifProperties vs ddiProperties BB definitions
 │   ├── generate_custom_report.py    # Custom validation report with SHACL severity breakdown
 │   ├── add_property_tree.py         # Adds propertyTree worksheets to Excel workbooks
 │   ├── generate_property_tree2.py   # Generates propertyTree_2 worksheets from resolved schemas
@@ -214,10 +227,15 @@ Building blocks that add properties to `schema:distribution` items must use part
 
 The `cdi:` prefix (`http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/`) is reserved for properties and classes defined in the canonical DDI-CDI 1.0 XMI model. The `cdif:` prefix (`https://cdif.org/0.1/`) is used for CDIF inventions, simplifications, or properties whose CDIF semantics diverge from the canonical XMI definition.
 
-Audit rule: if a property in a `cdifProperties/` BB carries the `cdi:` prefix, the values it accepts must be type-compatible with the corresponding `ddiProperties/` definition. If CDIF needs to allow a value shape the XMI doesn't sanction (e.g. literal vs node, or a different target class), rename the property to `cdif:` so the divergence is namespace-visible. Recent renames driven by this audit (May 2026):
+Audit rule: if a property in a `cdifProperties/` BB carries the `cdi:` prefix, the values it accepts must be type-compatible with the corresponding `ddiProperties/` definition. If CDIF needs to allow a value shape the XMI doesn't sanction (e.g. literal vs node, or a different target class), rename the property to `cdif:` so the divergence is namespace-visible. Run `tools/audit_cdif_vs_ddi.py` to check. Recent renames driven by this audit (May 2026):
 - `cdi:fileSize` → `cdif:fileSize`, `cdi:fileSizeUofM` → `cdif:fileSizeUofM` (file metadata; not in XMI)
 - `cdi:role` → `cdif:role` (role-on-InstanceVariable; CDIF-only simplification)
 - `cdi:content` retained inside `cdi:LanguageString` / `cdi:LabelForDisplay` (canonical use); migrated to `cdif:content` only outside those structured-string contexts
+- `cdi:statistics` → `cdif:statistics`, `cdi:appliesTo` → `cdif:appliesTo`, `cdi:indexedBy` → `cdif:indexedBy` (CDIF additions, not in the canonical model)
+
+Two further `cdif:` conventions established in the 2026-03-model reconciliation:
+- **InternationalString / LabelForDisplay / ObjectName simplification.** Where a canonical DDI-CDI property is valued by one of those structured-string datatypes, the CDIF profile simplifies it to a plain `string` and renames the property to `cdif:` (e.g. on `cdi:Category` in `cdifStatistics`: `cdif:name`, `cdif:descriptiveText`, `cdif:definition`, `cdif:displayLabel`).
+- **Polymorphic role-name disambiguation.** The DDI-CDI association role names `has`, `uses`, `isDefinedBy`, `isDescribedBy` are polymorphic (their valid target depends on the owning class). In `cdifProperties` they are split into target-suffixed `cdif:` keys — `cdif:has_DataStructureComponent`, `cdif:has_Concept`, `cdif:uses_Concept`, `cdif:isDefinedBy_RepresentedVariable`, `cdif:isDefinedBy_DescriptorVariable`, `cdif:isDefinedBy_Concept`, `cdif:isDescribedBy_StatisticsCollection`, etc. — so each JSON key has a single, unambiguous value type.
 
 ## Data Description vs Data Structure profiles
 
@@ -503,21 +521,27 @@ python tools/resolve_schema.py --all
 
 ## uml_to_schema.py
 
-Generates a CDIF building-block `schema.yaml` (and, optionally, the surrounding `bblock.json` / `context.jsonld` / `rules.shacl` / `examples.yaml` skeletons) from a canonical UML 2.5 / XMI 2.5.1 export of a DDI-CDI / UCMIS class model. Used to bootstrap and refresh the `_sources/ddiProperties/ddicdi*` BBs.
+Generates a CDIF building-block `schema.yaml` (and, optionally, the surrounding `bblock.json` / `context.jsonld` / `rules.shacl` / `examples.yaml` skeletons) from a DDI-CDI / UCMIS class model. Used to bootstrap and refresh the `_sources/ddiProperties/ddicdi*` BBs.
+
+**XMI format auto-detection.** `parse_xmi()` peeks at the XMI root and dispatches:
+- **canonical XMI 2.5.1** (OMG namespaces, `uml:Model`, `packagedElement` / `ownedAttribute` / navigable-end association ends) → `_parse_canonical_xmi()`;
+- **Enterprise Architect native XMI 1.1** (`xmi.version="1.1"`, `xmlns:UML="omg.org/UML1.3"`, `UML:Class` distinguished by `ea_stype` tagged value, top-level `UML:Generalization` / `UML:Association` with `UML:AssociationEnd` children) → `parse_ea_xmi()`.
+
+Both parsers emit the same internal `Model` / `UmlClass` / `Property` structures, so everything downstream (def generation, inline-or-ref, multiplicity, generalization walk) is format-agnostic.
 
 **Usage:**
 ```bash
 # Single-class BB
 python tools/uml_to_schema.py \
-  --xmi C:/path/to/ddi-cdi_canonical-unique-names.xmi \
+  --xmi C:/path/to/ddi-cdi_ea15.2026.March.xml \
   --class EnumerationDomain \
   --bb-name ddicdiEnumerationDomain \
   --out-dir _sources/ddiProperties/
 
 # Multi-class BB (root anyOf over multiple concrete classes)
 python tools/uml_to_schema.py \
-  --xmi C:/path/to/ddi-cdi_canonical-unique-names.xmi \
-  --class DataStructure,DimensionalDataStructure,KeyValueStructure,LongDataStructure,WideDataStructure \
+  --xmi C:/path/to/ddi-cdi_ea15.2026.March.xml \
+  --class DataStructure,DimensionalDataStructure,LongDataStructure,WideDataStructure \
   --bb-name ddicdiDataStructure \
   --out-dir _sources/ddiProperties/
 
@@ -536,7 +560,11 @@ python tools/uml_to_schema.py ... --schema-only
 - Duplicate role-name properties (UCMIS overload, e.g. `CodeList.has → Code` AND `CodeList.has → CodePosition`) are merged via flat `anyOf` of distinct targets plus a single `id-reference` fallback.
 - Sibling-BB lookup recognizes three root shapes: single-class `@type.contains.const`; multi-class `@type.anyOf` of `contains.const` branches; multi-root `anyOf` of `$ref` to local `$defs`. Also derives a class name from the BB directory name (`ddicdi<ClassName>`) so abstract parents like `ValueDomain` whose subclasses share a BB resolve to that BB.
 
-**Source XMI:** the DDI-CDI canonical XMI lives outside this repo at the user's working location (e.g. `C:/Users/smrTu/Downloads/ddi-cdi_canonical-unique-names.xmi`). Pull a fresh copy from the DDI Alliance distribution when the model updates.
+**Source XMI:** DDI-CDI XMI exports live outside this repo at the user's working location. Two are in use:
+- `C:/Users/smrTu/OneDrive/Documents/GithubC/CDIF/cdif-umlmodel/ddi-cdi_ea15.2026.March.xml` — Enterprise Architect native XMI 1.1 export of the 2026-03 DDI-CDI model (current source of truth).
+- `C:/Users/smrTu/OneDrive/Documents/GithubC/CDIF/to-canonical-xmi/ddi-cdi_canonical-unique-names.xmi` — older canonical XMI 2.5.1 export.
+
+Pull a fresh copy when the model updates; `uml_to_schema.py` auto-detects which format it is.
 
 **Requirements:** Python 3.10+ with `pyyaml`.
 

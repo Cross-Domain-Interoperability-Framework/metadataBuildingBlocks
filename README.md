@@ -85,13 +85,13 @@ The `deploy-viewer` workflow runs this automatically after `augment_register.py`
 
 ### UML → Schema Generator (`uml_to_schema.py`)
 
-Generates a CDIF building-block `schema.yaml` (plus `bblock.json`/`context.jsonld`/`rules.shacl`/`examples.yaml` skeletons) from a canonical UML 2.5 / XMI 2.5.1 export of a DDI-CDI / UCMIS class model. Used to bootstrap and refresh the `_sources/ddiProperties/ddicdi*` BBs.
+Generates a CDIF building-block `schema.yaml` (plus `bblock.json`/`context.jsonld`/`rules.shacl`/`examples.yaml` skeletons) from a DDI-CDI / UCMIS class model. Used to bootstrap and refresh the `_sources/ddiProperties/ddicdi*` BBs. The XMI format is **auto-detected**: both the canonical XMI 2.5.1 (OMG namespaces, `uml:Model`) and the Enterprise Architect native XMI 1.1 export (`xmlns:UML="omg.org/UML1.3"`) are supported — both parsers emit the same internal model so the rest of the generator is format-agnostic.
 
 Generated schemas follow the project's conventions: Node-only root (no single/array/`@graph` wrapper); class-typed properties default to inline-or-ref with sibling-BB lookup before local inline; UCMIS overload of duplicate role names merged via flat `anyOf`; multiplicity → array-only when upper is `*`; UML generalization walked with subclass-shadows-parent.
 
 ```bash
 python tools/uml_to_schema.py \
-  --xmi C:/path/to/ddi-cdi_canonical-unique-names.xmi \
+  --xmi C:/path/to/ddi-cdi_ea15.2026.March.xml \
   --class EnumerationDomain \
   --bb-name ddicdiEnumerationDomain \
   --out-dir _sources/ddiProperties/
@@ -100,6 +100,11 @@ python tools/uml_to_schema.py \
 See `agents.md` for full CLI options and convention details.
 
 **Requirements:** Python 3.10+ with `pyyaml`
+
+### DDI-CDI Consistency Audits
+
+- **`audit_ddi_xmi_consistency.py`** — checks the `_sources/ddiProperties` BBs against a DDI-CDI EA XMI export: flags classes a BB references that are no longer in the model, attributes/associations added or dropped, and (with `--dump-class`) prints a class's full member set. `python tools/audit_ddi_xmi_consistency.py --xmi <xmi> [--bb NAME] [--dump-class A,B]`
+- **`audit_cdif_vs_ddi.py`** — checks that every `cdi:`-prefixed property in `_sources/cdifProperties` has a value-type shape consistent with the corresponding `_sources/ddiProperties` definition; classifies MATCH / SOFT / STRUCTURAL / CDIF-ONLY.
 
 ### Validate Examples (`validate_examples.py`)
 
@@ -180,7 +185,7 @@ For example, `cdifProvActivity` defines the schema for a single provenance Activ
 | Category | Directory | Description |
 |----------|-----------|-------------|
 | schemaorgProperties | `_sources/schemaorgProperties/` | schema.org vocabulary building blocks (person, organization, identifier, definedTerm, instrument, etc.) |
-| cdifProperties | `_sources/cdifProperties/` | CDIF-specific properties (core, provenance, tabular/long data, OpenAPI-aligned WebAPI, plus the DDI-CDI structural family: `cdifInstanceVariable`, `cdifKey`, `cdifEnumerationDomain`, `cdifValueDomain`, `cdifRepresentedVariable`, `cdifDataStructure`, `cdifDataStructureComponent`, `cdifDescriptorVariable`) |
+| cdifProperties | `_sources/cdifProperties/` | CDIF-specific properties (core, provenance, tabular/long data, OpenAPI-aligned WebAPI, plus the DDI-CDI structural family: `cdifInstanceVariable`, `cdifKey`, `cdifEnumerationDomain`, `cdifValueDomain`, `cdifRepresentedVariable`, `cdifDataStructure`, `cdifDataStructureComponent`, `cdifDescriptorVariable`, `cdifPhysicalMapping`, `cdifStatistics`) |
 | ddiProperties | `_sources/ddiProperties/` | DDI-CDI vocabulary building blocks |
 | provProperties | `_sources/provProperties/` | PROV-O provenance (generatedBy, derivedFrom, provActivity) |
 | skosProperties | `_sources/skosProperties/` | W3C SKOS vocabulary building blocks (ConceptScheme, Concept, Collection) |
@@ -191,7 +196,7 @@ For example, `cdifProvActivity` defines the schema for a single provenance Activ
 
 ### ddiProperties
 
-DDI-CDI vocabulary building blocks for communities using the DDI Cross-Domain Integration standard natively. Most are **generated from the DDI-CDI 1.0 canonical XMI** export of the Enterprise Architect UML model via `tools/uml_to_schema.py` (see `agents.md` for details).
+DDI-CDI vocabulary building blocks for communities using the DDI Cross-Domain Integration standard natively. Most are **generated from a DDI-CDI XMI export** of the Enterprise Architect UML model via `tools/uml_to_schema.py`, which auto-detects the canonical XMI 2.5.1 and the EA-native XMI 1.1 formats (see `agents.md` for details). The set was reconciled against the 2026-03 DDI-CDI model: `ddicdiDataStore` was retired in favour of `ddicdiLogicalRecordRepository`, `ddicdiPhysicalSegmentLayout` in favour of `ddicdiPhysicalMapping`, and `ddicdiStatistics` / `ddicdiKeyValueStructure` / `ddicdiCollections` were added. The table below is representative, not exhaustive.
 
 Each BB's `schema.yaml` validates a single Node (or, for multi-class BBs, an `anyOf` of Node `$defs`); profile schemas wrap nodes for `@graph` JSON-LD documents. Class-typed properties default to inline-or-ref (`anyOf [class def, id-reference]`), where the class def comes from another BB if one owns that class, otherwise inlined locally.
 
@@ -211,6 +216,11 @@ Each BB's `schema.yaml` validates a single Node (or, for multi-class BBs, an `an
 | `ddicdiControlledVocabularyEntry` | DDI-CDI ControlledVocabularyEntry — entry from an externally maintained controlled vocabulary. 5 properties: `cdi:entryReference`, `cdi:entryValue`, `cdi:name`, `cdi:valueForOther`, `cdi:vocabulary`. Same shape as the inlined `dt-ControlledVocabularyEntry` `$def` in `ddicdiDataTypes`. |
 | `ddicdiDataStructure` | DDI-CDI DataStructure — multi-root BB covering DataStructure plus the four leaf subclasses (`Dimensional`, `KeyValue`, `Long`, `Wide`). Inherits component properties from DataStructureComponent: `cdi:has → ForeignKey` (1..*), `cdi:identifier`, `cdi:isDefinedBy → RepresentedVariable` (refs `ddicdiRepresentedVariable`), `cdi:semantic`, `cdi:specialization`. |
 | `ddicdiRepresentedVariable` | DDI-CDI RepresentedVariable — variable definition with `cdi:takesSubstantiveValuesFrom` / `cdi:takesSentinelValuesFrom` (refs `ddicdiValueDomain`), conceptual domains, unit-of-measure, and intended data type. Pulled out as its own BB to break the DataStructure → RepresentedVariable → ValueDomain transitive cascade. |
+| `ddicdiLogicalRecordRepository` | DDI-CDI LogicalRecordRepository — successor to the retired `DataStore` class (renamed and relocated to the FormatDescription package in the 2026-03 model). `$defs` for LogicalRecordRepositoryStructure, LogicalRecordRelationship (successor to RecordRelation), and InstanceVariableMap. |
+| `ddicdiPhysicalMapping` | DDI-CDI PhysicalMapping — successor to the retired `ValueMapping` class; describes how an InstanceVariable's values are physically represented. Root validates `cdi:PhysicalMapping` / `cdi:TextMapping` / `cdi:LocatorMapping`; `$def` for PhysicalMappingPosition. |
+| `ddicdiStatistics` | DDI-CDI Statistics / CategoryStatistics / StatisticsCollection — summary and per-category statistics for an instance variable. |
+| `ddicdiKeyValueStructure` | DDI-CDI KeyValueStructure family (KeyValue package): KeyValueStructure, KeyValueDataStore, InstanceKey, MainKeyMember, ContextualComponent, SyntheticIdComponent. |
+| `ddicdiCollections` | DDI-CDI CollectionsPattern: the generic Collection / List / Map / Member / MemberRelationship / Position / Structure / Comparison machinery. |
 
 ### skosProperties
 
