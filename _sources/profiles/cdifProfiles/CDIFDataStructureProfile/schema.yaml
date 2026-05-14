@@ -30,6 +30,11 @@ allOf:
         properties:
           'cdif:role': false
           'cdi:qualifies': false
+          'cdi:hasIntendedDataType': false
+          'cdi:describedUnitOfMeasure': false
+          'cdif:simpleUnitOfMeasure': false
+          'cdi:takesSentinelValuesFrom': false
+          'cdi:takesSubstantiveValuesFrom': false
         description: >-
           In the Data Structure profile, variable role is encoded by the
           component class type (IdentifierComponent, MeasureComponent,
@@ -39,7 +44,13 @@ allOf:
           component level (AttributeComponent.cdi:qualifies pointing at
           the qualified component). Carrying cdif:role or cdi:qualifies
           on the InstanceVariable would be redundant and is therefore
-          disallowed at this profile level.
+          disallowed at this profile level. Likewise, the
+          RepresentedVariable-level properties (cdi:hasIntendedDataType,
+          cdi:describedUnitOfMeasure, cdif:simpleUnitOfMeasure,
+          cdi:takesSentinelValuesFrom, cdi:takesSubstantiveValuesFrom) are
+          disallowed here: when a distribution carries cdi:isStructuredBy,
+          those properties live on the RepresentedVariable and are referenced
+          from the InstanceVariable via cdif:uses rather than duplicated.
     'schema:distribution':
       items:
         properties:
