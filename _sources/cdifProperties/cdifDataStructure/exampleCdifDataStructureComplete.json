@@ -29,13 +29,23 @@
       "@id": "ex:struct/vitalsLong/comp/measureName",
       "cdif:isDefinedBy_DescriptorVariable": {
         "@type": ["cdi:DescriptorVariable"],
-        "@id": "ex:struct/vitalsLong/rv/measureName",
+        "@id": "ex:struct/vitalsLong/dv/measureName",
         "cdi:name": [
           { "@type": ["cdi:ObjectName"], "cdi:name": "measure_name" }
         ],
-        "cdi:hasIntendedDataType": {
-          "@type": ["cdi:ControlledVocabularyEntry"],
-          "cdi:entryValue": ["xsd:string"]
+        "cdif:hasValuesFrom": {
+          "@type": ["cdi:DescriptorValueDomain"],
+          "@id": "ex:struct/vitalsLong/vd/measureName",
+          "cdif:takesValuesFrom": [
+            {
+              "cdif:value": "heart_rate",
+              "cdif:isDefinedBy": { "@id": "ex:struct/vitalsLong/rv/heartRate" }
+            },
+            {
+              "cdif:value": "systolic_bp",
+              "cdif:isDefinedBy": { "@id": "ex:struct/vitalsLong/rv/systolicBP" }
+            }
+          ]
         }
       },
       "cdi:refersTo": { "@id": "ex:struct/vitalsLong/comp/measureValue" }
