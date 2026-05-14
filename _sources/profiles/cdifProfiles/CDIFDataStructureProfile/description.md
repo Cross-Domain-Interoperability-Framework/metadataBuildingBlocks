@@ -10,6 +10,7 @@ The **CDIF Data Structure profile** extends the [Data Description profile](../CD
 - **Descriptor variable.** [cdifDescriptorVariable](../../../cdifProperties/cdifDescriptorVariable/) defines the `cdi:DescriptorVariable` + `cdi:DescriptorValueDomain` pattern that maps descriptor-column codes to the RepresentedVariables they name (long-format datasets).
 - **Distribution is structured.** Every `schema:distribution` item must carry `cdi:isStructuredBy` pointing at a Data Structure node (Data Description allows it but does not require it).
 - **InstanceVariable role / qualifies redundancy forbidden.** `cdif:role` and `cdi:qualifies` on items in `schema:variableMeasured` are not allowed at this profile level — the component class type on `cdi:isStructuredBy` already encodes the role, and `AttributeComponent.cdi:qualifies` encodes the qualifies relation.
+- **Summary statistics.** `cdif:statistics` (inherited from Data Description via [cdifStatistics](../../../cdifProperties/cdifStatistics/)) carries one or more `cdi:Statistics` bundles or a `cdi:StatisticsCollection` describing computed summary values for the dataset's variables.
 
 ## Distribution typing rules
 

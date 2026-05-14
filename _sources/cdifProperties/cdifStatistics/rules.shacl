@@ -1,0 +1,64 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix cdi:    <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif:   <https://cdif.org/0.1/> .
+@prefix cdifd:  <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# ------------------------------------------------------------
+# cdi:Statistics — bundle of one or more Statistic value objects.
+# ------------------------------------------------------------
+
+cdifd:cdifStatisticsShape
+    a sh:NodeShape ;
+    sh:targetClass cdi:Statistics ;
+
+    sh:property [
+        sh:path cdi:statistic ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "A cdi:Statistics node must carry at least one cdi:statistic entry." ;
+    ] ;
+    .
+
+# ------------------------------------------------------------
+# cdi:StatisticsCollection — must group at least one Statistics.
+# ------------------------------------------------------------
+
+cdifd:cdifStatisticsCollectionShape
+    a sh:NodeShape ;
+    sh:targetClass cdi:StatisticsCollection ;
+
+    sh:property [
+        sh:path cdif:has_Statistics ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "A cdi:StatisticsCollection must reference at least one cdi:Statistics node via cdif:has_Statistics." ;
+    ] ;
+    .
+
+# ------------------------------------------------------------
+# cdi:CategoryStatistics — must name its category and carry at
+# least one Statistic value object.
+# ------------------------------------------------------------
+
+cdifd:cdifCategoryStatisticShape
+    a sh:NodeShape ;
+    sh:targetClass cdi:CategoryStatistics ;
+
+    sh:property [
+        sh:path cdi:for ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "A cdi:CategoryStatistics must carry a cdi:for reference to the Category it applies to." ;
+    ] ;
+
+    sh:property [
+        sh:path cdi:statistic ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "A cdi:CategoryStatistics must carry at least one cdi:statistic entry." ;
+    ] ;
+    .

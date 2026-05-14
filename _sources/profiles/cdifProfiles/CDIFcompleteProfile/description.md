@@ -10,6 +10,7 @@ Profile assembling building blocks for the full schema.org implementation of the
 - **Data description extensions** -- distribution items may include CDIF data description properties:
   - `cdifTabularData` -- for delimited or fixed-width tabular text files (CSV, TSV), with CSVW properties and physical column mappings
   - `cdifDataCube` -- for multi-dimensional structured datasets (NetCDF, HDF5), with locator-based physical mappings
+- **Statistics** (`cdifStatistics`, via the Data Description composition) -- `cdif:statistics` on the Dataset carries one or more `cdi:Statistics` bundles or a `cdi:StatisticsCollection` of computed summary values
 - **Archive distribution** (`cdifArchiveDistribution`) -- for archive files (ZIP, tar.gz) containing multiple component files described via `schema:hasPart`, each typed as `schema:MediaObject` with optional data description extensions
 - **WebAPI distribution** -- for API-based data access with `schema:potentialAction` describing query endpoints and result data descriptions
 

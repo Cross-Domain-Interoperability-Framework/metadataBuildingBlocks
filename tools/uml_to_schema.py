@@ -235,9 +235,8 @@ def _walk_packages(root: ET.Element, model: Model, current_path: list[str]):
             model.name_to_id.setdefault(cls.name, []).append(cls.id)
 
 
-def parse_xmi(path: Path) -> Model:
-    tree = ET.parse(path)
-    root = tree.getroot()
+def _parse_canonical_xmi(root: ET.Element) -> Model:
+    """Parse a canonical XMI 2.5.1 export (OMG namespaces, uml:Model)."""
     # XMI root is <xmi:XMI>; the model lives in <uml:Model> inside.
     uml_model = root.find("uml:Model", NS)
     if uml_model is None:
@@ -251,6 +250,245 @@ def parse_xmi(path: Path) -> Model:
     model = Model(elements={}, name_to_id={})
     _walk_packages(uml_model, model, [_text(uml_model, "name") or "Model"])
     return model
+
+
+# ---------------------------------------------------------------------------
+# Enterprise Architect XMI 1.1 parsing
+#
+# EA's native export (xmi.version="1.1", xmlns:UML="omg.org/UML1.3") differs
+# structurally from canonical XMI 2.5.1:
+#   - classes/datatypes/enums are all <UML:Class>, distinguished by the
+#     `ea_stype` tagged value and an `enumeration` stereotype;
+#   - attributes carry their type as a `type` tagged value plus a
+#     <UML:StructuralFeature.type><UML:Classifier xmi.idref="..."/> ;
+#   - generalizations are top-level <UML:Generalization subtype=.. supertype=..>;
+#   - associations are top-level <UML:Association> with two <UML:AssociationEnd>
+#     children — navigable ends are synthesised here into assoc-end Properties
+#     on the owning class, mirroring the canonical ownedAttribute form.
+# The output Model/UmlClass/Property structures are identical to the canonical
+# parser's, so everything downstream is format-agnostic.
+# ---------------------------------------------------------------------------
+
+def _ea_local(elem: ET.Element) -> str:
+    return elem.tag.split("}")[-1] if "}" in elem.tag else elem.tag
+
+
+def _ea_tagged_values(elem: ET.Element) -> dict:
+    out: dict[str, str] = {}
+    for child in elem:
+        if _ea_local(child) == "ModelElement.taggedValue":
+            for tv in child:
+                if _ea_local(tv) == "TaggedValue":
+                    out[tv.get("tag")] = tv.get("value")
+    return out
+
+
+def _ea_is_enumeration(elem: ET.Element, tv: dict) -> bool:
+    if tv.get("stereotype") == "enumeration":
+        return True
+    for child in elem:
+        if _ea_local(child) == "ModelElement.stereotype":
+            for st in child:
+                if _ea_local(st) == "Stereotype" and st.get("name") == "enumeration":
+                    return True
+    return False
+
+
+def _parse_ea_multiplicity(s: Optional[str], def_lower: int = 1,
+                           def_upper: int = 1) -> tuple[int, int]:
+    s = (s or "").strip()
+    if not s:
+        return def_lower, def_upper
+    if s == "*":
+        return 0, -1
+    if ".." in s:
+        lo, hi = (p.strip() for p in s.split("..", 1))
+        lower = int(lo) if lo.lstrip("-").isdigit() else 0
+        upper = -1 if hi == "*" else (int(hi) if hi.lstrip("-").isdigit() else 1)
+        return lower, upper
+    if s.lstrip("-").isdigit():
+        n = int(s)
+        return n, n
+    return def_lower, def_upper
+
+
+def _parse_ea_attribute(attr: ET.Element, name_to_id: dict) -> Property:
+    name = attr.get("name") or ""
+    atv = _ea_tagged_values(attr)
+    type_name = (atv.get("type") or "").strip()
+    # idref on the StructuralFeature.type child points at the type element
+    idref = None
+    for child in attr:
+        if _ea_local(child) == "StructuralFeature.type":
+            for c in child:
+                if _ea_local(c) == "Classifier":
+                    idref = c.get("xmi.idref")
+    primitive = None
+    type_id = None
+    if type_name in PRIMITIVE_FRAGMENTS:
+        primitive = PRIMITIVE_FRAGMENTS[type_name]
+    elif idref and idref in name_to_id.get("__ids__", set()):
+        type_id = idref
+    elif type_name and type_name in name_to_id:
+        type_id = name_to_id[type_name][0]
+    else:
+        primitive = "string"  # unknown / unresolved → string fallback
+    lower, upper = _parse_ea_multiplicity(atv.get("lowerBound"),
+                                          def_lower=1, def_upper=1)
+    # EA stores lower/upper separately; upperBound "*" → -1
+    if (atv.get("upperBound") or "").strip() == "*":
+        upper = -1
+    elif (atv.get("upperBound") or "").strip().lstrip("-").isdigit():
+        upper = int(atv["upperBound"])
+    if (atv.get("lowerBound") or "").strip().lstrip("-").isdigit():
+        lower = int(atv["lowerBound"])
+    return Property(
+        id=atv.get("ea_guid", name), name=name, type_id=type_id,
+        primitive=primitive, lower=lower, upper=upper,
+        doc=atv.get("description"), is_assoc_end=False, aggregation=None,
+    )
+
+
+def parse_ea_xmi(root: ET.Element) -> Model:
+    """Parse an Enterprise Architect native XMI 1.1 export into a Model."""
+    model = Model(elements={}, name_to_id={})
+    class_elems: dict[str, ET.Element] = {}
+
+    # ---- pass 1: class/datatype/enum shells (no members yet) --------------
+    for elem in root.iter():
+        if _ea_local(elem) != "Class":
+            continue
+        cid = elem.get("xmi.id")
+        name = elem.get("name")
+        if not cid or not name:
+            continue
+        tv = _ea_tagged_values(elem)
+        stype = tv.get("ea_stype", "")
+        if stype not in ("Class", "DataType"):
+            continue  # skip Note / Object / Text / etc.
+        is_enum = _ea_is_enumeration(elem, tv)
+        kind = "enumeration" if is_enum else ("datatype" if stype == "DataType" else "class")
+        cls = UmlClass(
+            id=cid, name=name, package=tv.get("package_name", ""),
+            doc=tv.get("documentation"),
+            is_abstract=elem.get("isAbstract", "false") == "true",
+            parents=[], properties=[], kind=kind, literals=[],
+        )
+        if cid in model.elements:
+            continue
+        model.elements[cid] = cls
+        model.name_to_id.setdefault(name, []).append(cid)
+        class_elems[cid] = elem
+
+    # index of all known element ids, for attribute type resolution
+    model.name_to_id["__ids__"] = set(model.elements.keys())  # type: ignore
+
+    # ---- pass 2: attributes (and enum literals) --------------------------
+    for cid, elem in class_elems.items():
+        cls = model.elements[cid]
+        for feat in elem:
+            if _ea_local(feat) != "Classifier.feature":
+                continue
+            for a in feat:
+                if _ea_local(a) != "Attribute":
+                    continue
+                if cls.kind == "enumeration":
+                    lit = a.get("name")
+                    if lit:
+                        cls.literals.append(lit)
+                else:
+                    cls.properties.append(_parse_ea_attribute(a, model.name_to_id))
+
+    # ---- pass 3: generalizations -----------------------------------------
+    for elem in root.iter():
+        if _ea_local(elem) != "Generalization":
+            continue
+        sub = elem.get("subtype")
+        sup = elem.get("supertype")
+        if sub in model.elements and sup:
+            model.elements[sub].parents.append(sup)
+
+    # ---- pass 4: associations → synthesised assoc-end Properties ---------
+    for elem in root.iter():
+        if _ea_local(elem) != "Association":
+            continue
+        tv = _ea_tagged_values(elem)
+        if tv.get("ea_type") not in (None, "Association", "Aggregation"):
+            continue  # skip trace / dependency / abstraction connectors
+        role = elem.get("name") or tv.get("mt") or ""
+        ends = []
+        for conn in elem:
+            if _ea_local(conn) != "Association.connection":
+                continue
+            for ae in conn:
+                if _ea_local(ae) != "AssociationEnd":
+                    continue
+                aetv = _ea_tagged_values(ae)
+                ends.append({
+                    "type": ae.get("type"),
+                    "mult": ae.get("multiplicity", ""),
+                    "navigable": ae.get("isNavigable") == "true",
+                    "aggregation": ae.get("aggregation", "none"),
+                    "end": aetv.get("ea_end", ""),
+                })
+        if len(ends) != 2:
+            continue
+        src = next((e for e in ends if e["end"] == "source"), ends[0])
+        tgt = next((e for e in ends if e["end"] == "target"), ends[1])
+
+        def _mk(owner_id, target_id, mult_str, fallback_mb, aggregation):
+            if owner_id not in model.elements or not target_id:
+                return
+            lower, upper = _parse_ea_multiplicity(mult_str or fallback_mb,
+                                                  def_lower=0, def_upper=-1)
+            agg = aggregation if aggregation not in ("none", "", None) else None
+            model.elements[owner_id].properties.append(Property(
+                id=f"{owner_id}_{role}_{target_id}", name=role,
+                type_id=target_id, primitive=None,
+                lower=lower, upper=upper, doc=None,
+                is_assoc_end=True, aggregation=agg,
+            ))
+
+        # navigable source→target : the SOURCE class gets the role property
+        if tgt["navigable"]:
+            _mk(src["type"], tgt["type"], tgt["mult"], tv.get("rb"),
+                tgt["aggregation"])
+        if src["navigable"]:
+            _mk(tgt["type"], src["type"], src["mult"], tv.get("lb"),
+                src["aggregation"])
+
+    # drop the internal id index before returning
+    model.name_to_id.pop("__ids__", None)  # type: ignore
+    return model
+
+
+def _detect_xmi_format(root: ET.Element) -> str:
+    """Return 'ea' for Enterprise Architect native XMI 1.1, else 'canonical'."""
+    ver = root.get("xmi.version", "")  # EA uses the un-namespaced attribute
+    if ver.startswith("1."):
+        return "ea"
+    # EA declares xmlns:UML="omg.org/UML1.3"; canonical uses the OMG UML NS.
+    for v in (root.tag, *(root.attrib.values())):
+        if "omg.org/UML1.3" in (v or ""):
+            return "ea"
+    return "canonical"
+
+
+def parse_xmi(path: Path) -> Model:
+    """Parse either a canonical XMI 2.5.1 or an EA native XMI 1.1 export.
+
+    The format is auto-detected from the XMI root; both parsers emit the same
+    Model / UmlClass / Property structures so the rest of the generator is
+    format-agnostic.
+    """
+    tree = ET.parse(path)
+    root = tree.getroot()
+    fmt = _detect_xmi_format(root)
+    if fmt == "ea":
+        print("Detected Enterprise Architect XMI 1.1 export", file=sys.stderr)
+        return parse_ea_xmi(root)
+    print("Detected canonical XMI 2.5.1 export", file=sys.stderr)
+    return _parse_canonical_xmi(root)
 
 
 # ---------------------------------------------------------------------------

@@ -1,0 +1,158 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix cdi:         <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# ------------------------------------------------------------
+# LogicalRecordRepository shape -- targets cdi:LogicalRecordRepository
+# nodes. A LogicalRecordRepository is a managed collection of
+# LogicalRecords (successor to the DDI-CDI 1.0 DataStore class).
+# Per CDIF DD Appendix 4, name and the has-LogicalRecord
+# association are Required.
+# ------------------------------------------------------------
+
+cdifd:ddicdiLogicalRecordRepositoryShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:LogicalRecordRepository ;
+
+	# -- RECOMMENDED (Warning) -- Required per CDIF DD Appendix 4
+
+	sh:property [
+		sh:path cdi:name ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI LogicalRecordRepository should have at least one cdi:name (ObjectName) (Required per CDIF DD Appendix 4)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:has_LogicalRecord ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI LogicalRecordRepository should reference at least one cdi:has_LogicalRecord (LogicalRecord or id-reference) (Required per CDIF DD Appendix 4)" ;
+	] ;
+
+	# -- INFORMATIONAL (Info)
+
+	sh:property [
+		sh:path cdi:identifier ;
+		sh:severity sh:Info ;
+		sh:message "cdi:identifier may carry an Identifier for the LogicalRecordRepository" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isDefinedBy ;
+		sh:severity sh:Info ;
+		sh:message "cdi:isDefinedBy may reference one or more Concepts characterising the LogicalRecordRepository" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:aboutMissing ;
+		sh:severity sh:Info ;
+		sh:message "cdi:aboutMissing may carry an InternationalString describing the treatment of missing data" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:allowsDuplicates ;
+		sh:datatype xsd:boolean ;
+		sh:severity sh:Info ;
+		sh:message "cdi:allowsDuplicates indicates whether the collection permits duplicate members" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:characterSet ;
+		sh:datatype xsd:string ;
+		sh:severity sh:Info ;
+		sh:message "cdi:characterSet may carry the default character set used in the LogicalRecordRepository" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:repositoryType ;
+		sh:severity sh:Info ;
+		sh:message "cdi:repositoryType may identify the type of repository (delimited file, fixed-width, RDB, etc.) via a ControlledVocabularyEntry" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:purpose ;
+		sh:severity sh:Info ;
+		sh:message "cdi:purpose may carry an InternationalString stating the intent or reason for the LogicalRecordRepository" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:recordCount ;
+		sh:datatype xsd:integer ;
+		sh:severity sh:Info ;
+		sh:message "cdi:recordCount may carry the number of records in the LogicalRecordRepository" ;
+	] ;
+	.
+
+# ------------------------------------------------------------
+# LogicalRecordRelationship shape -- successor to RecordRelation.
+# ------------------------------------------------------------
+
+cdifd:ddicdiLogicalRecordRelationshipShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:LogicalRecordRelationship ;
+
+	sh:property [
+		sh:path cdi:has_InstanceVariableMap ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A cdi:LogicalRecordRelationship should carry at least one cdi:has_InstanceVariableMap defining how the related records' instance variables correspond" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:hasSource ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A cdi:LogicalRecordRelationship should reference at least one cdi:hasSource LogicalRecord" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:hasTarget ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A cdi:LogicalRecordRelationship should reference at least one cdi:hasTarget LogicalRecord" ;
+	] ;
+	.
+
+# ------------------------------------------------------------
+# InstanceVariableMap shape -- correspondence, comparison, and
+# setValue are Required ([1..1] in the 2026-03 DDI-CDI model).
+# ------------------------------------------------------------
+
+cdifd:ddicdiInstanceVariableMapShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:InstanceVariableMap ;
+
+	sh:property [
+		sh:path cdi:correspondence ;
+		sh:minCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "A cdi:InstanceVariableMap must carry a cdi:correspondence (CorrespondenceDefinition)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:comparison ;
+		sh:minCount 1 ;
+		sh:severity sh:Violation ;
+		sh:message "A cdi:InstanceVariableMap must carry a cdi:comparison (ComparisonOperator)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:setValue ;
+		sh:minCount 1 ;
+		sh:datatype xsd:string ;
+		sh:severity sh:Violation ;
+		sh:message "A cdi:InstanceVariableMap must carry a cdi:setValue" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:hasSource ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A cdi:InstanceVariableMap should reference at least one cdi:hasSource instance variable" ;
+	] ;
+	.

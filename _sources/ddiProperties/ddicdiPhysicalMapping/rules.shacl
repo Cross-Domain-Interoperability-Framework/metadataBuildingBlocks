@@ -1,0 +1,85 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix cdi:         <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+# ------------------------------------------------------------
+# PhysicalMapping shapes -- describe how an InstanceVariable's
+# values are physically represented in a dataset. Three concrete
+# types: PhysicalMapping (base), TextMapping, LocatorMapping.
+# ------------------------------------------------------------
+
+cdifd:ddicdiPhysicalMappingShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:PhysicalMapping ;
+
+	sh:property [
+		sh:path cdi:formats ;
+		sh:severity sh:Warning ;
+		sh:message "A cdi:PhysicalMapping should carry cdi:formats referencing the InstanceVariable whose values it represents" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:physicalDataType ;
+		sh:severity sh:Info ;
+		sh:message "cdi:physicalDataType may identify the base datatype of the physical representation (ControlledVocabularyEntry)" ;
+	] ;
+	.
+
+cdifd:ddicdiTextMappingShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:TextMapping ;
+
+	sh:property [
+		sh:path cdi:formats ;
+		sh:severity sh:Warning ;
+		sh:message "A cdi:TextMapping should carry cdi:formats referencing the InstanceVariable whose values it represents" ;
+	] ;
+	.
+
+cdifd:ddicdiLocatorMappingShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:LocatorMapping ;
+
+	sh:property [
+		sh:path cdi:locator ;
+		sh:minCount 1 ;
+		sh:datatype xsd:string ;
+		sh:severity sh:Violation ;
+		sh:message "A cdi:LocatorMapping must carry a cdi:locator string addressing the value's position in the physical layout" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:formats ;
+		sh:severity sh:Warning ;
+		sh:message "A cdi:LocatorMapping should carry cdi:formats referencing the InstanceVariable whose values it represents" ;
+	] ;
+	.
+
+# ------------------------------------------------------------
+# PhysicalMappingPosition -- orders a PhysicalMapping within a
+# sequence of mappings.
+# ------------------------------------------------------------
+
+cdifd:ddicdiPhysicalMappingPositionShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:PhysicalMappingPosition ;
+
+	sh:property [
+		sh:path cdi:value ;
+		sh:minCount 1 ;
+		sh:datatype xsd:integer ;
+		sh:severity sh:Violation ;
+		sh:message "A cdi:PhysicalMappingPosition must carry an integer cdi:value giving its index in the ordered sequence" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:indexes ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A cdi:PhysicalMappingPosition should reference the PhysicalMapping it positions via cdi:indexes" ;
+	] ;
+	.

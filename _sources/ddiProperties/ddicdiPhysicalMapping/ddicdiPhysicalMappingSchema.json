@@ -1,0 +1,347 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "DDI-CDI Physical Mapping",
+    "description": "Describes how the value of an InstanceVariable is physically represented in a dataset - format, length, decimal handling, null sequences, and the W3C tabular-data-model parameters. Successor to the DDI-CDI 1.0 ValueMapping class; in the 2026-03 model it was renamed PhysicalMapping and the relationship to the variable reversed (PhysicalMapping formats InstanceVariable). PhysicalMapping has two subclasses: TextMapping (adds text-dialect detail) and LocatorMapping (adds a locator string for non-tabular physical layouts). The root validates any of the three.",
+    "type": "object",
+    "anyOf": [
+        {
+            "$ref": "#/$defs/PhysicalMapping"
+        },
+        {
+            "$ref": "#/$defs/TextMapping"
+        },
+        {
+            "$ref": "#/$defs/LocatorMapping"
+        }
+    ],
+    "$defs": {
+        "PhysicalMapping": {
+            "type": "object",
+            "description": "The base physical mapping - format and representation detail for an InstanceVariable's values in a dataset.",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "cdi:PhysicalMapping"
+                    },
+                    "minItems": 1
+                },
+                "@id": {
+                    "type": "string",
+                    "description": "Identifier for this PhysicalMapping node"
+                },
+                "cdi:identifier": {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Identifier",
+                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                },
+                "cdi:format": {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry",
+                    "description": "The format of the physical representation of the value (W3C tabular-metadata format; DDI 3.2 ManagedNumericRepresentation@format)."
+                },
+                "cdi:physicalDataType": {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry",
+                    "description": "The base datatype of the physical representation (e.g. an integer variable stored as a floating point number)."
+                },
+                "cdi:decimalPositions": {
+                    "type": "integer",
+                    "description": "The number of decimal positions, used when the decimal position is implied (no decimal separator present)."
+                },
+                "cdi:scale": {
+                    "type": "integer",
+                    "description": "The scale of the number - a multiplier used with the value to determine the measurement."
+                },
+                "cdi:numberPattern": {
+                    "type": "string",
+                    "description": "A pattern description of the format of a numeric value (W3C tabular-metadata pattern / UAX35 number format pattern)."
+                },
+                "cdi:defaultValue": {
+                    "type": "string",
+                    "description": "A default string indicating the value to substitute for an empty string."
+                },
+                "cdi:nullSequence": {
+                    "type": "string",
+                    "description": "A string indicating a null value."
+                },
+                "cdi:isRequired": {
+                    "type": "boolean",
+                    "description": "If True, a value is required for the referenced instance variable."
+                },
+                "cdi:length": {
+                    "type": "integer",
+                    "description": "The length in characters of the physical representation of the value."
+                },
+                "cdi:minimumLength": {
+                    "type": "integer",
+                    "description": "The smallest possible length of the physical representation of the value."
+                },
+                "cdi:maximumLength": {
+                    "type": "integer",
+                    "description": "The largest possible length of the physical representation of the value."
+                },
+                "cdi:position": {
+                    "type": "integer",
+                    "description": "The position of this mapping in an ordered sequence of mappings."
+                },
+                "cdi:formats": {
+                    "anyOf": [
+                        {
+                            "$ref": "../../cdifProperties/cdifInstanceVariable/cdifInstanceVariableSchema.json"
+                        },
+                        {
+                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
+                        }
+                    ],
+                    "description": "The InstanceVariable whose values this mapping physically represents."
+                }
+            },
+            "required": [
+                "@type"
+            ]
+        },
+        "TextMapping": {
+            "type": "object",
+            "description": "A PhysicalMapping for delimited or fixed-width text - adds the decimal/digit-group separators, a display label, and the field length.",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "cdi:TextMapping"
+                    },
+                    "minItems": 1
+                },
+                "@id": {
+                    "type": "string",
+                    "description": "Identifier for this TextMapping node"
+                },
+                "cdi:identifier": {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Identifier",
+                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                },
+                "cdi:format": {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry",
+                    "description": "The format of the physical representation of the value."
+                },
+                "cdi:physicalDataType": {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry",
+                    "description": "The base datatype of the physical representation."
+                },
+                "cdi:decimalPositions": {
+                    "type": "integer",
+                    "description": "The number of decimal positions, used when the decimal position is implied (no decimal separator present)."
+                },
+                "cdi:scale": {
+                    "type": "integer",
+                    "description": "The scale of the number."
+                },
+                "cdi:numberPattern": {
+                    "type": "string",
+                    "description": "A pattern description of the format of a numeric value."
+                },
+                "cdi:defaultValue": {
+                    "type": "string",
+                    "description": "A default string indicating the value to substitute for an empty string."
+                },
+                "cdi:nullSequence": {
+                    "type": "string",
+                    "description": "A string indicating a null value."
+                },
+                "cdi:isRequired": {
+                    "type": "boolean",
+                    "description": "If True, a value is required for the referenced instance variable."
+                },
+                "cdi:length": {
+                    "type": "integer",
+                    "description": "The length in characters of the physical representation of the value."
+                },
+                "cdi:minimumLength": {
+                    "type": "integer",
+                    "description": "The smallest possible length of the physical representation."
+                },
+                "cdi:maximumLength": {
+                    "type": "integer",
+                    "description": "The largest possible length of the physical representation."
+                },
+                "cdi:position": {
+                    "type": "integer",
+                    "description": "The position of this mapping in an ordered sequence of mappings."
+                },
+                "cdi:defaultDecimalSeparator": {
+                    "type": "string",
+                    "description": "The character separating the integer part from the fractional part of a decimal or real number. Default is \".\" (period)."
+                },
+                "cdi:defaultDigitGroupSeparator": {
+                    "type": "string",
+                    "description": "A character separating groups of digits (for readability). Default is null."
+                },
+                "cdi:mappingLabel": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay"
+                    },
+                    "minItems": 1,
+                    "description": "A human-readable display label for this mapping. Ordered; repeat for labels with different content."
+                },
+                "cdi:formats": {
+                    "anyOf": [
+                        {
+                            "$ref": "../../cdifProperties/cdifInstanceVariable/cdifInstanceVariableSchema.json"
+                        },
+                        {
+                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
+                        }
+                    ],
+                    "description": "The InstanceVariable whose values this mapping physically represents."
+                }
+            },
+            "required": [
+                "@type"
+            ]
+        },
+        "LocatorMapping": {
+            "type": "object",
+            "description": "A PhysicalMapping that carries a locator string addressing the value's position in a non-tabular physical layout (e.g. an XPath, JSON pointer, or array index expression).",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "cdi:LocatorMapping"
+                    },
+                    "minItems": 1
+                },
+                "@id": {
+                    "type": "string",
+                    "description": "Identifier for this LocatorMapping node"
+                },
+                "cdi:identifier": {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Identifier",
+                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                },
+                "cdi:locator": {
+                    "type": "string",
+                    "description": "A string that addresses the value's position in the physical layout (e.g. an XPath, JSON pointer, or array index expression)."
+                },
+                "cdi:format": {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry",
+                    "description": "The format of the physical representation of the value."
+                },
+                "cdi:physicalDataType": {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry",
+                    "description": "The base datatype of the physical representation."
+                },
+                "cdi:decimalPositions": {
+                    "type": "integer",
+                    "description": "The number of decimal positions, used when the decimal position is implied."
+                },
+                "cdi:scale": {
+                    "type": "integer",
+                    "description": "The scale of the number."
+                },
+                "cdi:numberPattern": {
+                    "type": "string",
+                    "description": "A pattern description of the format of a numeric value."
+                },
+                "cdi:defaultValue": {
+                    "type": "string",
+                    "description": "A default string indicating the value to substitute for an empty string."
+                },
+                "cdi:nullSequence": {
+                    "type": "string",
+                    "description": "A string indicating a null value."
+                },
+                "cdi:isRequired": {
+                    "type": "boolean",
+                    "description": "If True, a value is required for the referenced instance variable."
+                },
+                "cdi:length": {
+                    "type": "integer",
+                    "description": "The length in characters of the physical representation of the value."
+                },
+                "cdi:minimumLength": {
+                    "type": "integer",
+                    "description": "The smallest possible length of the physical representation."
+                },
+                "cdi:maximumLength": {
+                    "type": "integer",
+                    "description": "The largest possible length of the physical representation."
+                },
+                "cdi:position": {
+                    "type": "integer",
+                    "description": "The position of this mapping in an ordered sequence of mappings."
+                },
+                "cdi:formats": {
+                    "anyOf": [
+                        {
+                            "$ref": "../../cdifProperties/cdifInstanceVariable/cdifInstanceVariableSchema.json"
+                        },
+                        {
+                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
+                        }
+                    ],
+                    "description": "The InstanceVariable whose values this mapping physically represents."
+                }
+            },
+            "required": [
+                "@type",
+                "cdi:locator"
+            ]
+        },
+        "PhysicalMappingPosition": {
+            "type": "object",
+            "description": "Assigns a position to a PhysicalMapping within an ordered sequence of mappings.",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "cdi:PhysicalMappingPosition"
+                    },
+                    "minItems": 1
+                },
+                "@id": {
+                    "type": "string",
+                    "description": "Identifier for this PhysicalMappingPosition node"
+                },
+                "cdi:identifier": {
+                    "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/Identifier",
+                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                },
+                "cdi:value": {
+                    "type": "integer",
+                    "description": "Index value of the mapping in the ordered sequence."
+                },
+                "cdi:indexes": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/PhysicalMapping"
+                        },
+                        {
+                            "$ref": "#/$defs/TextMapping"
+                        },
+                        {
+                            "$ref": "#/$defs/LocatorMapping"
+                        },
+                        {
+                            "$ref": "../ddicdiDataTypes/schema.yaml#/$defs/id-reference"
+                        }
+                    ],
+                    "description": "The PhysicalMapping this position applies to."
+                }
+            },
+            "required": [
+                "@type",
+                "cdi:value"
+            ]
+        }
+    }
+}

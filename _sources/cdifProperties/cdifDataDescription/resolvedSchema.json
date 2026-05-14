@@ -70,6 +70,294 @@
       ],
       "description": "Primary key of the dataset: a cdif:Key whose cdif:isComposedOf is an ordered list of cdi:InstanceVariables (from schema:variableMeasured) that uniquely identify each data instance."
     },
+    "cdif:statistics": {
+      "type": "array",
+      "description": "Summary statistics describing the dataset's values. Each entry is a cdi:Statistics bundle (one or more Statistic value objects, optionally weighted by an InstanceVariable, optionally broken down by Category) or a cdi:StatisticsCollection (groups multiple Statistics nodes and records which InstanceVariables they index). Inline node or @id-reference to one declared elsewhere in the document. cdif: namespaced — DDI-CDI has no `statistics` association from a dataset; this is a CDIF attachment property.",
+      "items": {
+        "anyOf": [
+          {
+            "title": "CDIF Statistics",
+            "description": "CDIF profile of the DDI-CDI Statistics / CategoryStatistics / StatisticsCollection classes (2026-03 model). A Statistics node carries one or more Statistic value objects; CategoryStatistics carries per-category results; a StatisticsCollection groups Statistics nodes. The root validates any of the three. CDIF divergences from canonical DDI-CDI: properties valued by InternationalString / LabelForDisplay / ObjectName are simplified to plain strings and carried under the cdif: namespace (cdif:name, cdif:descriptiveText, cdif:definition, cdif:displayLabel); the polymorphic cdi:has association is split into target-specific cdif:has_* keys; cdif:appliesTo and cdif:indexedBy are CDIF additions (not present in the canonical model) that link statistics to the InstanceVariable(s) they describe.",
+            "type": "object",
+            "anyOf": [
+              {
+                "title": "Statistics",
+                "description": "A named bundle of one or more Statistic value objects for an instance variable, optionally weighted, optionally broken down by Category.",
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "Identifier for this Statistics node."
+                  },
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:Statistics"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:typeOfStatistic": {
+                    "$ref": "#/$defs/CdifStatistics_ControlledVocabularyEntry",
+                    "description": "Controlled-vocabulary entry naming the kind of statistic — e.g. mean, median, count, sum, stdDev."
+                  },
+                  "cdi:statistic": {
+                    "type": "array",
+                    "description": "Ordered list of Statistic value objects carried by this bundle. Order is significant — consumers MAY rely on array position.",
+                    "items": {
+                      "$ref": "#/$defs/Statistic"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:hasWeight": {
+                    "description": "The InstanceVariable whose values were used as weights when computing the Statistic entries (inline cdifInstanceVariable node or an @id-reference).",
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/CdifInstanceVariable"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@id"
+                        ]
+                      }
+                    ]
+                  },
+                  "cdif:appliesTo": {
+                    "type": "array",
+                    "description": "CDIF addition (not in canonical DDI-CDI): the InstanceVariable(s) this Statistics bundle summarizes — the per-bundle \"what these numbers describe\" link. When a Statistics node sits inside a StatisticsCollection that indexes more than one variable, cdif:appliesTo disambiguates which variable each bundle describes.",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/CdifInstanceVariable"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id"
+                          ]
+                        }
+                      ]
+                    },
+                    "minItems": 1
+                  },
+                  "cdif:has_CategoryStatistics": {
+                    "type": "array",
+                    "description": "CategoryStatistics entries breaking this Statistics bundle down by Category. cdif: namespaced and target-suffixed because the DDI-CDI cdi:has association is polymorphic.",
+                    "items": {
+                      "$ref": "#/$defs/CategoryStatistics"
+                    }
+                  }
+                },
+                "required": [
+                  "@type",
+                  "cdi:statistic"
+                ]
+              },
+              {
+                "$ref": "#/$defs/CategoryStatistics"
+              },
+              {
+                "title": "StatisticsCollection",
+                "description": "Groups one or more Statistics nodes for an instance variable. A typical use is a dataset-level collection holding row-count / mean / stddev Statistics for each measured variable.",
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "Identifier for this StatisticsCollection node."
+                  },
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:StatisticsCollection"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:hasWeight": {
+                    "description": "The InstanceVariable whose values were used as weights (inline cdifInstanceVariable node or an @id-reference).",
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/CdifInstanceVariable"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "@id": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@id"
+                        ]
+                      }
+                    ]
+                  },
+                  "cdif:has_Statistics": {
+                    "type": "array",
+                    "description": "Statistics nodes carried by this collection (inline or @id-ref). cdif: namespaced and target-suffixed because the DDI-CDI cdi:has association is polymorphic.",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "title": "Statistics",
+                          "description": "A named bundle of one or more Statistic value objects for an instance variable, optionally weighted, optionally broken down by Category.",
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string",
+                              "description": "Identifier for this Statistics node."
+                            },
+                            "@type": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "contains": {
+                                "const": "cdi:Statistics"
+                              },
+                              "minItems": 1
+                            },
+                            "cdi:typeOfStatistic": {
+                              "$ref": "#/$defs/CdifStatistics_ControlledVocabularyEntry",
+                              "description": "Controlled-vocabulary entry naming the kind of statistic — e.g. mean, median, count, sum, stdDev."
+                            },
+                            "cdi:statistic": {
+                              "type": "array",
+                              "description": "Ordered list of Statistic value objects carried by this bundle. Order is significant — consumers MAY rely on array position.",
+                              "items": {
+                                "$ref": "#/$defs/Statistic"
+                              },
+                              "minItems": 1
+                            },
+                            "cdi:hasWeight": {
+                              "description": "The InstanceVariable whose values were used as weights when computing the Statistic entries (inline cdifInstanceVariable node or an @id-reference).",
+                              "anyOf": [
+                                {
+                                  "$ref": "#/$defs/CdifInstanceVariable"
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "@id": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "@id"
+                                  ]
+                                }
+                              ]
+                            },
+                            "cdif:appliesTo": {
+                              "type": "array",
+                              "description": "CDIF addition (not in canonical DDI-CDI): the InstanceVariable(s) this Statistics bundle summarizes — the per-bundle \"what these numbers describe\" link. When a Statistics node sits inside a StatisticsCollection that indexes more than one variable, cdif:appliesTo disambiguates which variable each bundle describes.",
+                              "items": {
+                                "anyOf": [
+                                  {
+                                    "$ref": "#/$defs/CdifInstanceVariable"
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "@id": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "@id"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "minItems": 1
+                            },
+                            "cdif:has_CategoryStatistics": {
+                              "type": "array",
+                              "description": "CategoryStatistics entries breaking this Statistics bundle down by Category. cdif: namespaced and target-suffixed because the DDI-CDI cdi:has association is polymorphic.",
+                              "items": {
+                                "$ref": "#/$defs/CategoryStatistics"
+                              }
+                            }
+                          },
+                          "required": [
+                            "@type",
+                            "cdi:statistic"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id"
+                          ]
+                        }
+                      ]
+                    },
+                    "minItems": 1
+                  },
+                  "cdif:indexedBy": {
+                    "type": "array",
+                    "description": "CDIF addition (not in canonical DDI-CDI): the InstanceVariable(s) the contained Statistics index — the collection-level coordinate space.",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/CdifInstanceVariable"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id"
+                          ]
+                        }
+                      ]
+                    },
+                    "minItems": 1
+                  }
+                },
+                "required": [
+                  "@type",
+                  "cdif:has_Statistics"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "@id"
+            ]
+          }
+        ]
+      }
+    },
     "schema:subjectOf": {
       "properties": {
         "dcterms:conformsTo": {
@@ -364,7 +652,7 @@
                                   "$ref": "#/$defs/DdiCdifDataTypes_Identifier",
                                   "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                                 },
-                                "cdi:isDefinedBy": {
+                                "cdif:isDefinedBy_RepresentedVariable": {
                                   "anyOf": [
                                     {
                                       "$ref": "#/$defs/CdifRepresentedVariable"
@@ -408,7 +696,7 @@
                                   "type": "string",
                                   "description": "Identifier for this DimensionComponent node"
                                 },
-                                "cdi:isDefinedBy": {
+                                "cdif:isDefinedBy_RepresentedVariable": {
                                   "anyOf": [
                                     {
                                       "$ref": "#/$defs/CdifRepresentedVariable"
@@ -429,11 +717,7 @@
                         "minItems": 1
                       },
                       "cdi:has_PrimaryKey": {
-                        "anyOf": [
-                          {
-                            "$ref": "#/$defs/PrimaryKey"
-                          }
-                        ]
+                        "$ref": "#/$defs/PrimaryKey"
                       }
                     },
                     "required": [
@@ -504,11 +788,7 @@
                         "minItems": 3
                       },
                       "cdi:has_PrimaryKey": {
-                        "anyOf": [
-                          {
-                            "$ref": "#/$defs/PrimaryKey"
-                          }
-                        ]
+                        "$ref": "#/$defs/PrimaryKey"
                       }
                     },
                     "required": [
@@ -549,14 +829,7 @@
                         "minItems": 1
                       },
                       "cdi:has_PrimaryKey": {
-                        "anyOf": [
-                          {
-                            "$ref": "#/$defs/PrimaryKey"
-                          },
-                          {
-                            "$ref": "#/$defs/id-reference"
-                          }
-                        ]
+                        "$ref": "#/$defs/PrimaryKey"
                       }
                     },
                     "required": [
@@ -1449,7 +1722,7 @@
               "$ref": "#/$defs/DdiCdifDataTypes_Identifier",
               "description": "Identifier for objects requiring short- or long-lasting referencing and management."
             },
-            "cdi:isDefinedBy": {
+            "cdif:isDefinedBy_RepresentedVariable": {
               "anyOf": [
                 {
                   "$ref": "#/$defs/CdifRepresentedVariable"
@@ -1493,7 +1766,7 @@
               "type": "string",
               "description": "Identifier for this DimensionComponent node"
             },
-            "cdi:isDefinedBy": {
+            "cdif:isDefinedBy_RepresentedVariable": {
               "anyOf": [
                 {
                   "$ref": "#/$defs/CdifRepresentedVariable"
@@ -4099,7 +4372,7 @@
                           "minItems": 1,
                           "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
                         },
-                        "cdi:isDefinedBy": {
+                        "cdif:isDefinedBy_Concept": {
                           "type": "array",
                           "items": {
                             "anyOf": [
@@ -4113,7 +4386,7 @@
                           },
                           "minItems": 1
                         },
-                        "cdi:has": {
+                        "cdif:has_Concept": {
                           "type": "array",
                           "items": {
                             "anyOf": [
@@ -4320,7 +4593,7 @@
                           "minItems": 1,
                           "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
                         },
-                        "cdi:isDefinedBy": {
+                        "cdif:isDefinedBy_Concept": {
                           "type": "array",
                           "items": {
                             "anyOf": [
@@ -4334,7 +4607,7 @@
                           },
                           "minItems": 1
                         },
-                        "cdi:has": {
+                        "cdif:has_Concept": {
                           "type": "array",
                           "items": {
                             "anyOf": [
@@ -4424,7 +4697,7 @@
                   "minItems": 1,
                   "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
                 },
-                "cdi:uses": {
+                "cdif:uses_Concept": {
                   "type": "array",
                   "items": {
                     "anyOf": [
@@ -4480,7 +4753,7 @@
           "minItems": 1,
           "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
         },
-        "cdi:uses": {
+        "cdif:uses_Concept": {
           "type": "array",
           "items": {
             "anyOf": [
@@ -4540,6 +4813,121 @@
         "@id"
       ]
     },
+    "CategoryStatistics": {
+      "title": "CategoryStatistics",
+      "description": "Statistics for a specific Category of an instance variable within a data set.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this CategoryStatistics node."
+        },
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:CategoryStatistics"
+          },
+          "minItems": 1
+        },
+        "cdi:for": {
+          "description": "The Category this CategoryStatistics is for (inline Category node or an @id-reference).",
+          "anyOf": [
+            {
+              "title": "Category",
+              "description": "Minimal Category shape used as a CategoryStatistics target. CDIF simplifies the DDI-CDI InternationalString / LabelForDisplay / ObjectName valued properties to plain strings carried under the cdif: namespace. A full CDIF treatment of categories lives in cdifEnumerationDomain / SKOS Concept.",
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string"
+                },
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:Category"
+                  },
+                  "minItems": 1
+                },
+                "cdif:name": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Human-understandable name(s). CDIF-simplified from DDI-CDI Category.name (ObjectName) to plain strings."
+                },
+                "cdif:descriptiveText": {
+                  "type": "string",
+                  "description": "Short natural-language account of the category. CDIF-simplified from DDI-CDI Category.descriptiveText (InternationalString)."
+                },
+                "cdif:definition": {
+                  "type": "string",
+                  "description": "Natural-language definition of the category. CDIF-simplified from DDI-CDI Category.definition (InternationalString)."
+                },
+                "cdif:displayLabel": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Human-readable display label(s). CDIF-simplified from DDI-CDI Category.displayLabel (LabelForDisplay)."
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            }
+          ]
+        },
+        "cdi:typeOfStatistic": {
+          "$ref": "#/$defs/CdifStatistics_ControlledVocabularyEntry",
+          "description": "Controlled-vocabulary entry naming the kind of statistic."
+        },
+        "cdi:statistic": {
+          "type": "array",
+          "description": "Per-category Statistic value objects.",
+          "items": {
+            "$ref": "#/$defs/Statistic"
+          },
+          "minItems": 1
+        },
+        "cdi:hasWeight": {
+          "description": "The InstanceVariable whose values were used as weights (inline cdifInstanceVariable node or an @id-reference).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CdifInstanceVariable"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "@type",
+        "cdi:for",
+        "cdi:statistic"
+      ]
+    },
     "IdentifierComponent": {
       "type": "object",
       "description": "Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.",
@@ -4558,7 +4946,7 @@
           "type": "string",
           "description": "Identifier for this IdentifierComponent node"
         },
-        "cdi:isDefinedBy": {
+        "cdif:isDefinedBy_RepresentedVariable": {
           "anyOf": [
             {
               "$ref": "#/$defs/CdifRepresentedVariable"
@@ -4571,7 +4959,7 @@
       },
       "required": [
         "@type",
-        "cdi:isDefinedBy"
+        "cdif:isDefinedBy_RepresentedVariable"
       ]
     },
     "AttributeComponent": {
@@ -4618,7 +5006,7 @@
                     "$ref": "#/$defs/DdiCdifDataTypes_Identifier",
                     "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                   },
-                  "cdi:isDefinedBy": {
+                  "cdif:isDefinedBy_RepresentedVariable": {
                     "anyOf": [
                       {
                         "$ref": "#/$defs/CdifRepresentedVariable"
@@ -4652,7 +5040,7 @@
           "$ref": "#/$defs/DdiCdifDataTypes_Identifier",
           "description": "Identifier for objects requiring short- or long-lasting referencing and management."
         },
-        "cdi:isDefinedBy": {
+        "cdif:isDefinedBy_RepresentedVariable": {
           "anyOf": [
             {
               "$ref": "#/$defs/CdifRepresentedVariable"
@@ -4697,7 +5085,7 @@
           "$ref": "#/$defs/DdiCdifDataTypes_Identifier",
           "description": "Identifier for objects requiring short- or long-lasting referencing and management."
         },
-        "cdi:isDefinedBy": {
+        "cdif:isDefinedBy_RepresentedVariable": {
           "anyOf": [
             {
               "$ref": "#/$defs/CdifRepresentedVariable"
@@ -4738,7 +5126,7 @@
           "type": "string",
           "description": "Identifier for this VariableDescriptorComponent node"
         },
-        "cdi:isDefinedBy": {
+        "cdif:isDefinedBy_DescriptorVariable": {
           "anyOf": [
             {
               "title": "DDI-CDI Descriptor Variable",
@@ -5179,6 +5567,58 @@
       "required": [
         "cdi:name"
       ]
+    },
+    "CdifStatistics_ControlledVocabularyEntry": {
+      "title": "ControlledVocabularyEntry",
+      "description": "DDI-CDI ControlledVocabularyEntry — a vocabulary-bound term reference. Modelled here as a string literal, an @id-only reference, or a structured schema:DefinedTerm.",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "@id"
+          ]
+        },
+        {
+          "$ref": "#/$defs/DefinedTerm"
+        }
+      ]
+    },
+    "Statistic": {
+      "title": "Statistic",
+      "description": "DDI-CDI Statistic dataType — a single computed value (mean, count, median, etc.). A value object with no identity; appears inline inside a cdi:statistic array.",
+      "type": "object",
+      "properties": {
+        "cdi:computationBase": {
+          "type": "string",
+          "enum": [
+            "MissingOnly",
+            "Total",
+            "ValidOnly"
+          ],
+          "description": "The cases included in determining the statistic — Total (all cases, valid and missing), ValidOnly (valid values only), MissingOnly (invalid cases only)."
+        },
+        "cdi:content": {
+          "type": "number",
+          "description": "The value of the statistic expressed as a real number."
+        },
+        "cdi:isWeighted": {
+          "type": "boolean",
+          "default": false,
+          "description": "True if the statistic was computed using a weighting variable."
+        },
+        "cdi:typeOfNumericValue": {
+          "type": "string",
+          "description": "The type of numeric value carried in cdi:content — decimal, float, or double."
+        }
+      }
     },
     "PrimaryKey": {
       "type": "object",

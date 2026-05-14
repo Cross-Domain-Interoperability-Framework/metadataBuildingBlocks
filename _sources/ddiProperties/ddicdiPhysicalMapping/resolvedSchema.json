@@ -1,0 +1,1417 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DDI-CDI Physical Mapping",
+  "description": "Describes how the value of an InstanceVariable is physically represented in a dataset - format, length, decimal handling, null sequences, and the W3C tabular-data-model parameters. Successor to the DDI-CDI 1.0 ValueMapping class; in the 2026-03 model it was renamed PhysicalMapping and the relationship to the variable reversed (PhysicalMapping formats InstanceVariable). PhysicalMapping has two subclasses: TextMapping (adds text-dialect detail) and LocatorMapping (adds a locator string for non-tabular physical layouts). The root validates any of the three.",
+  "type": "object",
+  "anyOf": [
+    {
+      "type": "object",
+      "description": "The base physical mapping - format and representation detail for an InstanceVariable's values in a dataset.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:PhysicalMapping"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this PhysicalMapping node"
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:format": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "The format of the physical representation of the value (W3C tabular-metadata format; DDI 3.2 ManagedNumericRepresentation@format)."
+        },
+        "cdi:physicalDataType": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "The base datatype of the physical representation (e.g. an integer variable stored as a floating point number)."
+        },
+        "cdi:decimalPositions": {
+          "type": "integer",
+          "description": "The number of decimal positions, used when the decimal position is implied (no decimal separator present)."
+        },
+        "cdi:scale": {
+          "type": "integer",
+          "description": "The scale of the number - a multiplier used with the value to determine the measurement."
+        },
+        "cdi:numberPattern": {
+          "type": "string",
+          "description": "A pattern description of the format of a numeric value (W3C tabular-metadata pattern / UAX35 number format pattern)."
+        },
+        "cdi:defaultValue": {
+          "type": "string",
+          "description": "A default string indicating the value to substitute for an empty string."
+        },
+        "cdi:nullSequence": {
+          "type": "string",
+          "description": "A string indicating a null value."
+        },
+        "cdi:isRequired": {
+          "type": "boolean",
+          "description": "If True, a value is required for the referenced instance variable."
+        },
+        "cdi:length": {
+          "type": "integer",
+          "description": "The length in characters of the physical representation of the value."
+        },
+        "cdi:minimumLength": {
+          "type": "integer",
+          "description": "The smallest possible length of the physical representation of the value."
+        },
+        "cdi:maximumLength": {
+          "type": "integer",
+          "description": "The largest possible length of the physical representation of the value."
+        },
+        "cdi:position": {
+          "type": "integer",
+          "description": "The position of this mapping in an ordered sequence of mappings."
+        },
+        "cdi:formats": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CdifInstanceVariable"
+            },
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ],
+          "description": "The InstanceVariable whose values this mapping physically represents."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    {
+      "type": "object",
+      "description": "A PhysicalMapping for delimited or fixed-width text - adds the decimal/digit-group separators, a display label, and the field length.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:TextMapping"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this TextMapping node"
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:format": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "The format of the physical representation of the value."
+        },
+        "cdi:physicalDataType": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "The base datatype of the physical representation."
+        },
+        "cdi:decimalPositions": {
+          "type": "integer",
+          "description": "The number of decimal positions, used when the decimal position is implied (no decimal separator present)."
+        },
+        "cdi:scale": {
+          "type": "integer",
+          "description": "The scale of the number."
+        },
+        "cdi:numberPattern": {
+          "type": "string",
+          "description": "A pattern description of the format of a numeric value."
+        },
+        "cdi:defaultValue": {
+          "type": "string",
+          "description": "A default string indicating the value to substitute for an empty string."
+        },
+        "cdi:nullSequence": {
+          "type": "string",
+          "description": "A string indicating a null value."
+        },
+        "cdi:isRequired": {
+          "type": "boolean",
+          "description": "If True, a value is required for the referenced instance variable."
+        },
+        "cdi:length": {
+          "type": "integer",
+          "description": "The length in characters of the physical representation of the value."
+        },
+        "cdi:minimumLength": {
+          "type": "integer",
+          "description": "The smallest possible length of the physical representation."
+        },
+        "cdi:maximumLength": {
+          "type": "integer",
+          "description": "The largest possible length of the physical representation."
+        },
+        "cdi:position": {
+          "type": "integer",
+          "description": "The position of this mapping in an ordered sequence of mappings."
+        },
+        "cdi:defaultDecimalSeparator": {
+          "type": "string",
+          "description": "The character separating the integer part from the fractional part of a decimal or real number. Default is \".\" (period)."
+        },
+        "cdi:defaultDigitGroupSeparator": {
+          "type": "string",
+          "description": "A character separating groups of digits (for readability). Default is null."
+        },
+        "cdi:mappingLabel": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "DDI-CDI multilingual display label (dt-LabelForDisplay)",
+            "properties": {
+              "@type": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "contains": {
+                  "const": "cdi:LabelForDisplay"
+                },
+                "minItems": 1
+              },
+              "cdi:locationVariant": {
+                "$ref": "#/$defs/ControlledVocabularyEntry",
+                "description": "Geographic or locale variant"
+              },
+              "cdi:maxLength": {
+                "type": "integer",
+                "description": "Maximum display length"
+              },
+              "cdi:languageSpecificString": {
+                "type": "object",
+                "description": "The label text with language tag",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:LanguageString"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:content": {
+                    "type": "string",
+                    "description": "The text content"
+                  },
+                  "cdi:language": {
+                    "type": "string",
+                    "description": "ISO language code (e.g. en, fr, de)"
+                  }
+                },
+                "required": [
+                  "cdi:content"
+                ]
+              }
+            }
+          },
+          "minItems": 1,
+          "description": "A human-readable display label for this mapping. Ordered; repeat for labels with different content."
+        },
+        "cdi:formats": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CdifInstanceVariable"
+            },
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ],
+          "description": "The InstanceVariable whose values this mapping physically represents."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    {
+      "type": "object",
+      "description": "A PhysicalMapping that carries a locator string addressing the value's position in a non-tabular physical layout (e.g. an XPath, JSON pointer, or array index expression).",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:LocatorMapping"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this LocatorMapping node"
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/DdicdiDataTypes_Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:locator": {
+          "type": "string",
+          "description": "A string that addresses the value's position in the physical layout (e.g. an XPath, JSON pointer, or array index expression)."
+        },
+        "cdi:format": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "The format of the physical representation of the value."
+        },
+        "cdi:physicalDataType": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "The base datatype of the physical representation."
+        },
+        "cdi:decimalPositions": {
+          "type": "integer",
+          "description": "The number of decimal positions, used when the decimal position is implied."
+        },
+        "cdi:scale": {
+          "type": "integer",
+          "description": "The scale of the number."
+        },
+        "cdi:numberPattern": {
+          "type": "string",
+          "description": "A pattern description of the format of a numeric value."
+        },
+        "cdi:defaultValue": {
+          "type": "string",
+          "description": "A default string indicating the value to substitute for an empty string."
+        },
+        "cdi:nullSequence": {
+          "type": "string",
+          "description": "A string indicating a null value."
+        },
+        "cdi:isRequired": {
+          "type": "boolean",
+          "description": "If True, a value is required for the referenced instance variable."
+        },
+        "cdi:length": {
+          "type": "integer",
+          "description": "The length in characters of the physical representation of the value."
+        },
+        "cdi:minimumLength": {
+          "type": "integer",
+          "description": "The smallest possible length of the physical representation."
+        },
+        "cdi:maximumLength": {
+          "type": "integer",
+          "description": "The largest possible length of the physical representation."
+        },
+        "cdi:position": {
+          "type": "integer",
+          "description": "The position of this mapping in an ordered sequence of mappings."
+        },
+        "cdi:formats": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CdifInstanceVariable"
+            },
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ],
+          "description": "The InstanceVariable whose values this mapping physically represents."
+        }
+      },
+      "required": [
+        "@type",
+        "cdi:locator"
+      ]
+    }
+  ],
+  "$defs": {
+    "CdifInstanceVariable": {
+      "title": "CDIF Instance Variable",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "description": "Must include both schema:PropertyValue and cdi:InstanceVariable. Additional types may be included.",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:InstanceVariable"
+          }
+        },
+        "cdif:physicalDataType": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "reference to a skos concept for the data type"
+                  }
+                }
+              },
+              {
+                "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+              }
+            ]
+          },
+          "description": "identifier or name for the data type concept."
+        },
+        "cdif:role": {
+          "type": "string",
+          "enum": [
+            "UnitIdentifier",
+            "Measure",
+            "Attribute",
+            "Dimension",
+            "Descriptor",
+            "ReferenceVariable"
+          ],
+          "description": "Specifies the role this variable plays in a data structure. UnitIdentifier names the unit a row describes; Measure holds observed/derived values; Attribute qualifies an observation; Dimension addresses a cell in a multi-dimensional cube; Descriptor names the variable that a Reference column records values for (long format); ReferenceVariable holds those recorded values."
+        },
+        "cdif:simpleUnitOfMeasure": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "reference to a skos concept for the data type"
+                }
+              }
+            },
+            {
+              "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+            }
+          ]
+        },
+        "cdif:uses": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "reference to a skos concept for the property"
+                  }
+                }
+              },
+              {
+                "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+              }
+            ]
+          },
+          "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents."
+        },
+        "cdi:qualifies": {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string"
+            }
+          },
+          "description": "reference to an instance variable defined for this dataset"
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "description": "Schema.org PropertyValue-based variableMeasured. Defines properties for a measured variable in a dataset, typed as schema:PropertyValue.",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "schema:PropertyValue"
+              },
+              "minItems": 1
+            },
+            "@id": {
+              "type": "string"
+            },
+            "schema:name": {
+              "type": "string",
+              "description": "string label associated with the variable in the dataset serialization"
+            },
+            "schema:description": {
+              "type": "string",
+              "default": "missing"
+            },
+            "schema:alternateName": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "human intelligible name for variable that conveys semantics"
+              }
+            },
+            "schema:measurementTechnique": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "reference to a skos concept"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/$defs/DefinedTerm"
+                }
+              ],
+              "description": "Text description or URI specifying how values for the variable were obtained."
+            },
+            "schema:propertyID": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  {
+                    "$ref": "#/$defs/DefinedTerm"
+                  }
+                ]
+              },
+              "description": "identifier or name for the property concept"
+            },
+            "schema:unitText": {
+              "type": "string",
+              "description": "unit of measurement as text"
+            },
+            "schema:unitCode": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/$defs/DefinedTerm"
+                }
+              ],
+              "description": "URI or code identifying the unit of measure"
+            },
+            "schema:minValue": {
+              "type": "number",
+              "description": "minimum numeric value in the dataset"
+            },
+            "schema:maxValue": {
+              "type": "number",
+              "description": "maximum numeric value in the dataset"
+            },
+            "schema:url": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "link to a web page useful for interpreting the variable"
+                },
+                {
+                  "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "default": "schema:CreativeWork",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "schema:CreativeWork"
+                      },
+                      "minItems": 1
+                    },
+                    "schema:name": {
+                      "type": "string"
+                    },
+                    "schema:description": {
+                      "type": "string"
+                    },
+                    "schema:url": {
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  },
+                  "required": [
+                    "@type",
+                    "schema:url"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "@type",
+            "schema:name"
+          ]
+        }
+      ]
+    },
+    "DefinedTerm": {
+      "description": "schema.org Defined Term schema",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:DefinedTerm"
+          },
+          "minItems": 1
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "text label for the term that is useful to human user"
+        },
+        "schema:identifier": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "description": "Properties for a schema.org identifier",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "schema:PropertyValue"
+                  },
+                  "minItems": 1
+                },
+                "schema:propertyID": {
+                  "type": "string",
+                  "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+                },
+                "schema:value": {
+                  "type": "string",
+                  "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+                },
+                "schema:url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+                }
+              },
+              "allOf": [
+                {
+                  "required": [
+                    "@type"
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "schema:value"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "schema:url"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "schema:inDefinedTermSet": {
+          "type": "string",
+          "description": "Name for the controlled vocabulary responsible for this keyword."
+        },
+        "schema:termCode": {
+          "type": "string",
+          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:identifier"
+              ]
+            },
+            {
+              "required": [
+                "schema:termCode"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "CdifInstanceVariable_DefinedTerm": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/DefinedTerm"
+        },
+        {
+          "title": "SKOS Concept",
+          "description": "JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel), notations, hierarchical relations (broader/narrower), associative relations (related), cross-scheme mapping properties, scheme membership, and documentary notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).",
+          "type": "object",
+          "properties": {
+            "@context": {
+              "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "skos": {
+                      "const": "http://www.w3.org/2004/02/skos/core#"
+                    }
+                  },
+                  "required": [
+                    "skos"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "contains": {
+                    "type": "object",
+                    "properties": {
+                      "skos": {
+                        "const": "http://www.w3.org/2004/02/skos/core#"
+                      }
+                    },
+                    "required": [
+                      "skos"
+                    ]
+                  }
+                }
+              ]
+            },
+            "@id": {
+              "type": "string",
+              "description": "URI identifier for this concept."
+            },
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "skos:Concept"
+              },
+              "minItems": 1
+            },
+            "skos:prefLabel": {
+              "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/$defs/LanguageTaggedValue"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                }
+              ]
+            },
+            "skos:altLabel": {
+              "description": "Alternative lexical labels (acronyms, abbreviations, variants).",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/$defs/LanguageTaggedValue"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "skos:hiddenLabel": {
+              "description": "Labels accessible to free-text search but not displayed.",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/$defs/LanguageTaggedValue"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "skos:notation": {
+              "description": "Classification code for this concept within a scheme.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "skos:definition": {
+              "description": "Formal explanation of the meaning of this concept.",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/$defs/LanguageTaggedValue"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "skos:scopeNote": {
+              "description": "Note clarifying meaning and/or intended use.",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/$defs/LanguageTaggedValue"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "skos:note": {
+              "description": "General note about this concept.",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/$defs/LanguageTaggedValue"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "skos:historyNote": {
+              "description": "Note about past state or use.",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/$defs/LanguageTaggedValue"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "skos:changeNote": {
+              "description": "Note documenting a change.",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/$defs/LanguageTaggedValue"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "skos:editorialNote": {
+              "description": "Note for editors and maintainers.",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/$defs/LanguageTaggedValue"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "skos:example": {
+              "description": "Example of use of this concept.",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/$defs/LanguageTaggedValue"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/LanguageTaggedValue"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "skos:inScheme": {
+              "description": "Concept scheme(s) this concept belongs to.",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "@id"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "@id"
+                    ]
+                  }
+                }
+              ]
+            },
+            "skos:topConceptOf": {
+              "description": "Concept scheme(s) for which this is a top concept.",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "@id"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "@id"
+                    ]
+                  }
+                }
+              ]
+            },
+            "skos:broader": {
+              "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/ConceptRef"
+                  },
+                  {
+                    "$comment": "circular-ref"
+                  }
+                ]
+              }
+            },
+            "skos:narrower": {
+              "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/ConceptRef"
+                  },
+                  {
+                    "$comment": "circular-ref"
+                  }
+                ]
+              }
+            },
+            "skos:related": {
+              "description": "Associatively related concepts.",
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/ConceptRef"
+                  },
+                  {
+                    "$comment": "circular-ref"
+                  }
+                ]
+              }
+            },
+            "skos:exactMatch": {
+              "description": "Concepts in other schemes with equivalent meaning.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ConceptRef"
+              }
+            },
+            "skos:closeMatch": {
+              "description": "Concepts in other schemes with similar meaning.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ConceptRef"
+              }
+            },
+            "skos:broadMatch": {
+              "description": "Broader concepts in other schemes.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ConceptRef"
+              }
+            },
+            "skos:narrowMatch": {
+              "description": "Narrower concepts in other schemes.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ConceptRef"
+              }
+            },
+            "skos:relatedMatch": {
+              "description": "Related concepts in other schemes.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ConceptRef"
+              }
+            }
+          },
+          "required": [
+            "@type",
+            "skos:prefLabel"
+          ]
+        }
+      ]
+    },
+    "LanguageTaggedValue": {
+      "type": "object",
+      "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
+      "properties": {
+        "@value": {
+          "type": "string",
+          "description": "The text content."
+        },
+        "@language": {
+          "type": "string",
+          "description": "BCP 47 language tag (e.g. en, fr, de)."
+        }
+      },
+      "required": [
+        "@value",
+        "@language"
+      ]
+    },
+    "ConceptRef": {
+      "type": "object",
+      "description": "A reference to a SKOS Concept by URI.",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "URI of the referenced concept."
+        }
+      },
+      "required": [
+        "@id"
+      ]
+    },
+    "DdicdiDataTypes_Identifier": {
+      "type": "object",
+      "description": "DDI-CDI composite identifier (dt-Identifier)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Identifier"
+          },
+          "minItems": 1
+        },
+        "cdi:ddiIdentifier": {
+          "type": "object",
+          "description": "DDI-specific IRDI identifier",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:InternationalRegistrationDataIdentifier"
+              },
+              "minItems": 1
+            },
+            "cdi:dataIdentifier": {
+              "type": "string"
+            },
+            "cdi:registrationAuthorityIdentifier": {
+              "type": "string"
+            },
+            "cdi:versionIdentifier": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cdi:dataIdentifier",
+            "cdi:registrationAuthorityIdentifier",
+            "cdi:versionIdentifier"
+          ]
+        },
+        "cdi:uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI form of the identifier"
+        },
+        "cdi:nonDdiIdentifier": {
+          "description": "Non-DDI identifier",
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:NonDdiIdentifier"
+                  },
+                  "minItems": 1
+                },
+                "cdi:identifierContent": {
+                  "type": "string",
+                  "description": "The identifier value"
+                },
+                "cdi:managingAgency": {
+                  "type": "string",
+                  "description": "Agency managing this identifier scheme"
+                }
+              },
+              "required": [
+                "cdi:identifierContent"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "contains": {
+                      "const": "cdi:NonDdiIdentifier"
+                    },
+                    "minItems": 1
+                  },
+                  "cdi:identifierContent": {
+                    "type": "string",
+                    "description": "The identifier value"
+                  },
+                  "cdi:managingAgency": {
+                    "type": "string",
+                    "description": "Agency managing this identifier scheme"
+                  }
+                },
+                "required": [
+                  "cdi:identifierContent"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "ControlledVocabularyEntry": {
+      "type": "object",
+      "description": "DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry). Allows for unstructured content which may be an entry from an externally maintained controlled vocabulary. When the content is from a controlled vocabulary, provide the code value of the entry along with a reference to the vocabulary from which the value is taken.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ControlledVocabularyEntry"
+          },
+          "minItems": 1
+        },
+        "cdi:entryReference": {
+          "description": "A reference to the specific item in the vocabulary referenced by cdi:vocabulary, using a URI or other resolvable identifier.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Reference"
+          },
+          "minItems": 1
+        },
+        "cdi:entryValue": {
+          "description": "The value of the entry of the controlled vocabulary. If no controlled vocabulary is used the term is entered here and none of the properties defining the controlled vocabulary location are used.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "cdi:name": {
+          "type": "string",
+          "description": "The name of the code list (controlled vocabulary)."
+        },
+        "cdi:valueForOther": {
+          "type": "string",
+          "description": "If the value of the string is \"Other\" or the equivalent from the codelist, this attribute can provide a more specific value not found in the codelist."
+        },
+        "cdi:vocabulary": {
+          "$ref": "#/$defs/Reference",
+          "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier."
+        }
+      }
+    },
+    "id-reference": {
+      "type": "object",
+      "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "IRI or blank node identifier of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
+      ]
+    },
+    "Reference": {
+      "type": "object",
+      "description": "DDI-CDI reference to an entity (dt-Reference)",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Reference"
+          },
+          "minItems": 1
+        },
+        "cdi:uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the referenced entity"
+        },
+        "cdi:description": {
+          "type": "string",
+          "description": "Human-readable description of the reference"
+        },
+        "cdi:ddiReference": {
+          "type": "object",
+          "description": "DDI IRDI reference",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:InternationalRegistrationDataIdentifier"
+              },
+              "minItems": 1
+            },
+            "cdi:dataIdentifier": {
+              "type": "string"
+            },
+            "cdi:registrationAuthorityIdentifier": {
+              "type": "string"
+            },
+            "cdi:versionIdentifier": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cdi:dataIdentifier",
+            "cdi:registrationAuthorityIdentifier",
+            "cdi:versionIdentifier"
+          ]
+        },
+        "cdi:semantic": {
+          "$ref": "#/$defs/ControlledVocabularyEntry",
+          "description": "Semantic role of this reference"
+        }
+      }
+    }
+  }
+}

@@ -879,6 +879,89 @@
                     "description": "Free-text historic date"
                 }
             }
+        },
+        "CorrespondenceDefinition": {
+            "type": "object",
+            "description": "DDI-CDI CorrespondenceDefinition (dt-CorrespondenceDefinition). Describes the commonalities and differences between two members using textual descriptions plus an optional coding of the type of match.",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "cdi:CorrespondenceDefinition"
+                    },
+                    "minItems": 1
+                },
+                "cdi:commonality": {
+                    "$ref": "#/$defs/InternationalString",
+                    "description": "A description of the common features of the two items."
+                },
+                "cdi:commonalityCode": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/ControlledVocabularyEntry"
+                    },
+                    "description": "Commonality expressed as a term or code. Supports the use of an external controlled vocabulary. Ordered; repeat to cite multiple vocabularies."
+                },
+                "cdi:difference": {
+                    "$ref": "#/$defs/InternationalString",
+                    "description": "A description of the differences between the two items."
+                },
+                "cdi:matching": {
+                    "type": "string",
+                    "enum": [
+                        "CloseMatch",
+                        "Disjoint",
+                        "ExactMatch"
+                    ],
+                    "description": "The type of match between the two items (MatchingCriterion)."
+                }
+            }
+        },
+        "StructureSpecification": {
+            "type": "object",
+            "description": "DDI-CDI StructureSpecification (dt-StructureSpecification). The mathematical properties of a structure — whether the member relationship is reflexive, symmetric, and/or transitive over the members in scope.",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "cdi:StructureSpecification"
+                    },
+                    "minItems": 1
+                },
+                "cdi:reflexive": {
+                    "type": "string",
+                    "enum": [
+                        "All",
+                        "None",
+                        "Some"
+                    ],
+                    "description": "Whether members are related to themselves (MemberRelationshipScope)."
+                },
+                "cdi:symmetric": {
+                    "type": "string",
+                    "enum": [
+                        "All",
+                        "None",
+                        "Some"
+                    ],
+                    "description": "Whether the member relationship is symmetric (MemberRelationshipScope)."
+                },
+                "cdi:transitive": {
+                    "type": "string",
+                    "enum": [
+                        "All",
+                        "None",
+                        "Some"
+                    ],
+                    "description": "Whether the member relationship is transitive (MemberRelationshipScope)."
+                }
+            }
         }
     }
 }

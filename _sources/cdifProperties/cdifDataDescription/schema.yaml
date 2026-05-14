@@ -19,6 +19,25 @@ properties:
       Primary key of the dataset: a cdif:Key whose cdif:isComposedOf is an ordered
       list of cdi:InstanceVariables (from schema:variableMeasured) that uniquely
       identify each data instance.
+  'cdif:statistics':
+    type: array
+    description: >-
+      Summary statistics describing the dataset's values. Each entry is a
+      cdi:Statistics bundle (one or more Statistic value objects, optionally
+      weighted by an InstanceVariable, optionally broken down by Category)
+      or a cdi:StatisticsCollection (groups multiple Statistics nodes and
+      records which InstanceVariables they index). Inline node or @id-reference
+      to one declared elsewhere in the document. cdif: namespaced — DDI-CDI has
+      no `statistics` association from a dataset; this is a CDIF attachment
+      property.
+    items:
+      anyOf:
+      - '$ref': '../cdifStatistics/schema.yaml'
+      - type: object
+        properties:
+          '@id':
+            type: string
+        required: ['@id']
   'schema:subjectOf':
     properties:
       'dcterms:conformsTo':

@@ -9,6 +9,8 @@ Profile for the schema.org implementation of the [Cross Domain Interoperability 
 - **Data description extensions**:
   - `schema:variableMeasured` items at this level require `cdi:InstanceVariable` typing and `cdif:physicalDataType`
   - `schema:distribution` items may include `cdi:characterSet`, `cdif:fileSize`, `cdif:fileSizeUofM`
+  - `cdif:hasPrimaryKey` points at a `cdif:Key` node (via the `cdifKey` building block)
+  - `cdif:statistics` carries one or more `cdi:Statistics` bundles or a `cdi:StatisticsCollection` (via the `cdifStatistics` building block)
 
 ### Conformance
 
