@@ -42,6 +42,21 @@ allOf:
           disallowed at this profile level.
     'schema:distribution':
       items:
+        properties:
+          'cdi:isStructuredBy':
+            description: >-
+              Points at the Data Structure node that describes how this
+              distribution's bytes are organized. Inline cdifDataStructure or
+              @id-reference to a node defined elsewhere in the document. This
+              property is specific to the Data Structure profile - the Data
+              Description profile does not carry it.
+            anyOf:
+            - '$ref': '../../../cdifProperties/cdifDataStructure/schema.yaml'
+            - type: object
+              properties:
+                '@id':
+                  type: string
+              required: ['@id']
         required:
         - 'cdi:isStructuredBy'
         allOf:

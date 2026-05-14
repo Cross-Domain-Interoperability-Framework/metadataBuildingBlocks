@@ -86,18 +86,16 @@ properties:
       consider a SHACL rule if runtime enforcement is needed.
     items:
       properties:
-        'cdi:isStructuredBy':
+        'cdif:hasPhysicalMapping':
+          type: array
           description: >-
-            Points at the Data Structure node that describes how this distribution's
-            bytes are organized. Inline cdifDataStructure or @id-reference to a node
-            defined elsewhere in the document.
-          anyOf:
-          - '$ref': '../cdifDataStructure/schema.yaml'
-          - type: object
-            properties:
-              '@id':
-                type: string
-            required: ['@id']
+            Per-field physical mappings linking the variables measured by this
+            distribution to their physical representation in the file - column
+            index, format, physical data type, length, null sequence, etc. Applies
+            to schema:DataDownload items typed as cdi:PhysicalDataSet or one of its
+            subclasses. Each item is a cdifPhysicalMapping.
+          items:
+            '$ref': '../cdifPhysicalMapping/schema.yaml'
         'cdi:characterSet':
           type: string
           description: The character set used in the distribution (e.g., UTF-8, ASCII).
