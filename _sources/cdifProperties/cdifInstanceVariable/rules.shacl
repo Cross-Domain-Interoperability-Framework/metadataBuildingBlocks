@@ -16,17 +16,29 @@ cdifd:CDIFInstanceVariableShape
 	  a sh:SPARQLTarget ;
 	  sh:prefixes (
          [ sh:prefix "schema" ; sh:namespace "http://schema.org/" ]
+         [ sh:prefix "cdi" ; sh:namespace "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/" ]
          [ sh:prefix "ex" ; sh:namespace "https://example.org/" ]
        );
       sh:select  """
       PREFIX schema: <http://schema.org/>
+      PREFIX cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/>
       SELECT DISTINCT ?this
         WHERE {
           ?this a schema:PropertyValue .
+          # Exclude PropertyValue nodes used as identifiers / sameAs / propertyID
+          # values - these carry value/url/propertyID, not a measured-variable name.
+          FILTER NOT EXISTS { ?ip schema:identifier ?this . }
+          FILTER NOT EXISTS { ?ip schema:sameAs ?this . }
+          FILTER NOT EXISTS { ?ip schema:propertyID ?this . }
           FILTER (
-            NOT EXISTS { ?s ?p ?this . }
-            ||
+            # Target if the node is a value of schema:variableMeasured, OR is
+            # explicitly typed cdi:InstanceVariable (the DataDescription marker),
+            # OR is a top-level standalone PropertyValue with no incoming refs.
             EXISTS { ?s schema:variableMeasured ?this . }
+            ||
+            EXISTS { ?this a cdi:InstanceVariable . }
+            ||
+            NOT EXISTS { ?s ?p ?this . }
           )
         }""";
 	] ;
