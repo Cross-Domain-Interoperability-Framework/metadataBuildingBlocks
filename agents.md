@@ -241,19 +241,39 @@ Two further `cdif:` conventions established in the 2026-03-model reconciliation:
 
 CDIF carries two parallel ways to describe a dataset's variables:
 
-- **CDIFDataDescriptionProfile** — flat: each `schema:variableMeasured` item is a `cdi:InstanceVariable` with `cdif:role` (Identifier / Measure / Attribute / Dimension / Descriptor / ReferenceVariable) and, for Attribute, `cdi:qualifies` pointing at the qualified InstanceVariable. No component classes, no DataStructure node required.
-- **CDIFDataStructureProfile** — full DDI-CDI: `schema:variableMeasured` items still carry InstanceVariables (for physical-column identity), but `cdi:role` and `cdi:qualifies` are forbidden at this level (redundant — the component subclass on `cdi:isStructuredBy` encodes role, and `AttributeComponent.cdi:qualifies` encodes the qualifies relation). The structural commitments live on `cdi:isStructuredBy → cdi:DataStructure / cdi:DimensionalDataStructure / cdi:LongDataStructure / cdi:WideDataStructure`, which carries `cdi:has_DataStructureComponent` items (IdentifierComponent, MeasureComponent, AttributeComponent, DimensionComponent, VariableValueComponent, VariableDescriptorComponent), `cdi:has_PrimaryKey`, foreign keys, and dimension groups. RepresentedVariables and value domains hang off `cdi:isDefinedBy` on each component.
+- **CDIFDataDescriptionProfile** — flat: each `schema:variableMeasured` item is a `cdi:InstanceVariable` with `cdif:role` (UnitIdentifier / Measure / Attribute / Dimension / Descriptor / ReferenceVariable) and, for Attribute, `cdi:qualifies` pointing at the qualified InstanceVariable. Value-domain links (`cdi:takesSentinelValuesFrom` → `cdif:SentinelValueDomain`, `cdi:takesSubstantiveValuesFrom` → `cdif:SubstantiveValueDomain`) live **at the profile level** (added via `cdifDataDescription/schema.yaml`'s `allOf` on `schema:variableMeasured.items`), not on the base `cdifInstanceVariable` BB — this is the mechanism by which Discovery's plain `PropertyValue` and the Data-Description-level extended InstanceVariable diverge from the same base. Per-variable statistics: `cdif:isDescribedBy_StatisticsCollection`. Dataset-level: `cdif:hasPrimaryKey`, `cdif:statistics`. No component classes, no DataStructure node required.
+- **CDIFDataStructureProfile** — full DDI-CDI: `schema:variableMeasured` items still carry InstanceVariables (for physical-column identity), but `cdif:role` is forbidden at this level (redundant — the component subclass on `cdi:isStructuredBy` encodes role). The structural commitments live on `cdi:isStructuredBy → cdi:DataStructure / cdi:DimensionalDataStructure / cdi:LongDataStructure / cdi:WideDataStructure`, which carries `cdi:has_DataStructureComponent` items (IdentifierComponent, MeasureComponent, AttributeComponent, DimensionComponent, VariableValueComponent, VariableDescriptorComponent), `cdi:has_PrimaryKey`, foreign keys, and dimension groups. RepresentedVariables and value domains hang off `cdi:isDefinedBy` on each component.
+
+### RepresentedVariable / InstanceVariable disambiguation (Data Structure profile)
+
+In the Data Structure profile, the InstanceVariable in `schema:variableMeasured` is conceptually a pointer (via `cdif:uses`) into a richer RepresentedVariable that lives inside `cdi:isStructuredBy.cdi:has_DataStructureComponent.cdif:isDefinedBy_RepresentedVariable`. The RepresentedVariable carries the conceptual/represented-level properties; the InstanceVariable carries the physical-column identity.
+
+To prevent the same property being declared in both places at this profile level, the Data Structure profile applies a **conditional SHACL rule per property** in `CDIFDataStructureProfile/rules.shacl` (six shapes: `NoDuplicateHasIntendedDataTypeShape`, `NoDuplicateDescribedUnitOfMeasureShape`, `NoDuplicateSimpleUnitOfMeasureShape`, `NoDuplicateTakesSentinelValuesFromShape`, `NoDuplicateTakesSubstantiveValuesFromShape`, `NoDuplicateQualifiesShape`):
+
+> If the RepresentedVariable referenced by the InstanceVariable's `cdif:uses` already specifies property *P* (for `cdi:qualifies`: if the wrapping AttributeComponent specifies it), then *P* MUST NOT also be set on the InstanceVariable.
+
+Simplification: JSON Schema and SHACL can't easily express "the InstanceVariable's value domain is a subset of the RepresentedVariable's" — so any duplication is forbidden rather than verifying subsetness. The JSON schema does NOT blanket-disallow these properties on the InstanceVariable; only the SHACL rules fire (and only when there is actually a RepresentedVariable to consult).
 
 ### Conditional distribution typing rules (Data Structure profile)
 
-Two `if/then` constraints sit at the profile level on `schema:distribution.items` (inline in the profile's `schema.yaml`, not via BB composition, because the resolver's `deep_merge` would drop them otherwise):
+Profile-level `if/then` constraints on `schema:distribution.items` (inline in the profile's `schema.yaml`, not via BB composition, because the resolver's `deep_merge` would drop them otherwise):
 
 | `@type` includes... | `cdif:hasPhysicalMapping` | `cdi:isStructuredBy` |
 |---|---|---|
 | `cdi:TabularTextDataSet` or `cdi:StructuredDataSet` | **required** | any DataStructure variant |
-| `cdi:PhysicalDataSet` only (no subclass) | not required | abstract `cdi:DataStructure` only — `cdi:LongDataStructure` / `cdi:DimensionalDataStructure` / `cdi:WideDataStructure` are forbidden (an `@id`-only reference also passes) |
+| `cdi:PhysicalDataSet` (no subclass) | not required at this level | required on the distribution; abstract `cdi:DataStructure` only — Long/Dimensional/Wide forbidden (an `@id`-only reference also passes) |
+| `schema:WebAPI` | not required on the distribution itself | **not required on the distribution**; required on each `schema:potentialAction.schema:result` (see below) |
 
 The bare-`cdi:PhysicalDataSet` case is the "structure reuse" pattern: a dataset that points at a Data Structure node defining RepresentedVariables + components without committing to a specific physical file layout.
+
+### WebAPI `schema:potentialAction.schema:result` physical realization
+
+For `schema:WebAPI` distributions, the physical realization metadata lives on the action's result (the bytes the API serves), not on the distribution itself (which describes the service). At both Data Description and Data Structure profile levels, `schema:distribution.items.schema:potentialAction.items.schema:result` MAY additionally be typed `cdi:PhysicalDataSet` / `cdi:TabularTextDataSet` / `cdi:StructuredDataSet` and carry:
+
+- Data Description: `cdi:characterSet`, `cdif:fileSize`, `cdif:fileSizeUofM`, `cdif:hasPhysicalMapping` (whose `cdif:formats_InstanceVariable` references the **parent dataset's** `schema:variableMeasured` `@id`s — the API response is another physical realization of the same conceptual variables; do not redeclare InstanceVariables on the result).
+- Data Structure: `cdi:isStructuredBy`. MAY differ from sibling DataDownload distributions' `cdi:isStructuredBy` (e.g., the API may serve a long-format variant of a wide-format file download).
+
+The same SHACL rules that target `cdi:TabularTextDataSet` / `cdi:StructuredDataSet` / `cdif:hasPhysicalMapping` apply unchanged because their targets are class-based or path-agnostic.
 
 ## Building Block Conformance URIs
 
