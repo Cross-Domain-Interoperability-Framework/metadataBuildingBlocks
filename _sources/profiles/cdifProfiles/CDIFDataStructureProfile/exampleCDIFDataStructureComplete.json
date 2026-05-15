@@ -274,6 +274,100 @@
           ]
         }
       }
+    },
+    {
+      "@type": ["schema:WebAPI"],
+      "schema:name": "Vitals query API",
+      "schema:serviceType": {
+        "@type": ["schema:DefinedTerm"],
+        "schema:name": "OGC API - Features",
+        "schema:identifier": "https://www.ogc.org/standard/ogcapi-features/",
+        "schema:termCode": "ogcapi-features"
+      },
+      "schema:termsOfService": "Open access, no authentication required.",
+      "schema:documentation": {
+        "@type": ["schema:CreativeWork"],
+        "schema:name": "OpenAPI specification for vitals service",
+        "schema:url": "https://example.org/api/v1/openapi.json"
+      },
+      "schema:potentialAction": [
+        {
+          "@type": ["schema:Action"],
+          "schema:name": "Query vitals as long-format CSV",
+          "schema:target": {
+            "@type": ["schema:EntryPoint"],
+            "schema:description": "OGC API Features endpoint returning vitals observations as long-format CSV.",
+            "schema:urlTemplate": "https://example.org/api/v1/collections/vitals/items?f={format}&limit={limit}&offset={offset}",
+            "schema:httpMethod": ["GET"],
+            "schema:contentType": ["text/csv"]
+          },
+          "schema:result": {
+            "@type": [
+              "schema:DataDownload",
+              "cdi:TabularTextDataSet",
+              "cdi:PhysicalDataSet"
+            ],
+            "schema:name": "Vitals API response (long format)",
+            "schema:contentUrl": "https://example.org/api/v1/collections/vitals/items?f=csv",
+            "schema:encodingFormat": ["text/csv"],
+            "cdi:characterSet": "UTF-8",
+            "cdif:fileSize": 0.5,
+            "cdif:fileSizeUofM": "MB",
+            "cdi:isDelimited": true,
+            "csvw:delimiter": ",",
+            "csvw:header": true,
+            "csvw:headerRowCount": 1,
+            "cdif:hasPhysicalMapping": [
+              {
+                "cdif:index": 0,
+                "cdif:format": "string",
+                "cdif:physicalDataType": "string",
+                "cdif:formats_InstanceVariable": { "@id": "ex:var/patientId" }
+              },
+              {
+                "cdif:index": 1,
+                "cdif:format": "string",
+                "cdif:physicalDataType": "string",
+                "cdif:formats_InstanceVariable": { "@id": "ex:var/measureName" }
+              },
+              {
+                "cdif:index": 2,
+                "cdif:format": "decimal",
+                "cdif:physicalDataType": "decimal",
+                "cdif:formats_InstanceVariable": { "@id": "ex:var/measureValue" }
+              },
+              {
+                "cdif:index": 3,
+                "cdif:format": "ISO8601",
+                "cdif:physicalDataType": "dateTime",
+                "cdif:formats_InstanceVariable": { "@id": "ex:var/observedAt" }
+              }
+            ],
+            "cdi:isStructuredBy": { "@id": "ex:struct/vitalsLong" }
+          },
+          "schema:query-input": [
+            {
+              "@type": ["schema:PropertyValueSpecification"],
+              "schema:valueName": "format",
+              "schema:description": "Response format token (csv only for this example).",
+              "schema:valueRequired": false,
+              "schema:valuePattern": "csv"
+            },
+            {
+              "@type": ["schema:PropertyValueSpecification"],
+              "schema:valueName": "limit",
+              "schema:description": "Maximum number of observations to return (default 100).",
+              "schema:valueRequired": false
+            },
+            {
+              "@type": ["schema:PropertyValueSpecification"],
+              "schema:valueName": "offset",
+              "schema:description": "Starting index for pagination.",
+              "schema:valueRequired": false
+            }
+          ]
+        }
+      ]
     }
   ],
   "schema:subjectOf": {
