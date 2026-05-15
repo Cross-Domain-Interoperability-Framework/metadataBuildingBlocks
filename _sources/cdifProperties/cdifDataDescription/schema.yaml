@@ -74,8 +74,38 @@ properties:
               cdif:formats_InstanceVariable references in physical mappings.
         required:
         - '@id'
-# TBD need to add SubstantiveValueDomain and SentinelValue domain on isntance variable.      
       - $ref: ../cdifInstanceVariable/schema.yaml
+      - type: object
+        description: >-
+          At the Data Description profile level, InstanceVariables may also carry
+          substantive and sentinel value domains directly (in profiles that introduce
+          a RepresentedVariable - e.g., CDIFDataStructureProfile - these properties
+          live on the RepresentedVariable instead and are disallowed here).
+        properties:
+          'cdi:takesSentinelValuesFrom':
+            type: array
+            items:
+              anyOf:
+              - $ref: '../cdifValueDomain/schema.yaml#/$defs/SentinelValueDomain'
+              - type: object
+                properties:
+                  '@id':
+                    type: string
+                required: ['@id']
+            description: >-
+              Sentinel (missing / not-applicable) value domain(s) for this variable
+              (RepresentedVariable.takesSentinelValuesFrom).
+          'cdi:takesSubstantiveValuesFrom':
+            anyOf:
+            - $ref: '../cdifValueDomain/schema.yaml#/$defs/SubstantiveValueDomain'
+            - type: object
+              properties:
+                '@id':
+                  type: string
+              required: ['@id']
+            description: >-
+              The substantive value domain for this variable - the set of valid,
+              meaningful values (RepresentedVariable.takesSubstantiveValuesFrom).
   'schema:distribution':
     description: >-
       Each schema:DataDownload distribution item SHOULD additionally be typed as
@@ -105,5 +135,39 @@ properties:
         'cdif:fileSizeUofM':
           type: string
           description: Unit of measure for the file size (e.g., bytes, KB, MB, GB).
+        'schema:potentialAction':
+          description: >-
+            For schema:WebAPI distributions, the potentialAction.result describes
+            the physical realization of the API response bytes - analogous to a
+            DataDownload distribution. The result MAY be additionally typed as
+            cdi:PhysicalDataSet or one of its subclasses, and MAY carry the same
+            physical-realization properties (cdif:hasPhysicalMapping,
+            cdi:characterSet, cdif:fileSize, cdif:fileSizeUofM) as a DataDownload
+            distribution. cdi:PhysicalDataSet typing belongs on the result, NOT on
+            the WebAPI distribution itself - the WebAPI distribution describes the
+            service; the result describes the bytes the service produces.
+          items:
+            properties:
+              'schema:result':
+                properties:
+                  'cdif:hasPhysicalMapping':
+                    type: array
+                    description: >-
+                      Per-field physical mappings for the API response bytes.
+                      cdif:formats_InstanceVariable should reference the @ids of
+                      variables in the parent dataset's schema:variableMeasured
+                      (the API response is another physical realization of those
+                      same InstanceVariables).
+                    items:
+                      '$ref': '../cdifPhysicalMapping/schema.yaml'
+                  'cdi:characterSet':
+                    type: string
+                    description: The character set used in the API response (e.g., UTF-8).
+                  'cdif:fileSize':
+                    type: number
+                    description: The size of the API response payload.
+                  'cdif:fileSizeUofM':
+                    type: string
+                    description: Unit of measure for the response size (e.g., bytes, KB, MB).
 required:
 - 'schema:variableMeasured'

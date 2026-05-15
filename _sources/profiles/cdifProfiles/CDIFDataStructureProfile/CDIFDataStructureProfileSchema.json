@@ -34,22 +34,16 @@
                 "schema:variableMeasured": {
                     "items": {
                         "properties": {
-                            "cdif:role": false,
-                            "cdi:qualifies": false,
-                            "cdi:hasIntendedDataType": false,
-                            "cdi:describedUnitOfMeasure": false,
-                            "cdif:simpleUnitOfMeasure": false,
-                            "cdi:takesSentinelValuesFrom": false,
-                            "cdi:takesSubstantiveValuesFrom": false
+                            "cdif:role": false
                         },
-                        "description": "In the Data Structure profile, variable role is encoded by the component class type (IdentifierComponent, MeasureComponent, AttributeComponent, DimensionComponent, VariableValueComponent, VariableDescriptorComponent) on cdi:isStructuredBy, and the attribute-qualifies-measure relationship is encoded at the component level (AttributeComponent.cdi:qualifies pointing at the qualified component). Carrying cdif:role or cdi:qualifies on the InstanceVariable would be redundant and is therefore disallowed at this profile level. Likewise, the RepresentedVariable-level properties (cdi:hasIntendedDataType, cdi:describedUnitOfMeasure, cdif:simpleUnitOfMeasure, cdi:takesSentinelValuesFrom, cdi:takesSubstantiveValuesFrom) are disallowed here: when a distribution carries cdi:isStructuredBy, those properties live on the RepresentedVariable and are referenced from the InstanceVariable via cdif:uses rather than duplicated."
+                        "description": "In the Data Structure profile, variable role is encoded by the component class type (IdentifierComponent, MeasureComponent, AttributeComponent, DimensionComponent, VariableValueComponent, VariableDescriptorComponent) on cdi:isStructuredBy. Carrying cdif:role on the InstanceVariable would be redundant and is therefore disallowed at this profile level.\nThe RepresentedVariable-level properties (cdi:hasIntendedDataType, cdi:describedUnitOfMeasure, cdif:simpleUnitOfMeasure, cdi:takesSentinelValuesFrom, cdi:takesSubstantiveValuesFrom), and the attribute-qualifies-measure relationship (cdi:qualifies), are NOT allowed on the InstanceVariable if they are already specified on the RepresentedVariable referenced by the DataStructureComponent that this InstanceVariable cdif:uses (for cdi:qualifies: on the AttributeComponent that wraps that RepresentedVariable). This is enforced by SHACL rules in CDIFDataStructureProfile/rules.shacl, not at the JSON Schema level, because the constraint is conditional on what the RepresentedVariable carries."
                     }
                 },
                 "schema:distribution": {
                     "items": {
                         "properties": {
                             "cdi:isStructuredBy": {
-                                "description": "Points at the Data Structure node that describes how this distribution's bytes are organized. Inline cdifDataStructure or @id-reference to a node defined elsewhere in the document. This property is specific to the Data Structure profile - the Data Description profile does not carry it.",
+                                "description": "Points at the Data Structure node that describes how this distribution's bytes are organized. Inline cdifDataStructure or @id-reference to a node defined elsewhere in the document. This property is specific to the Data Structure profile - the Data Description profile does not carry it. Required on DataDownload distributions typed as cdi:PhysicalDataSet (or subclass); for schema:WebAPI distributions, it lives on schema:potentialAction.items .schema:result instead (which describes the API response bytes - see the cdifDataDescription extension).",
                                 "anyOf": [
                                     {
                                         "$ref": "../../../cdifProperties/cdifDataStructure/cdifDataStructureSchema.json"
@@ -66,12 +60,81 @@
                                         ]
                                     }
                                 ]
+                            },
+                            "schema:potentialAction": {
+                                "items": {
+                                    "properties": {
+                                        "schema:result": {
+                                            "properties": {
+                                                "cdi:isStructuredBy": {
+                                                    "description": "Data Structure for the API response bytes. MAY differ from isStructuredBy values on sibling DataDownload distributions (e.g., the API may serve a long-format variant of a tabular dataset). Required on the result when the distribution is a schema:WebAPI.",
+                                                    "anyOf": [
+                                                        {
+                                                            "$ref": "../../../cdifProperties/cdifDataStructure/cdifDataStructureSchema.json"
+                                                        },
+                                                        {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "@id": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "required": [
+                                                                "@id"
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         },
-                        "required": [
-                            "cdi:isStructuredBy"
-                        ],
                         "allOf": [
+                            {
+                                "if": {
+                                    "properties": {
+                                        "@type": {
+                                            "contains": {
+                                                "const": "cdi:PhysicalDataSet"
+                                            }
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "required": [
+                                        "cdi:isStructuredBy"
+                                    ]
+                                }
+                            },
+                            {
+                                "if": {
+                                    "properties": {
+                                        "@type": {
+                                            "contains": {
+                                                "const": "schema:WebAPI"
+                                            }
+                                        }
+                                    }
+                                },
+                                "then": {
+                                    "properties": {
+                                        "schema:potentialAction": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "schema:result": {
+                                                        "required": [
+                                                            "cdi:isStructuredBy"
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
                             {
                                 "if": {
                                     "properties": {
