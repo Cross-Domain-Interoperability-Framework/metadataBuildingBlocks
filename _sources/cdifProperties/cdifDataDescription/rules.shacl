@@ -10,10 +10,10 @@
 @base <https://www.ogc.org/rules/template/> .
 
 
-# At the data description level, the root Dataset must carry
-# schema:variableMeasured (the JSON Schema makes it required). Scoped
-# to the root dataset via SPARQL target, matching cdifCore's pattern,
-# so it does not flag nested/embedded dataset nodes.
+# At the data description level, every Dataset description must carry
+# schema:variableMeasured (the JSON Schema makes it required). The
+# SPARQL target matches cdifCore's pattern, excluding only catalog-record
+# nodes (schema:about + additionalType "dcat:CatalogRecord").
 cdifd:dataDescriptionDatasetShape
 	a sh:NodeShape ;
 	sh:target [
@@ -24,10 +24,8 @@ cdifd:dataDescriptionDatasetShape
 	            WHERE {
 	              ?this a schema:Dataset .
 	              MINUS {
-	                ?parent a schema:Dataset .
-	                ?parent ?p ?this .
-	                FILTER (?parent != ?this)
-	                FILTER (?p != schema:about)
+	                ?this schema:about ?x .
+	                ?this schema:additionalType "dcat:CatalogRecord" .
 	              }
 	            }
 	          """ ;
@@ -65,7 +63,8 @@ cdifd:CDIFDataDescriptionConformsToShape a sh:NodeShape ;
             SELECT ?this
             WHERE {
             ?this a schema:Dataset ;
-             schema:about ?parent.
+             schema:about ?parent ;
+             schema:additionalType "dcat:CatalogRecord" .
             }
         """;
     ] ;

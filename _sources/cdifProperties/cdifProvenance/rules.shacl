@@ -22,10 +22,8 @@ cdifd:CDIFProvenanceShape
             WHERE {
               ?this a schema:Dataset .
               MINUS {
-                ?parent a schema:Dataset .
-                ?parent ?p ?this .
-                FILTER (?parent != ?this)
-                FILTER (?p != schema:about)
+                ?this schema:about ?x .
+                ?this schema:additionalType "dcat:CatalogRecord" .
               }
             }
           """ ;
@@ -46,7 +44,8 @@ cdifd:CDIFProvenanceConformsToShape a sh:NodeShape ;
             SELECT ?this
             WHERE {
             ?this a schema:Dataset ;
-             schema:about ?parent.
+             schema:about ?parent ;
+             schema:additionalType "dcat:CatalogRecord" .
             }
         """;
     ] ;

@@ -10,7 +10,7 @@
 # rules are inherited from schemas cited in 'allOf'
 
 cdifd:CDIFDatasetMandatoryShape a sh:NodeShape ;
-# only apply to elements that are child of root dataset 
+# applies to every dataset description; catalog-record nodes (schema:about + additionalType "dcat:CatalogRecord") are excluded by the SPARQL target
 	sh:target [
 	  a sh:SPARQLTarget ;
 	  sh:prefixes (
@@ -24,10 +24,8 @@ cdifd:CDIFDatasetMandatoryShape a sh:NodeShape ;
             WHERE {
               ?this a schema:Dataset .
               MINUS {
-                ?parent a schema:Dataset .
-                ?parent ?p ?this .
-                FILTER (?parent != ?this)
-                FILTER (?p != schema:about)
+                ?this schema:about ?x .
+                ?this schema:additionalType "dcat:CatalogRecord" .
               }
             }
           """ ;
@@ -77,8 +75,8 @@ cdifd:nameProperty
     sh:path schema:name;
 	sh:minCount 1 ;
     sh:datatype xsd:string ;
-	sh:minLength 5 ;
-    sh:message "a name for the person must be provided, and have a lenght of at least 5 characters." 
+	sh:minLength 3 ;
+    sh:message "a name for the person must be provided, and have a length of at least 3 characters." 
     .
     
 cdifd:rightsProperty	
@@ -111,7 +109,7 @@ cdifd:dateModifiedProperty
 	sh:minCount 1 ;
 	sh:datatype xsd:string ;
 	# messy regex to screen for ISO8601 formats, from the web...
-	sh:pattern "^[1-2][0-9]{3}-([0][1-9]|[1][0-2])(-([0-2][0-9]|[3][0-1])(T([0-1][0-9]|[2][0-3]):[0-5][0-9](:[0-5][0-9](Z|[+-][0-2][0-9]:[0-5][0-9])?)?)?)?$" ;
+	sh:pattern "^[1-2][0-9]{3}-([0][1-9]|[1][0-2])(-([0-2][0-9]|[3][0-1])(T([0-1][0-9]|[2][0-3])(:[0-5][0-9])?(:[0-5][0-9](Z|[+-][0-2][0-9]:[0-5][0-9])?)?)?)?$" ;
     sh:message "Date of most recent update to resource content is required, using ISO8601 format with at least a year and a month." 
     .
     
@@ -129,7 +127,8 @@ cdifd:CDIFCatalogRecordShape
             SELECT ?this
             WHERE {
             ?this a schema:Dataset ;
-             schema:about ?parent.
+             schema:about ?parent ;
+             schema:additionalType "dcat:CatalogRecord" .
             }
         """;
 	] ;
@@ -154,5 +153,5 @@ cdifd:metadataSubjectProperty
     sh:path  schema:about  ;
     sh:nodeKind sh:IRI ;
     sh:minCount 1 ;
-    sh:message "link to the target of the metadata metadata node using the about property" 
+    sh:message "link to the target of the metadata node using the about property" 
     .
