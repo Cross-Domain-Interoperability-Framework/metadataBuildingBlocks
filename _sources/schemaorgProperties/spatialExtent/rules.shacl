@@ -32,8 +32,18 @@ cdifd:spatialExtentProperty
                 sh:minCount 1 ;
             ]
         ]
+        [
+            sh:property [
+                sh:path schema:identifier ;
+                sh:or (
+                    [ sh:nodeKind sh:IRIOrLiteral ]
+                    [ sh:class schema:PropertyValue ]
+                ) ;
+                sh:minCount 1 ;
+            ]
+        ]
     );
-    sh:message "Recommended: provide a spatial coverage description if applicable using schema:Place, either a place name,  point location(s) (GeoCoordinates), or GeoShape (bounding box, line profile location, or polygon)." ;
+    sh:message "Recommended: provide a spatial coverage description if applicable using schema:Place, identified by a place name, an identifier, point location(s) (GeoCoordinates), or GeoShape (bounding box, line profile location, or polygon)." ;
     .
     
 cdifd:geoCoordinatesNode
@@ -110,7 +120,7 @@ cdifd:termLabelProperty
         sh:path schema:name;
     	sh:minCount 1 ;
         sh:datatype xsd:string ;
-    	sh:minLength 5 ;
+    	sh:minLength 3 ;
     	# sh:severity sh:Warning ;
-        sh:message "a label (schema:name) for the term must be provided, and must have at least 5 characters" 
+        sh:message "a label (schema:name) for the term must be provided, and must have at least 3 characters" 
     .
