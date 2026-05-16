@@ -56,7 +56,7 @@ jobs:
       - name: Generate custom validation report
         run: python tools/generate_custom_report.py --input build/tests/report.json --output build/tests/report.html
 
-      - name: Generate config.js and index.html
+      - name: Generate config.js, landing page (index.html), and bblocks-viewer.html
         run: |
           PAGES_URL="${{ steps.pages-url.outputs.url }}"
           TITLE="${{ steps.config.outputs.title }}"
@@ -69,14 +69,18 @@ jobs:
             baseUrl: '${BASE_PATH}',
           };
           EOF
-          cat > index.html << EOF
+
+          # ---- bblocks-viewer.html (the JSON Schema BB browser; was previously index.html) ----
+          # Keeps the existing nav banner so visitors who land on this page can navigate to the
+          # landing page or to the UML profile model browser.
+          cat > bblocks-viewer.html << EOF
           <!DOCTYPE html>
           <html lang="en">
           <head>
             <meta charset="UTF-8" />
             <link rel="icon" href="https://smrgeoinfo.github.io/bblocks-viewer/favicon.ico" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <title>OGC Location Building Blocks</title>
+            <title>${TITLE} — JSON Schema BB Viewer</title>
             <script src="${PAGES_URL}config.js"></script>
             <script type="module" crossorigin src="https://smrgeoinfo.github.io/bblocks-viewer/assets/index.js"></script>
             <link rel="stylesheet" href="https://smrgeoinfo.github.io/bblocks-viewer/assets/index.css">
@@ -95,7 +99,10 @@ jobs:
           </head>
           <body>
             <nav class="cdif-nav-banner" aria-label="CDIF site navigation">
-              <span>CDIF metadata building blocks &amp; profile model</span>
+              <span>
+                <a href="${PAGES_URL}" title="Repo landing page">&larr; Landing</a>
+                <strong style="margin-left:14px;">JSON Schema Building Blocks Viewer</strong>
+              </span>
               <span>
                 <a href="${PAGES_URL}cdif-uml-model/index.html" title="Per-profile UML model browser with class definitions, attributes, associations, and embedded diagrams">UML profile model browser &rarr;</a>
               </span>
@@ -104,6 +111,134 @@ jobs:
           </body>
           </html>
           EOF
+
+          # ---- index.html (landing page at repo root URL) ----
+          cat > index.html << EOF
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>${TITLE}</title>
+            <link rel="icon" href="https://smrgeoinfo.github.io/bblocks-viewer/favicon.ico" />
+            <style>
+              * { box-sizing: border-box; }
+              body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+                     margin: 0; padding: 0; color: #222; background: #fafafa; line-height: 1.5; }
+              header { background: #2c3e50; color: white; padding: 1.5rem 2rem; }
+              header h1 { margin: 0; font-size: 1.8rem; font-weight: 500; }
+              header p.subtitle { margin: 0.4rem 0 0; opacity: 0.85; font-size: 1rem; }
+              main { max-width: 1000px; margin: 2rem auto; padding: 0 2rem 3rem; }
+              h2 { color: #2c3e50; border-bottom: 1px solid #ddd; padding-bottom: 0.3rem; margin-top: 2.5rem; }
+              .views { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem; }
+              .view-card { display: block; background: white; border: 1px solid #ddd; border-radius: 6px;
+                           padding: 1.5rem; text-decoration: none; color: inherit;
+                           transition: box-shadow 0.15s, border-color 0.15s; }
+              .view-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-color: #2c3e50; }
+              .view-card h3 { margin: 0 0 0.5rem 0; color: #2c3e50; font-size: 1.2rem; }
+              .view-card p { margin: 0; color: #555; }
+              .resources li { margin-bottom: 0.4rem; }
+              code { background: #f0f0f0; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+              a { color: #06c; }
+              a:hover { text-decoration: underline; }
+              footer { margin-top: 3rem; color: #666; font-size: 0.85rem;
+                       border-top: 1px solid #eee; padding-top: 1rem; }
+              @media (max-width: 700px) { .views { grid-template-columns: 1fr; } }
+            </style>
+          </head>
+          <body>
+          <header>
+            <h1>CDIF Metadata Building Blocks</h1>
+            <p class="subtitle">Modular JSON Schema components and UML profile models for the
+              <a style="color:#cfe2f3;" href="https://cdif.org">Cross-Domain Interoperability Framework</a></p>
+          </header>
+          <main>
+
+          <p>This repository hosts the <strong>shared core building blocks</strong> for CDIF: modular
+          JSON Schema components for schema.org properties, CDIF-specific extensions, PROV-O provenance,
+          W3C SKOS controlled vocabularies, and the DDI-CDI structural family. Building blocks compose
+          into profiles that define complete metadata schemas for specific use cases (Discovery, Data
+          Description, Data Structure, Codelist, Complete, XAS). The pattern follows the
+          <a href="https://opengeospatial.github.io/bblocks/">OGC Building Blocks</a> conventions.</p>
+
+          <h2>Two views</h2>
+          <div class="views">
+            <a class="view-card" href="${PAGES_URL}bblocks-viewer.html">
+              <h3>JSON Schema Building Blocks Viewer &rarr;</h3>
+              <p>Browse the <strong>JSON Schema</strong> implementation of every building block and
+              profile. Filter by category; drill into resolved schemas, JSON-LD contexts, SHACL rules,
+              and example instances. Backed by the OGC bblocks postprocessor.</p>
+            </a>
+            <a class="view-card" href="${PAGES_URL}cdif-uml-model/index.html">
+              <h3>UML Profile Model Browser &rarr;</h3>
+              <p>Browse the <strong>UML class model</strong> per CDIF profile: class definitions,
+              attribute and association tables, inheritance, embedded PlantUML diagrams, and
+              cross-profile links. Derived from the DDI-CDI canonical UML via the
+              <a href="https://github.com/Cross-Domain-Interoperability-Framework/cdif-ucmism2m">cdif-ucmism2m</a>
+              configurations.</p>
+            </a>
+          </div>
+
+          <h2>What's in the repo</h2>
+
+          <p><strong>Building block categories</strong> under <code>_sources/</code>:</p>
+          <ul>
+            <li><code>schemaorgProperties/</code> &mdash; schema.org vocabulary (person, organization, identifier, definedTerm, instrument, ...)</li>
+            <li><code>cdifProperties/</code> &mdash; CDIF-specific properties (core, provenance, instance variables, data structures, OpenAPI WebAPI, cdif:Reference, ...)</li>
+            <li><code>skosProperties/</code> &mdash; W3C SKOS controlled vocabulary (Concept, ConceptScheme, Collection)</li>
+            <li><code>provProperties/</code> &mdash; PROV-O provenance (generatedBy, derivedFrom, provActivity)</li>
+            <li><code>ddiProperties/</code> &mdash; DDI-CDI vocabulary building blocks</li>
+            <li><code>ddiCDIFProperties/</code> &mdash; DDI-CDI CDIF-flavored extensions</li>
+            <li><code>qualityProperties/</code> &mdash; DQV data quality measures</li>
+            <li><code>xasProperties/</code> &mdash; X-ray Absorption Spectroscopy domain</li>
+            <li><code>profiles/cdifProfiles/</code> &mdash; assembled CDIF profiles</li>
+          </ul>
+
+          <p><strong>Tooling</strong> under <code>tools/</code>: <code>uml_to_schema.py</code>
+          (UML &rarr; JSON Schema BB generator; also emits the UML profile model browser),
+          <code>resolve_schema.py</code> (modular YAML &rarr; resolvedSchema.json),
+          <code>convert_for_jsonforms.py</code> (resolved &rarr; JSON Forms),
+          <code>generate_custom_report.py</code> (SHACL severity report).</p>
+
+          <h2>Machine-readable resources</h2>
+          <ul class="resources">
+            <li><a href="${PAGES_URL}build/register.json">register.json</a> &mdash; master registry of all building blocks and profiles</li>
+            <li><a href="${PAGES_URL}build/bblocks.jsonld">bblocks.jsonld</a> &mdash; register in JSON-LD</li>
+            <li><a href="${PAGES_URL}build/bblocks.ttl">bblocks.ttl</a> &mdash; register in RDF/Turtle</li>
+            <li><a href="${PAGES_URL}build/generateddocs/markdown/">build/generateddocs/markdown/</a> &mdash; per-BB markdown documentation</li>
+            <li><a href="${PAGES_URL}build/tests/report.html">build/tests/report.html</a> &mdash; validation report (JSON Schema + SHACL)</li>
+            <li><a href="${PAGES_URL}cdif-uml-model/_registry.json">cdif-uml-model/_registry.json</a> &mdash; cross-profile class name &rarr; profile registry (used by the UML browser)</li>
+          </ul>
+
+          <h2>Persistent URIs</h2>
+          <p>Every building block has a stable identifier under
+          <code>https://w3id.org/cdif/bbr/metadata/{category}/{name}</code> with content negotiation
+          (HTML landing page, JSON Schema, SHACL Turtle, JSON-LD context). See the
+          <a href="https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks#building-block-identifiers-and-web-resolution">README</a>
+          for the full URI scheme and Accept-header table.</p>
+
+          <h2>Related repositories</h2>
+          <ul>
+            <li><a href="https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks">metadataBuildingBlocks</a> &mdash; source repo (you are here)</li>
+            <li><a href="https://github.com/Cross-Domain-Interoperability-Framework/cdif-ucmism2m">cdif-ucmism2m</a> &mdash; JSON-config-driven UML transformations that produce the per-profile UML used by the model browser</li>
+            <li><a href="https://github.com/usgin/ddeBuildingBlocks">ddeBuildingBlocks</a> &mdash; DDE (Deep-time Digital Earth) geoscience properties (7 BBs + 11 profiles)</li>
+            <li><a href="https://github.com/usgin/geochemBuildingBlocks">geochemBuildingBlocks</a> &mdash; IEDA ADA geochemistry (30 BBs + 36 profiles)</li>
+            <li><a href="https://github.com/usgin/ecrrBuildingBlocks">ecrrBuildingBlocks</a> &mdash; EarthCube Resource Registry (10 BBs + 11 profiles)</li>
+          </ul>
+
+          <footer>
+            Built with NSF support (awards 2012893, 2012748, 2012593).
+            Implementation notes in
+            <a href="https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks#readme">README</a>
+            and <a href="https://github.com/Cross-Domain-Interoperability-Framework/cdif-ucmism2m/blob/main/workflowDescription.md">workflowDescription.md</a>.
+          </footer>
+
+          </main>
+          </body>
+          </html>
+          EOF
+
+          # Use the landing page as the 404 target so any unknown URL drops the visitor on the hub.
           cp index.html 404.html
 
       - name: Setup Pages
