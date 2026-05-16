@@ -1,0 +1,25 @@
+@startuml
+title ContactInformation
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "ContactInformation" as ContactInformation <<dataType>> #FAE5D3 {
+  +address : Address [1..*]
+  +email : Email [1..*]
+  +emessaging : ElectronicMessageSystem [1..*]
+  +telephone : Telephone [1..*]
+  +website : WebLink [1..*]
+}
+class "Person" as Person #EEEEEE
+Person ..> ContactInformation : contactInformation
+class "Organization" as Organization #EEEEEE
+Organization ..> ContactInformation : contactInformation
+
+@enduml

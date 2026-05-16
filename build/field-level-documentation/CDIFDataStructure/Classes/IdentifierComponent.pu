@@ -1,0 +1,35 @@
+@startuml
+title IdentifierComponent
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "IdentifierComponent" as IdentifierComponent #FEFECE {
+  +identifier : Identifier [1]
+  +semantic : PairedControlledVocabularyEntry [1..*]
+  +specialization : SpecializationRole [1]
+}
+class "WideDataStructure" as WideDataStructure #EEEEEE
+WideDataStructure "1..*" <-- IdentifierComponent : has
+class "LongDataStructure" as LongDataStructure #EEEEEE
+LongDataStructure "1..*" <-- IdentifierComponent : has
+class "DimensionalDataStructure" as DimensionalDataStructure #EEEEEE
+DimensionalDataStructure "0..*" <-- IdentifierComponent : has
+class "RepresentedVariable" as RepresentedVariable #EEEEEE
+IdentifierComponent --> "1" RepresentedVariable : isDefinedBy
+class "PrimaryKeyComponent" as PrimaryKeyComponent #EEEEEE
+PrimaryKeyComponent "1" <-- IdentifierComponent : correspondsTo
+class "Identifier" as Identifier <<dataType>> #FAE5D3
+IdentifierComponent ..> Identifier : identifier
+class "PairedControlledVocabularyEntry" as PairedControlledVocabularyEntry <<dataType>> #FAE5D3
+IdentifierComponent ..> PairedControlledVocabularyEntry : semantic
+class "SpecializationRole" as SpecializationRole <<dataType>> #FAE5D3
+IdentifierComponent ..> SpecializationRole : specialization
+
+@enduml

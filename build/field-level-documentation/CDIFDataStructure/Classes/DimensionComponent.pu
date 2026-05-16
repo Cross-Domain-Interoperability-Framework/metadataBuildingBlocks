@@ -1,0 +1,32 @@
+@startuml
+title DimensionComponent
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "DimensionComponent" as DimensionComponent #FEFECE {
+  +categoricalAdditivity : boolean [1]
+  +identifier : Identifier [1]
+  +semantic : PairedControlledVocabularyEntry [1..*]
+  +specialization : SpecializationRole [1]
+}
+class "DimensionalDataStructure" as DimensionalDataStructure #EEEEEE
+DimensionalDataStructure "1..*" <-- DimensionComponent : has
+class "RepresentedVariable" as RepresentedVariable #EEEEEE
+DimensionComponent --> "1" RepresentedVariable : isDefinedBy
+class "ComponentPosition" as ComponentPosition #EEEEEE
+ComponentPosition "1" <-- DimensionComponent : indexes
+class "Identifier" as Identifier <<dataType>> #FAE5D3
+DimensionComponent ..> Identifier : identifier
+class "PairedControlledVocabularyEntry" as PairedControlledVocabularyEntry <<dataType>> #FAE5D3
+DimensionComponent ..> PairedControlledVocabularyEntry : semantic
+class "SpecializationRole" as SpecializationRole <<dataType>> #FAE5D3
+DimensionComponent ..> SpecializationRole : specialization
+
+@enduml

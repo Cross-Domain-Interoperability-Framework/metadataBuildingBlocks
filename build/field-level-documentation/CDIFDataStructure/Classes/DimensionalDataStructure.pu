@@ -1,0 +1,35 @@
+@startuml
+title DimensionalDataStructure
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "DimensionalDataStructure" as DimensionalDataStructure #FEFECE {
+  +identifier : Identifier [1]
+  +semantic : PairedControlledVocabularyEntry [1..*]
+  +specialization : SpecializationRole [1]
+}
+class "IdentifierComponent" as IdentifierComponent #EEEEEE
+DimensionalDataStructure --> "0..*" IdentifierComponent : has
+class "DimensionComponent" as DimensionComponent #EEEEEE
+DimensionalDataStructure --> "1..*" DimensionComponent : has
+class "MeasureComponent" as MeasureComponent #EEEEEE
+DimensionalDataStructure --> "1..*" MeasureComponent : has
+class "AttributeComponent" as AttributeComponent #EEEEEE
+DimensionalDataStructure --> "0..*" AttributeComponent : has
+class "ComponentPosition" as ComponentPosition #EEEEEE
+DimensionalDataStructure --> "1..*" ComponentPosition : has
+class "Identifier" as Identifier <<dataType>> #FAE5D3
+DimensionalDataStructure ..> Identifier : identifier
+class "PairedControlledVocabularyEntry" as PairedControlledVocabularyEntry <<dataType>> #FAE5D3
+DimensionalDataStructure ..> PairedControlledVocabularyEntry : semantic
+class "SpecializationRole" as SpecializationRole <<dataType>> #FAE5D3
+DimensionalDataStructure ..> SpecializationRole : specialization
+
+@enduml

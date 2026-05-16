@@ -1,0 +1,50 @@
+@startuml
+title XsdAnyUri
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+class "Dataset" as Dataset #EEEEEE
+Dataset ..> XsdAnyUri : identifier
+Dataset ..> XsdAnyUri : sameAs
+Dataset ..> XsdAnyUri : url
+Dataset ..> XsdAnyUri : license
+Dataset ..> XsdAnyUri : publishingPrinciples
+class "DataDownload" as DataDownload #EEEEEE
+DataDownload ..> XsdAnyUri : identifier
+DataDownload ..> XsdAnyUri : contentUrl
+DataDownload ..> XsdAnyUri : url
+DataDownload ..> XsdAnyUri : license
+class "WebAPI" as WebAPI #EEEEEE
+WebAPI ..> XsdAnyUri : identifier
+WebAPI ..> XsdAnyUri : documentation
+WebAPI ..> XsdAnyUri : url
+abstract class "Agent" as Agent #EEEEEE
+Agent ..> XsdAnyUri : identifier
+class "Organization" as Organization #EEEEEE
+Organization ..> XsdAnyUri : url
+class "DefinedTerm" as DefinedTerm #EEEEEE
+DefinedTerm ..> XsdAnyUri : identifier
+DefinedTerm ..> XsdAnyUri : inDefinedTermSet
+class "Identifier" as Identifier #EEEEEE
+Identifier ..> XsdAnyUri : url
+class "LabeledLink" as LabeledLink #EEEEEE
+LabeledLink ..> XsdAnyUri : identifier
+class "MonetaryGrant" as MonetaryGrant #EEEEEE
+MonetaryGrant ..> XsdAnyUri : identifier
+class "ProvActivity" as ProvActivity #EEEEEE
+ProvActivity ..> XsdAnyUri : identifier
+class "DerivedFrom" as DerivedFrom #EEEEEE
+DerivedFrom ..> XsdAnyUri : identifier
+class "CatalogRecord" as CatalogRecord #EEEEEE
+CatalogRecord ..> XsdAnyUri : identifier
+CatalogRecord ..> XsdAnyUri : conformsTo
+
+@enduml

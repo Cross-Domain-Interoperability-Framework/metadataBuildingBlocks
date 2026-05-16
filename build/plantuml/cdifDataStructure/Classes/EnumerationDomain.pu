@@ -1,0 +1,25 @@
+@startuml
+title EnumerationDomain
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "EnumerationDomain" as EnumerationDomain #FEFECE {
+  +identifier : Identifier [1]
+  +name : ObjectName [1..*]
+  +purpose : InternationalString [1]
+}
+class "Identifier" as Identifier <<dataType>> #FAE5D3
+EnumerationDomain ..> Identifier : identifier
+class "ObjectName" as ObjectName <<dataType>> #FAE5D3
+EnumerationDomain ..> ObjectName : name
+class "InternationalString" as InternationalString <<dataType>> #FAE5D3
+EnumerationDomain ..> InternationalString : purpose
+
+@enduml

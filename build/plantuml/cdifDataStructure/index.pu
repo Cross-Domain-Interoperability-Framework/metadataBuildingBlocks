@@ -1,0 +1,61 @@
+@startuml
+title CDIFDataStructure — overview
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "DataStructure" as DataStructure #FEFECE
+class "WideDataStructure" as WideDataStructure #FEFECE
+class "LongDataStructure" as LongDataStructure #FEFECE
+class "DimensionalDataStructure" as DimensionalDataStructure #FEFECE
+class "DataStructureComponent" as DataStructureComponent #FEFECE
+class "IdentifierComponent" as IdentifierComponent #FEFECE
+class "MeasureComponent" as MeasureComponent #FEFECE
+class "AttributeComponent" as AttributeComponent #FEFECE
+class "DimensionComponent" as DimensionComponent #FEFECE
+class "VariableValueComponent" as VariableValueComponent #FEFECE
+class "VariableDescriptorComponent" as VariableDescriptorComponent #FEFECE
+class "ComponentPosition" as ComponentPosition #FEFECE
+class "PrimaryKey" as PrimaryKey #FEFECE
+class "PrimaryKeyComponent" as PrimaryKeyComponent #FEFECE
+class "RepresentedVariable" as RepresentedVariable #FEFECE
+class "ReferenceVariable" as ReferenceVariable #FEFECE
+class "DescriptorVariable" as DescriptorVariable #FEFECE
+class "InstanceVariable" as InstanceVariable #FEFECE
+class "SubstantiveValueDomain" as SubstantiveValueDomain #FEFECE
+class "SentinelValueDomain" as SentinelValueDomain #FEFECE
+class "DescriptorValueDomain" as DescriptorValueDomain #FEFECE
+class "EnumerationDomain" as EnumerationDomain #FEFECE
+WideDataStructure --> "1..*" IdentifierComponent : has
+WideDataStructure --> "1..*" MeasureComponent : has
+WideDataStructure --> "0..*" AttributeComponent : has
+WideDataStructure --> "0..1" PrimaryKey : has
+LongDataStructure --> "1..*" IdentifierComponent : has
+LongDataStructure --> "1..*" VariableDescriptorComponent : has
+LongDataStructure --> "1..*" VariableValueComponent : has
+LongDataStructure --> "0..*" AttributeComponent : has
+DimensionalDataStructure --> "0..*" IdentifierComponent : has
+DimensionalDataStructure --> "1..*" DimensionComponent : has
+DimensionalDataStructure --> "1..*" MeasureComponent : has
+DimensionalDataStructure --> "0..*" AttributeComponent : has
+DimensionalDataStructure --> "1..*" ComponentPosition : has
+IdentifierComponent --> "1" RepresentedVariable : isDefinedBy
+MeasureComponent --> "1" RepresentedVariable : isDefinedBy
+AttributeComponent --> "1" RepresentedVariable : isDefinedBy
+AttributeComponent --> "0..*" MeasureComponent : qualifies
+DimensionComponent --> "1" RepresentedVariable : isDefinedBy
+VariableValueComponent --> "1" ReferenceVariable : isDefinedBy
+VariableDescriptorComponent --> "1" DescriptorVariable : isDefinedBy
+ComponentPosition --> "1" DimensionComponent : indexes
+PrimaryKey --> "1..*" PrimaryKeyComponent : isComposedOf
+PrimaryKeyComponent --> "1" IdentifierComponent : correspondsTo
+RepresentedVariable --> "0..*" SubstantiveValueDomain : takesSubstantiveValuesFrom
+RepresentedVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
+
+@enduml

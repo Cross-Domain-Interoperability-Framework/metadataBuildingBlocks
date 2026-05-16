@@ -1,0 +1,43 @@
+@startuml
+title CDIFCore — overview
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "Dataset" as Dataset #FEFECE
+class "DataDownload" as DataDownload #FEFECE
+class "WebAPI" as WebAPI #FEFECE
+abstract class "Agent" as Agent #FEFECE
+class "Person" as Person #FEFECE
+class "Organization" as Organization #FEFECE
+class "Contributor" as Contributor #FEFECE
+class "DefinedTerm" as DefinedTerm #FEFECE
+class "Identifier" as Identifier #FEFECE
+class "LabeledLink" as LabeledLink #FEFECE
+class "MonetaryGrant" as MonetaryGrant #FEFECE
+class "ProvActivity" as ProvActivity #FEFECE
+class "DerivedFrom" as DerivedFrom #FEFECE
+class "CatalogRecord" as CatalogRecord #FEFECE
+Agent <|-- Person
+Agent <|-- Organization
+Dataset --> "0..*" DataDownload : distribution
+Dataset --> "0..*" WebAPI : distribution
+Dataset --> "0..*" Agent : creator
+Dataset --> "0..*" Contributor : contributor
+Dataset --> "0..1" Agent : publisher
+Dataset --> "0..*" MonetaryGrant : funding
+Dataset --> "0..*" ProvActivity : wasGeneratedBy
+Dataset --> "0..*" DerivedFrom : wasDerivedFrom
+Dataset --> "1" CatalogRecord : subjectOf
+Dataset --> "0..*" DefinedTerm : keywords
+Dataset --> "0..*" LabeledLink : license
+Contributor --> "0..1" Agent : agent
+MonetaryGrant --> "0..*" Agent : funder
+
+@enduml

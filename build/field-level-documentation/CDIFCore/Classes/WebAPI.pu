@@ -1,0 +1,25 @@
+@startuml
+title WebAPI
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "WebAPI" as WebAPI #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+  +name : string [0..1]
+  +description : string [0..1]
+  +documentation : XsdAnyUri [0..1]
+  +url : XsdAnyUri [1]
+}
+class "Dataset" as Dataset #EEEEEE
+Dataset "0..*" <-- WebAPI : distribution
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+WebAPI ..> XsdAnyUri : identifier
+
+@enduml

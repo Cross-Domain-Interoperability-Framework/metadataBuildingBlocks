@@ -1,0 +1,28 @@
+@startuml
+title Organization
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "Organization" as Organization #FEFECE {
+  +organizationName : OrganizationName [0..1]
+  +url : XsdAnyUri [0..1]
+  +email : string [0..1]
+  +contactInformation : ContactInformation [0..1]
+}
+abstract class "Agent" as Agent #D6EAF8
+Agent <|-- Organization
+class "OrganizationName" as OrganizationName <<dataType>> #FAE5D3
+Organization ..> OrganizationName : organizationName
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+Organization ..> XsdAnyUri : url
+class "ContactInformation" as ContactInformation <<dataType>> #FAE5D3
+Organization ..> ContactInformation : contactInformation
+
+@enduml

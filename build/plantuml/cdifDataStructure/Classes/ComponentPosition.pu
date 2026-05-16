@@ -1,0 +1,21 @@
+@startuml
+title ComponentPosition
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "ComponentPosition" as ComponentPosition #FEFECE {
+  +value : integer [1]
+}
+class "DimensionalDataStructure" as DimensionalDataStructure #EEEEEE
+DimensionalDataStructure "1..*" <-- ComponentPosition : has
+class "DimensionComponent" as DimensionComponent #EEEEEE
+ComponentPosition --> "1" DimensionComponent : indexes
+
+@enduml

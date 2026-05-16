@@ -1,0 +1,34 @@
+@startuml
+title RepresentedVariable
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "RepresentedVariable" as RepresentedVariable #FEFECE {
+  +name : ObjectName [1]
+  +definition : InternationalString [1]
+}
+class "IdentifierComponent" as IdentifierComponent #EEEEEE
+IdentifierComponent "1" <-- RepresentedVariable : isDefinedBy
+class "MeasureComponent" as MeasureComponent #EEEEEE
+MeasureComponent "1" <-- RepresentedVariable : isDefinedBy
+class "AttributeComponent" as AttributeComponent #EEEEEE
+AttributeComponent "1" <-- RepresentedVariable : isDefinedBy
+class "DimensionComponent" as DimensionComponent #EEEEEE
+DimensionComponent "1" <-- RepresentedVariable : isDefinedBy
+class "SubstantiveValueDomain" as SubstantiveValueDomain #EEEEEE
+RepresentedVariable --> "0..*" SubstantiveValueDomain : takesSubstantiveValuesFrom
+class "SentinelValueDomain" as SentinelValueDomain #EEEEEE
+RepresentedVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
+class "ObjectName" as ObjectName <<dataType>> #FAE5D3
+RepresentedVariable ..> ObjectName : name
+class "InternationalString" as InternationalString <<dataType>> #FAE5D3
+RepresentedVariable ..> InternationalString : definition
+
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+title CDIFCodelist — overview
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "ConceptScheme" as ConceptScheme #FEFECE
+class "Concept" as Concept #FEFECE
+ConceptScheme --> "1..*" Concept : hasTopConcept
+Concept --> "1..*" ConceptScheme : inScheme
+Concept --> "0..*" Concept : broader
+Concept --> "0..*" Concept : narrower
+Concept --> "0..*" Concept : related
+Concept --> "0..*" Concept : exactMatch
+Concept --> "0..*" Concept : closeMatch
+
+@enduml

@@ -1,0 +1,33 @@
+@startuml
+title CatalogDetails
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "CatalogDetails" as CatalogDetails <<dataType>> #FAE5D3 {
+  +access : AccessInformation [1..*]
+  +alternativeTitle : InternationalString [1..*]
+  +contributor : AgentInRole [1..*]
+  +creator : AgentInRole [1..*]
+  +date : CombinedDate [1..*]
+  +identifier : InternationalIdentifier [1]
+  +informationSource : InternationalString [1..*]
+  +languageOfObject : XsdLanguage [1..*]
+  +provenance : ProvenanceInformation [1]
+  +publisher : AgentInRole [1..*]
+  +relatedResource : Reference [1..*]
+  +subTitle : InternationalString [1..*]
+  +summary : InternationalString [1]
+  +title : InternationalString [1]
+  +typeOfResource : ControlledVocabularyEntry [1..*]
+}
+class "Concept" as Concept #EEEEEE
+Concept ..> CatalogDetails : catalogDetails
+
+@enduml

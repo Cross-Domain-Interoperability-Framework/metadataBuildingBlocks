@@ -1,0 +1,57 @@
+@startuml
+title Dataset
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "Dataset" as Dataset #FEFECE {
+  +identifier : XsdAnyUri [1]
+  +name : string [1]
+  +description : string [0..1]
+  +additionalType : string [0..*]
+  +sameAs : XsdAnyUri [0..*]
+  +version : string [0..1]
+  +inLanguage : XsdLanguage [0..1]
+  +dateModified : XsdDate [1]
+  +datePublished : XsdDate [0..1]
+  +url : XsdAnyUri [0..1]
+  +license : XsdAnyUri [0..*]
+  +conditionsOfAccess : string [0..*]
+  +publishingPrinciples : XsdAnyUri [0..*]
+  +keywords : string [0..*]
+}
+class "DataDownload" as DataDownload #EEEEEE
+Dataset --> "0..*" DataDownload : distribution
+class "WebAPI" as WebAPI #EEEEEE
+Dataset --> "0..*" WebAPI : distribution
+abstract class "Agent" as Agent #EEEEEE
+Dataset --> "0..*" Agent : creator
+class "Contributor" as Contributor #EEEEEE
+Dataset --> "0..*" Contributor : contributor
+Dataset --> "0..1" Agent : publisher
+class "MonetaryGrant" as MonetaryGrant #EEEEEE
+Dataset --> "0..*" MonetaryGrant : funding
+class "ProvActivity" as ProvActivity #EEEEEE
+Dataset --> "0..*" ProvActivity : wasGeneratedBy
+class "DerivedFrom" as DerivedFrom #EEEEEE
+Dataset --> "0..*" DerivedFrom : wasDerivedFrom
+class "CatalogRecord" as CatalogRecord #EEEEEE
+Dataset --> "1" CatalogRecord : subjectOf
+class "DefinedTerm" as DefinedTerm #EEEEEE
+Dataset --> "0..*" DefinedTerm : keywords
+class "LabeledLink" as LabeledLink #EEEEEE
+Dataset --> "0..*" LabeledLink : license
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+Dataset ..> XsdAnyUri : identifier
+class "XsdLanguage" as XsdLanguage <<dataType>> #FAE5D3
+Dataset ..> XsdLanguage : inLanguage
+class "XsdDate" as XsdDate <<dataType>> #FAE5D3
+Dataset ..> XsdDate : dateModified
+
+@enduml

@@ -1,0 +1,30 @@
+@startuml
+title Reference
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "Reference" as Reference <<dataType>> #FAE5D3 {
+  +ddiReference : InternationalRegistrationDataIdentifier [1]
+  +deepLink : Selector [1]
+  +description : string [1]
+  +location : InternationalString [1]
+  +nonDdiReference : NonDdiIdentifier [1..*]
+  +semantic : ControlledVocabularyEntry [1]
+  +uri : XsdAnyUri [1]
+  +validType : string [1..*]
+}
+class "ReferenceVariable" as ReferenceVariable #EEEEEE
+ReferenceVariable ..> Reference : source
+ReferenceVariable ..> Reference : externalDefinition
+class "DescriptorVariable" as DescriptorVariable #EEEEEE
+DescriptorVariable ..> Reference : source
+DescriptorVariable ..> Reference : externalDefinition
+
+@enduml

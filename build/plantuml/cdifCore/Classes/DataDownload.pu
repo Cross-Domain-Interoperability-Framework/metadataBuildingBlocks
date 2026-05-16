@@ -1,0 +1,34 @@
+@startuml
+title DataDownload
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "DataDownload" as DataDownload #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+  +name : string [0..1]
+  +description : string [0..1]
+  +contentUrl : XsdAnyUri [0..1]
+  +url : XsdAnyUri [0..1]
+  +encodingFormat : string [0..*]
+  +contentSize : string [0..1]
+  +dateModified : XsdDate [0..1]
+  +datePublished : XsdDate [0..1]
+  +license : XsdAnyUri [0..*]
+  +conditionsOfAccess : string [0..*]
+  +checksum : string [0..*]
+}
+class "Dataset" as Dataset #EEEEEE
+Dataset "0..*" <-- DataDownload : distribution
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+DataDownload ..> XsdAnyUri : identifier
+class "XsdDate" as XsdDate <<dataType>> #FAE5D3
+DataDownload ..> XsdDate : dateModified
+
+@enduml
