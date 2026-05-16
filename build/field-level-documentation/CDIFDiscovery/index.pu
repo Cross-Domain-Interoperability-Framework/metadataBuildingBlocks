@@ -21,12 +21,41 @@ class "QualityMeasure" as QualityMeasure #FEFECE
 class "Concept" as Concept #FEFECE
 class "Identifier" as Identifier #FEFECE
 class "DefinedTerm" as DefinedTerm #FEFECE
+abstract class "AbstractDistribution" as AbstractDistribution #FEFECE
+class "DataDownload" as DataDownload #FEFECE
+class "WebAPI" as WebAPI #FEFECE
+abstract class "Agent" as Agent #FEFECE
+class "Person" as Person #FEFECE
+class "Organization" as Organization #FEFECE
+class "Contributor" as Contributor #FEFECE
+class "AdditionalProperty" as AdditionalProperty #FEFECE
+class "Reference" as Reference #FEFECE
+class "MonetaryGrant" as MonetaryGrant #FEFECE
+class "ProvActivity" as ProvActivity #FEFECE
+class "DerivedFrom" as DerivedFrom #FEFECE
+class "CatalogRecord" as CatalogRecord #FEFECE
 AbstractGeometry <|-- GeoCoordinates
 AbstractGeometry <|-- GeoShape
+AbstractDistribution <|-- DataDownload
+AbstractDistribution <|-- WebAPI
+Agent <|-- Person
+Agent <|-- Organization
 Dataset --> "0..*" VariableMeasured : variableMeasured
 Dataset --> "0..*" SpatialExtent : spatialCoverage
 Dataset --> "0..*" TemporalExtent : temporalCoverage
 Dataset --> "0..*" QualityMeasure : hasQualityMeasurement
+Dataset --> "0..*" AbstractDistribution : distribution
+Dataset --> "0..*" Agent : creator
+Dataset --> "0..*" Contributor : contributor
+Dataset --> "0..1" Agent : publisher
+Dataset --> "0..*" MonetaryGrant : funding
+Dataset --> "0..*" ProvActivity : wasGeneratedBy
+Dataset --> "0..*" DerivedFrom : wasDerivedFrom
+Dataset --> "1" CatalogRecord : subjectOf
+Dataset --> "0..*" DefinedTerm : keywords
+Dataset --> "0..*" Reference : license
 SpatialExtent --> "0..1" AbstractGeometry : geo
+Contributor --> "0..1" Agent : agent
+MonetaryGrant --> "0..*" Agent : funder
 
 @enduml
