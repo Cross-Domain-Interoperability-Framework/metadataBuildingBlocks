@@ -690,6 +690,77 @@ x-defs:
           cdi:historicDate:
             type: string
             description: Free-text historic date
+      CorrespondenceDefinition:
+        type: object
+        description: DDI-CDI CorrespondenceDefinition (dt-CorrespondenceDefinition).
+          Describes the commonalities and differences between two members using textual
+          descriptions plus an optional coding of the type of match.
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - cdi:CorrespondenceDefinition
+            minItems: 1
+          cdi:commonality:
+            description: A description of the common features of the two items.
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiOrganization/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+          cdi:commonalityCode:
+            type: array
+            items:
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiOrganization/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/ControlledVocabularyEntry
+            description: Commonality expressed as a term or code. Supports the use
+              of an external controlled vocabulary. Ordered; repeat to cite multiple
+              vocabularies.
+          cdi:difference:
+            description: A description of the differences between the two items.
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiOrganization/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiDataTypes/$defs/InternationalString
+          cdi:matching:
+            type: string
+            enum:
+            - CloseMatch
+            - Disjoint
+            - ExactMatch
+            description: The type of match between the two items (MatchingCriterion).
+      StructureSpecification:
+        type: object
+        description: "DDI-CDI StructureSpecification (dt-StructureSpecification).
+          The mathematical properties of a structure \u2014 whether the member relationship
+          is reflexive, symmetric, and/or transitive over the members in scope."
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - cdi:StructureSpecification
+            minItems: 1
+          cdi:reflexive:
+            type: string
+            enum:
+            - All
+            - None
+            - Some
+            description: Whether members are related to themselves (MemberRelationshipScope).
+          cdi:symmetric:
+            type: string
+            enum:
+            - All
+            - None
+            - Some
+            description: Whether the member relationship is symmetric (MemberRelationshipScope).
+          cdi:transitive:
+            type: string
+            enum:
+            - All
+            - None
+            - Some
+            description: Whether the member relationship is transitive (MemberRelationshipScope).
     x-jsonld-prefixes:
       cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml

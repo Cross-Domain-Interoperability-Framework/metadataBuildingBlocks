@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.cdifProperties.cdifCore` *v0.1*
 
-Core properties for CDIF metadata, applicable to any resource type. Required properties: @id, @type, schema:name, schema:identifier, schema:dateModified, schema:conditionsOfAccess or schema:license, schema:url or schema:distribution, schema:subjectOf. Optional core properties: schema:description, schema:additionalType, schema:sameAs, schema:version, schema:inLanguage, schema:datePublished, schema:relatedLink, schema:publishingPrinciples, schema:keywords, schema:creator, schema:contributor, schema:publisher, schema:provider, schema:funding, prov:wasGeneratedBy, prov:wasDerivedFrom. Uses building blocks: labeledLink, identifier, definedTerm, dataDownload, webAPI, person, organization, agentInRole, funder, generatedBy, derivedFrom, cdifCatalogRecord.
+Core properties for CDIF metadata, applicable to any resource type. Required properties: @id, @type, schema:name, schema:identifier, schema:dateModified, schema:conditionsOfAccess or schema:license, schema:url or schema:distribution, schema:subjectOf. Optional core properties: schema:description, schema:additionalType, schema:sameAs, schema:version, schema:inLanguage, schema:datePublished, schema:relatedLink, schema:publishingPrinciples, schema:keywords, schema:creator, schema:contributor, schema:publisher, schema:provider, schema:funding, prov:wasGeneratedBy, prov:wasDerivedFrom. Uses building blocks: cdifReference, identifier, definedTerm, dataDownload, webAPI, person, organization, agentInRole, funder, generatedBy, derivedFrom, cdifCatalogRecord.
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -1211,6 +1211,11 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
     schema1:datePublished "2024-01-10" ;
     schema1:description "Quality-controlled temperature profiles from Argo floats deployed worldwide. Profiles extend from the surface to 2000m depth with 2dbar vertical resolution." ;
     schema1:distribution [ a schema1:DataDownload ;
+            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
+            schema1:contentUrl "https://example.org/data/ocean-temp-profiles.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "CSV download" ],
+        [ a schema1:DataDownload ;
             dcterms:conformsTo <https://www.unidata.ucar.edu/software/netcdf/> ;
             schema1:contentUrl "https://example.org/data/ocean-temp-profiles.nc" ;
             schema1:description "Complete dataset in CF-compliant NetCDF4 format" ;
@@ -1219,12 +1224,7 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
             schema1:provider <https://ror.org/04t3en479> ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "checksumAlgorithm_sha256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2" ] ],
-        [ a schema1:DataDownload ;
-            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
-            schema1:contentUrl "https://example.org/data/ocean-temp-profiles.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "CSV download" ] ;
+                    spdx:checksumValue "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:funder [ a schema1:Organization ;
                     schema1:identifier ex:ercRor ;
@@ -1489,7 +1489,7 @@ properties:
           '@id':
             type: string
             description: a reference to a resource defining conditions of Access
-      - $ref: '#/$defs/LabeledLink'
+      - $ref: '#/$defs/Reference'
   schema:license:
     description: 'legal statement of conditions for use and access; recommend using
       schema:CreativeWork to provide a label (name) for the license, and an identifier.
@@ -1507,7 +1507,7 @@ properties:
           '@id':
             type: string
             description: a reference to a license defintion
-      - $ref: '#/$defs/LabeledLink'
+      - $ref: '#/$defs/Reference'
   schema:url:
     type: string
     format: uri
@@ -1576,7 +1576,7 @@ properties:
           '@id':
             type: string
             description: a reference to a publishing principles statement
-      - $ref: '#/$defs/LabeledLink'
+      - $ref: '#/$defs/Reference'
   schema:keywords:
     description: Keywords are an array of strings, an array of schema:DefinedTerms,
       or some combination of these. If you have information about a controlled vocabulary
@@ -1701,8 +1701,8 @@ allOf:
   - required:
     - schema:distribution
 $defs:
-  LabeledLink:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
+  Reference:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifReference/schema.yaml
   Identifier:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
   DefinedTerm:
@@ -1742,11 +1742,14 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
-    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
     "@version": 1.1
   }
 }

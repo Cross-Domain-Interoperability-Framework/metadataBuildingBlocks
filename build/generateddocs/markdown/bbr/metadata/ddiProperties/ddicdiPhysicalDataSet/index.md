@@ -27,6 +27,8 @@ anyOf:
 - $ref: '#/$defs/WideDataSet'
 - $ref: '#/$defs/LongDataSet'
 - $ref: '#/$defs/DimensionalDataSet'
+- $ref: '#/$defs/TabularTextDataSet'
+- $ref: '#/$defs/StructuredDataSet'
 $defs:
   WideDataSet:
     type: object
@@ -47,27 +49,45 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-      cdi:isStructuredBy:
+      cdi:recordCount:
+        type: integer
+        description: Number of records in the data set.
+      cdi:fingerprint:
+        $ref: '#/$defs/DataFingerprint'
+        description: Universal Numerical Fingerprint or similar format-independent
+          canonical hash value of the physical representation of data in the physical
+          data set.
+      cdi:name:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
+        description: Human understandable name (linguistic signifier, word, phrase,
+          or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
+          provided to specify usage.
+      cdi:has_InstanceVariable:
         type: array
         items:
           anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructure/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiInstanceVariable/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_DataPoint:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/DataPoint'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_Key:
         type: array
         items:
           anyOf:
-          - $ref: '#/$defs/Key'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifKey/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
+      cdi:isStructuredBy:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructure/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
     required:
     - '@type'
   LongDataSet:
@@ -89,27 +109,45 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-      cdi:isStructuredBy:
+      cdi:recordCount:
+        type: integer
+        description: Number of records in the data set.
+      cdi:fingerprint:
+        $ref: '#/$defs/DataFingerprint'
+        description: Universal Numerical Fingerprint or similar format-independent
+          canonical hash value of the physical representation of data in the physical
+          data set.
+      cdi:name:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
+        description: Human understandable name (linguistic signifier, word, phrase,
+          or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
+          provided to specify usage.
+      cdi:has_InstanceVariable:
         type: array
         items:
           anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructure/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiInstanceVariable/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_DataPoint:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/DataPoint'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_Key:
         type: array
         items:
           anyOf:
-          - $ref: '#/$defs/Key'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifKey/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
+      cdi:isStructuredBy:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructure/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
     required:
     - '@type'
   DimensionalDataSet:
@@ -127,46 +165,451 @@ $defs:
       '@id':
         type: string
         description: Identifier for this DimensionalDataSet node
-      cdi:name:
-        type: array
-        items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
-        minItems: 1
-        description: Human understandable name (liguistic signifier, word, phrase,
-          or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
-          provided to specify usage.
       cdi:represents:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ScopedMeasure'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-      cdi:isStructuredBy:
+      cdi:recordCount:
+        type: integer
+        description: Number of records in the data set.
+      cdi:fingerprint:
+        $ref: '#/$defs/DataFingerprint'
+        description: Universal Numerical Fingerprint or similar format-independent
+          canonical hash value of the physical representation of data in the physical
+          data set.
+      cdi:name:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
+        description: Human understandable name (linguistic signifier, word, phrase,
+          or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
+          provided to specify usage.
+      cdi:has_InstanceVariable:
         type: array
         items:
           anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructure/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiInstanceVariable/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_DataPoint:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/DataPoint'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_Key:
         type: array
         items:
           anyOf:
-          - $ref: '#/$defs/Key'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifKey/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:isStructuredBy:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructure/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+    required:
+    - '@type'
+  TabularTextDataSet:
+    type: object
+    description: Information describing the physical aspects of a data set which is
+      encoded using a text-based method and which has an essentially tabular structure.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: cdi:TabularTextDataSet
         minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this TabularTextDataSet node
+      cdi:arrayBase:
+        type: integer
+        description: 'The starting value for the numbering of cells, rows, columns,
+          etc. when they constitute an ordered sequence (an array). Note that in DDI,
+          this is typically either 0 or 1. In related W3C work (Model for Tabular
+          Data and Metadata on the Web), they appear to standardize on 1 (see https://www.w3.org/TR/tabular-data-model/
+          4.3 [Columns] and 4.4 [Rows]: "number - the position of the column amongst
+          the columns for the associated table, starting from 1.")'
+      cdi:commentPrefix:
+        type: string
+        description: 'A string used to indicate that an input line is a comment, a
+          string which precedes a comment in the data file. From https://www.w3.org/TR/tabular-metadata/
+          5.9 Dialect commentPrefix: ''An atomic property that sets the comment prefix
+          flag to the single provided value, which MUST be a string. The default is
+          "#".'''
+      cdi:delimiter:
+        type: string
+        description: 'The Delimiting character in the data. Must be used if isDelimited
+          is True. "The separator between cells, set by the delimiter property of
+          a dialect description. The default is ,. See the W3C Recommendation "Metadata
+          Vocabulary for Tabular Data" (https://www.w3.org/TR/tabular-data-model/#encoding).
+          From the "CSV Dialect" specification (https://specs.frictionlessdata.io/csv-dialect/#specification):
+          "delimiter: specifies a one-character string to use as the field separator.
+          Default = ,."'
+      cdi:escapeCharacter:
+        type: string
+        description: '"The string that is used to escape the quote character within
+          escaped cells, or null" see https://www.w3.org/TR/tabular-data-model/#encoding.
+          From https://www.w3.org/TR/tabular-metadata/ 5.9 Dialect "doubleQuote: A
+          boolean atomic property that, if true, sets the escape character flag to
+          ". If false, to \. The default is true." From http://specs.frictionlessdata.io/csv-dialect/
+          "doubleQuote: controls the handling of quotes inside fields. If true, two
+          consecutive quotes should be interpreted as one. Default = true".'
+      cdi:hasHeader:
+        type: boolean
+        description: 'True if the file contains a header containing column names.
+          From https://www.w3.org/TR/tabular-metadata/ 5.9 Dialect "header: A boolean
+          atomic property that, if true, sets the header row count flag to 1, and
+          if false to 0, unless headerRowCount is provided, in which case the value
+          provided for the header property is ignored. The default is true." From
+          http://specs.frictionlessdata.io/csv-dialect/ "header: indicates whether
+          the file includes a header row. If true the first row in the file is a header
+          row, not data. Default = true".'
+      cdi:headerIsCaseSensitive:
+        type: boolean
+        description: 'If True, the case of the labels in the header is significant.
+          From the "CSV Dialect" specification (http://specs.frictionlessdata.io/csv-dialect/):
+          "caseSensitiveHeader: indicates that case in the header is meaningful. For
+          example, columns CAT and Cat should not be equated. Default = false."'
+      cdi:headerRowCount:
+        type: integer
+        description: 'The number of lines in the header From https://www.w3.org/TR/tabular-metadata/
+          5.9 Dialect "headerRowCount: A numeric atomic property that sets the header
+          row count flag to the single provided value, which MUST be a non-negative
+          integer. The default is 1."'
+      cdi:isDelimited:
+        type: boolean
+        description: Indicates whether the data are in a delimited format. If "true,"
+          the format is delimited, and the isFixedWidth property must be set to "false."
+          If not set to "true," the property isFixedWitdh must be set to "true."
+      cdi:isFixedWidth:
+        type: boolean
+        description: Set to true if the file is fixed-width. If true, isDelimited
+          must be set to false.
+      cdi:lineTerminator:
+        type: array
+        items:
+          type: string
+        description: 'The strings that can be used at the end of a row, set by the
+          lineTerminators property of a dialect description. The default is [CRLF,
+          LF]. See the W3C Recommendation "Metadata Vocabulary for Tabular Data" (https://www.w3.org/TR/tabular-data-model/#encoding)
+          5.9 Dialect "lineTerminators: An atomic property that sets the line terminators
+          flag to either an array containing the single provided string value, or
+          the provided array. The default is [''rn'', ''n'']." Also, from the "CSV
+          Dialect" specification (http://specs.frictionlessdata.io/csv-dialect/):
+          "lineTerminator: specifies the character sequence which should terminate
+          rows. Default = rn."'
+      cdi:nullSequence:
+        type: string
+        description: 'A string indicating a null value. From the W3C Recommendation
+          "Metadata Vocabulary for Tabular Data" (https://www.w3.org/TR/tabular-metadata/)
+          4.3: "null: the string or strings which cause the value of cells having
+          string value matching any of these values to be null." From the same source,
+          Inherited 5.7: "null: An atomic property giving the string or strings used
+          for null values within the data. If the string value of the cell is equal
+          to any one of these values, the cell value is null. See Parsing Cells in
+          [tabular-data-model] for more details. If not specified, the default for
+          the null property is the empty string ''''. The value of this property becomes
+          the null annotation for the described column."'
+      cdi:quoteCharacter:
+        type: string
+        description: '"The string that is used around escaped cells, or null, set
+          by the quoteChar property of a dialect description. The default is ".".
+          See W3C Recommendation "Model for Tabular Data and Metadata on the Web",
+          https://www.w3.org/TR/tabular-data-model/#parsing. From the W3C Recommendation
+          "Metadata Vocabulary for Tabular Data" (https://www.w3.org/TR/tabular-metadata/)
+          5.9 Dialect: "quoteChar: An atomic property that sets the quote character
+          flag to the single provided value, which MUST be a string or null. If the
+          value is null, the escape character flag is also set to null. The default
+          is ''"''." From the CSV Dialect specification (http://specs.frictionlessdata.io/csv-dialect/):
+          "quoteChar: specifies a one-character string to use as the quoting character.
+          Default = "."'
+      cdi:skipBlankRows:
+        type: boolean
+        description: 'If the value is True, blank rows are ignored. From the W3C Recommendation
+          "Metadata Vocabulary for Tabular Data" (https://www.w3.org/TR/tabular-metadata/)
+          5.9 Dialect: "skipBlankRows: A boolean atomic property that sets the skip
+          blank rows flag to the single provided boolean value. The default is false."'
+      cdi:skipDataColumns:
+        type: integer
+        description: 'The number of columns to skip at the beginning of the row. From
+          the W3C Recommendation "Metadata Vocabulary for Tabular Data" (https://www.w3.org/TR/tabular-metadata/)
+          5.9 Dialect: "skipColumns: A numeric atomic property that sets the skip
+          columns flag to the single provided numeric value, which MUST be a non-negative
+          integer. The default is 0." A value other than 0 will mean that the source
+          numbers of columns will be different from their numbers.'
+      cdi:skipInitialSpace:
+        type: boolean
+        description: 'If the value is True, skip whitespace at the beginning of a
+          line or following a delimiter. From the W3C Recommendation "Metadata Vocabulary
+          for Tabular Data" (https://www.w3.org/TR/tabular-metadata/) 5.9 Dialect:
+          "skipInitialSpace: A boolean atomic property that, if true, sets the trim
+          flag to ''start'' and if false, to false. If the trim property is provided,
+          the skipInitialSpace property is ignored. The default is false." From the
+          CSV Dialect specification (http://specs.frictionlessdata.io/csv-dialect/):
+          "skipInitialSpace: specifies how to interpret whitespace which immediately
+          follows a delimiter; if false, it means that whitespace immediately after
+          a delimiter should be treated as part of the following field. Default =
+          true."'
+      cdi:skipRows:
+        type: integer
+        description: 'Number of input rows to skip preceding the header or data. From
+          the W3C Recommendation "Metadata Vocabulary for Tabular Data" (https://www.w3.org/TR/tabular-metadata/)
+          5.9 Dialect: "skipRows: A numeric atomic property that sets the skip rows
+          flag to the single provided numeric value, which MUST be a non-negative
+          integer. The default is 0." A value greater than 0 will mean that the source
+          numbers of rows will be different from their numbers.'
+      cdi:tableDirection:
+        type: string
+        enum:
+        - Auto
+        - Ltr
+        - Rtl
+        description: 'Indicates the direction in which columns are arranged in each
+          row. From the W3C Recommendation "Metadata Vocabulary for Tabular Data"
+          (https://www.w3.org/TR/tabular-metadata/) 5.3.2: "tableDirection: An atomic
+          property that MUST have a single string value that is one of ''rtl'', ''ltr'',
+          or ''auto''. Indicates whether the tables in the group should be displayed
+          with the first column on the right, on the left, or based on the first character
+          in the table that has a specific direction. The value of this property becomes
+          the value of the table direction annotation for all the tables in the table
+          group. See Bidirectional Tables in [tabular-data-model] for details. The
+          default value for this property is ''auto''."'
+      cdi:textDirection:
+        type: string
+        enum:
+        - Auto
+        - Inherit
+        - Ltr
+        - Rtl
+        description: 'Indicates the reading order of text within cells. From the W3C
+          Recommendation "Metadata Vocabulary for Tabular Data" (https://www.w3.org/TR/tabular-metadata/)
+          Inherited 5.7: "textDirection: An atomic property that MUST have a single
+          string value that is one of ''ltr'', ''rtl'', ''auto'' or ''inherit'' (the
+          default). Indicates whether the text within cells should be displayed as
+          left-to-right text (ltr), as right-to-left text (rtl), according to the
+          content of the cell (auto) or in the direction inherited from the table
+          direction annotation of the table. The value of this property determines
+          the text direction annotation for the column, and the text direction annotation
+          for the cells within that column: if the value is inherit then the value
+          of the text direction annotation is the value of the table direction annotation
+          on the table, otherwise it is the value of this property. See Bidirectional
+          Tables in [tabular-data-model] for details."'
+      cdi:treatConsecutiveDelimitersAsOne:
+        type: boolean
+        description: If the value is True, consecutive (adjacent) delimiters are treated
+          as a single delimiter; if the value is False consecutive (adjacent) delimiters
+          indicate a missing value.
+      cdi:trim:
+        type: string
+        enum:
+        - Both
+        - End
+        - Neither
+        - Start
+        description: 'Specifies which spaces to remove from a data value (start, end,
+          both, neither) From the W3C Recommendation "Metadata Vocabulary for Tabular
+          Data" (https://www.w3.org/TR/tabular-metadata/) 5.9 Dialect: "trim: An atomic
+          property that, if the boolean true, sets the trim flag to true and if the
+          boolean false to false. If the value provided is a string, sets the trim
+          flag to the provided value, which MUST be one of ''true'', ''false'', ''start'',
+          or ''end''. The default is true."'
+      cdi:isDefinedBy:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:characterSet:
+        type: string
+        description: Default character set used in the physical data set.
+      cdi:encoding:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry
+        description: 'The character encoding of the represented data. From the W3C
+          Recommendation "Metadata Vocabulary for Tabular Data" (https://www.w3.org/TR/tabular-metadata/)
+          5.9 Dialect: "encoding - An atomic property that sets the encoding flag
+          to the single provided string value, which MUST be a defined in [encoding].
+          The default is ''utf-8''." From the same W3C recommendation 7.2 Encoding:
+          "CSV files should be encoded using UTF-8, and should be in Unicode Normal
+          Form C as defined in [UAX15]. If a CSV file is not encoded using UTF-8,
+          the encoding should be specified through the charset parameter in the Content-Type
+          header."'
+      cdi:fileSize:
+        type: number
+        description: File size expressed as a real number.
+      cdi:fileSizeUofM:
+        type: string
+        description: Unit of measure of the fileSize as a simple string, e.g. KB,
+          megabyte, GB, etc.
+      cdi:fingerprint:
+        $ref: '#/$defs/DataFingerprint'
+        description: Universal Numerical Fingerprint or similar format-independent,
+          canonical hash value of the physical representation of data in the physical
+          data set.
+      cdi:identifier:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+      cdi:name:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
+        description: Human understandable name (linguistic signifier, word, phrase,
+          or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
+          provided to specify usage.
+      cdi:overview:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
+        description: Short natural language account of the information obtained from
+          the combination of properties and relationships associated with an object.
+      cdi:physicalFileURL:
+        type: string
+        description: URL for the physical data set.
+      cdi:purpose:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
+        description: Intent or reason for the object/the description of the object.
+      cdi:recordCount:
+        type: integer
+        description: Number of records in the physical data set.
+      cdi:standard:
+        type: array
+        items:
+          $ref: '#/$defs/conformsTo'
+        description: An established standard to which the described resource conforms.
+      cdi:has_InstanceVariable:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiInstanceVariable/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:has_PhysicalMapping:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalMapping/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:has_PhysicalMappingPosition:
+        type: array
+        items:
+          anyOf:
+          - $ref: '#/$defs/PhysicalMappingPosition'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:correspondsTo:
+        anyOf:
+        - $ref: '#/$defs/DataSet'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:uses:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiLogicalRecord/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+    required:
+    - '@type'
+  StructuredDataSet:
+    type: object
+    description: Information describing the physical aspects of a data set using a
+      binary or highly structured text-based encoding.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: cdi:StructuredDataSet
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this StructuredDataSet node
+      cdi:characterSet:
+        type: string
+        description: Default character set used in the physical data set.
+      cdi:encoding:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry
+        description: 'The character encoding of the represented data. From the W3C
+          Recommendation "Metadata Vocabulary for Tabular Data" (https://www.w3.org/TR/tabular-metadata/)
+          5.9 Dialect: "encoding - An atomic property that sets the encoding flag
+          to the single provided string value, which MUST be a defined in [encoding].
+          The default is ''utf-8''." From the same W3C recommendation 7.2 Encoding:
+          "CSV files should be encoded using UTF-8, and should be in Unicode Normal
+          Form C as defined in [UAX15]. If a CSV file is not encoded using UTF-8,
+          the encoding should be specified through the charset parameter in the Content-Type
+          header."'
+      cdi:fileSize:
+        type: number
+        description: File size expressed as a real number.
+      cdi:fileSizeUofM:
+        type: string
+        description: Unit of measure of the fileSize as a simple string, e.g. KB,
+          megabyte, GB, etc.
+      cdi:fingerprint:
+        $ref: '#/$defs/DataFingerprint'
+        description: Universal Numerical Fingerprint or similar format-independent,
+          canonical hash value of the physical representation of data in the physical
+          data set.
+      cdi:identifier:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+      cdi:name:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
+        description: Human understandable name (linguistic signifier, word, phrase,
+          or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
+          provided to specify usage.
+      cdi:overview:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
+        description: Short natural language account of the information obtained from
+          the combination of properties and relationships associated with an object.
+      cdi:physicalFileURL:
+        type: string
+        description: URL for the physical data set.
+      cdi:purpose:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
+        description: Intent or reason for the object/the description of the object.
+      cdi:recordCount:
+        type: integer
+        description: Number of records in the physical data set.
+      cdi:standard:
+        type: array
+        items:
+          $ref: '#/$defs/conformsTo'
+        description: An established standard to which the described resource conforms.
+      cdi:has_InstanceVariable:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiInstanceVariable/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:has_PhysicalMapping:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalMapping/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:has_PhysicalMappingPosition:
+        type: array
+        items:
+          anyOf:
+          - $ref: '#/$defs/PhysicalMappingPosition'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:isDefinedBy:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:correspondsTo:
+        anyOf:
+        - $ref: '#/$defs/DataSet'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:uses:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiLogicalRecord/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
     required:
     - '@type'
   Category:
@@ -197,7 +640,6 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay
-        minItems: 1
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
@@ -216,7 +658,6 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
-        minItems: 1
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
@@ -226,7 +667,6 @@ $defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
     required:
     - '@type'
   ConceptSystem:
@@ -264,27 +704,24 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
-        minItems: 1
-        description: Human understandable name (liguistic signifier, word, phrase,
+        description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
-      cdi:isDefinedBy:
-        type: array
-        items:
-          anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
+      cdi:purpose:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
+        description: Intent or reason for the object/the description of the object.
       cdi:has:
         type: array
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
-      cdi:purpose:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
-        description: Intent or reason for the object/the description of the object.
+      cdi:isDefinedBy:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
     required:
     - '@type'
   ConceptualDomain:
@@ -306,7 +743,6 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay
-        minItems: 1
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
@@ -314,13 +750,13 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-      cdi:isDescribedBy:
-        anyOf:
-        - $ref: '#/$defs/ValueAndConceptDescription'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
       cdi:takesConceptsFrom:
         anyOf:
         - $ref: '#/$defs/ConceptSystem'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:isDescribedBy:
+        anyOf:
+        - $ref: '#/$defs/ValueAndConceptDescription'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
     required:
     - '@type'
@@ -353,7 +789,6 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay
-        minItems: 1
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
@@ -372,7 +807,6 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
-        minItems: 1
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
@@ -382,9 +816,34 @@ $defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
     required:
     - '@type'
+  DataFingerprint:
+    type: object
+    description: Hash value (digital fingerprint) of the logical or physical representation
+      of data.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: cdi:DataFingerprint
+        minItems: 1
+      cdi:value:
+        type: string
+        description: The value of the digital fingerprint.
+      cdi:algorithmSpecification:
+        type: string
+        description: The algorithm used to compute the value of the fingerprint.
+      cdi:algorithmVersion:
+        type: string
+        description: The version of the algorithm used to compute the value of the
+          fingerprint.
+      cdi:typeOfFingerprint:
+        type: string
+        description: The type of fingerprint, which may be computed on the physical
+          data set (storage format specific) or data set (format neutral).
   DataPoint:
     type: object
     description: Container for an instance value.
@@ -403,17 +862,75 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+      cdi:isDescribedBy:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiInstanceVariable/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
       cdi:correspondsTo:
         type: array
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+    required:
+    - '@type'
+  DataSet:
+    type: object
+    description: Organized collection of data based on keys.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: cdi:DataSet
         minItems: 1
-      cdi:isDescribedBy:
-        anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      '@id':
+        type: string
+        description: Identifier for this DataSet node
+      cdi:identifier:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+      cdi:recordCount:
+        type: integer
+        description: Number of records in the data set.
+      cdi:fingerprint:
+        $ref: '#/$defs/DataFingerprint'
+        description: Universal Numerical Fingerprint or similar format-independent
+          canonical hash value of the physical representation of data in the physical
+          data set.
+      cdi:name:
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
+        description: Human understandable name (linguistic signifier, word, phrase,
+          or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
+          provided to specify usage.
+      cdi:has_InstanceVariable:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiInstanceVariable/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:has_DataPoint:
+        type: array
+        items:
+          anyOf:
+          - $ref: '#/$defs/DataPoint'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:has_Key:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifKey/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:isStructuredBy:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructure/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
     required:
     - '@type'
   DimensionalKeyDefinition:
@@ -449,7 +966,6 @@ $defs:
           anyOf:
           - $ref: '#/$defs/KeyDefinitionMember'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
     required:
     - '@type'
   InstanceValue:
@@ -474,18 +990,6 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-      cdi:hasValueFrom:
-        anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema.yaml
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-      cdi:isStoredIn:
-        anyOf:
-        - $ref: '#/$defs/DataPoint'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-      cdi:represents:
-        anyOf:
-        - $ref: '#/$defs/ConceptualValue'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
       cdi:whiteSpace:
         type: string
         enum:
@@ -499,89 +1003,18 @@ $defs:
           (space) but leading and trailing spaces will be retained. If the existence
           of any of these white spaces is critical to the understanding of the content,
           change the value of this attribute to "preserve".'
-    required:
-    - '@type'
-  Key:
-    type: object
-    description: Collection of data instances that uniquely identify a collection
-      of data points in a dataset.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: cdi:Key
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this Key node
-      cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
-        description: Identifier for objects requiring short- or long-lasting referencing
-          and management.
-      cdi:correspondsTo_Unit:
+      cdi:hasValueFrom:
         anyOf:
-        - $ref: '#/$defs/Unit'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-      cdi:correspondsTo_Universe:
+      cdi:isStoredIn:
         anyOf:
-        - $ref: '#/$defs/Universe'
+        - $ref: '#/$defs/DataPoint'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
       cdi:represents:
         anyOf:
-        - $ref: '#/$defs/KeyDefinition'
+        - $ref: '#/$defs/ConceptualValue'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-      cdi:identifies:
-        type: array
-        items:
-          anyOf:
-          - $ref: '#/$defs/DataPoint'
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
-      cdi:has:
-        type: array
-        items:
-          anyOf:
-          - $ref: '#/$defs/KeyMember'
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
-    required:
-    - '@type'
-  KeyDefinition:
-    type: object
-    description: Collection of concepts that uniquely defines a collection of data
-      points in a dataset.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: cdi:KeyDefinition
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this KeyDefinition node
-      cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
-        description: Identifier for objects requiring short- or long-lasting referencing
-          and management.
-      cdi:correspondsTo_Universe:
-        anyOf:
-        - $ref: '#/$defs/Universe'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-      cdi:correspondsTo_Unit:
-        anyOf:
-        - $ref: '#/$defs/Unit'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-      cdi:has:
-        type: array
-        items:
-          anyOf:
-          - $ref: '#/$defs/KeyDefinitionMember'
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
     required:
     - '@type'
   KeyDefinitionMember:
@@ -612,7 +1045,6 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay
-        minItems: 1
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
@@ -631,7 +1063,6 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
-        minItems: 1
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
@@ -641,62 +1072,6 @@ $defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
-    required:
-    - '@type'
-  KeyMember:
-    type: object
-    description: Single data instance that is part of a key.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: cdi:KeyMember
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this KeyMember node
-      cdi:isBasedOn:
-        type: array
-        items:
-          anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
-      cdi:content:
-        $ref: '#/$defs/TypedString'
-        description: The content of this value expressed as a string.
-      cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
-        description: Identifier for objects requiring short- or long-lasting referencing
-          and management.
-      cdi:hasValueFrom:
-        anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiValueDomain/schema.yaml
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-      cdi:isStoredIn:
-        anyOf:
-        - $ref: '#/$defs/DataPoint'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-      cdi:represents:
-        anyOf:
-        - $ref: '#/$defs/ConceptualValue'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-      cdi:whiteSpace:
-        type: string
-        enum:
-        - Collapse
-        - Preserve
-        - Replace
-        description: 'The usual setting "collapse" states that leading and trailing
-          white space will be removed and multiple adjacent white spaces will be treated
-          as a single white space. When setting to "replace" all occurrences of #x9
-          (tab), #xA (line feed) and #xD (carriage return) are replaced with #x20
-          (space) but leading and trailing spaces will be retained. If the existence
-          of any of these white spaces is critical to the understanding of the content,
-          change the value of this attribute to "preserve".'
     required:
     - '@type'
   Notation:
@@ -715,20 +1090,13 @@ $defs:
       '@id':
         type: string
         description: Identifier for this Notation node
-      cdi:content:
-        $ref: '#/$defs/TypedString'
-        description: The actual content of this value as a string.
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-      cdi:represents:
-        type: array
-        items:
-          anyOf:
-          - $ref: '#/$defs/Category'
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
+      cdi:content:
+        $ref: '#/$defs/TypedString'
+        description: The actual content of this value as a string.
       cdi:whiteSpace:
         type: string
         enum:
@@ -742,6 +1110,40 @@ $defs:
           (space) but leading and trailing spaces will be retained. If the existence
           of any of these white spaces is critical to the understanding of the content,
           change the value of this attribute to "preserve".'
+      cdi:represents:
+        type: array
+        items:
+          anyOf:
+          - $ref: '#/$defs/Category'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+    required:
+    - '@type'
+  PhysicalMappingPosition:
+    type: object
+    description: Denotes the position of a physical mapping in a sequence within a
+      physical data set.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: cdi:PhysicalMappingPosition
+        minItems: 1
+      '@id':
+        type: string
+        description: Identifier for this PhysicalMappingPosition node
+      cdi:identifier:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
+        description: Identifier for objects requiring short- or long-lasting referencing
+          and management.
+      cdi:value:
+        type: integer
+        description: Index value of the member in an ordered array.
+      cdi:indexes:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiPhysicalMapping/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
     required:
     - '@type'
   QualifiedMeasure:
@@ -766,29 +1168,27 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
-        minItems: 1
-        description: Human understandable name (liguistic signifier, word, phrase,
+        description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-      cdi:isDefinedBy:
-        anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiRepresentedVariable/schema.yaml
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
       cdi:semantic:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/PairedControlledVocabularyEntry
-        minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
       cdi:specialization:
         $ref: '#/$defs/SpecializationRole'
         description: The role played by the component for the data set for purposes
           of harmonization and integration, typically regarding geography, time, etc.
+      cdi:isDefinedBy:
+        anyOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiRepresentedVariable/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
     required:
     - '@type'
   RevisableDatum:
@@ -805,21 +1205,24 @@ $defs:
       '@id':
         type: string
         description: Identifier for this RevisableDatum node
+      cdi:vintage:
+        type: integer
+        description: A revision sequence number for a datum.
       cdi:correspondsTo:
         anyOf:
         - $ref: '#/$defs/Revision'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-      cdi:vintage:
-        type: integer
-        description: A revision sequence number for a datum.
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-      cdi:uses_Notation:
-        anyOf:
-        - $ref: '#/$defs/Notation'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+      cdi:isBoundedBy:
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiInstanceVariable/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        minItems: 1
       cdi:uses_InstanceValue:
         type: array
         items:
@@ -827,17 +1230,14 @@ $defs:
           - $ref: '#/$defs/InstanceValue'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         minItems: 1
+      cdi:uses_Notation:
+        anyOf:
+        - $ref: '#/$defs/Notation'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
       cdi:denotes:
         anyOf:
         - $ref: '#/$defs/ConceptualValue'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-      cdi:isBoundedBy:
-        type: array
-        items:
-          anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
     required:
     - '@type'
   Revision:
@@ -854,9 +1254,6 @@ $defs:
       '@id':
         type: string
         description: Identifier for this Revision node
-      cdi:algorithm:
-        type: string
-        description: Actual code or reference to specific algorithm
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
@@ -865,6 +1262,9 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
         description: Short natural language account of the information obtained from
           the combination of properties and relationships associated with an object.
+      cdi:algorithm:
+        type: string
+        description: Actual code or reference to specific algorithm
     required:
     - '@type'
   ScopedMeasure:
@@ -962,7 +1362,6 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay
-        minItems: 1
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
@@ -974,8 +1373,7 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
-        minItems: 1
-        description: Human understandable name (liguistic signifier, word, phrase,
+        description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
       cdi:has:
@@ -984,7 +1382,6 @@ $defs:
           anyOf:
           - $ref: '#/$defs/UnitType'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
     required:
     - '@type'
   UnitType:
@@ -1015,7 +1412,6 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay
-        minItems: 1
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
@@ -1034,7 +1430,6 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
-        minItems: 1
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
@@ -1044,7 +1439,6 @@ $defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
     required:
     - '@type'
   Universe:
@@ -1083,7 +1477,6 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay
-        minItems: 1
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
@@ -1102,7 +1495,6 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
-        minItems: 1
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
@@ -1112,7 +1504,6 @@ $defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
     required:
     - '@type'
   ValueAndConceptDescription:
@@ -1158,7 +1549,7 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry
         description: A logical expression where the values of "x" making the expression
           true are the members of the set of valid values. For example, "(all reals
-          x such that x > 0)" describes the real numbers greater than 0.
+          x such that x &gt; 0)" describes the real numbers greater than 0.
       cdi:maximumValueExclusive:
         type: string
         description: 'A string denoting the maximum possible value (excluding this
@@ -1200,6 +1591,18 @@ $defs:
           regularExpression found in content.
     required:
     - '@type'
+  conformsTo:
+    type: object
+    description: An established standard to which the described resource conforms.
+      (See DCMI Metadata Terms - https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#conformsTo)
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          const: cdi:conformsTo
+        minItems: 1
 x-jsonld-prefixes:
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
 
@@ -1223,6 +1626,11 @@ Links to the schema:
     "xas": "https://xas.org/dictionary/",
     "nxs": "http://purl.org/nexusformat/definitions/",
     "prov": "http://www.w3.org/ns/prov#",
+    "cdif": "https://cdif.org/0.1/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "@version": 1.1
   }
 }

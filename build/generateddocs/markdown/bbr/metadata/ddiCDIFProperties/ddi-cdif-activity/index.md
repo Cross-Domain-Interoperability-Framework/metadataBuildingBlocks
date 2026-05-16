@@ -146,28 +146,28 @@ script and Parameters, start/end timestamps, and definition.
   "cdi:entityUsed": [
     {
       "@type": [
-        "cdi:Reference"
+        "cdif:Reference"
       ],
       "cdi:uri": "https://example.org/datasets/national-lfs-2024-AT",
       "cdi:description": "Austrian Labour Force Survey 2024 microdata"
     },
     {
       "@type": [
-        "cdi:Reference"
+        "cdif:Reference"
       ],
       "cdi:uri": "https://example.org/datasets/national-lfs-2024-DE",
       "cdi:description": "German Labour Force Survey 2024 microdata"
     },
     {
       "@type": [
-        "cdi:Reference"
+        "cdif:Reference"
       ],
       "cdi:uri": "https://example.org/datasets/national-lfs-2024-CH",
       "cdi:description": "Swiss Labour Force Survey 2024 microdata"
     },
     {
       "@type": [
-        "cdi:Reference"
+        "cdif:Reference"
       ],
       "cdi:uri": "https://example.org/datasets/national-lfs-2024-FR",
       "cdi:description": "French Labour Force Survey 2024 microdata"
@@ -176,7 +176,7 @@ script and Parameters, start/end timestamps, and definition.
   "cdi:entityProduced": [
     {
       "@type": [
-        "cdi:Reference"
+        "cdif:Reference"
       ],
       "cdi:uri": "https://doi.org/10.5281/zenodo.example-regional-employment-2025",
       "cdi:description": "Harmonized regional employment dataset 2025"
@@ -184,7 +184,7 @@ script and Parameters, start/end timestamps, and definition.
   ],
   "cdi:standardModelMapping": {
     "@type": [
-      "cdi:Reference"
+      "cdif:Reference"
     ],
     "cdi:uri": "https://statswiki.unece.org/display/GSBPM/GSBPM+v5.1",
     "cdi:description": "Generic Statistical Business Process Model v5.1 - Phase 5: Process",
@@ -285,28 +285,28 @@ script and Parameters, start/end timestamps, and definition.
   "cdi:entityUsed": [
     {
       "@type": [
-        "cdi:Reference"
+        "cdif:Reference"
       ],
       "cdi:uri": "https://example.org/datasets/national-lfs-2024-AT",
       "cdi:description": "Austrian Labour Force Survey 2024 microdata"
     },
     {
       "@type": [
-        "cdi:Reference"
+        "cdif:Reference"
       ],
       "cdi:uri": "https://example.org/datasets/national-lfs-2024-DE",
       "cdi:description": "German Labour Force Survey 2024 microdata"
     },
     {
       "@type": [
-        "cdi:Reference"
+        "cdif:Reference"
       ],
       "cdi:uri": "https://example.org/datasets/national-lfs-2024-CH",
       "cdi:description": "Swiss Labour Force Survey 2024 microdata"
     },
     {
       "@type": [
-        "cdi:Reference"
+        "cdif:Reference"
       ],
       "cdi:uri": "https://example.org/datasets/national-lfs-2024-FR",
       "cdi:description": "French Labour Force Survey 2024 microdata"
@@ -315,7 +315,7 @@ script and Parameters, start/end timestamps, and definition.
   "cdi:entityProduced": [
     {
       "@type": [
-        "cdi:Reference"
+        "cdif:Reference"
       ],
       "cdi:uri": "https://doi.org/10.5281/zenodo.example-regional-employment-2025",
       "cdi:description": "Harmonized regional employment dataset 2025"
@@ -323,7 +323,7 @@ script and Parameters, start/end timestamps, and definition.
   ],
   "cdi:standardModelMapping": {
     "@type": [
-      "cdi:Reference"
+      "cdif:Reference"
     ],
     "cdi:uri": "https://statswiki.unece.org/display/GSBPM/GSBPM+v5.1",
     "cdi:description": "Generic Statistical Business Process Model v5.1 - Phase 5: Process",
@@ -367,21 +367,21 @@ ex:activity-statistical-compilation a cdi:Activity ;
                     cdi:content "Regional Employment Compilation 2025" ;
                     cdi:language "en" ] ] ;
     cdi:end "2025-06-15T17:00:00Z" ;
-    cdi:entityProduced [ a cdi:Reference ;
+    cdi:entityProduced [ a <cdif:Reference> ;
             cdi:description "Harmonized regional employment dataset 2025" ;
             cdi:uri "https://doi.org/10.5281/zenodo.example-regional-employment-2025" ] ;
-    cdi:entityUsed [ a cdi:Reference ;
-            cdi:description "French Labour Force Survey 2024 microdata" ;
-            cdi:uri "https://example.org/datasets/national-lfs-2024-FR" ],
-        [ a cdi:Reference ;
+    cdi:entityUsed [ a <cdif:Reference> ;
             cdi:description "Swiss Labour Force Survey 2024 microdata" ;
             cdi:uri "https://example.org/datasets/national-lfs-2024-CH" ],
-        [ a cdi:Reference ;
-            cdi:description "Austrian Labour Force Survey 2024 microdata" ;
-            cdi:uri "https://example.org/datasets/national-lfs-2024-AT" ],
-        [ a cdi:Reference ;
+        [ a <cdif:Reference> ;
+            cdi:description "French Labour Force Survey 2024 microdata" ;
+            cdi:uri "https://example.org/datasets/national-lfs-2024-FR" ],
+        [ a <cdif:Reference> ;
             cdi:description "German Labour Force Survey 2024 microdata" ;
-            cdi:uri "https://example.org/datasets/national-lfs-2024-DE" ] ;
+            cdi:uri "https://example.org/datasets/national-lfs-2024-DE" ],
+        [ a <cdif:Reference> ;
+            cdi:description "Austrian Labour Force Survey 2024 microdata" ;
+            cdi:uri "https://example.org/datasets/national-lfs-2024-AT" ] ;
     cdi:has_Step ex:step-data-integration,
         ex:step-variable-harmonization ;
     cdi:identifier [ a cdi:Identifier ;
@@ -391,7 +391,7 @@ ex:activity-statistical-compilation a cdi:Activity ;
             cdi:uri "https://example.org/activities/regional-employment-compilation-2025" ] ;
     cdi:name [ a cdi:ObjectName ;
             cdi:name "Statistical data compilation - Regional Employment Survey 2025" ] ;
-    cdi:standardModelMapping [ a cdi:Reference ;
+    cdi:standardModelMapping [ a <cdif:Reference> ;
             cdi:description "Generic Statistical Business Process Model v5.1 - Phase 5: Process" ;
             cdi:semantic [ a cdi:ControlledVocabularyEntry ;
                     cdi:entryValue "5" ;

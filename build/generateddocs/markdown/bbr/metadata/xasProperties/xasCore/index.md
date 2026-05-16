@@ -746,14 +746,14 @@ ex:xas-dataset-001 a schema1:Dataset,
             schema1:termCode "Se" ] ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
+            schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01188" ;
+            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
+            schema1:name "Transmission" ],
+        [ a schema1:DefinedTerm ;
             schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01196" ;
             schema1:inDefinedTermSet "http://purl.org/pan-science/PaNET/PaNET.owl" ;
             schema1:name "X-Ray Absorption Spectroscopy" ;
-            schema1:termCode "XAS" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01188" ;
-            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
-            schema1:name "Transmission" ] ;
+            schema1:termCode "XAS" ] ;
     schema1:name "Se K-edge XANES of Na2SeO4 reference compound" ;
     schema1:subjectOf <urn:uuid:xas-required-catalog-record> ;
     schema1:url "http://example.com/resource?foo=bar#fragment" ;
@@ -780,6 +780,18 @@ ex:xas-dataset-001 a schema1:Dataset,
                             schema1:hasPart [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
+                                            schema1:name "x-ray source" ;
+                                            schema1:propertyID "nxs:Field/NXsource/type" ;
+                                            schema1:value "Synchrotron X-ray Source" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "Probe" ;
+                                            schema1:propertyID "nxs:Field/NXsource/probe" ;
+                                            schema1:value "x-ray" ] ;
+                                    schema1:additionalType "nxs:BaseClass/NXsource" ;
+                                    schema1:name "APS bending magnet source" ],
+                                [ a schema1:Product,
+                                        schema1:Thing ;
+                                    schema1:additionalProperty [ a schema1:PropertyValue ;
                                             schema1:name "reflection plane (hkl)" ;
                                             schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
                                             schema1:value "1,1,1" ],
@@ -793,19 +805,7 @@ ex:xas-dataset-001 a schema1:Dataset,
                                             schema1:propertyID "nxs:Field/NXcrystal/type" ;
                                             schema1:value "Si(111)" ] ;
                                     schema1:additionalType "nxs:BaseClass/NXmonochromator" ;
-                                    schema1:name "Si 111" ],
-                                [ a schema1:Product,
-                                        schema1:Thing ;
-                                    schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "x-ray source" ;
-                                            schema1:propertyID "nxs:Field/NXsource/type" ;
-                                            schema1:value "Synchrotron X-ray Source" ],
-                                        [ a schema1:PropertyValue ;
-                                            schema1:name "Probe" ;
-                                            schema1:propertyID "nxs:Field/NXsource/probe" ;
-                                            schema1:value "x-ray" ] ;
-                                    schema1:additionalType "nxs:BaseClass/NXsource" ;
-                                    schema1:name "APS bending magnet source" ] ;
+                                    schema1:name "Si 111" ] ;
                             schema1:name "APS Sector 20-BM beamline instrument" ] ] ] .
 
 <urn:uuid:xas-required-catalog-record> a schema1:Dataset ;
@@ -1143,11 +1143,14 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
-    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
     "nxs": "http://purl.org/nexusformat/definitions/",
     "@version": 1.1
   }

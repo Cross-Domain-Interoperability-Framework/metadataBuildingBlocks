@@ -11,7 +11,7 @@ Collection of instance variables.
 
 DDI-CDI LogicalRecord describes a collection of instance variables grouped into a single record type. The root `cdi:LogicalRecord` carries `cdi:has` (linking to `cdifInstanceVariable` items that constitute the record's columns), `cdi:organizes` referencing the `cdi:DataSet` instances the record holds, `cdi:isDefinedBy` linking to one or more SKOS concepts, and `cdi:identifier`.
 
-Logical records are the units that `ddicdiDataStore` aggregates (`cdi:has_LogicalRecord`) and that `cdi:RecordRelation` cross-links via instance-variable maps. The BB sits at the join between the conceptual variable description and the physical datastore in the CDIF Data Description profile.
+Logical records are the units that `ddicdiLogicalRecordRepository` aggregates (`cdi:has_LogicalRecord`) and that `cdi:LogicalRecordRelationship` cross-links via instance-variable maps. The BB sits at the join between the conceptual variable description and the physical repository in the CDIF Data Description profile.
 
 ## Examples
 
@@ -98,7 +98,7 @@ cdi:has_InstanceVariable @id-refs.
       "@type": ["cdi:ControlledVocabularyEntry"],
       "cdi:name": "DDI-CDI UnitType vocabulary",
       "cdi:vocabulary": {
-        "@type": ["cdi:Reference"],
+        "@type": ["cdif:Reference"],
         "cdi:uri": "https://ddialliance.org/Specification/DDI-CDI/1.0/CV/UnitType"
       },
       "cdi:entryValue": ["Patient"]
@@ -147,7 +147,7 @@ cdi:has_InstanceVariable @id-refs.
       "cdi:name": "DDI-CDI UnitType vocabulary",
       "cdi:vocabulary": {
         "@type": [
-          "cdi:Reference"
+          "cdif:Reference"
         ],
         "cdi:uri": "https://ddialliance.org/Specification/DDI-CDI/1.0/CV/UnitType"
       },
@@ -185,7 +185,7 @@ cdi:has_InstanceVariable @id-refs.
     cdi:isDefinedBy [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "Patient" ;
             cdi:name "DDI-CDI UnitType vocabulary" ;
-            cdi:vocabulary [ a cdi:Reference ;
+            cdi:vocabulary [ a <cdif:Reference> ;
                     cdi:uri "https://ddialliance.org/Specification/DDI-CDI/1.0/CV/UnitType" ] ] ;
     cdi:organizes <https://example.org/dataset/visits-2026-long>,
         <https://example.org/dataset/visits-2026-wide> .

@@ -18,8 +18,10 @@ Profile for the schema.org implementation of the [Cross Domain Interoperability 
 - **cdifCore** -- all required and optional core metadata properties
 - **Discovery properties** -- measurement technique, variables measured, spatial/temporal coverage, quality measurements
 - **Data description extensions**:
-  - `schema:variableMeasured` items at this level require `cdi:InstanceVariable` typing and `cdi:physicalDataType`
-  - `schema:distribution` items may include `cdi:characterSet`, `cdi:fileSize`, `cdi:fileSizeUofM`
+  - `schema:variableMeasured` items at this level require `cdi:InstanceVariable` typing and `cdif:physicalDataType`
+  - `schema:distribution` items may include `cdi:characterSet`, `cdif:fileSize`, `cdif:fileSizeUofM`
+  - `cdif:hasPrimaryKey` points at a `cdif:Key` node (via the `cdifKey` building block)
+  - `cdif:statistics` carries one or more `cdi:Statistics` bundles or a `cdi:StatisticsCollection` (via the `cdifStatistics` building block)
 
 ### Conformance
 
@@ -41,6 +43,7 @@ physical mappings.
     "sf": "http://www.opengis.net/ont/sf#",
     "spdx": "http://spdx.org/rdf/terms#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/",
     "csvw": "http://www.w3.org/ns/csvw#",
     "dqv": "http://www.w3.org/ns/dqv#",
     "time": "http://www.w3.org/2006/time#",
@@ -481,7 +484,7 @@ physical mappings.
       },
       "schema:provider": [
         {
-          "@id": "kNKPZsCSWMc",
+          "@id": "ex:kNKPZsCSWMc",
           "@type": [
             "schema:Organization"
           ],
@@ -529,8 +532,8 @@ physical mappings.
         "spdx:checksumValue": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
       },
       "cdi:characterSet": "UTF-8",
-      "cdi:fileSize": 4.6,
-      "cdi:fileSizeUofM": "MB",
+      "cdif:fileSize": 4.6,
+      "cdif:fileSizeUofM": "MB",
       "cdi:isDelimited": true,
       "csvw:delimiter": ",",
       "csvw:header": true,
@@ -541,26 +544,26 @@ physical mappings.
       "csvw:quoteChar": "\"",
       "countRows": 461,
       "countColumns": 2,
-      "cdi:hasPhysicalMapping": [
+      "cdif:hasPhysicalMapping": [
         {
-          "cdi:index": 0,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float64",
+          "cdif:index": 0,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
           "cdi:nullSequence": "NA",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:KJTFKurNFu"
           }
         },
         {
-          "cdi:index": 1,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float64",
+          "cdif:index": 1,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
           "cdi:nullSequence": "-9999",
           "cdi:defaultValue": "0.0",
           "cdi:decimalPositions": 4,
           "cdi:isRequired": false,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:OjHgIDO"
           }
         }
@@ -589,27 +592,27 @@ physical mappings.
         "spdx:algorithm": "SHA256",
         "spdx:checksumValue": "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5"
       },
-      "cdi:hasPhysicalMapping": [
+      "cdif:hasPhysicalMapping": [
         {
-          "cdi:index": 0,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/measurements/wavelength",
+          "cdif:index": 0,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdif:locator": "/measurements/wavelength",
           "cdi:nullSequence": "NaN",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:KJTFKurNFu"
           }
         },
         {
-          "cdi:index": 1,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/measurements/intensity",
+          "cdif:index": 1,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdif:locator": "/measurements/intensity",
           "cdi:scale": 1000,
           "cdi:decimalPositions": 6,
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:OjHgIDO"
           }
         }
@@ -622,8 +625,7 @@ physical mappings.
     },
     {
       "@type": [
-        "schema:WebAPI",
-        "cdi:LogicalDataSet"
+        "schema:WebAPI"
       ],
       "schema:serviceType": {
         "@type": [
@@ -672,33 +674,37 @@ physical mappings.
           "schema:result": {
             "@type": [
               "schema:DataDownload",
-              "cdi:TabularTextDataSet"
+              "cdi:TabularTextDataSet",
+              "cdi:PhysicalDataSet"
             ],
             "schema:name": "Geochemistry query results",
             "schema:contentUrl": "http://example.com/api/v1/collections/geochem/items?f=csv",
             "schema:encodingFormat": [
               "text/csv"
             ],
+            "cdi:characterSet": "UTF-8",
+            "cdif:fileSize": 0.8,
+            "cdif:fileSizeUofM": "MB",
             "cdi:isDelimited": true,
             "csvw:delimiter": ",",
             "csvw:header": true,
             "csvw:headerRowCount": 1,
-            "cdi:hasTexMapping": [
+            "cdif:hasPhysicalMapping": [
               {
-                "cdi:index": 0,
-                "cdi:format": "decimal",
-                "cdi:physicalDataType": "float64",
+                "cdif:index": 0,
+                "cdif:format": "decimal",
+                "cdif:physicalDataType": "float64",
                 "cdi:isRequired": true,
-                "cdi:formats_InstanceVariable": {
+                "cdif:formats_InstanceVariable": {
                   "@id": "ex:KJTFKurNFu"
                 }
               },
               {
-                "cdi:index": 1,
-                "cdi:format": "decimal",
-                "cdi:physicalDataType": "float64",
+                "cdif:index": 1,
+                "cdif:format": "decimal",
+                "cdif:physicalDataType": "float64",
                 "cdi:isRequired": false,
-                "cdi:formats_InstanceVariable": {
+                "cdif:formats_InstanceVariable": {
                   "@id": "ex:OjHgIDO"
                 }
               }
@@ -766,11 +772,11 @@ physical mappings.
       "schema:maxValue": 98.0,
       "schema:url": "http://example.com/resource?foo=bar#furlong",
       "cdi:identifier": "ex:KJTFKurNFu",
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "float64"
       ],
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
-      "cdi:role": "Measure",
+      "cdif:role": "Measure",
       "cdi:name": "RbMivCtraTmzms",
       "cdi:displayLabel": "Sea Water Temperature",
       "cdi:describedUnitOfMeasure": {
@@ -782,7 +788,7 @@ physical mappings.
         "schema:inDefinedTermSet": "http://qudt.org/vocab/unit/"
       },
       "cdi:simpleUnitOfMeasure": "Cel",
-      "cdi:uses": [
+      "cdif:uses": [
         {
           "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
         }
@@ -822,11 +828,11 @@ physical mappings.
       "schema:maxValue": 74.0,
       "schema:url": "http://example.com/resource?foo=bar#stone",
       "cdi:identifier": "ex:OjHgIDO",
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "float32"
       ],
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#float",
-      "cdi:role": "Dimension",
+      "cdif:role": "Dimension",
       "cdi:name": "jzgZCegiTFYBSmsSh",
       "cdi:displayLabel": "Measurement Depth",
       "cdi:simpleUnitOfMeasure": "m",
@@ -986,6 +992,9 @@ physical mappings.
         "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription"
       },
       {
+        "@id": "https://w3id.org/cdif/manifest/1.0"
+      },
+      {
         "@id": "https://w3id.org/cdif/core/1.0"
       },
       {
@@ -1071,6 +1080,7 @@ physical mappings.
       "sf": "http://www.opengis.net/ont/sf#",
       "spdx": "http://spdx.org/rdf/terms#",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://cdif.org/0.1/",
       "csvw": "http://www.w3.org/ns/csvw#",
       "dqv": "http://www.w3.org/ns/dqv#",
       "time": "http://www.w3.org/2006/time#",
@@ -1512,7 +1522,7 @@ physical mappings.
       },
       "schema:provider": [
         {
-          "@id": "kNKPZsCSWMc",
+          "@id": "ex:kNKPZsCSWMc",
           "@type": [
             "schema:Organization"
           ],
@@ -1560,8 +1570,8 @@ physical mappings.
         "spdx:checksumValue": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
       },
       "cdi:characterSet": "UTF-8",
-      "cdi:fileSize": 4.6,
-      "cdi:fileSizeUofM": "MB",
+      "cdif:fileSize": 4.6,
+      "cdif:fileSizeUofM": "MB",
       "cdi:isDelimited": true,
       "csvw:delimiter": ",",
       "csvw:header": true,
@@ -1572,26 +1582,26 @@ physical mappings.
       "csvw:quoteChar": "\"",
       "countRows": 461,
       "countColumns": 2,
-      "cdi:hasPhysicalMapping": [
+      "cdif:hasPhysicalMapping": [
         {
-          "cdi:index": 0,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float64",
+          "cdif:index": 0,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
           "cdi:nullSequence": "NA",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:KJTFKurNFu"
           }
         },
         {
-          "cdi:index": 1,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float64",
+          "cdif:index": 1,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
           "cdi:nullSequence": "-9999",
           "cdi:defaultValue": "0.0",
           "cdi:decimalPositions": 4,
           "cdi:isRequired": false,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:OjHgIDO"
           }
         }
@@ -1620,27 +1630,27 @@ physical mappings.
         "spdx:algorithm": "SHA256",
         "spdx:checksumValue": "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5"
       },
-      "cdi:hasPhysicalMapping": [
+      "cdif:hasPhysicalMapping": [
         {
-          "cdi:index": 0,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/measurements/wavelength",
+          "cdif:index": 0,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdif:locator": "/measurements/wavelength",
           "cdi:nullSequence": "NaN",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:KJTFKurNFu"
           }
         },
         {
-          "cdi:index": 1,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/measurements/intensity",
+          "cdif:index": 1,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdif:locator": "/measurements/intensity",
           "cdi:scale": 1000,
           "cdi:decimalPositions": 6,
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:OjHgIDO"
           }
         }
@@ -1653,8 +1663,7 @@ physical mappings.
     },
     {
       "@type": [
-        "schema:WebAPI",
-        "cdi:LogicalDataSet"
+        "schema:WebAPI"
       ],
       "schema:serviceType": {
         "@type": [
@@ -1703,33 +1712,37 @@ physical mappings.
           "schema:result": {
             "@type": [
               "schema:DataDownload",
-              "cdi:TabularTextDataSet"
+              "cdi:TabularTextDataSet",
+              "cdi:PhysicalDataSet"
             ],
             "schema:name": "Geochemistry query results",
             "schema:contentUrl": "http://example.com/api/v1/collections/geochem/items?f=csv",
             "schema:encodingFormat": [
               "text/csv"
             ],
+            "cdi:characterSet": "UTF-8",
+            "cdif:fileSize": 0.8,
+            "cdif:fileSizeUofM": "MB",
             "cdi:isDelimited": true,
             "csvw:delimiter": ",",
             "csvw:header": true,
             "csvw:headerRowCount": 1,
-            "cdi:hasTexMapping": [
+            "cdif:hasPhysicalMapping": [
               {
-                "cdi:index": 0,
-                "cdi:format": "decimal",
-                "cdi:physicalDataType": "float64",
+                "cdif:index": 0,
+                "cdif:format": "decimal",
+                "cdif:physicalDataType": "float64",
                 "cdi:isRequired": true,
-                "cdi:formats_InstanceVariable": {
+                "cdif:formats_InstanceVariable": {
                   "@id": "ex:KJTFKurNFu"
                 }
               },
               {
-                "cdi:index": 1,
-                "cdi:format": "decimal",
-                "cdi:physicalDataType": "float64",
+                "cdif:index": 1,
+                "cdif:format": "decimal",
+                "cdif:physicalDataType": "float64",
                 "cdi:isRequired": false,
-                "cdi:formats_InstanceVariable": {
+                "cdif:formats_InstanceVariable": {
                   "@id": "ex:OjHgIDO"
                 }
               }
@@ -1797,11 +1810,11 @@ physical mappings.
       "schema:maxValue": 98.0,
       "schema:url": "http://example.com/resource?foo=bar#furlong",
       "cdi:identifier": "ex:KJTFKurNFu",
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "float64"
       ],
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
-      "cdi:role": "Measure",
+      "cdif:role": "Measure",
       "cdi:name": "RbMivCtraTmzms",
       "cdi:displayLabel": "Sea Water Temperature",
       "cdi:describedUnitOfMeasure": {
@@ -1813,7 +1826,7 @@ physical mappings.
         "schema:inDefinedTermSet": "http://qudt.org/vocab/unit/"
       },
       "cdi:simpleUnitOfMeasure": "Cel",
-      "cdi:uses": [
+      "cdif:uses": [
         {
           "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
         }
@@ -1853,11 +1866,11 @@ physical mappings.
       "schema:maxValue": 74.0,
       "schema:url": "http://example.com/resource?foo=bar#stone",
       "cdi:identifier": "ex:OjHgIDO",
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "float32"
       ],
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#float",
-      "cdi:role": "Dimension",
+      "cdif:role": "Dimension",
       "cdi:name": "jzgZCegiTFYBSmsSh",
       "cdi:displayLabel": "Measurement Depth",
       "cdi:simpleUnitOfMeasure": "m",
@@ -2017,6 +2030,9 @@ physical mappings.
         "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription"
       },
       {
+        "@id": "https://w3id.org/cdif/manifest/1.0"
+      },
+      {
         "@id": "https://w3id.org/cdif/core/1.0"
       },
       {
@@ -2086,6 +2102,7 @@ physical mappings.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix dqv: <http://www.w3.org/ns/dqv#> .
@@ -2097,14 +2114,6 @@ physical mappings.
 @prefix spdx: <http://spdx.org/rdf/terms#> .
 @prefix time: <http://www.w3.org/2006/time#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-<file:///github/workspace/kNKPZsCSWMc> a schema1:Organization ;
-    schema1:alternateName "WFcslOjvGZY" ;
-    schema1:description "ztcLdOAkQTKSPLZ" ;
-    schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "ex:oFIYAymjuGCPjDnSgmB" ;
-            schema1:url "http://example.com/resource/WPfhCJyxiDcwgdHMemJd" ] ;
-    schema1:name "SdeMvoPFxEaJOvQy" .
 
 <https://ada.org/person/5489> a schema1:Person ;
     schema1:contactPoint [ a schema1:ContactPoint ;
@@ -2131,7 +2140,8 @@ ex:BAaR a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFDataDescription>,
         <https://w3id.org/cdif/core/1.0>,
         <https://w3id.org/cdif/data_description/1.0>,
-        <https://w3id.org/cdif/discovery/1.0> ;
+        <https://w3id.org/cdif/discovery/1.0>,
+        <https://w3id.org/cdif/manifest/1.0> ;
     schema1:about ex:YOPx ;
     schema1:additionalType "dcat:CatalogRecord" ;
     schema1:includedInDataCatalog ex:lIZkH ;
@@ -2188,25 +2198,22 @@ ex:YOPx a schema1:Dataset ;
                     spdx:algorithm "MD5" ;
                     spdx:checksumValue "MITGLcmBjeFYWmjP" ] ],
         [ a cdi:PhysicalDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "kpZDvhyVo",
+                "sMUGwSqxWzJOYEb",
+                "tNdpXaJgDeWbFkNM" ;
+            schema1:name "MVMpmnCGAggEnsoEgJXH" ;
+            schema1:provider ex:kNKPZsCSWMc,
+                ex:sr68lgy ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "j" ;
+                    spdx:checksumValue "h" ] ],
+        [ a cdi:PhysicalDataSet,
                 cdi:TabularTextDataSet,
                 schema1:DataDownload ;
             cdi:characterSet "UTF-8" ;
-            cdi:fileSize 4.6e+00 ;
-            cdi:fileSizeUofM "MB" ;
-            cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "NA" ;
-                    cdi:physicalDataType "float64" ],
-                [ cdi:decimalPositions 4 ;
-                    cdi:defaultValue "0.0" ;
-                    cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:OjHgIDO ;
-                    cdi:index 1 ;
-                    cdi:isRequired false ;
-                    cdi:nullSequence "-9999" ;
-                    cdi:physicalDataType "float64" ] ;
             cdi:isDelimited true ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "http://example.com/data/geochem-results.csv" ;
@@ -2221,9 +2228,49 @@ ex:YOPx a schema1:Dataset ;
             csvw:headerRowCount 1 ;
             csvw:quoteChar "\"" ;
             csvw:skipBlankRows true ;
-            csvw:skipRows 0 ],
-        [ a cdi:LogicalDataSet,
-                schema1:WebAPI ;
+            csvw:skipRows 0 ;
+            cdif:fileSize 4.6e+00 ;
+            cdif:fileSizeUofM "MB" ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 4 ;
+                    cdi:defaultValue "0.0" ;
+                    cdi:isRequired false ;
+                    cdi:nullSequence "-9999" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:OjHgIDO ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:isRequired true ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "float64" ] ],
+        [ a cdi:PhysicalDataSet,
+                cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/data/measurement-cube.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Gridded measurement data cube" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5" ] ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdi:nullSequence "NaN" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
+                    cdif:index 0 ;
+                    cdif:locator "/measurements/wavelength" ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:decimalPositions 6 ;
+                    cdi:isRequired true ;
+                    cdi:scale 1000 ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:OjHgIDO ;
+                    cdif:index 1 ;
+                    cdif:locator "/measurements/intensity" ;
+                    cdif:physicalDataType "float32" ] ],
+        [ a schema1:WebAPI ;
             schema1:documentation [ a schema1:CreativeWork ;
                     schema1:name "OpenAPI specification for geochemistry data service" ;
                     schema1:url "http://example.com/api/v1/openapi.json" ] ;
@@ -2232,30 +2279,22 @@ ex:YOPx a schema1:Dataset ;
                     schema1:object [ a schema1:DataFeed ;
                             schema1:description "Geochemistry observations collection" ] ;
                     schema1:query-input [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of features to return (default 100)" ;
-                            schema1:valueName "limit" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Response format: csv or geojson" ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv|geojson" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Maximum number of features to return (default 100)" ;
+                            schema1:valueName "limit" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Starting index for pagination" ;
                             schema1:valueName "offset" ;
                             schema1:valueRequired false ] ;
-                    schema1:result [ a cdi:TabularTextDataSet,
+                    schema1:result [ a cdi:PhysicalDataSet,
+                                cdi:TabularTextDataSet,
                                 schema1:DataDownload ;
-                            cdi:hasTexMapping [ cdi:format "decimal" ;
-                                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
-                                    cdi:index 0 ;
-                                    cdi:isRequired true ;
-                                    cdi:physicalDataType "float64" ],
-                                [ cdi:format "decimal" ;
-                                    cdi:formats_InstanceVariable ex:OjHgIDO ;
-                                    cdi:index 1 ;
-                                    cdi:isRequired false ;
-                                    cdi:physicalDataType "float64" ] ;
+                            cdi:characterSet "UTF-8" ;
                             cdi:isDelimited true ;
                             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
                             schema1:contentUrl "http://example.com/api/v1/collections/geochem/items?f=csv" ;
@@ -2263,7 +2302,19 @@ ex:YOPx a schema1:Dataset ;
                             schema1:name "Geochemistry query results" ;
                             csvw:delimiter "," ;
                             csvw:header true ;
-                            csvw:headerRowCount 1 ] ;
+                            csvw:headerRowCount 1 ;
+                            cdif:fileSize 8e-01 ;
+                            cdif:fileSizeUofM "MB" ;
+                            cdif:hasPhysicalMapping [ cdi:isRequired false ;
+                                    cdif:format "decimal" ;
+                                    cdif:formats_InstanceVariable ex:OjHgIDO ;
+                                    cdif:index 1 ;
+                                    cdif:physicalDataType "float64" ],
+                                [ cdi:isRequired true ;
+                                    cdif:format "decimal" ;
+                                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
+                                    cdif:index 0 ;
+                                    cdif:physicalDataType "float64" ] ] ;
                     schema1:target [ a schema1:EntryPoint ;
                             schema1:contentType "application/geo+json",
                                 "text/csv" ;
@@ -2278,45 +2329,7 @@ ex:YOPx a schema1:Dataset ;
                     schema1:inDefinedTermSet "https://www.ogc.org/standards" ;
                     schema1:name "OGC API - Features" ;
                     schema1:termCode "ogcapi-features" ] ;
-            schema1:termsOfService "Open access, no authentication required" ],
-        [ a cdi:PhysicalDataSet,
-                cdi:StructuredDataSet,
-                schema1:DataDownload ;
-            cdi:hasPhysicalMapping [ cdi:decimalPositions 6 ;
-                    cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:OjHgIDO ;
-                    cdi:index 1 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/measurements/intensity" ;
-                    cdi:physicalDataType "float32" ;
-                    cdi:scale 1000 ],
-                [ cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:KJTFKurNFu ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/measurements/wavelength" ;
-                    cdi:nullSequence "NaN" ;
-                    cdi:physicalDataType "float32" ] ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/data/measurement-cube.nc" ;
-            schema1:encodingFormat "application/x-netcdf" ;
-            schema1:name "Gridded measurement data cube" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5" ] ],
-        [ a cdi:PhysicalDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "kpZDvhyVo",
-                "sMUGwSqxWzJOYEb",
-                "tNdpXaJgDeWbFkNM" ;
-            schema1:name "MVMpmnCGAggEnsoEgJXH" ;
-            schema1:provider <file:///github/workspace/kNKPZsCSWMc>,
-                ex:sr68lgy ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "j" ;
-                    spdx:checksumValue "h" ] ] ;
+            schema1:termsOfService "Open access, no authentication required" ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/fnjrj68> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -2324,37 +2337,37 @@ ex:YOPx a schema1:Dataset ;
                     schema1:value "fMuiBjneudpV" ] ;
             schema1:name "MWoPQAqRYHobey" ],
         [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/sejer4w6u8> ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "grant-id" ;
-                    schema1:value "LZpo" ] ;
-            schema1:name "ekckpBtI" ],
-        [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
                     schema1:value "lieopgXuumP" ] ;
-            schema1:name "fhhbzh" ] ;
+            schema1:name "fhhbzh" ],
+        [ a schema1:MonetaryGrant ;
+            schema1:funder <https://ror.org/sejer4w6u8> ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "grant-id" ;
+                    schema1:value "LZpo" ] ;
+            schema1:name "ekckpBtI" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
     schema1:inLanguage "bYiJT" ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "ex:rIPXjaCPQX" ;
-                    schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
-                    schema1:value "PVSajGtBPsLzeCTLv" ] ;
-            schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
-            schema1:name "MiSqvcp" ;
-            schema1:termCode "bzOl" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "https://resource.org/identifier" ;
                     schema1:url "http://example.com/resource/tdUMYBItIwdJe" ;
                     schema1:value "tdUMYBItIwdJe" ] ;
             schema1:inDefinedTermSet "sqH" ;
             schema1:name "TiMuawt" ;
-            schema1:termCode "RUUxHY" ] ;
+            schema1:termCode "RUUxHY" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "ex:rIPXjaCPQX" ;
+                    schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
+                    schema1:value "PVSajGtBPsLzeCTLv" ] ;
+            schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
+            schema1:name "MiSqvcp" ;
+            schema1:termCode "bzOl" ] ;
     schema1:license "Kmp",
         "dXhuFoqL" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
@@ -2377,11 +2390,6 @@ ex:YOPx a schema1:Dataset ;
             schema1:propertyID "urn:idorg:test" ;
             schema1:value "urn:idorg:test:p45689" ] ;
     schema1:spatialCoverage [ a schema1:Place ;
-            schema1:geo [ a schema1:GeoCoordinates ;
-                    schema1:latitude 4.35e+01 ;
-                    schema1:longitude -6.8e+01 ] ;
-            schema1:name "Station GoM-A1" ],
-        [ a schema1:Place ;
             schema1:additionalType "marine-region" ;
             schema1:alternateName "Maine Gulf" ;
             schema1:geo [ a schema1:GeoShape ;
@@ -2390,7 +2398,12 @@ ex:YOPx a schema1:Dataset ;
             schema1:name "Gulf of Maine" ;
             geosparql:hasGeometry [ a sf:Polygon ;
                     geosparql:asWKT "POLYGON((-71 41,-65 41,-65 45,-71 45,-71 41))"^^<['geosparql:wktLiteral']> ;
-                    geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] ] ;
+                    geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] ],
+        [ a schema1:Place ;
+            schema1:geo [ a schema1:GeoCoordinates ;
+                    schema1:latitude 4.35e+01 ;
+                    schema1:longitude -6.8e+01 ] ;
+            schema1:name "Station GoM-A1" ] ;
     schema1:subjectOf ex:BAaR ;
     schema1:temporalCoverage [ a time:ProperInterval ;
             schema1:description "Monitoring window for ocean temperature 2024-2025 release" ;
@@ -2408,6 +2421,9 @@ ex:YOPx a schema1:Dataset ;
         ex:OjHgIDO ;
     schema1:version "OVVAYgJhmFkXyVyedlVo" ;
     dqv:hasQualityMeasurement [ a dqv:QualityMeasurement ;
+            dqv:isMeasurementOf "completeness" ;
+            dqv:value "0.987" ],
+        [ a dqv:QualityMeasurement ;
             dqv:isMeasurementOf [ a schema1:DefinedTerm ;
                     schema1:identifier "https://example.org/quality/qartod-pass-rate" ;
                     schema1:name "QARTOD primary level pass rate" ] ;
@@ -2417,10 +2433,7 @@ ex:YOPx a schema1:Dataset ;
             dqv:value [ a schema1:DefinedTerm ;
                     schema1:identifier "https://example.org/quality/levels/high" ;
                     schema1:name "high accuracy" ;
-                    schema1:termCode "HIGH" ] ],
-        [ a dqv:QualityMeasurement ;
-            dqv:isMeasurementOf "completeness" ;
-            dqv:value "0.987" ] .
+                    schema1:termCode "HIGH" ] ] .
 
 ex:corzCgjNrGcH a schema1:Organization ;
     schema1:additionalType "schema:NGO" ;
@@ -2457,6 +2470,14 @@ ex:jP a schema1:Person ;
     schema1:contactPoint [ a schema1:ContactPoint ;
             schema1:email "jdoe@example.org" ] ;
     schema1:name "Doe, Jane" .
+
+ex:kNKPZsCSWMc a schema1:Organization ;
+    schema1:alternateName "WFcslOjvGZY" ;
+    schema1:description "ztcLdOAkQTKSPLZ" ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "ex:oFIYAymjuGCPjDnSgmB" ;
+            schema1:url "http://example.com/resource/WPfhCJyxiDcwgdHMemJd" ] ;
+    schema1:name "SdeMvoPFxEaJOvQy" .
 
 ex:lIZkH a schema1:DataCatalog ;
     schema1:identifier [ a schema1:PropertyValue ;
@@ -2514,9 +2535,7 @@ ex:OjHgIDO a cdi:InstanceVariable,
     cdi:identifier "ex:OjHgIDO" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#float" ;
     cdi:name "jzgZCegiTFYBSmsSh" ;
-    cdi:physicalDataType "float32" ;
     cdi:qualifies ex:KJTFKurNFu ;
-    cdi:role "Dimension" ;
     cdi:simpleUnitOfMeasure "m" ;
     schema1:description "RGKBMBkScTTNQ" ;
     schema1:maxValue 7.4e+01 ;
@@ -2534,7 +2553,9 @@ ex:OjHgIDO a cdi:InstanceVariable,
         "urn:properties:tzysaGTv" ;
     schema1:unitCode "S" ;
     schema1:unitText "stone" ;
-    schema1:url "http://example.com/resource?foo=bar#stone" .
+    schema1:url "http://example.com/resource?foo=bar#stone" ;
+    cdif:physicalDataType "float32" ;
+    cdif:role "Dimension" .
 
 ex:KJTFKurNFu a cdi:InstanceVariable,
         schema1:PropertyValue ;
@@ -2546,10 +2567,7 @@ ex:KJTFKurNFu a cdi:InstanceVariable,
     cdi:identifier "ex:KJTFKurNFu" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     cdi:name "RbMivCtraTmzms" ;
-    cdi:physicalDataType "float64" ;
-    cdi:role "Measure" ;
     cdi:simpleUnitOfMeasure "Cel" ;
-    cdi:uses <http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/> ;
     schema1:description "EcbPmKQnMCgWozw" ;
     schema1:maxValue 9.8e+01 ;
     schema1:measurementTechnique "some measurement technique" ;
@@ -2559,7 +2577,2430 @@ ex:KJTFKurNFu a cdi:InstanceVariable,
         "urn:test:GigjbPysIJ" ;
     schema1:unitCode "F" ;
     schema1:unitText "furlongs" ;
-    schema1:url "http://example.com/resource?foo=bar#furlong" .
+    schema1:url "http://example.com/resource?foo=bar#furlong" ;
+    cdif:physicalDataType "float64" ;
+    cdif:role "Measure" ;
+    cdif:uses <http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/> .
+
+
+```
+
+
+### Dimensional (data cube) example.
+Gridded sea-water temperature in a single NetCDF file. The distribution is
+typed as cdi:StructuredDataSet and the four dimension variables (time, depth,
+latitude, longitude) plus the temperature measure are declared as
+InstanceVariables with cdif:role of Dimension or Measure. Physical mappings
+use cdif:locator to point at the NetCDF variable paths.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:gom-temp-cube-2025",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Gulf of Maine gridded sea temperature, 2024-2025",
+  "schema:description": "Monthly sea-water temperature regridded onto a 0.1-degree lat/lon mesh at 24 standard depth levels. Single NetCDF file with a 4-D measurement array indexed by time, depth, latitude, and longitude.",
+  "schema:identifier": {
+    "@type": ["schema:PropertyValue"],
+    "schema:propertyID": "https://doi.org",
+    "schema:value": "10.5281/zenodo.4242424",
+    "schema:url": "https://doi.org/10.5281/zenodo.4242424"
+  },
+  "schema:version": "1.0.0",
+  "schema:dateModified": "2025-10-02",
+  "schema:datePublished": "2025-10-15",
+  "schema:license": [
+    "https://creativecommons.org/licenses/by/4.0/"
+  ],
+  "schema:keywords": [
+    "ocean temperature",
+    "Gulf of Maine",
+    "gridded data",
+    "reanalysis"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://ror.org/03m2x1q45",
+        "@type": ["schema:Organization"],
+        "schema:name": "University of Arizona"
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@id": "https://ror.org/03m2x1q45",
+    "@type": ["schema:Organization"],
+    "schema:name": "University of Arizona"
+  },
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload",
+        "cdi:StructuredDataSet",
+        "cdi:PhysicalDataSet"
+      ],
+      "schema:name": "Gulf of Maine temperature cube (NetCDF-4)",
+      "schema:contentUrl": "https://example.org/data/gom-temp-cube-2025.nc",
+      "schema:encodingFormat": ["application/x-netcdf"],
+      "cdif:fileSize": 184.6,
+      "cdif:fileSizeUofM": "MB",
+      "spdx:checksum": {
+        "@type": ["spdx:Checksum"],
+        "spdx:algorithm": "SHA256",
+        "spdx:checksumValue": "9f3c1a0b4e8d2f1e7a6c5b4d3a2918f0e1d2c3b4a5968778a9b0c1d2e3f40516"
+      },
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 0,
+          "cdif:locator": "/time",
+          "cdif:format": "days since 2024-01-01",
+          "cdif:physicalDataType": "int32",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": { "@id": "ex:var-time" }
+        },
+        {
+          "cdif:index": 1,
+          "cdif:locator": "/depth",
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": { "@id": "ex:var-depth" }
+        },
+        {
+          "cdif:index": 2,
+          "cdif:locator": "/lat",
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": { "@id": "ex:var-lat" }
+        },
+        {
+          "cdif:index": 3,
+          "cdif:locator": "/lon",
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": { "@id": "ex:var-lon" }
+        },
+        {
+          "cdif:index": 4,
+          "cdif:locator": "/temperature",
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdi:nullSequence": "NaN",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": { "@id": "ex:var-temperature" }
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "ex:var-time",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "time",
+      "schema:description": "Mid-month timestamp of the monthly mean field.",
+      "cdif:physicalDataType": ["int32"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#date",
+      "cdif:role": "Dimension",
+      "cdi:displayLabel": "Time",
+      "cdif:simpleUnitOfMeasure": "d",
+      "cdi:describedUnitOfMeasure": {
+        "@type": ["schema:DefinedTerm"],
+        "schema:name": "days since 2024-01-01",
+        "schema:identifier": "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"
+      }
+    },
+    {
+      "@id": "ex:var-depth",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "depth",
+      "schema:description": "Standard ocean depth level below sea surface.",
+      "cdif:physicalDataType": ["float32"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#float",
+      "cdif:role": "Dimension",
+      "schema:minValue": 0.0,
+      "schema:maxValue": 4000.0,
+      "cdi:displayLabel": "Depth below sea surface",
+      "cdif:simpleUnitOfMeasure": "m",
+      "cdif:uses": [
+        { "@id": "http://vocab.nerc.ac.uk/collection/P01/current/DEPHPR01/" }
+      ]
+    },
+    {
+      "@id": "ex:var-lat",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "latitude",
+      "schema:description": "Cell-centre latitude (WGS84).",
+      "cdif:physicalDataType": ["float32"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#float",
+      "cdif:role": "Dimension",
+      "schema:minValue": 41.0,
+      "schema:maxValue": 45.0,
+      "cdi:displayLabel": "Latitude",
+      "cdif:simpleUnitOfMeasure": "deg",
+      "cdif:uses": [
+        { "@id": "http://vocab.nerc.ac.uk/collection/P02/current/SDN_LAT/" }
+      ]
+    },
+    {
+      "@id": "ex:var-lon",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "longitude",
+      "schema:description": "Cell-centre longitude (WGS84).",
+      "cdif:physicalDataType": ["float32"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#float",
+      "cdif:role": "Dimension",
+      "schema:minValue": -71.0,
+      "schema:maxValue": -65.0,
+      "cdi:displayLabel": "Longitude",
+      "cdif:simpleUnitOfMeasure": "deg",
+      "cdif:uses": [
+        { "@id": "http://vocab.nerc.ac.uk/collection/P02/current/SDN_LON/" }
+      ]
+    },
+    {
+      "@id": "ex:var-temperature",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "sea_water_temperature",
+      "schema:description": "Monthly mean in-situ sea-water temperature for the cell.",
+      "schema:measurementTechnique": "Optimal interpolation of CTD and ARGO float observations",
+      "schema:propertyID": [
+        "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+      ],
+      "cdif:physicalDataType": ["float32"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#float",
+      "cdif:role": "Measure",
+      "schema:minValue": -2.0,
+      "schema:maxValue": 28.0,
+      "cdi:displayLabel": "Sea-water temperature",
+      "cdi:describedUnitOfMeasure": {
+        "@type": ["schema:DefinedTerm"],
+        "schema:name": "degree Celsius",
+        "schema:identifier": "http://qudt.org/vocab/unit/DEG_C"
+      },
+      "cdif:simpleUnitOfMeasure": "Cel",
+      "cdif:uses": [
+        { "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/" }
+      ]
+    }
+  ],
+  "schema:spatialCoverage": [
+    {
+      "@type": ["schema:Place"],
+      "schema:name": "Gulf of Maine",
+      "schema:geo": {
+        "@type": ["schema:GeoShape"],
+        "schema:box": "41.0 -71.0 45.0 -65.0"
+      }
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2024-01-01/2025-09-30"
+  ],
+  "schema:subjectOf": {
+    "@id": "ex:gom-temp-cube-2025/catalog-record",
+    "@type": ["schema:Dataset"],
+    "schema:additionalType": ["dcat:CatalogRecord"],
+    "schema:about": { "@id": "ex:gom-temp-cube-2025" },
+    "schema:sdDatePublished": "2025-10-15",
+    "dcterms:conformsTo": [
+      { "@id": "https://w3id.org/cdif/core/1.0" },
+      { "@id": "https://w3id.org/cdif/discovery/1.0" },
+      { "@id": "https://w3id.org/cdif/data_description/1.0" }
+    ]
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "spdx": "http://spdx.org/rdf/terms#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescriptionProfile/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "prov": "http://www.w3.org/ns/prov#",
+      "spdx": "http://spdx.org/rdf/terms#",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:gom-temp-cube-2025",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Gulf of Maine gridded sea temperature, 2024-2025",
+  "schema:description": "Monthly sea-water temperature regridded onto a 0.1-degree lat/lon mesh at 24 standard depth levels. Single NetCDF file with a 4-D measurement array indexed by time, depth, latitude, and longitude.",
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": "https://doi.org",
+    "schema:value": "10.5281/zenodo.4242424",
+    "schema:url": "https://doi.org/10.5281/zenodo.4242424"
+  },
+  "schema:version": "1.0.0",
+  "schema:dateModified": "2025-10-02",
+  "schema:datePublished": "2025-10-15",
+  "schema:license": [
+    "https://creativecommons.org/licenses/by/4.0/"
+  ],
+  "schema:keywords": [
+    "ocean temperature",
+    "Gulf of Maine",
+    "gridded data",
+    "reanalysis"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://ror.org/03m2x1q45",
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "University of Arizona"
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@id": "https://ror.org/03m2x1q45",
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "University of Arizona"
+  },
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload",
+        "cdi:StructuredDataSet",
+        "cdi:PhysicalDataSet"
+      ],
+      "schema:name": "Gulf of Maine temperature cube (NetCDF-4)",
+      "schema:contentUrl": "https://example.org/data/gom-temp-cube-2025.nc",
+      "schema:encodingFormat": [
+        "application/x-netcdf"
+      ],
+      "cdif:fileSize": 184.6,
+      "cdif:fileSizeUofM": "MB",
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:algorithm": "SHA256",
+        "spdx:checksumValue": "9f3c1a0b4e8d2f1e7a6c5b4d3a2918f0e1d2c3b4a5968778a9b0c1d2e3f40516"
+      },
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 0,
+          "cdif:locator": "/time",
+          "cdif:format": "days since 2024-01-01",
+          "cdif:physicalDataType": "int32",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var-time"
+          }
+        },
+        {
+          "cdif:index": 1,
+          "cdif:locator": "/depth",
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var-depth"
+          }
+        },
+        {
+          "cdif:index": 2,
+          "cdif:locator": "/lat",
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var-lat"
+          }
+        },
+        {
+          "cdif:index": 3,
+          "cdif:locator": "/lon",
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var-lon"
+          }
+        },
+        {
+          "cdif:index": 4,
+          "cdif:locator": "/temperature",
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdi:nullSequence": "NaN",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var-temperature"
+          }
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "ex:var-time",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "time",
+      "schema:description": "Mid-month timestamp of the monthly mean field.",
+      "cdif:physicalDataType": [
+        "int32"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#date",
+      "cdif:role": "Dimension",
+      "cdi:displayLabel": "Time",
+      "cdif:simpleUnitOfMeasure": "d",
+      "cdi:describedUnitOfMeasure": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "days since 2024-01-01",
+        "schema:identifier": "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"
+      }
+    },
+    {
+      "@id": "ex:var-depth",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "depth",
+      "schema:description": "Standard ocean depth level below sea surface.",
+      "cdif:physicalDataType": [
+        "float32"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#float",
+      "cdif:role": "Dimension",
+      "schema:minValue": 0.0,
+      "schema:maxValue": 4000.0,
+      "cdi:displayLabel": "Depth below sea surface",
+      "cdif:simpleUnitOfMeasure": "m",
+      "cdif:uses": [
+        {
+          "@id": "http://vocab.nerc.ac.uk/collection/P01/current/DEPHPR01/"
+        }
+      ]
+    },
+    {
+      "@id": "ex:var-lat",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "latitude",
+      "schema:description": "Cell-centre latitude (WGS84).",
+      "cdif:physicalDataType": [
+        "float32"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#float",
+      "cdif:role": "Dimension",
+      "schema:minValue": 41.0,
+      "schema:maxValue": 45.0,
+      "cdi:displayLabel": "Latitude",
+      "cdif:simpleUnitOfMeasure": "deg",
+      "cdif:uses": [
+        {
+          "@id": "http://vocab.nerc.ac.uk/collection/P02/current/SDN_LAT/"
+        }
+      ]
+    },
+    {
+      "@id": "ex:var-lon",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "longitude",
+      "schema:description": "Cell-centre longitude (WGS84).",
+      "cdif:physicalDataType": [
+        "float32"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#float",
+      "cdif:role": "Dimension",
+      "schema:minValue": -71.0,
+      "schema:maxValue": -65.0,
+      "cdi:displayLabel": "Longitude",
+      "cdif:simpleUnitOfMeasure": "deg",
+      "cdif:uses": [
+        {
+          "@id": "http://vocab.nerc.ac.uk/collection/P02/current/SDN_LON/"
+        }
+      ]
+    },
+    {
+      "@id": "ex:var-temperature",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "sea_water_temperature",
+      "schema:description": "Monthly mean in-situ sea-water temperature for the cell.",
+      "schema:measurementTechnique": "Optimal interpolation of CTD and ARGO float observations",
+      "schema:propertyID": [
+        "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+      ],
+      "cdif:physicalDataType": [
+        "float32"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#float",
+      "cdif:role": "Measure",
+      "schema:minValue": -2.0,
+      "schema:maxValue": 28.0,
+      "cdi:displayLabel": "Sea-water temperature",
+      "cdi:describedUnitOfMeasure": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "degree Celsius",
+        "schema:identifier": "http://qudt.org/vocab/unit/DEG_C"
+      },
+      "cdif:simpleUnitOfMeasure": "Cel",
+      "cdif:uses": [
+        {
+          "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+        }
+      ]
+    }
+  ],
+  "schema:spatialCoverage": [
+    {
+      "@type": [
+        "schema:Place"
+      ],
+      "schema:name": "Gulf of Maine",
+      "schema:geo": {
+        "@type": [
+          "schema:GeoShape"
+        ],
+        "schema:box": "41.0 -71.0 45.0 -65.0"
+      }
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2024-01-01/2025-09-30"
+  ],
+  "schema:subjectOf": {
+    "@id": "ex:gom-temp-cube-2025/catalog-record",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:about": {
+      "@id": "ex:gom-temp-cube-2025"
+    },
+    "schema:sdDatePublished": "2025-10-15",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.0"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.0"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.0"
+      }
+    ]
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ex: <https://example.org/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema1: <http://schema.org/> .
+@prefix spdx: <http://spdx.org/rdf/terms#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:gom-temp-cube-2025 a schema1:Dataset ;
+    schema1:creator ( <https://ror.org/03m2x1q45> ) ;
+    schema1:dateModified "2025-10-02" ;
+    schema1:datePublished "2025-10-15" ;
+    schema1:description "Monthly sea-water temperature regridded onto a 0.1-degree lat/lon mesh at 24 standard depth levels. Single NetCDF file with a 4-D measurement array indexed by time, depth, latitude, and longitude." ;
+    schema1:distribution [ a cdi:PhysicalDataSet,
+                cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            schema1:contentUrl "https://example.org/data/gom-temp-cube-2025.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Gulf of Maine temperature cube (NetCDF-4)" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "9f3c1a0b4e8d2f1e7a6c5b4d3a2918f0e1d2c3b4a5968778a9b0c1d2e3f40516" ] ;
+            cdif:fileSize 1.846e+02 ;
+            cdif:fileSizeUofM "MB" ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-lat ;
+                    cdif:index 2 ;
+                    cdif:locator "/lat" ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-depth ;
+                    cdif:index 1 ;
+                    cdif:locator "/depth" ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-lon ;
+                    cdif:index 3 ;
+                    cdif:locator "/lon" ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:nullSequence "NaN" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-temperature ;
+                    cdif:index 4 ;
+                    cdif:locator "/temperature" ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdif:format "days since 2024-01-01" ;
+                    cdif:formats_InstanceVariable ex:var-time ;
+                    cdif:index 0 ;
+                    cdif:locator "/time" ;
+                    cdif:physicalDataType "int32" ] ] ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "https://doi.org" ;
+            schema1:url "https://doi.org/10.5281/zenodo.4242424" ;
+            schema1:value "10.5281/zenodo.4242424" ] ;
+    schema1:keywords "Gulf of Maine",
+        "gridded data",
+        "ocean temperature",
+        "reanalysis" ;
+    schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
+    schema1:name "Gulf of Maine gridded sea temperature, 2024-2025" ;
+    schema1:publisher <https://ror.org/03m2x1q45> ;
+    schema1:spatialCoverage [ a schema1:Place ;
+            schema1:geo [ a schema1:GeoShape ;
+                    schema1:box "41.0 -71.0 45.0 -65.0" ] ;
+            schema1:name "Gulf of Maine" ] ;
+    schema1:subjectOf <https://example.org/gom-temp-cube-2025/catalog-record> ;
+    schema1:temporalCoverage "2024-01-01/2025-09-30" ;
+    schema1:variableMeasured ex:var-depth,
+        ex:var-lat,
+        ex:var-lon,
+        ex:var-temperature,
+        ex:var-time ;
+    schema1:version "1.0.0" .
+
+<https://example.org/gom-temp-cube-2025/catalog-record> a schema1:Dataset ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/1.0>,
+        <https://w3id.org/cdif/data_description/1.0>,
+        <https://w3id.org/cdif/discovery/1.0> ;
+    schema1:about ex:gom-temp-cube-2025 ;
+    schema1:additionalType "dcat:CatalogRecord" ;
+    schema1:sdDatePublished "2025-10-15" .
+
+ex:var-depth a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "Depth below sea surface" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#float" ;
+    schema1:description "Standard ocean depth level below sea surface." ;
+    schema1:maxValue 4e+03 ;
+    schema1:minValue 0e+00 ;
+    schema1:name "depth" ;
+    cdif:physicalDataType "float32" ;
+    cdif:role "Dimension" ;
+    cdif:simpleUnitOfMeasure "m" ;
+    cdif:uses <http://vocab.nerc.ac.uk/collection/P01/current/DEPHPR01/> .
+
+ex:var-lat a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "Latitude" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#float" ;
+    schema1:description "Cell-centre latitude (WGS84)." ;
+    schema1:maxValue 4.5e+01 ;
+    schema1:minValue 4.1e+01 ;
+    schema1:name "latitude" ;
+    cdif:physicalDataType "float32" ;
+    cdif:role "Dimension" ;
+    cdif:simpleUnitOfMeasure "deg" ;
+    cdif:uses <http://vocab.nerc.ac.uk/collection/P02/current/SDN_LAT/> .
+
+ex:var-lon a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "Longitude" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#float" ;
+    schema1:description "Cell-centre longitude (WGS84)." ;
+    schema1:maxValue -6.5e+01 ;
+    schema1:minValue -7.1e+01 ;
+    schema1:name "longitude" ;
+    cdif:physicalDataType "float32" ;
+    cdif:role "Dimension" ;
+    cdif:simpleUnitOfMeasure "deg" ;
+    cdif:uses <http://vocab.nerc.ac.uk/collection/P02/current/SDN_LON/> .
+
+ex:var-temperature a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
+            schema1:identifier "http://qudt.org/vocab/unit/DEG_C" ;
+            schema1:name "degree Celsius" ] ;
+    cdi:displayLabel "Sea-water temperature" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#float" ;
+    schema1:description "Monthly mean in-situ sea-water temperature for the cell." ;
+    schema1:maxValue 2.8e+01 ;
+    schema1:measurementTechnique "Optimal interpolation of CTD and ARGO float observations" ;
+    schema1:minValue -2e+00 ;
+    schema1:name "sea_water_temperature" ;
+    schema1:propertyID "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/" ;
+    cdif:physicalDataType "float32" ;
+    cdif:role "Measure" ;
+    cdif:simpleUnitOfMeasure "Cel" ;
+    cdif:uses <http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/> .
+
+ex:var-time a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
+            schema1:identifier "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian" ;
+            schema1:name "days since 2024-01-01" ] ;
+    cdi:displayLabel "Time" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#date" ;
+    schema1:description "Mid-month timestamp of the monthly mean field." ;
+    schema1:name "time" ;
+    cdif:physicalDataType "int32" ;
+    cdif:role "Dimension" ;
+    cdif:simpleUnitOfMeasure "d" .
+
+<https://ror.org/03m2x1q45> a schema1:Organization ;
+    schema1:name "University of Arizona" .
+
+
+```
+
+
+### Wide (one row per unit) example.
+Monthly water-quality observations in wide form: one row per (station,
+sample_date) and one column per measured parameter. Distribution is typed as
+cdi:TabularTextDataSet. InstanceVariable roles are UnitIdentifier (station),
+Attribute (date), and Measure (pH, temperature, salinity, dissolved oxygen).
+cdif:hasPrimaryKey wires the (station, sample_date) composite key.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:gom-water-quality-wide-2025",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Gulf of Maine water-quality monitoring stations, 2025 (wide form)",
+  "schema:description": "Monthly water-quality observations from 12 monitoring buoys. One row per station-visit; one column per measured parameter (pH, temperature, salinity, dissolved oxygen). Primary key is the (station, sample_date) pair.",
+  "schema:identifier": {
+    "@type": ["schema:PropertyValue"],
+    "schema:propertyID": "https://doi.org",
+    "schema:value": "10.5281/zenodo.5151515",
+    "schema:url": "https://doi.org/10.5281/zenodo.5151515"
+  },
+  "schema:version": "2025.10",
+  "schema:dateModified": "2025-10-20",
+  "schema:datePublished": "2025-10-20",
+  "schema:license": [
+    "https://creativecommons.org/licenses/by/4.0/"
+  ],
+  "schema:keywords": [
+    "water quality",
+    "Gulf of Maine",
+    "monitoring",
+    "wide format"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://ror.org/03m2x1q45",
+        "@type": ["schema:Organization"],
+        "schema:name": "University of Arizona"
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@id": "https://ror.org/03m2x1q45",
+    "@type": ["schema:Organization"],
+    "schema:name": "University of Arizona"
+  },
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload",
+        "cdi:TabularTextDataSet",
+        "cdi:PhysicalDataSet"
+      ],
+      "schema:name": "Wide-form water-quality observations (CSV)",
+      "schema:contentUrl": "https://example.org/data/gom-water-quality-wide-2025.csv",
+      "schema:encodingFormat": ["text/csv"],
+      "cdi:characterSet": "UTF-8",
+      "cdif:fileSize": 312,
+      "cdif:fileSizeUofM": "KB",
+      "spdx:checksum": {
+        "@type": ["spdx:Checksum"],
+        "spdx:algorithm": "SHA256",
+        "spdx:checksumValue": "2c8e4f1a6d7b9c0e3f5a1b2c4d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e"
+      },
+      "cdi:isDelimited": true,
+      "csvw:delimiter": ",",
+      "csvw:header": true,
+      "csvw:headerRowCount": 1,
+      "csvw:quoteChar": "\"",
+      "csvw:skipBlankRows": true,
+      "countRows": 144,
+      "countColumns": 6,
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 0,
+          "cdif:format": "string",
+          "cdif:physicalDataType": "string",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": { "@id": "ex:var-station" }
+        },
+        {
+          "cdif:index": 1,
+          "cdif:format": "YYYY-MM-DD",
+          "cdif:physicalDataType": "date",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": { "@id": "ex:var-sample-date" }
+        },
+        {
+          "cdif:index": 2,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
+          "cdi:decimalPositions": 2,
+          "cdi:nullSequence": "NA",
+          "cdif:formats_InstanceVariable": { "@id": "ex:var-ph" }
+        },
+        {
+          "cdif:index": 3,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
+          "cdi:decimalPositions": 2,
+          "cdi:nullSequence": "NA",
+          "cdif:formats_InstanceVariable": { "@id": "ex:var-temperature" }
+        },
+        {
+          "cdif:index": 4,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
+          "cdi:decimalPositions": 3,
+          "cdi:nullSequence": "NA",
+          "cdif:formats_InstanceVariable": { "@id": "ex:var-salinity" }
+        },
+        {
+          "cdif:index": 5,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
+          "cdi:decimalPositions": 2,
+          "cdi:nullSequence": "NA",
+          "cdif:formats_InstanceVariable": { "@id": "ex:var-oxygen" }
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "ex:var-station",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "station_id",
+      "schema:description": "Monitoring station identifier; primary key component.",
+      "cdif:physicalDataType": ["string"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#string",
+      "cdif:role": "UnitIdentifier",
+      "cdi:displayLabel": "Monitoring station"
+    },
+    {
+      "@id": "ex:var-sample-date",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "sample_date",
+      "schema:description": "Date the water sample was collected; primary key component.",
+      "cdif:physicalDataType": ["date"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#date",
+      "cdif:role": "Attribute",
+      "cdi:displayLabel": "Sampling date"
+    },
+    {
+      "@id": "ex:var-ph",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "ph",
+      "schema:description": "pH of the water sample (unitless).",
+      "schema:measurementTechnique": "Glass electrode, two-point calibration",
+      "schema:propertyID": ["http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/"],
+      "cdif:physicalDataType": ["float64"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "Measure",
+      "schema:minValue": 0.0,
+      "schema:maxValue": 14.0,
+      "cdi:displayLabel": "pH",
+      "cdif:simpleUnitOfMeasure": "1",
+      "cdif:uses": [
+        { "@id": "http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/" }
+      ]
+    },
+    {
+      "@id": "ex:var-temperature",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "temperature",
+      "schema:description": "Sea-water temperature at sample depth.",
+      "schema:measurementTechnique": "CTD profiler",
+      "cdif:physicalDataType": ["float64"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "Measure",
+      "schema:minValue": -2.0,
+      "schema:maxValue": 30.0,
+      "cdi:displayLabel": "Sea-water temperature",
+      "cdi:describedUnitOfMeasure": {
+        "@type": ["schema:DefinedTerm"],
+        "schema:name": "degree Celsius",
+        "schema:identifier": "http://qudt.org/vocab/unit/DEG_C"
+      },
+      "cdif:simpleUnitOfMeasure": "Cel"
+    },
+    {
+      "@id": "ex:var-salinity",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "salinity",
+      "schema:description": "Practical salinity (PSU).",
+      "schema:measurementTechnique": "CTD profiler",
+      "cdif:physicalDataType": ["float64"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "Measure",
+      "schema:minValue": 0.0,
+      "schema:maxValue": 42.0,
+      "cdi:displayLabel": "Practical salinity",
+      "cdif:simpleUnitOfMeasure": "1",
+      "cdif:uses": [
+        { "@id": "http://vocab.nerc.ac.uk/collection/P01/current/PSALST01/" }
+      ]
+    },
+    {
+      "@id": "ex:var-oxygen",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "dissolved_oxygen",
+      "schema:description": "Dissolved oxygen concentration in water.",
+      "schema:measurementTechnique": "Optode sensor",
+      "cdif:physicalDataType": ["float64"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "Measure",
+      "schema:minValue": 0.0,
+      "schema:maxValue": 15.0,
+      "cdi:displayLabel": "Dissolved oxygen",
+      "cdi:describedUnitOfMeasure": {
+        "@type": ["schema:DefinedTerm"],
+        "schema:name": "milligram per litre",
+        "schema:identifier": "http://qudt.org/vocab/unit/MilliGM-PER-L"
+      },
+      "cdif:simpleUnitOfMeasure": "mg/L"
+    }
+  ],
+  "cdif:hasPrimaryKey": {
+    "@type": ["cdif:Key"],
+    "@id": "ex:gom-water-quality-wide-2025/pk",
+    "cdif:isComposedOf": [
+      { "@id": "ex:var-station" },
+      { "@id": "ex:var-sample-date" }
+    ]
+  },
+  "schema:measurementTechnique": [
+    "CTD profiler",
+    "Glass electrode pH meter",
+    "Optode dissolved-oxygen sensor"
+  ],
+  "schema:spatialCoverage": [
+    {
+      "@type": ["schema:Place"],
+      "schema:name": "Gulf of Maine",
+      "schema:geo": {
+        "@type": ["schema:GeoShape"],
+        "schema:box": "41.0 -71.0 45.0 -65.0"
+      }
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2025-01-01/2025-12-31"
+  ],
+  "schema:subjectOf": {
+    "@id": "ex:gom-water-quality-wide-2025/catalog-record",
+    "@type": ["schema:Dataset"],
+    "schema:additionalType": ["dcat:CatalogRecord"],
+    "schema:about": { "@id": "ex:gom-water-quality-wide-2025" },
+    "schema:sdDatePublished": "2025-10-20",
+    "dcterms:conformsTo": [
+      { "@id": "https://w3id.org/cdif/core/1.0" },
+      { "@id": "https://w3id.org/cdif/discovery/1.0" },
+      { "@id": "https://w3id.org/cdif/data_description/1.0" }
+    ]
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "spdx": "http://spdx.org/rdf/terms#",
+      "csvw": "http://www.w3.org/ns/csvw#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescriptionProfile/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "prov": "http://www.w3.org/ns/prov#",
+      "spdx": "http://spdx.org/rdf/terms#",
+      "csvw": "http://www.w3.org/ns/csvw#",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:gom-water-quality-wide-2025",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Gulf of Maine water-quality monitoring stations, 2025 (wide form)",
+  "schema:description": "Monthly water-quality observations from 12 monitoring buoys. One row per station-visit; one column per measured parameter (pH, temperature, salinity, dissolved oxygen). Primary key is the (station, sample_date) pair.",
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": "https://doi.org",
+    "schema:value": "10.5281/zenodo.5151515",
+    "schema:url": "https://doi.org/10.5281/zenodo.5151515"
+  },
+  "schema:version": "2025.10",
+  "schema:dateModified": "2025-10-20",
+  "schema:datePublished": "2025-10-20",
+  "schema:license": [
+    "https://creativecommons.org/licenses/by/4.0/"
+  ],
+  "schema:keywords": [
+    "water quality",
+    "Gulf of Maine",
+    "monitoring",
+    "wide format"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://ror.org/03m2x1q45",
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "University of Arizona"
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@id": "https://ror.org/03m2x1q45",
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "University of Arizona"
+  },
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload",
+        "cdi:TabularTextDataSet",
+        "cdi:PhysicalDataSet"
+      ],
+      "schema:name": "Wide-form water-quality observations (CSV)",
+      "schema:contentUrl": "https://example.org/data/gom-water-quality-wide-2025.csv",
+      "schema:encodingFormat": [
+        "text/csv"
+      ],
+      "cdi:characterSet": "UTF-8",
+      "cdif:fileSize": 312,
+      "cdif:fileSizeUofM": "KB",
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:algorithm": "SHA256",
+        "spdx:checksumValue": "2c8e4f1a6d7b9c0e3f5a1b2c4d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e"
+      },
+      "cdi:isDelimited": true,
+      "csvw:delimiter": ",",
+      "csvw:header": true,
+      "csvw:headerRowCount": 1,
+      "csvw:quoteChar": "\"",
+      "csvw:skipBlankRows": true,
+      "countRows": 144,
+      "countColumns": 6,
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 0,
+          "cdif:format": "string",
+          "cdif:physicalDataType": "string",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var-station"
+          }
+        },
+        {
+          "cdif:index": 1,
+          "cdif:format": "YYYY-MM-DD",
+          "cdif:physicalDataType": "date",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var-sample-date"
+          }
+        },
+        {
+          "cdif:index": 2,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
+          "cdi:decimalPositions": 2,
+          "cdi:nullSequence": "NA",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var-ph"
+          }
+        },
+        {
+          "cdif:index": 3,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
+          "cdi:decimalPositions": 2,
+          "cdi:nullSequence": "NA",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var-temperature"
+          }
+        },
+        {
+          "cdif:index": 4,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
+          "cdi:decimalPositions": 3,
+          "cdi:nullSequence": "NA",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var-salinity"
+          }
+        },
+        {
+          "cdif:index": 5,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
+          "cdi:decimalPositions": 2,
+          "cdi:nullSequence": "NA",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var-oxygen"
+          }
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "ex:var-station",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "station_id",
+      "schema:description": "Monitoring station identifier; primary key component.",
+      "cdif:physicalDataType": [
+        "string"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#string",
+      "cdif:role": "UnitIdentifier",
+      "cdi:displayLabel": "Monitoring station"
+    },
+    {
+      "@id": "ex:var-sample-date",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "sample_date",
+      "schema:description": "Date the water sample was collected; primary key component.",
+      "cdif:physicalDataType": [
+        "date"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#date",
+      "cdif:role": "Attribute",
+      "cdi:displayLabel": "Sampling date"
+    },
+    {
+      "@id": "ex:var-ph",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "ph",
+      "schema:description": "pH of the water sample (unitless).",
+      "schema:measurementTechnique": "Glass electrode, two-point calibration",
+      "schema:propertyID": [
+        "http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/"
+      ],
+      "cdif:physicalDataType": [
+        "float64"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "Measure",
+      "schema:minValue": 0.0,
+      "schema:maxValue": 14.0,
+      "cdi:displayLabel": "pH",
+      "cdif:simpleUnitOfMeasure": "1",
+      "cdif:uses": [
+        {
+          "@id": "http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/"
+        }
+      ]
+    },
+    {
+      "@id": "ex:var-temperature",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "temperature",
+      "schema:description": "Sea-water temperature at sample depth.",
+      "schema:measurementTechnique": "CTD profiler",
+      "cdif:physicalDataType": [
+        "float64"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "Measure",
+      "schema:minValue": -2.0,
+      "schema:maxValue": 30.0,
+      "cdi:displayLabel": "Sea-water temperature",
+      "cdi:describedUnitOfMeasure": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "degree Celsius",
+        "schema:identifier": "http://qudt.org/vocab/unit/DEG_C"
+      },
+      "cdif:simpleUnitOfMeasure": "Cel"
+    },
+    {
+      "@id": "ex:var-salinity",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "salinity",
+      "schema:description": "Practical salinity (PSU).",
+      "schema:measurementTechnique": "CTD profiler",
+      "cdif:physicalDataType": [
+        "float64"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "Measure",
+      "schema:minValue": 0.0,
+      "schema:maxValue": 42.0,
+      "cdi:displayLabel": "Practical salinity",
+      "cdif:simpleUnitOfMeasure": "1",
+      "cdif:uses": [
+        {
+          "@id": "http://vocab.nerc.ac.uk/collection/P01/current/PSALST01/"
+        }
+      ]
+    },
+    {
+      "@id": "ex:var-oxygen",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "dissolved_oxygen",
+      "schema:description": "Dissolved oxygen concentration in water.",
+      "schema:measurementTechnique": "Optode sensor",
+      "cdif:physicalDataType": [
+        "float64"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "Measure",
+      "schema:minValue": 0.0,
+      "schema:maxValue": 15.0,
+      "cdi:displayLabel": "Dissolved oxygen",
+      "cdi:describedUnitOfMeasure": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "milligram per litre",
+        "schema:identifier": "http://qudt.org/vocab/unit/MilliGM-PER-L"
+      },
+      "cdif:simpleUnitOfMeasure": "mg/L"
+    }
+  ],
+  "cdif:hasPrimaryKey": {
+    "@type": [
+      "cdif:Key"
+    ],
+    "@id": "ex:gom-water-quality-wide-2025/pk",
+    "cdif:isComposedOf": [
+      {
+        "@id": "ex:var-station"
+      },
+      {
+        "@id": "ex:var-sample-date"
+      }
+    ]
+  },
+  "schema:measurementTechnique": [
+    "CTD profiler",
+    "Glass electrode pH meter",
+    "Optode dissolved-oxygen sensor"
+  ],
+  "schema:spatialCoverage": [
+    {
+      "@type": [
+        "schema:Place"
+      ],
+      "schema:name": "Gulf of Maine",
+      "schema:geo": {
+        "@type": [
+          "schema:GeoShape"
+        ],
+        "schema:box": "41.0 -71.0 45.0 -65.0"
+      }
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2025-01-01/2025-12-31"
+  ],
+  "schema:subjectOf": {
+    "@id": "ex:gom-water-quality-wide-2025/catalog-record",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:about": {
+      "@id": "ex:gom-water-quality-wide-2025"
+    },
+    "schema:sdDatePublished": "2025-10-20",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.0"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.0"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.0"
+      }
+    ]
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ex: <https://example.org/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema1: <http://schema.org/> .
+@prefix spdx: <http://spdx.org/rdf/terms#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:gom-water-quality-wide-2025 a schema1:Dataset ;
+    schema1:creator ( <https://ror.org/03m2x1q45> ) ;
+    schema1:dateModified "2025-10-20" ;
+    schema1:datePublished "2025-10-20" ;
+    schema1:description "Monthly water-quality observations from 12 monitoring buoys. One row per station-visit; one column per measured parameter (pH, temperature, salinity, dissolved oxygen). Primary key is the (station, sample_date) pair." ;
+    schema1:distribution [ a cdi:PhysicalDataSet,
+                cdi:TabularTextDataSet,
+                schema1:DataDownload ;
+            cdi:characterSet "UTF-8" ;
+            cdi:isDelimited true ;
+            schema1:contentUrl "https://example.org/data/gom-water-quality-wide-2025.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "Wide-form water-quality observations (CSV)" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "2c8e4f1a6d7b9c0e3f5a1b2c4d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e" ] ;
+            csvw:delimiter "," ;
+            csvw:header true ;
+            csvw:headerRowCount 1 ;
+            csvw:quoteChar "\"" ;
+            csvw:skipBlankRows true ;
+            cdif:fileSize 312 ;
+            cdif:fileSizeUofM "KB" ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 2 ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-temperature ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:decimalPositions 2 ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-oxygen ;
+                    cdif:index 5 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:decimalPositions 2 ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-ph ;
+                    cdif:index 2 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:isRequired true ;
+                    cdif:format "YYYY-MM-DD" ;
+                    cdif:formats_InstanceVariable ex:var-sample-date ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "date" ],
+                [ cdi:isRequired true ;
+                    cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-station ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "string" ],
+                [ cdi:decimalPositions 3 ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-salinity ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "float64" ] ] ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "https://doi.org" ;
+            schema1:url "https://doi.org/10.5281/zenodo.5151515" ;
+            schema1:value "10.5281/zenodo.5151515" ] ;
+    schema1:keywords "Gulf of Maine",
+        "monitoring",
+        "water quality",
+        "wide format" ;
+    schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
+    schema1:measurementTechnique "CTD profiler",
+        "Glass electrode pH meter",
+        "Optode dissolved-oxygen sensor" ;
+    schema1:name "Gulf of Maine water-quality monitoring stations, 2025 (wide form)" ;
+    schema1:publisher <https://ror.org/03m2x1q45> ;
+    schema1:spatialCoverage [ a schema1:Place ;
+            schema1:geo [ a schema1:GeoShape ;
+                    schema1:box "41.0 -71.0 45.0 -65.0" ] ;
+            schema1:name "Gulf of Maine" ] ;
+    schema1:subjectOf <https://example.org/gom-water-quality-wide-2025/catalog-record> ;
+    schema1:temporalCoverage "2025-01-01/2025-12-31" ;
+    schema1:variableMeasured ex:var-oxygen,
+        ex:var-ph,
+        ex:var-salinity,
+        ex:var-sample-date,
+        ex:var-station,
+        ex:var-temperature ;
+    schema1:version "2025.10" ;
+    cdif:hasPrimaryKey <https://example.org/gom-water-quality-wide-2025/pk> .
+
+<https://example.org/gom-water-quality-wide-2025/catalog-record> a schema1:Dataset ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/1.0>,
+        <https://w3id.org/cdif/data_description/1.0>,
+        <https://w3id.org/cdif/discovery/1.0> ;
+    schema1:about ex:gom-water-quality-wide-2025 ;
+    schema1:additionalType "dcat:CatalogRecord" ;
+    schema1:sdDatePublished "2025-10-20" .
+
+<https://example.org/gom-water-quality-wide-2025/pk> a cdif:Key ;
+    cdif:isComposedOf ex:var-sample-date,
+        ex:var-station .
+
+ex:var-oxygen a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
+            schema1:identifier "http://qudt.org/vocab/unit/MilliGM-PER-L" ;
+            schema1:name "milligram per litre" ] ;
+    cdi:displayLabel "Dissolved oxygen" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
+    schema1:description "Dissolved oxygen concentration in water." ;
+    schema1:maxValue 1.5e+01 ;
+    schema1:measurementTechnique "Optode sensor" ;
+    schema1:minValue 0e+00 ;
+    schema1:name "dissolved_oxygen" ;
+    cdif:physicalDataType "float64" ;
+    cdif:role "Measure" ;
+    cdif:simpleUnitOfMeasure "mg/L" .
+
+ex:var-ph a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "pH" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
+    schema1:description "pH of the water sample (unitless)." ;
+    schema1:maxValue 1.4e+01 ;
+    schema1:measurementTechnique "Glass electrode, two-point calibration" ;
+    schema1:minValue 0e+00 ;
+    schema1:name "ph" ;
+    schema1:propertyID "http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/" ;
+    cdif:physicalDataType "float64" ;
+    cdif:role "Measure" ;
+    cdif:simpleUnitOfMeasure "1" ;
+    cdif:uses <http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/> .
+
+ex:var-salinity a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "Practical salinity" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
+    schema1:description "Practical salinity (PSU)." ;
+    schema1:maxValue 4.2e+01 ;
+    schema1:measurementTechnique "CTD profiler" ;
+    schema1:minValue 0e+00 ;
+    schema1:name "salinity" ;
+    cdif:physicalDataType "float64" ;
+    cdif:role "Measure" ;
+    cdif:simpleUnitOfMeasure "1" ;
+    cdif:uses <http://vocab.nerc.ac.uk/collection/P01/current/PSALST01/> .
+
+ex:var-temperature a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
+            schema1:identifier "http://qudt.org/vocab/unit/DEG_C" ;
+            schema1:name "degree Celsius" ] ;
+    cdi:displayLabel "Sea-water temperature" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
+    schema1:description "Sea-water temperature at sample depth." ;
+    schema1:maxValue 3e+01 ;
+    schema1:measurementTechnique "CTD profiler" ;
+    schema1:minValue -2e+00 ;
+    schema1:name "temperature" ;
+    cdif:physicalDataType "float64" ;
+    cdif:role "Measure" ;
+    cdif:simpleUnitOfMeasure "Cel" .
+
+<https://ror.org/03m2x1q45> a schema1:Organization ;
+    schema1:name "University of Arizona" .
+
+ex:var-sample-date a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "Sampling date" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#date" ;
+    schema1:description "Date the water sample was collected; primary key component." ;
+    schema1:name "sample_date" ;
+    cdif:physicalDataType "date" ;
+    cdif:role "Attribute" .
+
+ex:var-station a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "Monitoring station" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#string" ;
+    schema1:description "Monitoring station identifier; primary key component." ;
+    schema1:name "station_id" ;
+    cdif:physicalDataType "string" ;
+    cdif:role "UnitIdentifier" .
+
+
+```
+
+
+### Long (descriptor/value) example.
+The same water-quality observations cast in long form: each row is one
+observation with a parameter-name column (cdif:role Descriptor) and a value
+column (cdif:role ReferenceVariable). The four named parameters remain in
+schema:variableMeasured as Measure InstanceVariables; wiring descriptor codes
+to them is a Data Structure profile concern, not a data description one.
+#### json
+```json
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "csvw": "http://www.w3.org/ns/csvw#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "ex": "https://example.org/"
+  },
+  "@id": "ex:gom-water-quality-long-2025",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Gulf of Maine water-quality monitoring stations, 2025 (long form)",
+  "schema:description": "Same monthly water-quality observations from 12 buoys as the wide-form release, recast in long (narrow) form. Each row is one observation: station, date, parameter name (descriptor), value, and reporting unit.",
+  "schema:identifier": {
+    "@type": ["schema:PropertyValue"],
+    "schema:propertyID": "https://doi.org",
+    "schema:value": "10.5281/zenodo.5151516",
+    "schema:url": "https://doi.org/10.5281/zenodo.5151516"
+  },
+  "schema:version": "2025.10",
+  "schema:dateModified": "2025-10-20",
+  "schema:datePublished": "2025-10-20",
+  "schema:license": [
+    "https://creativecommons.org/licenses/by/4.0/"
+  ],
+  "schema:keywords": [
+    "water quality",
+    "Gulf of Maine",
+    "long format",
+    "tidy data"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://ror.org/03m2x1q45",
+        "@type": ["schema:Organization"],
+        "schema:name": "University of Arizona"
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@id": "https://ror.org/03m2x1q45",
+    "@type": ["schema:Organization"],
+    "schema:name": "University of Arizona"
+  },
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "ex:gom-water-quality-wide-2025",
+      "schema:name": "Wide-form release of the same observations"
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload",
+        "cdi:LongStructureDataSet",
+        "cdi:PhysicalDataSet"
+      ],
+      "schema:name": "Long-form water-quality observations (CSV)",
+      "schema:contentUrl": "https://example.org/data/gom-water-quality-long-2025.csv",
+      "schema:encodingFormat": ["text/csv"],
+      "cdi:characterSet": "UTF-8",
+      "cdif:fileSize": 712,
+      "cdif:fileSizeUofM": "KB",
+      "spdx:checksum": {
+        "@type": ["spdx:Checksum"],
+        "spdx:algorithm": "SHA256",
+        "spdx:checksumValue": "8b1a7c3e5d9f0a2b4c6d8e0f1a3b5c7d9e1f2a4b6c8d0e2f4a6b8c0d2e4f6a8b"
+      },
+      "cdi:isDelimited": true,
+      "csvw:delimiter": ",",
+      "csvw:header": true,
+      "csvw:headerRowCount": 1,
+      "csvw:quoteChar": "\"",
+      "csvw:skipBlankRows": true,
+      "countRows": 576,
+      "countColumns": 5,
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 0,
+          "cdif:format": "string",
+          "cdif:physicalDataType": "string",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": { "@id": "ex:var-station" }
+        },
+        {
+          "cdif:index": 1,
+          "cdif:format": "YYYY-MM-DD",
+          "cdif:physicalDataType": "date",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": { "@id": "ex:var-sample-date" }
+        },
+        {
+          "cdif:index": 2,
+          "cdif:format": "string",
+          "cdif:physicalDataType": "string",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": { "@id": "ex:var-parameter" }
+        },
+        {
+          "cdif:index": 3,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
+          "cdi:nullSequence": "NA",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": { "@id": "ex:var-value" }
+        },
+        {
+          "cdif:index": 4,
+          "cdif:format": "string",
+          "cdif:physicalDataType": "string",
+          "cdif:formats_InstanceVariable": { "@id": "ex:var-unit" }
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "ex:var-station",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "station_id",
+      "schema:description": "Monitoring station identifier; unit of observation.",
+      "cdif:physicalDataType": ["string"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#string",
+      "cdif:role": "UnitIdentifier",
+      "cdi:displayLabel": "Monitoring station"
+    },
+    {
+      "@id": "ex:var-sample-date",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "sample_date",
+      "schema:description": "Date the water sample was collected.",
+      "cdif:physicalDataType": ["date"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#date",
+      "cdif:role": "Attribute",
+      "cdi:displayLabel": "Sampling date"
+    },
+    {
+      "@id": "ex:var-parameter",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "parameter",
+      "schema:description": "Descriptor column. Each value names the measured property whose numeric reading is recorded in the value column. Permitted codes are ph, temperature, salinity, dissolved_oxygen.",
+      "cdif:physicalDataType": ["string"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#string",
+      "cdif:role": "Descriptor",
+      "cdi:displayLabel": "Parameter"
+    },
+    {
+      "@id": "ex:var-value",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "value",
+      "schema:description": "Reference column. Holds the numeric value of whichever parameter is named in the descriptor column for that row.",
+      "cdif:physicalDataType": ["float64"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "ReferenceVariable",
+      "cdi:displayLabel": "Measured value"
+    },
+    {
+      "@id": "ex:var-unit",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "unit",
+      "schema:description": "Reporting unit symbol for the row's value (e.g., Cel, 1, mg/L).",
+      "cdif:physicalDataType": ["string"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#string",
+      "cdif:role": "Attribute",
+      "cdi:displayLabel": "Unit of measure"
+    },
+    {
+      "@id": "ex:var-ph",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "ph",
+      "schema:description": "pH parameter. Rows whose descriptor column equals 'ph' record values for this variable.",
+      "schema:measurementTechnique": "Glass electrode, two-point calibration",
+      "cdif:physicalDataType": ["float64"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "Measure",
+      "schema:minValue": 0.0,
+      "schema:maxValue": 14.0,
+      "cdi:displayLabel": "pH",
+      "cdif:simpleUnitOfMeasure": "1",
+      "cdif:uses": [
+        { "@id": "http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/" }
+      ]
+    },
+    {
+      "@id": "ex:var-temperature",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "temperature",
+      "schema:description": "Temperature parameter. Rows whose descriptor column equals 'temperature' record values for this variable.",
+      "schema:measurementTechnique": "CTD profiler",
+      "cdif:physicalDataType": ["float64"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "Measure",
+      "schema:minValue": -2.0,
+      "schema:maxValue": 30.0,
+      "cdi:displayLabel": "Sea-water temperature",
+      "cdi:describedUnitOfMeasure": {
+        "@type": ["schema:DefinedTerm"],
+        "schema:name": "degree Celsius",
+        "schema:identifier": "http://qudt.org/vocab/unit/DEG_C"
+      },
+      "cdif:simpleUnitOfMeasure": "Cel"
+    },
+    {
+      "@id": "ex:var-salinity",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "salinity",
+      "schema:description": "Practical salinity parameter. Rows whose descriptor column equals 'salinity' record values for this variable.",
+      "schema:measurementTechnique": "CTD profiler",
+      "cdif:physicalDataType": ["float64"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "Measure",
+      "schema:minValue": 0.0,
+      "schema:maxValue": 42.0,
+      "cdi:displayLabel": "Practical salinity",
+      "cdif:simpleUnitOfMeasure": "1",
+      "cdif:uses": [
+        { "@id": "http://vocab.nerc.ac.uk/collection/P01/current/PSALST01/" }
+      ]
+    },
+    {
+      "@id": "ex:var-dissolved-oxygen",
+      "@type": ["schema:PropertyValue", "cdi:InstanceVariable"],
+      "schema:name": "dissolved_oxygen",
+      "schema:description": "Dissolved oxygen parameter. Rows whose descriptor column equals 'dissolved_oxygen' record values for this variable.",
+      "schema:measurementTechnique": "Optode sensor",
+      "cdif:physicalDataType": ["float64"],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "Measure",
+      "schema:minValue": 0.0,
+      "schema:maxValue": 15.0,
+      "cdi:displayLabel": "Dissolved oxygen",
+      "cdi:describedUnitOfMeasure": {
+        "@type": ["schema:DefinedTerm"],
+        "schema:name": "milligram per litre",
+        "schema:identifier": "http://qudt.org/vocab/unit/MilliGM-PER-L"
+      },
+      "cdif:simpleUnitOfMeasure": "mg/L"
+    }
+  ],
+  "schema:measurementTechnique": [
+    "CTD profiler",
+    "Glass electrode pH meter",
+    "Optode dissolved-oxygen sensor"
+  ],
+  "schema:spatialCoverage": [
+    {
+      "@type": ["schema:Place"],
+      "schema:name": "Gulf of Maine",
+      "schema:geo": {
+        "@type": ["schema:GeoShape"],
+        "schema:box": "41.0 -71.0 45.0 -65.0"
+      }
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2025-01-01/2025-12-31"
+  ],
+  "schema:subjectOf": {
+    "@id": "ex:gom-water-quality-long-2025/catalog-record",
+    "@type": ["schema:Dataset"],
+    "schema:additionalType": ["dcat:CatalogRecord"],
+    "schema:about": { "@id": "ex:gom-water-quality-long-2025" },
+    "schema:sdDatePublished": "2025-10-20",
+    "dcterms:conformsTo": [
+      { "@id": "https://w3id.org/cdif/core/1.0" },
+      { "@id": "https://w3id.org/cdif/discovery/1.0" },
+      { "@id": "https://w3id.org/cdif/data_description/1.0" }
+    ]
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "spdx": "http://spdx.org/rdf/terms#",
+      "csvw": "http://www.w3.org/ns/csvw#"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataDescriptionProfile/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "prov": "http://www.w3.org/ns/prov#",
+      "spdx": "http://spdx.org/rdf/terms#",
+      "csvw": "http://www.w3.org/ns/csvw#",
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:gom-water-quality-long-2025",
+  "@type": [
+    "schema:Dataset"
+  ],
+  "schema:name": "Gulf of Maine water-quality monitoring stations, 2025 (long form)",
+  "schema:description": "Same monthly water-quality observations from 12 buoys as the wide-form release, recast in long (narrow) form. Each row is one observation: station, date, parameter name (descriptor), value, and reporting unit.",
+  "schema:identifier": {
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": "https://doi.org",
+    "schema:value": "10.5281/zenodo.5151516",
+    "schema:url": "https://doi.org/10.5281/zenodo.5151516"
+  },
+  "schema:version": "2025.10",
+  "schema:dateModified": "2025-10-20",
+  "schema:datePublished": "2025-10-20",
+  "schema:license": [
+    "https://creativecommons.org/licenses/by/4.0/"
+  ],
+  "schema:keywords": [
+    "water quality",
+    "Gulf of Maine",
+    "long format",
+    "tidy data"
+  ],
+  "schema:creator": {
+    "@list": [
+      {
+        "@id": "https://ror.org/03m2x1q45",
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "University of Arizona"
+      }
+    ]
+  },
+  "schema:publisher": {
+    "@id": "https://ror.org/03m2x1q45",
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "University of Arizona"
+  },
+  "prov:wasDerivedFrom": [
+    {
+      "@id": "ex:gom-water-quality-wide-2025",
+      "schema:name": "Wide-form release of the same observations"
+    }
+  ],
+  "schema:distribution": [
+    {
+      "@type": [
+        "schema:DataDownload",
+        "cdi:LongStructureDataSet",
+        "cdi:PhysicalDataSet"
+      ],
+      "schema:name": "Long-form water-quality observations (CSV)",
+      "schema:contentUrl": "https://example.org/data/gom-water-quality-long-2025.csv",
+      "schema:encodingFormat": [
+        "text/csv"
+      ],
+      "cdi:characterSet": "UTF-8",
+      "cdif:fileSize": 712,
+      "cdif:fileSizeUofM": "KB",
+      "spdx:checksum": {
+        "@type": [
+          "spdx:Checksum"
+        ],
+        "spdx:algorithm": "SHA256",
+        "spdx:checksumValue": "8b1a7c3e5d9f0a2b4c6d8e0f1a3b5c7d9e1f2a4b6c8d0e2f4a6b8c0d2e4f6a8b"
+      },
+      "cdi:isDelimited": true,
+      "csvw:delimiter": ",",
+      "csvw:header": true,
+      "csvw:headerRowCount": 1,
+      "csvw:quoteChar": "\"",
+      "csvw:skipBlankRows": true,
+      "countRows": 576,
+      "countColumns": 5,
+      "cdif:hasPhysicalMapping": [
+        {
+          "cdif:index": 0,
+          "cdif:format": "string",
+          "cdif:physicalDataType": "string",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var-station"
+          }
+        },
+        {
+          "cdif:index": 1,
+          "cdif:format": "YYYY-MM-DD",
+          "cdif:physicalDataType": "date",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var-sample-date"
+          }
+        },
+        {
+          "cdif:index": 2,
+          "cdif:format": "string",
+          "cdif:physicalDataType": "string",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var-parameter"
+          }
+        },
+        {
+          "cdif:index": 3,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
+          "cdi:nullSequence": "NA",
+          "cdi:isRequired": true,
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var-value"
+          }
+        },
+        {
+          "cdif:index": 4,
+          "cdif:format": "string",
+          "cdif:physicalDataType": "string",
+          "cdif:formats_InstanceVariable": {
+            "@id": "ex:var-unit"
+          }
+        }
+      ]
+    }
+  ],
+  "schema:variableMeasured": [
+    {
+      "@id": "ex:var-station",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "station_id",
+      "schema:description": "Monitoring station identifier; unit of observation.",
+      "cdif:physicalDataType": [
+        "string"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#string",
+      "cdif:role": "UnitIdentifier",
+      "cdi:displayLabel": "Monitoring station"
+    },
+    {
+      "@id": "ex:var-sample-date",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "sample_date",
+      "schema:description": "Date the water sample was collected.",
+      "cdif:physicalDataType": [
+        "date"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#date",
+      "cdif:role": "Attribute",
+      "cdi:displayLabel": "Sampling date"
+    },
+    {
+      "@id": "ex:var-parameter",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "parameter",
+      "schema:description": "Descriptor column. Each value names the measured property whose numeric reading is recorded in the value column. Permitted codes are ph, temperature, salinity, dissolved_oxygen.",
+      "cdif:physicalDataType": [
+        "string"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#string",
+      "cdif:role": "Descriptor",
+      "cdi:displayLabel": "Parameter"
+    },
+    {
+      "@id": "ex:var-value",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "value",
+      "schema:description": "Reference column. Holds the numeric value of whichever parameter is named in the descriptor column for that row.",
+      "cdif:physicalDataType": [
+        "float64"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "ReferenceVariable",
+      "cdi:displayLabel": "Measured value"
+    },
+    {
+      "@id": "ex:var-unit",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "unit",
+      "schema:description": "Reporting unit symbol for the row's value (e.g., Cel, 1, mg/L).",
+      "cdif:physicalDataType": [
+        "string"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#string",
+      "cdif:role": "Attribute",
+      "cdi:displayLabel": "Unit of measure"
+    },
+    {
+      "@id": "ex:var-ph",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "ph",
+      "schema:description": "pH parameter. Rows whose descriptor column equals 'ph' record values for this variable.",
+      "schema:measurementTechnique": "Glass electrode, two-point calibration",
+      "cdif:physicalDataType": [
+        "float64"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "Measure",
+      "schema:minValue": 0.0,
+      "schema:maxValue": 14.0,
+      "cdi:displayLabel": "pH",
+      "cdif:simpleUnitOfMeasure": "1",
+      "cdif:uses": [
+        {
+          "@id": "http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/"
+        }
+      ]
+    },
+    {
+      "@id": "ex:var-temperature",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "temperature",
+      "schema:description": "Temperature parameter. Rows whose descriptor column equals 'temperature' record values for this variable.",
+      "schema:measurementTechnique": "CTD profiler",
+      "cdif:physicalDataType": [
+        "float64"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "Measure",
+      "schema:minValue": -2.0,
+      "schema:maxValue": 30.0,
+      "cdi:displayLabel": "Sea-water temperature",
+      "cdi:describedUnitOfMeasure": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "degree Celsius",
+        "schema:identifier": "http://qudt.org/vocab/unit/DEG_C"
+      },
+      "cdif:simpleUnitOfMeasure": "Cel"
+    },
+    {
+      "@id": "ex:var-salinity",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "salinity",
+      "schema:description": "Practical salinity parameter. Rows whose descriptor column equals 'salinity' record values for this variable.",
+      "schema:measurementTechnique": "CTD profiler",
+      "cdif:physicalDataType": [
+        "float64"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "Measure",
+      "schema:minValue": 0.0,
+      "schema:maxValue": 42.0,
+      "cdi:displayLabel": "Practical salinity",
+      "cdif:simpleUnitOfMeasure": "1",
+      "cdif:uses": [
+        {
+          "@id": "http://vocab.nerc.ac.uk/collection/P01/current/PSALST01/"
+        }
+      ]
+    },
+    {
+      "@id": "ex:var-dissolved-oxygen",
+      "@type": [
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
+      ],
+      "schema:name": "dissolved_oxygen",
+      "schema:description": "Dissolved oxygen parameter. Rows whose descriptor column equals 'dissolved_oxygen' record values for this variable.",
+      "schema:measurementTechnique": "Optode sensor",
+      "cdif:physicalDataType": [
+        "float64"
+      ],
+      "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdif:role": "Measure",
+      "schema:minValue": 0.0,
+      "schema:maxValue": 15.0,
+      "cdi:displayLabel": "Dissolved oxygen",
+      "cdi:describedUnitOfMeasure": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "milligram per litre",
+        "schema:identifier": "http://qudt.org/vocab/unit/MilliGM-PER-L"
+      },
+      "cdif:simpleUnitOfMeasure": "mg/L"
+    }
+  ],
+  "schema:measurementTechnique": [
+    "CTD profiler",
+    "Glass electrode pH meter",
+    "Optode dissolved-oxygen sensor"
+  ],
+  "schema:spatialCoverage": [
+    {
+      "@type": [
+        "schema:Place"
+      ],
+      "schema:name": "Gulf of Maine",
+      "schema:geo": {
+        "@type": [
+          "schema:GeoShape"
+        ],
+        "schema:box": "41.0 -71.0 45.0 -65.0"
+      }
+    }
+  ],
+  "schema:temporalCoverage": [
+    "2025-01-01/2025-12-31"
+  ],
+  "schema:subjectOf": {
+    "@id": "ex:gom-water-quality-long-2025/catalog-record",
+    "@type": [
+      "schema:Dataset"
+    ],
+    "schema:additionalType": [
+      "dcat:CatalogRecord"
+    ],
+    "schema:about": {
+      "@id": "ex:gom-water-quality-long-2025"
+    },
+    "schema:sdDatePublished": "2025-10-20",
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/core/1.0"
+      },
+      {
+        "@id": "https://w3id.org/cdif/discovery/1.0"
+      },
+      {
+        "@id": "https://w3id.org/cdif/data_description/1.0"
+      }
+    ]
+  }
+}
+```
+
+#### ttl
+```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ex: <https://example.org/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema1: <http://schema.org/> .
+@prefix spdx: <http://spdx.org/rdf/terms#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:gom-water-quality-long-2025 a schema1:Dataset ;
+    schema1:creator ( <https://ror.org/03m2x1q45> ) ;
+    schema1:dateModified "2025-10-20" ;
+    schema1:datePublished "2025-10-20" ;
+    schema1:description "Same monthly water-quality observations from 12 buoys as the wide-form release, recast in long (narrow) form. Each row is one observation: station, date, parameter name (descriptor), value, and reporting unit." ;
+    schema1:distribution [ a cdi:LongStructureDataSet,
+                cdi:PhysicalDataSet,
+                schema1:DataDownload ;
+            cdi:characterSet "UTF-8" ;
+            cdi:isDelimited true ;
+            schema1:contentUrl "https://example.org/data/gom-water-quality-long-2025.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "Long-form water-quality observations (CSV)" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "8b1a7c3e5d9f0a2b4c6d8e0f1a3b5c7d9e1f2a4b6c8d0e2f4a6b8c0d2e4f6a8b" ] ;
+            csvw:delimiter "," ;
+            csvw:header true ;
+            csvw:headerRowCount 1 ;
+            csvw:quoteChar "\"" ;
+            csvw:skipBlankRows true ;
+            cdif:fileSize 712 ;
+            cdif:fileSizeUofM "KB" ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-station ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "string" ],
+                [ cdi:isRequired true ;
+                    cdif:format "YYYY-MM-DD" ;
+                    cdif:formats_InstanceVariable ex:var-sample-date ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "date" ],
+                [ cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-unit ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "string" ],
+                [ cdi:isRequired true ;
+                    cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-parameter ;
+                    cdif:index 2 ;
+                    cdif:physicalDataType "string" ],
+                [ cdi:isRequired true ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-value ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "float64" ] ] ;
+    schema1:identifier [ a schema1:PropertyValue ;
+            schema1:propertyID "https://doi.org" ;
+            schema1:url "https://doi.org/10.5281/zenodo.5151516" ;
+            schema1:value "10.5281/zenodo.5151516" ] ;
+    schema1:keywords "Gulf of Maine",
+        "long format",
+        "tidy data",
+        "water quality" ;
+    schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
+    schema1:measurementTechnique "CTD profiler",
+        "Glass electrode pH meter",
+        "Optode dissolved-oxygen sensor" ;
+    schema1:name "Gulf of Maine water-quality monitoring stations, 2025 (long form)" ;
+    schema1:publisher <https://ror.org/03m2x1q45> ;
+    schema1:spatialCoverage [ a schema1:Place ;
+            schema1:geo [ a schema1:GeoShape ;
+                    schema1:box "41.0 -71.0 45.0 -65.0" ] ;
+            schema1:name "Gulf of Maine" ] ;
+    schema1:subjectOf <https://example.org/gom-water-quality-long-2025/catalog-record> ;
+    schema1:temporalCoverage "2025-01-01/2025-12-31" ;
+    schema1:variableMeasured ex:var-dissolved-oxygen,
+        ex:var-parameter,
+        ex:var-ph,
+        ex:var-salinity,
+        ex:var-sample-date,
+        ex:var-station,
+        ex:var-temperature,
+        ex:var-unit,
+        ex:var-value ;
+    schema1:version "2025.10" ;
+    prov:wasDerivedFrom ex:gom-water-quality-wide-2025 .
+
+<https://example.org/gom-water-quality-long-2025/catalog-record> a schema1:Dataset ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/1.0>,
+        <https://w3id.org/cdif/data_description/1.0>,
+        <https://w3id.org/cdif/discovery/1.0> ;
+    schema1:about ex:gom-water-quality-long-2025 ;
+    schema1:additionalType "dcat:CatalogRecord" ;
+    schema1:sdDatePublished "2025-10-20" .
+
+ex:gom-water-quality-wide-2025 schema1:name "Wide-form release of the same observations" .
+
+ex:var-dissolved-oxygen a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
+            schema1:identifier "http://qudt.org/vocab/unit/MilliGM-PER-L" ;
+            schema1:name "milligram per litre" ] ;
+    cdi:displayLabel "Dissolved oxygen" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
+    schema1:description "Dissolved oxygen parameter. Rows whose descriptor column equals 'dissolved_oxygen' record values for this variable." ;
+    schema1:maxValue 1.5e+01 ;
+    schema1:measurementTechnique "Optode sensor" ;
+    schema1:minValue 0e+00 ;
+    schema1:name "dissolved_oxygen" ;
+    cdif:physicalDataType "float64" ;
+    cdif:role "Measure" ;
+    cdif:simpleUnitOfMeasure "mg/L" .
+
+ex:var-ph a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "pH" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
+    schema1:description "pH parameter. Rows whose descriptor column equals 'ph' record values for this variable." ;
+    schema1:maxValue 1.4e+01 ;
+    schema1:measurementTechnique "Glass electrode, two-point calibration" ;
+    schema1:minValue 0e+00 ;
+    schema1:name "ph" ;
+    cdif:physicalDataType "float64" ;
+    cdif:role "Measure" ;
+    cdif:simpleUnitOfMeasure "1" ;
+    cdif:uses <http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/> .
+
+ex:var-salinity a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "Practical salinity" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
+    schema1:description "Practical salinity parameter. Rows whose descriptor column equals 'salinity' record values for this variable." ;
+    schema1:maxValue 4.2e+01 ;
+    schema1:measurementTechnique "CTD profiler" ;
+    schema1:minValue 0e+00 ;
+    schema1:name "salinity" ;
+    cdif:physicalDataType "float64" ;
+    cdif:role "Measure" ;
+    cdif:simpleUnitOfMeasure "1" ;
+    cdif:uses <http://vocab.nerc.ac.uk/collection/P01/current/PSALST01/> .
+
+ex:var-temperature a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
+            schema1:identifier "http://qudt.org/vocab/unit/DEG_C" ;
+            schema1:name "degree Celsius" ] ;
+    cdi:displayLabel "Sea-water temperature" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
+    schema1:description "Temperature parameter. Rows whose descriptor column equals 'temperature' record values for this variable." ;
+    schema1:maxValue 3e+01 ;
+    schema1:measurementTechnique "CTD profiler" ;
+    schema1:minValue -2e+00 ;
+    schema1:name "temperature" ;
+    cdif:physicalDataType "float64" ;
+    cdif:role "Measure" ;
+    cdif:simpleUnitOfMeasure "Cel" .
+
+ex:var-parameter a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "Parameter" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#string" ;
+    schema1:description "Descriptor column. Each value names the measured property whose numeric reading is recorded in the value column. Permitted codes are ph, temperature, salinity, dissolved_oxygen." ;
+    schema1:name "parameter" ;
+    cdif:physicalDataType "string" ;
+    cdif:role "Descriptor" .
+
+ex:var-sample-date a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "Sampling date" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#date" ;
+    schema1:description "Date the water sample was collected." ;
+    schema1:name "sample_date" ;
+    cdif:physicalDataType "date" ;
+    cdif:role "Attribute" .
+
+ex:var-station a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "Monitoring station" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#string" ;
+    schema1:description "Monitoring station identifier; unit of observation." ;
+    schema1:name "station_id" ;
+    cdif:physicalDataType "string" ;
+    cdif:role "UnitIdentifier" .
+
+ex:var-unit a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "Unit of measure" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#string" ;
+    schema1:description "Reporting unit symbol for the row's value (e.g., Cel, 1, mg/L)." ;
+    schema1:name "unit" ;
+    cdif:physicalDataType "string" ;
+    cdif:role "Attribute" .
+
+ex:var-value a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "Measured value" ;
+    cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
+    schema1:description "Reference column. Holds the numeric value of whichever parameter is named in the descriptor column for that row." ;
+    schema1:name "value" ;
+    cdif:physicalDataType "float64" ;
+    cdif:role "ReferenceVariable" .
+
+<https://ror.org/03m2x1q45> a schema1:Organization ;
+    schema1:name "University of Arizona" .
 
 
 ```
@@ -2655,19 +5096,20 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
-    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "prov": "http://www.w3.org/ns/prov#",
     "geosparql": "http://www.opengis.net/ont/geosparql#",
     "spdx": "http://spdx.org/rdf/terms#",
     "time": "http://www.w3.org/2006/time#",
-    "skos": "http://www.w3.org/2004/02/skos/core#",
     "xas": "https://xas.org/dictionary/",
     "nxs": "http://purl.org/nexusformat/definitions/",
-    "cdif": "https://cdif.org/0.1/",
+    "ada": "https://ada.astromat.org/metadata/",
     "@version": 1.1
   }
 }

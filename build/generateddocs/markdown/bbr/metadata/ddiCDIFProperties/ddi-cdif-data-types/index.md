@@ -494,7 +494,7 @@ $defs:
         items:
           type: string
         contains:
-          const: cdi:Reference
+          const: cdif:Reference
         minItems: 1
       cdi:uri:
         type: string

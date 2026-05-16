@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping` *v0.1*
 
-metadata to document the physical serialization of variables in a data structure. Defines properties: cdi:index, cdi:format, cdi:physicalDataType, cdi:length, cdi:nullSequence, cdi:defaultValue, cdi:scale, cdi:decimalPositions, cdi:minimumLength, cdi:maximumLength, cdi:isRequired, cdi:formats_InstanceVariable.
+metadata to document the physical serialization of variables in a data structure. Defines properties: cdif:index, cdif:format, cdif:physicalDataType, cdi:length, cdi:nullSequence, cdi:defaultValue, cdi:scale, cdi:decimalPositions, cdi:minimumLength, cdi:maximumLength, cdi:isRequired, cdif:formats_InstanceVariable.
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -25,12 +25,12 @@ isRequired flag, and a single formats_InstanceVariable reference.
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
         "ex": "https://example.org/"
     },
-    "cdi:index": 0,
-    "cdi:format": "YYYY-MM-DD",
-    "cdi:physicalDataType": "Date",
+    "cdif:index": 0,
+    "cdif:format": "YYYY-MM-DD",
+    "cdif:physicalDataType": "Date",
     "cdi:nullSequence": "NA",
     "cdi:isRequired": true,
-    "cdi:formats_InstanceVariable": {
+    "cdif:formats_InstanceVariable": {
         "@id": "ex:var-collection-date"
     }
 }
@@ -50,12 +50,12 @@ isRequired flag, and a single formats_InstanceVariable reference.
       "ex": "https://example.org/"
     }
   ],
-  "cdi:index": 0,
-  "cdi:format": "YYYY-MM-DD",
-  "cdi:physicalDataType": "Date",
+  "cdif:index": 0,
+  "cdif:format": "YYYY-MM-DD",
+  "cdif:physicalDataType": "Date",
   "cdi:nullSequence": "NA",
   "cdi:isRequired": true,
-  "cdi:formats_InstanceVariable": {
+  "cdif:formats_InstanceVariable": {
     "@id": "ex:var-collection-date"
   }
 }
@@ -65,14 +65,15 @@ isRequired flag, and a single formats_InstanceVariable reference.
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix ex: <https://example.org/> .
+@prefix ns1: <cdif:> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-[] cdi:format "YYYY-MM-DD" ;
-    cdi:formats_InstanceVariable ex:var-collection-date ;
-    cdi:index 0 ;
+[] ns1:format "YYYY-MM-DD" ;
+    ns1:formats_InstanceVariable ex:var-collection-date ;
+    ns1:index 0 ;
+    ns1:physicalDataType "Date" ;
     cdi:isRequired true ;
-    cdi:nullSequence "NA" ;
-    cdi:physicalDataType "Date" .
+    cdi:nullSequence "NA" .
 
 
 ```
@@ -89,9 +90,9 @@ nullSequence, defaultValue, isRequired, and formats_InstanceVariable.
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "ex": "https://example.org/"
   },
-  "cdi:index": 3,
-  "cdi:format": "#,##0.00",
-  "cdi:physicalDataType": "Numeric",
+  "cdif:index": 3,
+  "cdif:format": "#,##0.00",
+  "cdif:physicalDataType": "Numeric",
   "cdi:length": 12,
   "cdi:minimumLength": 1,
   "cdi:maximumLength": 12,
@@ -100,7 +101,7 @@ nullSequence, defaultValue, isRequired, and formats_InstanceVariable.
   "cdi:nullSequence": "NA",
   "cdi:defaultValue": "",
   "cdi:isRequired": true,
-  "cdi:formats_InstanceVariable": {
+  "cdif:formats_InstanceVariable": {
     "@id": "ex:var-temperature"
   }
 }
@@ -120,9 +121,9 @@ nullSequence, defaultValue, isRequired, and formats_InstanceVariable.
       "ex": "https://example.org/"
     }
   ],
-  "cdi:index": 3,
-  "cdi:format": "#,##0.00",
-  "cdi:physicalDataType": "Numeric",
+  "cdif:index": 3,
+  "cdif:format": "#,##0.00",
+  "cdif:physicalDataType": "Numeric",
   "cdi:length": 12,
   "cdi:minimumLength": 1,
   "cdi:maximumLength": 12,
@@ -131,7 +132,7 @@ nullSequence, defaultValue, isRequired, and formats_InstanceVariable.
   "cdi:nullSequence": "NA",
   "cdi:defaultValue": "",
   "cdi:isRequired": true,
-  "cdi:formats_InstanceVariable": {
+  "cdif:formats_InstanceVariable": {
     "@id": "ex:var-temperature"
   }
 }
@@ -141,19 +142,20 @@ nullSequence, defaultValue, isRequired, and formats_InstanceVariable.
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix ex: <https://example.org/> .
+@prefix ns1: <cdif:> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-[] cdi:decimalPositions 2 ;
+[] ns1:format "#,##0.00" ;
+    ns1:formats_InstanceVariable ex:var-temperature ;
+    ns1:index 3 ;
+    ns1:physicalDataType "Numeric" ;
+    cdi:decimalPositions 2 ;
     cdi:defaultValue "" ;
-    cdi:format "#,##0.00" ;
-    cdi:formats_InstanceVariable ex:var-temperature ;
-    cdi:index 3 ;
     cdi:isRequired true ;
     cdi:length 12 ;
     cdi:maximumLength 12 ;
     cdi:minimumLength 1 ;
     cdi:nullSequence "NA" ;
-    cdi:physicalDataType "Numeric" ;
     cdi:scale 1 .
 
 
@@ -169,16 +171,16 @@ description: Defines implementation-specific properties for the representation o
   mapping structure.
 type: object
 properties:
-  cdi:index:
+  cdif:index:
     type: integer
     minimum: 0
     description: Non-negative integer that orders the fields in the data structure
       (column number).
-  cdi:format:
+  cdif:format:
     type: string
     description: A format for number expressed as a string, or date format like YYYY/MM
       or MM-DD-YY.
-  cdi:physicalDataType:
+  cdif:physicalDataType:
     type: string
   cdi:length:
     type: integer
@@ -202,7 +204,7 @@ properties:
   cdi:isRequired:
     type: boolean
     default: false
-  cdi:formats_InstanceVariable:
+  cdif:formats_InstanceVariable:
     type: object
     description: Reference to a variable defined in schema:variableMeasured.
     properties:

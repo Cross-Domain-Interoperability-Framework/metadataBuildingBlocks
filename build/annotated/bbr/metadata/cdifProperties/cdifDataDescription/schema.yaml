@@ -1,6 +1,6 @@
 $schema: https://json-schema.org/draft/2020-12/schema
 title: CDIF Data Description properties
-description: Additional constraints for CDIF data description level. Adds cdi:physicalDataType
+description: Additional constraints for CDIF data description level. Adds cdif:physicalDataType
   requirement on variableMeasured items and distribution-level cdi properties for
   file characterization (characterSet, fileSize, fileSizeUofM).
 type: object
@@ -19,6 +19,24 @@ properties:
     description: 'Primary key of the dataset: a cdif:Key whose cdif:isComposedOf is
       an ordered list of cdi:InstanceVariables (from schema:variableMeasured) that
       uniquely identify each data instance.'
+  cdif:statistics:
+    type: array
+    description: "Summary statistics describing the dataset's values. Each entry is
+      a cdi:Statistics bundle (one or more Statistic value objects, optionally weighted
+      by an InstanceVariable, optionally broken down by Category) or a cdi:StatisticsCollection
+      (groups multiple Statistics nodes and records which InstanceVariables they index).
+      Inline node or @id-reference to one declared elsewhere in the document. cdif:
+      namespaced \u2014 DDI-CDI has no `statistics` association from a dataset; this
+      is a CDIF attachment property."
+    items:
+      anyOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifStatistics/schema.yaml
+      - type: object
+        properties:
+          '@id':
+            type: string
+        required:
+        - '@id'
   schema:subjectOf:
     properties:
       dcterms:conformsTo:
@@ -48,46 +66,106 @@ properties:
       allOf:
       - type: object
         description: All variableMeasured items at data description level must have
-          an @id and cdi:physicalDataType so physical mappings can reference them.
+          an @id and cdif:physicalDataType so physical mappings can reference them.
         properties:
           '@id':
             type: string
-            description: URI identifier for this variable, used as the target of cdi:formats_InstanceVariable
+            description: URI identifier for this variable, used as the target of cdif:formats_InstanceVariable
               references in physical mappings.
         required:
         - '@id'
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
+      - type: object
+        description: At the Data Description profile level, InstanceVariables may
+          also carry substantive and sentinel value domains directly (in profiles
+          that introduce a RepresentedVariable - e.g., CDIFDataStructureProfile -
+          these properties live on the RepresentedVariable instead and are disallowed
+          here).
+        properties:
+          cdi:takesSentinelValuesFrom:
+            type: array
+            items:
+              anyOf:
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifValueDomain/schema.yaml#/$defs/SentinelValueDomain
+              - type: object
+                properties:
+                  '@id':
+                    type: string
+                required:
+                - '@id'
+            description: Sentinel (missing / not-applicable) value domain(s) for this
+              variable (RepresentedVariable.takesSentinelValuesFrom).
+          cdi:takesSubstantiveValuesFrom:
+            anyOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifValueDomain/schema.yaml#/$defs/SubstantiveValueDomain
+            - type: object
+              properties:
+                '@id':
+                  type: string
+              required:
+              - '@id'
+            description: The substantive value domain for this variable - the set
+              of valid, meaningful values (RepresentedVariable.takesSubstantiveValuesFrom).
   schema:distribution:
+    description: 'Each schema:DataDownload distribution item SHOULD additionally be
+      typed as cdi:PhysicalDataSet or one of its subclasses (cdi:TabularTextDataSet,
+      cdi:StructuredDataSet). schema:WebAPI distribution items do not require a cdi:
+      dataset type. Not enforced at schema level (the merge with cdifCore and cdifArchiveDistribution
+      drops the @type constraint at profile resolution); consider a SHACL rule if
+      runtime enforcement is needed.'
     items:
       properties:
-        '@type':
-          description: Each distribution item is additionally typed as a cdi:PhysicalDataSet
-            or cdi:LogicalDataSet (alongside the base schema:DataDownload / schema:WebAPI).
-          anyOf:
-          - contains:
-              const: cdi:PhysicalDataSet
-          - contains:
-              const: cdi:LogicalDataSet
-        cdi:isStructuredBy:
-          description: Points at the Data Structure node that describes how this distribution's
-            bytes are organized. Inline cdifDataStructure or @id-reference to a node
-            defined elsewhere in the document.
-          anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructure/schema.yaml
-          - type: object
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+        cdif:hasPhysicalMapping:
+          type: array
+          description: Per-field physical mappings linking the variables measured
+            by this distribution to their physical representation in the file - column
+            index, format, physical data type, length, null sequence, etc. Applies
+            to schema:DataDownload items typed as cdi:PhysicalDataSet or one of its
+            subclasses. Each item is a cdifPhysicalMapping.
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml
         cdi:characterSet:
           type: string
           description: The character set used in the distribution (e.g., UTF-8, ASCII).
-        cdi:fileSize:
+        cdif:fileSize:
           type: number
           description: The size of the distribution file.
-        cdi:fileSizeUofM:
+        cdif:fileSizeUofM:
           type: string
           description: Unit of measure for the file size (e.g., bytes, KB, MB, GB).
+        schema:potentialAction:
+          description: For schema:WebAPI distributions, the potentialAction.result
+            describes the physical realization of the API response bytes - analogous
+            to a DataDownload distribution. The result MAY be additionally typed as
+            cdi:PhysicalDataSet or one of its subclasses, and MAY carry the same physical-realization
+            properties (cdif:hasPhysicalMapping, cdi:characterSet, cdif:fileSize,
+            cdif:fileSizeUofM) as a DataDownload distribution. cdi:PhysicalDataSet
+            typing belongs on the result, NOT on the WebAPI distribution itself -
+            the WebAPI distribution describes the service; the result describes the
+            bytes the service produces.
+          items:
+            properties:
+              schema:result:
+                properties:
+                  cdif:hasPhysicalMapping:
+                    type: array
+                    description: Per-field physical mappings for the API response
+                      bytes. cdif:formats_InstanceVariable should reference the @ids
+                      of variables in the parent dataset's schema:variableMeasured
+                      (the API response is another physical realization of those same
+                      InstanceVariables).
+                    items:
+                      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml
+                  cdi:characterSet:
+                    type: string
+                    description: The character set used in the API response (e.g.,
+                      UTF-8).
+                  cdif:fileSize:
+                    type: number
+                    description: The size of the API response payload.
+                  cdif:fileSizeUofM:
+                    type: string
+                    description: Unit of measure for the response size (e.g., bytes,
+                      KB, MB).
 required:
 - schema:variableMeasured

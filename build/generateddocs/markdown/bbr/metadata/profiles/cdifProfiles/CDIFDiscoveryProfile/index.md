@@ -1327,11 +1327,11 @@ ex:YOPx123 a schema1:Dataset ;
         "jNv",
         "tfmbDGeiuEnuhfKBvk" ;
     schema1:contributor [ a schema1:Role ;
-            schema1:contributor ex:PersonExample_zZc_asContributor ;
-            schema1:roleName "editor" ],
-        [ a schema1:Role ;
             schema1:contributor ex:NyMWPlRtQizAFE ;
-            schema1:roleName "data steward" ] ;
+            schema1:roleName "data steward" ],
+        [ a schema1:Role ;
+            schema1:contributor ex:PersonExample_zZc_asContributor ;
+            schema1:roleName "editor" ] ;
     schema1:creator ( ex:mxxInaV ex:jP ) ;
     schema1:dateModified "2020-10-15" ;
     schema1:datePublished "2021-09-05" ;
@@ -1358,11 +1358,11 @@ ex:YOPx123 a schema1:Dataset ;
                     spdx:algorithm "j" ;
                     spdx:checksumValue "h" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/fnjrj68> ;
+            schema1:funder <https://ror.org/sejer4w6u8> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
-                    schema1:value "fMuiBjneudpV" ] ;
-            schema1:name "MWoPQAqRYHobey" ],
+                    schema1:value "LZpo" ] ;
+            schema1:name "ekckpBtI" ],
         [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -1370,11 +1370,11 @@ ex:YOPx123 a schema1:Dataset ;
                     schema1:value "lieopgXuumP" ] ;
             schema1:name "fhhbzh" ],
         [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/sejer4w6u8> ;
+            schema1:funder <https://ror.org/fnjrj68> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
-                    schema1:value "LZpo" ] ;
-            schema1:name "ekckpBtI" ] ;
+                    schema1:value "fMuiBjneudpV" ] ;
+            schema1:name "MWoPQAqRYHobey" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
@@ -3048,6 +3048,11 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:datePublished "2024-09-01" ;
     schema1:description "Hydrographic observations from repeat transects across the Labrador Sea measuring temperature, salinity, and dissolved oxygen profiles to 4000m depth. Data collected from annual winter cruises documenting deep water formation processes." ;
     schema1:distribution [ a schema1:DataDownload ;
+            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
+            schema1:contentUrl "https://example.org/data/nadw-ctd-2015-2024.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "CSV profiles export" ],
+        [ a schema1:DataDownload ;
             dcterms:conformsTo <https://cfconventions.org/> ;
             schema1:contentUrl "https://example.org/data/nadw-ctd-2015-2024.nc" ;
             schema1:description "CF-compliant NetCDF4 with all CTD profiles" ;
@@ -3056,12 +3061,7 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
             schema1:provider <https://ror.org/007hqnf44> ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "checksumAlgorithm_sha256" ;
-                    spdx:checksumValue "b3e4f5a6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4" ] ],
-        [ a schema1:DataDownload ;
-            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
-            schema1:contentUrl "https://example.org/data/nadw-ctd-2015-2024.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "CSV profiles export" ] ;
+                    spdx:checksumValue "b3e4f5a6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:description "Long-term monitoring of physical and biological oceanographic conditions in the NW Atlantic" ;
             schema1:funder [ a schema1:Organization ;
@@ -3344,8 +3344,6 @@ allOf:
             properties:
               '@id':
                 const: https://w3id.org/cdif/discovery/1.0
-  required:
-  - schema:variableMeasured
 $defs:
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
@@ -3383,16 +3381,17 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
-    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "prov": "http://www.w3.org/ns/prov#",
     "geosparql": "http://www.opengis.net/ont/geosparql#",
     "spdx": "http://spdx.org/rdf/terms#",
     "time": "http://www.w3.org/2006/time#",
-    "skos": "http://www.w3.org/2004/02/skos/core#",
     "xas": "https://xas.org/dictionary/",
     "nxs": "http://purl.org/nexusformat/definitions/",
     "@version": 1.1

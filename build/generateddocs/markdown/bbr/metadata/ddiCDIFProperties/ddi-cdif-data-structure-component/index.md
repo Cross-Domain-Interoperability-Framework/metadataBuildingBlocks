@@ -100,7 +100,7 @@ with purpose and use entries linked to QUDT).
         "@type": ["cdi:ControlledVocabularyEntry"],
         "cdi:entryValue": ["temperature"],
         "cdi:vocabulary": {
-          "@type": ["cdi:Reference"],
+          "@type": ["cdif:Reference"],
           "cdi:uri": "https://qudt.org/vocab/quantitykind/Temperature"
         }
       },
@@ -162,7 +162,7 @@ with purpose and use entries linked to QUDT).
         ],
         "cdi:vocabulary": {
           "@type": [
-            "cdi:Reference"
+            "cdif:Reference"
           ],
           "cdi:uri": "https://qudt.org/vocab/quantitykind/Temperature"
         }
@@ -193,7 +193,7 @@ with purpose and use entries linked to QUDT).
     cdi:semantic [ a cdi:PairedControlledVocabularyEntry ;
             cdi:purposeEntry [ a cdi:ControlledVocabularyEntry ;
                     cdi:entryValue "temperature" ;
-                    cdi:vocabulary [ a cdi:Reference ;
+                    cdi:vocabulary [ a <cdif:Reference> ;
                             cdi:uri "https://qudt.org/vocab/quantitykind/Temperature" ] ] ;
             cdi:useEntry [ a cdi:ControlledVocabularyEntry ;
                     cdi:entryValue "measurement" ] ] .
@@ -465,11 +465,6 @@ Links to the schema:
   "@context": {
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "schema": "http://schema.org/",
-    "spdx": "http://spdx.org/rdf/terms#",
-    "xas": "https://xas.org/dictionary/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
-    "prov": "http://www.w3.org/ns/prov#",
     "@version": 1.1
   }
 }

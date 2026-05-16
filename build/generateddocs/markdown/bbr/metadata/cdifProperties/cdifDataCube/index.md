@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.cdifProperties.cdifDataCube` *v0.1*
 
-metadata to document physical data structure for data cube or hierarchical data. Defines properties: @type, cdi:hasPhysicalMapping. Uses building blocks: cdifPhysicalMapping (cdifProperties).
+metadata to document physical data structure for data cube or hierarchical data. Defines properties: @type, cdif:hasPhysicalMapping. Uses building blocks: cdifPhysicalMapping (cdifProperties).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -58,8 +58,8 @@ that const.
 
 
 ### Complete Data Cube
-Multi-dimensional data cube with cdi:hasPhysicalMapping entries that
-use cdi:locator HDF5-style paths for each variable.
+Multi-dimensional data cube with cdif:hasPhysicalMapping entries that
+use cdif:locator HDF5-style paths for each variable.
 #### json
 ```json
 {
@@ -69,24 +69,24 @@ use cdi:locator HDF5-style paths for each variable.
         "ex": "https://example.org/"
     },
     "@type": ["cdi:StructuredDataSet"],
-    "cdi:hasPhysicalMapping": [
+    "cdif:hasPhysicalMapping": [
         {
-            "cdi:index": 0,
-            "cdi:format": "float64",
-            "cdi:physicalDataType": "Numeric",
-            "cdi:formats_InstanceVariable": {
+            "cdif:index": 0,
+            "cdif:format": "float64",
+            "cdif:physicalDataType": "Numeric",
+            "cdif:formats_InstanceVariable": {
                 "@id": "ex:var-temperature"
             },
-            "cdi:locator": "/temperature[*][*]"
+            "cdif:locator": "/temperature[*][*]"
         },
         {
-            "cdi:index": 1,
-            "cdi:format": "float64",
-            "cdi:physicalDataType": "Numeric",
-            "cdi:formats_InstanceVariable": {
+            "cdif:index": 1,
+            "cdif:format": "float64",
+            "cdif:physicalDataType": "Numeric",
+            "cdif:formats_InstanceVariable": {
                 "@id": "ex:var-pressure"
             },
-            "cdi:locator": "/pressure[*][*]"
+            "cdif:locator": "/pressure[*][*]"
         }
     ]
 }
@@ -111,24 +111,24 @@ use cdi:locator HDF5-style paths for each variable.
   "@type": [
     "cdi:StructuredDataSet"
   ],
-  "cdi:hasPhysicalMapping": [
+  "cdif:hasPhysicalMapping": [
     {
-      "cdi:index": 0,
-      "cdi:format": "float64",
-      "cdi:physicalDataType": "Numeric",
-      "cdi:formats_InstanceVariable": {
+      "cdif:index": 0,
+      "cdif:format": "float64",
+      "cdif:physicalDataType": "Numeric",
+      "cdif:formats_InstanceVariable": {
         "@id": "ex:var-temperature"
       },
-      "cdi:locator": "/temperature[*][*]"
+      "cdif:locator": "/temperature[*][*]"
     },
     {
-      "cdi:index": 1,
-      "cdi:format": "float64",
-      "cdi:physicalDataType": "Numeric",
-      "cdi:formats_InstanceVariable": {
+      "cdif:index": 1,
+      "cdif:format": "float64",
+      "cdif:physicalDataType": "Numeric",
+      "cdif:formats_InstanceVariable": {
         "@id": "ex:var-pressure"
       },
-      "cdi:locator": "/pressure[*][*]"
+      "cdif:locator": "/pressure[*][*]"
     }
   ]
 }
@@ -138,19 +138,20 @@ use cdi:locator HDF5-style paths for each variable.
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix ex: <https://example.org/> .
+@prefix ns1: <cdif:> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 [] a cdi:StructuredDataSet ;
-    cdi:hasPhysicalMapping [ cdi:format "float64" ;
-            cdi:formats_InstanceVariable ex:var-pressure ;
-            cdi:index 1 ;
-            cdi:locator "/pressure[*][*]" ;
-            cdi:physicalDataType "Numeric" ],
-        [ cdi:format "float64" ;
-            cdi:formats_InstanceVariable ex:var-temperature ;
-            cdi:index 0 ;
-            cdi:locator "/temperature[*][*]" ;
-            cdi:physicalDataType "Numeric" ] .
+    ns1:hasPhysicalMapping [ ns1:format "float64" ;
+            ns1:formats_InstanceVariable ex:var-temperature ;
+            ns1:index 0 ;
+            ns1:locator "/temperature[*][*]" ;
+            ns1:physicalDataType "Numeric" ],
+        [ ns1:format "float64" ;
+            ns1:formats_InstanceVariable ex:var-pressure ;
+            ns1:index 1 ;
+            ns1:locator "/pressure[*][*]" ;
+            ns1:physicalDataType "Numeric" ] .
 
 
 ```
@@ -171,7 +172,7 @@ properties:
     allOf:
     - contains:
         const: cdi:StructuredDataSet
-  cdi:hasPhysicalMapping:
+  cdif:hasPhysicalMapping:
     type: array
     description: Links variables to their physical representation in this dataset.
     items:
@@ -179,7 +180,7 @@ properties:
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml
       - type: object
         properties:
-          cdi:locator:
+          cdif:locator:
             type: string
             description: String that can be used by software to locate values of the
               variable in this physical dataset.

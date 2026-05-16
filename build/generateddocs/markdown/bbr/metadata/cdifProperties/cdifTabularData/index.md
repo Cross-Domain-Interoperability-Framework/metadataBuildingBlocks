@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.cdifProperties.cdifTabularData` *v0.1*
 
-metadata to document physical data structure, mapping DDI/CDI instance variable to implementation  in a particualr serializtion. This extension plugs into the description of a particular file in a distribution, e.g. schema:DataDownload. Defines properties: @type, cdi:arrayBase, csvw:commentPrefix, csvw:delimiter, csvw:header, csvw:headerRowCount, cdi:isDelimited, cdi:isFixedWidth, csvw:lineTerminators, csvw:quoteChar, csvw:skipBlankRows, csvw:skipColumns, csvw:skipInitialSpace, csvw:skipRows, cdi:escapeCharacter, cdi:headerIsCaseSensitive, cdi:treatConsecutiveDelimitersAsOne, csvw:tableDirection, csvw:textDirection, csvw:trim, cdi:hasPhysicalMapping, countRows, countColumns. Uses building blocks: cdifPhysicalMapping (cdifProperties).
+metadata to document physical data structure, mapping DDI/CDI instance variable to implementation  in a particualr serializtion. This extension plugs into the description of a particular file in a distribution, e.g. schema:DataDownload. Defines properties: @type, cdi:arrayBase, csvw:commentPrefix, csvw:delimiter, csvw:header, csvw:headerRowCount, cdi:isDelimited, cdi:isFixedWidth, csvw:lineTerminators, csvw:quoteChar, csvw:skipBlankRows, csvw:skipColumns, csvw:skipInitialSpace, csvw:skipRows, cdi:escapeCharacter, cdi:headerIsCaseSensitive, cdi:treatConsecutiveDelimitersAsOne, csvw:tableDirection, csvw:textDirection, csvw:trim, cdif:hasPhysicalMapping, countRows, countColumns. Uses building blocks: cdifPhysicalMapping (cdifProperties).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -37,19 +37,19 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
     "csvw:skipInitialSpace": true,
     "countRows": 1500,
     "countColumns": 5,
-    "cdi:hasPhysicalMapping": [
+    "cdif:hasPhysicalMapping": [
         {
-            "cdi:index": 0,
-            "cdi:physicalDataType": "String",
-            "cdi:formats_InstanceVariable": {
+            "cdif:index": 0,
+            "cdif:physicalDataType": "String",
+            "cdif:formats_InstanceVariable": {
                 "@id": "ex:var-station-id"
             }
         },
         {
-            "cdi:index": 1,
-            "cdi:format": "float64",
-            "cdi:physicalDataType": "Numeric",
-            "cdi:formats_InstanceVariable": {
+            "cdif:index": 1,
+            "cdif:format": "float64",
+            "cdif:physicalDataType": "Numeric",
+            "cdif:formats_InstanceVariable": {
                 "@id": "ex:var-temperature"
             }
         }
@@ -88,19 +88,19 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
   "csvw:skipInitialSpace": true,
   "countRows": 1500,
   "countColumns": 5,
-  "cdi:hasPhysicalMapping": [
+  "cdif:hasPhysicalMapping": [
     {
-      "cdi:index": 0,
-      "cdi:physicalDataType": "String",
-      "cdi:formats_InstanceVariable": {
+      "cdif:index": 0,
+      "cdif:physicalDataType": "String",
+      "cdif:formats_InstanceVariable": {
         "@id": "ex:var-station-id"
       }
     },
     {
-      "cdi:index": 1,
-      "cdi:format": "float64",
-      "cdi:physicalDataType": "Numeric",
-      "cdi:formats_InstanceVariable": {
+      "cdif:index": 1,
+      "cdif:format": "float64",
+      "cdif:physicalDataType": "Numeric",
+      "cdif:formats_InstanceVariable": {
         "@id": "ex:var-temperature"
       }
     }
@@ -113,18 +113,19 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix ex: <https://example.org/> .
+@prefix ns1: <cdif:> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 [] a cdi:TabularTextDataSet,
         schema1:Dataset ;
-    cdi:hasPhysicalMapping [ cdi:format "float64" ;
-            cdi:formats_InstanceVariable ex:var-temperature ;
-            cdi:index 1 ;
-            cdi:physicalDataType "Numeric" ],
-        [ cdi:formats_InstanceVariable ex:var-station-id ;
-            cdi:index 0 ;
-            cdi:physicalDataType "String" ] ;
+    ns1:hasPhysicalMapping [ ns1:format "float64" ;
+            ns1:formats_InstanceVariable ex:var-temperature ;
+            ns1:index 1 ;
+            ns1:physicalDataType "Numeric" ],
+        [ ns1:formats_InstanceVariable ex:var-station-id ;
+            ns1:index 0 ;
+            ns1:physicalDataType "String" ] ;
     cdi:isDelimited true ;
     csvw:commentPrefix "#" ;
     csvw:delimiter "," ;
@@ -174,29 +175,29 @@ and three physical-mapping entries.
   "csvw:trim": "true",
   "countRows": 1500,
   "countColumns": 3,
-  "cdi:hasPhysicalMapping": [
+  "cdif:hasPhysicalMapping": [
     {
-      "cdi:index": 0,
-      "cdi:physicalDataType": "String",
+      "cdif:index": 0,
+      "cdif:physicalDataType": "String",
       "cdi:length": 16,
       "cdi:isRequired": true,
-      "cdi:formats_InstanceVariable": {"@id": "ex:var-station-id"}
+      "cdif:formats_InstanceVariable": {"@id": "ex:var-station-id"}
     },
     {
-      "cdi:index": 1,
-      "cdi:format": "YYYY-MM-DD",
-      "cdi:physicalDataType": "Date",
+      "cdif:index": 1,
+      "cdif:format": "YYYY-MM-DD",
+      "cdif:physicalDataType": "Date",
       "cdi:nullSequence": "NA",
-      "cdi:formats_InstanceVariable": {"@id": "ex:var-date"}
+      "cdif:formats_InstanceVariable": {"@id": "ex:var-date"}
     },
     {
-      "cdi:index": 2,
-      "cdi:format": "#,##0.00",
-      "cdi:physicalDataType": "Numeric",
+      "cdif:index": 2,
+      "cdif:format": "#,##0.00",
+      "cdif:physicalDataType": "Numeric",
       "cdi:length": 12,
       "cdi:scale": 1,
       "cdi:decimalPositions": 2,
-      "cdi:formats_InstanceVariable": {"@id": "ex:var-temperature"}
+      "cdif:formats_InstanceVariable": {"@id": "ex:var-temperature"}
     }
   ]
 }
@@ -245,33 +246,33 @@ and three physical-mapping entries.
   "csvw:trim": "true",
   "countRows": 1500,
   "countColumns": 3,
-  "cdi:hasPhysicalMapping": [
+  "cdif:hasPhysicalMapping": [
     {
-      "cdi:index": 0,
-      "cdi:physicalDataType": "String",
+      "cdif:index": 0,
+      "cdif:physicalDataType": "String",
       "cdi:length": 16,
       "cdi:isRequired": true,
-      "cdi:formats_InstanceVariable": {
+      "cdif:formats_InstanceVariable": {
         "@id": "ex:var-station-id"
       }
     },
     {
-      "cdi:index": 1,
-      "cdi:format": "YYYY-MM-DD",
-      "cdi:physicalDataType": "Date",
+      "cdif:index": 1,
+      "cdif:format": "YYYY-MM-DD",
+      "cdif:physicalDataType": "Date",
       "cdi:nullSequence": "NA",
-      "cdi:formats_InstanceVariable": {
+      "cdif:formats_InstanceVariable": {
         "@id": "ex:var-date"
       }
     },
     {
-      "cdi:index": 2,
-      "cdi:format": "#,##0.00",
-      "cdi:physicalDataType": "Numeric",
+      "cdif:index": 2,
+      "cdif:format": "#,##0.00",
+      "cdif:physicalDataType": "Numeric",
       "cdi:length": 12,
       "cdi:scale": 1,
       "cdi:decimalPositions": 2,
-      "cdi:formats_InstanceVariable": {
+      "cdif:formats_InstanceVariable": {
         "@id": "ex:var-temperature"
       }
     }
@@ -284,30 +285,31 @@ and three physical-mapping entries.
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix ex: <https://example.org/> .
+@prefix ns1: <cdif:> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 [] a cdi:TabularTextDataSet,
         schema1:Dataset ;
+    ns1:hasPhysicalMapping [ ns1:formats_InstanceVariable ex:var-station-id ;
+            ns1:index 0 ;
+            ns1:physicalDataType "String" ;
+            cdi:isRequired true ;
+            cdi:length 16 ],
+        [ ns1:format "#,##0.00" ;
+            ns1:formats_InstanceVariable ex:var-temperature ;
+            ns1:index 2 ;
+            ns1:physicalDataType "Numeric" ;
+            cdi:decimalPositions 2 ;
+            cdi:length 12 ;
+            cdi:scale 1 ],
+        [ ns1:format "YYYY-MM-DD" ;
+            ns1:formats_InstanceVariable ex:var-date ;
+            ns1:index 1 ;
+            ns1:physicalDataType "Date" ;
+            cdi:nullSequence "NA" ] ;
     cdi:arrayBase 1 ;
     cdi:escapeCharacter "\"" ;
-    cdi:hasPhysicalMapping [ cdi:formats_InstanceVariable ex:var-station-id ;
-            cdi:index 0 ;
-            cdi:isRequired true ;
-            cdi:length 16 ;
-            cdi:physicalDataType "String" ],
-        [ cdi:format "YYYY-MM-DD" ;
-            cdi:formats_InstanceVariable ex:var-date ;
-            cdi:index 1 ;
-            cdi:nullSequence "NA" ;
-            cdi:physicalDataType "Date" ],
-        [ cdi:decimalPositions 2 ;
-            cdi:format "#,##0.00" ;
-            cdi:formats_InstanceVariable ex:var-temperature ;
-            cdi:index 2 ;
-            cdi:length 12 ;
-            cdi:physicalDataType "Numeric" ;
-            cdi:scale 1 ] ;
     cdi:headerIsCaseSensitive false ;
     cdi:isDelimited true ;
     cdi:isFixedWidth false ;
@@ -444,7 +446,7 @@ properties:
     - start
     description: Indicates whether to trim whitespace around cells. 'true' corresponds
       to DDI-CDI 'both' value, 'false' corresponds to DDI-CDI 'neither' value.
-  cdi:hasPhysicalMapping:
+  cdif:hasPhysicalMapping:
     type: array
     description: Links variables to their physical representation in this dataset.
     items:
@@ -470,7 +472,7 @@ oneOf:
   - cdi:isFixedWidth
 required:
 - '@type'
-- cdi:hasPhysicalMapping
+- cdif:hasPhysicalMapping
 x-jsonld-prefixes:
   schema: http://schema.org/
   ada: https://ada.astromat.org/metadata/

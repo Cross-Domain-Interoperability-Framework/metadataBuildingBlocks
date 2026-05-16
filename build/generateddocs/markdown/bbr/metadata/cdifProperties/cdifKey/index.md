@@ -42,7 +42,11 @@ a non-empty cdif:isComposedOf array, and each entry carrying
   },
   "@type": ["cdif:Key"],
   "cdif:isComposedOf": [
-    { "@id": "ex:var/sampleId" }
+    {
+      "@type": ["cdi:ComponentPosition"],
+      "cdi:indexes": { "@id": "ex:var/sampleId" },
+      "cdi:value": 1
+    }
   ]
 }
 
@@ -68,7 +72,13 @@ a non-empty cdif:isComposedOf array, and each entry carrying
   ],
   "cdif:isComposedOf": [
     {
-      "@id": "ex:var/sampleId"
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "cdi:indexes": {
+        "@id": "ex:var/sampleId"
+      },
+      "cdi:value": 1
     }
   ]
 }
@@ -76,10 +86,14 @@ a non-empty cdif:isComposedOf array, and each entry carrying
 
 #### ttl
 ```ttl
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://cdif.org/0.1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 [] a cdif:Key ;
-    cdif:isComposedOf <https://example.org/var/sampleId> .
+    cdif:isComposedOf [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/sampleId> ;
+            cdi:value 1 ] .
 
 
 ```
@@ -104,24 +118,34 @@ every property the schema permits including @id on the Key itself.
   "@id": "ex:dataset/observations/key/primary",
   "cdif:isComposedOf": [
     {
-      "@id": "ex:var/year",
-      "@type": [
-        "cdi:InstanceVariable",
-        "schema:PropertyValue"
-      ],
-      "schema:name": "year",
-      "schema:alternateName": ["Observation year"],
-      "schema:description": "Calendar year in which the observation was recorded.",
-      "schema:propertyID": ["ex:concept/calendarYear"],
-      "schema:unitText": "year",
-      "cdi:identifier": "ex:var/year",
-      "cdi:physicalDataType": ["xsd:gYear"],
-      "cdi:simpleUnitOfMeasure": "year",
-      "cdi:name": "year",
-      "cdi:displayLabel": "Observation year",
-      "cdi:role": "Dimension"
+      "@type": ["cdi:ComponentPosition"],
+      "@id": "ex:dataset/observations/key/primary/pos/1",
+      "cdi:value": 1,
+      "cdi:indexes": {
+        "@id": "ex:var/year",
+        "@type": [
+          "cdi:InstanceVariable",
+          "schema:PropertyValue"
+        ],
+        "schema:name": "year",
+        "schema:alternateName": ["Observation year"],
+        "schema:description": "Calendar year in which the observation was recorded.",
+        "schema:propertyID": ["ex:concept/calendarYear"],
+        "schema:unitText": "year",
+        "cdi:identifier": "ex:var/year",
+        "cdif:physicalDataType": ["xsd:gYear"],
+        "cdi:simpleUnitOfMeasure": "year",
+        "cdi:name": "year",
+        "cdi:displayLabel": "Observation year",
+        "cdif:role": "Dimension"
+      }
     },
-    { "@id": "ex:var/countryCode" }
+    {
+      "@type": ["cdi:ComponentPosition"],
+      "@id": "ex:dataset/observations/key/primary/pos/2",
+      "cdi:value": 2,
+      "cdi:indexes": { "@id": "ex:var/countryCode" }
+    }
   ]
 }
 
@@ -151,31 +175,45 @@ every property the schema permits including @id on the Key itself.
   "@id": "ex:dataset/observations/key/primary",
   "cdif:isComposedOf": [
     {
-      "@id": "ex:var/year",
       "@type": [
-        "cdi:InstanceVariable",
-        "schema:PropertyValue"
+        "cdi:ComponentPosition"
       ],
-      "schema:name": "year",
-      "schema:alternateName": [
-        "Observation year"
-      ],
-      "schema:description": "Calendar year in which the observation was recorded.",
-      "schema:propertyID": [
-        "ex:concept/calendarYear"
-      ],
-      "schema:unitText": "year",
-      "cdi:identifier": "ex:var/year",
-      "cdi:physicalDataType": [
-        "xsd:gYear"
-      ],
-      "cdi:simpleUnitOfMeasure": "year",
-      "cdi:name": "year",
-      "cdi:displayLabel": "Observation year",
-      "cdi:role": "Dimension"
+      "@id": "ex:dataset/observations/key/primary/pos/1",
+      "cdi:value": 1,
+      "cdi:indexes": {
+        "@id": "ex:var/year",
+        "@type": [
+          "cdi:InstanceVariable",
+          "schema:PropertyValue"
+        ],
+        "schema:name": "year",
+        "schema:alternateName": [
+          "Observation year"
+        ],
+        "schema:description": "Calendar year in which the observation was recorded.",
+        "schema:propertyID": [
+          "ex:concept/calendarYear"
+        ],
+        "schema:unitText": "year",
+        "cdi:identifier": "ex:var/year",
+        "cdif:physicalDataType": [
+          "xsd:gYear"
+        ],
+        "cdi:simpleUnitOfMeasure": "year",
+        "cdi:name": "year",
+        "cdi:displayLabel": "Observation year",
+        "cdif:role": "Dimension"
+      }
     },
     {
-      "@id": "ex:var/countryCode"
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
+      "@id": "ex:dataset/observations/key/primary/pos/2",
+      "cdi:value": 2,
+      "cdi:indexes": {
+        "@id": "ex:var/countryCode"
+      }
     }
   ]
 }
@@ -186,24 +224,33 @@ every property the schema permits including @id on the Key itself.
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://cdif.org/0.1/> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://example.org/dataset/observations/key/primary> a cdif:Key ;
-    cdif:isComposedOf <https://example.org/var/countryCode>,
-        <https://example.org/var/year> .
+    cdif:isComposedOf <https://example.org/dataset/observations/key/primary/pos/1>,
+        <https://example.org/dataset/observations/key/primary/pos/2> .
+
+<https://example.org/dataset/observations/key/primary/pos/1> a cdi:ComponentPosition ;
+    cdi:indexes <https://example.org/var/year> ;
+    cdi:value 1 .
+
+<https://example.org/dataset/observations/key/primary/pos/2> a cdi:ComponentPosition ;
+    cdi:indexes <https://example.org/var/countryCode> ;
+    cdi:value 2 .
 
 <https://example.org/var/year> a cdi:InstanceVariable,
         schema1:PropertyValue ;
     cdi:displayLabel "Observation year" ;
     cdi:identifier "ex:var/year" ;
     cdi:name "year" ;
-    cdi:physicalDataType "xsd:gYear" ;
-    cdi:role "Dimension" ;
     cdi:simpleUnitOfMeasure "year" ;
     schema1:alternateName "Observation year" ;
     schema1:description "Calendar year in which the observation was recorded." ;
     schema1:name "year" ;
     schema1:propertyID "ex:concept/calendarYear" ;
-    schema1:unitText "year" .
+    schema1:unitText "year" ;
+    cdif:physicalDataType "xsd:gYear" ;
+    cdif:role "Dimension" .
 
 
 ```
@@ -215,8 +262,10 @@ $schema: https://json-schema.org/draft/2020-12/schema
 title: CDIF Key
 description: 'Profile of ddi-cdi Key/PrimaryKey: a CDIF Key is the role of an ordered
   set of cdi:InstanceVariables (referenced via cdifInstanceVariable) that uniquely
-  identify a data instance. Array order of cdif:isComposedOf items is the position;
-  no intermediate ComponentPosition wrapper.'
+  identify a data instance. Each variable''s position in the key is recorded with
+  an explicit cdi:ComponentPosition wrapper carrying cdi:indexes (the variable) and
+  cdi:value (the integer position), matching the canonical DDI-CDI PrimaryKey structure
+  in ddi-cdif-data-structure.'
 type: object
 properties:
   '@type':
@@ -231,20 +280,43 @@ properties:
     description: Identifier for this Key node.
   cdif:isComposedOf:
     type: array
-    description: Ordered list of cdi:InstanceVariables (inline cdifInstanceVariable
-      or @id-reference to one declared elsewhere in the dataset). Position is implicit
-      in array order.
+    description: Ordered list of cdi:ComponentPosition wrappers. Each wrapper carries
+      cdi:indexes (an inline cdifInstanceVariable or @id-reference to one declared
+      elsewhere in the dataset) and cdi:value (the integer position in the key, 0-
+      or 1-based).
     items:
-      anyOf:
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
-      - type: object
-        description: object reference via URI or URI fragment to a variable declared
-          in the same document
-        properties:
-          '@id':
+      type: object
+      description: ComponentPosition wrapper indexing one variable's position in the
+        key.
+      properties:
+        '@type':
+          type: array
+          items:
             type: string
-        required:
-        - '@id'
+          contains:
+            const: cdi:ComponentPosition
+          minItems: 1
+        '@id':
+          type: string
+          description: Identifier for this ComponentPosition node.
+        cdi:indexes:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
+          - type: object
+            description: object reference via @id to a cdifInstanceVariable declared
+              elsewhere
+            properties:
+              '@id':
+                type: string
+            required:
+            - '@id'
+        cdi:value:
+          type: integer
+          description: Index value (position) of the variable in the ordered key.
+      required:
+      - '@type'
+      - cdi:indexes
+      - cdi:value
     minItems: 1
 required:
 - '@type'
@@ -275,6 +347,10 @@ Links to the schema:
     "nxs": "http://purl.org/nexusformat/definitions/",
     "prov": "http://www.w3.org/ns/prov#",
     "cdif": "https://cdif.org/0.1/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "@version": 1.1
   }
 }

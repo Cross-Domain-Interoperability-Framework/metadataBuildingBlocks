@@ -12,96 +12,100 @@ allOf:
 - type: object
   properties:
     schema:hasPart:
-      type: array
-      description: Array describing the files contained in the archive. Each item
-        represents a component file that is part of the archive and is not independently
-        accessible.
-      items:
-        allOf:
-        - type: object
+      $ref: '#/$defs/archivePartArray'
+$defs:
+  archivePartArray:
+    type: array
+    description: Array describing the files contained in the archive. Each item represents
+      a component file that is part of the archive and is not independently accessible.
+    items:
+      $ref: '#/$defs/archivePartItem'
+  archivePartItem:
+    allOf:
+    - type: object
+      properties:
+        '@id':
+          type: string
+          description: Identifier for this file, typically a hash-based anchor (e.g.
+            '#abc123'). Used for cross-references from schema:about in metadata sidecar
+            files.
+        '@type':
+          type: array
+          description: Must include schema:MediaObject. Must NOT include schema:DataDownload
+            since this file is not independently accessible. May include additional
+            types for categorization.
+          items:
+            type: string
+          contains:
+            const: schema:MediaObject
+          not:
+            contains:
+              const: schema:DataDownload
+          minItems: 1
+        schema:name:
+          type: string
+          description: Filename of the component file within the archive.
+        schema:description:
+          type: string
+          description: Description of the file content. May include checksum information.
+        schema:encodingFormat:
+          type: array
+          description: MIME type(s) for this file.
+          items:
+            type: string
+        schema:size:
+          type: object
+          description: File size as a QuantitativeValue.
           properties:
-            '@id':
-              type: string
-              description: Identifier for this file, typically a hash-based anchor
-                (e.g. '#abc123'). Used for cross-references from schema:about in metadata
-                sidecar files.
             '@type':
               type: array
-              description: Must include schema:MediaObject. Must NOT include schema:DataDownload
-                since this file is not independently accessible. May include additional
-                types for categorization.
               items:
                 type: string
               contains:
-                const: schema:MediaObject
-              not:
-                contains:
-                  const: schema:DataDownload
+                const: schema:QuantitativeValue
               minItems: 1
-            schema:name:
+            schema:value:
+              type: number
+              description: Numeric size value.
+            schema:unitText:
               type: string
-              description: Filename of the component file within the archive.
-            schema:description:
-              type: string
-              description: Description of the file content. May include checksum information.
-            schema:encodingFormat:
+              description: Unit of measure for size (e.g. 'byte').
+        schema:about:
+          type: array
+          description: For metadata sidecar files, references the data file this metadata
+            describes.
+          items:
+            type: object
+            properties:
+              '@id':
+                type: string
+                description: Reference to the @id of the data file described by this
+                  sidecar.
+        spdx:checksum:
+          type: object
+          description: Checksum for integrity verification of this component file.
+          properties:
+            '@type':
               type: array
-              description: MIME type(s) for this file.
               items:
                 type: string
-            schema:size:
-              type: object
-              description: File size as a QuantitativeValue.
-              properties:
-                '@type':
-                  type: array
-                  items:
-                    type: string
-                  contains:
-                    const: schema:QuantitativeValue
-                  minItems: 1
-                schema:value:
-                  type: number
-                  description: Numeric size value.
-                schema:unitText:
-                  type: string
-                  description: Unit of measure for size (e.g. 'byte').
-            schema:about:
-              type: array
-              description: For metadata sidecar files, references the data file this
-                metadata describes.
-              items:
-                type: object
-                properties:
-                  '@id':
-                    type: string
-                    description: Reference to the @id of the data file described by
-                      this sidecar.
-            spdx:checksum:
-              type: object
-              description: Checksum for integrity verification of this component file.
-              properties:
-                '@type':
-                  type: array
-                  items:
-                    type: string
-                  contains:
-                    const: spdx:Checksum
-                  minItems: 1
-                spdx:algorithm:
-                  type: string
-                spdx:checksumValue:
-                  type: string
-              required:
-              - '@type'
+              contains:
+                const: spdx:Checksum
+              minItems: 1
+            spdx:algorithm:
+              type: string
+            spdx:checksumValue:
+              type: string
           required:
           - '@type'
-          - schema:name
-          - schema:encodingFormat
-        - anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataCube/schema.yaml
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularData/schema.yaml
-          - {}
+      required:
+      - '@type'
+      - schema:name
+      - schema:encodingFormat
+    - anyOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataCube/schema.yaml
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularData/schema.yaml
+      - {}
 x-jsonld-prefixes:
   schema: http://schema.org/
   spdx: http://spdx.org/rdf/terms#

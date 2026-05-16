@@ -1,0 +1,37 @@
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix schema1: <http://schema.org/> .
+
+<https://example.org/dataset/vitalsWide> a schema1:Dataset ;
+    schema1:dateModified "2025-09-01" ;
+    schema1:distribution [ a cdi:PhysicalDataSet,
+                schema1:DataDownload ;
+            cdi:isStructuredBy <https://example.org/struct/vitalsWide> ;
+            schema1:contentUrl "https://example.org/downloads/vitals.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "vitals.csv" ] ;
+    schema1:identifier "https://doi.org/10.1234/vitals-wide-2025" ;
+    schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
+    schema1:name "Patient vitals (wide table)" ;
+    schema1:subjectOf <https://example.org/dataset/vitalsWide/metadata> ;
+    schema1:variableMeasured <https://example.org/var/patientId>,
+        <https://example.org/var/systolicBP> .
+
+<https://example.org/dataset/vitalsWide/metadata> a schema1:Dataset ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/1.0>,
+        <https://w3id.org/cdif/data_description/1.0>,
+        <https://w3id.org/cdif/data_structure/1.0> ;
+    schema1:about <https://example.org/dataset/vitalsWide> ;
+    schema1:additionalType "dcat:CatalogRecord" .
+
+<https://example.org/var/patientId> a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    schema1:name "patient_id" ;
+    cdif:uses <https://example.org/struct/vitalsWide/rv/patientId> .
+
+<https://example.org/var/systolicBP> a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    schema1:name "systolic_bp" ;
+    cdif:uses <https://example.org/struct/vitalsWide/rv/systolicBP> .
+

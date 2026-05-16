@@ -1,0 +1,66 @@
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
+
+<https://example.org/struct/salesCube> a cdi:DimensionalDataStructure ;
+    cdi:has_DataStructureComponent <https://example.org/struct/salesCube/comp/country>,
+        <https://example.org/struct/salesCube/comp/currency>,
+        <https://example.org/struct/salesCube/comp/productCategory>,
+        <https://example.org/struct/salesCube/comp/quarter>,
+        <https://example.org/struct/salesCube/comp/salesAmount> ;
+    cdi:has_PrimaryKey <https://example.org/struct/salesCube/pk> .
+
+<https://example.org/struct/salesCube/comp/country> a cdi:DimensionComponent ;
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/country> .
+
+<https://example.org/struct/salesCube/comp/currency> a cdi:AttributeComponent ;
+    cdi:qualifies <https://example.org/struct/salesCube/comp/salesAmount> ;
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/currency> .
+
+<https://example.org/struct/salesCube/comp/productCategory> a cdi:DimensionComponent ;
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/productCategory> .
+
+<https://example.org/struct/salesCube/comp/quarter> a cdi:DimensionComponent ;
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/quarter> .
+
+<https://example.org/struct/salesCube/pk> a cdif:PrimaryKey ;
+    cdif:isComposedOf <https://example.org/var/country>,
+        <https://example.org/var/productCategory>,
+        <https://example.org/var/quarter> .
+
+<https://example.org/struct/salesCube/rv/country> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:string" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "country" ] .
+
+<https://example.org/struct/salesCube/rv/currency> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:string" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "currency" ] .
+
+<https://example.org/struct/salesCube/rv/productCategory> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:string" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "product_category" ] .
+
+<https://example.org/struct/salesCube/rv/quarter> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:gYearMonth" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "quarter" ] .
+
+<https://example.org/struct/salesCube/rv/salesAmount> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:decimal" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "sales_amount" ] ;
+    cdi:simpleUnitOfMeasure "USD" .
+
+<https://example.org/struct/salesCube/comp/salesAmount> a cdi:MeasureComponent ;
+    cdi:semantic [ a cdi:PairedControlledVocabularyEntry ;
+            cdi:purpose "measure" ;
+            cdi:use "monetary-total" ] ;
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/salesAmount> .
+

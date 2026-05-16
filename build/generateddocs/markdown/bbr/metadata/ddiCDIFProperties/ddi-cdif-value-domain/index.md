@@ -103,14 +103,14 @@ SentinelValueDomain with missing value codes for the SAS platform.
       "cdi:entryReference": [
         {
           "@type": [
-            "cdi:Reference"
+            "cdif:Reference"
           ],
           "cdi:uri": "http://www.w3.org/2001/XMLSchema#decimal"
         }
       ],
       "cdi:vocabulary": {
         "@type": [
-          "cdi:Reference"
+          "cdif:Reference"
         ],
         "cdi:uri": "http://www.w3.org/2001/XMLSchema",
         "cdi:description": "W3C XML Schema Definition Language datatypes"
@@ -127,7 +127,7 @@ SentinelValueDomain with missing value codes for the SAS platform.
       "cdi:entryReference": [
         {
           "@type": [
-            "cdi:Reference"
+            "cdif:Reference"
           ],
           "cdi:uri": "http://www.w3.org/2001/XMLSchema#double"
         }
@@ -171,7 +171,7 @@ SentinelValueDomain with missing value codes for the SAS platform.
       "cdi:name": "LDML number pattern",
       "cdi:vocabulary": {
         "@type": [
-          "cdi:Reference"
+          "cdif:Reference"
         ],
         "cdi:uri": "http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns"
       }
@@ -340,14 +340,14 @@ SentinelValueDomain with missing value codes for the SAS platform.
       "cdi:entryReference": [
         {
           "@type": [
-            "cdi:Reference"
+            "cdif:Reference"
           ],
           "cdi:uri": "http://www.w3.org/2001/XMLSchema#decimal"
         }
       ],
       "cdi:vocabulary": {
         "@type": [
-          "cdi:Reference"
+          "cdif:Reference"
         ],
         "cdi:uri": "http://www.w3.org/2001/XMLSchema",
         "cdi:description": "W3C XML Schema Definition Language datatypes"
@@ -364,7 +364,7 @@ SentinelValueDomain with missing value codes for the SAS platform.
       "cdi:entryReference": [
         {
           "@type": [
-            "cdi:Reference"
+            "cdif:Reference"
           ],
           "cdi:uri": "http://www.w3.org/2001/XMLSchema#double"
         }
@@ -408,7 +408,7 @@ SentinelValueDomain with missing value codes for the SAS platform.
       "cdi:name": "LDML number pattern",
       "cdi:vocabulary": {
         "@type": [
-          "cdi:Reference"
+          "cdif:Reference"
         ],
         "cdi:uri": "http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns"
       }
@@ -516,15 +516,15 @@ SentinelValueDomain with missing value codes for the SAS platform.
             cdi:uri "https://example.org/vd/temperatureCelsius" ] ;
     cdi:isDescribedBy <https://example.org/vd/temperatureCelsius/desc> ;
     cdi:recommendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryReference [ a cdi:Reference ;
+            cdi:entryReference [ a <cdif:Reference> ;
                     cdi:uri "http://www.w3.org/2001/XMLSchema#decimal" ] ;
             cdi:entryValue "xsd:decimal" ;
             cdi:name "XML Schema Datatypes" ;
-            cdi:vocabulary [ a cdi:Reference ;
+            cdi:vocabulary [ a <cdif:Reference> ;
                     cdi:description "W3C XML Schema Definition Language datatypes" ;
                     cdi:uri "http://www.w3.org/2001/XMLSchema" ] ],
         [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryReference [ a cdi:Reference ;
+            cdi:entryReference [ a <cdif:Reference> ;
                     cdi:uri "http://www.w3.org/2001/XMLSchema#double" ] ;
             cdi:entryValue "xsd:double" ;
             cdi:name "XML Schema Datatypes" ] ;
@@ -545,15 +545,15 @@ SentinelValueDomain with missing value codes for the SAS platform.
     cdi:classificationLevel "Continuous" ;
     cdi:description [ a cdi:InternationalString ;
             cdi:languageSpecificString [ a cdi:LanguageString ;
-                    cdi:content "Real-valued sea water temperatures, expressed in degrees Celsius, in the plausible oceanographic range from -2 (freezing seawater) up to 35.5 (warm tropical surface)." ;
-                    cdi:language "en" ],
-                [ a cdi:LanguageString ;
                     cdi:content "Temperatures du seuil oceanographique en degres Celsius." ;
-                    cdi:language "fr" ] ] ;
+                    cdi:language "fr" ],
+                [ a cdi:LanguageString ;
+                    cdi:content "Real-valued sea water temperatures, expressed in degrees Celsius, in the plausible oceanographic range from -2 (freezing seawater) up to 35.5 (warm tropical surface)." ;
+                    cdi:language "en" ] ] ;
     cdi:formatPattern [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "#0.00" ;
             cdi:name "LDML number pattern" ;
-            cdi:vocabulary [ a cdi:Reference ;
+            cdi:vocabulary [ a <cdif:Reference> ;
                     cdi:uri "http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns" ] ] ;
     cdi:identifier [ a cdi:Identifier ;
             cdi:uri "https://example.org/vd/temperatureCelsius/desc" ] ;

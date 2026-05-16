@@ -77,13 +77,13 @@ the specific term), cdi:entryValue, cdi:name, and cdi:valueForOther.
   "@id": "ex:cve/role/measure",
   "cdi:name": "DDI-CDI DataStructureComponent role vocabulary",
   "cdi:vocabulary": {
-    "@type": ["cdi:Reference"],
+    "@type": ["cdif:Reference"],
     "cdi:uri": "https://vocabularies.cessda.eu/v2/vocabularies/DataStructureComponentRole",
     "cdi:description": "CESSDA controlled vocabulary for DDI-CDI data structure component roles."
   },
   "cdi:entryReference": [
     {
-      "@type": ["cdi:Reference"],
+      "@type": ["cdif:Reference"],
       "cdi:uri": "https://vocabularies.cessda.eu/v2/vocabularies/DataStructureComponentRole/MeasureComponent",
       "cdi:description": "Vocabulary item for the MeasureComponent role."
     }
@@ -114,7 +114,7 @@ the specific term), cdi:entryValue, cdi:name, and cdi:valueForOther.
   "cdi:name": "DDI-CDI DataStructureComponent role vocabulary",
   "cdi:vocabulary": {
     "@type": [
-      "cdi:Reference"
+      "cdif:Reference"
     ],
     "cdi:uri": "https://vocabularies.cessda.eu/v2/vocabularies/DataStructureComponentRole",
     "cdi:description": "CESSDA controlled vocabulary for DDI-CDI data structure component roles."
@@ -122,7 +122,7 @@ the specific term), cdi:entryValue, cdi:name, and cdi:valueForOther.
   "cdi:entryReference": [
     {
       "@type": [
-        "cdi:Reference"
+        "cdif:Reference"
       ],
       "cdi:uri": "https://vocabularies.cessda.eu/v2/vocabularies/DataStructureComponentRole/MeasureComponent",
       "cdi:description": "Vocabulary item for the MeasureComponent role."
@@ -140,13 +140,13 @@ the specific term), cdi:entryValue, cdi:name, and cdi:valueForOther.
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 
 <https://example.org/cve/role/measure> a cdi:ControlledVocabularyEntry ;
-    cdi:entryReference [ a cdi:Reference ;
+    cdi:entryReference [ a <cdif:Reference> ;
             cdi:description "Vocabulary item for the MeasureComponent role." ;
             cdi:uri "https://vocabularies.cessda.eu/v2/vocabularies/DataStructureComponentRole/MeasureComponent" ] ;
     cdi:entryValue "MeasureComponent" ;
     cdi:name "DDI-CDI DataStructureComponent role vocabulary" ;
     cdi:valueForOther "AggregatedMeasureComponent" ;
-    cdi:vocabulary [ a cdi:Reference ;
+    cdi:vocabulary [ a <cdif:Reference> ;
             cdi:description "CESSDA controlled vocabulary for DDI-CDI data structure component roles." ;
             cdi:uri "https://vocabularies.cessda.eu/v2/vocabularies/DataStructureComponentRole" ] .
 

@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.cdifProperties.cdifOpenApi` *v0.1*
 
-Schema for documenting a WebAPI distribution of a resource using property structure aligned with the OpenAPI Specification (OAS 3.1). Reuses CDIF schema.org WebAPI properties (schema:serviceType, schema:termsOfService, schema:documentation, schema:potentialAction) and adds OpenAPI-aligned Operation, Parameter, RequestBody, and Response structure under an 'oas:' namespace. Defines properties: @type, schema:name, schema:description, schema:serviceType, schema:termsOfService, schema:documentation, spdx:license, schema:potentialAction. Uses building blocks: labeledLink (schemaorgProperties), definedTerm (schemaorgProperties).
+Schema for documenting a WebAPI distribution of a resource using property structure aligned with the OpenAPI Specification (OAS 3.1). Reuses CDIF schema.org WebAPI properties (schema:serviceType, schema:termsOfService, schema:documentation, schema:potentialAction) and adds OpenAPI-aligned Operation, Parameter, RequestBody, and Response structure under an 'oas:' namespace. Defines properties: @type, schema:name, schema:description, schema:serviceType, schema:termsOfService, schema:documentation, spdx:license, schema:potentialAction. Uses building blocks: cdifReference (cdifProperties), definedTerm (schemaorgProperties).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -40,7 +40,7 @@ This BB is an alternative to [`schemaorgProperties/webAPI`](../../schemaorgPrope
 - OAS `info.version` is folded into `schema:serviceType` when the service-type identifier captures version (e.g. `geochem-api/v2`); otherwise add a version property at the resource level.
 - OAS `Server.url` is folded into each operation's `schema:urlTemplate`. Use one CDIF WebAPI distribution per server.
 - OAS `paths.{path}.{method}` becomes one `schema:potentialAction` entry; the relative path is concatenated with the server URL into `schema:urlTemplate`.
-- OAS `License Object` maps to `spdx:license` when an SPDX expression is available; otherwise express via `LabeledLink` or use `schema:license` at the resource level.
+- OAS `License Object` maps to `spdx:license` when an SPDX expression is available; otherwise express via `cdif:Reference` or use `schema:license` at the resource level.
 - OAS Responses Object is a map keyed by HTTP code; this BB represents it as an array, with each item carrying `oas:code` explicitly. `oas:code` defaults to `"200"`.
 - OAS Media Type maps similarly: an array where each item carries `schema:encodingFormat` (the MIME type) instead of using the media type as a JSON key.
 - For complex payload schemas (request bodies, responses), the `oas:schema` element supports a basic `oas:type`/`oas:format`/`oas:pattern`/`oas:enum` shape and an `oas:$ref` URL pointing to an external JSON Schema or XML Schema document. For tabular outputs, the referenced schema may align with `cdifInstanceVariable` InstanceVariable definitions.
@@ -635,18 +635,18 @@ ex:op_searchAnalyses a schema1:SearchAction ;
                 ex:param_end,
                 ex:param_format,
                 ex:param_start ;
-            oas:response [ schema1:description "Invalid query parameter (e.g. malformed bbox)." ;
+            oas:response [ schema1:description "Tabular geochemical analysis results matching the query." ;
+                    oas:code "200" ;
+                    oas:content [ schema1:encodingFormat "text/csv" ;
+                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.csv-frictionless.json" ;
+                                    oas:type "string" ] ],
+                        [ schema1:encodingFormat "application/json" ;
+                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.json" ;
+                                    oas:type "object" ] ] ],
+                [ schema1:description "Invalid query parameter (e.g. malformed bbox)." ;
                     oas:code "400" ;
                     oas:content [ schema1:encodingFormat "application/json" ;
-                            oas:schema [ oas:type "object" ] ] ],
-                [ schema1:description "Tabular geochemical analysis results matching the query." ;
-                    oas:code "200" ;
-                    oas:content [ schema1:encodingFormat "application/json" ;
-                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.json" ;
-                                    oas:type "object" ] ],
-                        [ schema1:encodingFormat "text/csv" ;
-                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.csv-frictionless.json" ;
-                                    oas:type "string" ] ] ] ] .
+                            oas:schema [ oas:type "object" ] ] ] ] .
 
 ex:op_submitAnalysis a schema1:CreateAction ;
     schema1:description "Submit a new geochemical analysis record. Requires authentication." ;
@@ -659,12 +659,12 @@ ex:op_submitAnalysis a schema1:CreateAction ;
                             oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisSubmission.json" ;
                                     oas:type "object" ] ] ;
                     oas:required true ] ;
-            oas:response [ schema1:description "Authentication required." ;
-                    oas:code "401" ;
+            oas:response [ schema1:description "Analysis accepted; response payload contains the assigned identifier." ;
+                    oas:code "201" ;
                     oas:content [ schema1:encodingFormat "application/json" ;
                             oas:schema [ oas:type "object" ] ] ],
-                [ schema1:description "Analysis accepted; response payload contains the assigned identifier." ;
-                    oas:code "201" ;
+                [ schema1:description "Authentication required." ;
+                    oas:code "401" ;
                     oas:content [ schema1:encodingFormat "application/json" ;
                             oas:schema [ oas:type "object" ] ] ] ] .
 
@@ -748,7 +748,7 @@ properties:
       level.
     oneOf:
     - type: string
-    - $ref: '#/$defs/LabeledLink'
+    - $ref: '#/$defs/Reference'
   schema:documentation:
     description: a document that provides a machine-actionable description of this
       service instance, typically the canonical OpenAPI document. Even when this BB
@@ -756,15 +756,15 @@ properties:
       OAS source.
     oneOf:
     - type: string
-    - $ref: '#/$defs/LabeledLink'
+    - $ref: '#/$defs/Reference'
   spdx:license:
     description: SPDX license identifier expression for the API itself, per OpenAPI
       License Object. Use schema:license at the resource (parent) level for licensing
       of the data. If only a URL identifier is available rather than an SPDX id, encode
-      as a LabeledLink.
+      as a cdif:Reference.
     oneOf:
     - type: string
-    - $ref: '#/$defs/LabeledLink'
+    - $ref: '#/$defs/Reference'
   schema:potentialAction:
     type: array
     description: operations exposed by the API. Each entry corresponds to an OpenAPI
@@ -1001,8 +1001,8 @@ $defs:
         format: uri
         description: reference to an external JSON Schema or XML Schema document describing
           a complex payload structure.
-  LabeledLink:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
+  Reference:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifReference/schema.yaml
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
 x-jsonld-prefixes:
@@ -1028,6 +1028,12 @@ Links to the schema:
     "oas": "https://spec.openapis.org/oas/3.1#",
     "spdx": "http://spdx.org/rdf/terms#",
     "dcterms": "http://purl.org/dc/terms/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "@version": 1.1
   }
 }

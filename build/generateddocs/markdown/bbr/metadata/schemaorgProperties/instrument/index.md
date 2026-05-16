@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.schemaorgProperties.instrument` *v0.2*
 
-Schema for describing laboratory instruments and instrument systems. Supports ownership (schema:contributor with roles), manufacturer, model, commissioning dates, instrument type classification, hierarchical sub-components via schema:hasPart, domain-specific properties, and related links. Uses building blocks: identifier, organization, person, definedTerm, agentInRole, additionalProperty, labeledLink (schemaorgProperties).
+Schema for describing laboratory instruments and instrument systems. Supports ownership (schema:contributor with roles), manufacturer, model, commissioning dates, instrument type classification, hierarchical sub-components via schema:hasPart, domain-specific properties, and related links. Uses building blocks: identifier, organization, person, definedTerm, agentInRole, additionalProperty (schemaorgProperties), cdifReference (cdifProperties).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -997,6 +997,10 @@ ex:component-gas-chromatograph a schema1:Product,
 ex:component-mass-spectrometer a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "Detector gain" ;
+            schema1:propertyID "detectorGain" ;
+            schema1:value 100000 ],
+        [ a schema1:PropertyValue ;
             schema1:name "Full scan time" ;
             schema1:propertyID "scanTime" ;
             schema1:unitText "s" ;
@@ -1005,11 +1009,7 @@ ex:component-mass-spectrometer a schema1:Product,
             schema1:name "Ion source temperature" ;
             schema1:propertyID "ionSourceTemperature" ;
             schema1:unitText "°C" ;
-            schema1:value 300 ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Detector gain" ;
-            schema1:propertyID "detectorGain" ;
-            schema1:value 100000 ] ;
+            schema1:value 300 ] ;
     schema1:additionalType "wd:Q180809" ;
     schema1:description "TSQ triple-quadrupole MS operated in EI mode, positive polarity, with simultaneous full scan (m/z 50-500) and timed SRM/MRM capability targeting 38 organic compounds." ;
     schema1:identifier [ a schema1:PropertyValue ;
@@ -1044,42 +1044,42 @@ ex:component-pyrolysis-oven a schema1:Product,
 ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Measured variables" ;
-            schema1:propertyID "MeasuredVariable" ;
-            schema1:value "mass-to-charge ratio (m/z); ion abundance; retention time" ],
+            schema1:name "Full scan m/z range" ;
+            schema1:propertyID "scanRange" ;
+            schema1:value "50-500" ],
         [ a schema1:PropertyValue ;
             schema1:name "Ionization mode" ;
             schema1:propertyID "ionizationMode" ;
             schema1:value "Electron Ionization (EI), positive polarity" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "MRM target compounds" ;
+            schema1:propertyID "mrmCapability" ;
+            schema1:value 38 ],
         [ a schema1:PropertyValue ;
             schema1:name "Full scan detection limit" ;
             schema1:propertyID "detectionLimit" ;
             schema1:unitText "ng" ;
             schema1:value "sub-nanogram" ],
         [ a schema1:PropertyValue ;
-            schema1:name "Full scan m/z range" ;
-            schema1:propertyID "scanRange" ;
-            schema1:value "50-500" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "MRM target compounds" ;
-            schema1:propertyID "mrmCapability" ;
-            schema1:value 38 ] ;
+            schema1:name "Measured variables" ;
+            schema1:propertyID "MeasuredVariable" ;
+            schema1:value "mass-to-charge ratio (m/z); ion abundance; retention time" ] ;
     schema1:additionalType "wd:Q3099911",
         "wd:Q420427" ;
     schema1:alternateName "GSFC Astrobiology Lab Pyrolysis GC-MS System",
         "Py-GC-MS/MS" ;
     schema1:category [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+            schema1:name "Pyrolysis Gas Chromatography Mass Spectrometry" ;
+            schema1:termCode "Py-GC-MS" ],
+        [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "https://vocab.nerc.ac.uk/collection/L05/current/" ;
                     schema1:url "https://vocab.nerc.ac.uk/collection/L05/current/LAB02/" ;
                     schema1:value "LAB02" ] ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
             schema1:name "Gas Chromatography Mass Spectrometry" ;
-            schema1:termCode "GCMS" ],
-        [ a schema1:DefinedTerm ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
-            schema1:name "Pyrolysis Gas Chromatography Mass Spectrometry" ;
-            schema1:termCode "Py-GC-MS" ] ;
+            schema1:termCode "GCMS" ] ;
     schema1:contributor [ a schema1:Role ;
             schema1:contributor <https://orcid.org/0000-0002-4805-7062> ;
             schema1:roleName [ a schema1:DefinedTerm ;
@@ -1094,12 +1094,12 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
         ex:component-mass-spectrometer,
         ex:component-pyrolysis-oven ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "inventoryNumber" ;
-            schema1:value "GSFC-AAL-PYGCMS-001" ],
-        [ a schema1:PropertyValue ;
             schema1:propertyID "https://doi.org" ;
             schema1:url "https://doi.org/10.xxxx/instrument.pygcms.gsfc.001" ;
-            schema1:value "10.xxxx/instrument.pygcms.gsfc.001" ] ;
+            schema1:value "10.xxxx/instrument.pygcms.gsfc.001" ],
+        [ a schema1:PropertyValue ;
+            schema1:propertyID "inventoryNumber" ;
+            schema1:value "GSFC-AAL-PYGCMS-001" ] ;
     schema1:manufacturer [ a schema1:Organization ;
             schema1:contactPoint [ a schema1:ContactPoint ;
                     schema1:email "info@thermofisher.com" ;
@@ -1117,15 +1117,15 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
     schema1:name "Pyrolysis-GC-MS/MS System (NASA GSFC Astrobiology Analytical Lab)" ;
     schema1:owner <https://ror.org/0171mag52> ;
     schema1:relatedLink [ a schema1:CreativeWork ;
-            schema1:name "Dworkin et al. (2024) — Organic compounds in asteroid Bennu samples" ;
-            schema1:url "https://doi.org/10.1038/s41586-024-08335-1" ],
+            schema1:description "User manual for the TSQ 9000 triple quadrupole GC-MS/MS system" ;
+            schema1:name "TSQ 9000 User Guide" ;
+            schema1:url "https://www.thermofisher.com/document-connect/document-connect.html?url=https://assets.thermofisher.com/TFS-Assets/CMD/manuals/man-80000-97071-tsq-9000-user-guide.pdf" ],
         [ a schema1:CreativeWork ;
             schema1:name "2023 annual calibration report" ;
             schema1:url "https://example.org/calibration/pygcms-gsfc-2023.pdf" ],
         [ a schema1:CreativeWork ;
-            schema1:description "User manual for the TSQ 9000 triple quadrupole GC-MS/MS system" ;
-            schema1:name "TSQ 9000 User Guide" ;
-            schema1:url "https://www.thermofisher.com/document-connect/document-connect.html?url=https://assets.thermofisher.com/TFS-Assets/CMD/manuals/man-80000-97071-tsq-9000-user-guide.pdf" ] ;
+            schema1:name "Dworkin et al. (2024) — Organic compounds in asteroid Bennu samples" ;
+            schema1:url "https://doi.org/10.1038/s41586-024-08335-1" ] ;
     schema1:subjectOf ex:metadata-instrument-pygcms-001 ;
     schema1:url "https://science.gsfc.nasa.gov/sed/bio/jason.p.dworkin" ;
     schema1:validFrom "2023-01-15" .
@@ -1854,7 +1854,7 @@ properties:
     description: Links to related resources (manuals, datasheets, calibration records,
       related instruments).
     items:
-      $ref: '#/$defs/LabeledLink'
+      $ref: '#/$defs/Reference'
   schema:subjectOf:
     description: Catalog record metadata-about-metadata for this instrument description.
     type: object
@@ -1900,8 +1900,8 @@ $defs:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/agentInRole/schema.yaml
   AdditionalProperty:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
-  LabeledLink:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
+  Reference:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifReference/schema.yaml
   InstrumentComponent:
     type: object
     description: A sub-component of an instrument system. Uses the same structure
@@ -1976,6 +1976,13 @@ Links to the schema:
   "@context": {
     "schema": "http://schema.org/",
     "nxs": "http://purl.org/nexusformat/definitions/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "@version": 1.1
   }
 }

@@ -187,33 +187,33 @@ SPDX checksum.
       "csvw:headerRowCount": 1,
       "countRows": 144,
       "countColumns": 3,
-      "cdi:hasPhysicalMapping": [
+      "cdif:hasPhysicalMapping": [
         {
-          "cdi:index": 0,
-          "cdi:format": "string",
-          "cdi:physicalDataType": "string",
+          "cdif:index": 0,
+          "cdif:format": "string",
+          "cdif:physicalDataType": "string",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "#var-sample-id"
           }
         },
         {
-          "cdi:index": 1,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float64",
+          "cdif:index": 1,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
           "cdi:nullSequence": "NA",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "#var-concentration"
           }
         },
         {
-          "cdi:index": 2,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float64",
+          "cdif:index": 2,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
           "cdi:nullSequence": "NA",
           "cdi:isRequired": false,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "#var-uncertainty"
           }
         }
@@ -237,24 +237,24 @@ SPDX checksum.
         "schema:value": 13743003,
         "schema:unitText": "byte"
       },
-      "cdi:hasPhysicalMapping": [
+      "cdif:hasPhysicalMapping": [
         {
-          "cdi:index": 0,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/spectra/wavelength",
+          "cdif:index": 0,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdif:locator": "/spectra/wavelength",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "#var-wavelength"
           }
         },
         {
-          "cdi:index": 1,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/spectra/intensity",
+          "cdif:index": 1,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdif:locator": "/spectra/intensity",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "#var-intensity"
           }
         }
@@ -390,33 +390,33 @@ SPDX checksum.
       "csvw:headerRowCount": 1,
       "countRows": 144,
       "countColumns": 3,
-      "cdi:hasPhysicalMapping": [
+      "cdif:hasPhysicalMapping": [
         {
-          "cdi:index": 0,
-          "cdi:format": "string",
-          "cdi:physicalDataType": "string",
+          "cdif:index": 0,
+          "cdif:format": "string",
+          "cdif:physicalDataType": "string",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "#var-sample-id"
           }
         },
         {
-          "cdi:index": 1,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float64",
+          "cdif:index": 1,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
           "cdi:nullSequence": "NA",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "#var-concentration"
           }
         },
         {
-          "cdi:index": 2,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float64",
+          "cdif:index": 2,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
           "cdi:nullSequence": "NA",
           "cdi:isRequired": false,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "#var-uncertainty"
           }
         }
@@ -440,24 +440,24 @@ SPDX checksum.
         "schema:value": 13743003,
         "schema:unitText": "byte"
       },
-      "cdi:hasPhysicalMapping": [
+      "cdif:hasPhysicalMapping": [
         {
-          "cdi:index": 0,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/spectra/wavelength",
+          "cdif:index": 0,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdif:locator": "/spectra/wavelength",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "#var-wavelength"
           }
         },
         {
-          "cdi:index": 1,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/spectra/intensity",
+          "cdif:index": 1,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdif:locator": "/spectra/intensity",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "#var-intensity"
           }
         }
@@ -513,6 +513,7 @@ SPDX checksum.
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ns1: <cdif:> .
 @prefix schema1: <http://schema.org/> .
 @prefix spdx: <http://spdx.org/rdf/terms#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -527,23 +528,23 @@ SPDX checksum.
 
 <file:///github/workspace/#7c6ef03f6b0e88dec54d9897f591deab> a cdi:TabularTextDataSet,
         schema1:MediaObject ;
-    cdi:hasPhysicalMapping [ cdi:format "string" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-sample-id> ;
-            cdi:index 0 ;
+    ns1:hasPhysicalMapping [ ns1:format "string" ;
+            ns1:formats_InstanceVariable <file:///github/workspace/#var-sample-id> ;
+            ns1:index 0 ;
+            ns1:physicalDataType "string" ;
+            cdi:isRequired true ],
+        [ ns1:format "decimal" ;
+            ns1:formats_InstanceVariable <file:///github/workspace/#var-concentration> ;
+            ns1:index 1 ;
+            ns1:physicalDataType "float64" ;
             cdi:isRequired true ;
-            cdi:physicalDataType "string" ],
-        [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-concentration> ;
-            cdi:index 1 ;
-            cdi:isRequired true ;
-            cdi:nullSequence "NA" ;
-            cdi:physicalDataType "float64" ],
-        [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-uncertainty> ;
-            cdi:index 2 ;
+            cdi:nullSequence "NA" ],
+        [ ns1:format "decimal" ;
+            ns1:formats_InstanceVariable <file:///github/workspace/#var-uncertainty> ;
+            ns1:index 2 ;
+            ns1:physicalDataType "float64" ;
             cdi:isRequired false ;
-            cdi:nullSequence "NA" ;
-            cdi:physicalDataType "float64" ] ;
+            cdi:nullSequence "NA" ] ;
     cdi:isDelimited true ;
     schema1:description "Measurement data with column structure described via CSVW and physical mappings." ;
     schema1:encodingFormat "text/csv" ;
@@ -557,18 +558,18 @@ SPDX checksum.
 
 <file:///github/workspace/#a6143a557a62f78ae39fcb80578b74a3> a cdi:StructuredDataSet,
         schema1:MediaObject ;
-    cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-intensity> ;
-            cdi:index 1 ;
-            cdi:isRequired true ;
-            cdi:locator "/spectra/intensity" ;
-            cdi:physicalDataType "float32" ],
-        [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-wavelength> ;
-            cdi:index 0 ;
-            cdi:isRequired true ;
-            cdi:locator "/spectra/wavelength" ;
-            cdi:physicalDataType "float32" ] ;
+    ns1:hasPhysicalMapping [ ns1:format "decimal" ;
+            ns1:formats_InstanceVariable <file:///github/workspace/#var-wavelength> ;
+            ns1:index 0 ;
+            ns1:locator "/spectra/wavelength" ;
+            ns1:physicalDataType "float32" ;
+            cdi:isRequired true ],
+        [ ns1:format "decimal" ;
+            ns1:formats_InstanceVariable <file:///github/workspace/#var-intensity> ;
+            ns1:index 1 ;
+            ns1:locator "/spectra/intensity" ;
+            ns1:physicalDataType "float32" ;
+            cdi:isRequired true ] ;
     schema1:description "Spectral data cube with wavelength and intensity dimensions." ;
     schema1:encodingFormat "application/x-netcdf" ;
     schema1:name "20260101_GEOCHEM_LAB_SAMPLE-001_spectra.nc" ;
@@ -631,96 +632,100 @@ allOf:
 - type: object
   properties:
     schema:hasPart:
-      type: array
-      description: Array describing the files contained in the archive. Each item
-        represents a component file that is part of the archive and is not independently
-        accessible.
-      items:
-        allOf:
-        - type: object
+      $ref: '#/$defs/archivePartArray'
+$defs:
+  archivePartArray:
+    type: array
+    description: Array describing the files contained in the archive. Each item represents
+      a component file that is part of the archive and is not independently accessible.
+    items:
+      $ref: '#/$defs/archivePartItem'
+  archivePartItem:
+    allOf:
+    - type: object
+      properties:
+        '@id':
+          type: string
+          description: Identifier for this file, typically a hash-based anchor (e.g.
+            '#abc123'). Used for cross-references from schema:about in metadata sidecar
+            files.
+        '@type':
+          type: array
+          description: Must include schema:MediaObject. Must NOT include schema:DataDownload
+            since this file is not independently accessible. May include additional
+            types for categorization.
+          items:
+            type: string
+          contains:
+            const: schema:MediaObject
+          not:
+            contains:
+              const: schema:DataDownload
+          minItems: 1
+        schema:name:
+          type: string
+          description: Filename of the component file within the archive.
+        schema:description:
+          type: string
+          description: Description of the file content. May include checksum information.
+        schema:encodingFormat:
+          type: array
+          description: MIME type(s) for this file.
+          items:
+            type: string
+        schema:size:
+          type: object
+          description: File size as a QuantitativeValue.
           properties:
-            '@id':
-              type: string
-              description: Identifier for this file, typically a hash-based anchor
-                (e.g. '#abc123'). Used for cross-references from schema:about in metadata
-                sidecar files.
             '@type':
               type: array
-              description: Must include schema:MediaObject. Must NOT include schema:DataDownload
-                since this file is not independently accessible. May include additional
-                types for categorization.
               items:
                 type: string
               contains:
-                const: schema:MediaObject
-              not:
-                contains:
-                  const: schema:DataDownload
+                const: schema:QuantitativeValue
               minItems: 1
-            schema:name:
+            schema:value:
+              type: number
+              description: Numeric size value.
+            schema:unitText:
               type: string
-              description: Filename of the component file within the archive.
-            schema:description:
-              type: string
-              description: Description of the file content. May include checksum information.
-            schema:encodingFormat:
+              description: Unit of measure for size (e.g. 'byte').
+        schema:about:
+          type: array
+          description: For metadata sidecar files, references the data file this metadata
+            describes.
+          items:
+            type: object
+            properties:
+              '@id':
+                type: string
+                description: Reference to the @id of the data file described by this
+                  sidecar.
+        spdx:checksum:
+          type: object
+          description: Checksum for integrity verification of this component file.
+          properties:
+            '@type':
               type: array
-              description: MIME type(s) for this file.
               items:
                 type: string
-            schema:size:
-              type: object
-              description: File size as a QuantitativeValue.
-              properties:
-                '@type':
-                  type: array
-                  items:
-                    type: string
-                  contains:
-                    const: schema:QuantitativeValue
-                  minItems: 1
-                schema:value:
-                  type: number
-                  description: Numeric size value.
-                schema:unitText:
-                  type: string
-                  description: Unit of measure for size (e.g. 'byte').
-            schema:about:
-              type: array
-              description: For metadata sidecar files, references the data file this
-                metadata describes.
-              items:
-                type: object
-                properties:
-                  '@id':
-                    type: string
-                    description: Reference to the @id of the data file described by
-                      this sidecar.
-            spdx:checksum:
-              type: object
-              description: Checksum for integrity verification of this component file.
-              properties:
-                '@type':
-                  type: array
-                  items:
-                    type: string
-                  contains:
-                    const: spdx:Checksum
-                  minItems: 1
-                spdx:algorithm:
-                  type: string
-                spdx:checksumValue:
-                  type: string
-              required:
-              - '@type'
+              contains:
+                const: spdx:Checksum
+              minItems: 1
+            spdx:algorithm:
+              type: string
+            spdx:checksumValue:
+              type: string
           required:
           - '@type'
-          - schema:name
-          - schema:encodingFormat
-        - anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataCube/schema.yaml
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularData/schema.yaml
-          - {}
+      required:
+      - '@type'
+      - schema:name
+      - schema:encodingFormat
+    - anyOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataCube/schema.yaml
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularData/schema.yaml
+      - {}
 x-jsonld-prefixes:
   schema: http://schema.org/
   spdx: http://spdx.org/rdf/terms#

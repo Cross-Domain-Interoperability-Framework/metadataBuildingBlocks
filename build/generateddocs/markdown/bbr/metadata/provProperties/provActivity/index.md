@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.provProperties.provActivity` *v0.1*
 
-PROV-O native provenance activity for CDIF metadata. Uses W3C PROV-O vocabulary for provenance relationships (used, generated, wasAssociatedWith, wasInformedBy, temporal bounds, location) with schema.org fallbacks for properties without PROV equivalents (name, description, methodology, status). Instruments are nested within prov:used items via schema:instrument sub-key, referencing the generic instrument building block. Defines properties: @type, schema:name, schema:description, prov:generated, prov:wasAssociatedWith, prov:wasInformedBy, prov:startedAtTime, prov:endedAtTime, prov:atLocation, prov:wasStartedBy, prov:wasEndedBy, schema:actionStatus, schema:actionProcess, schema:error. Uses building blocks: generatedBy (provProperties), person (schemaorgProperties), organization (schemaorgProperties), agentInRole (schemaorgProperties), instrument (schemaorgProperties), definedTerm (schemaorgProperties), labeledLink (schemaorgProperties), spatialExtent (schemaorgProperties).
+PROV-O native provenance activity for CDIF metadata. Uses W3C PROV-O vocabulary for provenance relationships (used, generated, wasAssociatedWith, wasInformedBy, temporal bounds, location) with schema.org fallbacks for properties without PROV equivalents (name, description, methodology, status). Instruments are nested within prov:used items via schema:instrument sub-key, referencing the generic instrument building block. Defines properties: @type, schema:name, schema:description, prov:generated, prov:wasAssociatedWith, prov:wasInformedBy, prov:startedAtTime, prov:endedAtTime, prov:atLocation, prov:wasStartedBy, prov:wasEndedBy, schema:actionStatus, schema:actionProcess, schema:error. Uses building blocks: generatedBy (provProperties), person (schemaorgProperties), organization (schemaorgProperties), agentInRole (schemaorgProperties), instrument (schemaorgProperties), definedTerm (schemaorgProperties), cdifReference (cdifProperties), spatialExtent (schemaorgProperties).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -434,8 +434,8 @@ $defs:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema.yaml
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
-  LabeledLink:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
+  Reference:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifReference/schema.yaml
   SpatialExtent:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
   HowTo:

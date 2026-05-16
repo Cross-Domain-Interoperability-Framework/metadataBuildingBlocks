@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.cdifProperties.cdifInstanceVariable` *v0.2*
 
-Profile of cdi:InstanceVariable / schema:PropertyValue used as a member of a schema:variableMeasured array. Adds DDI-CDI properties (cdif:physicalDataType, cdi:role, cdif:simpleUnitOfMeasure, cdif:uses, cdi:qualifies) on top of schemaorgProperties/variableMeasured and ddiCDIFProperties/ddi-cdif-instance-variable. Accepts a single node, an unwrapped @graph array of nodes (OGC pipeline), or a JSON-LD document with @context and @graph.
+Profile of cdi:InstanceVariable / schema:PropertyValue used as a member of a schema:variableMeasured array. Adds DDI-CDI properties (cdif:physicalDataType, cdif:role, cdif:simpleUnitOfMeasure, cdif:uses, cdi:qualifies) on top of schemaorgProperties/variableMeasured and ddiCDIFProperties/ddi-cdif-instance-variable. Accepts a single node, an unwrapped @graph array of nodes (OGC pipeline), or a JSON-LD document with @context and @graph.
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -11,7 +11,7 @@ Profile of cdi:InstanceVariable / schema:PropertyValue used as a member of a sch
 
 ## CDIF Instance Variable
 
-Profile of `cdi:InstanceVariable` / `schema:PropertyValue` for use as a member of a `schema:variableMeasured` array. Extends the base [variableMeasured](../../schemaorgProperties/variableMeasured/) and [ddi-cdif-instance-variable](../../ddiCDIFProperties/ddi-cdif-instance-variable/) building blocks with the DDI-CDI properties most commonly needed for variable description in CDIF integration profiles.
+Profile of `cdi:InstanceVariable` / `schema:PropertyValue` for use as a member of a `schema:variableMeasured` array. Composes the base [variableMeasured](../../schemaorgProperties/variableMeasured/) building block with the DDI-CDI properties of `InstanceVariable` and its `RepresentedVariable` superclass.
 
 The BB accepts three shapes interchangeably:
 
@@ -19,24 +19,42 @@ The BB accepts three shapes interchangeably:
 2. an unwrapped array of such nodes (OGC pipeline `@graph` form);
 3. a full JSON-LD document with `@context` and `@graph`.
 
-### Defined properties
+### Property scope
 
-- **@type** — must include `schema:PropertyValue` and `cdi:InstanceVariable`
-- **cdi:identifier** — identifier for this variable
+The schema carries **all `InstanceVariable`-own and `RepresentedVariable`-own properties** from the DDI-CDI class hierarchy (`ConceptualVariable → RepresentedVariable → InstanceVariable`). Properties inherited from `ConceptualVariable` and above (`descriptiveText`, `unitOfMeasureKind`, `definition`, `displayLabel`, `name`, `measures`, `takesSentinel/SubstantiveConceptsFrom`, `uses`-as-Concept, …) are **not** included — the conceptual layer is described separately.
+
+**InstanceVariable-own:**
+
+- **@type** — must include `cdi:InstanceVariable` (and, as a `schema:PropertyValue`, that type too)
 - **cdif:physicalDataType** — physical data type concept (string, URI reference, or DefinedTerm)
-- **cdi:intendedDataType** — intended data type for values (recommended: XML Schema datatypes)
-- **cdi:role** — role of variable in data structure (`UnitIdentifier`, `Measure`, `Attribute`, `Dimension`, `Descriptor`, `ReferenceVariable`)
-- **cdi:describedUnitOfMeasure** — structured unit of measure from controlled vocabulary (DefinedTerm)
-- **cdif:simpleUnitOfMeasure** — simple unit of measure (string, URI reference, or DefinedTerm)
-- **cdif:uses** — concepts that this variable measures or represents
-- **cdi:qualifies** — `@id` reference to another instance variable in the same dataset; required when `cdi:role` is `Attribute`
-- **cdi:name** — name of variable in DDI-CDI model
-- **cdi:displayLabel** — human-readable label for display purposes
+- **cdif:role** — role in a data structure (`UnitIdentifier`, `Measure`, `Attribute`, `Dimension`, `Descriptor`, `ReferenceVariable`)
+- **cdi:function** — immutable characteristic (geographic designator, weight, temporal designation, …)
+- **cdi:platformType** — application / technical system context the variable was realized in
+- **cdi:source** — provenance reference
+- **cdif:isDescribedBy_StatisticsCollection** — the `StatisticsCollection` of summary / category statistics for this variable (target-suffixed: `isDescribedBy` is polymorphic in DDI-CDI)
+
+**RepresentedVariable-own:**
+
+- **cdi:hasIntendedDataType** — intended data type, independent of physical representation
+- **cdi:describedUnitOfMeasure** — unit of measure as a controlled-vocabulary entry
+- **cdif:simpleUnitOfMeasure** — unit of measure as a plain string / URI / DefinedTerm
+- **cdi:takesSentinelValuesFrom** — sentinel (missing / not-applicable) value domain(s) — `cdifValueDomain`
+- **cdi:takesSubstantiveValuesFrom** — substantive value domain — `cdifValueDomain`
+
+**CDIF extensions:**
+
+- **cdif:uses** — concepts (or, under the Data Structure profile, the `RepresentedVariable`) that this variable represents
+- **cdi:qualifies** — `@id` reference to another instance variable; used when `cdif:role` is `Attribute`
+
+### Data Structure profile constraint
+
+When a dataset's distribution carries `cdi:isStructuredBy` (CDIF **Data Structure** profile), the `RepresentedVariable`-own properties above live on the referenced `RepresentedVariable` and are reached from the InstanceVariable via `cdif:uses` — they must **not** be duplicated on the InstanceVariable. The Data Structure profile disallows them on `schema:variableMeasured` items for that reason. In the plain **Data Description** profile (no `cdi:isStructuredBy`), they may be carried directly on the InstanceVariable.
 
 ### Dependencies
 
 - [variableMeasured](../../schemaorgProperties/variableMeasured/) — base variable measured properties
-- [ddi-cdif-instance-variable](../../ddiCDIFProperties/ddi-cdif-instance-variable/) — full DDI-CDI InstanceVariable shape
+- [cdifValueDomain](../cdifValueDomain/) — substantive / sentinel value domains
+- [cdifStatistics](../cdifStatistics/) — `StatisticsCollection` target of `cdif:isDescribedBy_StatisticsCollection`
 - [definedTerm](../../schemaorgProperties/definedTerm/) — controlled vocabulary term
 
 ## Examples
@@ -211,7 +229,7 @@ them via schema:variableMeasured.
   "cdi:takesSubstantiveValuesFrom": { "@id": "ex:value-domain/decimal-eV" },
   "cdif:simpleUnitOfMeasure": "eV",
   "cdif:uses": ["xas:monochromatorEnergyConcept"],
-  "cdi:role": "Attribute",
+  "cdif:role": "Attribute",
   "cdi:qualifies": { "@id": "ex:temperatureVariable" }
 }
 
@@ -306,7 +324,7 @@ them via schema:variableMeasured.
   "cdif:uses": [
     "xas:monochromatorEnergyConcept"
   ],
-  "cdi:role": "Attribute",
+  "cdif:role": "Attribute",
   "cdi:qualifies": {
     "@id": "ex:temperatureVariable"
   }
@@ -335,7 +353,6 @@ xas:monochromatorEnergy a cdi:InstanceVariable,
     cdi:name [ a cdi:ObjectName ;
             cdi:name "energy" ] ;
     cdi:qualifies ex:temperatureVariable ;
-    cdi:role "Attribute" ;
     cdi:takesSubstantiveValuesFrom <https://example.org/value-domain/decimal-eV> ;
     schema1:alternateName "Monochromator energy" ;
     schema1:description "Incident photon energy selected by the monochromator during the XAS scan." ;
@@ -344,6 +361,7 @@ xas:monochromatorEnergy a cdi:InstanceVariable,
     schema1:unitText "eV" ;
     cdif:physicalDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:decimal" ] ;
+    cdif:role "Attribute" ;
     cdif:simpleUnitOfMeasure "eV" ;
     cdif:uses "xas:monochromatorEnergyConcept" .
 
@@ -377,7 +395,7 @@ properties:
             description: reference to a skos concept for the data type
       - $ref: '#/$defs/DefinedTerm'
     description: identifier or name for the data type concept.
-  cdi:role:
+  cdif:role:
     type: string
     enum:
     - UnitIdentifier
@@ -412,7 +430,75 @@ properties:
             description: reference to a skos concept for the property
       - $ref: '#/$defs/DefinedTerm'
     description: Essentially the same as schema:propertyID. References to concepts
-      that this variable measures or represents.
+      that this variable measures or represents. When the dataset's distribution carries
+      cdi:isStructuredBy (CDIF Data Structure profile), cdif:uses references the RepresentedVariable
+      that supplies the represented-variable-level properties below, which are then
+      NOT duplicated on the InstanceVariable.
+  cdi:function:
+    type: array
+    items:
+      anyOf:
+      - type: string
+      - type: object
+        properties:
+          '@id':
+            type: string
+      - $ref: '#/$defs/DefinedTerm'
+    description: Immutable characteristic of the variable such as geographic designator,
+      weight, temporal designation, etc. (InstanceVariable.function).
+  cdi:platformType:
+    anyOf:
+    - type: string
+    - type: object
+      properties:
+        '@id':
+          type: string
+    - $ref: '#/$defs/DefinedTerm'
+    description: The application or technical system context in which the variable
+      has been realized - typically a statistical processing package or processing
+      environment (InstanceVariable.platformType).
+  cdi:source:
+    anyOf:
+    - type: string
+    - type: object
+      properties:
+        '@id':
+          type: string
+    description: Reference capturing provenance information for this InstanceVariable
+      (InstanceVariable.source).
+  cdif:isDescribedBy_StatisticsCollection:
+    description: 'The StatisticsCollection holding summary / category statistics for
+      this InstanceVariable (InstanceVariable.isDescribedBy). cdif: namespaced and
+      target-suffixed because the DDI-CDI isDescribedBy association is polymorphic.'
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifStatistics/schema.yaml#/$defs/StatisticsCollection
+    - type: object
+      properties:
+        '@id':
+          type: string
+      required:
+      - '@id'
+  cdi:hasIntendedDataType:
+    anyOf:
+    - type: string
+    - type: object
+      properties:
+        '@id':
+          type: string
+    - $ref: '#/$defs/DefinedTerm'
+    description: The data type intended to be used by this variable, independent of
+      its physical representation (RepresentedVariable.hasIntendedDataType).
+  cdi:describedUnitOfMeasure:
+    anyOf:
+    - type: string
+    - type: object
+      properties:
+        '@id':
+          type: string
+    - $ref: '#/$defs/DefinedTerm'
+    description: The unit in which the data values are measured, expressed as a controlled-vocabulary
+      entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit,
+      use cdif:simpleUnitOfMeasure instead.
   cdi:qualifies:
     type: object
     properties:
@@ -457,6 +543,11 @@ Links to the schema:
     "xas": "https://xas.org/dictionary/",
     "nxs": "http://purl.org/nexusformat/definitions/",
     "prov": "http://www.w3.org/ns/prov#",
+    "cdif": "https://cdif.org/0.1/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "@version": 1.1
   }
 }

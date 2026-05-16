@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.cdifProperties.cdifProvActivity` *v0.1*
 
-Extended provenance activity for CDIF metadata, adding schema.org Action properties (agents, methodology, temporal bounds, action chaining) to the base prov:Activity. Instruments are nested within prov:used items via schema:instrument sub-key, referencing the generic instrument building block. Defines properties: @type, prov:used, schema:name, schema:description, schema:identifier, schema:agent, schema:participant, schema:object, schema:result, schema:actionStatus, schema:startTime, schema:endTime, schema:location, schema:actionProcess, schema:error, schema:additionalProperty. Uses building blocks: generatedBy (provProperties), person (schemaorgProperties), organization (schemaorgProperties), agentInRole (schemaorgProperties), identifier (schemaorgProperties), instrument (schemaorgProperties), definedTerm (schemaorgProperties), labeledLink (schemaorgProperties), spatialExtent (schemaorgProperties), additionalProperty (schemaorgProperties).
+Extended provenance activity for CDIF metadata, adding schema.org Action properties (agents, methodology, temporal bounds, action chaining) to the base prov:Activity. Instruments are nested within prov:used items via schema:instrument sub-key, referencing the generic instrument building block. Defines properties: @type, prov:used, schema:name, schema:description, schema:identifier, schema:agent, schema:participant, schema:object, schema:result, schema:actionStatus, schema:startTime, schema:endTime, schema:location, schema:actionProcess, schema:error, schema:additionalProperty. Uses building blocks: generatedBy (provProperties), person (schemaorgProperties), organization (schemaorgProperties), agentInRole (schemaorgProperties), identifier (schemaorgProperties), instrument (schemaorgProperties), definedTerm (schemaorgProperties), cdifReference (cdifProperties), spatialExtent (schemaorgProperties), additionalProperty (schemaorgProperties).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -400,10 +400,7 @@ ex:activity-soil-chem-analysis a schema1:Action,
     schema1:object "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect" ;
     schema1:result ex:dataset-soil-chem-gb-2025 ;
     schema1:startTime "2025-07-15T08:00:00Z" ;
-    prov:used [ a schema1:CreativeWork ;
-            schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
-            schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
-        [ schema1:instrument [ a schema1:DefinedTerm,
+    prov:used [ schema1:instrument [ a schema1:DefinedTerm,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
                             schema1:name "Typical Detection Limit" ;
@@ -417,6 +414,9 @@ ex:activity-soil-chem-analysis a schema1:Action,
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
                     schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
                     schema1:termCode "ICP-MS" ] ],
+        [ a schema1:CreativeWork ;
+            schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
+            schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
         "Soil core samples collected June 2025, sites GB-001 through GB-045",
         "https://vocab.nerc.ac.uk/collection/L05/current/LAB02" .
 
@@ -707,6 +707,13 @@ Links to the schema:
     "schema": "http://schema.org/",
     "prov": "http://www.w3.org/ns/prov#",
     "nxs": "http://purl.org/nexusformat/definitions/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "@version": 1.1
   }
 }

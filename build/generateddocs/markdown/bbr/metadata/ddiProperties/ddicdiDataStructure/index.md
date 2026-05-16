@@ -49,21 +49,18 @@ $defs:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_DataStructureComponent:
         type: array
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_ComponentPosition:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ComponentPosition'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_PrimaryKey:
         anyOf:
         - $ref: '#/$defs/PrimaryKey'
@@ -76,7 +73,6 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/PairedControlledVocabularyEntry
-        minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
       cdi:specialization:
@@ -106,28 +102,24 @@ $defs:
           anyOf:
           - $ref: '#/$defs/DimensionGroup'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_ForeignKey:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_DataStructureComponent:
         type: array
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_ComponentPosition:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ComponentPosition'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_PrimaryKey:
         anyOf:
         - $ref: '#/$defs/PrimaryKey'
@@ -140,7 +132,6 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/PairedControlledVocabularyEntry
-        minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
       cdi:specialization:
@@ -171,21 +162,18 @@ $defs:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_DataStructureComponent:
         type: array
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_ComponentPosition:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ComponentPosition'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_PrimaryKey:
         anyOf:
         - $ref: '#/$defs/PrimaryKey'
@@ -198,7 +186,6 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/PairedControlledVocabularyEntry
-        minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
       cdi:specialization:
@@ -228,21 +215,18 @@ $defs:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_DataStructureComponent:
         type: array
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_ComponentPosition:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ComponentPosition'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-        minItems: 1
       cdi:has_PrimaryKey:
         anyOf:
         - $ref: '#/$defs/PrimaryKey'
@@ -255,7 +239,6 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/PairedControlledVocabularyEntry
-        minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
       cdi:specialization:
@@ -283,13 +266,13 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+      cdi:value:
+        type: integer
+        description: Index value of the member in an ordered array.
       cdi:indexes:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
-      cdi:value:
-        type: integer
-        description: Index value of the member in an ordered array.
     required:
     - '@type'
   DimensionGroup:
@@ -315,8 +298,7 @@ $defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
-        minItems: 1
-        description: Human understandable name (liguistic signifier, word, phrase,
+        description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
       cdi:has:
@@ -466,11 +448,6 @@ Links to the schema:
   "@context": {
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "schema": "http://schema.org/",
-    "spdx": "http://spdx.org/rdf/terms#",
-    "xas": "https://xas.org/dictionary/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
-    "prov": "http://www.w3.org/ns/prov#",
     "@version": 1.1
   }
 }

@@ -1,0 +1,23 @@
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
+@prefix ex: <https://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/stats/dataset-summary> a cdi:StatisticsCollection ;
+    cdif:has_Statistics <https://example.org/stats/salinity-mean>,
+        <https://example.org/stats/temperature-mean> ;
+    cdif:indexedBy ex:var-salinity,
+        ex:var-temperature .
+
+<https://example.org/stats/salinity-mean> a cdi:Statistics ;
+    cdi:statistic [ cdi:computationBase "Total" ;
+            cdi:content 3.421e+01 ] ;
+    cdi:typeOfStatistic "mean" ;
+    cdif:appliesTo ex:var-salinity .
+
+<https://example.org/stats/temperature-mean> a cdi:Statistics ;
+    cdi:statistic [ cdi:computationBase "Total" ;
+            cdi:content 1.243e+01 ] ;
+    cdi:typeOfStatistic "mean" ;
+    cdif:appliesTo ex:var-temperature .
+

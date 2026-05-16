@@ -175,7 +175,7 @@ ex:tempTerm_246u a schema1:PropertyValue ;
 ### Complete variable measured example.
 VariableMeasured instance exercising all properties: name, description,
 alternateName, measurementTechnique (DefinedTerm), propertyID (DefinedTerm),
-unitText, unitCode (DefinedTerm), minValue, maxValue, and url (LabeledLink).
+unitText, unitCode (DefinedTerm), minValue, maxValue, and url (cdif:Reference).
 #### json
 ```json
 {
@@ -409,15 +409,15 @@ properties:
     - type: string
       format: uri
       description: link to a web page useful for interpreting the variable
-    - $ref: '#/$defs/LabeledLink'
+    - $ref: '#/$defs/Reference'
 required:
 - '@type'
 - schema:name
 $defs:
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
-  LabeledLink:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
+  Reference:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifReference/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
 
@@ -435,6 +435,13 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "@version": 1.1
   }
 }

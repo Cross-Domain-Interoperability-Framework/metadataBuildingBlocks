@@ -1,6 +1,7 @@
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ns1: <cdif:> .
 @prefix schema1: <http://schema.org/> .
 @prefix spdx: <http://spdx.org/rdf/terms#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -15,23 +16,23 @@
 
 <file:///github/workspace/#7c6ef03f6b0e88dec54d9897f591deab> a cdi:TabularTextDataSet,
         schema1:MediaObject ;
-    cdi:hasPhysicalMapping [ cdi:format "string" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-sample-id> ;
-            cdi:index 0 ;
+    ns1:hasPhysicalMapping [ ns1:format "string" ;
+            ns1:formats_InstanceVariable <file:///github/workspace/#var-sample-id> ;
+            ns1:index 0 ;
+            ns1:physicalDataType "string" ;
+            cdi:isRequired true ],
+        [ ns1:format "decimal" ;
+            ns1:formats_InstanceVariable <file:///github/workspace/#var-concentration> ;
+            ns1:index 1 ;
+            ns1:physicalDataType "float64" ;
             cdi:isRequired true ;
-            cdi:physicalDataType "string" ],
-        [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-concentration> ;
-            cdi:index 1 ;
-            cdi:isRequired true ;
-            cdi:nullSequence "NA" ;
-            cdi:physicalDataType "float64" ],
-        [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-uncertainty> ;
-            cdi:index 2 ;
+            cdi:nullSequence "NA" ],
+        [ ns1:format "decimal" ;
+            ns1:formats_InstanceVariable <file:///github/workspace/#var-uncertainty> ;
+            ns1:index 2 ;
+            ns1:physicalDataType "float64" ;
             cdi:isRequired false ;
-            cdi:nullSequence "NA" ;
-            cdi:physicalDataType "float64" ] ;
+            cdi:nullSequence "NA" ] ;
     cdi:isDelimited true ;
     schema1:description "Measurement data with column structure described via CSVW and physical mappings." ;
     schema1:encodingFormat "text/csv" ;
@@ -45,18 +46,18 @@
 
 <file:///github/workspace/#a6143a557a62f78ae39fcb80578b74a3> a cdi:StructuredDataSet,
         schema1:MediaObject ;
-    cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-intensity> ;
-            cdi:index 1 ;
-            cdi:isRequired true ;
-            cdi:locator "/spectra/intensity" ;
-            cdi:physicalDataType "float32" ],
-        [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable <file:///github/workspace/#var-wavelength> ;
-            cdi:index 0 ;
-            cdi:isRequired true ;
-            cdi:locator "/spectra/wavelength" ;
-            cdi:physicalDataType "float32" ] ;
+    ns1:hasPhysicalMapping [ ns1:format "decimal" ;
+            ns1:formats_InstanceVariable <file:///github/workspace/#var-wavelength> ;
+            ns1:index 0 ;
+            ns1:locator "/spectra/wavelength" ;
+            ns1:physicalDataType "float32" ;
+            cdi:isRequired true ],
+        [ ns1:format "decimal" ;
+            ns1:formats_InstanceVariable <file:///github/workspace/#var-intensity> ;
+            ns1:index 1 ;
+            ns1:locator "/spectra/intensity" ;
+            ns1:physicalDataType "float32" ;
+            cdi:isRequired true ] ;
     schema1:description "Spectral data cube with wavelength and intensity dimensions." ;
     schema1:encodingFormat "application/x-netcdf" ;
     schema1:name "20260101_GEOCHEM_LAB_SAMPLE-001_spectra.nc" ;

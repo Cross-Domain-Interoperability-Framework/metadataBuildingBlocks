@@ -1,0 +1,62 @@
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
+
+<https://example.org/struct/vitalsWide> a cdi:WideDataStructure ;
+    cdi:has_DataStructureComponent <https://example.org/struct/vitalsWide/comp/diastolicBP>,
+        <https://example.org/struct/vitalsWide/comp/heartRate>,
+        <https://example.org/struct/vitalsWide/comp/observedAt>,
+        <https://example.org/struct/vitalsWide/comp/patientId>,
+        <https://example.org/struct/vitalsWide/comp/systolicBP> ;
+    cdi:has_PrimaryKey <https://example.org/struct/vitalsWide/pk> .
+
+<https://example.org/struct/vitalsWide/comp/diastolicBP> a cdi:MeasureComponent ;
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/diastolicBP> .
+
+<https://example.org/struct/vitalsWide/comp/heartRate> a cdi:MeasureComponent ;
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/heartRate> .
+
+<https://example.org/struct/vitalsWide/comp/observedAt> a cdi:AttributeComponent ;
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/observedAt> .
+
+<https://example.org/struct/vitalsWide/comp/patientId> a cdi:IdentifierComponent ;
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/patientId> .
+
+<https://example.org/struct/vitalsWide/comp/systolicBP> a cdi:MeasureComponent ;
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/systolicBP> .
+
+<https://example.org/struct/vitalsWide/pk> a cdif:PrimaryKey ;
+    cdif:isComposedOf <https://example.org/var/patientId> .
+
+<https://example.org/struct/vitalsWide/rv/diastolicBP> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:integer" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "diastolic_bp" ] ;
+    cdi:simpleUnitOfMeasure "mmHg" .
+
+<https://example.org/struct/vitalsWide/rv/heartRate> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:integer" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "heart_rate" ] ;
+    cdi:simpleUnitOfMeasure "bpm" .
+
+<https://example.org/struct/vitalsWide/rv/observedAt> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:dateTime" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "observed_at" ] .
+
+<https://example.org/struct/vitalsWide/rv/patientId> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:string" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "patient_id" ] .
+
+<https://example.org/struct/vitalsWide/rv/systolicBP> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:integer" ] ;
+    cdi:name [ a cdi:ObjectName ;
+            cdi:name "systolic_bp" ] ;
+    cdi:simpleUnitOfMeasure "mmHg" .
+

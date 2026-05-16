@@ -1,30 +1,31 @@
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix ex: <https://example.org/> .
+@prefix ns1: <cdif:> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 [] a cdi:TabularTextDataSet,
         schema1:Dataset ;
+    ns1:hasPhysicalMapping [ ns1:formats_InstanceVariable ex:var-station-id ;
+            ns1:index 0 ;
+            ns1:physicalDataType "String" ;
+            cdi:isRequired true ;
+            cdi:length 16 ],
+        [ ns1:format "#,##0.00" ;
+            ns1:formats_InstanceVariable ex:var-temperature ;
+            ns1:index 2 ;
+            ns1:physicalDataType "Numeric" ;
+            cdi:decimalPositions 2 ;
+            cdi:length 12 ;
+            cdi:scale 1 ],
+        [ ns1:format "YYYY-MM-DD" ;
+            ns1:formats_InstanceVariable ex:var-date ;
+            ns1:index 1 ;
+            ns1:physicalDataType "Date" ;
+            cdi:nullSequence "NA" ] ;
     cdi:arrayBase 1 ;
     cdi:escapeCharacter "\"" ;
-    cdi:hasPhysicalMapping [ cdi:formats_InstanceVariable ex:var-station-id ;
-            cdi:index 0 ;
-            cdi:isRequired true ;
-            cdi:length 16 ;
-            cdi:physicalDataType "String" ],
-        [ cdi:format "YYYY-MM-DD" ;
-            cdi:formats_InstanceVariable ex:var-date ;
-            cdi:index 1 ;
-            cdi:nullSequence "NA" ;
-            cdi:physicalDataType "Date" ],
-        [ cdi:decimalPositions 2 ;
-            cdi:format "#,##0.00" ;
-            cdi:formats_InstanceVariable ex:var-temperature ;
-            cdi:index 2 ;
-            cdi:length 12 ;
-            cdi:physicalDataType "Numeric" ;
-            cdi:scale 1 ] ;
     cdi:headerIsCaseSensitive false ;
     cdi:isDelimited true ;
     cdi:isFixedWidth false ;

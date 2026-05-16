@@ -3,13 +3,15 @@
 
 `cdif.bbr.metadata.cdifProperties.cdifDataDescription` *v0.1*
 
-Additional constraints for CDIF data description level. Adds cdi:physicalDataType requirement on variableMeasured items and distribution-level cdi properties for file characterization (characterSet, fileSize, fileSizeUofM). Used by CDIFDataDescriptionProfile and CDIFcompleteProfile profiles.
+Additional constraints for CDIF data description level. Adds cdif:physicalDataType requirement on variableMeasured items and distribution-level cdi properties for file characterization (characterSet, fileSize, fileSizeUofM). Used by CDIFDataDescriptionProfile and CDIFcompleteProfile profiles.
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
 ## Description
 
-Additional constraints for CDIF data description level metadata. Adds the `cdi:physicalDataType` requirement on variableMeasured items (PropertyValue-type variables must specify their physical data type at this level). Also adds distribution-level CDI properties for file characterization: `cdi:characterSet`, `cdi:fileSize`, and `cdi:fileSizeUofM`.
+Additional constraints for CDIF data description level metadata. Adds the `cdif:physicalDataType` requirement on variableMeasured items (PropertyValue-type variables must specify their physical data type at this level). Adds distribution-level properties: `cdif:hasPhysicalMapping` (per-field physical mappings linking measured variables to their physical representation, via the `cdifPhysicalMapping` building block) and the file-characterization properties `cdi:characterSet`, `cdif:fileSize`, and `cdif:fileSizeUofM`.
+
+`cdi:isStructuredBy` is **not** part of the data description level — pointing a distribution at a full Data Structure node is a Data Structure profile concern. The data description level describes variables (`schema:variableMeasured` with `cdi:role`), the primary key (`cdif:hasPrimaryKey` on the dataset), summary statistics (`cdif:statistics`), and per-field physical mappings (`cdif:hasPhysicalMapping` on distributions).
 
 ## Examples
 
@@ -247,7 +249,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       },
       "schema:url": "https://example.org/datasets/ocean-temp-2025/variables/sea_water_temperature",
       "cdi:identifier": "ex:dataset/oceanTemp2025/var/seaWaterTemp",
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "xsd:decimal",
         {
           "@id": "http://www.w3.org/2001/XMLSchema#decimal"
@@ -261,7 +263,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
         }
       ],
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
-      "cdi:role": "Measure",
+      "cdif:role": "Measure",
       "cdi:name": "sea_water_temperature",
       "cdi:displayLabel": "Sea Water Temperature",
       "cdi:describedUnitOfMeasure": {
@@ -273,7 +275,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
         "schema:inDefinedTermSet": "http://qudt.org/vocab/unit/"
       },
       "cdi:simpleUnitOfMeasure": "Cel",
-      "cdi:uses": [
+      "cdif:uses": [
         {
           "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
         },
@@ -308,11 +310,11 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:unitCode": "MTR",
       "schema:minValue": 0,
       "schema:maxValue": 5000,
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "xsd:decimal"
       ],
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
-      "cdi:role": "Dimension",
+      "cdif:role": "Dimension",
       "cdi:name": "measurement_depth",
       "cdi:displayLabel": "Measurement Depth",
       "cdi:simpleUnitOfMeasure": "m"
@@ -328,11 +330,11 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:propertyID": [
         "station_id"
       ],
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "xsd:string"
       ],
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#string",
-      "cdi:role": "Descriptor",
+      "cdif:role": "Descriptor",
       "cdi:name": "station_id",
       "cdi:identifier": "ex:dataset/oceanTemp2025/var/stationId"
     },
@@ -347,11 +349,11 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:propertyID": [
         "qc_flag"
       ],
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "xsd:integer"
       ],
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#integer",
-      "cdi:role": "Attribute",
+      "cdif:role": "Attribute",
       "cdi:name": "qc_flag",
       "cdi:displayLabel": "QC flag",
       "cdi:qualifies": {
@@ -369,10 +371,10 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:propertyID": [
         "source_cruise"
       ],
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "xsd:string"
       ],
-      "cdi:role": "ReferenceVariable",
+      "cdif:role": "ReferenceVariable",
       "cdi:name": "source_cruise",
       "cdi:displayLabel": "Source Cruise"
     }
@@ -390,8 +392,8 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
         "text/csv"
       ],
       "cdi:characterSet": "UTF-8",
-      "cdi:fileSize": 1.2,
-      "cdi:fileSizeUofM": "MB",
+      "cdif:fileSize": 1.2,
+      "cdif:fileSizeUofM": "MB",
       "cdi:isDelimited": true,
       "csvw:delimiter": ",",
       "csvw:header": true,
@@ -401,32 +403,32 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "csvw:commentPrefix": "#",
       "csvw:quoteChar": "\"",
       "csvw:trim": "true",
-      "cdi:hasPhysicalMapping": [
+      "cdif:hasPhysicalMapping": [
         {
-          "cdi:index": 0,
-          "cdi:physicalDataType": "String",
+          "cdif:index": 0,
+          "cdif:physicalDataType": "String",
           "cdi:length": 20,
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:dataset/oceanTemp2025/var/stationId"
           }
         },
         {
-          "cdi:index": 1,
-          "cdi:physicalDataType": "Numeric",
-          "cdi:format": "0.0",
+          "cdif:index": 1,
+          "cdif:physicalDataType": "Numeric",
+          "cdif:format": "0.0",
           "cdi:scale": 1,
           "cdi:decimalPositions": 1,
           "cdi:nullSequence": "-999.9",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:dataset/oceanTemp2025/var/measurementDepth"
           }
         },
         {
-          "cdi:index": 2,
-          "cdi:physicalDataType": "Numeric",
-          "cdi:format": "0.00",
+          "cdif:index": 2,
+          "cdif:physicalDataType": "Numeric",
+          "cdif:format": "0.00",
           "cdi:scale": 2,
           "cdi:decimalPositions": 2,
           "cdi:nullSequence": "-999.99",
@@ -434,23 +436,23 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
           "cdi:minimumLength": 1,
           "cdi:maximumLength": 10,
           "cdi:isRequired": false,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp"
           }
         },
         {
-          "cdi:index": 3,
-          "cdi:physicalDataType": "Integer",
+          "cdif:index": 3,
+          "cdif:physicalDataType": "Integer",
           "cdi:isRequired": false,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:dataset/oceanTemp2025/var/qcFlag"
           }
         },
         {
-          "cdi:index": 4,
-          "cdi:physicalDataType": "String",
+          "cdif:index": 4,
+          "cdif:physicalDataType": "String",
           "cdi:isRequired": false,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:dataset/oceanTemp2025/var/sourceCruise"
           }
         }
@@ -468,25 +470,25 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
         "application/x-netcdf"
       ],
       "cdi:characterSet": "UTF-8",
-      "cdi:fileSize": 240.0,
-      "cdi:fileSizeUofM": "MB",
-      "cdi:hasPhysicalMapping": [
+      "cdif:fileSize": 240.0,
+      "cdif:fileSizeUofM": "MB",
+      "cdif:hasPhysicalMapping": [
         {
-          "cdi:index": 0,
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/measurements/seaWaterTemperature",
+          "cdif:index": 0,
+          "cdif:physicalDataType": "float32",
+          "cdif:locator": "/measurements/seaWaterTemperature",
           "cdi:nullSequence": "NaN",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp"
           }
         },
         {
-          "cdi:index": 1,
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/coordinates/depth",
+          "cdif:index": 1,
+          "cdif:physicalDataType": "float32",
+          "cdif:locator": "/coordinates/depth",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:dataset/oceanTemp2025/var/measurementDepth"
           }
         }
@@ -593,7 +595,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       },
       "schema:url": "https://example.org/datasets/ocean-temp-2025/variables/sea_water_temperature",
       "cdi:identifier": "ex:dataset/oceanTemp2025/var/seaWaterTemp",
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "xsd:decimal",
         {
           "@id": "http://www.w3.org/2001/XMLSchema#decimal"
@@ -607,7 +609,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
         }
       ],
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
-      "cdi:role": "Measure",
+      "cdif:role": "Measure",
       "cdi:name": "sea_water_temperature",
       "cdi:displayLabel": "Sea Water Temperature",
       "cdi:describedUnitOfMeasure": {
@@ -619,7 +621,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
         "schema:inDefinedTermSet": "http://qudt.org/vocab/unit/"
       },
       "cdi:simpleUnitOfMeasure": "Cel",
-      "cdi:uses": [
+      "cdif:uses": [
         {
           "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
         },
@@ -654,11 +656,11 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:unitCode": "MTR",
       "schema:minValue": 0,
       "schema:maxValue": 5000,
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "xsd:decimal"
       ],
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
-      "cdi:role": "Dimension",
+      "cdif:role": "Dimension",
       "cdi:name": "measurement_depth",
       "cdi:displayLabel": "Measurement Depth",
       "cdi:simpleUnitOfMeasure": "m"
@@ -674,11 +676,11 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:propertyID": [
         "station_id"
       ],
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "xsd:string"
       ],
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#string",
-      "cdi:role": "Descriptor",
+      "cdif:role": "Descriptor",
       "cdi:name": "station_id",
       "cdi:identifier": "ex:dataset/oceanTemp2025/var/stationId"
     },
@@ -693,11 +695,11 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:propertyID": [
         "qc_flag"
       ],
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "xsd:integer"
       ],
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#integer",
-      "cdi:role": "Attribute",
+      "cdif:role": "Attribute",
       "cdi:name": "qc_flag",
       "cdi:displayLabel": "QC flag",
       "cdi:qualifies": {
@@ -715,10 +717,10 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:propertyID": [
         "source_cruise"
       ],
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "xsd:string"
       ],
-      "cdi:role": "ReferenceVariable",
+      "cdif:role": "ReferenceVariable",
       "cdi:name": "source_cruise",
       "cdi:displayLabel": "Source Cruise"
     }
@@ -736,8 +738,8 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
         "text/csv"
       ],
       "cdi:characterSet": "UTF-8",
-      "cdi:fileSize": 1.2,
-      "cdi:fileSizeUofM": "MB",
+      "cdif:fileSize": 1.2,
+      "cdif:fileSizeUofM": "MB",
       "cdi:isDelimited": true,
       "csvw:delimiter": ",",
       "csvw:header": true,
@@ -747,32 +749,32 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "csvw:commentPrefix": "#",
       "csvw:quoteChar": "\"",
       "csvw:trim": "true",
-      "cdi:hasPhysicalMapping": [
+      "cdif:hasPhysicalMapping": [
         {
-          "cdi:index": 0,
-          "cdi:physicalDataType": "String",
+          "cdif:index": 0,
+          "cdif:physicalDataType": "String",
           "cdi:length": 20,
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:dataset/oceanTemp2025/var/stationId"
           }
         },
         {
-          "cdi:index": 1,
-          "cdi:physicalDataType": "Numeric",
-          "cdi:format": "0.0",
+          "cdif:index": 1,
+          "cdif:physicalDataType": "Numeric",
+          "cdif:format": "0.0",
           "cdi:scale": 1,
           "cdi:decimalPositions": 1,
           "cdi:nullSequence": "-999.9",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:dataset/oceanTemp2025/var/measurementDepth"
           }
         },
         {
-          "cdi:index": 2,
-          "cdi:physicalDataType": "Numeric",
-          "cdi:format": "0.00",
+          "cdif:index": 2,
+          "cdif:physicalDataType": "Numeric",
+          "cdif:format": "0.00",
           "cdi:scale": 2,
           "cdi:decimalPositions": 2,
           "cdi:nullSequence": "-999.99",
@@ -780,23 +782,23 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
           "cdi:minimumLength": 1,
           "cdi:maximumLength": 10,
           "cdi:isRequired": false,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp"
           }
         },
         {
-          "cdi:index": 3,
-          "cdi:physicalDataType": "Integer",
+          "cdif:index": 3,
+          "cdif:physicalDataType": "Integer",
           "cdi:isRequired": false,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:dataset/oceanTemp2025/var/qcFlag"
           }
         },
         {
-          "cdi:index": 4,
-          "cdi:physicalDataType": "String",
+          "cdif:index": 4,
+          "cdif:physicalDataType": "String",
           "cdi:isRequired": false,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:dataset/oceanTemp2025/var/sourceCruise"
           }
         }
@@ -814,25 +816,25 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
         "application/x-netcdf"
       ],
       "cdi:characterSet": "UTF-8",
-      "cdi:fileSize": 240.0,
-      "cdi:fileSizeUofM": "MB",
-      "cdi:hasPhysicalMapping": [
+      "cdif:fileSize": 240.0,
+      "cdif:fileSizeUofM": "MB",
+      "cdif:hasPhysicalMapping": [
         {
-          "cdi:index": 0,
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/measurements/seaWaterTemperature",
+          "cdif:index": 0,
+          "cdif:physicalDataType": "float32",
+          "cdif:locator": "/measurements/seaWaterTemperature",
           "cdi:nullSequence": "NaN",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:dataset/oceanTemp2025/var/seaWaterTemp"
           }
         },
         {
-          "cdi:index": 1,
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/coordinates/depth",
+          "cdif:index": 1,
+          "cdif:physicalDataType": "float32",
+          "cdif:locator": "/coordinates/depth",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:dataset/oceanTemp2025/var/measurementDepth"
           }
         }
@@ -845,6 +847,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix schema1: <http://schema.org/> .
@@ -853,63 +856,9 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
 <https://example.org/dataset/oceanTemp2025> a schema1:Dataset ;
     schema1:dateModified "2025-09-01" ;
     schema1:distribution [ a cdi:PhysicalDataSet,
-                cdi:StructuredDataSet,
-                schema1:DataDownload ;
-            cdi:characterSet "UTF-8" ;
-            cdi:fileSize 2.4e+02 ;
-            cdi:fileSizeUofM "MB" ;
-            cdi:hasPhysicalMapping [ cdi:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
-                    cdi:index 1 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/coordinates/depth" ;
-                    cdi:physicalDataType "float32" ],
-                [ cdi:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/measurements/seaWaterTemperature" ;
-                    cdi:nullSequence "NaN" ;
-                    cdi:physicalDataType "float32" ] ;
-            schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.nc" ;
-            schema1:encodingFormat "application/x-netcdf" ;
-            schema1:name "Ocean temperature NetCDF cube" ],
-        [ a cdi:PhysicalDataSet,
                 cdi:TabularTextDataSet,
                 schema1:DataDownload ;
             cdi:characterSet "UTF-8" ;
-            cdi:fileSize 1.2e+00 ;
-            cdi:fileSizeUofM "MB" ;
-            cdi:hasPhysicalMapping [ cdi:decimalPositions 2 ;
-                    cdi:defaultValue "NaN" ;
-                    cdi:format "0.00" ;
-                    cdi:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
-                    cdi:index 2 ;
-                    cdi:isRequired false ;
-                    cdi:maximumLength 10 ;
-                    cdi:minimumLength 1 ;
-                    cdi:nullSequence "-999.99" ;
-                    cdi:physicalDataType "Numeric" ;
-                    cdi:scale 2 ],
-                [ cdi:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:length 20 ;
-                    cdi:physicalDataType "String" ],
-                [ cdi:decimalPositions 1 ;
-                    cdi:format "0.0" ;
-                    cdi:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
-                    cdi:index 1 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "-999.9" ;
-                    cdi:physicalDataType "Numeric" ;
-                    cdi:scale 1 ],
-                [ cdi:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
-                    cdi:index 3 ;
-                    cdi:isRequired false ;
-                    cdi:physicalDataType "Integer" ],
-                [ cdi:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
-                    cdi:index 4 ;
-                    cdi:isRequired false ;
-                    cdi:physicalDataType "String" ] ;
             cdi:isDelimited true ;
             schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.csv" ;
             schema1:encodingFormat "text/csv" ;
@@ -921,7 +870,61 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
             csvw:quoteChar "\"" ;
             csvw:skipBlankRows true ;
             csvw:skipRows 0 ;
-            csvw:trim "true" ] ;
+            csvw:trim "true" ;
+            cdif:fileSize 1.2e+00 ;
+            cdif:fileSizeUofM "MB" ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 1 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "-999.9" ;
+                    cdi:scale 1 ;
+                    cdif:format "0.0" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "Numeric" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "String" ],
+                [ cdi:decimalPositions 2 ;
+                    cdi:defaultValue "NaN" ;
+                    cdi:isRequired false ;
+                    cdi:maximumLength 10 ;
+                    cdi:minimumLength 1 ;
+                    cdi:nullSequence "-999.99" ;
+                    cdi:scale 2 ;
+                    cdif:format "0.00" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
+                    cdif:index 2 ;
+                    cdif:physicalDataType "Numeric" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "Integer" ],
+                [ cdi:isRequired true ;
+                    cdi:length 20 ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "String" ] ],
+        [ a cdi:PhysicalDataSet,
+                cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            cdi:characterSet "UTF-8" ;
+            schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Ocean temperature NetCDF cube" ;
+            cdif:fileSize 2.4e+02 ;
+            cdif:fileSizeUofM "MB" ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
+                    cdif:index 1 ;
+                    cdif:locator "/coordinates/depth" ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:nullSequence "NaN" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
+                    cdif:index 0 ;
+                    cdif:locator "/measurements/seaWaterTemperature" ;
+                    cdif:physicalDataType "float32" ] ] ;
     schema1:identifier "https://doi.org/10.1234/ocean-temp-2025" ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:name "Ocean Temperature Monitoring Data" ;
@@ -943,41 +946,39 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
     cdi:displayLabel "QC flag" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#integer" ;
     cdi:name "qc_flag" ;
-    cdi:physicalDataType "xsd:integer" ;
     cdi:qualifies <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
-    cdi:role "Attribute" ;
     schema1:description "QARTOD-style quality control flag for the temperature observation" ;
     schema1:name "qc_flag" ;
-    schema1:propertyID "qc_flag" .
+    schema1:propertyID "qc_flag" ;
+    cdif:physicalDataType "xsd:integer" ;
+    cdif:role "Attribute" .
 
 <https://example.org/dataset/oceanTemp2025/var/sourceCruise> a cdi:InstanceVariable,
         schema1:PropertyValue ;
     cdi:displayLabel "Source Cruise" ;
     cdi:name "source_cruise" ;
-    cdi:physicalDataType "xsd:string" ;
-    cdi:role "ReferenceVariable" ;
     schema1:description "Reference to the source cruise that produced this observation" ;
     schema1:name "source_cruise" ;
-    schema1:propertyID "source_cruise" .
+    schema1:propertyID "source_cruise" ;
+    cdif:physicalDataType "xsd:string" ;
+    cdif:role "ReferenceVariable" .
 
 <https://example.org/dataset/oceanTemp2025/var/stationId> a cdi:InstanceVariable,
         schema1:PropertyValue ;
     cdi:identifier "ex:dataset/oceanTemp2025/var/stationId" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#string" ;
     cdi:name "station_id" ;
-    cdi:physicalDataType "xsd:string" ;
-    cdi:role "Descriptor" ;
     schema1:description "Identifier for the monitoring station" ;
     schema1:name "station_id" ;
-    schema1:propertyID "station_id" .
+    schema1:propertyID "station_id" ;
+    cdif:physicalDataType "xsd:string" ;
+    cdif:role "Descriptor" .
 
 <https://example.org/dataset/oceanTemp2025/var/measurementDepth> a cdi:InstanceVariable,
         schema1:PropertyValue ;
     cdi:displayLabel "Measurement Depth" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     cdi:name "measurement_depth" ;
-    cdi:physicalDataType "xsd:decimal" ;
-    cdi:role "Dimension" ;
     cdi:simpleUnitOfMeasure "m" ;
     schema1:description "Depth below sea surface at which temperature was recorded" ;
     schema1:maxValue 5000 ;
@@ -987,7 +988,9 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
             schema1:identifier "http://vocab.nerc.ac.uk/collection/P01/current/ADEPZZ01/" ;
             schema1:name "Depth" ] ;
     schema1:unitCode "MTR" ;
-    schema1:unitText "meters" .
+    schema1:unitText "meters" ;
+    cdif:physicalDataType "xsd:decimal" ;
+    cdif:role "Dimension" .
 
 <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> a cdi:InstanceVariable,
         schema1:PropertyValue ;
@@ -999,18 +1002,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
     cdi:identifier "ex:dataset/oceanTemp2025/var/seaWaterTemp" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     cdi:name "sea_water_temperature" ;
-    cdi:physicalDataType [ a schema1:DefinedTerm ;
-            schema1:identifier "http://www.w3.org/2001/XMLSchema#decimal" ;
-            schema1:name "decimal" ],
-        xsd:decimal,
-        "xsd:decimal" ;
-    cdi:role "Measure" ;
     cdi:simpleUnitOfMeasure "Cel" ;
-    cdi:uses [ a schema1:DefinedTerm ;
-            schema1:identifier "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/" ;
-            schema1:name "Sea water temperature" ],
-        <http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/>,
-        "sea-water-temperature" ;
     schema1:alternateName "TEMPST01",
         "sst" ;
     schema1:description "Temperature of sea water at measurement depth" ;
@@ -1031,7 +1023,18 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
             schema1:inDefinedTermSet "http://qudt.org/vocab/unit/" ;
             schema1:name "degree Celsius" ] ;
     schema1:unitText "degrees Celsius" ;
-    schema1:url "https://example.org/datasets/ocean-temp-2025/variables/sea_water_temperature" .
+    schema1:url "https://example.org/datasets/ocean-temp-2025/variables/sea_water_temperature" ;
+    cdif:physicalDataType [ a schema1:DefinedTerm ;
+            schema1:identifier "http://www.w3.org/2001/XMLSchema#decimal" ;
+            schema1:name "decimal" ],
+        xsd:decimal,
+        "xsd:decimal" ;
+    cdif:role "Measure" ;
+    cdif:uses [ a schema1:DefinedTerm ;
+            schema1:identifier "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/" ;
+            schema1:name "Sea water temperature" ],
+        <http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/>,
+        "sea-water-temperature" .
 
 
 ```
@@ -1041,7 +1044,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
 ```yaml
 $schema: https://json-schema.org/draft/2020-12/schema
 title: CDIF Data Description properties
-description: Additional constraints for CDIF data description level. Adds cdi:physicalDataType
+description: Additional constraints for CDIF data description level. Adds cdif:physicalDataType
   requirement on variableMeasured items and distribution-level cdi properties for
   file characterization (characterSet, fileSize, fileSizeUofM).
 type: object
@@ -1060,6 +1063,24 @@ properties:
     description: 'Primary key of the dataset: a cdif:Key whose cdif:isComposedOf is
       an ordered list of cdi:InstanceVariables (from schema:variableMeasured) that
       uniquely identify each data instance.'
+  cdif:statistics:
+    type: array
+    description: "Summary statistics describing the dataset's values. Each entry is
+      a cdi:Statistics bundle (one or more Statistic value objects, optionally weighted
+      by an InstanceVariable, optionally broken down by Category) or a cdi:StatisticsCollection
+      (groups multiple Statistics nodes and records which InstanceVariables they index).
+      Inline node or @id-reference to one declared elsewhere in the document. cdif:
+      namespaced \u2014 DDI-CDI has no `statistics` association from a dataset; this
+      is a CDIF attachment property."
+    items:
+      anyOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifStatistics/schema.yaml
+      - type: object
+        properties:
+          '@id':
+            type: string
+        required:
+        - '@id'
   schema:subjectOf:
     properties:
       dcterms:conformsTo:
@@ -1089,47 +1110,107 @@ properties:
       allOf:
       - type: object
         description: All variableMeasured items at data description level must have
-          an @id and cdi:physicalDataType so physical mappings can reference them.
+          an @id and cdif:physicalDataType so physical mappings can reference them.
         properties:
           '@id':
             type: string
-            description: URI identifier for this variable, used as the target of cdi:formats_InstanceVariable
+            description: URI identifier for this variable, used as the target of cdif:formats_InstanceVariable
               references in physical mappings.
         required:
         - '@id'
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
+      - type: object
+        description: At the Data Description profile level, InstanceVariables may
+          also carry substantive and sentinel value domains directly (in profiles
+          that introduce a RepresentedVariable - e.g., CDIFDataStructureProfile -
+          these properties live on the RepresentedVariable instead and are disallowed
+          here).
+        properties:
+          cdi:takesSentinelValuesFrom:
+            type: array
+            items:
+              anyOf:
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifValueDomain/schema.yaml#/$defs/SentinelValueDomain
+              - type: object
+                properties:
+                  '@id':
+                    type: string
+                required:
+                - '@id'
+            description: Sentinel (missing / not-applicable) value domain(s) for this
+              variable (RepresentedVariable.takesSentinelValuesFrom).
+          cdi:takesSubstantiveValuesFrom:
+            anyOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifValueDomain/schema.yaml#/$defs/SubstantiveValueDomain
+            - type: object
+              properties:
+                '@id':
+                  type: string
+              required:
+              - '@id'
+            description: The substantive value domain for this variable - the set
+              of valid, meaningful values (RepresentedVariable.takesSubstantiveValuesFrom).
   schema:distribution:
+    description: 'Each schema:DataDownload distribution item SHOULD additionally be
+      typed as cdi:PhysicalDataSet or one of its subclasses (cdi:TabularTextDataSet,
+      cdi:StructuredDataSet). schema:WebAPI distribution items do not require a cdi:
+      dataset type. Not enforced at schema level (the merge with cdifCore and cdifArchiveDistribution
+      drops the @type constraint at profile resolution); consider a SHACL rule if
+      runtime enforcement is needed.'
     items:
       properties:
-        '@type':
-          description: Each distribution item is additionally typed as a cdi:PhysicalDataSet
-            or cdi:LogicalDataSet (alongside the base schema:DataDownload / schema:WebAPI).
-          anyOf:
-          - contains:
-              const: cdi:PhysicalDataSet
-          - contains:
-              const: cdi:LogicalDataSet
-        cdi:isStructuredBy:
-          description: Points at the Data Structure node that describes how this distribution's
-            bytes are organized. Inline cdifDataStructure or @id-reference to a node
-            defined elsewhere in the document.
-          anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructure/schema.yaml
-          - type: object
-            properties:
-              '@id':
-                type: string
-            required:
-            - '@id'
+        cdif:hasPhysicalMapping:
+          type: array
+          description: Per-field physical mappings linking the variables measured
+            by this distribution to their physical representation in the file - column
+            index, format, physical data type, length, null sequence, etc. Applies
+            to schema:DataDownload items typed as cdi:PhysicalDataSet or one of its
+            subclasses. Each item is a cdifPhysicalMapping.
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml
         cdi:characterSet:
           type: string
           description: The character set used in the distribution (e.g., UTF-8, ASCII).
-        cdi:fileSize:
+        cdif:fileSize:
           type: number
           description: The size of the distribution file.
-        cdi:fileSizeUofM:
+        cdif:fileSizeUofM:
           type: string
           description: Unit of measure for the file size (e.g., bytes, KB, MB, GB).
+        schema:potentialAction:
+          description: For schema:WebAPI distributions, the potentialAction.result
+            describes the physical realization of the API response bytes - analogous
+            to a DataDownload distribution. The result MAY be additionally typed as
+            cdi:PhysicalDataSet or one of its subclasses, and MAY carry the same physical-realization
+            properties (cdif:hasPhysicalMapping, cdi:characterSet, cdif:fileSize,
+            cdif:fileSizeUofM) as a DataDownload distribution. cdi:PhysicalDataSet
+            typing belongs on the result, NOT on the WebAPI distribution itself -
+            the WebAPI distribution describes the service; the result describes the
+            bytes the service produces.
+          items:
+            properties:
+              schema:result:
+                properties:
+                  cdif:hasPhysicalMapping:
+                    type: array
+                    description: Per-field physical mappings for the API response
+                      bytes. cdif:formats_InstanceVariable should reference the @ids
+                      of variables in the parent dataset's schema:variableMeasured
+                      (the API response is another physical realization of those same
+                      InstanceVariables).
+                    items:
+                      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml
+                  cdi:characterSet:
+                    type: string
+                    description: The character set used in the API response (e.g.,
+                      UTF-8).
+                  cdif:fileSize:
+                    type: number
+                    description: The size of the API response payload.
+                  cdif:fileSizeUofM:
+                    type: string
+                    description: Unit of measure for the response size (e.g., bytes,
+                      KB, MB).
 required:
 - schema:variableMeasured
 
@@ -1154,8 +1235,11 @@ Links to the schema:
     "nxs": "http://purl.org/nexusformat/definitions/",
     "prov": "http://www.w3.org/ns/prov#",
     "cdif": "https://cdif.org/0.1/",
+    "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "ada": "https://ada.astromat.org/metadata/",
     "@version": 1.1
   }
 }

@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.cdifProperties.cdifLongData` *v0.1*
 
-metadata to document long (narrow) data structure where each row is a single observation with a descriptor column identifying the variable and a reference column holding the value. Defines properties: @type, cdi:hasPhysicalMapping, cdi:arrayBase, csvw:delimiter, csvw:header, csvw:headerRowCount, csvw:commentPrefix, csvw:skipBlankRows, csvw:skipInitialSpace, csvw:skipRows, csvw:lineTerminators, csvw:quoteChar, cdi:isDelimited, cdi:isFixedWidth, cdi:escapeCharacter. Uses building blocks: cdifPhysicalMapping (cdifProperties).
+metadata to document long (narrow) data structure where each row is a single observation with a descriptor column identifying the variable and a reference column holding the value. Defines properties: @type, cdif:hasPhysicalMapping, cdi:arrayBase, csvw:delimiter, csvw:header, csvw:headerRowCount, csvw:commentPrefix, csvw:skipBlankRows, csvw:skipInitialSpace, csvw:skipRows, csvw:lineTerminators, csvw:quoteChar, cdi:isDelimited, cdi:isFixedWidth, cdi:escapeCharacter. Uses building blocks: cdifPhysicalMapping (cdifProperties).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -13,7 +13,7 @@ metadata to document long (narrow) data structure where each row is a single obs
 
 Describes data in **long (narrow) format**, where each row represents a single observation. A descriptor column identifies which variable the row measures, and a reference column holds the actual value. This contrasts with wide format (one row per entity with each variable in its own column) and data cube format (multi-dimensional arrays).
 
-Uses DDI-CDI `LongStructureDataSet` type. The descriptor and reference variable roles are expressed via `cdi:role` on `cdi:InstanceVariable` entries in `schema:variableMeasured`, using the values `Descriptor` and `ReferenceVariable`.
+Uses DDI-CDI `LongStructureDataSet` type. The descriptor and reference variable roles are expressed via `cdif:role` on `cdi:InstanceVariable` entries in `schema:variableMeasured`, using the values `Descriptor` and `ReferenceVariable`.
 
 Optional CSVW and DDI-CDI physical properties may be provided when the long data is serialized as delimited text.
 
@@ -75,18 +75,18 @@ to their InstanceVariables.
         "ex": "https://example.org/"
     },
     "@type": ["cdi:LongStructureDataSet"],
-    "cdi:hasPhysicalMapping": [
+    "cdif:hasPhysicalMapping": [
         {
-            "cdi:index": 0,
-            "cdi:physicalDataType": "String",
-            "cdi:formats_InstanceVariable": {
+            "cdif:index": 0,
+            "cdif:physicalDataType": "String",
+            "cdif:formats_InstanceVariable": {
                 "@id": "ex:var-descriptor"
             }
         },
         {
-            "cdi:index": 1,
-            "cdi:physicalDataType": "Numeric",
-            "cdi:formats_InstanceVariable": {
+            "cdif:index": 1,
+            "cdif:physicalDataType": "Numeric",
+            "cdif:formats_InstanceVariable": {
                 "@id": "ex:var-value"
             }
         }
@@ -118,18 +118,18 @@ to their InstanceVariables.
   "@type": [
     "cdi:LongStructureDataSet"
   ],
-  "cdi:hasPhysicalMapping": [
+  "cdif:hasPhysicalMapping": [
     {
-      "cdi:index": 0,
-      "cdi:physicalDataType": "String",
-      "cdi:formats_InstanceVariable": {
+      "cdif:index": 0,
+      "cdif:physicalDataType": "String",
+      "cdif:formats_InstanceVariable": {
         "@id": "ex:var-descriptor"
       }
     },
     {
-      "cdi:index": 1,
-      "cdi:physicalDataType": "Numeric",
-      "cdi:formats_InstanceVariable": {
+      "cdif:index": 1,
+      "cdif:physicalDataType": "Numeric",
+      "cdif:formats_InstanceVariable": {
         "@id": "ex:var-value"
       }
     }
@@ -144,21 +144,22 @@ to their InstanceVariables.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix ex: <https://example.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 [] a cdi:LongStructureDataSet ;
-    cdi:hasPhysicalMapping [ cdi:formats_InstanceVariable ex:var-value ;
-            cdi:index 1 ;
-            cdi:physicalDataType "Numeric" ],
-        [ cdi:formats_InstanceVariable ex:var-descriptor ;
-            cdi:index 0 ;
-            cdi:physicalDataType "String" ] ;
     cdi:isDelimited true ;
     csvw:delimiter "," ;
     csvw:header true ;
-    csvw:headerRowCount 1 .
+    csvw:headerRowCount 1 ;
+    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-descriptor ;
+            cdif:index 0 ;
+            cdif:physicalDataType "String" ],
+        [ cdif:formats_InstanceVariable ex:var-value ;
+            cdif:index 1 ;
+            cdif:physicalDataType "Numeric" ] .
 
 
 ```
@@ -172,7 +173,7 @@ title: Long Data Structure Type
 description: Long (narrow) data structure using DDI-CDI. Typed as cdi:LongStructureDataSet.
   In long format each row represents a single observation, with a descriptor column
   identifying which variable is measured and a reference column holding the value.
-  The descriptor and reference roles are expressed via cdi:role on InstanceVariables
+  The descriptor and reference roles are expressed via cdif:role on InstanceVariables
   in schema:variableMeasured (Descriptor and ReferenceVariable). Structural detail
   (LongDataStructure, components, RepresentedVariable, ValueDomain) lives in the CDIF
   Data Structure profile and is referenced via cdif:isStructuredBy.
@@ -184,7 +185,7 @@ properties:
     allOf:
     - contains:
         const: cdi:LongStructureDataSet
-  cdi:hasPhysicalMapping:
+  cdif:hasPhysicalMapping:
     type: array
     description: Links variables to their physical representation in this dataset.
     items:
@@ -278,14 +279,16 @@ Links to the schema:
     "schema": "http://schema.org/",
     "ada": "https://ada.astromat.org/metadata/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
+    "cdif": "https://cdif.org/0.1/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
     "spdx": "http://spdx.org/rdf/terms#",
     "xas": "https://xas.org/dictionary/",
     "nxs": "http://purl.org/nexusformat/definitions/",
     "prov": "http://www.w3.org/ns/prov#",
+    "ex": "https://example.org/",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "@version": 1.1
   }
 }

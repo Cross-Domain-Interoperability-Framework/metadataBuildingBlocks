@@ -1,0 +1,461 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DDI-CDI Collections",
+  "description": "Generic container that supports different types of groupings, from unordered sets to all sorts of hierarchies, nesting and ordered sets/bags.",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/Collection"
+    },
+    {
+      "$ref": "#/$defs/List"
+    },
+    {
+      "$ref": "#/$defs/Map"
+    },
+    {
+      "$ref": "#/$defs/Member"
+    },
+    {
+      "$ref": "#/$defs/MemberRelationship"
+    },
+    {
+      "$ref": "#/$defs/Position"
+    },
+    {
+      "$ref": "#/$defs/Structure"
+    },
+    {
+      "$ref": "#/$defs/IndividualMember"
+    },
+    {
+      "$ref": "#/$defs/Comparison"
+    }
+  ],
+  "$defs": {
+    "Collection": {
+      "type": "object",
+      "description": "Generic container that supports different types of groupings, from unordered sets to all sorts of hierarchies, nesting and ordered sets/bags.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Collection"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Collection node"
+        },
+        "cdi:allowsDuplicates": {
+          "type": "boolean",
+          "description": "If value is False, the members are unique within the collection - if True, there may be duplicates. (Note that a mathematical \u201cbag\u201d permits duplicates and is unordered - a \u201cset\u201d does not have duplicates and may be ordered.)"
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ObjectName"
+          },
+          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:purpose": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/InternationalString",
+          "description": "Intent or reason for the object/the description of the object."
+        },
+        "cdi:has": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Member"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "List": {
+      "type": "object",
+      "description": "Simple ordered Collection defined as a list of Members where the location of each Member in the list is given by the associated Position class.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:List"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this List node"
+        },
+        "cdi:has": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Position"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+              }
+            ]
+          }
+        },
+        "cdi:allowsDuplicates": {
+          "type": "boolean",
+          "description": "If value is False, the members are unique within the collection - if True, there may be duplicates. (Note that a mathematical \u201cbag\u201d permits duplicates and is unordered - a \u201cset\u201d does not have duplicates and may be ordered.)"
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ObjectName"
+          },
+          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:purpose": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/InternationalString",
+          "description": "Intent or reason for the object/the description of the object."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "Map": {
+      "type": "object",
+      "description": "Provides a basic pattern for a comparison map which identifies source and target members and details about their match. Source and target were retained as in describing differences and commonalities the direction of the comparison may be important.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Map"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Map node"
+        },
+        "cdi:correspondence": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/CorrespondenceDefinition",
+          "description": "Type of correspondence in terms of commonalities and differences between two members."
+        },
+        "cdi:hasTarget": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Member"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+              }
+            ]
+          }
+        },
+        "cdi:hasSource": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Member"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "Member": {
+      "type": "object",
+      "description": "Element in a collection that can be either atomic (individual member) or composite (collection).",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Member"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Member node"
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "MemberRelationship": {
+      "type": "object",
+      "description": "Relationship between members in a collection with directionality given by source and target.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:MemberRelationship"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this MemberRelationship node"
+        },
+        "cdi:semantics": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ControlledVocabularyEntry",
+          "description": "Specifies the semantics of the object in reference to a vocabulary, ontology, etc."
+        },
+        "cdi:hasTarget": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Member"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+              }
+            ]
+          }
+        },
+        "cdi:hasSource": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Member"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "Position": {
+      "type": "object",
+      "description": "Position of the associated member within the associated List.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Position"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Position node"
+        },
+        "cdi:value": {
+          "type": "integer",
+          "description": "Index value of the member in an ordered array."
+        },
+        "cdi:indexes": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Member"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+            }
+          ]
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "Structure": {
+      "type": "object",
+      "description": "Organized set of relationships between members in a collection. These relationships can be characterized mathematically in terms of reflexivity, symmetry and transitivity, or informally in terms of the collection's topology, e.g. network, tree, etc. In both cases it can also be defined either on all (total) or some (partial) members.\n\n- Specification: formal characterization of a structure in terms of reflexivity, symmetry and transitivity. - StructureSpecification: set of mathematical properties of a structure (reflexivity, symmetry and transitivity). - Totality: characterization of a structure in terms of whether it applies to all (total) or some (partial) members.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Structure"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Structure node"
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ObjectName"
+          },
+          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:purpose": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/InternationalString",
+          "description": "Intent or reason for the object/the description of the object."
+        },
+        "cdi:semantics": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ControlledVocabularyEntry",
+          "description": "Specifies the semantics of the object in reference to a vocabulary, ontology, etc."
+        },
+        "cdi:specification": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/StructureSpecification",
+          "description": "Provides information on reflexivity, transitivity, and symmetry of relationship using a descriptive term from an enumerated list. Use if all relations within this relation structure are of the same specification."
+        },
+        "cdi:topology": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ControlledVocabularyEntry",
+          "description": "Means of organizing a set of members in a collection based on explicit rules for how members are related to each other. At a minimum, the controlled vocabulary should contain the following entries below. Note that these entries overlap and need to be organized into a type hierarchy once other entries are identified and defined.\n\n- Graph: organized collection where members are vertices and relationships between them are edges. - Lattice: organized collection where members are vertices, relationships between them are directed edges and there are two and only two distinguished vertices, i.e. a source, which has only outgoing edges, and a sink, which has only incoming edges. - Network/mesh: collection of linked members. - Partition: organized collection where members are grouped into non-empty and non-overlapping sub-collections - Tree: organized collection where members are vertices, relationships between them are edges and any two vertices are connected by exactly one path (sequence of contiguous edges)"
+        },
+        "cdi:totality": {
+          "type": "string",
+          "enum": [
+            "Partial",
+            "Total"
+          ],
+          "description": "Indicates whether the related collections are comprehensive in terms of their coverage i.e application to all (total) or some (partial) members."
+        },
+        "cdi:structures": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Collection"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+            }
+          ]
+        },
+        "cdi:has": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/MemberRelationship"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "IndividualMember": {
+      "type": "object",
+      "description": "Distinct element that is not itself a collection (atomic).",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:IndividualMember"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this IndividualMember node"
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "Comparison": {
+      "type": "object",
+      "description": "The minimal pattern for a comparison including a mapping between members.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:Comparison"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this Comparison node"
+        },
+        "cdi:purpose": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/InternationalString",
+          "description": "Intent or reason for the object/the description of the object."
+        },
+        "cdi:maps": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Collection"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 2
+        },
+        "cdi:has": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Map"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    }
+  },
+  "x-jsonld-prefixes": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+  }
+}

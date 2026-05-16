@@ -11,7 +11,7 @@ Collection of instance variables.
 
 DDI-CDI LogicalRecord describes a collection of instance variables grouped into a single record type. The root `cdi:LogicalRecord` carries `cdi:has` (linking to `cdifInstanceVariable` items that constitute the record's columns), `cdi:organizes` referencing the `cdi:DataSet` instances the record holds, `cdi:isDefinedBy` linking to one or more SKOS concepts, and `cdi:identifier`.
 
-Logical records are the units that `ddicdiDataStore` aggregates (`cdi:has_LogicalRecord`) and that `cdi:RecordRelation` cross-links via instance-variable maps. The BB sits at the join between the conceptual variable description and the physical datastore in the CDIF Data Description profile.
+Logical records are the units that `ddicdiLogicalRecordRepository` aggregates (`cdi:has_LogicalRecord`) and that `cdi:LogicalRecordRelationship` cross-links via instance-variable maps. The BB sits at the join between the conceptual variable description and the physical repository in the CDIF Data Description profile.
 
 ## Examples
 
@@ -794,6 +794,11 @@ Links to the schema:
     "xas": "https://xas.org/dictionary/",
     "nxs": "http://purl.org/nexusformat/definitions/",
     "prov": "http://www.w3.org/ns/prov#",
+    "cdif": "https://cdif.org/0.1/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "@version": 1.1
   }
 }

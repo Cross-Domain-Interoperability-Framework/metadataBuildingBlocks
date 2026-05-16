@@ -16,14 +16,14 @@ description: Role given to a represented variable in the context of a long or wi
   data structure to identify the units associated to data points, and in dimensional
   and key value data structures to provide identifying fields for the instance values.
 anyOf:
-- $ref: '#/$defs/UnitIdentifierComponent'
+- $ref: '#/$defs/IdentifierComponent'
 - $ref: '#/$defs/MeasureComponent'
 - $ref: '#/$defs/AttributeComponent'
 - $ref: '#/$defs/DimensionComponent'
 - $ref: '#/$defs/VariableValueComponent'
 - $ref: '#/$defs/VariableDescriptorComponent'
 $defs:
-  UnitIdentifierComponent:
+  IdentifierComponent:
     type: object
     description: Role given to a represented variable in the context of a long or
       wide data structure to identify the units associated to data points, and in
@@ -35,18 +35,18 @@ $defs:
         items:
           type: string
         contains:
-          const: cdi:UnitIdentifierComponent
+          const: cdi:IdentifierComponent
         minItems: 1
       '@id':
         type: string
-        description: Identifier for this UnitIdentifierComponent node
-      cdi:isDefinedBy:
+        description: Identifier for this IdentifierComponent node
+      cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
     required:
     - '@type'
-    - cdi:isDefinedBy
+    - cdif:isDefinedBy_RepresentedVariable
   MeasureComponent:
     type: object
     description: Role given to a represented variable in the context of a data structure
@@ -74,14 +74,14 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-      cdi:isDefinedBy:
+      cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
       cdi:semantic:
         type: array
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/PairedControlledVocabularyEntry
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
@@ -113,14 +113,14 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-      cdi:isDefinedBy:
+      cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
       cdi:semantic:
         type: array
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/PairedControlledVocabularyEntry
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
@@ -147,13 +147,13 @@ $defs:
       '@id':
         type: string
         description: Identifier for this DimensionComponent node
-      cdi:isDefinedBy:
+      cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
     required:
     - '@type'
-    - cdi:isDefinedBy
+    - cdif:isDefinedBy_RepresentedVariable
   VariableValueComponent:
     type: object
     description: Role given to a represented variable in the context of a data structure
@@ -173,14 +173,14 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-      cdi:isDefinedBy:
+      cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
       cdi:semantic:
         type: array
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/PairedControlledVocabularyEntry
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
@@ -201,14 +201,10 @@ $defs:
       '@id':
         type: string
         description: Identifier for this VariableDescriptorComponent node
-      cdi:isDefinedBy:
-        anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-presentational-variable/schema.yaml
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+      cdif:isDefinedBy_DescriptorVariable:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDescriptorVariable/schema.yaml
       cdi:refersTo:
-        anyOf:
-        - $ref: '#/$defs/VariableValueComponent'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
@@ -216,12 +212,13 @@ $defs:
       cdi:semantic:
         type: array
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/PairedControlledVocabularyEntry
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
     required:
     - '@type'
+    - cdif:isDefinedBy_DescriptorVariable
   DataStructureComponent:
     type: object
     description: Role given to a represented variable in the context of a data structure.
@@ -240,14 +237,14 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
-      cdi:isDefinedBy:
+      cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
       cdi:semantic:
         type: array
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/PairedControlledVocabularyEntry
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
@@ -269,16 +266,12 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
+    "skos": "http://www.w3.org/2004/02/skos/core#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "schema": "http://schema.org/",
     "cdif": "https://cdif.org/0.1/",
-    "skos": "http://www.w3.org/2004/02/skos/core#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
-    "spdx": "http://spdx.org/rdf/terms#",
-    "xas": "https://xas.org/dictionary/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
-    "prov": "http://www.w3.org/ns/prov#",
     "@version": 1.1
   }
 }

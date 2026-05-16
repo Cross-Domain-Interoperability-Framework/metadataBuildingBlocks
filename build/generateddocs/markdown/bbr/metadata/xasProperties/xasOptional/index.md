@@ -675,32 +675,32 @@ ex:xasOptionalExample_001 a schema1:Dataset,
                             schema1:hasPart [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "Probe" ;
-                                            schema1:propertyID "nxs:Field/NXsource/probe" ;
-                                            schema1:value "x-ray" ],
-                                        [ a schema1:PropertyValue ;
-                                            schema1:name "x-ray source type" ;
-                                            schema1:propertyID "nxs:Field/NXsource/type" ;
-                                            schema1:value "Synchrotron X-ray Source" ] ;
-                                    schema1:additionalType "nxs:BaseClass/NXsource" ;
-                                    schema1:name "APS Undulator A" ],
-                                [ a schema1:Product,
-                                        schema1:Thing ;
-                                    schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "crystal type" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
-                                            schema1:value "channel-cut" ],
+                                            schema1:name "d-spacing" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
+                                            schema1:unitText "Angstrom" ;
+                                            schema1:value "1.63747" ],
                                         [ a schema1:PropertyValue ;
                                             schema1:name "reflection plane (hkl)" ;
                                             schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
                                             schema1:value "3,1,1" ],
                                         [ a schema1:PropertyValue ;
-                                            schema1:name "d-spacing" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
-                                            schema1:unitText "Angstrom" ;
-                                            schema1:value "1.63747" ] ;
+                                            schema1:name "crystal type" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
+                                            schema1:value "channel-cut" ] ;
                                     schema1:additionalType "nxs:BaseClass/NXmonochromator" ;
-                                    schema1:name "Si 311" ] ;
+                                    schema1:name "Si 311" ],
+                                [ a schema1:Product,
+                                        schema1:Thing ;
+                                    schema1:additionalProperty [ a schema1:PropertyValue ;
+                                            schema1:name "x-ray source type" ;
+                                            schema1:propertyID "nxs:Field/NXsource/type" ;
+                                            schema1:value "Synchrotron X-ray Source" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "Probe" ;
+                                            schema1:propertyID "nxs:Field/NXsource/probe" ;
+                                            schema1:value "x-ray" ] ;
+                                    schema1:additionalType "nxs:BaseClass/NXsource" ;
+                                    schema1:name "APS Undulator A" ] ;
                             schema1:name "APS Sector 20-BM beamline instrument" ] ] ] .
 
 
@@ -1019,11 +1019,14 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
-    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
     "nxs": "http://purl.org/nexusformat/definitions/",
     "@version": 1.1
   }

@@ -21,6 +21,7 @@ Profile assembling building blocks for the full schema.org implementation of the
 - **Data description extensions** -- distribution items may include CDIF data description properties:
   - `cdifTabularData` -- for delimited or fixed-width tabular text files (CSV, TSV), with CSVW properties and physical column mappings
   - `cdifDataCube` -- for multi-dimensional structured datasets (NetCDF, HDF5), with locator-based physical mappings
+- **Statistics** (`cdifStatistics`, via the Data Description composition) -- `cdif:statistics` on the Dataset carries one or more `cdi:Statistics` bundles or a `cdi:StatisticsCollection` of computed summary values
 - **Archive distribution** (`cdifArchiveDistribution`) -- for archive files (ZIP, tar.gz) containing multiple component files described via `schema:hasPart`, each typed as `schema:MediaObject` with optional data description extensions
 - **WebAPI distribution** -- for API-based data access with `schema:potentialAction` describing query endpoints and result data descriptions
 
@@ -436,39 +437,39 @@ quality measurements.
       "csvw:trim": "true",
       "countRows": 461,
       "countColumns": 3,
-      "cdi:hasPhysicalMapping": [
+      "cdif:hasPhysicalMapping": [
         {
-          "cdi:index": 0,
-          "cdi:format": "string",
-          "cdi:physicalDataType": "string",
+          "cdif:index": 0,
+          "cdif:format": "string",
+          "cdif:physicalDataType": "string",
           "cdi:isRequired": true,
           "cdi:defaultValue": "UNKNOWN",
           "cdi:minimumLength": 3,
           "cdi:maximumLength": 40,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:var-sampleID"
           }
         },
         {
-          "cdi:index": 1,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float64",
+          "cdif:index": 1,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
           "cdi:nullSequence": "NA",
           "cdi:isRequired": true,
           "cdi:decimalPositions": 4,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:var-concentration"
           }
         },
         {
-          "cdi:index": 2,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float64",
+          "cdif:index": 2,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
           "cdi:nullSequence": "-9999",
           "cdi:isRequired": false,
           "cdi:decimalPositions": 4,
           "cdi:length": 12,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:var-uncertainty"
           }
         }
@@ -497,25 +498,25 @@ quality measurements.
         "spdx:algorithm": "SHA256",
         "spdx:checksumValue": "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
       },
-      "cdi:hasPhysicalMapping": [
+      "cdif:hasPhysicalMapping": [
         {
-          "cdi:index": 0,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/spectra/wavelength",
+          "cdif:index": 0,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdif:locator": "/spectra/wavelength",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:var-wavelength"
           }
         },
         {
-          "cdi:index": 1,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/spectra/intensity",
+          "cdif:index": 1,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdif:locator": "/spectra/intensity",
           "cdi:scale": 1000,
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:var-intensity"
           }
         }
@@ -594,33 +595,33 @@ quality measurements.
           "csvw:headerRowCount": 1,
           "countRows": 144,
           "countColumns": 3,
-          "cdi:hasPhysicalMapping": [
+          "cdif:hasPhysicalMapping": [
             {
-              "cdi:index": 0,
-              "cdi:format": "string",
-              "cdi:physicalDataType": "string",
+              "cdif:index": 0,
+              "cdif:format": "string",
+              "cdif:physicalDataType": "string",
               "cdi:isRequired": true,
-              "cdi:formats_InstanceVariable": {
+              "cdif:formats_InstanceVariable": {
                 "@id": "ex:var-sampleID"
               }
             },
             {
-              "cdi:index": 1,
-              "cdi:format": "decimal",
-              "cdi:physicalDataType": "float64",
+              "cdif:index": 1,
+              "cdif:format": "decimal",
+              "cdif:physicalDataType": "float64",
               "cdi:nullSequence": "NA",
               "cdi:isRequired": true,
-              "cdi:formats_InstanceVariable": {
+              "cdif:formats_InstanceVariable": {
                 "@id": "ex:var-concentration"
               }
             },
             {
-              "cdi:index": 2,
-              "cdi:format": "decimal",
-              "cdi:physicalDataType": "float64",
+              "cdif:index": 2,
+              "cdif:format": "decimal",
+              "cdif:physicalDataType": "float64",
               "cdi:nullSequence": "NA",
               "cdi:isRequired": false,
-              "cdi:formats_InstanceVariable": {
+              "cdif:formats_InstanceVariable": {
                 "@id": "ex:var-uncertainty"
               }
             }
@@ -644,24 +645,24 @@ quality measurements.
             "schema:value": 13743003,
             "schema:unitText": "byte"
           },
-          "cdi:hasPhysicalMapping": [
+          "cdif:hasPhysicalMapping": [
             {
-              "cdi:index": 0,
-              "cdi:format": "decimal",
-              "cdi:physicalDataType": "float32",
-              "cdi:locator": "/spectra/wavelength",
+              "cdif:index": 0,
+              "cdif:format": "decimal",
+              "cdif:physicalDataType": "float32",
+              "cdif:locator": "/spectra/wavelength",
               "cdi:isRequired": true,
-              "cdi:formats_InstanceVariable": {
+              "cdif:formats_InstanceVariable": {
                 "@id": "ex:var-wavelength"
               }
             },
             {
-              "cdi:index": 1,
-              "cdi:format": "decimal",
-              "cdi:physicalDataType": "float32",
-              "cdi:locator": "/spectra/intensity",
+              "cdif:index": 1,
+              "cdif:format": "decimal",
+              "cdif:physicalDataType": "float32",
+              "cdif:locator": "/spectra/intensity",
               "cdi:isRequired": true,
-              "cdi:formats_InstanceVariable": {
+              "cdif:formats_InstanceVariable": {
                 "@id": "ex:var-intensity"
               }
             }
@@ -717,8 +718,7 @@ quality measurements.
     },
     {
       "@type": [
-        "schema:WebAPI",
-        "cdi:LogicalDataSet"
+        "schema:WebAPI"
       ],
       "schema:serviceType": {
         "@type": [
@@ -777,22 +777,22 @@ quality measurements.
             "csvw:delimiter": ",",
             "csvw:header": true,
             "csvw:headerRowCount": 1,
-            "cdi:hasPhysicalMapping": [
+            "cdif:hasPhysicalMapping": [
               {
-                "cdi:index": 0,
-                "cdi:format": "decimal",
-                "cdi:physicalDataType": "float64",
+                "cdif:index": 0,
+                "cdif:format": "decimal",
+                "cdif:physicalDataType": "float64",
                 "cdi:isRequired": true,
-                "cdi:formats_InstanceVariable": {
+                "cdif:formats_InstanceVariable": {
                   "@id": "ex:var-concentration"
                 }
               },
               {
-                "cdi:index": 1,
-                "cdi:format": "decimal",
-                "cdi:physicalDataType": "float64",
+                "cdif:index": 1,
+                "cdif:format": "decimal",
+                "cdif:physicalDataType": "float64",
                 "cdi:isRequired": false,
-                "cdi:formats_InstanceVariable": {
+                "cdif:formats_InstanceVariable": {
                   "@id": "ex:var-uncertainty"
                 }
               }
@@ -852,7 +852,7 @@ quality measurements.
       "schema:propertyID": [
         "urn:example:property:sampleID"
       ],
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "string"
       ]
     },
@@ -877,7 +877,7 @@ quality measurements.
       "schema:unitCode": "59",
       "schema:minValue": 0.01,
       "schema:maxValue": 5000,
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "float64"
       ]
     },
@@ -894,7 +894,7 @@ quality measurements.
       ],
       "schema:unitText": "ppm",
       "schema:unitCode": "59",
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "float64"
       ]
     },
@@ -912,7 +912,7 @@ quality measurements.
       "schema:unitText": "nm",
       "schema:minValue": 200,
       "schema:maxValue": 2500,
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "float64"
       ]
     },
@@ -928,7 +928,7 @@ quality measurements.
         "urn:example:property:intensity"
       ],
       "schema:unitText": "counts",
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "float32"
       ]
     }
@@ -1584,39 +1584,39 @@ quality measurements.
       "csvw:trim": "true",
       "countRows": 461,
       "countColumns": 3,
-      "cdi:hasPhysicalMapping": [
+      "cdif:hasPhysicalMapping": [
         {
-          "cdi:index": 0,
-          "cdi:format": "string",
-          "cdi:physicalDataType": "string",
+          "cdif:index": 0,
+          "cdif:format": "string",
+          "cdif:physicalDataType": "string",
           "cdi:isRequired": true,
           "cdi:defaultValue": "UNKNOWN",
           "cdi:minimumLength": 3,
           "cdi:maximumLength": 40,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:var-sampleID"
           }
         },
         {
-          "cdi:index": 1,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float64",
+          "cdif:index": 1,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
           "cdi:nullSequence": "NA",
           "cdi:isRequired": true,
           "cdi:decimalPositions": 4,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:var-concentration"
           }
         },
         {
-          "cdi:index": 2,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float64",
+          "cdif:index": 2,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float64",
           "cdi:nullSequence": "-9999",
           "cdi:isRequired": false,
           "cdi:decimalPositions": 4,
           "cdi:length": 12,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:var-uncertainty"
           }
         }
@@ -1645,25 +1645,25 @@ quality measurements.
         "spdx:algorithm": "SHA256",
         "spdx:checksumValue": "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
       },
-      "cdi:hasPhysicalMapping": [
+      "cdif:hasPhysicalMapping": [
         {
-          "cdi:index": 0,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/spectra/wavelength",
+          "cdif:index": 0,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdif:locator": "/spectra/wavelength",
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:var-wavelength"
           }
         },
         {
-          "cdi:index": 1,
-          "cdi:format": "decimal",
-          "cdi:physicalDataType": "float32",
-          "cdi:locator": "/spectra/intensity",
+          "cdif:index": 1,
+          "cdif:format": "decimal",
+          "cdif:physicalDataType": "float32",
+          "cdif:locator": "/spectra/intensity",
           "cdi:scale": 1000,
           "cdi:isRequired": true,
-          "cdi:formats_InstanceVariable": {
+          "cdif:formats_InstanceVariable": {
             "@id": "ex:var-intensity"
           }
         }
@@ -1742,33 +1742,33 @@ quality measurements.
           "csvw:headerRowCount": 1,
           "countRows": 144,
           "countColumns": 3,
-          "cdi:hasPhysicalMapping": [
+          "cdif:hasPhysicalMapping": [
             {
-              "cdi:index": 0,
-              "cdi:format": "string",
-              "cdi:physicalDataType": "string",
+              "cdif:index": 0,
+              "cdif:format": "string",
+              "cdif:physicalDataType": "string",
               "cdi:isRequired": true,
-              "cdi:formats_InstanceVariable": {
+              "cdif:formats_InstanceVariable": {
                 "@id": "ex:var-sampleID"
               }
             },
             {
-              "cdi:index": 1,
-              "cdi:format": "decimal",
-              "cdi:physicalDataType": "float64",
+              "cdif:index": 1,
+              "cdif:format": "decimal",
+              "cdif:physicalDataType": "float64",
               "cdi:nullSequence": "NA",
               "cdi:isRequired": true,
-              "cdi:formats_InstanceVariable": {
+              "cdif:formats_InstanceVariable": {
                 "@id": "ex:var-concentration"
               }
             },
             {
-              "cdi:index": 2,
-              "cdi:format": "decimal",
-              "cdi:physicalDataType": "float64",
+              "cdif:index": 2,
+              "cdif:format": "decimal",
+              "cdif:physicalDataType": "float64",
               "cdi:nullSequence": "NA",
               "cdi:isRequired": false,
-              "cdi:formats_InstanceVariable": {
+              "cdif:formats_InstanceVariable": {
                 "@id": "ex:var-uncertainty"
               }
             }
@@ -1792,24 +1792,24 @@ quality measurements.
             "schema:value": 13743003,
             "schema:unitText": "byte"
           },
-          "cdi:hasPhysicalMapping": [
+          "cdif:hasPhysicalMapping": [
             {
-              "cdi:index": 0,
-              "cdi:format": "decimal",
-              "cdi:physicalDataType": "float32",
-              "cdi:locator": "/spectra/wavelength",
+              "cdif:index": 0,
+              "cdif:format": "decimal",
+              "cdif:physicalDataType": "float32",
+              "cdif:locator": "/spectra/wavelength",
               "cdi:isRequired": true,
-              "cdi:formats_InstanceVariable": {
+              "cdif:formats_InstanceVariable": {
                 "@id": "ex:var-wavelength"
               }
             },
             {
-              "cdi:index": 1,
-              "cdi:format": "decimal",
-              "cdi:physicalDataType": "float32",
-              "cdi:locator": "/spectra/intensity",
+              "cdif:index": 1,
+              "cdif:format": "decimal",
+              "cdif:physicalDataType": "float32",
+              "cdif:locator": "/spectra/intensity",
               "cdi:isRequired": true,
-              "cdi:formats_InstanceVariable": {
+              "cdif:formats_InstanceVariable": {
                 "@id": "ex:var-intensity"
               }
             }
@@ -1865,8 +1865,7 @@ quality measurements.
     },
     {
       "@type": [
-        "schema:WebAPI",
-        "cdi:LogicalDataSet"
+        "schema:WebAPI"
       ],
       "schema:serviceType": {
         "@type": [
@@ -1925,22 +1924,22 @@ quality measurements.
             "csvw:delimiter": ",",
             "csvw:header": true,
             "csvw:headerRowCount": 1,
-            "cdi:hasPhysicalMapping": [
+            "cdif:hasPhysicalMapping": [
               {
-                "cdi:index": 0,
-                "cdi:format": "decimal",
-                "cdi:physicalDataType": "float64",
+                "cdif:index": 0,
+                "cdif:format": "decimal",
+                "cdif:physicalDataType": "float64",
                 "cdi:isRequired": true,
-                "cdi:formats_InstanceVariable": {
+                "cdif:formats_InstanceVariable": {
                   "@id": "ex:var-concentration"
                 }
               },
               {
-                "cdi:index": 1,
-                "cdi:format": "decimal",
-                "cdi:physicalDataType": "float64",
+                "cdif:index": 1,
+                "cdif:format": "decimal",
+                "cdif:physicalDataType": "float64",
                 "cdi:isRequired": false,
-                "cdi:formats_InstanceVariable": {
+                "cdif:formats_InstanceVariable": {
                   "@id": "ex:var-uncertainty"
                 }
               }
@@ -2000,7 +1999,7 @@ quality measurements.
       "schema:propertyID": [
         "urn:example:property:sampleID"
       ],
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "string"
       ]
     },
@@ -2025,7 +2024,7 @@ quality measurements.
       "schema:unitCode": "59",
       "schema:minValue": 0.01,
       "schema:maxValue": 5000,
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "float64"
       ]
     },
@@ -2042,7 +2041,7 @@ quality measurements.
       ],
       "schema:unitText": "ppm",
       "schema:unitCode": "59",
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "float64"
       ]
     },
@@ -2060,7 +2059,7 @@ quality measurements.
       "schema:unitText": "nm",
       "schema:minValue": 200,
       "schema:maxValue": 2500,
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "float64"
       ]
     },
@@ -2076,7 +2075,7 @@ quality measurements.
         "urn:example:property:intensity"
       ],
       "schema:unitText": "counts",
-      "cdi:physicalDataType": [
+      "cdif:physicalDataType": [
         "float32"
       ]
     }
@@ -2330,6 +2329,7 @@ quality measurements.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix dqv: <http://www.w3.org/ns/dqv#> .
@@ -2345,23 +2345,6 @@ quality measurements.
 
 <file:///github/workspace/#part-measurements-csv> a cdi:TabularTextDataSet,
         schema1:MediaObject ;
-    cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable ex:var-uncertainty ;
-            cdi:index 2 ;
-            cdi:isRequired false ;
-            cdi:nullSequence "NA" ;
-            cdi:physicalDataType "float64" ],
-        [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable ex:var-concentration ;
-            cdi:index 1 ;
-            cdi:isRequired true ;
-            cdi:nullSequence "NA" ;
-            cdi:physicalDataType "float64" ],
-        [ cdi:format "string" ;
-            cdi:formats_InstanceVariable ex:var-sampleID ;
-            cdi:index 0 ;
-            cdi:isRequired true ;
-            cdi:physicalDataType "string" ] ;
     cdi:isDelimited true ;
     schema1:description "Measurement data with column structure described via CSVW and physical mappings." ;
     schema1:encodingFormat "text/csv" ;
@@ -2371,7 +2354,24 @@ quality measurements.
             schema1:value 6249 ] ;
     csvw:delimiter "," ;
     csvw:header true ;
-    csvw:headerRowCount 1 .
+    csvw:headerRowCount 1 ;
+    cdif:hasPhysicalMapping [ cdi:isRequired true ;
+            cdif:format "string" ;
+            cdif:formats_InstanceVariable ex:var-sampleID ;
+            cdif:index 0 ;
+            cdif:physicalDataType "string" ],
+        [ cdi:isRequired true ;
+            cdi:nullSequence "NA" ;
+            cdif:format "decimal" ;
+            cdif:formats_InstanceVariable ex:var-concentration ;
+            cdif:index 1 ;
+            cdif:physicalDataType "float64" ],
+        [ cdi:isRequired false ;
+            cdi:nullSequence "NA" ;
+            cdif:format "decimal" ;
+            cdif:formats_InstanceVariable ex:var-uncertainty ;
+            cdif:index 2 ;
+            cdif:physicalDataType "float64" ] .
 
 <file:///github/workspace/#part-metadata-yaml> a schema1:MediaObject ;
     schema1:about <file:///github/workspace/#part-results-csv> ;
@@ -2392,24 +2392,24 @@ quality measurements.
 
 <file:///github/workspace/#part-spectra-nc> a cdi:StructuredDataSet,
         schema1:MediaObject ;
-    cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable ex:var-intensity ;
-            cdi:index 1 ;
-            cdi:isRequired true ;
-            cdi:locator "/spectra/intensity" ;
-            cdi:physicalDataType "float32" ],
-        [ cdi:format "decimal" ;
-            cdi:formats_InstanceVariable ex:var-wavelength ;
-            cdi:index 0 ;
-            cdi:isRequired true ;
-            cdi:locator "/spectra/wavelength" ;
-            cdi:physicalDataType "float32" ] ;
     schema1:description "Spectral data cube with wavelength and intensity dimensions." ;
     schema1:encodingFormat "application/x-netcdf" ;
     schema1:name "spectra-cube.nc" ;
     schema1:size [ a schema1:QuantitativeValue ;
             schema1:unitText "byte" ;
-            schema1:value 13743003 ] .
+            schema1:value 13743003 ] ;
+    cdif:hasPhysicalMapping [ cdi:isRequired true ;
+            cdif:format "decimal" ;
+            cdif:formats_InstanceVariable ex:var-wavelength ;
+            cdif:index 0 ;
+            cdif:locator "/spectra/wavelength" ;
+            cdif:physicalDataType "float32" ],
+        [ cdi:isRequired true ;
+            cdif:format "decimal" ;
+            cdif:formats_InstanceVariable ex:var-intensity ;
+            cdif:index 1 ;
+            cdif:locator "/spectra/intensity" ;
+            cdif:physicalDataType "float32" ] .
 
 ex:activity-geochem-analysis a schema1:Action,
         prov:Activity ;
@@ -2465,11 +2465,11 @@ ex:activity-geochem-analysis a schema1:Action,
                             schema1:name "Inductively coupled plasma mass spectrometer" ;
                             schema1:termCode "LAB21" ] ;
                     schema1:hasPart [ a schema1:Thing ;
-                            schema1:alternateName "CETAC ASX-560" ;
-                            schema1:name "Autosampler" ],
-                        [ a schema1:Thing ;
                             schema1:alternateName "Peltier-cooled cyclonic" ;
-                            schema1:name "Spray chamber" ] ;
+                            schema1:name "Spray chamber" ],
+                        [ a schema1:Thing ;
+                            schema1:alternateName "CETAC ASX-560" ;
+                            schema1:name "Autosampler" ] ;
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
                     schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
                     schema1:termCode "ICP-MS" ] ],
@@ -2528,39 +2528,6 @@ ex:complete-dataset-001 a schema1:Dataset ;
     schema1:datePublished "2026-02-01" ;
     schema1:description "Comprehensive geochemistry dataset demonstrating the CDIF complete profile with single-file downloads, archive distribution with component files, and WebAPI access. Includes tabular CSV results, NetCDF data cubes, and an OGC API Features endpoint." ;
     schema1:distribution [ a cdi:PhysicalDataSet,
-                cdi:StructuredDataSet,
-                schema1:DataDownload ;
-            cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:var-wavelength ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/spectra/wavelength" ;
-                    cdi:physicalDataType "float32" ],
-                [ cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:var-intensity ;
-                    cdi:index 1 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/spectra/intensity" ;
-                    cdi:physicalDataType "float32" ;
-                    cdi:scale 1000 ] ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/spectra-cube.nc" ;
-            schema1:encodingFormat "application/x-netcdf" ;
-            schema1:name "Spectral data cube" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4" ] ],
-        [ a cdi:PhysicalDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "https://example.org/data/geochem-summary.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "Geochemistry summary results" ;
-            schema1:provider <https://ror.org/02fjgr047> ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ],
-        [ a cdi:PhysicalDataSet,
                 schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "https://example.org/data/geochem-package.zip" ;
@@ -2575,8 +2542,17 @@ ex:complete-dataset-001 a schema1:Dataset ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "SHA256" ;
                     spdx:checksumValue "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5" ] ],
-        [ a cdi:LogicalDataSet,
-                schema1:WebAPI ;
+        [ a cdi:PhysicalDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "https://example.org/data/geochem-summary.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "Geochemistry summary results" ;
+            schema1:provider <https://ror.org/02fjgr047> ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2" ] ],
+        [ a schema1:WebAPI ;
             schema1:documentation [ a schema1:CreativeWork ;
                     schema1:name "OpenAPI specification for geochemistry data service" ;
                     schema1:url "https://example.org/api/v1/openapi.json" ] ;
@@ -2585,6 +2561,10 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     schema1:object [ a schema1:DataFeed ;
                             schema1:description "Geochemistry observations collection" ] ;
                     schema1:query-input [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Starting index for pagination" ;
+                            schema1:valueName "offset" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Maximum number of features to return" ;
                             schema1:valueName "limit" ;
                             schema1:valueRequired false ],
@@ -2592,22 +2572,8 @@ ex:complete-dataset-001 a schema1:Dataset ;
                             schema1:description "Response format: csv or geojson" ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv|geojson" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Starting index for pagination" ;
-                            schema1:valueName "offset" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a schema1:DataDownload ;
-                            cdi:hasPhysicalMapping [ cdi:format "decimal" ;
-                                    cdi:formats_InstanceVariable ex:var-uncertainty ;
-                                    cdi:index 1 ;
-                                    cdi:isRequired false ;
-                                    cdi:physicalDataType "float64" ],
-                                [ cdi:format "decimal" ;
-                                    cdi:formats_InstanceVariable ex:var-concentration ;
-                                    cdi:index 0 ;
-                                    cdi:isRequired true ;
-                                    cdi:physicalDataType "float64" ] ;
                             cdi:isDelimited true ;
                             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
                             schema1:contentUrl "https://example.org/api/v1/collections/geochem/items?f=csv" ;
@@ -2615,7 +2581,17 @@ ex:complete-dataset-001 a schema1:Dataset ;
                             schema1:name "Geochemistry query results" ;
                             csvw:delimiter "," ;
                             csvw:header true ;
-                            csvw:headerRowCount 1 ] ;
+                            csvw:headerRowCount 1 ;
+                            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                                    cdif:format "decimal" ;
+                                    cdif:formats_InstanceVariable ex:var-concentration ;
+                                    cdif:index 0 ;
+                                    cdif:physicalDataType "float64" ],
+                                [ cdi:isRequired false ;
+                                    cdif:format "decimal" ;
+                                    cdif:formats_InstanceVariable ex:var-uncertainty ;
+                                    cdif:index 1 ;
+                                    cdif:physicalDataType "float64" ] ] ;
                     schema1:target [ a schema1:EntryPoint ;
                             schema1:contentType "application/geo+json",
                                 "text/csv" ;
@@ -2632,33 +2608,33 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     schema1:termCode "ogcapi-features" ] ;
             schema1:termsOfService "Open access, no authentication required" ],
         [ a cdi:PhysicalDataSet,
+                cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "https://example.org/data/spectra-cube.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Spectral data cube" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4" ] ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdi:scale 1000 ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-intensity ;
+                    cdif:index 1 ;
+                    cdif:locator "/spectra/intensity" ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-wavelength ;
+                    cdif:index 0 ;
+                    cdif:locator "/spectra/wavelength" ;
+                    cdif:physicalDataType "float32" ] ],
+        [ a cdi:PhysicalDataSet,
                 cdi:TabularTextDataSet,
                 schema1:DataDownload ;
             cdi:arrayBase 0 ;
             cdi:escapeCharacter "\\" ;
-            cdi:hasPhysicalMapping [ cdi:decimalPositions 4 ;
-                    cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:var-uncertainty ;
-                    cdi:index 2 ;
-                    cdi:isRequired false ;
-                    cdi:length 12 ;
-                    cdi:nullSequence "-9999" ;
-                    cdi:physicalDataType "float64" ],
-                [ cdi:defaultValue "UNKNOWN" ;
-                    cdi:format "string" ;
-                    cdi:formats_InstanceVariable ex:var-sampleID ;
-                    cdi:index 0 ;
-                    cdi:isRequired true ;
-                    cdi:maximumLength 40 ;
-                    cdi:minimumLength 3 ;
-                    cdi:physicalDataType "string" ],
-                [ cdi:decimalPositions 4 ;
-                    cdi:format "decimal" ;
-                    cdi:formats_InstanceVariable ex:var-concentration ;
-                    cdi:index 1 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "NA" ;
-                    cdi:physicalDataType "float64" ] ;
             cdi:headerIsCaseSensitive false ;
             cdi:isDelimited true ;
             cdi:isFixedWidth false ;
@@ -2682,7 +2658,30 @@ ex:complete-dataset-001 a schema1:Dataset ;
             csvw:skipRows 0 ;
             csvw:tableDirection "Ltr" ;
             csvw:textDirection "Auto" ;
-            csvw:trim "true" ] ;
+            csvw:trim "true" ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 4 ;
+                    cdi:isRequired false ;
+                    cdi:length 12 ;
+                    cdi:nullSequence "-9999" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-uncertainty ;
+                    cdif:index 2 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:defaultValue "UNKNOWN" ;
+                    cdi:isRequired true ;
+                    cdi:maximumLength 40 ;
+                    cdi:minimumLength 3 ;
+                    cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-sampleID ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "string" ],
+                [ cdi:decimalPositions 4 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-concentration ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "float64" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/021nxhr62> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -2698,19 +2697,19 @@ ex:complete-dataset-001 a schema1:Dataset ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "https://vocabularyserver.com/keyword" ;
-                    schema1:url "https://vocabularyserver.com/keyword/geochem-001" ;
-                    schema1:value "geochem-001" ] ;
-            schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
-            schema1:name "geochemistry" ;
-            schema1:termCode "GEOCHEM" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://vocabularyserver.com/keyword" ;
                     schema1:url "https://vocabularyserver.com/keyword/spectral-001" ;
                     schema1:value "spectral-001" ] ;
             schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
             schema1:name "spectral analysis" ;
-            schema1:termCode "SPECTRAL" ] ;
+            schema1:termCode "SPECTRAL" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "https://vocabularyserver.com/keyword" ;
+                    schema1:url "https://vocabularyserver.com/keyword/geochem-001" ;
+                    schema1:value "geochem-001" ] ;
+            schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
+            schema1:name "geochemistry" ;
+            schema1:termCode "GEOCHEM" ] ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -2765,17 +2764,17 @@ ex:complete-dataset-001 a schema1:Dataset ;
         ex:var-wavelength ;
     schema1:version "1.0" ;
     dqv:hasQualityMeasurement [ a dqv:QualityMeasurement ;
-            dqv:isMeasurementOf "Analytical precision (2-sigma RSD on NIST SRM 2711a replicates)" ;
-            dqv:value [ a schema1:DefinedTerm ;
-                    schema1:inDefinedTermSet "https://example.org/quality-levels/" ;
-                    schema1:name "High-" ;
-                    schema1:termCode "HIGH" ] ],
-        [ a dqv:QualityMeasurement ;
             dqv:isMeasurementOf [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://www.w3.org/TR/vocab-dqv/" ;
                     schema1:name "Completeness" ;
                     schema1:termCode "completeness" ] ;
-            dqv:value "98.5% of planned sample sites successfully analyzed" ] ;
+            dqv:value "98.5% of planned sample sites successfully analyzed" ],
+        [ a dqv:QualityMeasurement ;
+            dqv:isMeasurementOf "Analytical precision (2-sigma RSD on NIST SRM 2711a replicates)" ;
+            dqv:value [ a schema1:DefinedTerm ;
+                    schema1:inDefinedTermSet "https://example.org/quality-levels/" ;
+                    schema1:name "High-" ;
+                    schema1:termCode "HIGH" ] ] ;
     prov:wasDerivedFrom [ a schema1:CreativeWork ;
             schema1:description "Prior regional geochemical survey used for site selection and comparative analysis" ;
             schema1:name "USGS Great Basin Geochemical Survey (2020)" ;
@@ -2798,28 +2797,28 @@ ex:complete-dataset-001 a schema1:Dataset ;
 
 ex:var-intensity a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:physicalDataType "float32" ;
     schema1:description "Measured spectral intensity" ;
     schema1:name "Spectral intensity" ;
     schema1:propertyID "urn:example:property:intensity" ;
-    schema1:unitText "counts" .
+    schema1:unitText "counts" ;
+    cdif:physicalDataType "float32" .
 
 ex:var-sampleID a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:physicalDataType "string" ;
     schema1:description "Unique identifier for each sample" ;
     schema1:name "Sample identifier" ;
-    schema1:propertyID "urn:example:property:sampleID" .
+    schema1:propertyID "urn:example:property:sampleID" ;
+    cdif:physicalDataType "string" .
 
 ex:var-wavelength a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:physicalDataType "float64" ;
     schema1:description "Spectral wavelength" ;
     schema1:maxValue 2500 ;
     schema1:minValue 200 ;
     schema1:name "Wavelength" ;
     schema1:propertyID "urn:example:property:wavelength" ;
-    schema1:unitText "nm" .
+    schema1:unitText "nm" ;
+    cdif:physicalDataType "float64" .
 
 <https://orcid.org/0000-0001-2345-6789> a schema1:Person ;
     schema1:affiliation <https://ror.org/03m2x1q45> ;
@@ -2835,7 +2834,6 @@ ex:var-wavelength a cdi:InstanceVariable,
 
 ex:var-concentration a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:physicalDataType "float64" ;
     schema1:alternateName "concentration_ppm",
         "element_conc" ;
     schema1:description "Measured element concentration in parts per million" ;
@@ -2846,16 +2844,17 @@ ex:var-concentration a cdi:InstanceVariable,
     schema1:propertyID "urn:example:property:concentration" ;
     schema1:unitCode "59" ;
     schema1:unitText "ppm" ;
-    schema1:url "https://example.org/docs/variables/concentration" .
+    schema1:url "https://example.org/docs/variables/concentration" ;
+    cdif:physicalDataType "float64" .
 
 ex:var-uncertainty a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:physicalDataType "float64" ;
     schema1:description "2-sigma uncertainty on concentration measurement" ;
     schema1:name "Measurement uncertainty" ;
     schema1:propertyID "urn:example:property:uncertainty" ;
     schema1:unitCode "59" ;
-    schema1:unitText "ppm" .
+    schema1:unitText "ppm" ;
+    cdif:physicalDataType "float64" .
 
 
 ```
@@ -2970,22 +2969,22 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
-    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
+    "prov": "http://www.w3.org/ns/prov#",
     "geosparql": "http://www.opengis.net/ont/geosparql#",
     "spdx": "http://spdx.org/rdf/terms#",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "csvw": "http://www.w3.org/ns/csvw#",
     "time": "http://www.w3.org/2006/time#",
     "dqv": "http://www.w3.org/ns/dqv#",
     "sf": "http://www.opengis.net/ont/sf#",
-    "skos": "http://www.w3.org/2004/02/skos/core#",
     "xas": "https://xas.org/dictionary/",
     "nxs": "http://purl.org/nexusformat/definitions/",
-    "cdif": "https://cdif.org/0.1/",
     "ada": "https://ada.astromat.org/metadata/",
     "@version": 1.1
   }

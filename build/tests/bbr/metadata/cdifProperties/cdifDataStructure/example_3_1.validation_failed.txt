@@ -1,0 +1,601 @@
+Validation report for cdif.bbr.metadata.cdifProperties.cdifDataStructure - CDIF Data Structure
+Generated 2026-05-16T18:23:58.291246+00:00
+=== Files ===
+Using exampleCdifDataStructureDimensional.json from examples
+JSON-LD context is present - uplifting
+Output JSON-LD example_3_1.jsonld created
+Output Turtle example_3_1.ttl created
+=== End Files ===
+
+=== JSON Schema ===
+
+** Validation error **
+ValidationError: {'@context': {'schema': 'http://schema.org/', 'cdi': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/', 'cdif': 'https://cdif.org/0.1/', 'xsd': 'http://www.w3.org/2001/XMLSchema#', 'ex': 'https://example.org/'}, '@type': ['cdi:DimensionalDataStructure'], '@id': 'ex:struct/salesCube', 'cdi:has_DataStructureComponent': [{'@type': ['cdi:DimensionComponent'], '@id': 'ex:struct/salesCube/comp/country', 'cdif:isDefinedBy_RepresentedVariable': {'@type': ['cdi:RepresentedVariable'], '@id': 'ex:struct/salesCube/rv/country', 'cdi:name': [{'@type': ['cdi:ObjectName'], 'cdi:name': 'country'}], 'cdi:hasIntendedDataType': {'@type': ['cdi:ControlledVocabularyEntry'], 'cdi:entryValue': ['xsd:string']}}}, {'@type': ['cdi:DimensionComponent'], '@id': 'ex:struct/salesCube/comp/quarter', 'cdif:isDefinedBy_RepresentedVariable': {'@type': ['cdi:RepresentedVariable'], '@id': 'ex:struct/salesCube/rv/quarter', 'cdi:name': [{'@type': ['cdi:ObjectName'], 'cdi:name': 'quarter'}], 'cdi:hasIntendedDataType': {'@type': ['cdi:ControlledVocabularyEntry'], 'cdi:entryValue': ['xsd:gYearMonth']}}}, {'@type': ['cdi:DimensionComponent'], '@id': 'ex:struct/salesCube/comp/productCategory', 'cdif:isDefinedBy_RepresentedVariable': {'@type': ['cdi:RepresentedVariable'], '@id': 'ex:struct/salesCube/rv/productCategory', 'cdi:name': [{'@type': ['cdi:ObjectName'], 'cdi:name': 'product_category'}], 'cdi:hasIntendedDataType': {'@type': ['cdi:ControlledVocabularyEntry'], 'cdi:entryValue': ['xsd:string']}}}, {'@type': ['cdi:MeasureComponent'], '@id': 'ex:struct/salesCube/comp/salesAmount', 'cdif:isDefinedBy_RepresentedVariable': {'@type': ['cdi:RepresentedVariable'], '@id': 'ex:struct/salesCube/rv/salesAmount', 'cdi:name': [{'@type': ['cdi:ObjectName'], 'cdi:name': 'sales_amount'}], 'cdi:simpleUnitOfMeasure': 'USD', 'cdi:hasIntendedDataType': {'@type': ['cdi:ControlledVocabularyEntry'], 'cdi:entryValue': ['xsd:decimal']}}, 'cdi:semantic': [{'@type': ['cdi:PairedControlledVocabularyEntry'], 'cdi:purpose': 'measure', 'cdi:use': 'monetary-total'}]}, {'@type': ['cdi:AttributeComponent'], '@id': 'ex:struct/salesCube/comp/currency', 'cdi:qualifies': [{'@id': 'ex:struct/salesCube/comp/salesAmount'}], 'cdif:isDefinedBy_RepresentedVariable': {'@type': ['cdi:RepresentedVariable'], '@id': 'ex:struct/salesCube/rv/currency', 'cdi:name': [{'@type': ['cdi:ObjectName'], 'cdi:name': 'currency'}], 'cdi:hasIntendedDataType': {'@type': ['cdi:ControlledVocabularyEntry'], 'cdi:entryValue': ['xsd:string']}}}], 'cdi:has_PrimaryKey': {'@type': ['cdif:PrimaryKey'], '@id': 'ex:struct/salesCube/pk', 'cdif:isComposedOf': [{'@id': 'ex:var/country'}, {'@id': 'ex:var/quarter'}, {'@id': 'ex:var/productCategory'}]}} is not valid under any of the given schemas
+
+Failed validating 'anyOf' in schema:
+    {'$defs': {'DataStructure': {'description': 'Data organization based '
+                                                'on reusable data '
+                                                'structure components.',
+                                 'properties': {'@id': {'description': 'Identifier '
+                                                                       'for '
+                                                                       'this '
+                                                                       'DataStructure '
+                                                                       'node',
+                                                        'type': 'string'},
+                                                '@type': {'contains': {'const': 'cdi:DataStructure'},
+                                                          'items': {'type': 'string'},
+                                                          'minItems': 1,
+                                                          'type': 'array'},
+                                                'cdi:has_DataStructureComponent': {'items': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml'},
+                                                                                                       {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'}]},
+                                                                                   'minItems': 1,
+                                                                                   'type': 'array'},
+                                                'cdi:has_ForeignKey': {'items': {'anyOf': [{'$ref': '#/$defs/ForeignKey'},
+                                                                                           {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'}]},
+                                                                       'minItems': 1,
+                                                                       'type': 'array'},
+                                                'cdi:has_PrimaryKey': {'$ref': '#/$defs/PrimaryKey'}},
+                                 'required': ['@type',
+                                              'cdi:has_DataStructureComponent'],
+                                 'type': 'object'},
+               'DimensionGroup': {'description': 'Collection of dimensions '
+                                                 'that can be reused '
+                                                 'across multiple '
+                                                 'dimensional structures.',
+                                  'properties': {'@id': {'description': 'Identifier '
+                                                                        'for '
+                                                                        'this '
+                                                                        'DimensionGroup '
+                                                                        'node',
+                                                         'type': 'string'},
+                                                 '@type': {'contains': {'const': 'cdi:DimensionGroup'},
+                                                           'items': {'type': 'string'},
+                                                           'minItems': 1,
+                                                           'type': 'array'},
+                                                 'cdi:identifier': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier',
+                                                                    'description': 'Identifier '
+                                                                                   'for '
+                                                                                   'objects '
+                                                                                   'requiring '
+                                                                                   'short- '
+                                                                                   'or '
+                                                                                   'long-lasting '
+                                                                                   'referencing '
+                                                                                   'and '
+                                                                                   'management.'},
+                                                 'cdi:name': {'description': 'Human '
+                                                                             'understandable '
+                                                                             'name '
+                                                                             '(liguistic '
+                                                                             'signifier, '
+                                                                             'word, '
+                                                                             'phrase, '
+                                                                             'or '
+                                                                             'mnemonic). '
+                                                                             'May '
+                                                                             'follow '
+                                                                             'ISO/IEC '
+                                                                             '11179-5 '
+                                                                             'naming '
+                                                                             'principles, '
+                                                                             'and '
+                                                                             'have '
+                                                                             'context '
+                                                                             'provided '
+                                                                             'to '
+                                                                             'specify '
+                                                                             'usage.',
+                                                              'items': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ObjectName'},
+                                                              'minItems': 1,
+                                                              'type': 'array'},
+                                                 'cdif:has_DataStructureComponent': {'items': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml'},
+                                                                                                         {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'}]},
+                                                                                     'minItems': 1,
+                                                                                     'type': 'array'}},
+                                  'required': ['@type'],
+                                  'type': 'object'},
+               'DimensionalDataStructure': {'description': 'Structure of a '
+                                                           'dimensional '
+                                                           'data set '
+                                                           '(organized '
+                                                           'collection of '
+                                                           'multidimensional '
+                                                           'data). It is '
+                                                           'described by '
+                                                           'dimension, '
+                                                           'measure and '
+                                                           'attribute '
+                                                           'components.',
+                                            'properties': {'@id': {'description': 'Identifier '
+                                                                                  'for '
+                                                                                  'this '
+                                                                                  'DimensionalDataStructure '
+                                                                                  'node',
+                                                                   'type': 'string'},
+                                                           '@type': {'contains': {'const': 'cdi:DimensionalDataStructure'},
+                                                                     'items': {'type': 'string'},
+                                                                     'minItems': 1,
+                                                                     'type': 'array'},
+                                                           'cdi:has_DataStructureComponent': {'items': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/IdentifierComponent'},
+                                                                                                                  {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/MeasureComponent'},
+                                                                                                                  {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/AttributeComponent'},
+                                                                                                                  {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/DimensionComponent'}]},
+                                                                                              'minItems': 1,
+                                                                                              'type': 'array'},
+                                                           'cdi:has_PrimaryKey': {'$ref': '#/$defs/PrimaryKey'}},
+                                            'required': ['@type',
+                                                         'cdi:has_DataStructureComponent'],
+                                            'type': 'object'},
+               'ForeignKey': {'description': 'Role of a set of data '
+                                             'structure components for '
+                                             'content referencing purposes',
+                              'properties': {'@id': {'description': 'Identifier '
+                                                                    'for '
+                                                                    'this '
+                                                                    'ForeignKey '
+                                                                    'node',
+                                                     'type': 'string'},
+                                             '@type': {'contains': {'const': 'cdi:ForeignKey'},
+                                                       'items': {'type': 'string'},
+                                                       'minItems': 1,
+                                                       'type': 'array'},
+                                             'cdi:identifier': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier',
+                                                                'description': 'Identifier '
+                                                                               'for '
+                                                                               'objects '
+                                                                               'requiring '
+                                                                               'short- '
+                                                                               'or '
+                                                                               'long-lasting '
+                                                                               'referencing '
+                                                                               'and '
+                                                                               'management.'},
+                                             'cdi:isComposedOf': {'items': {'anyOf': [{'$ref': '#/$defs/ForeignKeyComponent'},
+                                                                                      {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'}]},
+                                                                  'minItems': 1,
+                                                                  'type': 'array'}},
+                              'required': ['@type'],
+                              'type': 'object'},
+               'ForeignKeyComponent': {'description': 'Role of a data '
+                                                      'structure component '
+                                                      'for content '
+                                                      'referencing '
+                                                      'purposes',
+                                       'properties': {'@id': {'description': 'Identifier '
+                                                                             'for '
+                                                                             'this '
+                                                                             'ForeignKeyComponent '
+                                                                             'node',
+                                                              'type': 'string'},
+                                                      '@type': {'contains': {'const': 'cdi:ForeignKeyComponent'},
+                                                                'items': {'type': 'string'},
+                                                                'minItems': 1,
+                                                                'type': 'array'},
+                                                      'cdi:correspondsTo': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml'},
+                                                                                      {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'}]},
+                                                      'cdi:identifier': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier',
+                                                                         'description': 'Identifier '
+                                                                                        'for '
+                                                                                        'objects '
+                                                                                        'requiring '
+                                                                                        'short- '
+                                                                                        'or '
+                                                                                        'long-lasting '
+                                                                                        'referencing '
+                                                                                        'and '
+                                                                                        'management.'},
+                                                      'cdi:references': {'anyOf': [{'$ref': '#/$defs/PrimaryKeyComponent'},
+                                                                                   {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'}]}},
+                                       'required': ['@type'],
+                                       'type': 'object'},
+               'LongDataStructure': {'description': 'Structure of a long '
+                                                    'dataset (organized '
+                                                    'collection of long '
+                                                    'data). It is '
+                                                    'described by '
+                                                    'identifier, measure, '
+                                                    'attribute, variable '
+                                                    'descriptor and '
+                                                    'variable value '
+                                                    'components.',
+                                     'properties': {'@id': {'description': 'Identifier '
+                                                                           'for '
+                                                                           'this '
+                                                                           'LongDataStructure '
+                                                                           'node',
+                                                            'type': 'string'},
+                                                    '@type': {'contains': {'const': 'cdi:LongDataStructure'},
+                                                              'items': {'type': 'string'},
+                                                              'minItems': 1,
+                                                              'type': 'array'},
+                                                    'cdi:has_DataStructureComponent': {'allOf': [{'contains': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/IdentifierComponent'},
+                                                                                                  'maxContains': 1,
+                                                                                                  'minContains': 1},
+                                                                                                 {'contains': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/VariableDescriptorComponent'},
+                                                                                                  'maxContains': 1,
+                                                                                                  'minContains': 1},
+                                                                                                 {'contains': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/VariableValueComponent'},
+                                                                                                  'maxContains': 1,
+                                                                                                  'minContains': 1}],
+                                                                                       'description': 'A '
+                                                                                                      'LongDataStructure '
+                                                                                                      'must '
+                                                                                                      'include '
+                                                                                                      'exactly '
+                                                                                                      'one '
+                                                                                                      'IdentifierComponent, '
+                                                                                                      'exactly '
+                                                                                                      'one '
+                                                                                                      'VariableDescriptorComponent, '
+                                                                                                      'exactly '
+                                                                                                      'one '
+                                                                                                      'VariableValueComponent, '
+                                                                                                      'plus '
+                                                                                                      'zero '
+                                                                                                      'or '
+                                                                                                      'more '
+                                                                                                      'AttributeComponents.',
+                                                                                       'items': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/IdentifierComponent'},
+                                                                                                           {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/VariableDescriptorComponent'},
+                                                                                                           {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/VariableValueComponent'},
+                                                                                                           {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/AttributeComponent'}]},
+                                                                                       'minItems': 3,
+                                                                                       'type': 'array'},
+                                                    'cdi:has_PrimaryKey': {'$ref': '#/$defs/PrimaryKey'}},
+                                     'required': ['@type',
+                                                  'cdi:has_DataStructureComponent'],
+                                     'type': 'object'},
+               'PrimaryKey': {'description': 'Role of an ordered set of '
+                                             'cdi:InstanceVariables that '
+                                             'uniquely identify a data '
+                                             'instance. Array order of '
+                                             'cdif:isComposedOf items is '
+                                             'the position; no '
+                                             'intermediate '
+                                             'ComponentPosition wrapper.',
+                              'properties': {'@id': {'description': 'Identifier '
+                                                                    'for '
+                                                                    'this '
+                                                                    'PrimaryKey '
+                                                                    'node',
+                                                     'type': 'string'},
+                                             '@type': {'contains': {'const': 'cdif:PrimaryKey'},
+                                                       'items': {'type': 'string'},
+                                                       'minItems': 1,
+                                                       'type': 'array'},
+                                             'cdif:isComposedOf': {'description': 'Ordered '
+                                                                                  'list '
+                                                                                  'of '
+                                                                                  'cdi:InstanceVariables '
+                                                                                  '(inline '
+                                                                                  'cdifInstanceVariable '
+                                                                                  'or '
+                                                                                  '@id-reference). '
+                                                                                  'Position '
+                                                                                  'is '
+                                                                                  'implicit '
+                                                                                  'in '
+                                                                                  'array '
+                                                                                  'order.',
+                                                                   'items': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml'},
+                                                                                       {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'}]},
+                                                                   'minItems': 1,
+                                                                   'type': 'array'}},
+                              'required': ['@type', 'cdif:isComposedOf'],
+                              'type': 'object'},
+               'PrimaryKeyComponent': {'description': 'Role of a data '
+                                                      'structure component '
+                                                      'for content '
+                                                      'identification '
+                                                      'purposes',
+                                       'properties': {'@id': {'description': 'Identifier '
+                                                                             'for '
+                                                                             'this '
+                                                                             'PrimaryKeyComponent '
+                                                                             'node',
+                                                              'type': 'string'},
+                                                      '@type': {'contains': {'const': 'cdi:PrimaryKeyComponent'},
+                                                                'items': {'type': 'string'},
+                                                                'minItems': 1,
+                                                                'type': 'array'},
+                                                      'cdi:correspondsTo': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml'},
+                                                                                      {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'}]},
+                                                      'cdi:identifier': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier',
+                                                                         'description': 'Identifier '
+                                                                                        'for '
+                                                                                        'objects '
+                                                                                        'requiring '
+                                                                                        'short- '
+                                                                                        'or '
+                                                                                        'long-lasting '
+                                                                                        'referencing '
+                                                                                        'and '
+                                                                                        'management.'}},
+                                       'required': ['@type'],
+                                       'type': 'object'},
+               'WideDataStructure': {'description': 'Structure of a wide '
+                                                    'dataset (organized '
+                                                    'collection of wide '
+                                                    'data). It is '
+                                                    'described by '
+                                                    'identifier, measure '
+                                                    'and attribute '
+                                                    'components.',
+                                     'properties': {'@id': {'description': 'Identifier '
+                                                                           'for '
+                                                                           'this '
+                                                                           'WideDataStructure '
+                                                                           'node',
+                                                            'type': 'string'},
+                                                    '@type': {'contains': {'const': 'cdi:WideDataStructure'},
+                                                              'items': {'type': 'string'},
+                                                              'minItems': 1,
+                                                              'type': 'array'},
+                                                    'cdi:has_DataStructureComponent': {'items': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml'},
+                                                                                                           {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'}]},
+                                                                                       'minItems': 1,
+                                                                                       'type': 'array'},
+                                                    'cdi:has_PrimaryKey': {'$ref': '#/$defs/PrimaryKey'}},
+                                     'required': ['@type',
+                                                  'cdi:has_DataStructureComponent'],
+                                     'type': 'object'}},
+     '$schema': 'https://json-schema.org/draft/2020-12/schema',
+     'anyOf': [{'$ref': '#/$defs/DataStructure'},
+               {'$ref': '#/$defs/DimensionalDataStructure'},
+               {'$ref': '#/$defs/LongDataStructure'},
+               {'$ref': '#/$defs/WideDataStructure'}],
+     'description': 'Data organization based on reusable data structure '
+                    'components.',
+     'title': 'DDI-CDI Data Structure',
+     'x-jsonld-prefixes': {'cdi': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/'}}
+
+On instance:
+    {'@context': {'cdi': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/',
+                  'cdif': 'https://cdif.org/0.1/',
+                  'ex': 'https://example.org/',
+                  'schema': 'http://schema.org/',
+                  'xsd': 'http://www.w3.org/2001/XMLSchema#'},
+     '@id': 'ex:struct/salesCube',
+     '@type': ['cdi:DimensionalDataStructure'],
+     'cdi:has_DataStructureComponent': [{'@id': 'ex:struct/salesCube/comp/country',
+                                         '@type': ['cdi:DimensionComponent'],
+                                         'cdif:isDefinedBy_RepresentedVariable': {'@id': 'ex:struct/salesCube/rv/country',
+                                                                                  '@type': ['cdi:RepresentedVariable'],
+                                                                                  'cdi:hasIntendedDataType': {'@type': ['cdi:ControlledVocabularyEntry'],
+                                                                                                              'cdi:entryValue': ['xsd:string']},
+                                                                                  'cdi:name': [{'@type': ['cdi:ObjectName'],
+                                                                                                'cdi:name': 'country'}]}},
+                                        {'@id': 'ex:struct/salesCube/comp/quarter',
+                                         '@type': ['cdi:DimensionComponent'],
+                                         'cdif:isDefinedBy_RepresentedVariable': {'@id': 'ex:struct/salesCube/rv/quarter',
+                                                                                  '@type': ['cdi:RepresentedVariable'],
+                                                                                  'cdi:hasIntendedDataType': {'@type': ['cdi:ControlledVocabularyEntry'],
+                                                                                                              'cdi:entryValue': ['xsd:gYearMonth']},
+                                                                                  'cdi:name': [{'@type': ['cdi:ObjectName'],
+                                                                                                'cdi:name': 'quarter'}]}},
+                                        {'@id': 'ex:struct/salesCube/comp/productCategory',
+                                         '@type': ['cdi:DimensionComponent'],
+                                         'cdif:isDefinedBy_RepresentedVariable': {'@id': 'ex:struct/salesCube/rv/productCategory',
+                                                                                  '@type': ['cdi:RepresentedVariable'],
+                                                                                  'cdi:hasIntendedDataType': {'@type': ['cdi:ControlledVocabularyEntry'],
+                                                                                                              'cdi:entryValue': ['xsd:string']},
+                                                                                  'cdi:name': [{'@type': ['cdi:ObjectName'],
+                                                                                                'cdi:name': 'product_category'}]}},
+                                        {'@id': 'ex:struct/salesCube/comp/salesAmount',
+                                         '@type': ['cdi:MeasureComponent'],
+                                         'cdi:semantic': [{'@type': ['cdi:PairedControlledVocabularyEntry'],
+                                                           'cdi:purpose': 'measure',
+                                                           'cdi:use': 'monetary-total'}],
+                                         'cdif:isDefinedBy_RepresentedVariable': {'@id': 'ex:struct/salesCube/rv/salesAmount',
+                                                                                  '@type': ['cdi:RepresentedVariable'],
+                                                                                  'cdi:hasIntendedDataType': {'@type': ['cdi:ControlledVocabularyEntry'],
+                                                                                                              'cdi:entryValue': ['xsd:decimal']},
+                                                                                  'cdi:name': [{'@type': ['cdi:ObjectName'],
+                                                                                                'cdi:name': 'sales_amount'}],
+                                                                                  'cdi:simpleUnitOfMeasure': 'USD'}},
+                                        {'@id': 'ex:struct/salesCube/comp/currency',
+                                         '@type': ['cdi:AttributeComponent'],
+                                         'cdi:qualifies': [{'@id': 'ex:struct/salesCube/comp/salesAmount'}],
+                                         'cdif:isDefinedBy_RepresentedVariable': {'@id': 'ex:struct/salesCube/rv/currency',
+                                                                                  '@type': ['cdi:RepresentedVariable'],
+                                                                                  'cdi:hasIntendedDataType': {'@type': ['cdi:ControlledVocabularyEntry'],
+                                                                                                              'cdi:entryValue': ['xsd:string']},
+                                                                                  'cdi:name': [{'@type': ['cdi:ObjectName'],
+                                                                                                'cdi:name': 'currency'}]}}],
+     'cdi:has_PrimaryKey': {'@id': 'ex:struct/salesCube/pk',
+                            '@type': ['cdif:PrimaryKey'],
+                            'cdif:isComposedOf': [{'@id': 'ex:var/country'},
+                                                  {'@id': 'ex:var/quarter'},
+                                                  {'@id': 'ex:var/productCategory'}]}}
+=== End JSON Schema ===
+
+=== SHACL ===
+Validation result for _sources/cdifProperties/cdifDataStructure/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifProperties/cdifDataStructure/rules.shacl:
+ - Shape cdifd:cdifDataStructure_DataStructureShape: *none*
+ - Shape cdifd:cdifDataStructure_PrimaryKeyShape: <https://example.org/struct/salesCube/pk>
+ - Shape cdifd:cdifDataStructure_DimensionalDataStructureShape: <https://example.org/struct/salesCube>
+ - Shape cdifd:cdifDataStructure_LongDataStructureShape: *none*
+ - Shape cdifd:cdifDataStructure_WideDataStructureShape: *none*
+
+Validation result for _sources/cdifProperties/cdifInstanceVariable/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifProperties/cdifInstanceVariable/rules.shacl:
+ - Shape _:n5d4f935a467c47cab58cd1f9f4ca138db14: *none*
+ - Shape _:n5d4f935a467c47cab58cd1f9f4ca138db65: *none*
+ - Shape cdifd:CDIFInstanceVariableShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n5d4f935a467c47cab58cd1f9f4ca138db60: *none*
+ - Shape _:n5d4f935a467c47cab58cd1f9f4ca138db13: *none*
+ - Shape cdifd:QualifiesRequiredForAttributeShape: *none*
+ - Shape _:n5d4f935a467c47cab58cd1f9f4ca138db10: *none*
+ - Shape cdifd:CDIFInstanceVariableShape: *none*
+ - Shape _:n5d4f935a467c47cab58cd1f9f4ca138db64: *none*
+ - Shape _:n5d4f935a467c47cab58cd1f9f4ca138db68: *none*
+ - Shape cdifd:CDIFxasInstanceVariableShape: *none*
+ - Shape cdifd:CDIFxasInstanceVariableShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n5d4f935a467c47cab58cd1f9f4ca138db62: *none*
+ - Shape _:n5d4f935a467c47cab58cd1f9f4ca138db63: *none*
+ - Shape _:n5d4f935a467c47cab58cd1f9f4ca138db16: *none*
+ - Shape _:n5d4f935a467c47cab58cd1f9f4ca138db11: *none*
+ - Shape _:n5d4f935a467c47cab58cd1f9f4ca138db59: *none*
+ - Shape _:n5d4f935a467c47cab58cd1f9f4ca138db18: *none*
+ - Shape _:n5d4f935a467c47cab58cd1f9f4ca138db15: *none*
+ - Shape _:n5d4f935a467c47cab58cd1f9f4ca138db66: *none*
+ - Shape _:n5d4f935a467c47cab58cd1f9f4ca138db20: *none*
+ - Shape _:n5d4f935a467c47cab58cd1f9f4ca138db17: *none*
+ - Shape cdifd:QualifiesNotAllowedWithoutAttributeShape: *none*
+
+Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
+ - Shape _:n31e233d647be4690b8b5046ec2cdc378b6: *none*
+ - Shape _:n31e233d647be4690b8b5046ec2cdc378b5: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n31e233d647be4690b8b5046ec2cdc378b10: *none*
+ - Shape _:n31e233d647be4690b8b5046ec2cdc378b7: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape _:n31e233d647be4690b8b5046ec2cdc378b19: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n31e233d647be4690b8b5046ec2cdc378b26: *none*
+ - Shape _:n31e233d647be4690b8b5046ec2cdc378b8: *none*
+ - Shape _:n31e233d647be4690b8b5046ec2cdc378b4: *none*
+
+Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
+ - Shape _:n825dc92db886478f95f5ed83da9cb21cb25: *none*
+ - Shape _:n825dc92db886478f95f5ed83da9cb21cb23: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
+ - Shape _:n825dc92db886478f95f5ed83da9cb21cb22: *none*
+ - Shape _:n825dc92db886478f95f5ed83da9cb21cb21: *none*
+ - Shape cdifd:CDIFIdentifierShape: *none*
+ - Shape _:n825dc92db886478f95f5ed83da9cb21cb10: *none*
+ - Shape _:n825dc92db886478f95f5ed83da9cb21cb11: *none*
+ - Shape _:n825dc92db886478f95f5ed83da9cb21cb20: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
+
+Validation result for _sources/skosProperties/skosConcept/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:
+ - Shape skosv:ConceptShape: *none*
+ - Shape skosv:conceptBroaderNotSelfShape: *none*
+ - Shape skosv:prefLabelUniqueLangShape: *none*
+
+Validation result for _sources/schemaorgProperties/variableMeasured/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/variableMeasured/rules.shacl:
+ - Shape _:nfa7df88295b449549575cbfffbc84aafb4: *none*
+ - Shape _:nfa7df88295b449549575cbfffbc84aafb45: *none*
+ - Shape _:nfa7df88295b449549575cbfffbc84aafb37: *none*
+ - Shape _:nfa7df88295b449549575cbfffbc84aafb12: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape: *none*
+ - Shape _:nfa7df88295b449549575cbfffbc84aafb51: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nfa7df88295b449549575cbfffbc84aafb30: *none*
+ - Shape _:nfa7df88295b449549575cbfffbc84aafb10: *none*
+ - Shape _:nfa7df88295b449549575cbfffbc84aafb44: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nfa7df88295b449549575cbfffbc84aafb7: *none*
+ - Shape _:nfa7df88295b449549575cbfffbc84aafb5: *none*
+ - Shape _:nfa7df88295b449549575cbfffbc84aafb14: *none*
+ - Shape _:nfa7df88295b449549575cbfffbc84aafb11: *none*
+ - Shape _:nfa7df88295b449549575cbfffbc84aafb38: *none*
+ - Shape _:nfa7df88295b449549575cbfffbc84aafb29: *none*
+ - Shape _:nfa7df88295b449549575cbfffbc84aafb8: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nfa7df88295b449549575cbfffbc84aafb52: *none*
+ - Shape _:nfa7df88295b449549575cbfffbc84aafb9: *none*
+
+Validation result for _sources/cdifProperties/cdifReference/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifProperties/cdifReference/rules.shacl:
+ - Shape cdifd:CDIFReferenceShape: *none*
+
+Validation result for _sources/schemaorgProperties/labeledLink/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/labeledLink/rules.shacl:
+ - Shape cdifd:CDIFLabeledLinkShape: *none*
+
+Validation result for _sources/cdifProperties/cdifStatistics/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifProperties/cdifStatistics/rules.shacl:
+ - Shape cdifd:cdifCategoryStatisticShape: *none*
+ - Shape cdifd:cdifStatisticsCollectionShape: *none*
+ - Shape cdifd:cdifStatisticsShape: *none*
+
+Validation result for _sources/cdifProperties/cdifDataStructureComponent/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifProperties/cdifDataStructureComponent/rules.shacl:
+ - Shape cdifd:cdifVariableDescriptorComponentShape: *none*
+ - Shape cdifd:cdifDimensionComponentShape: <https://example.org/struct/salesCube/comp/quarter>,<https://example.org/struct/salesCube/comp/country>,<https://example.org/struct/salesCube/comp/productCategory>
+ - Shape cdifd:cdifIdentifierComponentShape: *none*
+
+Validation result for _sources/cdifProperties/cdifDescriptorVariable/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifProperties/cdifDescriptorVariable/rules.shacl:
+ - Shape cdifd:cdifDescriptorValueDomainShape: *none*
+ - Shape cdifd:cdifDescriptorVariableShape: *none*
+
+Validation result for _sources/cdifProperties/cdifRepresentedVariable/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifProperties/cdifRepresentedVariable/rules.shacl:
+ - Shape cdifd:cdifRepresentedVariable_UnitTypeShape: *none*
+ - Shape cdifd:cdifRepresentedVariable_RepresentedVariableShape: <https://example.org/struct/salesCube/rv/salesAmount>,<https://example.org/struct/salesCube/rv/country>,<https://example.org/struct/salesCube/rv/currency>,<https://example.org/struct/salesCube/rv/productCategory>,<https://example.org/struct/salesCube/rv/quarter>
+ - Shape cdifd:cdifRepresentedVariable_ConceptSystemShape: *none*
+
+Validation result for _sources/cdifProperties/cdifValueDomain/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifProperties/cdifValueDomain/rules.shacl:
+ - Shape cdifd:cdifSentinelValueDomainShape: *none*
+ - Shape cdifd:cdifSubstantiveValueDomainShape: *none*
+
+Validation result for _sources/cdifProperties/cdifEnumerationDomain/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifProperties/cdifEnumerationDomain/rules.shacl:
+ - Shape cdifd:cdifEnumerationDomainShape: *none*
+
+Validation result for _sources/skosProperties/skosConceptScheme/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/skosProperties/skosConceptScheme/rules.shacl:
+ - Shape skosv:ConceptSchemeShape: *none*
+ - Shape skosv:schemePrefLabelUniqueLangShape: *none*
+
+=== End SHACL ===
+

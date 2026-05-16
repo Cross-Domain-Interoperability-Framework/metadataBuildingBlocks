@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.provProperties.derivedFrom` *v0.1*
 
-Schema defining properties for documenting sources used for compiled or aggregated dataset. Defines properties: prov:wasDerivedFrom. Uses building blocks: labeledLink (schemaorgProperties).
+Schema defining properties for documenting sources used for compiled or aggregated dataset. Defines properties: prov:wasDerivedFrom. Uses building blocks: cdifReference (cdifProperties).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -113,7 +113,7 @@ anyOf:
       type: string
       description: a resolvable reference to a representation of the software or instrument
         used
-- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifReference/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
   prov: http://www.w3.org/ns/prov#
@@ -133,6 +133,13 @@ Links to the schema:
   "@context": {
     "schema": "http://schema.org/",
     "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/",
+    "ex": "https://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "@version": 1.1
   }
 }

@@ -59,14 +59,13 @@ $defs:
         type: array
         items:
           anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/UnitIdentifierComponent
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/IdentifierComponent
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/MeasureComponent
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/AttributeComponent
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/DimensionComponent
         minItems: 1
       cdi:has_PrimaryKey:
-        anyOf:
-        - $ref: '#/$defs/PrimaryKey'
+        $ref: '#/$defs/PrimaryKey'
     required:
     - '@type'
     - cdi:has_DataStructureComponent
@@ -88,18 +87,18 @@ $defs:
         description: Identifier for this LongDataStructure node
       cdi:has_DataStructureComponent:
         type: array
-        description: A LongDataStructure must include exactly one UnitIdentifierComponent,
+        description: A LongDataStructure must include exactly one IdentifierComponent,
           exactly one VariableDescriptorComponent, exactly one VariableValueComponent,
           plus zero or more AttributeComponents.
         items:
           anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/UnitIdentifierComponent
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/IdentifierComponent
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/VariableDescriptorComponent
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/VariableValueComponent
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/AttributeComponent
         allOf:
         - contains:
-            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/UnitIdentifierComponent
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml#/$defs/IdentifierComponent
           minContains: 1
           maxContains: 1
         - contains:
@@ -112,8 +111,7 @@ $defs:
           maxContains: 1
         minItems: 3
       cdi:has_PrimaryKey:
-        anyOf:
-        - $ref: '#/$defs/PrimaryKey'
+        $ref: '#/$defs/PrimaryKey'
     required:
     - '@type'
     - cdi:has_DataStructureComponent
@@ -140,9 +138,7 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
         minItems: 1
       cdi:has_PrimaryKey:
-        anyOf:
-        - $ref: '#/$defs/PrimaryKey'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        $ref: '#/$defs/PrimaryKey'
     required:
     - '@type'
     - cdi:has_DataStructureComponent
@@ -173,7 +169,7 @@ $defs:
         description: Human understandable name (liguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
-      cdi:has:
+      cdif:has_DataStructureComponent:
         type: array
         items:
           anyOf:

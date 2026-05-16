@@ -22,7 +22,7 @@ properties:
             description: reference to a skos concept for the data type
       - $ref: '#/$defs/DefinedTerm'
     description: identifier or name for the data type concept.
-  cdi:role:
+  cdif:role:
     type: string
     enum:
     - UnitIdentifier
@@ -57,7 +57,75 @@ properties:
             description: reference to a skos concept for the property
       - $ref: '#/$defs/DefinedTerm'
     description: Essentially the same as schema:propertyID. References to concepts
-      that this variable measures or represents.
+      that this variable measures or represents. When the dataset's distribution carries
+      cdi:isStructuredBy (CDIF Data Structure profile), cdif:uses references the RepresentedVariable
+      that supplies the represented-variable-level properties below, which are then
+      NOT duplicated on the InstanceVariable.
+  cdi:function:
+    type: array
+    items:
+      anyOf:
+      - type: string
+      - type: object
+        properties:
+          '@id':
+            type: string
+      - $ref: '#/$defs/DefinedTerm'
+    description: Immutable characteristic of the variable such as geographic designator,
+      weight, temporal designation, etc. (InstanceVariable.function).
+  cdi:platformType:
+    anyOf:
+    - type: string
+    - type: object
+      properties:
+        '@id':
+          type: string
+    - $ref: '#/$defs/DefinedTerm'
+    description: The application or technical system context in which the variable
+      has been realized - typically a statistical processing package or processing
+      environment (InstanceVariable.platformType).
+  cdi:source:
+    anyOf:
+    - type: string
+    - type: object
+      properties:
+        '@id':
+          type: string
+    description: Reference capturing provenance information for this InstanceVariable
+      (InstanceVariable.source).
+  cdif:isDescribedBy_StatisticsCollection:
+    description: 'The StatisticsCollection holding summary / category statistics for
+      this InstanceVariable (InstanceVariable.isDescribedBy). cdif: namespaced and
+      target-suffixed because the DDI-CDI isDescribedBy association is polymorphic.'
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifStatistics/schema.yaml#/$defs/StatisticsCollection
+    - type: object
+      properties:
+        '@id':
+          type: string
+      required:
+      - '@id'
+  cdi:hasIntendedDataType:
+    anyOf:
+    - type: string
+    - type: object
+      properties:
+        '@id':
+          type: string
+    - $ref: '#/$defs/DefinedTerm'
+    description: The data type intended to be used by this variable, independent of
+      its physical representation (RepresentedVariable.hasIntendedDataType).
+  cdi:describedUnitOfMeasure:
+    anyOf:
+    - type: string
+    - type: object
+      properties:
+        '@id':
+          type: string
+    - $ref: '#/$defs/DefinedTerm'
+    description: The unit in which the data values are measured, expressed as a controlled-vocabulary
+      entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit,
+      use cdif:simpleUnitOfMeasure instead.
   cdi:qualifies:
     type: object
     properties:

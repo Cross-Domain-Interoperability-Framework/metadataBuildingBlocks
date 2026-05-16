@@ -116,7 +116,7 @@ concept references.
         "cdi:name": "DDI-CDI naming context",
         "cdi:vocabulary": {
           "@type": [
-            "cdi:Reference"
+            "cdif:Reference"
           ],
           "cdi:uri": "https://ddialliance.org/Specification/DDI-CDI/1.0/naming-context"
         }
@@ -208,7 +208,7 @@ concept references.
   },
   "cdi:externalDefinition": {
     "@type": [
-      "cdi:Reference"
+      "cdif:Reference"
     ],
     "cdi:uri": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/",
     "cdi:description": "BODC P01 'Temperature of the water column' parameter usage",
@@ -232,7 +232,7 @@ concept references.
     "cdi:entryReference": [
       {
         "@type": [
-          "cdi:Reference"
+          "cdif:Reference"
         ],
         "cdi:uri": "http://qudt.org/vocab/unit/DEG_C",
         "cdi:description": "degree Celsius"
@@ -240,7 +240,7 @@ concept references.
     ],
     "cdi:vocabulary": {
       "@type": [
-        "cdi:Reference"
+        "cdif:Reference"
       ],
       "cdi:uri": "http://qudt.org/vocab/unit/"
     }
@@ -256,7 +256,7 @@ concept references.
     "cdi:name": "Kinds of unit of measure",
     "cdi:vocabulary": {
       "@type": [
-        "cdi:Reference"
+        "cdif:Reference"
       ],
       "cdi:uri": "http://qudt.org/vocab/quantitykind/"
     }
@@ -272,7 +272,7 @@ concept references.
     "cdi:entryReference": [
       {
         "@type": [
-          "cdi:Reference"
+          "cdif:Reference"
         ],
         "cdi:uri": "http://www.w3.org/2001/XMLSchema#decimal"
       }
@@ -591,7 +591,7 @@ concept references.
         "cdi:name": "DDI-CDI naming context",
         "cdi:vocabulary": {
           "@type": [
-            "cdi:Reference"
+            "cdif:Reference"
           ],
           "cdi:uri": "https://ddialliance.org/Specification/DDI-CDI/1.0/naming-context"
         }
@@ -683,7 +683,7 @@ concept references.
   },
   "cdi:externalDefinition": {
     "@type": [
-      "cdi:Reference"
+      "cdif:Reference"
     ],
     "cdi:uri": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/",
     "cdi:description": "BODC P01 'Temperature of the water column' parameter usage",
@@ -707,7 +707,7 @@ concept references.
     "cdi:entryReference": [
       {
         "@type": [
-          "cdi:Reference"
+          "cdif:Reference"
         ],
         "cdi:uri": "http://qudt.org/vocab/unit/DEG_C",
         "cdi:description": "degree Celsius"
@@ -715,7 +715,7 @@ concept references.
     ],
     "cdi:vocabulary": {
       "@type": [
-        "cdi:Reference"
+        "cdif:Reference"
       ],
       "cdi:uri": "http://qudt.org/vocab/unit/"
     }
@@ -731,7 +731,7 @@ concept references.
     "cdi:name": "Kinds of unit of measure",
     "cdi:vocabulary": {
       "@type": [
-        "cdi:Reference"
+        "cdif:Reference"
       ],
       "cdi:uri": "http://qudt.org/vocab/quantitykind/"
     }
@@ -747,7 +747,7 @@ concept references.
     "cdi:entryReference": [
       {
         "@type": [
-          "cdi:Reference"
+          "cdif:Reference"
         ],
         "cdi:uri": "http://www.w3.org/2001/XMLSchema#decimal"
       }
@@ -1019,39 +1019,39 @@ concept references.
                     cdi:content "Temperature of the water column measured in situ by a CTD or other oceanographic sensor at a specified depth." ;
                     cdi:language "en" ] ] ;
     cdi:describedUnitOfMeasure [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryReference [ a cdi:Reference ;
+            cdi:entryReference [ a <cdif:Reference> ;
                     cdi:description "degree Celsius" ;
                     cdi:uri "http://qudt.org/vocab/unit/DEG_C" ] ;
             cdi:entryValue "DEG_C" ;
             cdi:name "QUDT Units" ;
-            cdi:vocabulary [ a cdi:Reference ;
+            cdi:vocabulary [ a <cdif:Reference> ;
                     cdi:uri "http://qudt.org/vocab/unit/" ] ] ;
     cdi:descriptiveText [ a cdi:InternationalString ;
             cdi:languageSpecificString [ a cdi:LanguageString ;
-                    cdi:content "In-situ temperature of sea water at a stated depth and station, expressed in degrees Celsius." ;
-                    cdi:language "en" ],
-                [ a cdi:LanguageString ;
                     cdi:content "Temperatura del agua de mar in situ a una profundidad y estacion declaradas, en grados Celsius." ;
-                    cdi:language "es" ] ] ;
+                    cdi:language "es" ],
+                [ a cdi:LanguageString ;
+                    cdi:content "In-situ temperature of sea water at a stated depth and station, expressed in degrees Celsius." ;
+                    cdi:language "en" ] ] ;
     cdi:displayLabel [ a cdi:LabelForDisplay ;
-            cdi:languageSpecificString [ a cdi:LanguageString ;
-                    cdi:content "Temperature de l'eau de mer" ;
-                    cdi:language "fr" ] ;
-            cdi:maxLength 80 ],
-        [ a cdi:LabelForDisplay ;
             cdi:languageSpecificString [ a cdi:LanguageString ;
                     cdi:content "Sea Water Temperature" ;
                     cdi:language "en" ] ;
             cdi:locationVariant [ a cdi:ControlledVocabularyEntry ;
                     cdi:entryValue "en-US" ] ;
-            cdi:maxLength 32 ] ;
-    cdi:externalDefinition [ a cdi:Reference ;
+            cdi:maxLength 32 ],
+        [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Temperature de l'eau de mer" ;
+                    cdi:language "fr" ] ;
+            cdi:maxLength 80 ] ;
+    cdi:externalDefinition [ a <cdif:Reference> ;
             cdi:description "BODC P01 'Temperature of the water column' parameter usage" ;
             cdi:semantic [ a cdi:ControlledVocabularyEntry ;
                     cdi:entryValue "definedBy" ] ;
             cdi:uri "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/" ] ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryReference [ a cdi:Reference ;
+            cdi:entryReference [ a <cdif:Reference> ;
                     cdi:uri "http://www.w3.org/2001/XMLSchema#decimal" ] ;
             cdi:entryValue "xsd:decimal" ;
             cdi:name "XML Schema Datatypes" ] ;
@@ -1067,15 +1067,15 @@ concept references.
     cdi:measures <https://example.org/ut/oceanographicStation> ;
     cdi:name [ a cdi:ObjectName ;
             cdi:context [ a cdi:ControlledVocabularyEntry ;
-                    cdi:entryValue "technical-name" ;
-                    cdi:name "DDI-CDI naming context" ;
-                    cdi:vocabulary [ a cdi:Reference ;
-                            cdi:uri "https://ddialliance.org/Specification/DDI-CDI/1.0/naming-context" ] ] ;
-            cdi:name "sea_water_temperature" ],
+                    cdi:entryValue "display-name" ] ;
+            cdi:name "Sea Water Temperature" ],
         [ a cdi:ObjectName ;
             cdi:context [ a cdi:ControlledVocabularyEntry ;
-                    cdi:entryValue "display-name" ] ;
-            cdi:name "Sea Water Temperature" ] ;
+                    cdi:entryValue "technical-name" ;
+                    cdi:name "DDI-CDI naming context" ;
+                    cdi:vocabulary [ a <cdif:Reference> ;
+                            cdi:uri "https://ddialliance.org/Specification/DDI-CDI/1.0/naming-context" ] ] ;
+            cdi:name "sea_water_temperature" ] ;
     cdi:simpleUnitOfMeasure "Cel" ;
     cdi:takesSentinelConceptsFrom <https://example.org/cd/temperatureSentinelConcepts> ;
     cdi:takesSentinelValuesFrom <https://example.org/vd/temperatureSentinel>,
@@ -1085,7 +1085,7 @@ concept references.
     cdi:unitOfMeasureKind [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "temperature" ;
             cdi:name "Kinds of unit of measure" ;
-            cdi:vocabulary [ a cdi:Reference ;
+            cdi:vocabulary [ a <cdif:Reference> ;
                     cdi:uri "http://qudt.org/vocab/quantitykind/" ] ] ;
     cdi:uses <http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/>,
         <https://example.org/concept/temperatureMeasurement> .

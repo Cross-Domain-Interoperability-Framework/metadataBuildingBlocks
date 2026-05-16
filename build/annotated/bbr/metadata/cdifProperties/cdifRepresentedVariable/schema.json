@@ -19,11 +19,11 @@
       "description": "Identifier for this RepresentedVariable node"
     },
     "cdi:describedUnitOfMeasure": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ControlledVocabularyEntry",
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json",
       "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary."
     },
     "cdi:hasIntendedDataType": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ControlledVocabularyEntry",
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json",
       "description": "The data type intended to be used by this variable. Supports the optional use of an external controlled vocabulary."
     },
     "cdi:takesSentinelValuesFrom": {
@@ -31,24 +31,26 @@
       "items": {
         "anyOf": [
           {
-            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifValueDomain/schema.json"
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifValueDomain/schema.json#/$defs/SentinelValueDomain"
           },
           {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
           }
         ]
       },
-      "minItems": 1
+      "minItems": 1,
+      "description": "Sentinel (missing / not-applicable) value domain(s) for this RepresentedVariable (RepresentedVariable.takesSentinelValuesFrom)."
     },
     "cdi:takesSubstantiveValuesFrom": {
       "anyOf": [
         {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifValueDomain/schema.json"
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifValueDomain/schema.json#/$defs/SubstantiveValueDomain"
         },
         {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/id-reference"
         }
-      ]
+      ],
+      "description": "The substantive value domain for this RepresentedVariable - the set of valid, meaningful values (RepresentedVariable.takesSubstantiveValuesFrom)."
     },
     "cdi:simpleUnitOfMeasure": {
       "type": "string",
@@ -89,7 +91,7 @@
       ]
     },
     "cdi:unitOfMeasureKind": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ControlledVocabularyEntry",
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json",
       "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete."
     },
     "cdi:definition": {
@@ -120,7 +122,7 @@
       "minItems": 1,
       "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
     },
-    "cdi:uses": {
+    "cdif:uses_Concept": {
       "type": "array",
       "items": {
         "anyOf": [
@@ -177,7 +179,7 @@
           "minItems": 1,
           "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
         },
-        "cdi:isDefinedBy": {
+        "cdif:isDefinedBy_Concept": {
           "type": "array",
           "items": {
             "anyOf": [
@@ -191,7 +193,7 @@
           },
           "minItems": 1
         },
-        "cdi:has": {
+        "cdif:has_Concept": {
           "type": "array",
           "items": {
             "anyOf": [
@@ -338,12 +340,12 @@
           },
           "minItems": 1
         },
-        "cdi:content": {
+        "cdif:content": {
           "type": "string",
           "description": "Content of the property expressed as a simple string."
         },
         "cdi:typeOfContent": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ControlledVocabularyEntry",
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json",
           "description": "Optional use of a controlled vocabulary to specifically type the associated content."
         }
       }
@@ -398,7 +400,7 @@
           "minItems": 1,
           "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
         },
-        "cdi:uses": {
+        "cdif:uses_Concept": {
           "type": "array",
           "items": {
             "anyOf": [
@@ -451,7 +453,7 @@
           "description": "A formal description of the set of values in human-readable language."
         },
         "cdi:formatPattern": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ControlledVocabularyEntry",
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json",
           "description": "A pattern for a number as described in Unicode Locale Data Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html) Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns) and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns) . Examples would be #,##0.### to describe the pattern for a decimal number, or yyyy.MM.dd G 'at' HH:mm:ss zzz for a datetime pattern."
         },
         "cdi:identifier": {
@@ -459,7 +461,7 @@
           "description": "Identifier for objects requiring short- or long-lasting referencing and management."
         },
         "cdi:logicalExpression": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.json#/$defs/ControlledVocabularyEntry",
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json",
           "description": "A logical expression where the values of \"x\" making the expression true are the members of the set of valid values. For example, \"(all reals x such that x > 0)\" describes the real numbers greater than 0."
         },
         "cdi:maximumValueExclusive": {

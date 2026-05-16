@@ -1,0 +1,329 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DDI-CDI Logical Record Repository",
+  "description": "A managed collection of logical records (delimited file, fixed-record-length file, relational database, etc.). Successor to the DDI-CDI 1.0 DataStore class; renamed and relocated to the FormatDescription package in the 2026-03 DDI-CDI model. The repository carries characterization properties and references its member LogicalRecords; cross-record linkage is described by LogicalRecordRelationship, and the repository's overall topology by LogicalRecordRepositoryStructure.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "contains": {
+        "const": "cdi:LogicalRecordRepository"
+      },
+      "minItems": 1
+    },
+    "@id": {
+      "type": "string",
+      "description": "Identifier for this LogicalRecordRepository node"
+    },
+    "cdi:aboutMissing": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/InternationalString",
+      "description": "General information about missing data, e.g., that missing data have been standardized across the collection, missing data are present because of merging, etc. - corresponds to DDI 2.5 dataMsng."
+    },
+    "cdi:allowsDuplicates": {
+      "type": "boolean",
+      "description": "If False, members are unique within the collection; if True, duplicates may be present."
+    },
+    "cdi:characterSet": {
+      "type": "string",
+      "description": "Default character set used in the Logical Record Repository."
+    },
+    "cdi:repositoryType": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ControlledVocabularyEntry",
+      "description": "The type of repository - delimited file, fixed-width file, relational database, etc. Points to an external definition which can be part of a controlled vocabulary maintained by the DDI Alliance. Renamed from DataStore.dataStoreType in the 2026-03 model."
+    },
+    "cdi:identifier": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/Identifier",
+      "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+    },
+    "cdi:name": {
+      "type": "array",
+      "items": {
+        "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ObjectName"
+      },
+      "minItems": 1,
+      "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, with context provided to specify usage."
+    },
+    "cdi:purpose": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/InternationalString",
+      "description": "Intent or reason for the object / the description of the object."
+    },
+    "cdi:recordCount": {
+      "type": "integer",
+      "description": "The number of records in the Logical Record Repository."
+    },
+    "cdi:isDefinedBy": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json"
+          },
+          {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+          }
+        ]
+      },
+      "minItems": 1,
+      "description": "One or more Concepts characterising the repository."
+    },
+    "cdi:has_LogicalRecord": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiLogicalRecord/schema.json"
+          },
+          {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+          }
+        ]
+      },
+      "minItems": 1,
+      "description": "The LogicalRecords held by this repository."
+    }
+  },
+  "required": [
+    "@type"
+  ],
+  "$defs": {
+    "LogicalRecordRepositoryStructure": {
+      "type": "object",
+      "description": "Describes the topology and mathematical properties of a Logical Record Repository - how its LogicalRecordRelationships are organized.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:LogicalRecordRepositoryStructure"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this LogicalRecordRepositoryStructure node"
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:name": {
+          "type": "array",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ObjectName"
+          },
+          "minItems": 1,
+          "description": "Human understandable name for the structure."
+        },
+        "cdi:purpose": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/InternationalString",
+          "description": "Intent or reason for the object / the description of the object."
+        },
+        "cdi:semantics": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ControlledVocabularyEntry",
+          "description": "The meaning of the relationship the structure expresses."
+        },
+        "cdi:specification": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/StructureSpecification",
+          "description": "The mathematical properties of the structure (reflexive, symmetric, transitive)."
+        },
+        "cdi:topology": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ControlledVocabularyEntry",
+          "description": "The topology of the structure."
+        },
+        "cdi:totality": {
+          "type": "string",
+          "enum": [
+            "Partial",
+            "Total"
+          ],
+          "description": "Whether every member participates in the structure (Total) or only some do (Partial) - StructureExtent."
+        },
+        "cdi:has_LogicalRecordRelationship": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/LogicalRecordRelationship"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1,
+          "description": "The LogicalRecordRelationships that make up this structure."
+        },
+        "cdi:structures": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference",
+          "description": "The LogicalRecordRepository this structure applies to (id-reference; a back-pointer to the repository node declared elsewhere in the graph)."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "LogicalRecordRelationship": {
+      "type": "object",
+      "description": "Relationship among LogicalRecords - the successor to the DDI-CDI 1.0 RecordRelation class. Pairs source and target LogicalRecords and carries the InstanceVariableMaps that define how their instance variables correspond.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:LogicalRecordRelationship"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this LogicalRecordRelationship node"
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:semantics": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/ControlledVocabularyEntry",
+          "description": "The meaning of the relationship."
+        },
+        "cdi:has_InstanceVariableMap": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/InstanceVariableMap"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1,
+          "description": "The key relationships between instance variables of the source and target LogicalRecords."
+        },
+        "cdi:hasTarget": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiLogicalRecord/schema.json"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1,
+          "description": "The target LogicalRecord(s) of the relationship."
+        },
+        "cdi:hasSource": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiLogicalRecord/schema.json"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1,
+          "description": "The source LogicalRecord(s) of the relationship."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
+    "InstanceVariableMap": {
+      "type": "object",
+      "description": "Key/value relationship for two or more LogicalRecords where the key is one or more equivalent instance variables and the value is a defined relationship or a relationship to a set value. Carried by LogicalRecordRelationship.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:InstanceVariableMap"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this InstanceVariableMap node"
+        },
+        "cdi:identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:correspondence": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/CorrespondenceDefinition",
+          "description": "Describes the relationship between the source and target instance variables using controlled vocabularies and descriptive text. The correspondence refers to the instance variables, not their values; the relationship would normally be ExactMatch."
+        },
+        "cdi:comparison": {
+          "type": "string",
+          "enum": [
+            "Equal",
+            "GreaterThan",
+            "GreaterThanOrEqualTo",
+            "LessThan",
+            "LessThanOrEqualTo",
+            "NotEqual"
+          ],
+          "description": "Relationship between the source and target instance variables, or to the setValue if provided (ComparisonOperator)."
+        },
+        "cdi:setValue": {
+          "type": "string",
+          "description": "A fixed value for the key source instance variables."
+        },
+        "cdi:hasTarget": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.json"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "description": "The target instance variable(s) of the map."
+        },
+        "cdi:hasSource": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.json"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.json#/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1,
+          "description": "The source instance variable(s) of the map."
+        }
+      },
+      "required": [
+        "@type",
+        "cdi:correspondence",
+        "cdi:comparison",
+        "cdi:setValue"
+      ]
+    }
+  },
+  "x-jsonld-prefixes": {
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+  }
+}

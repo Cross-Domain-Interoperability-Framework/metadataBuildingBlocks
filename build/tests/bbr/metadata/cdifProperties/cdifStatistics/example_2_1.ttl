@@ -1,0 +1,37 @@
+@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/stats/temperature-mean> a cdi:Statistics ;
+    cdi:hasWeight ex:var-sample-weight ;
+    cdi:statistic [ cdi:computationBase "Total" ;
+            cdi:content 1.21e+01 ;
+            cdi:isWeighted false ;
+            cdi:typeOfNumericValue "double" ],
+        [ cdi:computationBase "ValidOnly" ;
+            cdi:content 1.243e+01 ;
+            cdi:isWeighted true ;
+            cdi:typeOfNumericValue "double" ] ;
+    cdi:typeOfStatistic [ a schema1:DefinedTerm ;
+            schema1:identifier "https://example.org/vocab/stat-types/mean" ;
+            schema1:inDefinedTermSet "https://example.org/vocab/stat-types" ;
+            schema1:name "arithmetic mean" ] ;
+    cdif:appliesTo ex:var-temperature ;
+    cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/category/surface> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 1.581e+01 ;
+                    cdi:isWeighted true ] ;
+            cdi:typeOfStatistic "mean" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/category/deep> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 1.007e+01 ;
+                    cdi:isWeighted true ] ;
+            cdi:typeOfStatistic "mean" ] .
+
+<https://example.org/category/surface> a cdi:Category ;
+    cdif:descriptiveText "Surface samples (depth < 10 m)" .
+

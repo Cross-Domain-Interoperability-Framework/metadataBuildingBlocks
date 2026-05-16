@@ -140,7 +140,7 @@ x-defs:
               '@id':
                 type: string
                 description: a reference to a resource defining conditions of Access
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCore/$defs/LabeledLink
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCore/$defs/Reference
       schema:license:
         description: 'legal statement of conditions for use and access; recommend
           using schema:CreativeWork to provide a label (name) for the license, and
@@ -158,7 +158,7 @@ x-defs:
               '@id':
                 type: string
                 description: a reference to a license defintion
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCore/$defs/LabeledLink
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCore/$defs/Reference
       schema:url:
         type: string
         format: uri
@@ -231,7 +231,7 @@ x-defs:
               '@id':
                 type: string
                 description: a reference to a publishing principles statement
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCore/$defs/LabeledLink
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCore/$defs/Reference
       schema:keywords:
         description: Keywords are an array of strings, an array of schema:DefinedTerms,
           or some combination of these. If you have information about a controlled
@@ -358,8 +358,8 @@ x-defs:
       - required:
         - schema:distribution
     $defs:
-      LabeledLink:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
+      Reference:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifReference
       Identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
       DefinedTerm:
@@ -916,32 +916,48 @@ x-defs:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.labeledLink:
-    description: schema for a labeled link, a profile of schema.org/CreativeWork
+  cdif.bbr.metadata.cdifProperties.cdifReference:
     type: object
-    properties:
-      '@type':
-        default: schema:CreativeWork
-        type: array
-        items:
-          type: string
-        contains:
-          enum:
-          - schema:CreativeWork
-        minItems: 1
-      schema:name:
-        type: string
-      schema:description:
-        type: string
-      schema:url:
-        type: string
-        format: uri
-    required:
-    - '@type'
-    - schema:url
+    description: see https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13
+      for discussion on how to make assertion about the sample registration and metadata
+      distinct from statements about the physical object
+    allOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifReference/$defs/Reference
+    $defs:
+      Reference:
+        type: object
+        description: based on DDI-CDI reference to an entity (dt-Reference)
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - cdif:Reference
+            minItems: 1
+          cdi:uri:
+            type: string
+            format: uri
+            description: URI of the referenced entity
+          cdi:description:
+            type: string
+            description: Human-readable description of the reference
+          cdif:semantic:
+            description: Semantic role of this reference
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
     x-jsonld-prefixes:
       schema: http://schema.org/
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
+      skos: http://www.w3.org/2004/02/skos/core#
+      cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+      cdif: https://cdif.org/0.1/
+      ex: https://example.org/
+      xsd: http://www.w3.org/2001/XMLSchema#
+      dcterms: http://purl.org/dc/terms/
+      dcat: http://www.w3.org/ns/dcat#
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifReference/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.identifier:
     description: Properties for a schema.org identifier
@@ -1018,7 +1034,7 @@ x-defs:
         oneOf:
         - type: string
           default: not specified
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.webAPI/$defs/LabeledLink
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.webAPI/$defs/Reference
       schema:documentation:
         description: a document that provides a machine-actionable description of
           a service instance. Examples include OpenAPI documents, OGC Capabilities
@@ -1029,7 +1045,7 @@ x-defs:
           metadata.
         oneOf:
         - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.webAPI/$defs/LabeledLink
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.webAPI/$defs/Reference
       schema:potentialAction:
         type: array
         description: actions that can be invoked via the API
@@ -1040,8 +1056,8 @@ x-defs:
     - schema:potentialAction
     - schema:termsOfService
     $defs:
-      LabeledLink:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
+      Reference:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifReference
       DefinedTerm:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
       Action:
@@ -1325,7 +1341,7 @@ x-defs:
           type: string
           description: a resolvable reference to a representation of the software
             or instrument used
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifReference
     x-jsonld-prefixes:
       schema: http://schema.org/
       prov: http://www.w3.org/ns/prov#
@@ -1580,7 +1596,7 @@ x-defs:
         description: Links to related resources (manuals, datasheets, calibration
           records, related instruments).
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/LabeledLink
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Reference
       schema:subjectOf:
         description: Catalog record metadata-about-metadata for this instrument description.
         type: object
@@ -1626,8 +1642,8 @@ x-defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.agentInRole
       AdditionalProperty:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
-      LabeledLink:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
+      Reference:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifReference
       InstrumentComponent:
         type: object
         description: A sub-component of an instrument system. Uses the same structure
@@ -1867,6 +1883,295 @@ x-defs:
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.labeledLink:
+    description: schema for a labeled link, a profile of schema.org/CreativeWork
+    type: object
+    properties:
+      '@type':
+        default: schema:CreativeWork
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:CreativeWork
+        minItems: 1
+      schema:name:
+        type: string
+      schema:description:
+        type: string
+      schema:url:
+        type: string
+        format: uri
+    required:
+    - '@type'
+    - schema:url
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.skosProperties.skosConcept:
+    title: SKOS Concept
+    description: JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought
+      within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel),
+      notations, hierarchical relations (broader/narrower), associative relations
+      (related), cross-scheme mapping properties, scheme membership, and documentary
+      notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).
+    type: object
+    properties:
+      '@context':
+        description: JSON-LD context declaring the skos namespace prefix. May be a
+          single object or an array of strings and objects.
+        anyOf:
+        - type: object
+          properties:
+            skos:
+              enum:
+              - http://www.w3.org/2004/02/skos/core#
+          required:
+          - skos
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - type: object
+          contains:
+            type: object
+            properties:
+              skos:
+                enum:
+                - http://www.w3.org/2004/02/skos/core#
+            required:
+            - skos
+      '@id':
+        type: string
+        description: URI identifier for this concept.
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - skos:Concept
+        minItems: 1
+      skos:prefLabel:
+        description: Preferred lexical label for this concept. A single string, a
+          single language-tagged value, or an array of language-tagged values. Each
+          language should appear at most once.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:altLabel:
+        description: Alternative lexical labels (acronyms, abbreviations, variants).
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:hiddenLabel:
+        description: Labels accessible to free-text search but not displayed.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:notation:
+        description: Classification code for this concept within a scheme.
+        type: array
+        items:
+          type: string
+      skos:definition:
+        description: Formal explanation of the meaning of this concept.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:scopeNote:
+        description: Note clarifying meaning and/or intended use.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:note:
+        description: General note about this concept.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:historyNote:
+        description: Note about past state or use.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:changeNote:
+        description: Note documenting a change.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:editorialNote:
+        description: Note for editors and maintainers.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:example:
+        description: Example of use of this concept.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+      skos:inScheme:
+        description: Concept scheme(s) this concept belongs to.
+        anyOf:
+        - type: object
+          properties:
+            '@id':
+              type: string
+          required:
+          - '@id'
+        - type: array
+          items:
+            type: object
+            properties:
+              '@id':
+                type: string
+            required:
+            - '@id'
+      skos:topConceptOf:
+        description: Concept scheme(s) for which this is a top concept.
+        anyOf:
+        - type: object
+          properties:
+            '@id':
+              type: string
+          required:
+          - '@id'
+        - type: array
+          items:
+            type: object
+            properties:
+              '@id':
+                type: string
+            required:
+            - '@id'
+      skos:broader:
+        description: Broader (parent) concepts in the hierarchy. Items are inline
+          concept objects or @id references.
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+      skos:narrower:
+        description: Narrower (child) concepts in the hierarchy. Items are inline
+          concept objects or @id references.
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+      skos:related:
+        description: Associatively related concepts.
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+      skos:exactMatch:
+        description: Concepts in other schemes with equivalent meaning.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+      skos:closeMatch:
+        description: Concepts in other schemes with similar meaning.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+      skos:broadMatch:
+        description: Broader concepts in other schemes.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+      skos:narrowMatch:
+        description: Narrower concepts in other schemes.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+      skos:relatedMatch:
+        description: Related concepts in other schemes.
+        type: array
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+    required:
+    - '@type'
+    - skos:prefLabel
+    $defs:
+      ConceptRef:
+        type: object
+        description: A reference to a SKOS Concept by URI.
+        properties:
+          '@id':
+            type: string
+            description: URI of the referenced concept.
+        required:
+        - '@id'
+      LanguageTaggedValue:
+        type: object
+        description: An RDF literal value with a language tag, serialized as a JSON-LD
+          value object.
+        properties:
+          '@value':
+            type: string
+            description: The text content.
+          '@language':
+            type: string
+            description: BCP 47 language tag (e.g. en, fr, de).
+        required:
+        - '@value'
+        - '@language'
+    x-jsonld-prefixes:
+      skos: http://www.w3.org/2004/02/skos/core#
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.action:
     title: 'Action '
