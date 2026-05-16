@@ -3646,8 +3646,25 @@ def emit_uml_from_config(
     model_name = tm.get("mainPackage", acronym)
     main_pkg = tm["mainPackage"]
 
-    # Render synthetic target classes
+    # Pre-pass: register every target class id by name so forward dataType
+    # references resolve correctly. Without this, a class declared earlier in
+    # the config that references a target type declared later (e.g. a "stub"
+    # appended at the end of the array) would fall through _resolve_dataType_ref
+    # to the source DDI-CDI namespace and pull in unrelated DataType cascades.
+    # Stubs are overwritten with the fully rendered class in the main pass below.
     target_classes_by_name: dict[str, UmlClass] = {}
+    for spec in cfg.get("mapping", {}).get("class", []):
+        target_name = spec.get("targetClass")
+        if not target_name:
+            continue
+        tgt_id = _profile_xmi_id(acronym, target_name)
+        target_classes_by_name[target_name] = UmlClass(
+            id=tgt_id, name=target_name, package="", doc=None,
+            is_abstract=False, parents=[], properties=[],
+            kind="class", literals=[],
+        )
+
+    # Main pass: render synthetic target classes (overwrites the stubs)
     target_class_specs: list[tuple[dict, str]] = []  # (spec, mapping_type) preserves order
     for spec in cfg.get("mapping", {}).get("class", []):
         mt = spec["mappingType"]

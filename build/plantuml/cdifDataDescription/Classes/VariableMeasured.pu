@@ -11,18 +11,18 @@ skinparam class {
 }
 
 class "VariableMeasured" as VariableMeasured #FEFECE {
-  +identifier : XsdAnyUri [0..1]
+  +identifier : Identifier [0..1]
   +name : string [1]
   +description : string [0..1]
   +propertyId : XsdAnyUri [0..*]
   +unitText : string [0..1]
-  +unitCode : XsdAnyUri [0..1]
+  +unitCode : DefinedTerm [0..1]
   +physicalDataType : Concept [1]
   +role : string [0..1]
 }
 class "InstanceVariable" as InstanceVariable #EEEEEE
 VariableMeasured --> "0..1" InstanceVariable : describes
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
-VariableMeasured ..> XsdAnyUri : identifier
+VariableMeasured ..> XsdAnyUri : propertyId
 
 @enduml

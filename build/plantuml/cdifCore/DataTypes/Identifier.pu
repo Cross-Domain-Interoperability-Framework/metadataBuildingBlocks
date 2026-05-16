@@ -1,0 +1,33 @@
+@startuml
+title Identifier
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "Identifier" as Identifier <<dataType>> #FAE5D3 {
+  +ddiIdentifier : InternationalRegistrationDataIdentifier [1]
+  +isDdiIdentifierPersistent : boolean [1]
+  +isDdiIdentifierUniversallyUnique : boolean [1]
+  +nonDdiIdentifier : NonDdiIdentifier [1..*]
+  +uri : XsdAnyUri [1]
+  +versionDate : XsdDate [1]
+  +versionRationale : RationaleDefinition [1]
+  +versionResponsibility : AgentInRole [1]
+}
+class "Dataset" as Dataset #EEEEEE
+Dataset ..> Identifier : identifier
+Dataset ..> Identifier : sameAs
+abstract class "AbstractDistribution" as AbstractDistribution #EEEEEE
+AbstractDistribution ..> Identifier : identifier
+abstract class "Agent" as Agent #EEEEEE
+Agent ..> Identifier : identifier
+class "DefinedTerm" as DefinedTerm #EEEEEE
+DefinedTerm ..> Identifier : identifier
+
+@enduml

@@ -11,25 +11,11 @@ skinparam class {
 }
 
 class "Concept" as Concept #FEFECE {
-  +catalogDetails : CatalogDetails [1]
-  +definition : InternationalString [1]
-  +displayLabel : LabelForDisplay [1..*]
-  +externalDefinition : Reference [1]
   +identifier : Identifier [1]
-  +name : ObjectName [1..*]
+  +prefLabel : string [0..1]
+  +inScheme : XsdAnyUri [0..1]
 }
-Concept --> "1..*" Concept : uses
-class "CatalogDetails" as CatalogDetails <<dataType>> #FAE5D3
-Concept ..> CatalogDetails : catalogDetails
-class "InternationalString" as InternationalString <<dataType>> #FAE5D3
-Concept ..> InternationalString : definition
-class "LabelForDisplay" as LabelForDisplay <<dataType>> #FAE5D3
-Concept ..> LabelForDisplay : displayLabel
-class "Reference" as Reference <<dataType>> #FAE5D3
-Concept ..> Reference : externalDefinition
-class "Identifier" as Identifier <<dataType>> #FAE5D3
-Concept ..> Identifier : identifier
-class "ObjectName" as ObjectName <<dataType>> #FAE5D3
-Concept ..> ObjectName : name
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+Concept ..> XsdAnyUri : inScheme
 
 @enduml
