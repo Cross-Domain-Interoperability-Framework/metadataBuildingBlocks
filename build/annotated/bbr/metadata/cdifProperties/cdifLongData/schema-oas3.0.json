@@ -3821,11 +3821,8 @@
         },
         "SkosConcept": {
           "title": "SKOS Concept (CDIF vocabulary-bound term reference)",
-          "description": "Vocabulary-bound term reference. CDIF policy implements the DDI-CDI ControlledVocabularyEntry / PairedControlledVocabularyEntry concept as a skos:Concept from the skosProperties building block. The shape accepts a plain string label, an @id-only reference, a schema:DefinedTerm structured term, or a full inline skos:Concept node.",
+          "description": "Vocabulary-bound term reference. CDIF policy implements the DDI-CDI ControlledVocabularyEntry / PairedControlledVocabularyEntry concept as a skos:Concept from the skosProperties building block. Under the union-type-policy a Concept value MUST be a controlled-vocabulary term \u2014 either an @id-only reference into a known scheme, a structured schema:DefinedTerm, or a full inline skos:Concept node. Plain strings are NOT permitted because vocabulary identity cannot be recovered from an unscoped string label.",
           "anyOf": [
-            {
-              "type": "string"
-            },
             {
               "type": "object",
               "properties": {
@@ -3993,7 +3990,7 @@
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.schemaorgProperties.definedTerm": {
-      "description": "schema.org Defined Term schema",
+      "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) \u2014 plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
       "type": "object",
       "properties": {
         "@type": {
@@ -4326,7 +4323,7 @@
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.schemaorgProperties.identifier": {
-      "description": "Properties for a schema.org identifier",
+      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
       "type": "object",
       "properties": {
         "@type": {

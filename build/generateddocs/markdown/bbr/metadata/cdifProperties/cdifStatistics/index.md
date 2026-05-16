@@ -313,13 +313,13 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
 
 <https://example.org/stats/temperature-mean> a cdi:Statistics ;
     cdi:hasWeight ex:var-sample-weight ;
-    cdi:statistic [ cdi:computationBase "Total" ;
-            cdi:content 1.21e+01 ;
-            cdi:isWeighted false ;
-            cdi:typeOfNumericValue "double" ],
-        [ cdi:computationBase "ValidOnly" ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
             cdi:content 1.243e+01 ;
             cdi:isWeighted true ;
+            cdi:typeOfNumericValue "double" ],
+        [ cdi:computationBase "Total" ;
+            cdi:content 1.21e+01 ;
+            cdi:isWeighted false ;
             cdi:typeOfNumericValue "double" ] ;
     cdi:typeOfStatistic [ a schema1:DefinedTerm ;
             schema1:identifier "https://example.org/vocab/stat-types/mean" ;
@@ -757,13 +757,14 @@ $defs:
           Category.displayLabel (LabelForDisplay).
   SkosConcept:
     title: SKOS Concept (CDIF vocabulary-bound term reference)
-    description: Vocabulary-bound term reference. CDIF policy implements the DDI-CDI
+    description: "Vocabulary-bound term reference. CDIF policy implements the DDI-CDI
       ControlledVocabularyEntry / PairedControlledVocabularyEntry concept as a skos:Concept
-      from the skosProperties building block. The shape accepts a plain string label,
-      an @id-only reference, a schema:DefinedTerm structured term, or a full inline
-      skos:Concept node.
+      from the skosProperties building block. Under the union-type-policy a Concept
+      value MUST be a controlled-vocabulary term \u2014 either an @id-only reference
+      into a known scheme, a structured schema:DefinedTerm, or a full inline skos:Concept
+      node. Plain strings are NOT permitted because vocabulary identity cannot be
+      recovered from an unscoped string label."
     anyOf:
-    - type: string
     - type: object
       properties:
         '@id':

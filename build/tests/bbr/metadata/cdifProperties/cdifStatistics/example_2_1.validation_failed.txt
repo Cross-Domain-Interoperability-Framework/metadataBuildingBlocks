@@ -1,0 +1,685 @@
+Validation report for cdif.bbr.metadata.cdifProperties.cdifStatistics - CDIF Statistics
+Generated 2026-05-16T21:12:56.311735+00:00
+=== Files ===
+Using exampleCdifStatistics.json from examples
+JSON-LD context is present - uplifting
+Output JSON-LD example_2_1.jsonld created
+Output Turtle example_2_1.ttl created
+=== End Files ===
+
+=== JSON Schema ===
+
+** Validation error **
+ValidationError: {'@context': {'schema': 'http://schema.org/', 'cdi': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/', 'cdif': 'https://cdif.org/0.1/', 'ex': 'https://example.org/'}, '@id': 'ex:stats/temperature-mean', '@type': ['cdi:Statistics'], 'cdi:typeOfStatistic': {'@type': ['schema:DefinedTerm'], 'schema:name': 'arithmetic mean', 'schema:identifier': 'https://example.org/vocab/stat-types/mean', 'schema:inDefinedTermSet': 'https://example.org/vocab/stat-types'}, 'cdif:appliesTo': [{'@id': 'ex:var-temperature'}], 'cdi:hasWeight': {'@id': 'ex:var-sample-weight'}, 'cdi:statistic': [{'cdi:computationBase': 'ValidOnly', 'cdi:content': 12.43, 'cdi:typeOfNumericValue': 'double', 'cdi:isWeighted': True}, {'cdi:computationBase': 'Total', 'cdi:content': 12.1, 'cdi:typeOfNumericValue': 'double', 'cdi:isWeighted': False}], 'cdif:has_CategoryStatistics': [{'@type': ['cdi:CategoryStatistics'], 'cdi:typeOfStatistic': 'mean', 'cdi:for': {'@type': ['cdi:Category'], '@id': 'ex:category/surface', 'cdif:descriptiveText': 'Surface samples (depth < 10 m)'}, 'cdi:statistic': [{'cdi:computationBase': 'ValidOnly', 'cdi:content': 15.81, 'cdi:isWeighted': True}]}, {'@type': ['cdi:CategoryStatistics'], 'cdi:typeOfStatistic': 'mean', 'cdi:for': {'@id': 'ex:category/deep'}, 'cdi:statistic': [{'cdi:computationBase': 'ValidOnly', 'cdi:content': 10.07, 'cdi:isWeighted': True}]}]} is not valid under any of the given schemas
+
+Failed validating 'anyOf' in schema:
+    {'$defs': {'Category': {'description': 'Minimal Category shape used as '
+                                           'a CategoryStatistics target. '
+                                           'CDIF simplifies the DDI-CDI '
+                                           'InternationalString / '
+                                           'LabelForDisplay / ObjectName '
+                                           'valued properties to plain '
+                                           'strings carried under the '
+                                           'cdif: namespace. A full CDIF '
+                                           'treatment of categories lives '
+                                           'in cdifEnumerationDomain / '
+                                           'SKOS Concept.',
+                            'properties': {'@id': {'type': 'string'},
+                                           '@type': {'contains': {'const': 'cdi:Category'},
+                                                     'items': {'type': 'string'},
+                                                     'minItems': 1,
+                                                     'type': 'array'},
+                                           'cdif:definition': {'description': 'Natural-language '
+                                                                              'definition '
+                                                                              'of '
+                                                                              'the '
+                                                                              'category. '
+                                                                              'CDIF-simplified '
+                                                                              'from '
+                                                                              'DDI-CDI '
+                                                                              'Category.definition '
+                                                                              '(InternationalString).',
+                                                               'type': 'string'},
+                                           'cdif:descriptiveText': {'description': 'Short '
+                                                                                   'natural-language '
+                                                                                   'account '
+                                                                                   'of '
+                                                                                   'the '
+                                                                                   'category. '
+                                                                                   'CDIF-simplified '
+                                                                                   'from '
+                                                                                   'DDI-CDI '
+                                                                                   'Category.descriptiveText '
+                                                                                   '(InternationalString).',
+                                                                    'type': 'string'},
+                                           'cdif:displayLabel': {'description': 'Human-readable '
+                                                                                'display '
+                                                                                'label(s). '
+                                                                                'CDIF-simplified '
+                                                                                'from '
+                                                                                'DDI-CDI '
+                                                                                'Category.displayLabel '
+                                                                                '(LabelForDisplay).',
+                                                                 'items': {'type': 'string'},
+                                                                 'type': 'array'},
+                                           'cdif:name': {'description': 'Human-understandable '
+                                                                        'name(s). '
+                                                                        'CDIF-simplified '
+                                                                        'from '
+                                                                        'DDI-CDI '
+                                                                        'Category.name '
+                                                                        '(ObjectName) '
+                                                                        'to '
+                                                                        'plain '
+                                                                        'strings.',
+                                                         'items': {'type': 'string'},
+                                                         'type': 'array'}},
+                            'title': 'Category',
+                            'type': 'object'},
+               'CategoryStatistics': {'description': 'Statistics for a '
+                                                     'specific Category of '
+                                                     'an instance variable '
+                                                     'within a data set.',
+                                      'properties': {'@id': {'description': 'Identifier '
+                                                                            'for '
+                                                                            'this '
+                                                                            'CategoryStatistics '
+                                                                            'node.',
+                                                             'type': 'string'},
+                                                     '@type': {'contains': {'const': 'cdi:CategoryStatistics'},
+                                                               'items': {'type': 'string'},
+                                                               'minItems': 1,
+                                                               'type': 'array'},
+                                                     'cdi:for': {'anyOf': [{'$ref': '#/$defs/Category'},
+                                                                           {'properties': {'@id': {'type': 'string'}},
+                                                                            'required': ['@id'],
+                                                                            'type': 'object'}],
+                                                                 'description': 'The '
+                                                                                'Category '
+                                                                                'this '
+                                                                                'CategoryStatistics '
+                                                                                'is '
+                                                                                'for '
+                                                                                '(inline '
+                                                                                'Category '
+                                                                                'node '
+                                                                                'or '
+                                                                                'an '
+                                                                                '@id-reference).'},
+                                                     'cdi:hasWeight': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml'},
+                                                                                 {'properties': {'@id': {'type': 'string'}},
+                                                                                  'required': ['@id'],
+                                                                                  'type': 'object'}],
+                                                                       'description': 'The '
+                                                                                      'InstanceVariable '
+                                                                                      'whose '
+                                                                                      'values '
+                                                                                      'were '
+                                                                                      'used '
+                                                                                      'as '
+                                                                                      'weights '
+                                                                                      '(inline '
+                                                                                      'cdifInstanceVariable '
+                                                                                      'node '
+                                                                                      'or '
+                                                                                      'an '
+                                                                                      '@id-reference).'},
+                                                     'cdi:statistic': {'description': 'Per-category '
+                                                                                      'Statistic '
+                                                                                      'value '
+                                                                                      'objects.',
+                                                                       'items': {'$ref': '#/$defs/Statistic'},
+                                                                       'minItems': 1,
+                                                                       'type': 'array'},
+                                                     'cdi:typeOfStatistic': {'$ref': '#/$defs/SkosConcept',
+                                                                             'description': 'Controlled-vocabulary '
+                                                                                            'entry '
+                                                                                            'naming '
+                                                                                            'the '
+                                                                                            'kind '
+                                                                                            'of '
+                                                                                            'statistic.'}},
+                                      'required': ['@type',
+                                                   'cdi:for',
+                                                   'cdi:statistic'],
+                                      'title': 'CategoryStatistics',
+                                      'type': 'object'},
+               'SkosConcept': {'anyOf': [{'properties': {'@id': {'type': 'string'}},
+                                          'required': ['@id'],
+                                          'type': 'object'},
+                                         {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml'},
+                                         {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml'}],
+                               'description': 'Vocabulary-bound term '
+                                              'reference. CDIF policy '
+                                              'implements the DDI-CDI '
+                                              'ControlledVocabularyEntry / '
+                                              'PairedControlledVocabularyEntry '
+                                              'concept as a skos:Concept '
+                                              'from the skosProperties '
+                                              'building block. Under the '
+                                              'union-type-policy a Concept '
+                                              'value MUST be a '
+                                              'controlled-vocabulary term '
+                                              '— either an @id-only '
+                                              'reference into a known '
+                                              'scheme, a structured '
+                                              'schema:DefinedTerm, or a '
+                                              'full inline skos:Concept '
+                                              'node. Plain strings are NOT '
+                                              'permitted because '
+                                              'vocabulary identity cannot '
+                                              'be recovered from an '
+                                              'unscoped string label.',
+                               'title': 'SKOS Concept (CDIF '
+                                        'vocabulary-bound term reference)'},
+               'Statistic': {'description': 'DDI-CDI Statistic dataType — '
+                                            'a single computed value '
+                                            '(mean, count, median, etc.). '
+                                            'A value object with no '
+                                            'identity; appears inline '
+                                            'inside a cdi:statistic array.',
+                             'properties': {'cdi:computationBase': {'description': 'The '
+                                                                                   'cases '
+                                                                                   'included '
+                                                                                   'in '
+                                                                                   'determining '
+                                                                                   'the '
+                                                                                   'statistic '
+                                                                                   '— '
+                                                                                   'Total '
+                                                                                   '(all '
+                                                                                   'cases, '
+                                                                                   'valid '
+                                                                                   'and '
+                                                                                   'missing), '
+                                                                                   'ValidOnly '
+                                                                                   '(valid '
+                                                                                   'values '
+                                                                                   'only), '
+                                                                                   'MissingOnly '
+                                                                                   '(invalid '
+                                                                                   'cases '
+                                                                                   'only).',
+                                                                    'enum': ['MissingOnly',
+                                                                             'Total',
+                                                                             'ValidOnly'],
+                                                                    'type': 'string'},
+                                            'cdi:content': {'description': 'The '
+                                                                           'value '
+                                                                           'of '
+                                                                           'the '
+                                                                           'statistic '
+                                                                           'expressed '
+                                                                           'as '
+                                                                           'a '
+                                                                           'real '
+                                                                           'number.',
+                                                            'type': 'number'},
+                                            'cdi:isWeighted': {'default': False,
+                                                               'description': 'True '
+                                                                              'if '
+                                                                              'the '
+                                                                              'statistic '
+                                                                              'was '
+                                                                              'computed '
+                                                                              'using '
+                                                                              'a '
+                                                                              'weighting '
+                                                                              'variable.',
+                                                               'type': 'boolean'},
+                                            'cdi:typeOfNumericValue': {'description': 'The '
+                                                                                      'type '
+                                                                                      'of '
+                                                                                      'numeric '
+                                                                                      'value '
+                                                                                      'carried '
+                                                                                      'in '
+                                                                                      'cdi:content '
+                                                                                      '— '
+                                                                                      'decimal, '
+                                                                                      'float, '
+                                                                                      'or '
+                                                                                      'double.',
+                                                                       'type': 'string'}},
+                             'title': 'Statistic',
+                             'type': 'object'},
+               'Statistics': {'description': 'A named bundle of one or '
+                                             'more Statistic value objects '
+                                             'for an instance variable, '
+                                             'optionally weighted, '
+                                             'optionally broken down by '
+                                             'Category.',
+                              'properties': {'@id': {'description': 'Identifier '
+                                                                    'for '
+                                                                    'this '
+                                                                    'Statistics '
+                                                                    'node.',
+                                                     'type': 'string'},
+                                             '@type': {'contains': {'const': 'cdi:Statistics'},
+                                                       'items': {'type': 'string'},
+                                                       'minItems': 1,
+                                                       'type': 'array'},
+                                             'cdi:hasWeight': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml'},
+                                                                         {'properties': {'@id': {'type': 'string'}},
+                                                                          'required': ['@id'],
+                                                                          'type': 'object'}],
+                                                               'description': 'The '
+                                                                              'InstanceVariable '
+                                                                              'whose '
+                                                                              'values '
+                                                                              'were '
+                                                                              'used '
+                                                                              'as '
+                                                                              'weights '
+                                                                              'when '
+                                                                              'computing '
+                                                                              'the '
+                                                                              'Statistic '
+                                                                              'entries '
+                                                                              '(inline '
+                                                                              'cdifInstanceVariable '
+                                                                              'node '
+                                                                              'or '
+                                                                              'an '
+                                                                              '@id-reference).'},
+                                             'cdi:statistic': {'description': 'Ordered '
+                                                                              'list '
+                                                                              'of '
+                                                                              'Statistic '
+                                                                              'value '
+                                                                              'objects '
+                                                                              'carried '
+                                                                              'by '
+                                                                              'this '
+                                                                              'bundle. '
+                                                                              'Order '
+                                                                              'is '
+                                                                              'significant '
+                                                                              '— '
+                                                                              'consumers '
+                                                                              'MAY '
+                                                                              'rely '
+                                                                              'on '
+                                                                              'array '
+                                                                              'position.',
+                                                               'items': {'$ref': '#/$defs/Statistic'},
+                                                               'minItems': 1,
+                                                               'type': 'array'},
+                                             'cdi:typeOfStatistic': {'$ref': '#/$defs/SkosConcept',
+                                                                     'description': 'Controlled-vocabulary '
+                                                                                    'entry '
+                                                                                    'naming '
+                                                                                    'the '
+                                                                                    'kind '
+                                                                                    'of '
+                                                                                    'statistic '
+                                                                                    '— '
+                                                                                    'e.g. '
+                                                                                    'mean, '
+                                                                                    'median, '
+                                                                                    'count, '
+                                                                                    'sum, '
+                                                                                    'stdDev.'},
+                                             'cdif:appliesTo': {'description': 'CDIF '
+                                                                               'addition '
+                                                                               '(not '
+                                                                               'in '
+                                                                               'canonical '
+                                                                               'DDI-CDI): '
+                                                                               'the '
+                                                                               'InstanceVariable(s) '
+                                                                               'this '
+                                                                               'Statistics '
+                                                                               'bundle '
+                                                                               'summarizes '
+                                                                               '— '
+                                                                               'the '
+                                                                               'per-bundle '
+                                                                               '"what '
+                                                                               'these '
+                                                                               'numbers '
+                                                                               'describe" '
+                                                                               'link. '
+                                                                               'When '
+                                                                               'a '
+                                                                               'Statistics '
+                                                                               'node '
+                                                                               'sits '
+                                                                               'inside '
+                                                                               'a '
+                                                                               'StatisticsCollection '
+                                                                               'that '
+                                                                               'indexes '
+                                                                               'more '
+                                                                               'than '
+                                                                               'one '
+                                                                               'variable, '
+                                                                               'cdif:appliesTo '
+                                                                               'disambiguates '
+                                                                               'which '
+                                                                               'variable '
+                                                                               'each '
+                                                                               'bundle '
+                                                                               'describes.',
+                                                                'items': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml'},
+                                                                                    {'properties': {'@id': {'type': 'string'}},
+                                                                                     'required': ['@id'],
+                                                                                     'type': 'object'}]},
+                                                                'minItems': 1,
+                                                                'type': 'array'},
+                                             'cdif:has_CategoryStatistics': {'description': 'CategoryStatistics '
+                                                                                            'entries '
+                                                                                            'breaking '
+                                                                                            'this '
+                                                                                            'Statistics '
+                                                                                            'bundle '
+                                                                                            'down '
+                                                                                            'by '
+                                                                                            'Category. '
+                                                                                            'cdif: '
+                                                                                            'namespaced '
+                                                                                            'and '
+                                                                                            'target-suffixed '
+                                                                                            'because '
+                                                                                            'the '
+                                                                                            'DDI-CDI '
+                                                                                            'cdi:has '
+                                                                                            'association '
+                                                                                            'is '
+                                                                                            'polymorphic.',
+                                                                             'items': {'$ref': '#/$defs/CategoryStatistics'},
+                                                                             'type': 'array'}},
+                              'required': ['@type', 'cdi:statistic'],
+                              'title': 'Statistics',
+                              'type': 'object'},
+               'StatisticsCollection': {'description': 'Groups one or more '
+                                                       'Statistics nodes '
+                                                       'for an instance '
+                                                       'variable. A '
+                                                       'typical use is a '
+                                                       'dataset-level '
+                                                       'collection holding '
+                                                       'row-count / mean / '
+                                                       'stddev Statistics '
+                                                       'for each measured '
+                                                       'variable.',
+                                        'properties': {'@id': {'description': 'Identifier '
+                                                                              'for '
+                                                                              'this '
+                                                                              'StatisticsCollection '
+                                                                              'node.',
+                                                               'type': 'string'},
+                                                       '@type': {'contains': {'const': 'cdi:StatisticsCollection'},
+                                                                 'items': {'type': 'string'},
+                                                                 'minItems': 1,
+                                                                 'type': 'array'},
+                                                       'cdi:hasWeight': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml'},
+                                                                                   {'properties': {'@id': {'type': 'string'}},
+                                                                                    'required': ['@id'],
+                                                                                    'type': 'object'}],
+                                                                         'description': 'The '
+                                                                                        'InstanceVariable '
+                                                                                        'whose '
+                                                                                        'values '
+                                                                                        'were '
+                                                                                        'used '
+                                                                                        'as '
+                                                                                        'weights '
+                                                                                        '(inline '
+                                                                                        'cdifInstanceVariable '
+                                                                                        'node '
+                                                                                        'or '
+                                                                                        'an '
+                                                                                        '@id-reference).'},
+                                                       'cdif:has_Statistics': {'description': 'Statistics '
+                                                                                              'nodes '
+                                                                                              'carried '
+                                                                                              'by '
+                                                                                              'this '
+                                                                                              'collection '
+                                                                                              '(inline '
+                                                                                              'or '
+                                                                                              '@id-ref). '
+                                                                                              'cdif: '
+                                                                                              'namespaced '
+                                                                                              'and '
+                                                                                              'target-suffixed '
+                                                                                              'because '
+                                                                                              'the '
+                                                                                              'DDI-CDI '
+                                                                                              'cdi:has '
+                                                                                              'association '
+                                                                                              'is '
+                                                                                              'polymorphic.',
+                                                                               'items': {'anyOf': [{'$ref': '#/$defs/Statistics'},
+                                                                                                   {'properties': {'@id': {'type': 'string'}},
+                                                                                                    'required': ['@id'],
+                                                                                                    'type': 'object'}]},
+                                                                               'minItems': 1,
+                                                                               'type': 'array'},
+                                                       'cdif:indexedBy': {'description': 'CDIF '
+                                                                                         'addition '
+                                                                                         '(not '
+                                                                                         'in '
+                                                                                         'canonical '
+                                                                                         'DDI-CDI): '
+                                                                                         'the '
+                                                                                         'InstanceVariable(s) '
+                                                                                         'the '
+                                                                                         'contained '
+                                                                                         'Statistics '
+                                                                                         'index '
+                                                                                         '— '
+                                                                                         'the '
+                                                                                         'collection-level '
+                                                                                         'coordinate '
+                                                                                         'space.',
+                                                                          'items': {'anyOf': [{'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml'},
+                                                                                              {'properties': {'@id': {'type': 'string'}},
+                                                                                               'required': ['@id'],
+                                                                                               'type': 'object'}]},
+                                                                          'minItems': 1,
+                                                                          'type': 'array'}},
+                                        'required': ['@type',
+                                                     'cdif:has_Statistics'],
+                                        'title': 'StatisticsCollection',
+                                        'type': 'object'}},
+     '$schema': 'https://json-schema.org/draft/2020-12/schema',
+     'anyOf': [{'$ref': '#/$defs/Statistics'},
+               {'$ref': '#/$defs/CategoryStatistics'},
+               {'$ref': '#/$defs/StatisticsCollection'}],
+     'description': 'CDIF profile of the DDI-CDI Statistics / '
+                    'CategoryStatistics / StatisticsCollection classes '
+                    '(2026-03 model). A Statistics node carries one or '
+                    'more Statistic value objects; CategoryStatistics '
+                    'carries per-category results; a StatisticsCollection '
+                    'groups Statistics nodes. The root validates any of '
+                    'the three. CDIF divergences from canonical DDI-CDI: '
+                    'properties valued by InternationalString / '
+                    'LabelForDisplay / ObjectName are simplified to plain '
+                    'strings and carried under the cdif: namespace '
+                    '(cdif:name, cdif:descriptiveText, cdif:definition, '
+                    'cdif:displayLabel); the polymorphic cdi:has '
+                    'association is split into target-specific cdif:has_* '
+                    'keys; cdif:appliesTo and cdif:indexedBy are CDIF '
+                    'additions (not present in the canonical model) that '
+                    'link statistics to the InstanceVariable(s) they '
+                    'describe.',
+     'title': 'CDIF Statistics',
+     'type': 'object',
+     'x-jsonld-prefixes': {'cdi': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/',
+                           'cdif': 'https://cdif.org/0.1/',
+                           'schema': 'http://schema.org/'}}
+
+On instance:
+    {'@context': {'cdi': 'http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/',
+                  'cdif': 'https://cdif.org/0.1/',
+                  'ex': 'https://example.org/',
+                  'schema': 'http://schema.org/'},
+     '@id': 'ex:stats/temperature-mean',
+     '@type': ['cdi:Statistics'],
+     'cdi:hasWeight': {'@id': 'ex:var-sample-weight'},
+     'cdi:statistic': [{'cdi:computationBase': 'ValidOnly',
+                        'cdi:content': 12.43,
+                        'cdi:isWeighted': True,
+                        'cdi:typeOfNumericValue': 'double'},
+                       {'cdi:computationBase': 'Total',
+                        'cdi:content': 12.1,
+                        'cdi:isWeighted': False,
+                        'cdi:typeOfNumericValue': 'double'}],
+     'cdi:typeOfStatistic': {'@type': ['schema:DefinedTerm'],
+                             'schema:identifier': 'https://example.org/vocab/stat-types/mean',
+                             'schema:inDefinedTermSet': 'https://example.org/vocab/stat-types',
+                             'schema:name': 'arithmetic mean'},
+     'cdif:appliesTo': [{'@id': 'ex:var-temperature'}],
+     'cdif:has_CategoryStatistics': [{'@type': ['cdi:CategoryStatistics'],
+                                      'cdi:for': {'@id': 'ex:category/surface',
+                                                  '@type': ['cdi:Category'],
+                                                  'cdif:descriptiveText': 'Surface '
+                                                                          'samples '
+                                                                          '(depth '
+                                                                          '< '
+                                                                          '10 '
+                                                                          'm)'},
+                                      'cdi:statistic': [{'cdi:computationBase': 'ValidOnly',
+                                                         'cdi:content': 15.81,
+                                                         'cdi:isWeighted': True}],
+                                      'cdi:typeOfStatistic': 'mean'},
+                                     {'@type': ['cdi:CategoryStatistics'],
+                                      'cdi:for': {'@id': 'ex:category/deep'},
+                                      'cdi:statistic': [{'cdi:computationBase': 'ValidOnly',
+                                                         'cdi:content': 10.07,
+                                                         'cdi:isWeighted': True}],
+                                      'cdi:typeOfStatistic': 'mean'}]}
+=== End JSON Schema ===
+
+=== SHACL ===
+Validation result for _sources/cdifProperties/cdifStatistics/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifProperties/cdifStatistics/rules.shacl:
+ - Shape cdifd:cdifStatisticsCollectionShape: *none*
+ - Shape cdifd:cdifCategoryStatisticShape: <https://example.org/stats/temperature-mean>/cdif:has_CategoryStatistics,<https://example.org/stats/temperature-mean>/cdif:has_CategoryStatistics
+ - Shape cdifd:cdifStatisticsShape: <https://example.org/stats/temperature-mean>
+
+Validation result for _sources/skosProperties/skosConcept/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:
+ - Shape skosv:conceptBroaderNotSelfShape: *none*
+ - Shape skosv:ConceptShape: *none*
+ - Shape skosv:prefLabelUniqueLangShape: *none*
+
+Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:nfdf68f60e8f24b84afcb87ef5271c8bfb10: *none*
+ - Shape _:nfdf68f60e8f24b84afcb87ef5271c8bfb8: *none*
+ - Shape _:nfdf68f60e8f24b84afcb87ef5271c8bfb4: *none*
+ - Shape _:nfdf68f60e8f24b84afcb87ef5271c8bfb7: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape _:nfdf68f60e8f24b84afcb87ef5271c8bfb6: *none*
+ - Shape _:nfdf68f60e8f24b84afcb87ef5271c8bfb26: *none*
+ - Shape _:nfdf68f60e8f24b84afcb87ef5271c8bfb5: *none*
+ - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape _:nfdf68f60e8f24b84afcb87ef5271c8bfb19: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
+
+Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape _:n80e424c991b64dfbbd2af9b34d0e3fb1b20: *none*
+ - Shape _:n80e424c991b64dfbbd2af9b34d0e3fb1b22: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n80e424c991b64dfbbd2af9b34d0e3fb1b11: *none*
+ - Shape cdifd:CDIFIdentifierShape: *none*
+ - Shape _:n80e424c991b64dfbbd2af9b34d0e3fb1b10: *none*
+ - Shape _:n80e424c991b64dfbbd2af9b34d0e3fb1b23: *none*
+ - Shape _:n80e424c991b64dfbbd2af9b34d0e3fb1b25: *none*
+ - Shape _:n80e424c991b64dfbbd2af9b34d0e3fb1b21: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
+
+Validation result for _sources/cdifProperties/cdifInstanceVariable/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifProperties/cdifInstanceVariable/rules.shacl:
+ - Shape cdifd:QualifiesNotAllowedWithoutAttributeShape: *none*
+ - Shape _:nb61dc8f12a4b4068bf2fde6a35847704b15: *none*
+ - Shape _:nb61dc8f12a4b4068bf2fde6a35847704b64: *none*
+ - Shape cdifd:CDIFxasInstanceVariableShape: *none*
+ - Shape cdifd:CDIFInstanceVariableShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nb61dc8f12a4b4068bf2fde6a35847704b60: *none*
+ - Shape _:nb61dc8f12a4b4068bf2fde6a35847704b65: *none*
+ - Shape _:nb61dc8f12a4b4068bf2fde6a35847704b63: *none*
+ - Shape _:nb61dc8f12a4b4068bf2fde6a35847704b66: *none*
+ - Shape _:nb61dc8f12a4b4068bf2fde6a35847704b20: *none*
+ - Shape _:nb61dc8f12a4b4068bf2fde6a35847704b11: *none*
+ - Shape _:nb61dc8f12a4b4068bf2fde6a35847704b13: *none*
+ - Shape cdifd:CDIFInstanceVariableShape: *none*
+ - Shape _:nb61dc8f12a4b4068bf2fde6a35847704b17: *none*
+ - Shape cdifd:QualifiesRequiredForAttributeShape: *none*
+ - Shape _:nb61dc8f12a4b4068bf2fde6a35847704b59: *none*
+ - Shape _:nb61dc8f12a4b4068bf2fde6a35847704b62: *none*
+ - Shape _:nb61dc8f12a4b4068bf2fde6a35847704b14: *none*
+ - Shape _:nb61dc8f12a4b4068bf2fde6a35847704b18: *none*
+ - Shape _:nb61dc8f12a4b4068bf2fde6a35847704b16: *none*
+ - Shape _:nb61dc8f12a4b4068bf2fde6a35847704b68: *none*
+ - Shape _:nb61dc8f12a4b4068bf2fde6a35847704b10: *none*
+ - Shape cdifd:CDIFxasInstanceVariableShape/sh:property/sh:or/rdf:first: *none*
+
+Validation result for _sources/schemaorgProperties/variableMeasured/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/variableMeasured/rules.shacl:
+ - Shape _:nc115285c4cc745f9b4c2fd4d052c6a9bb7: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nc115285c4cc745f9b4c2fd4d052c6a9bb52: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nc115285c4cc745f9b4c2fd4d052c6a9bb30: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nc115285c4cc745f9b4c2fd4d052c6a9bb5: *none*
+ - Shape _:nc115285c4cc745f9b4c2fd4d052c6a9bb44: *none*
+ - Shape _:nc115285c4cc745f9b4c2fd4d052c6a9bb9: *none*
+ - Shape _:nc115285c4cc745f9b4c2fd4d052c6a9bb37: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nc115285c4cc745f9b4c2fd4d052c6a9bb10: *none*
+ - Shape _:nc115285c4cc745f9b4c2fd4d052c6a9bb38: *none*
+ - Shape _:nc115285c4cc745f9b4c2fd4d052c6a9bb8: *none*
+ - Shape _:nc115285c4cc745f9b4c2fd4d052c6a9bb14: *none*
+ - Shape _:nc115285c4cc745f9b4c2fd4d052c6a9bb11: *none*
+ - Shape _:nc115285c4cc745f9b4c2fd4d052c6a9bb51: *none*
+ - Shape _:nc115285c4cc745f9b4c2fd4d052c6a9bb4: *none*
+ - Shape _:nc115285c4cc745f9b4c2fd4d052c6a9bb29: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nc115285c4cc745f9b4c2fd4d052c6a9bb45: *none*
+ - Shape _:nc115285c4cc745f9b4c2fd4d052c6a9bb12: *none*
+
+Validation result for _sources/cdifProperties/cdifReference/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifProperties/cdifReference/rules.shacl:
+ - Shape cdifd:CDIFReferenceShape: *none*
+
+Validation result for _sources/schemaorgProperties/labeledLink/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/labeledLink/rules.shacl:
+ - Shape cdifd:CDIFLabeledLinkShape: *none*
+
+=== End SHACL ===
+

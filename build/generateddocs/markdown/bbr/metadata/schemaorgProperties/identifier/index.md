@@ -125,7 +125,22 @@ Identifier instance exercising all properties: propertyID, value, and url.
 
 ```yaml
 $schema: https://json-schema.org/draft/2020-12/schema
-description: Properties for a schema.org identifier
+description: 'Properties for a schema.org identifier (schema:PropertyValue pattern).
+
+
+  **Union-type policy:** In CDIF profile UML models an attribute typed as
+
+  schema:Identifier / schema:PropertyValue is represented by a single attribute
+
+  of that class type. The JSON Schema implementation permits the property value
+
+  to be EITHER a plain string (interpreted as the bare identifier value) OR a
+
+  full schema:PropertyValue object (with explicit @type, propertyID, value).
+
+  Consumers should accept either form.
+
+  '
 type: object
 properties:
   '@type':

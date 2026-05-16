@@ -915,15 +915,15 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
             cdif:fileSize 2.4e+02 ;
             cdif:fileSizeUofM "MB" ;
             cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
-                    cdif:index 1 ;
-                    cdif:locator "/coordinates/depth" ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:isRequired true ;
                     cdi:nullSequence "NaN" ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
                     cdif:index 0 ;
                     cdif:locator "/measurements/seaWaterTemperature" ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
+                    cdif:index 1 ;
+                    cdif:locator "/coordinates/depth" ;
                     cdif:physicalDataType "float32" ] ] ;
     schema1:identifier "https://doi.org/10.1234/ocean-temp-2025" ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
