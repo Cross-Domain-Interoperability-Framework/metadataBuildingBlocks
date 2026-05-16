@@ -11,18 +11,15 @@ skinparam class {
 }
 
 class "Organization" as Organization #FEFECE {
-  +organizationName : OrganizationName [0..1]
+  +legalName : string [0..1]
+  +alternateName : string [0..*]
   +url : XsdAnyUri [0..1]
   +email : string [0..1]
-  +contactInformation : ContactInformation [0..1]
+  +telephone : string [0..1]
 }
 abstract class "Agent" as Agent #D6EAF8
 Agent <|-- Organization
-class "OrganizationName" as OrganizationName <<dataType>> #FAE5D3
-Organization ..> OrganizationName : organizationName
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
 Organization ..> XsdAnyUri : url
-class "ContactInformation" as ContactInformation <<dataType>> #FAE5D3
-Organization ..> ContactInformation : contactInformation
 
 @enduml

@@ -3579,6 +3579,16 @@ def emit_html(out_dir: Path, *,
     (profile_dir / "Classes").mkdir(parents=True, exist_ok=True)
     (profile_dir / "DataTypes").mkdir(parents=True, exist_ok=True)
 
+    # Sweep stale per-class artifacts. emit_html is incremental — without this,
+    # classes/datatypes that were in the closure on a previous run but are no
+    # longer referenced would linger as orphaned .html/.pu/.svg files (unreached
+    # by any index but still on disk and bookmark-resolvable). Sweep only the
+    # known per-class file extensions; index.html etc. are overwritten below.
+    for sub in ("Classes", "DataTypes"):
+        for stale in (profile_dir / sub).iterdir():
+            if stale.is_file() and stale.suffix in {".html", ".pu", ".svg"} and stale.name != "index.html":
+                stale.unlink()
+
     for cls in closure.classes:
         _html_class_page(cls, closure, model, profile_name, profile_dir,
                          puml_dir, cross_profile_registry)
