@@ -1,0 +1,33 @@
+@startuml
+title DescriptorVariable
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "DescriptorVariable" as DescriptorVariable #FEFECE {
+  +function : Concept [1..*]
+  +physicalDataType : Concept [1]
+  +platformType : Concept [1]
+  +role : Concept [1..*]
+  +source : Reference [1]
+  +describedUnitOfMeasure : Concept [1]
+  +hasIntendedDataType : Concept [1]
+  +simpleUnitOfMeasure : string [1]
+  +descriptiveText : string [1]
+  +unitOfMeasureKind : Concept [1]
+  +definition : string [1]
+  +displayLabel : string [1..*]
+  +externalDefinition : Reference [1]
+  +identifier : Identifier [1]
+  +name : string [1..*]
+}
+class "VariableDescriptorComponent" as VariableDescriptorComponent #EEEEEE
+VariableDescriptorComponent "1" <-- DescriptorVariable : isDefinedBy
+
+@enduml

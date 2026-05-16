@@ -1,0 +1,26 @@
+@startuml
+title WideDataStructure
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "WideDataStructure" as WideDataStructure #FEFECE {
+  +identifier : Identifier [1]
+  +semantic : Concept [1..*]
+}
+class "IdentifierComponent" as IdentifierComponent #EEEEEE
+WideDataStructure --> "1..*" IdentifierComponent : has
+class "MeasureComponent" as MeasureComponent #EEEEEE
+WideDataStructure --> "1..*" MeasureComponent : has
+class "AttributeComponent" as AttributeComponent #EEEEEE
+WideDataStructure --> "0..*" AttributeComponent : has
+class "PrimaryKey" as PrimaryKey #EEEEEE
+WideDataStructure --> "0..1" PrimaryKey : has
+
+@enduml

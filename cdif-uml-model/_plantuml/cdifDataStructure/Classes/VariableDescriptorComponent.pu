@@ -1,0 +1,22 @@
+@startuml
+title VariableDescriptorComponent
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "VariableDescriptorComponent" as VariableDescriptorComponent #FEFECE {
+  +identifier : Identifier [1]
+  +semantic : Concept [1..*]
+}
+class "LongDataStructure" as LongDataStructure #EEEEEE
+LongDataStructure "1..*" <-- VariableDescriptorComponent : has
+class "DescriptorVariable" as DescriptorVariable #EEEEEE
+VariableDescriptorComponent --> "1" DescriptorVariable : isDefinedBy
+
+@enduml

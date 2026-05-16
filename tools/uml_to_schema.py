@@ -567,6 +567,10 @@ class BuildContext:
     external_class_refs: dict[str, str]  # ClassName -> $ref target if defined in another BB
     local_defs: dict[str, dict]       # name -> $def schema fragment
     expanding: set[str]               # currently-being-expanded type names (cycle guard)
+    # v1.1 transitive datatype policy (None = inactive for legacy callers).
+    datatype_substitutions: Optional[dict[str, str]] = None
+    exclude_datatypes: Optional[set[str]] = None
+    target_classes_by_name: Optional[dict[str, "UmlClass"]] = None
 
 
 def collect_inherited_properties(class_id: str, model: Model) -> list[Property]:
@@ -1697,14 +1701,34 @@ class UmlClosure:
 
 
 def compute_uml_closure(roots: list[UmlClass], ctx: BuildContext,
-                        model: Model) -> UmlClosure:
+                        model: Model,
+                        datatype_substitutions: Optional[dict[str, str]] = None,
+                        exclude_datatypes: Optional[set[str]] = None,
+                        target_classes_by_name: Optional[dict[str, UmlClass]] = None) -> UmlClosure:
     """Walk the closure from `roots` adding referenced DataTypes/Enumerations
     and (when in ctx.inline_class_names) referenced Classes. Also gathers
     association edges between included classes so they can be emitted as
-    UML Associations."""
+    UML Associations.
+
+    v1.1 transitive datatype policy:
+      * datatype_substitutions: when a property's type points at a source
+        DataType named in the map, the closure rebinds the reference to the
+        substitution target (a local target class or a UML primitive) before
+        deciding whether to pull the original into the closure. This prevents
+        excluded/substituted source DataTypes from being pulled in transitively
+        via attributes of other DataTypes (e.g. source Identifier.versionRationale
+        typed RationaleDefinition).
+      * exclude_datatypes: source DataType names to skip entirely. A property
+        whose type points at an excluded DataType is not followed (the DataType
+        does not appear in the closure, and is not emitted).
+    """
     out = UmlClosure()
     out.classes.extend(roots)
     out.class_ids.update(c.id for c in roots)
+    # Pull policy from ctx if not explicitly overridden
+    subs = datatype_substitutions or getattr(ctx, "datatype_substitutions", None) or {}
+    excludes = exclude_datatypes or getattr(ctx, "exclude_datatypes", None) or set()
+    targets_by_name = target_classes_by_name or getattr(ctx, "target_classes_by_name", None) or {}
     # Property pairs we've already considered as association edges (avoid duplicates)
     seen_assocs: set[tuple] = set()
     # FIFO queue of classes whose properties still need walking
@@ -1722,6 +1746,23 @@ def compute_uml_closure(roots: list[UmlClass], ctx: BuildContext,
                 continue
             if target.name in ctx.exclude_class_names:
                 continue
+            # v1.1: skip excluded source DataTypes entirely (don't pull them
+            # or anything they transitively reference).
+            if target.name in excludes:
+                continue
+            # v1.1: rebind substituted source DataType references to the
+            # substitution target before deciding what to pull. If the
+            # substitution maps to a UML primitive name we just skip the pull
+            # (primitives are emitted as separate uml:PrimitiveType packagedElements
+            # via _collect_used_primitives elsewhere).
+            if target.name in subs:
+                repl = subs[target.name]
+                if repl in {"String", "Integer", "Boolean", "Real"}:
+                    continue
+                repl_cls = targets_by_name.get(repl)
+                if repl_cls is not None:
+                    target = repl_cls
+                    tid = repl_cls.id
             if target.kind in ("datatype", "enumeration"):
                 if tid not in out.type_ids:
                     out.type_ids.add(tid)
@@ -3230,6 +3271,8 @@ ul.classlist a { color: #06c; text-decoration: none; font-family: monospace;
 ul.classlist .kind { color: #999; font-size: 0.8rem; margin-left: 0.5rem; }
 .parent-chain { font-family: monospace; color: #555; }
 .parent-chain .focus { color: #c00; font-weight: bold; }
+.stereotype.inherited { background: #e8f5e9; color: #2e7d32; }
+.stereotype.inherited a.classlink { color: #1b5e20; }
 """
 
 
@@ -3400,7 +3443,8 @@ def _html_inheritance(cls: UmlClass, closure: UmlClosure,
 def _html_class_page(cls: UmlClass, closure: UmlClosure, model: Model,
                      profile_name: str, profile_dir: Path,
                      puml_dir: Optional[Path],
-                     registry: Optional[dict[str, str]] = None) -> None:
+                     registry: Optional[dict[str, str]] = None,
+                     inherited: bool = False) -> None:
     included_ids = closure.class_ids | closure.type_ids
     folder = "Classes" if cls.kind == "class" else "DataTypes"
     stereotype = ""
@@ -3410,6 +3454,14 @@ def _html_class_page(cls: UmlClass, closure: UmlClosure, model: Model,
         stereotype = '<span class="stereotype">&laquo;enumeration&raquo;</span>'
     elif cls.is_abstract:
         stereotype = '<span class="stereotype">&laquo;abstract&raquo;</span>'
+    if inherited and registry:
+        origin = registry.get(cls.name)
+        if origin and origin != profile_name:
+            stereotype += (f' <span class="stereotype inherited" '
+                           f'title="Composed from {_html_escape(origin)}">'
+                           f'inherited from <a class="classlink" href="../../{origin}/'
+                           f'{folder}/{_puml_safe(cls.name)}.html">{_html_escape(origin)}</a>'
+                           f'</span>')
 
     diagram_html = ""
     if puml_dir is not None:
@@ -3466,13 +3518,16 @@ def _html_class_page(cls: UmlClass, closure: UmlClosure, model: Model,
 
 
 def _html_folder_index(folder: str, items: list[UmlClass],
-                       profile_name: str, profile_dir: Path) -> None:
+                       profile_name: str, profile_dir: Path,
+                       inherited_class_names: Optional[set[str]] = None) -> None:
     """Index page for Classes/ or DataTypes/."""
+    inh = inherited_class_names or set()
     lis = []
     for cls in sorted(items, key=lambda c: c.name):
         kind_label = f' <span class="kind">{cls.kind}</span>' if cls.kind != "class" else ""
+        inh_label = ' <span class="kind">inherited</span>' if cls.name in inh else ""
         lis.append(f'<li><a href="{_puml_safe(cls.name)}.html">'
-                   f'{_html_escape(cls.name)}</a>{kind_label}</li>')
+                   f'{_html_escape(cls.name)}</a>{kind_label}{inh_label}</li>')
     body = (f'<h1 class="classname">{folder}</h1>'
             f'<p>{len(items)} item(s) in <code>{_html_escape(profile_name)}</code></p>'
             f'<ul class="classlist">{"".join(lis)}</ul>')
@@ -3486,7 +3541,9 @@ def _html_folder_index(folder: str, items: list[UmlClass],
 
 
 def _html_profile_index(profile_name: str, closure: UmlClosure,
-                        profile_dir: Path, puml_dir: Optional[Path]) -> None:
+                        profile_dir: Path, puml_dir: Optional[Path],
+                        inherited_class_names: Optional[set[str]] = None,
+                        composes_chain: Optional[list[str]] = None) -> None:
     overview_html = ""
     if puml_dir is not None:
         ov_pu = puml_dir / "index.pu"
@@ -3499,18 +3556,52 @@ def _html_profile_index(profile_name: str, closure: UmlClosure,
                 (profile_dir / "index.svg").write_bytes(ov_svg.read_bytes())
             overview_html = _html_render_diagram(target_pu)
 
+    inh = inherited_class_names or set()
+
+    def _badge(name: str) -> str:
+        return ' <span class="kind">inherited</span>' if name in inh else ""
+
     cls_lis = "".join(
-        f'<li><a href="Classes/{_puml_safe(c.name)}.html">{_html_escape(c.name)}</a></li>'
+        f'<li><a href="Classes/{_puml_safe(c.name)}.html">{_html_escape(c.name)}</a>{_badge(c.name)}</li>'
         for c in sorted(closure.classes, key=lambda c: c.name))
     dt_items = closure.datatypes + closure.enumerations
     dt_lis = "".join(
         f'<li><a href="DataTypes/{_puml_safe(d.name)}.html">{_html_escape(d.name)}</a>'
-        f' <span class="kind">{d.kind}</span></li>'
+        f' <span class="kind">{d.kind}</span>{_badge(d.name)}</li>'
         for d in sorted(dt_items, key=lambda c: c.name))
+
+    # Composition note: if this profile composes any bases, surface that prominently.
+    compose_html = ""
+    if composes_chain:
+        # Each entry is a path like "ddi-cdi2cdifDiscovery_mapping.json"; map to a
+        # profile name by stripping the prefix/suffix.
+        def _profile_from_path(p: str) -> str:
+            stem = p.rsplit("/", 1)[-1].removeprefix("ddi-cdi2").removesuffix("_mapping.json")
+            # CamelCase the slug: cdifCore -> CDIFCore (heuristic for our naming)
+            if stem.startswith("cdif"):
+                stem = "CDIF" + stem[4:]
+            return stem
+        names = [_profile_from_path(p) for p in composes_chain]
+        links = ", ".join(
+            f'<a class="classlink" href="../{n}/index.html">{_html_escape(n)}</a>'
+            for n in names
+        )
+        compose_html = (
+            f'<div class="definition" style="border-left-color:#2e7d32">'
+            f'<strong>Composes:</strong> this profile inherits classes and '
+            f'associations from {links}. Inherited entries are marked below '
+            f'and on each per-class page; the cross-profile link on the badge '
+            f'jumps to the canonical definition in the originating profile. '
+            f'The full graph shown here matches the composed JSON Schema '
+            f'(resolvedSchema.json) for this profile.</div>'
+        )
 
     body = (
         f'<h1 class="classname">{_html_escape(profile_name)}</h1>'
-        f'<p>{len(closure.classes)} classes, {len(dt_items)} datatypes/enumerations.</p>'
+        f'<p>{len(closure.classes)} classes, {len(dt_items)} datatypes/enumerations'
+        + (f' ({sum(1 for c in closure.classes if c.name in inh)} class(es) inherited)' if inh else "")
+        + '.</p>'
+        f'{compose_html}'
         f'<h2>Model overview</h2>{overview_html or "<p class=\"empty\">No overview diagram.</p>"}'
         f'<h2>Classes</h2><ul class="classlist">{cls_lis}</ul>'
         f'<h2>DataTypes &amp; Enumerations</h2><ul class="classlist">{dt_lis}</ul>'
@@ -3555,7 +3646,9 @@ def emit_html(out_dir: Path, *,
               ctx: BuildContext,
               model: Model,
               puml_dir: Optional[Path] = None,
-              cross_profile_registry: Optional[dict[str, str]] = None) -> dict:
+              cross_profile_registry: Optional[dict[str, str]] = None,
+              inherited_class_names: Optional[set[str]] = None,
+              composes_chain: Optional[list[str]] = None) -> dict:
     """Emit an HTML model browser for one profile.
 
     Layout under <out_dir>:
@@ -3589,23 +3682,31 @@ def emit_html(out_dir: Path, *,
             if stale.is_file() and stale.suffix in {".html", ".pu", ".svg"} and stale.name != "index.html":
                 stale.unlink()
 
+    inherited = inherited_class_names or set()
     for cls in closure.classes:
         _html_class_page(cls, closure, model, profile_name, profile_dir,
-                         puml_dir, cross_profile_registry)
+                         puml_dir, cross_profile_registry,
+                         inherited=cls.name in inherited)
     for dt in closure.datatypes + closure.enumerations:
         _html_class_page(dt, closure, model, profile_name, profile_dir,
-                         puml_dir, cross_profile_registry)
+                         puml_dir, cross_profile_registry,
+                         inherited=dt.name in inherited)
 
-    _html_folder_index("Classes", closure.classes, profile_name, profile_dir)
+    _html_folder_index("Classes", closure.classes, profile_name, profile_dir,
+                       inherited_class_names=inherited)
     _html_folder_index("DataTypes",
                        closure.datatypes + closure.enumerations,
-                       profile_name, profile_dir)
-    _html_profile_index(profile_name, closure, profile_dir, puml_dir)
+                       profile_name, profile_dir,
+                       inherited_class_names=inherited)
+    _html_profile_index(profile_name, closure, profile_dir, puml_dir,
+                        inherited_class_names=inherited,
+                        composes_chain=composes_chain or [])
 
-    # Refresh the root index by scanning sibling profile dirs.
+    # Refresh the root index by scanning sibling profile dirs. Skip sibling
+    # build-intermediate dirs (_static for CSS, _plantuml for .pu/.svg sources).
     profiles = []
     for sub in sorted(out_dir.iterdir()):
-        if not sub.is_dir() or sub.name == "_static":
+        if not sub.is_dir() or sub.name.startswith("_"):
             continue
         classes_dir = sub / "Classes"
         dtypes_dir = sub / "DataTypes"
@@ -3622,6 +3723,214 @@ def emit_html(out_dir: Path, *,
     }
 
 
+def _load_with_composition(config_path: Path,
+                           _seen: Optional[set] = None) -> tuple[dict, list[str]]:
+    """Load a ucmism2m config and recursively merge in any base configs named
+    in transformation.targetModel.composes. Returns (effective_cfg, inherited_classnames).
+
+    Composition (v1.1):
+      - For each base path, recursively expand (so chains like
+        DataStructure -> DataDescription -> Discovery -> Core work).
+      - Classes: same targetClass union attribute lists (local wins on name
+        conflict). Generalizations are unioned. The local class's other
+        fields (sourceClass, definition, isAbstract, etc.) win.
+      - Associations: added when targetAssociationName isn't already present.
+      - Packages: added when name isn't already present.
+
+    `inherited_classnames` is the list of class names that came in from a base
+    config (i.e. were not declared in this config's own mapping.class). The
+    HTML emitter uses it to badge "inherited from <profile>" on those entries.
+    """
+    if _seen is None:
+        _seen = set()
+    config_path = config_path.resolve()
+    if config_path in _seen:
+        raise RuntimeError(f"Circular composes: {config_path}")
+    _seen.add(config_path)
+
+    with open(config_path, "r", encoding="utf-8") as f:
+        cfg = json.load(f)
+    compose_list = (cfg.get("transformation", {})
+                       .get("targetModel", {})
+                       .get("composes", [])) or []
+    if not compose_list:
+        return cfg, []
+
+    # Local classes (this profile's own) — keep their names so we know what's
+    # inherited vs locally introduced.
+    own_class_names = {c.get("targetClass") for c in cfg.get("mapping", {}).get("class", []) or []
+                       if c.get("targetClass")}
+
+    # Build effective cfg starting from a deep copy of the local one
+    effective = copy.deepcopy(cfg)
+    classes_by_name: "OrderedDict[str, dict]" = OrderedDict()
+    for c in effective.get("mapping", {}).get("class", []) or []:
+        tn = c.get("targetClass")
+        if tn:
+            classes_by_name[tn] = c
+    associations_by_name: "OrderedDict[str, dict]" = OrderedDict()
+    for a in effective.get("mapping", {}).get("association", []) or []:
+        an = a.get("targetAssociationName") or a.get("sourceAssociationName")
+        if an:
+            associations_by_name[an] = a
+    packages_by_name: "OrderedDict[str, dict]" = OrderedDict()
+    for p in effective.get("package", []) or []:
+        if p.get("name"):
+            packages_by_name[p["name"]] = p
+
+    inherited: list[str] = []
+
+    # Effective datatype substitutions / excludes start from this config
+    effective_subs: dict = dict(effective.get("transformation", {})
+                                         .get("datatypeSubstitutions", {}) or {})
+    effective_excludes: set = set(effective.get("transformation", {})
+                                            .get("excludeDatatypes", []) or [])
+
+    for base_rel in compose_list:
+        base_path = (config_path.parent / base_rel).resolve()
+        base_cfg, base_inherited = _load_with_composition(base_path, _seen)
+
+        # Substitutions: base first, local overrides on key conflict
+        base_subs = (base_cfg.get("transformation", {})
+                              .get("datatypeSubstitutions", {})) or {}
+        merged_subs = dict(base_subs)
+        merged_subs.update(effective_subs)
+        effective_subs = merged_subs
+        # Excludes: union
+        effective_excludes |= set(
+            (base_cfg.get("transformation", {}).get("excludeDatatypes", [])) or []
+        )
+
+        # Merge classes
+        for bc in base_cfg.get("mapping", {}).get("class", []) or []:
+            tn = bc.get("targetClass")
+            if not tn:
+                continue
+            if tn in classes_by_name:
+                # MERGE: union attributes (local wins on name conflict) +
+                # union generalizations
+                local = classes_by_name[tn]
+                local_attr_names = {a.get("name") for a in (local.get("attribute") or [])}
+                merged_attrs = list(local.get("attribute") or [])
+                for ba in bc.get("attribute") or []:
+                    if ba.get("name") not in local_attr_names:
+                        merged_attrs.append(ba)
+                local["attribute"] = merged_attrs
+                local_gen = set(local.get("generalization") or [])
+                base_gen = set(bc.get("generalization") or [])
+                if local_gen | base_gen:
+                    local["generalization"] = sorted(local_gen | base_gen)
+                # Carry isAbstract from base if local doesn't set it
+                if "isAbstract" not in local and bc.get("isAbstract"):
+                    local["isAbstract"] = bc["isAbstract"]
+            else:
+                classes_by_name[tn] = copy.deepcopy(bc)
+                if tn not in own_class_names:
+                    inherited.append(tn)
+
+        # Merge associations (first-wins by targetAssociationName)
+        for ba in base_cfg.get("mapping", {}).get("association", []) or []:
+            an = ba.get("targetAssociationName") or ba.get("sourceAssociationName")
+            if an and an not in associations_by_name:
+                associations_by_name[an] = copy.deepcopy(ba)
+
+        # Merge packages (first-wins by name) — note: parent will still point
+        # at the base's mainPackage name, which won't match this profile's main
+        # package. We rewrite the parent so packages nest cleanly.
+        local_main = effective["transformation"]["targetModel"]["mainPackage"]
+        base_main = base_cfg["transformation"]["targetModel"]["mainPackage"]
+        for bp in base_cfg.get("package", []) or []:
+            name = bp.get("name")
+            if not name or name in packages_by_name:
+                continue
+            np = copy.deepcopy(bp)
+            if np.get("parent") == base_main:
+                np["parent"] = local_main
+            packages_by_name[name] = np
+
+        # Cascade inherited list from base
+        for bn in base_inherited:
+            if bn not in own_class_names and bn not in inherited:
+                inherited.append(bn)
+
+    # Reassemble
+    effective.setdefault("mapping", {})["class"] = list(classes_by_name.values())
+    effective["mapping"]["association"] = list(associations_by_name.values())
+    effective["package"] = list(packages_by_name.values())
+    # Carry the merged substitutions/excludes back onto the effective cfg
+    if effective_subs:
+        effective.setdefault("transformation", {})["datatypeSubstitutions"] = effective_subs
+    if effective_excludes:
+        effective.setdefault("transformation", {})["excludeDatatypes"] = sorted(effective_excludes)
+    return effective, inherited
+
+
+_UML_PRIMITIVE_NAMES = {"String", "Integer", "Boolean", "Real"}
+
+
+def _apply_datatype_substitutions(
+    target_classes_by_name: dict[str, "UmlClass"],
+    source_model: "Model",
+    substitutions: dict[str, str],
+    excludes: set[str],
+) -> tuple[int, int]:
+    """For every synthetic target class's property:
+      * if the property's type points at a source DataType named in `excludes`,
+        drop the property entirely;
+      * if the property's type points at a source DataType named in `substitutions`,
+        replace the type with the substitution (a UML primitive or a local
+        target class id).
+    Returns (substitution_count, drop_count).
+    """
+    if not substitutions and not excludes:
+        return 0, 0
+
+    # Pre-compute lookups: source DataType name -> (replacement_target_id, replacement_primitive)
+    name_to_replacement: dict[str, tuple[Optional[str], Optional[str]]] = {}
+    for src_name, repl in substitutions.items():
+        if repl in _UML_PRIMITIVE_NAMES:
+            # Map e.g. "String" -> JSON-schema-style "string"
+            prim = PRIMITIVE_FRAGMENTS.get(repl, "string")
+            name_to_replacement[src_name] = (None, prim)
+        elif repl in target_classes_by_name:
+            name_to_replacement[src_name] = (target_classes_by_name[repl].id, None)
+        else:
+            # Replacement target not present in this profile's class set —
+            # leave the property typed as the source DataType (no-op).
+            pass
+
+    subs_count = 0
+    drop_count = 0
+    for cls in target_classes_by_name.values():
+        new_props: list[Property] = []
+        for p in cls.properties:
+            if p.type_id is None or p.is_assoc_end:
+                new_props.append(p)
+                continue
+            target = source_model.elements.get(p.type_id)
+            if target is None:
+                new_props.append(p)
+                continue
+            if target.name in excludes:
+                drop_count += 1
+                continue
+            repl = name_to_replacement.get(target.name)
+            if repl is not None:
+                tid, prim = repl
+                new_props.append(Property(
+                    id=p.id, name=p.name,
+                    type_id=tid, primitive=prim,
+                    lower=p.lower, upper=p.upper,
+                    doc=p.doc, is_assoc_end=p.is_assoc_end,
+                    aggregation=p.aggregation,
+                ))
+                subs_count += 1
+                continue
+            new_props.append(p)
+        cls.properties = new_props
+    return subs_count, drop_count
+
+
 def emit_uml_from_config(
     config_path: Path,
     source_model: Model,
@@ -3636,9 +3945,9 @@ def emit_uml_from_config(
       - class set (map / new / merge)
       - per-attribute renames + multiplicity overrides
       - association edges (renamed source associations and brand-new ones)
+      - v1.1 composes: recursive merge from base profile configs
     """
-    with open(config_path, "r", encoding="utf-8") as f:
-        cfg = json.load(f)
+    cfg, inherited_class_names = _load_with_composition(config_path)
 
     tm = cfg["transformation"]["targetModel"]
     acronym = tm["acronym"]
@@ -3646,8 +3955,25 @@ def emit_uml_from_config(
     model_name = tm.get("mainPackage", acronym)
     main_pkg = tm["mainPackage"]
 
-    # Render synthetic target classes
+    # Pre-pass: register every target class id by name so forward dataType
+    # references resolve correctly. Without this, a class declared earlier in
+    # the config that references a target type declared later (e.g. a "stub"
+    # appended at the end of the array) would fall through _resolve_dataType_ref
+    # to the source DDI-CDI namespace and pull in unrelated DataType cascades.
+    # Stubs are overwritten with the fully rendered class in the main pass below.
     target_classes_by_name: dict[str, UmlClass] = {}
+    for spec in cfg.get("mapping", {}).get("class", []):
+        target_name = spec.get("targetClass")
+        if not target_name:
+            continue
+        tgt_id = _profile_xmi_id(acronym, target_name)
+        target_classes_by_name[target_name] = UmlClass(
+            id=tgt_id, name=target_name, package="", doc=None,
+            is_abstract=False, parents=[], properties=[],
+            kind="class", literals=[],
+        )
+
+    # Main pass: render synthetic target classes (overwrites the stubs)
     target_class_specs: list[tuple[dict, str]] = []  # (spec, mapping_type) preserves order
     for spec in cfg.get("mapping", {}).get("class", []):
         mt = spec["mappingType"]
@@ -3683,6 +4009,18 @@ def emit_uml_from_config(
                 continue
             if parent_cls.id not in target_cls.parents:
                 target_cls.parents.append(parent_cls.id)
+
+    # Apply v1.1 datatype substitutions and excludes BEFORE associations are
+    # rendered so substituted attrs are settled. Substitutions/excludes are
+    # already merged through the composition chain by _load_with_composition.
+    subs = cfg.get("transformation", {}).get("datatypeSubstitutions", {}) or {}
+    excludes = set(cfg.get("transformation", {}).get("excludeDatatypes", []) or [])
+    n_subs, n_drops = _apply_datatype_substitutions(
+        target_classes_by_name, source_model, subs, excludes
+    )
+    if n_subs or n_drops:
+        print(f"datatype substitutions: {n_subs} retyped, {n_drops} dropped",
+              file=sys.stderr)
 
     # Render associations as synthetic assoc-end Properties on the relevant
     # target class(es)
@@ -3722,6 +4060,9 @@ def emit_uml_from_config(
         external_class_refs={},
         local_defs=OrderedDict(),
         expanding=set(),
+        datatype_substitutions=subs,
+        exclude_datatypes=excludes,
+        target_classes_by_name=target_classes_by_name,
     )
 
     # The roots are the synthetic target classes
@@ -3756,6 +4097,11 @@ def emit_uml_from_config(
     elif output_format == "html":
         puml_dir = (ctx_overrides or {}).get("puml_dir") if ctx_overrides else None
         registry = (ctx_overrides or {}).get("cross_profile_registry") if ctx_overrides else None
+        # Names of classes inherited (via composes) so the HTML browser can
+        # badge them; also pass the composes chain for the profile index note.
+        composes_chain = (cfg.get("transformation", {})
+                            .get("targetModel", {})
+                            .get("composes", [])) or []
         manifest = emit_html(
             out_path,
             profile_name=model_name,
@@ -3764,6 +4110,8 @@ def emit_uml_from_config(
             model=merged_model,
             puml_dir=puml_dir,
             cross_profile_registry=registry,
+            inherited_class_names=set(inherited_class_names),
+            composes_chain=composes_chain,
         )
         print(
             f"HTML: {manifest['classes']} classes, "

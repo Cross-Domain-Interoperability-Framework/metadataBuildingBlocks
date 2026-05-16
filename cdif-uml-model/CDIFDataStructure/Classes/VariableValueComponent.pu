@@ -1,0 +1,22 @@
+@startuml
+title VariableValueComponent
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "VariableValueComponent" as VariableValueComponent #FEFECE {
+  +identifier : Identifier [1]
+  +semantic : Concept [1..*]
+}
+class "LongDataStructure" as LongDataStructure #EEEEEE
+LongDataStructure "1..*" <-- VariableValueComponent : has
+class "ReferenceVariable" as ReferenceVariable #EEEEEE
+VariableValueComponent --> "1" ReferenceVariable : isDefinedBy
+
+@enduml

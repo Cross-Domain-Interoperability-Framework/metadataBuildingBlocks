@@ -1,0 +1,21 @@
+@startuml
+title PrimaryKeyComponent
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "PrimaryKeyComponent" as PrimaryKeyComponent #FEFECE {
+  +identifier : Identifier [1]
+}
+class "PrimaryKey" as PrimaryKey #EEEEEE
+PrimaryKey "1..*" <-- PrimaryKeyComponent : isComposedOf
+class "IdentifierComponent" as IdentifierComponent #EEEEEE
+PrimaryKeyComponent --> "1" IdentifierComponent : correspondsTo
+
+@enduml

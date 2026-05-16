@@ -1,0 +1,25 @@
+@startuml
+title AbstractGeometry
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+abstract class "AbstractGeometry" as AbstractGeometry #FEFECE {
+  +crs : XsdAnyUri [0..1]
+}
+class "GeoCoordinates" as GeoCoordinates #D5F5E3
+AbstractGeometry <|-- GeoCoordinates
+class "GeoShape" as GeoShape #D5F5E3
+AbstractGeometry <|-- GeoShape
+class "SpatialExtent" as SpatialExtent #EEEEEE
+SpatialExtent "0..1" <-- AbstractGeometry : geo
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+AbstractGeometry ..> XsdAnyUri : crs
+
+@enduml

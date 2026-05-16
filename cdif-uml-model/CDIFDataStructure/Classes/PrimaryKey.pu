@@ -1,0 +1,23 @@
+@startuml
+title PrimaryKey
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "PrimaryKey" as PrimaryKey #FEFECE {
+  +identifier : Identifier [1]
+}
+class "WideDataStructure" as WideDataStructure #EEEEEE
+WideDataStructure "0..1" <-- PrimaryKey : has
+class "PrimaryKeyComponent" as PrimaryKeyComponent #EEEEEE
+PrimaryKey --> "1..*" PrimaryKeyComponent : isComposedOf
+class "Dataset" as Dataset #EEEEEE
+Dataset "0..1" <-- PrimaryKey : hasPrimaryKey
+
+@enduml

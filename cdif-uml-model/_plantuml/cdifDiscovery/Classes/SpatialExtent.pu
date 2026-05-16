@@ -1,0 +1,22 @@
+@startuml
+title SpatialExtent
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "SpatialExtent" as SpatialExtent #FEFECE {
+  +name : string [0..1]
+  +identifier : Identifier [0..1]
+}
+class "Dataset" as Dataset #EEEEEE
+Dataset "0..*" <-- SpatialExtent : spatialCoverage
+abstract class "AbstractGeometry" as AbstractGeometry #EEEEEE
+SpatialExtent --> "0..1" AbstractGeometry : geo
+
+@enduml
