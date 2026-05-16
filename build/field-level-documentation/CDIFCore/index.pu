@@ -11,6 +11,7 @@ skinparam class {
 }
 
 class "Dataset" as Dataset #FEFECE
+abstract class "AbstractDistribution" as AbstractDistribution #FEFECE
 class "DataDownload" as DataDownload #FEFECE
 class "WebAPI" as WebAPI #FEFECE
 abstract class "Agent" as Agent #FEFECE
@@ -24,10 +25,11 @@ class "MonetaryGrant" as MonetaryGrant #FEFECE
 class "ProvActivity" as ProvActivity #FEFECE
 class "DerivedFrom" as DerivedFrom #FEFECE
 class "CatalogRecord" as CatalogRecord #FEFECE
+AbstractDistribution <|-- DataDownload
+AbstractDistribution <|-- WebAPI
 Agent <|-- Person
 Agent <|-- Organization
-Dataset --> "0..*" DataDownload : distribution
-Dataset --> "0..*" WebAPI : distribution
+Dataset --> "0..*" AbstractDistribution : distribution
 Dataset --> "0..*" Agent : creator
 Dataset --> "0..*" Contributor : contributor
 Dataset --> "0..1" Agent : publisher

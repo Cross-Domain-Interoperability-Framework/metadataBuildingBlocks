@@ -1,0 +1,27 @@
+@startuml
+title AbstractDistribution
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+abstract class "AbstractDistribution" as AbstractDistribution #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+  +name : string [0..1]
+  +description : string [0..1]
+}
+class "DataDownload" as DataDownload #D5F5E3
+AbstractDistribution <|-- DataDownload
+class "WebAPI" as WebAPI #D5F5E3
+AbstractDistribution <|-- WebAPI
+class "Dataset" as Dataset #EEEEEE
+Dataset "0..*" <-- AbstractDistribution : distribution
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+AbstractDistribution ..> XsdAnyUri : identifier
+
+@enduml
