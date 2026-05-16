@@ -3702,10 +3702,11 @@ def emit_html(out_dir: Path, *,
                         inherited_class_names=inherited,
                         composes_chain=composes_chain or [])
 
-    # Refresh the root index by scanning sibling profile dirs.
+    # Refresh the root index by scanning sibling profile dirs. Skip sibling
+    # build-intermediate dirs (_static for CSS, _plantuml for .pu/.svg sources).
     profiles = []
     for sub in sorted(out_dir.iterdir()):
-        if not sub.is_dir() or sub.name == "_static":
+        if not sub.is_dir() or sub.name.startswith("_"):
             continue
         classes_dir = sub / "Classes"
         dtypes_dir = sub / "DataTypes"
