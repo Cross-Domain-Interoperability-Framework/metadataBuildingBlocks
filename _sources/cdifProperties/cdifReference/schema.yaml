@@ -1,0 +1,33 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+type: object
+description: see https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13 for discussion
+  on how to make assertion about the sample registration and metadata distinct from statements about the
+  physical object
+allOf:
+- '$ref': '../../schemaorgProperties/labeledLink/schema.yaml'
+- '$ref': '#/$defs/Reference'
+$defs:
+  Reference:
+    type: object
+    description: "based on DDI-CDI reference to an entity (dt-Reference)"
+    properties:
+      "@type":
+        type: array
+        items:
+          type: string
+        contains:
+          const: "cdif:Reference"
+        minItems: 1
+      "cdi:uri":
+        type: string
+        format: uri
+        description: URI of the referenced entity
+      "cdi:description":
+        type: string
+        description: Human-readable description of the reference
+      "cdif:semantic":
+        description: Semantic role of this reference
+        $ref: '../../skosProperties/skosConcept/schema.yaml'
+
+
+

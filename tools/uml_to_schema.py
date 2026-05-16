@@ -36,6 +36,7 @@ from __future__ import annotations
 import argparse
 import copy
 import json
+import os
 import re
 import sys
 import textwrap
@@ -226,6 +227,11 @@ def _walk_packages(root: ET.Element, model: Model, current_path: list[str]):
             kind = "datatype"
         elif ctype == "uml:Enumeration":
             kind = "enumeration"
+        elif ctype == "uml:PrimitiveType":
+            # Capture model-local PrimitiveTypes (e.g. DDI-CDI's XsdAnyUri,
+            # XsdDate, XsdLanguage) so they can be referenced by name in
+            # ucmism2m config dataType fields.
+            kind = "datatype"
         if kind:
             cls = _parse_class(child, ".".join(current_path), kind)
             if cls.id in model.elements:
@@ -1306,12 +1312,21 @@ def main(argv: Optional[list[str]] = None) -> int:
     )
     ap.add_argument("--xmi", type=Path, required=True,
                     help="Path to canonical XMI 2.5.1 file.")
-    ap.add_argument("--class", dest="classes", required=True,
-                    help="Comma-separated list of root class names.")
-    ap.add_argument("--bb-name", required=True,
-                    help="Building-block directory name (e.g. ddicdiValueDomain).")
-    ap.add_argument("--out-dir", type=Path, required=True,
-                    help="Parent directory; the BB folder will be created/replaced inside.")
+    ap.add_argument("--class", dest="classes", default=None,
+                    help="Comma-separated list of root class names. "
+                         "Ignored when --config is given.")
+    ap.add_argument("--bb-name", default=None,
+                    help="Building-block directory name (e.g. ddicdiValueDomain). "
+                         "Required for schema emit; ignored when --config + "
+                         "--uml-only are used together.")
+    ap.add_argument("--out-dir", type=Path, default=None,
+                    help="Parent directory; the BB folder will be created/replaced inside. "
+                         "Required for schema emit.")
+    ap.add_argument("--config", type=Path, default=None,
+                    help="Path to a ucmism2m JSON configuration file. When given, "
+                         "the configuration drives UML emit (target classes, renames, "
+                         "associations, profile metadata). Pair with --emit-uml PATH "
+                         "and --uml-only to skip schema emit.")
     ap.add_argument("--title", default=None,
                     help="Human-readable BB title (default: derived from --bb-name).")
     ap.add_argument("--description", default=None,
@@ -1349,10 +1364,113 @@ def main(argv: Optional[list[str]] = None) -> int:
     ap.add_argument("--strict-required", action="store_true",
                     help="Emit `required` for every property with UML lower>=1. "
                          "Default is project-style: only @type required.")
+    # ------------------------------------------------------------------ UML emit
+    ap.add_argument("--emit-uml", type=Path, default=None,
+                    help="Also write an Eclipse UML2 (XMI 2.5) profile model to PATH. "
+                         "Uses the same --class roots + --inline / --reference / "
+                         "--exclude-class logic as schema emit.")
+    ap.add_argument("--emit-ea-xmi", type=Path, default=None,
+                    help="Also write an Enterprise Architect XMI 1.1 profile model "
+                         "to PATH. Same source data, different on-the-wire format "
+                         "for direct import into EA.")
+    ap.add_argument("--emit-puml", type=Path, default=None,
+                    help="Also write per-class PlantUML diagrams under DIR. "
+                         "Produces index.pu plus Classes/<Name>.pu and "
+                         "DataTypes/<Name>.pu. Render to SVG with plantuml.jar.")
+    ap.add_argument("--emit-html", type=Path, default=None,
+                    help="Also write a static HTML model browser under DIR. "
+                         "If --emit-puml is given in the same run, diagrams "
+                         "are embedded from that location; otherwise pass "
+                         "--puml-dir DIR to point at pre-rendered .pu files.")
+    ap.add_argument("--puml-dir", type=Path, default=None,
+                    help="Directory of pre-rendered PlantUML files for HTML "
+                         "embedding. Ignored unless --emit-html is used.")
+    ap.add_argument("--plantuml-jar", type=Path,
+                    default=Path(os.environ.get("PLANTUML_JAR", "")) if os.environ.get("PLANTUML_JAR") else None,
+                    help="Path to plantuml.jar. When set together with "
+                         "--emit-puml, .pu files are rendered to .svg via "
+                         "java -jar. Falls back to PLANTUML_JAR env var.")
+    ap.add_argument("--java-exe",
+                    default=os.environ.get("JAVA_EXE", "java"),
+                    help="Path to java executable to use for plantuml.jar. "
+                         "Default 'java' (on PATH). Falls back to JAVA_EXE "
+                         "env var. PlantUML 1.2024+ requires Java 11+.")
+    ap.add_argument("--cross-profile-registry", type=Path, default=None,
+                    help="Path to JSON file mapping {className: profileName} "
+                         "for cross-profile linking in HTML output. Build via "
+                         "build-docs.ps1 or hand-author for explicit control.")
+    ap.add_argument("--uml-only", action="store_true",
+                    help="Skip schema.yaml + companions; only write UML/EA-XMI files.")
+    ap.add_argument("--uml-acronym", default=None,
+                    help="Short identifier used to build xmi:id values "
+                         "(e.g. 'cdifCodelist'). Defaults to --bb-name with "
+                         "any 'ddicdi' prefix stripped, lowercased first-letter.")
+    ap.add_argument("--uml-profile-uri", default=None,
+                    help="URI for the profile namespace, used as xmi:uuid prefix "
+                         "(e.g. 'https://w3id.org/cdif/codelist/1.0/xmi/').")
+    ap.add_argument("--uml-model-name", default=None,
+                    help="Name of the uml:Model element (e.g. 'CDIFCodelist'). "
+                         "Defaults to --bb-name.")
+    ap.add_argument("--uml-model-definition", default=None,
+                    help="Top-level model description (becomes a Model ownedComment).")
+    ap.add_argument("--uml-main-package", default=None,
+                    help="Name of the main uml:Package inside the model "
+                         "(defaults to --uml-model-name).")
+    ap.add_argument("--uml-main-package-definition", default=None,
+                    help="Definition for the main package.")
+    ap.add_argument("--uml-classes-package", default="Classes",
+                    help="Name of the sub-package that holds the selected classes "
+                         "(default: Classes). Use empty string to put classes "
+                         "directly under the main package.")
+    ap.add_argument("--uml-classes-package-definition", default=None,
+                    help="Definition for the classes sub-package.")
     args = ap.parse_args(argv)
 
     model = parse_xmi(args.xmi)
     print(f"Parsed XMI: {len(model.elements)} elements", file=sys.stderr)
+
+    # ----- Config-driven UML emit short-circuit (Phase 2 / EA / PlantUML / HTML)
+    if args.config:
+        if not (args.emit_uml or args.emit_ea_xmi or args.emit_puml or args.emit_html):
+            print("ERROR: --config requires at least one of "
+                  "--emit-uml / --emit-ea-xmi / --emit-puml / --emit-html",
+                  file=sys.stderr)
+            return 2
+        overrides = {
+            "inline": set(_split_csv(args.inline)),
+            "exclude_class": set(_split_csv(args.exclude_class)),
+        }
+        if args.emit_uml:
+            emit_uml_from_config(args.config, model, args.emit_uml,
+                                 ctx_overrides=overrides, output_format="canonical")
+            print(f"Wrote {args.emit_uml}", file=sys.stderr)
+        if args.emit_ea_xmi:
+            emit_uml_from_config(args.config, model, args.emit_ea_xmi,
+                                 ctx_overrides=overrides, output_format="ea")
+            print(f"Wrote {args.emit_ea_xmi}", file=sys.stderr)
+        if args.emit_puml:
+            emit_uml_from_config(args.config, model, args.emit_puml,
+                                 ctx_overrides=overrides, output_format="puml")
+            if args.plantuml_jar and args.plantuml_jar.exists():
+                n = render_puml_to_svg(args.emit_puml, args.plantuml_jar,
+                                       java_exe=args.java_exe)
+                print(f"Rendered {n} SVGs via {args.plantuml_jar}", file=sys.stderr)
+        if args.emit_html:
+            html_overrides = dict(overrides)
+            html_overrides["puml_dir"] = args.puml_dir or args.emit_puml
+            if args.cross_profile_registry and args.cross_profile_registry.exists():
+                with open(args.cross_profile_registry, "r", encoding="utf-8") as f:
+                    html_overrides["cross_profile_registry"] = json.load(f)
+            emit_uml_from_config(args.config, model, args.emit_html,
+                                 ctx_overrides=html_overrides, output_format="html")
+        return 0
+
+    # Argparse-required-vs-config check: classic args required only when
+    # --config is not used.
+    if not args.classes or not args.bb_name or not args.out_dir:
+        print("ERROR: --class, --bb-name and --out-dir are required unless --config is given",
+              file=sys.stderr)
+        return 2
 
     # Resolve class names → ids
     class_names = _split_csv(args.classes)
@@ -1435,28 +1553,65 @@ def main(argv: Optional[list[str]] = None) -> int:
     else:
         description = clean_definition(classes[0].doc)
 
-    schema = build_root_schema(classes, ctx, title, description)
+    # ----- schema emit (skip when --uml-only)
+    if not args.uml_only:
+        schema = build_root_schema(classes, ctx, title, description)
+        schema_path = bb_out_dir / "schema.yaml"
+        emit_yaml(schema, schema_path)
+        print(f"Wrote {schema_path}", file=sys.stderr)
 
-    schema_path = bb_out_dir / "schema.yaml"
-    emit_yaml(schema, schema_path)
-    print(f"Wrote {schema_path}", file=sys.stderr)
+        if not args.schema_only:
+            abstract = (description or "").strip().replace("\n\n", " ")
+            if not abstract:
+                abstract = f"Building block for {', '.join(class_names)}."
+            emit_companions(
+                out_dir=bb_out_dir,
+                bb_name=args.bb_name,
+                title=title,
+                abstract=abstract,
+                class_names=class_names,
+                prefix=args.prefix,
+                prefix_iri=args.prefix_iri,
+                today=_today_iso(),
+            )
+            print(f"Wrote bblock.json, context.jsonld, rules.shacl, examples.yaml",
+                  file=sys.stderr)
 
-    if not args.schema_only:
-        abstract = (description or "").strip().replace("\n\n", " ")
-        if not abstract:
-            abstract = f"Building block for {', '.join(class_names)}."
-        emit_companions(
-            out_dir=bb_out_dir,
-            bb_name=args.bb_name,
-            title=title,
-            abstract=abstract,
-            class_names=class_names,
-            prefix=args.prefix,
-            prefix_iri=args.prefix_iri,
-            today=_today_iso(),
+    # ----- UML emit
+    if args.emit_uml:
+        if args.uml_only and not args.emit_uml:
+            print("ERROR: --uml-only requires --emit-uml PATH", file=sys.stderr)
+            return 2
+
+        acronym = args.uml_acronym
+        if not acronym:
+            # Strip 'ddicdi' prefix if present; lower-first-letter for the rest.
+            stripped = args.bb_name
+            if stripped.lower().startswith("ddicdi") and len(stripped) > 6:
+                stripped = stripped[6:]
+            acronym = stripped[:1].lower() + stripped[1:] if stripped else args.bb_name
+
+        profile_uri = args.uml_profile_uri or args.prefix_iri
+        model_name = args.uml_model_name or args.bb_name
+        main_pkg = args.uml_main_package or model_name
+        classes_pkg = args.uml_classes_package if args.uml_classes_package != "" else None
+        model_def = args.uml_model_definition or (description or "")
+
+        emit_uml(
+            args.emit_uml,
+            acronym=acronym,
+            profile_uri=profile_uri,
+            model_name=model_name,
+            model_definition=model_def,
+            main_package_name=main_pkg,
+            main_package_definition=args.uml_main_package_definition or "",
+            classes_package_name=classes_pkg,
+            classes_package_definition=args.uml_classes_package_definition or "",
+            roots=classes,
+            ctx=ctx,
+            model=model,
         )
-        print(f"Wrote bblock.json, context.jsonld, rules.shacl, examples.yaml",
-              file=sys.stderr)
+        print(f"Wrote {args.emit_uml}", file=sys.stderr)
 
     return 0
 
@@ -1467,6 +1622,2159 @@ def _humanize(name: str) -> str:
         rest = name[6:]
         return "DDI-CDI " + re.sub(r"(?<=[a-z])(?=[A-Z])", " ", rest)
     return re.sub(r"(?<=[a-z])(?=[A-Z])", " ", name)
+
+
+# ---------------------------------------------------------------------------
+# Eclipse UML2 (XMI 2.5) emit
+#
+# Produces a profile UML file in the same canonical-XMI shape as the existing
+# cdif-ddsc / cdif-codelist hand-built UMLs. Reuses the parsed Model and the
+# BuildContext's inline/reference/exclude flags so the same --class / --inline
+# args that drive schema emit also drive UML emit.
+# ---------------------------------------------------------------------------
+
+UML2_NS = "http://www.eclipse.org/uml2/5.0.0/UML"
+UML2_XMI_NS = "http://www.omg.org/spec/XMI/20131001"
+STANDARD_PROFILE_NS = "http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard"
+PRIMITIVE_HREF_BASE = "http://www.eclipse.org/uml2/5.0.0/UML/PrimitiveTypes.xmi"
+
+# Reverse of PRIMITIVE_FRAGMENTS — JSON-schema-type back to the UML primitive
+# local name used in the href fragment.
+PRIMITIVE_LOCAL = {
+    "string": "String",
+    "integer": "Integer",
+    "boolean": "Boolean",
+    "number": "Real",
+}
+
+
+def _primitive_xmi_id(acronym: str, prim_local_name: str) -> str:
+    """Stable xmi:id for a profile-local PrimitiveType packagedElement."""
+    return _profile_xmi_id(acronym, prim_local_name)
+
+
+def _collect_used_primitives(closure: UmlClosure, model: Model) -> list[str]:
+    """Return the unique sorted set of UML primitive local-names (e.g.
+    'String', 'Integer') that any included class or datatype attribute uses."""
+    used: set[str] = set()
+    def visit(props: list[Property]) -> None:
+        for p in props:
+            if p.primitive:
+                used.add(PRIMITIVE_LOCAL.get(p.primitive, "String"))
+    for cls in closure.classes:
+        visit(collect_inherited_properties(cls.id, model))
+    for dt in closure.datatypes:
+        visit(dt.properties)
+    return sorted(used)
+
+
+def _emit_primitive_type(w: "_XmiWriter", local_name: str,
+                         acronym: str, profile_uri: str) -> None:
+    """Emit one <packagedElement xmi:type='uml:PrimitiveType'> stub so EA and
+    other tools can resolve primitive references inside the model file
+    without needing to fetch Eclipse's external PrimitiveTypes.xmi."""
+    xmi_id = _primitive_xmi_id(acronym, local_name)
+    uuid = f"{profile_uri}#{local_name}"
+    w._open("packagedElement", {
+        "xmi:id": xmi_id,
+        "xmi:uuid": uuid,
+        "xmi:type": "uml:PrimitiveType",
+    })
+    w._leaf("name", text=local_name)
+    w._close("packagedElement")
+
+
+@dataclass
+class UmlClosure:
+    """Result of walking the type/class closure from a set of root classes."""
+    classes: list[UmlClass] = field(default_factory=list)        # in include order
+    datatypes: list[UmlClass] = field(default_factory=list)      # in discovery order
+    enumerations: list[UmlClass] = field(default_factory=list)
+    class_ids: set[str] = field(default_factory=set)             # ids of included classes
+    type_ids: set[str] = field(default_factory=set)              # ids of included datatypes/enums
+    # association_id -> (subject_cls_id, object_cls_id, role_name, lower, upper, aggregation)
+    associations: list[tuple] = field(default_factory=list)
+
+
+def compute_uml_closure(roots: list[UmlClass], ctx: BuildContext,
+                        model: Model) -> UmlClosure:
+    """Walk the closure from `roots` adding referenced DataTypes/Enumerations
+    and (when in ctx.inline_class_names) referenced Classes. Also gathers
+    association edges between included classes so they can be emitted as
+    UML Associations."""
+    out = UmlClosure()
+    out.classes.extend(roots)
+    out.class_ids.update(c.id for c in roots)
+    # Property pairs we've already considered as association edges (avoid duplicates)
+    seen_assocs: set[tuple] = set()
+    # FIFO queue of classes whose properties still need walking
+    queue: list[UmlClass] = list(roots)
+    while queue:
+        cls = queue.pop(0)
+        # Pull the full property list including inherited (matches schema emit)
+        props = collect_inherited_properties(cls.id, model)
+        for prop in props:
+            tid = prop.type_id
+            if not tid:
+                continue
+            target = model.elements.get(tid)
+            if target is None:
+                continue
+            if target.name in ctx.exclude_class_names:
+                continue
+            if target.kind in ("datatype", "enumeration"):
+                if tid not in out.type_ids:
+                    out.type_ids.add(tid)
+                    (out.datatypes if target.kind == "datatype" else out.enumerations).append(target)
+                    # Walk datatype attributes for further types
+                    queue.append(target)
+            elif target.kind == "class":
+                # Decide whether to inline the target class as well.
+                want_inline = target.name in ctx.inline_class_names
+                # Treat associations to non-root classes as id-references unless
+                # explicitly inlined. (Same conservative default as schema emit.)
+                if want_inline and tid not in out.class_ids:
+                    out.class_ids.add(tid)
+                    out.classes.append(target)
+                    queue.append(target)
+                # If both ends are now included AND this is an assoc end, record
+                # the edge so we can emit a UML Association element later.
+                if prop.is_assoc_end and tid in out.class_ids:
+                    key = (cls.id, tid, prop.name)
+                    if key not in seen_assocs:
+                        seen_assocs.add(key)
+                        out.associations.append((
+                            prop.id,        # property id (= UCMIS owner_role_target tail)
+                            cls.id, tid,
+                            prop.name,
+                            prop.lower, prop.upper,
+                            prop.aggregation,
+                        ))
+    return out
+
+
+def _xml_escape_attr(s: str) -> str:
+    return (s.replace("&", "&amp;")
+             .replace("<", "&lt;")
+             .replace(">", "&gt;")
+             .replace('"', "&quot;"))
+
+
+def _xml_escape_text(s: str) -> str:
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+class _XmiWriter:
+    """Small hand-rolled XMI 2.5 writer. Produces output close in style to the
+    existing CDIF canonical-XMI files (children-then-name ordering, no
+    self-closing on empty elements that have explicit closing in the source)."""
+
+    def __init__(self):
+        self.lines: list[str] = []
+        self.indent_str = "   "  # match existing canonical files (3 spaces)
+        self.depth = 0
+
+    def _open(self, qname: str, attrs: dict, self_close: bool = False) -> None:
+        attr_str = "".join(f' {k}="{_xml_escape_attr(v)}"'
+                           for k, v in attrs.items() if v is not None)
+        sep = "" if not attr_str else ""
+        self.lines.append(f"{self.indent_str * self.depth}<{qname}{sep}{attr_str}{' /' if self_close else ''}>")
+        if not self_close:
+            self.depth += 1
+
+    def _close(self, qname: str) -> None:
+        self.depth -= 1
+        self.lines.append(f"{self.indent_str * self.depth}</{qname}>")
+
+    def _leaf(self, qname: str, text: str = "", attrs: Optional[dict] = None) -> None:
+        attr_str = ""
+        if attrs:
+            attr_str = "".join(f' {k}="{_xml_escape_attr(v)}"'
+                               for k, v in attrs.items() if v is not None)
+        if text:
+            self.lines.append(
+                f"{self.indent_str * self.depth}<{qname}{attr_str}>"
+                f"{_xml_escape_text(text)}</{qname}>"
+            )
+        else:
+            self.lines.append(f"{self.indent_str * self.depth}<{qname}{attr_str}/>")
+
+    def output(self) -> str:
+        return "\n".join(self.lines) + "\n"
+
+
+def _profile_xmi_id(acronym: str, *parts: str) -> str:
+    """Stable xmi:id for a profile element. e.g. ('ddsc','InstanceVariable')
+    → 'ddsc.InstanceVariable'."""
+    return ".".join((acronym, *parts))
+
+
+def _profile_uuid(profile_uri: str, *parts: str) -> str:
+    """xmi:uuid for a profile element, namespaced under the profile URI."""
+    return f"{profile_uri}#" + "-".join(parts) if parts else profile_uri
+
+
+def _emit_owned_comment(w: _XmiWriter, owner_id: str, owner_uuid: str,
+                        body: str) -> None:
+    """Emit an <ownedComment> child of the current open element."""
+    if not body:
+        return
+    w._open("ownedComment", {
+        "xmi:id": f"{owner_id}-ownedComment",
+        "xmi:uuid": f"{owner_uuid}-ownedComment",
+        "xmi:type": "uml:Comment",
+    })
+    w._leaf("annotatedElement", attrs={"xmi:idref": owner_id})
+    w._leaf("body", text=body)
+    w._close("ownedComment")
+
+
+def _emit_value(w: _XmiWriter, tag: str, prop_id: str, prop_uuid: str,
+                xmi_type: str, value: str) -> None:
+    w._open(tag, {
+        "xmi:id": f"{prop_id}-{tag}",
+        "xmi:uuid": f"{prop_uuid}-{tag}",
+        "xmi:type": xmi_type,
+    })
+    w._leaf("value", text=value)
+    w._close(tag)
+
+
+def _emit_property(w: _XmiWriter, owner_xmi_id: str, owner_uuid: str,
+                   prop: Property, closure: UmlClosure, model: Model,
+                   acronym: str, profile_uri: str,
+                   association_xmi_id: Optional[str] = None) -> None:
+    """Emit an <ownedAttribute xmi:type='uml:Property'> on the open class."""
+    prop_id = f"{owner_xmi_id}-{prop.name}"
+    prop_uuid = f"{owner_uuid}-{prop.name}"
+    w._open("ownedAttribute", {
+        "xmi:id": prop_id,
+        "xmi:uuid": prop_uuid,
+        "xmi:type": "uml:Property",
+        "aggregation": prop.aggregation if prop.aggregation else None,
+    })
+    if prop.doc:
+        _emit_owned_comment(w, prop_id, prop_uuid, clean_definition(prop.doc) or "")
+    # lower / upper values
+    lower_val = "*" if prop.lower == -1 else str(prop.lower)
+    upper_val = "*" if prop.upper == -1 else str(prop.upper)
+    lower_type = "uml:LiteralUnlimitedNatural" if prop.lower == -1 else "uml:LiteralInteger"
+    upper_type = "uml:LiteralUnlimitedNatural" if prop.upper == -1 else "uml:LiteralInteger"
+    _emit_value(w, "lowerValue", prop_id, prop_uuid, lower_type, lower_val)
+    _emit_value(w, "upperValue", prop_id, prop_uuid, upper_type, upper_val)
+    w._leaf("name", text=prop.name)
+    # type
+    if prop.primitive is not None:
+        local = PRIMITIVE_LOCAL.get(prop.primitive, "String")
+        w._leaf("type", attrs={
+            "xmi:idref": _primitive_xmi_id(acronym, local),
+        })
+    elif prop.type_id:
+        # Resolve the target's xmi:id within the profile if it's in the closure;
+        # otherwise emit the source-model id directly (consumer can resolve via
+        # the source model load).
+        target = model.elements.get(prop.type_id)
+        if target and (prop.type_id in closure.class_ids or prop.type_id in closure.type_ids):
+            tgt_xmi = _profile_xmi_id(acronym, target.name)
+            w._leaf("type", attrs={"xmi:idref": tgt_xmi})
+        else:
+            w._leaf("type", attrs={"xmi:idref": prop.type_id})
+    if association_xmi_id:
+        w._leaf("association", attrs={"xmi:idref": association_xmi_id})
+    w._close("ownedAttribute")
+
+
+def _emit_class(w: _XmiWriter, cls: UmlClass, closure: UmlClosure, model: Model,
+                acronym: str, profile_uri: str,
+                assoc_for_prop: dict[str, str]) -> None:
+    xmi_id = _profile_xmi_id(acronym, cls.name)
+    uuid = f"{profile_uri}#{cls.name}"
+    w._open("packagedElement", {
+        "xmi:id": xmi_id,
+        "xmi:uuid": uuid,
+        "xmi:type": "uml:Class",
+        "isAbstract": "true" if cls.is_abstract else None,
+    })
+    if cls.doc:
+        _emit_owned_comment(w, xmi_id, uuid, clean_definition(cls.doc) or "")
+    w._leaf("name", text=cls.name)
+    # Generalizations (one <generalization> per parent id)
+    for parent_id in cls.parents:
+        parent = model.elements.get(parent_id)
+        if parent is None:
+            continue
+        gen_xmi_id = f"{xmi_id}-generalization-{parent.name}"
+        gen_uuid = f"{uuid}-generalization-{parent.name}"
+        w._open("generalization", {
+            "xmi:id": gen_xmi_id,
+            "xmi:uuid": gen_uuid,
+            "xmi:type": "uml:Generalization",
+        })
+        w._leaf("general", attrs={"xmi:idref": parent_id})
+        w._close("generalization")
+    # Inherited properties (matches schema-emit behavior)
+    for prop in collect_inherited_properties(cls.id, model):
+        if not prop.name:
+            continue
+        # Skip props whose type is excluded or unresolvable to a known target.
+        if prop.type_id:
+            tgt = model.elements.get(prop.type_id)
+            if tgt is None:
+                continue
+            if tgt.name in [n for n in ()]:  # placeholder for future exclude
+                continue
+            # If this is an association-end and the target isn't included,
+            # skip the property (alternative: emit as id-ref; conservative for now)
+            if prop.is_assoc_end and prop.type_id not in closure.class_ids:
+                continue
+        association_xmi_id = assoc_for_prop.get(prop.id)
+        _emit_property(w, xmi_id, uuid, prop, closure, model, acronym,
+                       profile_uri, association_xmi_id=association_xmi_id)
+    w._close("packagedElement")
+
+
+def _emit_datatype(w: _XmiWriter, dt: UmlClass, closure: UmlClosure,
+                   model: Model, acronym: str, profile_uri: str) -> None:
+    xmi_id = _profile_xmi_id(acronym, dt.name)
+    uuid = f"{profile_uri}#{dt.name}"
+    w._open("packagedElement", {
+        "xmi:id": xmi_id,
+        "xmi:uuid": uuid,
+        "xmi:type": "uml:DataType",
+    })
+    if dt.doc:
+        _emit_owned_comment(w, xmi_id, uuid, clean_definition(dt.doc) or "")
+    w._leaf("name", text=dt.name)
+    for prop in dt.properties:
+        if not prop.name:
+            continue
+        _emit_property(w, xmi_id, uuid, prop, closure, model, acronym,
+                       profile_uri, association_xmi_id=None)
+    w._close("packagedElement")
+
+
+def _emit_enumeration(w: _XmiWriter, en: UmlClass, acronym: str,
+                      profile_uri: str) -> None:
+    xmi_id = _profile_xmi_id(acronym, en.name)
+    uuid = f"{profile_uri}#{en.name}"
+    w._open("packagedElement", {
+        "xmi:id": xmi_id,
+        "xmi:uuid": uuid,
+        "xmi:type": "uml:Enumeration",
+    })
+    if en.doc:
+        _emit_owned_comment(w, xmi_id, uuid, clean_definition(en.doc) or "")
+    w._leaf("name", text=en.name)
+    for lit in en.literals:
+        lit_id = f"{xmi_id}-{lit}"
+        w._open("ownedLiteral", {
+            "xmi:id": lit_id,
+            "xmi:uuid": f"{uuid}-{lit}",
+            "xmi:type": "uml:EnumerationLiteral",
+        })
+        w._leaf("name", text=lit)
+        w._close("ownedLiteral")
+    w._close("packagedElement")
+
+
+def _emit_association(w: _XmiWriter, assoc_entry: tuple, model: Model,
+                      acronym: str, profile_uri: str) -> str:
+    """Emit a top-level <packagedElement xmi:type='uml:Association'>. Returns
+    its xmi:id so the corresponding property's <association xmi:idref=...> can
+    point at it."""
+    prop_id, subj_id, obj_id, role, lower, upper, aggregation = assoc_entry
+    subj = model.elements[subj_id]
+    obj = model.elements[obj_id]
+    name = f"{subj.name}_{role}_{obj.name}"
+    assoc_xmi = _profile_xmi_id(acronym, name)
+    assoc_uuid = f"{profile_uri}#{name}"
+    subj_prop_xmi = _profile_xmi_id(acronym, subj.name) + f"-{role}"
+    w._open("packagedElement", {
+        "xmi:id": assoc_xmi,
+        "xmi:uuid": assoc_uuid,
+        "xmi:type": "uml:Association",
+    })
+    w._leaf("name", text=name)
+    # memberEnd points at the owned-attribute (subject side); the object side
+    # is an ownedEnd if not navigable. For UCMIS-style we emit both.
+    w._leaf("memberEnd", attrs={"xmi:idref": subj_prop_xmi})
+    # Object-end as an ownedEnd Property
+    owned_end_id = f"{assoc_xmi}-{obj.name}End"
+    owned_end_uuid = f"{assoc_uuid}-{obj.name}End"
+    w._open("ownedEnd", {
+        "xmi:id": owned_end_id,
+        "xmi:uuid": owned_end_uuid,
+        "xmi:type": "uml:Property",
+    })
+    # No <name> on the ownedEnd — it is the non-navigable back-reference. The
+    # navigable role name (e.g. "publisher", "creator") lives on the owner's
+    # ownedAttribute end. Emitting a name like "person" here previously caused
+    # EA to label the source-side end with the target class's lowercased name,
+    # which was misleading (e.g. Dataset shown with role "person").
+    w._leaf("type", attrs={"xmi:idref": _profile_xmi_id(acronym, obj.name)})
+    w._leaf("association", attrs={"xmi:idref": assoc_xmi})
+    w._close("ownedEnd")
+    w._leaf("memberEnd", attrs={"xmi:idref": owned_end_id})
+    w._close("packagedElement")
+    return assoc_xmi
+
+
+def emit_uml(out_path: Path, *,
+             acronym: str, profile_uri: str, model_name: str,
+             model_definition: str, main_package_name: str,
+             main_package_definition: str,
+             classes_package_name: Optional[str],
+             classes_package_definition: Optional[str],
+             roots: list[UmlClass], ctx: BuildContext, model: Model) -> None:
+    """Write an Eclipse UML2 (XMI 2.5) profile model to out_path.
+
+    Layout:
+        <uml:Model name=model_name uri=profile_uri>
+          <packagedElement uml:Package name=main_package_name>
+            <packagedElement uml:DataType .../>   # transitively-needed DataTypes
+            <packagedElement uml:Enumeration .../># used Enums
+            <packagedElement uml:Package name=classes_package_name>
+              <packagedElement uml:Class .../>    # root + inlined classes
+            </packagedElement>
+            <packagedElement uml:Association .../># for assoc edges between included classes
+          </packagedElement>
+        </uml:Model>
+    """
+    closure = compute_uml_closure(roots, ctx, model)
+
+    # Build a map: Property.id -> Association xmi:id, so each owned-attribute
+    # association-end can carry the matching <association xmi:idref=...>.
+    # We need this BEFORE emitting classes, so do a dry-run on associations.
+    assoc_xmi_for_prop: dict[str, str] = {}
+    for entry in closure.associations:
+        prop_id, subj_id, obj_id, role, _, _, _ = entry
+        subj = model.elements[subj_id]
+        obj = model.elements[obj_id]
+        assoc_xmi_for_prop[prop_id] = _profile_xmi_id(
+            acronym, f"{subj.name}_{role}_{obj.name}"
+        )
+
+    w = _XmiWriter()
+    w.lines.append('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>')
+    w._open("xmi:XMI", {
+        "xmlns:StandardProfile": STANDARD_PROFILE_NS,
+        "xmlns:uml": UML2_NS,
+        "xmlns:xmi": UML2_XMI_NS,
+    })
+
+    model_xmi_id = _profile_xmi_id(acronym, model_name)
+    model_uuid = f"{profile_uri}#{model_name}"
+    w._open("uml:Model", {
+        "xmi:id": model_xmi_id,
+        "xmi:uuid": model_uuid,
+    })
+    if model_definition:
+        _emit_owned_comment(w, model_xmi_id, model_uuid, model_definition)
+    w._leaf("name", text=model_name)
+    if profile_uri:
+        w._leaf("URI", text=profile_uri)
+
+    # Main package - suffix with 'Package' if it would collide with the model id
+    mp_id = _profile_xmi_id(acronym, main_package_name)
+    if mp_id == model_xmi_id:
+        mp_id = _profile_xmi_id(acronym, main_package_name + "Package")
+    mp_uuid = f"{profile_uri}#{main_package_name}-package"
+    w._open("packagedElement", {
+        "xmi:id": mp_id,
+        "xmi:uuid": mp_uuid,
+        "xmi:type": "uml:Package",
+    })
+    if main_package_definition:
+        _emit_owned_comment(w, mp_id, mp_uuid, main_package_definition)
+    w._leaf("name", text=main_package_name)
+
+    # Profile-local PrimitiveType stubs so referencing tools (EA in particular)
+    # don't have to chase Eclipse's external PrimitiveTypes.xmi to resolve
+    # String/Integer/Boolean/Real.
+    for prim in _collect_used_primitives(closure, model):
+        _emit_primitive_type(w, prim, acronym, profile_uri)
+
+    # DataTypes & Enumerations directly under the main package
+    for dt in closure.datatypes:
+        _emit_datatype(w, dt, closure, model, acronym, profile_uri)
+    for en in closure.enumerations:
+        _emit_enumeration(w, en, acronym, profile_uri)
+
+    # Classes sub-package (optional)
+    if classes_package_name:
+        cp_id = _profile_xmi_id(acronym, classes_package_name)
+        if cp_id in (model_xmi_id, mp_id):
+            cp_id = _profile_xmi_id(acronym, classes_package_name + "Package")
+        cp_uuid = f"{profile_uri}#{classes_package_name}-package"
+        w._open("packagedElement", {
+            "xmi:id": cp_id,
+            "xmi:uuid": cp_uuid,
+            "xmi:type": "uml:Package",
+        })
+        if classes_package_definition:
+            _emit_owned_comment(w, cp_id, cp_uuid, classes_package_definition)
+        w._leaf("name", text=classes_package_name)
+        for cls in closure.classes:
+            _emit_class(w, cls, closure, model, acronym, profile_uri,
+                        assoc_xmi_for_prop)
+        w._close("packagedElement")  # /classes_package
+    else:
+        for cls in closure.classes:
+            _emit_class(w, cls, closure, model, acronym, profile_uri,
+                        assoc_xmi_for_prop)
+
+    # Associations live at the main-package level
+    for entry in closure.associations:
+        _emit_association(w, entry, model, acronym, profile_uri)
+
+    w._close("packagedElement")  # /main_package
+    w._close("uml:Model")
+    w._close("xmi:XMI")
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(w.output(), encoding="utf-8")
+
+
+# ---------------------------------------------------------------------------
+# Enterprise Architect XMI 1.1 emit
+#
+# Produces the EA-native export format (xmi.version="1.1", xmlns:UML="omg.org/
+# UML1.3") for direct import into Enterprise Architect. Layout matches the
+# DDI-CDI source's shape:
+#
+#   <XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3">
+#     <XMI.header><XMI.documentation>...</XMI.documentation></XMI.header>
+#     <XMI.content>
+#       <UML:Model name=... xmi.id=MX_...>
+#         <UML:Namespace.ownedElement>
+#           <UML:Class name="EARootClass" xmi.id=EAID_111...AA00 isRoot=true.../>
+#           <UML:Package name=... xmi.id=EAPK_...>
+#             <UML:ModelElement.taggedValue>... ea_stype=Package ...</.taggedValue>
+#             <UML:Namespace.ownedElement>
+#               <UML:Class name=X ... ea_stype=Class>
+#                 <UML:Classifier.feature>
+#                   <UML:Attribute>...</UML:Attribute>
+#                 </UML:Classifier.feature>
+#               </UML:Class>
+#               <UML:Class name=Y ... ea_stype=DataType>...</UML:Class>
+#               <UML:Class name=Z ... ea_stype=enumeration>
+#                 <UML:ModelElement.stereotype><UML:Stereotype name=enumeration/></...>
+#                 ...
+#               </UML:Class>
+#             </UML:Namespace.ownedElement>
+#           </UML:Package>
+#           <!-- Primitive type stubs at model root -->
+#           <UML:Class name="String" xmi.id=eaxmiid_string .../>
+#           ...
+#           <!-- Top-level relationships -->
+#           <UML:Generalization subtype=EAID_... supertype=EAID_... xmi.id=EAID_.../>
+#           <UML:Association name=role xmi.id=EAID_...>
+#             <UML:Association.connection>
+#               <UML:AssociationEnd type=EAID_subject isNavigable=false/>
+#               <UML:AssociationEnd type=EAID_object isNavigable=true/>
+#             </UML:Association.connection>
+#           </UML:Association>
+#         </UML:Namespace.ownedElement>
+#       </UML:Model>
+#     </XMI.content>
+#   </XMI>
+# ---------------------------------------------------------------------------
+
+import hashlib as _hashlib
+
+
+def _ea_id(prefix: str, *parts: str) -> str:
+    """Deterministic EA-style id: prefix + UUID-shaped UPPERCASE hex derived
+    from parts. Format: PREFIX_XXXXXXXX_XXXX_4XXX_YXXX_XXXXXXXXXXXX. EA's own
+    exports use uppercase hex throughout (except the version-4 nibble and the
+    8/9/a/b variant nibble in the 4th block which can be lowercase). Matching
+    the source convention helps EA's importer recognise the ids."""
+    h = _hashlib.md5("|".join(parts).encode("utf-8")).hexdigest()
+    return (f"{prefix}_{h[0:8].upper()}_{h[8:12].upper()}_4{h[13:16].lower()}_"
+            f"8{h[17:20].upper()}_{h[20:32].upper()}")
+
+
+def _ea_guid(*parts: str) -> str:
+    """Brace-wrapped GUID-shaped string in EA's tagged-value style.
+    e.g. {3EC60D5B-CB93-4b04-BCC0-0D4977E8AFC4} — mostly uppercase, version-4
+    nibble lowercase."""
+    h = _hashlib.md5("|".join(parts).encode("utf-8")).hexdigest()
+    return (f"{{{h[0:8].upper()}-{h[8:12].upper()}-4{h[13:16].lower()}-"
+            f"8{h[17:20].upper()}-{h[20:32].upper()}}}")
+
+
+# Stable, well-known ids for EA-side primitive type stubs.
+EA_PRIMITIVE_IDS = {
+    "string": "eaxmiid_String",
+    "integer": "eaxmiid_Integer",
+    "boolean": "eaxmiid_Boolean",
+    "number": "eaxmiid_Real",
+}
+
+EA_PRIMITIVE_LOCAL = {
+    "string": "String",
+    "integer": "Integer",
+    "boolean": "Boolean",
+    "number": "Real",
+}
+
+
+class _EaXmiWriter(_XmiWriter):
+    """EA XMI 1.1 writer. Reuses _XmiWriter's indentation/escape helpers."""
+    def __init__(self):
+        super().__init__()
+        # EA's source uses tabs; we'll use tabs too for visual similarity
+        self.indent_str = "\t"
+
+
+def _ea_emit_tagged_values(w: _EaXmiWriter, items: list[tuple[str, str]]) -> None:
+    if not items:
+        return
+    w._open("UML:ModelElement.taggedValue", {})
+    for tag, value in items:
+        if value is None:
+            continue
+        w._leaf("UML:TaggedValue", attrs={"tag": tag, "value": value})
+    w._close("UML:ModelElement.taggedValue")
+
+
+def _ea_emit_attribute(w: _EaXmiWriter, prop: Property,
+                       closure: UmlClosure, model: Model,
+                       acronym: str, position: int = 0) -> None:
+    """Emit <UML:Attribute> for a non-association Property."""
+    # Determine type
+    type_label = None
+    type_id_ref = None
+    if prop.primitive is not None:
+        type_label = EA_PRIMITIVE_LOCAL.get(prop.primitive, "String")
+        type_id_ref = EA_PRIMITIVE_IDS.get(prop.primitive, EA_PRIMITIVE_IDS["string"])
+    elif prop.type_id:
+        target = model.elements.get(prop.type_id)
+        if target:
+            type_label = target.name
+            type_id_ref = _ea_id("EAID", "type", acronym, target.name)
+
+    w._open("UML:Attribute", {
+        "name": prop.name,
+        "changeable": "none",
+        "visibility": "public",
+        "ownerScope": "instance",
+        "targetScope": "instance",
+    })
+    # Initial value placeholder
+    w._open("UML:Attribute.initialValue", {})
+    w._leaf("UML:Expression")
+    w._close("UML:Attribute.initialValue")
+    # Type reference
+    if type_id_ref:
+        w._open("UML:StructuralFeature.type", {})
+        w._leaf("UML:Classifier", attrs={"xmi.idref": type_id_ref})
+        w._close("UML:StructuralFeature.type")
+    # Tagged values — include the full set EA emits so import doesn't choke.
+    tvs: list[tuple[str, str]] = []
+    if prop.doc:
+        tvs.append(("description", clean_definition(prop.doc) or ""))
+    if type_label:
+        tvs.append(("type", type_label))
+    tvs.append(("derived", "0"))
+    tvs.append(("ordered", "0"))
+    tvs.append(("scale", "0"))
+    tvs.append(("static", "0"))
+    tvs.append(("collection", "true" if prop.upper == -1 or prop.upper > 1 else "false"))
+    tvs.append(("position", str(position)))
+    tvs.append(("lowerBound", "*" if prop.lower == -1 else str(prop.lower)))
+    tvs.append(("upperBound", "*" if prop.upper == -1 else str(prop.upper)))
+    tvs.append(("duplicates", "0"))
+    tvs.append(("ea_guid", _ea_guid("attr", acronym, prop.id, prop.name)))
+    tvs.append(("styleex", "IsLiteral=0;volatile=0;union=0;"))
+    _ea_emit_tagged_values(w, tvs)
+    w._close("UML:Attribute")
+
+
+def _ea_emit_class_element(w: _EaXmiWriter, cls: UmlClass, package_id: str,
+                            closure: UmlClosure, model: Model,
+                            acronym: str) -> str:
+    """Emit one <UML:Class> for a class, datatype, or enumeration. Returns
+    its EAID so generalizations/associations can reference it."""
+    eaid = _ea_id("EAID", acronym, cls.name)
+    is_enum = cls.kind == "enumeration"
+    ea_stype = {"class": "Class", "datatype": "DataType",
+                "enumeration": "enumeration"}.get(cls.kind, "Class")
+    w._open("UML:Class", {
+        "name": cls.name,
+        "xmi.id": eaid,
+        "visibility": "public",
+        "namespace": package_id,
+        "isRoot": "false",
+        "isLeaf": "false",
+        "isAbstract": "true" if cls.is_abstract else "false",
+        "isActive": "false",
+    })
+    if is_enum:
+        # Stereotype <<enumeration>>
+        w._open("UML:ModelElement.stereotype", {})
+        w._leaf("UML:Stereotype", attrs={"name": "enumeration"})
+        w._close("UML:ModelElement.stereotype")
+    tvs: list[tuple[str, str]] = []
+    if cls.doc:
+        tvs.append(("documentation", clean_definition(cls.doc) or ""))
+    tvs.append(("isSpecification", "false"))
+    tvs.append(("ea_stype", ea_stype))
+    tvs.append(("ea_ntype", "0"))
+    tvs.append(("version", "1.0"))
+    tvs.append(("package", package_id))
+    tvs.append(("ea_guid", _ea_guid("class", acronym, cls.name)))
+    _ea_emit_tagged_values(w, tvs)
+    # Features (attributes or enum literals)
+    feature_items = []
+    if is_enum:
+        feature_items = list(cls.literals)
+    else:
+        # Non-association properties become attributes
+        feature_items = [p for p in cls.properties if not p.is_assoc_end and p.name]
+    if feature_items:
+        w._open("UML:Classifier.feature", {})
+        if is_enum:
+            for lit in feature_items:
+                w._open("UML:Attribute", {
+                    "name": lit, "changeable": "frozen",
+                    "visibility": "public", "ownerScope": "classifier",
+                    "targetScope": "instance",
+                })
+                w._open("UML:Attribute.initialValue", {})
+                w._leaf("UML:Expression")
+                w._close("UML:Attribute.initialValue")
+                _ea_emit_tagged_values(w, [("ea_guid", _ea_guid("lit", acronym, cls.name, lit))])
+                w._close("UML:Attribute")
+        else:
+            for idx, prop in enumerate(feature_items):
+                _ea_emit_attribute(w, prop, closure, model, acronym,
+                                   position=idx)
+        w._close("UML:Classifier.feature")
+    w._close("UML:Class")
+    return eaid
+
+
+def _ea_emit_primitive_stubs(w: _EaXmiWriter, used: set[str]) -> None:
+    """Emit minimal <UML:Class> placeholders for the primitives referenced by
+    any attribute, so the attribute type idrefs resolve."""
+    for prim in sorted(used):
+        local = EA_PRIMITIVE_LOCAL.get(prim, "String")
+        w._open("UML:Class", {
+            "name": local,
+            "xmi.id": EA_PRIMITIVE_IDS[prim],
+            "visibility": "public",
+            "isRoot": "true", "isLeaf": "false", "isAbstract": "false",
+        })
+        _ea_emit_tagged_values(w, [
+            ("isSpecification", "false"),
+            ("ea_stype", "Primitive"),
+            ("ea_ntype", "0"),
+        ])
+        w._close("UML:Class")
+
+
+def _ea_emit_association(w: _EaXmiWriter, assoc_entry: tuple, model: Model,
+                          acronym: str) -> None:
+    prop_id, subj_id, obj_id, role, lower, upper, aggregation = assoc_entry
+    subj = model.elements[subj_id]
+    obj = model.elements[obj_id]
+    triple = f"{subj.name}_{role}_{obj.name}"
+    assoc_eaid = _ea_id("EAID", "assoc", acronym, triple)
+    subj_eaid = _ea_id("EAID", acronym, subj.name)
+    obj_eaid = _ea_id("EAID", acronym, obj.name)
+    w._open("UML:Association", {
+        "name": role,
+        "xmi.id": assoc_eaid,
+        "visibility": "public",
+        "isRoot": "false", "isLeaf": "false", "isAbstract": "false",
+    })
+    tvs = [
+        ("ea_type", "Association"),
+        ("direction", "Source -> Destination"),
+        ("ea_sourceName", subj.name),
+        ("ea_targetName", obj.name),
+        ("ea_sourceType", "Class"),
+        ("ea_targetType", "Class"),
+        ("ea_guid", _ea_guid("assoc", acronym, triple)),
+    ]
+    _ea_emit_tagged_values(w, tvs)
+    w._open("UML:Association.connection", {})
+    # Source end (non-navigable by UCMIS convention)
+    w._open("UML:AssociationEnd", {
+        "visibility": "public",
+        "aggregation": "none",
+        "isOrdered": "false",
+        "targetScope": "instance",
+        "changeable": "none",
+        "isNavigable": "false",
+        "type": subj_eaid,
+    })
+    _ea_emit_tagged_values(w, [("ea_end", "source")])
+    w._close("UML:AssociationEnd")
+    # Target end (navigable; carries multiplicity)
+    target_mult = "*" if upper == -1 else str(upper)
+    if lower != upper and lower != 0:
+        target_mult = f"{lower}..{target_mult}"
+    elif lower == 0 and upper == -1:
+        target_mult = "0..*"
+    elif lower == 0 and upper == 1:
+        target_mult = "0..1"
+    w._open("UML:AssociationEnd", {
+        "visibility": "public",
+        "aggregation": aggregation if aggregation else "none",
+        "isOrdered": "false",
+        "targetScope": "instance",
+        "changeable": "none",
+        "isNavigable": "true",
+        "multiplicity": target_mult,
+        "type": obj_eaid,
+    })
+    _ea_emit_tagged_values(w, [("ea_end", "target")])
+    w._close("UML:AssociationEnd")
+    w._close("UML:Association.connection")
+    w._close("UML:Association")
+
+
+def emit_ea_xmi(out_path: Path, *,
+                acronym: str, profile_uri: str, model_name: str,
+                model_definition: str, main_package_name: str,
+                main_package_definition: str,
+                roots: list[UmlClass], ctx: BuildContext, model: Model) -> None:
+    """Write an Enterprise Architect XMI 1.1 export to out_path."""
+    closure = compute_uml_closure(roots, ctx, model)
+    # Collect primitives actually referenced
+    used_primitives: set[str] = set()
+    for cls in closure.classes:
+        for prop in cls.properties:
+            if prop.primitive:
+                used_primitives.add(prop.primitive)
+    for dt in closure.datatypes:
+        for prop in dt.properties:
+            if prop.primitive:
+                used_primitives.add(prop.primitive)
+
+    w = _EaXmiWriter()
+    w.lines.append('<?xml version="1.0" encoding="UTF-8" standalone="no" ?>')
+    # XMI root
+    from datetime import datetime as _dt, timezone as _tz
+    timestamp = _dt.now(_tz.utc).strftime("%Y-%m-%d %H:%M:%S")
+    w._open("XMI", {
+        "xmi.version": "1.1",
+        "xmlns:UML": "omg.org/UML1.3",
+        "timestamp": timestamp,
+    })
+    # Header
+    w._open("XMI.header", {})
+    w._open("XMI.documentation", {})
+    w._leaf("XMI.exporter", text="uml_to_schema.py (EA emitter)")
+    w._leaf("XMI.exporterVersion", text="1.0")
+    w._close("XMI.documentation")
+    w._close("XMI.header")
+    # Content
+    w._open("XMI.content", {})
+    model_eaid = _ea_id("MX_EAID", acronym, model_name)
+    w._open("UML:Model", {"name": model_name, "xmi.id": model_eaid})
+    w._open("UML:Namespace.ownedElement", {})
+    # EARootClass placeholder (EA expects this)
+    w._leaf("UML:Class", attrs={
+        "name": "EARootClass",
+        "xmi.id": "EAID_11111111_5487_4080_A7F4_41526CB0AA00",
+        "isRoot": "true", "isLeaf": "false", "isAbstract": "false",
+    })
+    # Main package
+    package_eaid = _ea_id("EAPK", acronym, main_package_name)
+    w._open("UML:Package", {
+        "name": main_package_name,
+        "xmi.id": package_eaid,
+        "isRoot": "false", "isLeaf": "false", "isAbstract": "false",
+        "visibility": "public",
+    })
+    pkg_tvs = []
+    if main_package_definition:
+        pkg_tvs.append(("documentation", main_package_definition))
+    pkg_tvs.extend([
+        ("isSpecification", "false"),
+        ("ea_stype", "Public"),
+        ("ea_eleType", "package"),
+        ("version", "1.0"),
+        ("ea_guid", _ea_guid("pkg", acronym, main_package_name)),
+    ])
+    _ea_emit_tagged_values(w, pkg_tvs)
+    w._open("UML:Namespace.ownedElement", {})
+    # Emit DataTypes and Enumerations BEFORE Classes so the attribute type
+    # idrefs that classes carry resolve forward when EA does a single-pass import.
+    for dt in closure.datatypes:
+        _ea_emit_class_element(w, dt, package_eaid, closure, model, acronym)
+    for en in closure.enumerations:
+        _ea_emit_class_element(w, en, package_eaid, closure, model, acronym)
+    for cls in closure.classes:
+        _ea_emit_class_element(w, cls, package_eaid, closure, model, acronym)
+    w._close("UML:Namespace.ownedElement")  # package's namespace
+    w._close("UML:Package")
+    # Primitive type stubs (at model root)
+    _ea_emit_primitive_stubs(w, used_primitives)
+    # Associations at model root
+    for entry in closure.associations:
+        _ea_emit_association(w, entry, model, acronym)
+    w._close("UML:Namespace.ownedElement")  # model's namespace
+    w._close("UML:Model")
+    w._close("XMI.content")
+    w._close("XMI")
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(w.output(), encoding="utf-8")
+
+
+# ---------------------------------------------------------------------------
+# Phase 2: drive UML emit from a ucmism2m JSON configuration
+#
+# The ucmism2m v1.1 schema (ucmism2m/configuration/ucmis_mapping_configuration.
+# schema.v1.1.json) describes:
+#   - target model metadata (acronym, URI, packages, version)
+#   - target classes via mappingType = map | new | merge
+#   - per-attribute renaming via fromSourceAttributeName (v1.1)
+#   - target associations with optional sourceAssociationName (v1.1 allows
+#     brand-new associations whose subjectClass + objectClass are required
+#     when sourceAssociationName is absent)
+#
+# This block reads such a config and renders a synthetic Model containing the
+# target classes (with renamed attributes and merged source attributes), then
+# passes it through compute_uml_closure / emit_uml.
+# ---------------------------------------------------------------------------
+
+PROFILE_PRIMITIVE_NAMES = {"String", "Integer", "Boolean", "Real"}
+
+
+def _resolve_dataType_ref(
+    name: str,
+    source_model: Model,
+    target_classes_by_name: dict[str, UmlClass],
+) -> tuple[Optional[str], Optional[str]]:
+    """Given a config dataType string (e.g. 'String', 'InternationalString',
+    'ControlledVocabularyEntry', or a target class name like 'Concept'),
+    return (type_id, primitive) where exactly one is non-None. type_id is
+    set when the name resolves to a source DataType/Enumeration or a sibling
+    target class; primitive is set for UML primitives."""
+    if name in PROFILE_PRIMITIVE_NAMES:
+        # uml_to_schema's PRIMITIVE_FRAGMENTS maps "String"->"string" etc.;
+        # we need the JSON-schema-side name (which is what Property.primitive
+        # carries throughout the codebase).
+        return None, PRIMITIVE_FRAGMENTS[name]
+    # Sibling target class? (other classes in the same config)
+    if name in target_classes_by_name:
+        return target_classes_by_name[name].id, None
+    # Source DataType / Enumeration / Class by name?
+    ids = source_model.name_to_id.get(name, [])
+    if ids:
+        return ids[0], None
+    return None, "string"  # unknown → string fallback
+
+
+def _ucmis_lower_to_int(s: str) -> int:
+    if s == "*":
+        return -1
+    try:
+        return int(s)
+    except (TypeError, ValueError):
+        return 0
+
+
+def _ucmis_upper_to_int(s: str) -> int:
+    if s == "*":
+        return -1
+    try:
+        return int(s)
+    except (TypeError, ValueError):
+        return 1
+
+
+def _ucmis_multiplicity(mult: Optional[dict]) -> Optional[tuple[int, int]]:
+    """Convert {'lower':'1','upper':'*'} to (1, -1). Returns None if absent."""
+    if not mult:
+        return None
+    return _ucmis_lower_to_int(mult.get("lower", "1")), _ucmis_upper_to_int(mult.get("upper", "1"))
+
+
+def _find_source_property(src_cls: UmlClass, attr_name: str,
+                          model: Model) -> Optional[Property]:
+    """Find a Property on a source class (including inherited) by attribute
+    name. Returns None if not found."""
+    for p in collect_inherited_properties(src_cls.id, model):
+        if p.name == attr_name and not p.is_assoc_end:
+            return p
+    return None
+
+
+def _render_map_class(
+    class_spec: dict,
+    source_model: Model,
+    target_classes_by_name: dict[str, UmlClass],
+    acronym: str,
+) -> UmlClass:
+    """Render a mappingType='map' class spec into a synthetic UmlClass."""
+    src_name = class_spec["sourceClass"]
+    src_ids = source_model.name_to_id.get(src_name, [])
+    if not src_ids:
+        raise SystemExit(f"map: source class '{src_name}' not found in source model")
+    src_cls = source_model.elements[src_ids[0]]
+    target_name = class_spec["targetClass"]
+    tgt_id = _profile_xmi_id(acronym, target_name)
+
+    # Pull source doc; allow override via definitionFrom (which for 'map' means
+    # the same source class, but kept for symmetry with merge).
+    doc_src = src_cls
+    if "definitionFrom" in class_spec:
+        dids = source_model.name_to_id.get(class_spec["definitionFrom"], [])
+        if dids:
+            doc_src = source_model.elements[dids[0]]
+
+    # Build attribute list:
+    #   - if config lists attributes: use ONLY those (matches DDSC example pattern
+    #     where each map spells out the attributes it wants to carry forward)
+    #   - else: include every (non-association) inherited source property
+    props: list[Property] = []
+    config_attrs = class_spec.get("attribute", [])
+    if config_attrs:
+        for attr in config_attrs:
+            target_attr_name = attr["name"]
+            source_attr_name = attr.get("fromSourceAttributeName", target_attr_name)
+            src_prop = _find_source_property(src_cls, source_attr_name, source_model)
+            # Multiplicity override or default to source
+            mult = _ucmis_multiplicity(attr.get("multiplicity"))
+            if src_prop is None:
+                # No source attribute; treat the attribute as new — config must
+                # supply dataType (per v1.1 we don't enforce this for 'map' but
+                # warn). Falls back to string.
+                dtype_name = attr.get("dataType", "String")
+                tid, prim = _resolve_dataType_ref(
+                    dtype_name, source_model, target_classes_by_name
+                )
+                lower, upper = mult or (0, 1)
+                props.append(Property(
+                    id=f"{tgt_id}-{target_attr_name}",
+                    name=target_attr_name,
+                    type_id=tid, primitive=prim,
+                    lower=lower, upper=upper,
+                    doc=attr.get("definition"),
+                    is_assoc_end=False, aggregation=None,
+                ))
+                continue
+            # Use source's type unless dataType override is present
+            tid = src_prop.type_id
+            prim = src_prop.primitive
+            if "dataType" in attr:
+                tid, prim = _resolve_dataType_ref(
+                    attr["dataType"], source_model, target_classes_by_name
+                )
+            lower, upper = mult or (src_prop.lower, src_prop.upper)
+            doc = attr.get("definition") or src_prop.doc
+            props.append(Property(
+                id=f"{tgt_id}-{target_attr_name}",
+                name=target_attr_name, type_id=tid, primitive=prim,
+                lower=lower, upper=upper, doc=doc,
+                is_assoc_end=False, aggregation=src_prop.aggregation,
+            ))
+    else:
+        # No attribute list in config: copy all source props
+        for p in collect_inherited_properties(src_cls.id, source_model):
+            if p.is_assoc_end or not p.name:
+                continue
+            props.append(Property(
+                id=f"{tgt_id}-{p.name}",
+                name=p.name, type_id=p.type_id, primitive=p.primitive,
+                lower=p.lower, upper=p.upper, doc=p.doc,
+                is_assoc_end=False, aggregation=p.aggregation,
+            ))
+
+    return UmlClass(
+        id=tgt_id, name=target_name, package="", doc=doc_src.doc,
+        is_abstract=class_spec.get("isAbstract", src_cls.is_abstract),
+        parents=[], properties=props,
+        kind="class", literals=[],
+    )
+
+
+def _render_merge_class(
+    class_spec: dict,
+    source_model: Model,
+    target_classes_by_name: dict[str, UmlClass],
+    acronym: str,
+) -> UmlClass:
+    """Render a mappingType='merge' class spec (two source classes -> one)."""
+    src_names = class_spec["sourceClass"]
+    src_ids_a = source_model.name_to_id.get(src_names[0], [])
+    src_ids_b = source_model.name_to_id.get(src_names[1], [])
+    if not src_ids_a or not src_ids_b:
+        raise SystemExit(f"merge: source class(es) {src_names} not found")
+    src_a = source_model.elements[src_ids_a[0]]
+    src_b = source_model.elements[src_ids_b[0]]
+    target_name = class_spec["targetClass"]
+    tgt_id = _profile_xmi_id(acronym, target_name)
+
+    # Use definitionFrom (one of the two source names) for the class doc.
+    doc_src = src_a
+    dfrom = class_spec.get("definitionFrom")
+    if dfrom == src_b.name:
+        doc_src = src_b
+
+    props: list[Property] = []
+    for attr in class_spec.get("attribute", []):
+        target_attr_name = attr["name"]
+        source_attr_name = attr.get("fromSourceAttributeName", target_attr_name)
+        from_src = attr.get("fromSourceClass")
+        candidates = [src_a, src_b]
+        if from_src:
+            candidates = [c for c in candidates if c.name == from_src]
+        src_prop = None
+        for c in candidates:
+            src_prop = _find_source_property(c, source_attr_name, source_model)
+            if src_prop:
+                break
+        if src_prop is None:
+            tid, prim = _resolve_dataType_ref(
+                attr.get("dataType", "String"), source_model, target_classes_by_name
+            )
+            lower, upper = _ucmis_multiplicity(attr.get("multiplicity")) or (0, 1)
+            props.append(Property(
+                id=f"{tgt_id}-{target_attr_name}",
+                name=target_attr_name, type_id=tid, primitive=prim,
+                lower=lower, upper=upper, doc=attr.get("definition"),
+                is_assoc_end=False, aggregation=None,
+            ))
+            continue
+        tid = src_prop.type_id; prim = src_prop.primitive
+        if "dataType" in attr:
+            tid, prim = _resolve_dataType_ref(
+                attr["dataType"], source_model, target_classes_by_name
+            )
+        mult = _ucmis_multiplicity(attr.get("multiplicity"))
+        lower, upper = mult or (src_prop.lower, src_prop.upper)
+        doc = attr.get("definition") or src_prop.doc
+        props.append(Property(
+            id=f"{tgt_id}-{target_attr_name}",
+            name=target_attr_name, type_id=tid, primitive=prim,
+            lower=lower, upper=upper, doc=doc,
+            is_assoc_end=False, aggregation=src_prop.aggregation,
+        ))
+    return UmlClass(
+        id=tgt_id, name=target_name, package="", doc=doc_src.doc,
+        is_abstract=class_spec.get("isAbstract", False),
+        parents=[], properties=props,
+        kind="class", literals=[],
+    )
+
+
+def _render_new_class(
+    class_spec: dict,
+    source_model: Model,
+    target_classes_by_name: dict[str, UmlClass],
+    acronym: str,
+) -> UmlClass:
+    """Render a mappingType='new' class spec into a synthetic UmlClass."""
+    target_name = class_spec["targetClass"]
+    tgt_id = _profile_xmi_id(acronym, target_name)
+    props: list[Property] = []
+    for attr in class_spec.get("attribute", []):
+        tid, prim = _resolve_dataType_ref(
+            attr["dataType"], source_model, target_classes_by_name
+        )
+        lower, upper = _ucmis_multiplicity(attr.get("multiplicity")) or (0, 1)
+        props.append(Property(
+            id=f"{tgt_id}-{attr['name']}",
+            name=attr["name"], type_id=tid, primitive=prim,
+            lower=lower, upper=upper, doc=attr.get("definition"),
+            is_assoc_end=False, aggregation=None,
+        ))
+    return UmlClass(
+        id=tgt_id, name=target_name, package="", doc=class_spec.get("definition"),
+        is_abstract=class_spec.get("isAbstract", False),
+        parents=[], properties=props,
+        kind="class", literals=[],
+    )
+
+
+def _parse_assoc_triple(name: str) -> Optional[tuple[str, str, str]]:
+    m = re.match(r"^([A-Z][A-Za-z]*)_([a-z][A-Za-z]*)_([A-Z][A-Za-z]*)$", name)
+    if not m:
+        return None
+    return m.group(1), m.group(2), m.group(3)
+
+
+def _add_association_property(
+    assoc_spec: dict,
+    target_classes_by_name: dict[str, UmlClass],
+    source_model: Model,
+    acronym: str,
+) -> None:
+    """Add a synthetic assoc-end Property to the relevant target class so the
+    closure walker registers the association edge. Both ends must be among the
+    target classes for the edge to be emitted as a UML Association."""
+    target_name = assoc_spec.get("targetAssociationName") or assoc_spec.get("sourceAssociationName")
+    if not target_name:
+        return
+    triple = _parse_assoc_triple(target_name)
+    if not triple:
+        return
+    subj_name, role, obj_name = triple
+
+    # Allow explicit override via subjectClass/objectClass
+    subj_name = assoc_spec.get("subjectClass", subj_name)
+    obj_name = assoc_spec.get("objectClass", obj_name)
+
+    subj_cls = target_classes_by_name.get(subj_name)
+    obj_cls = target_classes_by_name.get(obj_name)
+    if subj_cls is None or obj_cls is None:
+        # Edge cannot be emitted as a UML Association (one end is foreign).
+        # Warn so the user knows the cross-profile reference is silent here.
+        print(
+            f"WARN: association '{target_name}' skipped — "
+            f"{'subject' if subj_cls is None else 'object'} class "
+            f"'{subj_name if subj_cls is None else obj_name}' is not in this "
+            "profile's class set (it likely lives in a lower-level profile "
+            "that this UML is meant to compose with).",
+            file=sys.stderr,
+        )
+        return
+
+    # Multiplicity: prefer config override, else default 0..*
+    obj_mult = _ucmis_multiplicity(assoc_spec.get("objectClassMultiplicity")) or (0, -1)
+    aggregation = assoc_spec.get("objectClassAggregationKind")
+    if aggregation == "none":
+        aggregation = None
+
+    # Synthetic Property on the subject class. Disambiguate the prop_id by
+    # object name so a single subject can carry multiple associations sharing
+    # a role name but pointing at different target classes (e.g.
+    # Dataset_creator_Person and Dataset_creator_Organization).
+    prop_id = f"{subj_cls.id}-{role}_{obj_cls.name}"
+    if any(p.id == prop_id for p in subj_cls.properties):
+        return
+    subj_cls.properties.append(Property(
+        id=prop_id, name=role,
+        type_id=obj_cls.id, primitive=None,
+        lower=obj_mult[0], upper=obj_mult[1],
+        doc=assoc_spec.get("definition"),
+        is_assoc_end=True, aggregation=aggregation,
+    ))
+
+
+# ---------------------------------------------------------------------------
+# PlantUML emit
+#
+# Produces one `.pu` per class (a context diagram focused on that class) plus
+# an `index.pu` overview of the whole profile. Intended to back the HTML
+# model browser by feeding the per-class diagrams to plantuml.jar for SVG
+# rendering. Reuses compute_uml_closure to find the included classes,
+# datatypes, enumerations and associations.
+# ---------------------------------------------------------------------------
+
+# Colors mirror UCMIS-M2T's puUtilityDoc.mtl convention (main item highlighted,
+# context elements muted, datatypes warm).
+_PUML_COLORS = {
+    "main_bg":       "#FEFECE",
+    "main_border":   "#404040",
+    "context_bg":    "#EEEEEE",
+    "super_bg":      "#D6EAF8",  # supertypes light blue
+    "sub_bg":        "#D5F5E3",  # subtypes light green
+    "datatype_bg":   "#FAE5D3",
+    "enum_bg":       "#F9E79F",
+}
+
+
+def _puml_safe(name: str) -> str:
+    """Convert a UML name into a token usable as a PlantUML alias."""
+    return re.sub(r"[^A-Za-z0-9_]", "_", name)
+
+
+def _puml_multiplicity(lower: int, upper: int) -> str:
+    if lower == upper:
+        return f"{lower}" if upper != -1 else "*"
+    lo = str(lower)
+    hi = "*" if upper == -1 else str(upper)
+    return f"{lo}..{hi}"
+
+
+def _puml_attr_type(prop: Property, model: Model) -> str:
+    if prop.primitive:
+        return prop.primitive
+    if prop.type_id:
+        target = model.elements.get(prop.type_id)
+        if target is not None:
+            return target.name
+    return "String"
+
+
+def _puml_header(title: str) -> list[str]:
+    return [
+        "@startuml",
+        f"title {title}",
+        "hide circle",
+        "hide empty members",
+        "skinparam shadowing false",
+        "skinparam ArrowThickness 1.2",
+        "skinparam class {",
+        "  ArrowColor #404040",
+        "  BorderColor #404040",
+        "  FontSize 12",
+        "}",
+        "",
+    ]
+
+
+def _puml_class_box(cls: UmlClass, *, alias: str, bg: str,
+                    show_attrs: bool, model: Model) -> list[str]:
+    stereotype = ""
+    if cls.kind == "datatype":
+        stereotype = " <<dataType>>"
+    elif cls.kind == "enumeration":
+        stereotype = " <<enumeration>>"
+    keyword = "abstract class" if cls.is_abstract else "class"
+    if cls.kind == "enumeration":
+        keyword = "enum"
+    head = f'{keyword} "{cls.name}" as {alias}{stereotype} {bg}'
+    out = [head]
+    if cls.kind == "enumeration" and cls.literals:
+        out.append("{")
+        for lit in cls.literals:
+            out.append(f"  {lit}")
+        out.append("}")
+        return out
+    if show_attrs:
+        attrs = [p for p in cls.properties if not p.is_assoc_end]
+        if attrs:
+            out[-1] = head + " {"
+            for p in attrs:
+                t = _puml_attr_type(p, model)
+                mult = _puml_multiplicity(p.lower, p.upper)
+                out.append(f"  +{p.name} : {t} [{mult}]")
+            out.append("}")
+    return out
+
+
+def _associations_for(cls: UmlClass, closure: UmlClosure) -> list[tuple]:
+    """Return association tuples touching cls."""
+    return [a for a in closure.associations if a[1] == cls.id or a[2] == cls.id]
+
+
+def _aggregation_arrow(agg: Optional[str], direction: str = "out") -> str:
+    # direction "out" = main class points to other; "in" = other points to main
+    if agg == "composite":
+        return "*--" if direction == "out" else "--*"
+    if agg == "shared":
+        return "o--" if direction == "out" else "--o"
+    return "-->" if direction == "out" else "<--"
+
+
+def _emit_class_diagram(cls: UmlClass, closure: UmlClosure, model: Model,
+                        out_dir: Path) -> Path:
+    """Write a context diagram for one class as <ClassName>.pu."""
+    lines = _puml_header(cls.name)
+    main_alias = _puml_safe(cls.name)
+    related_aliases: dict[str, str] = {}  # id -> alias
+
+    def add_related(target: UmlClass, role: str) -> str:
+        if target.id == cls.id:
+            return main_alias
+        if target.id in related_aliases:
+            return related_aliases[target.id]
+        alias = _puml_safe(target.name)
+        if alias == main_alias:
+            alias = main_alias + "_x"
+        related_aliases[target.id] = alias
+        if role == "super":
+            bg = _PUML_COLORS["super_bg"]
+        elif role == "sub":
+            bg = _PUML_COLORS["sub_bg"]
+        elif target.kind == "datatype":
+            bg = _PUML_COLORS["datatype_bg"]
+        elif target.kind == "enumeration":
+            bg = _PUML_COLORS["enum_bg"]
+        else:
+            bg = _PUML_COLORS["context_bg"]
+        lines.extend(_puml_class_box(target, alias=alias, bg=bg,
+                                      show_attrs=False, model=model))
+        return alias
+
+    # Main class with attributes
+    lines.extend(_puml_class_box(cls, alias=main_alias,
+                                  bg=_PUML_COLORS["main_bg"],
+                                  show_attrs=True, model=model))
+
+    # Supertypes (direct only)
+    for pid in cls.parents:
+        parent = model.elements.get(pid)
+        if parent is None:
+            continue
+        alias = add_related(parent, "super")
+        lines.append(f"{alias} <|-- {main_alias}")
+
+    # Subtypes (direct only, scan included class set)
+    for other in closure.classes:
+        if cls.id in other.parents:
+            alias = add_related(other, "sub")
+            lines.append(f"{main_alias} <|-- {alias}")
+
+    # Associations
+    for assoc in _associations_for(cls, closure):
+        _pid, src_id, tgt_id, role, lo, up, agg = assoc
+        if src_id == cls.id:
+            other_id = tgt_id
+            direction = "out"
+        else:
+            other_id = src_id
+            direction = "in"
+        other = model.elements.get(other_id)
+        if other is None:
+            continue
+        alias = add_related(other, "context")
+        arrow = _aggregation_arrow(agg, direction)
+        mult = _puml_multiplicity(lo, up)
+        if direction == "out":
+            lines.append(f'{main_alias} {arrow} "{mult}" {alias} : {role}')
+        else:
+            lines.append(f'{alias} "{mult}" {arrow} {main_alias} : {role}')
+
+    # Referenced datatypes/enumerations on attributes (not already added)
+    for p in cls.properties:
+        if p.is_assoc_end or not p.type_id:
+            continue
+        target = model.elements.get(p.type_id)
+        if target is None or target.kind == "class":
+            continue
+        if target.id in related_aliases:
+            continue
+        alias = add_related(target, "context")
+        lines.append(f"{main_alias} ..> {alias} : {p.name}")
+
+    lines.append("")
+    lines.append("@enduml")
+
+    out_path = out_dir / f"{_puml_safe(cls.name)}.pu"
+    out_path.write_text("\n".join(lines), encoding="utf-8")
+    return out_path
+
+
+def _emit_overview_diagram(closure: UmlClosure, model: Model,
+                           profile_name: str, out_path: Path) -> None:
+    """Write an overview index.pu showing all profile classes + inheritance +
+    associations (no attributes)."""
+    lines = _puml_header(f"{profile_name} — overview")
+    aliases: dict[str, str] = {}
+    for cls in closure.classes:
+        alias = _puml_safe(cls.name)
+        aliases[cls.id] = alias
+        lines.extend(_puml_class_box(cls, alias=alias,
+                                      bg=_PUML_COLORS["main_bg"],
+                                      show_attrs=False, model=model))
+    # Inheritance edges between included classes
+    for cls in closure.classes:
+        for pid in cls.parents:
+            if pid in aliases:
+                lines.append(f"{aliases[pid]} <|-- {aliases[cls.id]}")
+    # Associations
+    for assoc in closure.associations:
+        _pid, src_id, tgt_id, role, lo, up, agg = assoc
+        if src_id not in aliases or tgt_id not in aliases:
+            continue
+        arrow = _aggregation_arrow(agg, "out")
+        mult = _puml_multiplicity(lo, up)
+        lines.append(f'{aliases[src_id]} {arrow} "{mult}" {aliases[tgt_id]} : {role}')
+    lines.append("")
+    lines.append("@enduml")
+    out_path.write_text("\n".join(lines), encoding="utf-8")
+
+
+def render_puml_to_svg(puml_dir: Path, plantuml_jar: Path,
+                        java_exe: str = "java") -> int:
+    """Walk puml_dir and render every .pu to .svg via plantuml.jar.
+    Returns the count of files rendered. Skips files whose .svg is newer."""
+    import subprocess
+    pu_files = list(puml_dir.rglob("*.pu"))
+    to_render = []
+    for pu in pu_files:
+        svg = pu.with_suffix(".svg")
+        if not svg.exists() or svg.stat().st_mtime < pu.stat().st_mtime:
+            to_render.append(pu)
+    if not to_render:
+        return 0
+    # PlantUML can take multiple input files; group by directory to keep
+    # output side-by-side with input.
+    by_dir: dict[Path, list[Path]] = {}
+    for pu in to_render:
+        by_dir.setdefault(pu.parent, []).append(pu)
+    for d, files in by_dir.items():
+        cmd = [java_exe, "-jar", str(plantuml_jar), "-tsvg"] + [str(f) for f in files]
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        if result.returncode != 0:
+            print(f"WARN: plantuml render failed in {d}: {result.stderr[:200]}",
+                  file=sys.stderr)
+    return len(to_render)
+
+
+def emit_puml(out_dir: Path, *,
+              profile_name: str,
+              roots: list[UmlClass],
+              ctx: BuildContext,
+              model: Model) -> dict:
+    """Emit PlantUML files for a profile.
+
+    Layout:
+      <out_dir>/index.pu              — overview of all classes
+      <out_dir>/Classes/<Name>.pu     — per-class context diagram
+      <out_dir>/DataTypes/<Name>.pu   — per-datatype usage diagram
+
+    Returns a manifest dict with counts and paths.
+    """
+    closure = compute_uml_closure(roots, ctx, model)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    classes_dir = out_dir / "Classes"
+    classes_dir.mkdir(exist_ok=True)
+    datatypes_dir = out_dir / "DataTypes"
+    datatypes_dir.mkdir(exist_ok=True)
+
+    _emit_overview_diagram(closure, model, profile_name, out_dir / "index.pu")
+
+    class_paths = []
+    for cls in closure.classes:
+        class_paths.append(_emit_class_diagram(cls, closure, model, classes_dir))
+
+    # DataType usage diagrams: which classes/attributes use this datatype
+    dt_paths = []
+    for dt in closure.datatypes + closure.enumerations:
+        lines = _puml_header(dt.name)
+        dt_alias = _puml_safe(dt.name)
+        bg = (_PUML_COLORS["enum_bg"] if dt.kind == "enumeration"
+              else _PUML_COLORS["datatype_bg"])
+        lines.extend(_puml_class_box(dt, alias=dt_alias, bg=bg,
+                                      show_attrs=True, model=model))
+        users: set[str] = set()
+        for cls in closure.classes:
+            for p in cls.properties:
+                if p.type_id == dt.id and not p.is_assoc_end:
+                    user_alias = _puml_safe(cls.name)
+                    if cls.id not in users:
+                        users.add(cls.id)
+                        lines.extend(_puml_class_box(cls, alias=user_alias,
+                                                      bg=_PUML_COLORS["context_bg"],
+                                                      show_attrs=False, model=model))
+                    lines.append(f"{user_alias} ..> {dt_alias} : {p.name}")
+        lines.append("")
+        lines.append("@enduml")
+        path = datatypes_dir / f"{dt_alias}.pu"
+        path.write_text("\n".join(lines), encoding="utf-8")
+        dt_paths.append(path)
+
+    return {
+        "profile": profile_name,
+        "out_dir": str(out_dir),
+        "classes": len(class_paths),
+        "datatypes": len(dt_paths),
+        "overview": str(out_dir / "index.pu"),
+    }
+
+
+# ---------------------------------------------------------------------------
+# HTML model browser
+#
+# Produces a static HTML site with one page per class + per datatype, plus a
+# profile-level index. Embeds the .pu diagram as a rendered SVG when
+# plantuml.jar is available (env var PLANTUML_JAR), otherwise falls back to
+# a <pre> block of the .pu source.
+# ---------------------------------------------------------------------------
+
+_HTML_STYLE_CSS = """\
+* { box-sizing: border-box; }
+body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+       margin: 0; padding: 0; color: #222; background: #fafafa; }
+header { background: #2c3e50; color: white; padding: 1rem 2rem;
+         box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+header a { color: white; text-decoration: none; }
+header h1 { margin: 0; font-size: 1.4rem; font-weight: 500; }
+nav.breadcrumb { font-size: 0.9rem; opacity: 0.85; margin-top: 0.3rem; }
+nav.breadcrumb a { color: #cfe2f3; }
+main { max-width: 1100px; margin: 2rem auto; padding: 0 2rem; }
+h1.classname { font-size: 1.9rem; margin: 0 0 0.5rem 0; }
+.fqn { color: #666; font-size: 0.9rem; margin-bottom: 1rem; font-family: monospace; }
+.stereotype { display: inline-block; background: #eef; color: #336;
+              padding: 0.1rem 0.5rem; border-radius: 3px;
+              font-size: 0.8rem; margin-left: 0.5rem; vertical-align: middle; }
+h2 { font-size: 1.2rem; color: #2c3e50; border-bottom: 1px solid #ddd;
+     padding-bottom: 0.3rem; margin-top: 2rem; }
+.definition { font-size: 1.05rem; line-height: 1.5; color: #444;
+              background: white; padding: 1rem; border-left: 3px solid #2c3e50; }
+table { width: 100%; border-collapse: collapse; background: white;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+th, td { padding: 0.6rem 0.8rem; text-align: left;
+         border-bottom: 1px solid #eee; vertical-align: top; }
+th { background: #f4f4f4; font-weight: 600; font-size: 0.9rem; color: #555; }
+td.name { font-family: monospace; font-weight: 600; white-space: nowrap; }
+td.type { font-family: monospace; color: #06c; }
+td.mult { font-family: monospace; color: #999; white-space: nowrap; }
+td.doc { color: #555; font-size: 0.95rem; }
+a.classlink { color: #06c; text-decoration: none; }
+a.classlink:hover { text-decoration: underline; }
+.diagram { background: white; padding: 1rem; text-align: center;
+           overflow-x: auto; border: 1px solid #eee; }
+.diagram object, .diagram img { max-width: 100%; }
+.diagram pre { text-align: left; background: #f8f8f8; padding: 1rem;
+               overflow-x: auto; font-size: 0.85rem; }
+.empty { color: #999; font-style: italic; }
+ul.classlist { list-style: none; padding: 0;
+               display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+               gap: 0.5rem; }
+ul.classlist li { background: white; padding: 0.6rem 0.8rem;
+                  border: 1px solid #eee; border-radius: 4px; }
+ul.classlist a { color: #06c; text-decoration: none; font-family: monospace;
+                 font-weight: 600; }
+ul.classlist .kind { color: #999; font-size: 0.8rem; margin-left: 0.5rem; }
+.parent-chain { font-family: monospace; color: #555; }
+.parent-chain .focus { color: #c00; font-weight: bold; }
+"""
+
+
+def _html_escape(s: str) -> str:
+    return (s.replace("&", "&amp;").replace("<", "&lt;")
+             .replace(">", "&gt;").replace('"', "&quot;"))
+
+
+def _html_link_class(cls_name: str, kind: str,
+                     current_profile: str = "",
+                     cross_profile_registry: Optional[dict[str, str]] = None) -> str:
+    """Return an <a> linking to another class/datatype page.
+
+    Same-profile target: ../{Classes|DataTypes}/Name.html
+    Cross-profile target: ../../{OtherProfile}/{Classes|DataTypes}/Name.html
+    Unknown target: plain text (no <a>).
+    """
+    folder = "DataTypes" if kind in ("datatype", "enumeration") else "Classes"
+    other_profile = (cross_profile_registry or {}).get(cls_name)
+    if other_profile and other_profile != current_profile:
+        href = f"../../{other_profile}/{folder}/{_puml_safe(cls_name)}.html"
+        return (f'<a class="classlink" href="{href}" title="in {other_profile}">'
+                f'{_html_escape(cls_name)} &#x2197;</a>')
+    href = f"../{folder}/{_puml_safe(cls_name)}.html"
+    return f'<a class="classlink" href="{href}">{_html_escape(cls_name)}</a>'
+
+
+def _html_render_diagram(pu_path: Path) -> str:
+    """Return the HTML for embedding a diagram. If a sibling .svg exists
+    (rendered upstream), embed it via <object>; otherwise drop the .pu source
+    in a <pre>."""
+    svg_path = pu_path.with_suffix(".svg")
+    if svg_path.exists():
+        return f'<div class="diagram"><object data="{svg_path.name}" type="image/svg+xml"></object></div>'
+    return (f'<div class="diagram"><pre>{_html_escape(pu_path.read_text(encoding="utf-8"))}</pre>'
+            f'<p class="empty">(SVG render unavailable — install plantuml.jar '
+            f'and rerun <code>plantuml -tsvg {pu_path.name}</code> in this directory)</p></div>')
+
+
+def _html_page_shell(title: str, profile_name: str,
+                     breadcrumb: list[tuple[str, str]],
+                     body: str, depth: int = 2) -> str:
+    """Wrap body in the standard HTML shell. depth = number of `..` segments
+    needed to reach the profile root (Classes/X.html is 1, index.html is 0)."""
+    prefix = "../" * depth
+    crumb_html = " &raquo; ".join(
+        f'<a href="{prefix}{href}">{_html_escape(label)}</a>' if href else _html_escape(label)
+        for label, href in breadcrumb
+    )
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{_html_escape(title)} &mdash; {_html_escape(profile_name)}</title>
+  <link rel="stylesheet" href="{prefix}_static/style.css">
+</head>
+<body>
+<header>
+  <h1><a href="{prefix}index.html">{_html_escape(profile_name)}</a></h1>
+  <nav class="breadcrumb">{crumb_html}</nav>
+</header>
+<main>
+{body}
+</main>
+</body>
+</html>
+"""
+
+
+def _html_attr_rows(cls: UmlClass, model: Model,
+                    included_ids: set[str],
+                    current_profile: str = "",
+                    registry: Optional[dict[str, str]] = None) -> str:
+    rows = []
+    for p in cls.properties:
+        if p.is_assoc_end:
+            continue
+        if p.primitive:
+            type_html = f'<span>{_html_escape(p.primitive)}</span>'
+        elif p.type_id and p.type_id in model.elements:
+            t = model.elements[p.type_id]
+            if t.id in included_ids or (registry and t.name in registry):
+                type_html = _html_link_class(t.name, t.kind, current_profile, registry)
+            else:
+                type_html = _html_escape(t.name)
+        else:
+            type_html = "<span>?</span>"
+        mult = _puml_multiplicity(p.lower, p.upper)
+        doc = _html_escape(clean_definition(p.doc) or "")
+        rows.append(
+            f'<tr><td class="name">{_html_escape(p.name)}</td>'
+            f'<td class="type">{type_html}</td>'
+            f'<td class="mult">[{mult}]</td>'
+            f'<td class="doc">{doc}</td></tr>'
+        )
+    if not rows:
+        return '<p class="empty">No attributes.</p>'
+    return ('<table><thead><tr><th>Name</th><th>Type</th>'
+            '<th>Multiplicity</th><th>Description</th></tr></thead>'
+            f'<tbody>{"".join(rows)}</tbody></table>')
+
+
+def _html_assoc_rows(cls: UmlClass, closure: UmlClosure,
+                     model: Model, included_ids: set[str],
+                     current_profile: str = "",
+                     registry: Optional[dict[str, str]] = None) -> str:
+    rows = []
+    for assoc in closure.associations:
+        _pid, src_id, tgt_id, role, lo, up, agg = assoc
+        if cls.id == src_id:
+            other_id, direction = tgt_id, "out"
+        elif cls.id == tgt_id:
+            other_id, direction = src_id, "in"
+        else:
+            continue
+        other = model.elements.get(other_id)
+        if other is None:
+            continue
+        if other.id in included_ids or (registry and other.name in registry):
+            target_html = _html_link_class(other.name, other.kind, current_profile, registry)
+        else:
+            target_html = _html_escape(other.name)
+        mult = _puml_multiplicity(lo, up)
+        agg_label = {"composite": "composition", "shared": "aggregation"}.get(agg or "", "association")
+        arrow = "&rarr;" if direction == "out" else "&larr;"
+        rows.append(
+            f'<tr><td class="name">{_html_escape(role)}</td>'
+            f'<td>{arrow} {target_html}</td>'
+            f'<td class="mult">[{mult}]</td>'
+            f'<td class="doc">{_html_escape(agg_label)}</td></tr>'
+        )
+    if not rows:
+        return '<p class="empty">No associations.</p>'
+    return ('<table><thead><tr><th>Role</th><th>Target</th>'
+            '<th>Multiplicity</th><th>Kind</th></tr></thead>'
+            f'<tbody>{"".join(rows)}</tbody></table>')
+
+
+def _html_inheritance(cls: UmlClass, closure: UmlClosure,
+                      model: Model, included_ids: set[str],
+                      current_profile: str = "",
+                      registry: Optional[dict[str, str]] = None) -> str:
+    """Render a simple supertype/subtype list."""
+    parts = []
+    if cls.parents:
+        parents = []
+        for pid in cls.parents:
+            p = model.elements.get(pid)
+            if p is None:
+                continue
+            if p.id in included_ids or (registry and p.name in registry):
+                parents.append(_html_link_class(p.name, p.kind, current_profile, registry))
+            else:
+                parents.append(_html_escape(p.name))
+        parts.append(f'<p><strong>Generalizes:</strong> {", ".join(parents)}</p>')
+    subs = []
+    for other in closure.classes:
+        if cls.id in other.parents:
+            subs.append(_html_link_class(other.name, other.kind, current_profile, registry))
+    if subs:
+        parts.append(f'<p><strong>Specialized by:</strong> {", ".join(subs)}</p>')
+    if not parts:
+        return '<p class="empty">No generalization relationships.</p>'
+    return "\n".join(parts)
+
+
+def _html_class_page(cls: UmlClass, closure: UmlClosure, model: Model,
+                     profile_name: str, profile_dir: Path,
+                     puml_dir: Optional[Path],
+                     registry: Optional[dict[str, str]] = None) -> None:
+    included_ids = closure.class_ids | closure.type_ids
+    folder = "Classes" if cls.kind == "class" else "DataTypes"
+    stereotype = ""
+    if cls.kind == "datatype":
+        stereotype = '<span class="stereotype">&laquo;dataType&raquo;</span>'
+    elif cls.kind == "enumeration":
+        stereotype = '<span class="stereotype">&laquo;enumeration&raquo;</span>'
+    elif cls.is_abstract:
+        stereotype = '<span class="stereotype">&laquo;abstract&raquo;</span>'
+
+    diagram_html = ""
+    if puml_dir is not None:
+        pu_subdir = "Classes" if cls.kind == "class" else "DataTypes"
+        pu_path = puml_dir / pu_subdir / f"{_puml_safe(cls.name)}.pu"
+        if pu_path.exists():
+            # Copy/symlink the diagram next to the HTML so relative paths work
+            target_dir = profile_dir / folder
+            target_pu = target_dir / pu_path.name
+            if not target_pu.exists() or target_pu.read_text(encoding="utf-8") != pu_path.read_text(encoding="utf-8"):
+                target_pu.write_text(pu_path.read_text(encoding="utf-8"), encoding="utf-8")
+            # Also copy SVG if present
+            svg_path = pu_path.with_suffix(".svg")
+            if svg_path.exists():
+                (target_dir / svg_path.name).write_bytes(svg_path.read_bytes())
+            diagram_html = _html_render_diagram(target_pu)
+
+    definition_html = (f'<div class="definition">{_html_escape(clean_definition(cls.doc) or "")}</div>'
+                       if cls.doc else '<p class="empty">No definition.</p>')
+
+    if cls.kind == "enumeration":
+        body_extra = "<h2>Literals</h2>"
+        if cls.literals:
+            body_extra += ("<ul>" + "".join(
+                f"<li><code>{_html_escape(lit)}</code></li>" for lit in cls.literals) + "</ul>")
+        else:
+            body_extra += '<p class="empty">No literals.</p>'
+    else:
+        attrs_html = _html_attr_rows(cls, model, included_ids, profile_name, registry)
+        assocs_html = _html_assoc_rows(cls, closure, model, included_ids, profile_name, registry)
+        inherit_html = _html_inheritance(cls, closure, model, included_ids, profile_name, registry)
+        body_extra = (
+            f'<h2>Inheritance</h2>{inherit_html}'
+            f'<h2>Attributes</h2>{attrs_html}'
+            f'<h2>Associations</h2>{assocs_html}'
+        )
+
+    body = (
+        f'<h1 class="classname">{_html_escape(cls.name)}{stereotype}</h1>'
+        f'<p class="fqn">{_html_escape(profile_name)}::{folder}::{_html_escape(cls.name)}</p>'
+        f'<h2>Definition</h2>{definition_html}'
+        f'<h2>Diagram</h2>{diagram_html or "<p class=\"empty\">No diagram available.</p>"}'
+        f'{body_extra}'
+    )
+    breadcrumb = [
+        ("Profiles", "../index.html"),
+        (profile_name, "index.html"),
+        (folder, f"{folder}/index.html"),
+        (cls.name, ""),
+    ]
+    html = _html_page_shell(cls.name, profile_name, breadcrumb, body, depth=2)
+    out_path = profile_dir / folder / f"{_puml_safe(cls.name)}.html"
+    out_path.write_text(html, encoding="utf-8")
+
+
+def _html_folder_index(folder: str, items: list[UmlClass],
+                       profile_name: str, profile_dir: Path) -> None:
+    """Index page for Classes/ or DataTypes/."""
+    lis = []
+    for cls in sorted(items, key=lambda c: c.name):
+        kind_label = f' <span class="kind">{cls.kind}</span>' if cls.kind != "class" else ""
+        lis.append(f'<li><a href="{_puml_safe(cls.name)}.html">'
+                   f'{_html_escape(cls.name)}</a>{kind_label}</li>')
+    body = (f'<h1 class="classname">{folder}</h1>'
+            f'<p>{len(items)} item(s) in <code>{_html_escape(profile_name)}</code></p>'
+            f'<ul class="classlist">{"".join(lis)}</ul>')
+    breadcrumb = [
+        ("Profiles", "../index.html"),
+        (profile_name, "index.html"),
+        (folder, ""),
+    ]
+    html = _html_page_shell(folder, profile_name, breadcrumb, body, depth=2)
+    (profile_dir / folder / "index.html").write_text(html, encoding="utf-8")
+
+
+def _html_profile_index(profile_name: str, closure: UmlClosure,
+                        profile_dir: Path, puml_dir: Optional[Path]) -> None:
+    overview_html = ""
+    if puml_dir is not None:
+        ov_pu = puml_dir / "index.pu"
+        if ov_pu.exists():
+            target_pu = profile_dir / "index.pu"
+            if not target_pu.exists() or target_pu.read_text(encoding="utf-8") != ov_pu.read_text(encoding="utf-8"):
+                target_pu.write_text(ov_pu.read_text(encoding="utf-8"), encoding="utf-8")
+            ov_svg = ov_pu.with_suffix(".svg")
+            if ov_svg.exists():
+                (profile_dir / "index.svg").write_bytes(ov_svg.read_bytes())
+            overview_html = _html_render_diagram(target_pu)
+
+    cls_lis = "".join(
+        f'<li><a href="Classes/{_puml_safe(c.name)}.html">{_html_escape(c.name)}</a></li>'
+        for c in sorted(closure.classes, key=lambda c: c.name))
+    dt_items = closure.datatypes + closure.enumerations
+    dt_lis = "".join(
+        f'<li><a href="DataTypes/{_puml_safe(d.name)}.html">{_html_escape(d.name)}</a>'
+        f' <span class="kind">{d.kind}</span></li>'
+        for d in sorted(dt_items, key=lambda c: c.name))
+
+    body = (
+        f'<h1 class="classname">{_html_escape(profile_name)}</h1>'
+        f'<p>{len(closure.classes)} classes, {len(dt_items)} datatypes/enumerations.</p>'
+        f'<h2>Model overview</h2>{overview_html or "<p class=\"empty\">No overview diagram.</p>"}'
+        f'<h2>Classes</h2><ul class="classlist">{cls_lis}</ul>'
+        f'<h2>DataTypes &amp; Enumerations</h2><ul class="classlist">{dt_lis}</ul>'
+    )
+    breadcrumb = [("Profiles", "index.html"), (profile_name, "")]
+    html = _html_page_shell(profile_name, profile_name, breadcrumb, body, depth=1)
+    (profile_dir / "index.html").write_text(html, encoding="utf-8")
+
+
+def _html_root_index(out_dir: Path, profiles: list[tuple[str, int, int]]) -> None:
+    """Top-level index listing all profiles. `profiles` items are (name, n_classes, n_datatypes)."""
+    lis = "".join(
+        f'<li><a href="{name}/index.html"><strong>{_html_escape(name)}</strong></a>'
+        f' &mdash; {nc} classes, {nd} datatypes</li>'
+        for name, nc, nd in sorted(profiles)
+    )
+    body = ('<h1 class="classname">CDIF profile model browser</h1>'
+            '<p>Generated from the CDIF profile UML models.</p>'
+            f'<ul class="classlist">{lis}</ul>')
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CDIF profile model browser</title>
+  <link rel="stylesheet" href="_static/style.css">
+</head>
+<body>
+<header>
+  <h1>CDIF profile model browser</h1>
+</header>
+<main>{body}</main>
+</body>
+</html>
+"""
+    (out_dir / "index.html").write_text(html, encoding="utf-8")
+
+
+def emit_html(out_dir: Path, *,
+              profile_name: str,
+              roots: list[UmlClass],
+              ctx: BuildContext,
+              model: Model,
+              puml_dir: Optional[Path] = None,
+              cross_profile_registry: Optional[dict[str, str]] = None) -> dict:
+    """Emit an HTML model browser for one profile.
+
+    Layout under <out_dir>:
+      _static/style.css            (shared CSS, written once)
+      index.html                   (top-level profile index — overwritten each call)
+      <profile>/index.html         (per-profile overview)
+      <profile>/Classes/*.html
+      <profile>/DataTypes/*.html
+
+    puml_dir: optional directory holding the .pu (and possibly .svg) files
+    produced by emit_puml. Diagrams are copied next to their HTML so the
+    pages are self-contained.
+    """
+    closure = compute_uml_closure(roots, ctx, model)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    static_dir = out_dir / "_static"
+    static_dir.mkdir(exist_ok=True)
+    (static_dir / "style.css").write_text(_HTML_STYLE_CSS, encoding="utf-8")
+
+    profile_dir = out_dir / profile_name
+    (profile_dir / "Classes").mkdir(parents=True, exist_ok=True)
+    (profile_dir / "DataTypes").mkdir(parents=True, exist_ok=True)
+
+    for cls in closure.classes:
+        _html_class_page(cls, closure, model, profile_name, profile_dir,
+                         puml_dir, cross_profile_registry)
+    for dt in closure.datatypes + closure.enumerations:
+        _html_class_page(dt, closure, model, profile_name, profile_dir,
+                         puml_dir, cross_profile_registry)
+
+    _html_folder_index("Classes", closure.classes, profile_name, profile_dir)
+    _html_folder_index("DataTypes",
+                       closure.datatypes + closure.enumerations,
+                       profile_name, profile_dir)
+    _html_profile_index(profile_name, closure, profile_dir, puml_dir)
+
+    # Refresh the root index by scanning sibling profile dirs.
+    profiles = []
+    for sub in sorted(out_dir.iterdir()):
+        if not sub.is_dir() or sub.name == "_static":
+            continue
+        classes_dir = sub / "Classes"
+        dtypes_dir = sub / "DataTypes"
+        nc = len(list(classes_dir.glob("*.html"))) - 1 if classes_dir.exists() else 0
+        nd = len(list(dtypes_dir.glob("*.html"))) - 1 if dtypes_dir.exists() else 0
+        profiles.append((sub.name, max(nc, 0), max(nd, 0)))
+    _html_root_index(out_dir, profiles)
+
+    return {
+        "profile": profile_name,
+        "out_dir": str(profile_dir),
+        "classes": len(closure.classes),
+        "datatypes": len(closure.datatypes) + len(closure.enumerations),
+    }
+
+
+def emit_uml_from_config(
+    config_path: Path,
+    source_model: Model,
+    out_path: Path,
+    ctx_overrides: Optional[dict] = None,
+    output_format: str = "canonical",
+) -> None:
+    """Read a ucmism2m JSON config and emit a profile UML.
+
+    The config drives:
+      - target model metadata (acronym, URI, packages)
+      - class set (map / new / merge)
+      - per-attribute renames + multiplicity overrides
+      - association edges (renamed source associations and brand-new ones)
+    """
+    with open(config_path, "r", encoding="utf-8") as f:
+        cfg = json.load(f)
+
+    tm = cfg["transformation"]["targetModel"]
+    acronym = tm["acronym"]
+    profile_uri = tm["uri"]
+    model_name = tm.get("mainPackage", acronym)
+    main_pkg = tm["mainPackage"]
+
+    # Render synthetic target classes
+    target_classes_by_name: dict[str, UmlClass] = {}
+    target_class_specs: list[tuple[dict, str]] = []  # (spec, mapping_type) preserves order
+    for spec in cfg.get("mapping", {}).get("class", []):
+        mt = spec["mappingType"]
+        if mt == "map":
+            cls = _render_map_class(spec, source_model, target_classes_by_name, acronym)
+        elif mt == "merge":
+            cls = _render_merge_class(spec, source_model, target_classes_by_name, acronym)
+        elif mt == "new":
+            cls = _render_new_class(spec, source_model, target_classes_by_name, acronym)
+        else:
+            continue
+        target_classes_by_name[cls.name] = cls
+        target_class_specs.append((spec, mt))
+
+    # Resolve generalization names → parent ids (v1.1). Done after every
+    # target class is rendered so forward refs (e.g. Person before Agent) work.
+    for spec, _mt in target_class_specs:
+        gens = spec.get("generalization", []) or []
+        if not gens:
+            continue
+        target_cls = target_classes_by_name.get(spec["targetClass"])
+        if target_cls is None:
+            continue
+        for parent_name in gens:
+            parent_cls = target_classes_by_name.get(parent_name)
+            if parent_cls is None:
+                print(
+                    f"WARN: generalization '{spec['targetClass']}' -> "
+                    f"'{parent_name}' skipped — parent class is not defined "
+                    "in this configuration.",
+                    file=sys.stderr,
+                )
+                continue
+            if parent_cls.id not in target_cls.parents:
+                target_cls.parents.append(parent_cls.id)
+
+    # Render associations as synthetic assoc-end Properties on the relevant
+    # target class(es)
+    for assoc in cfg.get("mapping", {}).get("association", []):
+        _add_association_property(assoc, target_classes_by_name,
+                                  source_model, acronym)
+
+    # Build a *merged* Model containing the source elements + the synthetic
+    # target classes. The closure walker uses this when chasing property
+    # type_ids (most of which point at source DataTypes).
+    merged_elements: dict[str, UmlClass] = dict(source_model.elements)
+    merged_name_to_id: dict[str, list[str]] = {k: list(v) for k, v in source_model.name_to_id.items()}
+    for cls in target_classes_by_name.values():
+        merged_elements[cls.id] = cls
+        merged_name_to_id.setdefault(cls.name, []).insert(0, cls.id)
+    merged_model = Model(elements=merged_elements, name_to_id=merged_name_to_id)
+
+    # Build a BuildContext: inline EVERY target class, since they are all
+    # part of the profile model (and the closure walker uses inline_class_names
+    # to decide whether to recurse into a referenced class's properties).
+    inline_names = set(target_classes_by_name.keys())
+    if ctx_overrides:
+        inline_names |= set(ctx_overrides.get("inline", set()))
+
+    ctx = BuildContext(
+        model=merged_model,
+        prefix="cdif",
+        shared_bb_relpath="",
+        shared_defs=set(),
+        inline_class_names=inline_names,
+        inline_or_ref_class_names=set(),
+        reference_class_names=set(),
+        exclude_class_names=set((ctx_overrides or {}).get("exclude_class", set())),
+        exclude_property_specs=set(),
+        inline_datatypes=False,
+        strict_required=False,
+        external_class_refs={},
+        local_defs=OrderedDict(),
+        expanding=set(),
+    )
+
+    # The roots are the synthetic target classes
+    roots = list(target_classes_by_name.values())
+
+    if output_format == "ea":
+        emit_ea_xmi(
+            out_path,
+            acronym=acronym,
+            profile_uri=profile_uri,
+            model_name=model_name,
+            model_definition=tm.get("definition", ""),
+            main_package_name=main_pkg,
+            main_package_definition=tm.get("mainPackageDefinition", ""),
+            roots=roots,
+            ctx=ctx,
+            model=merged_model,
+        )
+    elif output_format == "puml":
+        manifest = emit_puml(
+            out_path,
+            profile_name=model_name,
+            roots=roots,
+            ctx=ctx,
+            model=merged_model,
+        )
+        print(
+            f"PlantUML: {manifest['classes']} classes, "
+            f"{manifest['datatypes']} datatypes in {out_path}",
+            file=sys.stderr,
+        )
+    elif output_format == "html":
+        puml_dir = (ctx_overrides or {}).get("puml_dir") if ctx_overrides else None
+        registry = (ctx_overrides or {}).get("cross_profile_registry") if ctx_overrides else None
+        manifest = emit_html(
+            out_path,
+            profile_name=model_name,
+            roots=roots,
+            ctx=ctx,
+            model=merged_model,
+            puml_dir=puml_dir,
+            cross_profile_registry=registry,
+        )
+        print(
+            f"HTML: {manifest['classes']} classes, "
+            f"{manifest['datatypes']} datatypes in {manifest['out_dir']}",
+            file=sys.stderr,
+        )
+    else:
+        emit_uml(
+            out_path,
+            acronym=acronym,
+            profile_uri=profile_uri,
+            model_name=model_name,
+            model_definition=tm.get("definition", ""),
+            main_package_name=main_pkg,
+            main_package_definition=tm.get("mainPackageDefinition", ""),
+            classes_package_name="Classes",
+            classes_package_definition="Target classes of the CDIF profile.",
+            roots=roots,
+            ctx=ctx,
+            model=merged_model,
+        )
 
 
 if __name__ == "__main__":

@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "description": "CDIF Reference - a typed reference to an external entity. Combines the schema.org labeledLink surface with DDI-CDI dt-Reference semantics and an optional SKOS Concept describing the semantic role of the reference. See https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13 for the motivating use case (distinguishing assertions about a sample registration from assertions about the physical object).",
+  "allOf": [
+    {
+      "description": "Inherited from schemaorgProperties/labeledLink - a profile of schema.org/CreativeWork.",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "default": "schema:CreativeWork",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:CreativeWork"
+          },
+          "minItems": 1
+        },
+        "schema:name": { "type": "string" },
+        "schema:description": { "type": "string" },
+        "schema:url": { "type": "string", "format": "uri" }
+      },
+      "required": ["@type", "schema:url"]
+    },
+    {
+      "$ref": "#/$defs/Reference"
+    }
+  ],
+  "$defs": {
+    "Reference": {
+      "type": "object",
+      "description": "Based on DDI-CDI reference to an entity (dt-Reference).",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": { "type": "string" },
+          "contains": { "const": "cdif:Reference" },
+          "minItems": 1
+        },
+        "cdi:uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the referenced entity."
+        },
+        "cdi:description": {
+          "type": "string",
+          "description": "Human-readable description of the reference."
+        },
+        "cdif:semantic": {
+          "description": "Semantic role of this reference, expressed as a SKOS Concept (inline object or @id reference).",
+          "$ref": "#/$defs/SkosConcept"
+        }
+      }
+    },
+    "SkosConcept": {
+      "type": "object",
+      "description": "SKOS Concept reference (resolved inline from skosProperties/skosConcept). A unit of thought within a concept scheme; here used to label the semantic role of a cdif:Reference.",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "URI identifier for this concept."
+        },
+        "@type": {
+          "type": "array",
+          "items": { "type": "string" },
+          "contains": { "const": "skos:Concept" },
+          "minItems": 1
+        },
+        "skos:prefLabel": {
+          "description": "Preferred lexical label for this concept.",
+          "anyOf": [
+            { "type": "string" },
+            { "$ref": "#/$defs/LanguageTaggedValue" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/$defs/LanguageTaggedValue" }
+            }
+          ]
+        },
+        "skos:inScheme": {
+          "description": "Concept scheme this concept belongs to.",
+          "type": "object",
+          "properties": { "@id": { "type": "string" } },
+          "required": ["@id"]
+        },
+        "skos:notation": {
+          "description": "Classification code for this concept within a scheme.",
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["@type"]
+    },
+    "LanguageTaggedValue": {
+      "type": "object",
+      "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
+      "properties": {
+        "@value": { "type": "string" },
+        "@language": { "type": "string" }
+      },
+      "required": ["@value", "@language"]
+    }
+  }
+}

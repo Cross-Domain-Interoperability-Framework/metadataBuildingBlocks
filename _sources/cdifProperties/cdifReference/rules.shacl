@@ -1,0 +1,75 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <http://schema.org/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix cdi:    <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif:   <https://cdif.org/0.1/> .
+@prefix cdifd:  <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+
+# ============================================================
+# cdif:Reference shape
+# ============================================================
+
+cdifd:CDIFReferenceShape
+    a sh:NodeShape ;
+    sh:targetClass cdif:Reference ;
+    sh:message "A cdif:Reference must carry a resolvable schema:url; cdi:uri and cdif:semantic are recommended when the reference distinguishes the referenced entity from its presentation URL or carries an explicit semantic role." ;
+
+    # @type must include cdif:Reference (target ensures this) and SHOULD also include schema:CreativeWork (inherited from labeledLink). Both are typically present in a CDIF Reference instance: ["schema:CreativeWork", "cdif:Reference"].
+
+    # Required: schema:url (resolvable URL for the link surface).
+    sh:property [
+        a sh:PropertyShape ;
+        sh:path schema:url ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^https?://[^\\s]+$" ;
+        sh:message "cdif:Reference must have at least one schema:url that resolves over http(s)."
+    ] ;
+
+    # Optional: cdi:uri - DDI-CDI identifier of the referenced entity.
+    sh:property [
+        a sh:PropertyShape ;
+        sh:path cdi:uri ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^[a-zA-Z][a-zA-Z0-9+.-]*:[^\\s]*$" ;
+        sh:severity sh:Warning ;
+        sh:message "If cdi:uri is provided, it must be a syntactically valid URI."
+    ] ;
+
+    # Optional: cdif:semantic - the role of this reference as a SKOS Concept.
+    # When present, the value must be a node that is itself a skos:Concept
+    # (verified by skos:Concept-targeting shapes in the SKOS BB).
+    sh:property [
+        a sh:PropertyShape ;
+        sh:path cdif:semantic ;
+        sh:maxCount 1 ;
+        sh:class skos:Concept ;
+        sh:severity sh:Warning ;
+        sh:message "If cdif:semantic is provided, its value must be a skos:Concept describing the semantic role of this reference."
+    ] ;
+
+    # Optional descriptive properties: schema:name, schema:description, cdi:description.
+    sh:property [
+        a sh:PropertyShape ;
+        sh:path schema:name ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        a sh:PropertyShape ;
+        sh:path schema:description ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string
+    ] ;
+    sh:property [
+        a sh:PropertyShape ;
+        sh:path cdi:description ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string
+    ] .

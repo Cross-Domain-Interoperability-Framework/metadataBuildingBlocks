@@ -70,7 +70,7 @@ $defs:
         description: >-
           Controlled-vocabulary entry naming the kind of statistic — e.g. mean,
           median, count, sum, stdDev.
-        $ref: '#/$defs/ControlledVocabularyEntry'
+        $ref: '#/$defs/SkosConcept'
       'cdi:statistic':
         type: array
         description: >-
@@ -150,7 +150,7 @@ $defs:
       'cdi:typeOfStatistic':
         description: >-
           Controlled-vocabulary entry naming the kind of statistic.
-        $ref: '#/$defs/ControlledVocabularyEntry'
+        $ref: '#/$defs/SkosConcept'
       'cdi:statistic':
         type: array
         description: Per-category Statistic value objects.
@@ -276,12 +276,14 @@ $defs:
         description: >-
           Human-readable display label(s). CDIF-simplified from DDI-CDI
           Category.displayLabel (LabelForDisplay).
-  ControlledVocabularyEntry:
-    title: ControlledVocabularyEntry
+  SkosConcept:
+    title: SKOS Concept (CDIF vocabulary-bound term reference)
     description: >-
-      DDI-CDI ControlledVocabularyEntry — a vocabulary-bound term reference.
-      Modelled here as a string literal, an @id-only reference, or a structured
-      schema:DefinedTerm.
+      Vocabulary-bound term reference. CDIF policy implements the DDI-CDI
+      ControlledVocabularyEntry / PairedControlledVocabularyEntry concept as a
+      skos:Concept from the skosProperties building block. The shape accepts a
+      plain string label, an @id-only reference, a schema:DefinedTerm structured
+      term, or a full inline skos:Concept node.
     anyOf:
     - type: string
     - type: object
@@ -290,3 +292,4 @@ $defs:
           type: string
       required: ['@id']
     - $ref: ../../schemaorgProperties/definedTerm/schema.yaml
+    - $ref: ../../skosProperties/skosConcept/schema.yaml
