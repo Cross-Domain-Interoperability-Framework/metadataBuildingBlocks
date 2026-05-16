@@ -11,9 +11,9 @@ skinparam class {
 }
 
 class "MeasureComponent" as MeasureComponent #FEFECE {
-  +name : ObjectName [1..*]
+  +name : string [1..*]
   +identifier : Identifier [1]
-  +semantic : PairedControlledVocabularyEntry [1..*]
+  +semantic : Concept [1..*]
   +specialization : SpecializationRole [1]
 }
 class "WideDataStructure" as WideDataStructure #EEEEEE
@@ -24,12 +24,6 @@ class "RepresentedVariable" as RepresentedVariable #EEEEEE
 MeasureComponent --> "1" RepresentedVariable : isDefinedBy
 class "AttributeComponent" as AttributeComponent #EEEEEE
 AttributeComponent "0..*" <-- MeasureComponent : qualifies
-class "ObjectName" as ObjectName <<dataType>> #FAE5D3
-MeasureComponent ..> ObjectName : name
-class "Identifier" as Identifier <<dataType>> #FAE5D3
-MeasureComponent ..> Identifier : identifier
-class "PairedControlledVocabularyEntry" as PairedControlledVocabularyEntry <<dataType>> #FAE5D3
-MeasureComponent ..> PairedControlledVocabularyEntry : semantic
 class "SpecializationRole" as SpecializationRole <<dataType>> #FAE5D3
 MeasureComponent ..> SpecializationRole : specialization
 

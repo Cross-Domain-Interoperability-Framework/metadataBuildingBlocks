@@ -12,17 +12,13 @@ skinparam class {
 
 class "VariableValueComponent" as VariableValueComponent #FEFECE {
   +identifier : Identifier [1]
-  +semantic : PairedControlledVocabularyEntry [1..*]
+  +semantic : Concept [1..*]
   +specialization : SpecializationRole [1]
 }
 class "LongDataStructure" as LongDataStructure #EEEEEE
 LongDataStructure "1..*" <-- VariableValueComponent : has
 class "ReferenceVariable" as ReferenceVariable #EEEEEE
 VariableValueComponent --> "1" ReferenceVariable : isDefinedBy
-class "Identifier" as Identifier <<dataType>> #FAE5D3
-VariableValueComponent ..> Identifier : identifier
-class "PairedControlledVocabularyEntry" as PairedControlledVocabularyEntry <<dataType>> #FAE5D3
-VariableValueComponent ..> PairedControlledVocabularyEntry : semantic
 class "SpecializationRole" as SpecializationRole <<dataType>> #FAE5D3
 VariableValueComponent ..> SpecializationRole : specialization
 

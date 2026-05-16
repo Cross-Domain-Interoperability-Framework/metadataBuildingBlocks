@@ -12,7 +12,7 @@ skinparam class {
 
 class "IdentifierComponent" as IdentifierComponent #FEFECE {
   +identifier : Identifier [1]
-  +semantic : PairedControlledVocabularyEntry [1..*]
+  +semantic : Concept [1..*]
   +specialization : SpecializationRole [1]
 }
 class "WideDataStructure" as WideDataStructure #EEEEEE
@@ -25,10 +25,6 @@ class "RepresentedVariable" as RepresentedVariable #EEEEEE
 IdentifierComponent --> "1" RepresentedVariable : isDefinedBy
 class "PrimaryKeyComponent" as PrimaryKeyComponent #EEEEEE
 PrimaryKeyComponent "1" <-- IdentifierComponent : correspondsTo
-class "Identifier" as Identifier <<dataType>> #FAE5D3
-IdentifierComponent ..> Identifier : identifier
-class "PairedControlledVocabularyEntry" as PairedControlledVocabularyEntry <<dataType>> #FAE5D3
-IdentifierComponent ..> PairedControlledVocabularyEntry : semantic
 class "SpecializationRole" as SpecializationRole <<dataType>> #FAE5D3
 IdentifierComponent ..> SpecializationRole : specialization
 

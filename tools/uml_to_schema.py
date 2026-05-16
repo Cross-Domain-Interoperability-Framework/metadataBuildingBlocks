@@ -567,6 +567,10 @@ class BuildContext:
     external_class_refs: dict[str, str]  # ClassName -> $ref target if defined in another BB
     local_defs: dict[str, dict]       # name -> $def schema fragment
     expanding: set[str]               # currently-being-expanded type names (cycle guard)
+    # v1.1 transitive datatype policy (None = inactive for legacy callers).
+    datatype_substitutions: Optional[dict[str, str]] = None
+    exclude_datatypes: Optional[set[str]] = None
+    target_classes_by_name: Optional[dict[str, "UmlClass"]] = None
 
 
 def collect_inherited_properties(class_id: str, model: Model) -> list[Property]:
@@ -1697,14 +1701,34 @@ class UmlClosure:
 
 
 def compute_uml_closure(roots: list[UmlClass], ctx: BuildContext,
-                        model: Model) -> UmlClosure:
+                        model: Model,
+                        datatype_substitutions: Optional[dict[str, str]] = None,
+                        exclude_datatypes: Optional[set[str]] = None,
+                        target_classes_by_name: Optional[dict[str, UmlClass]] = None) -> UmlClosure:
     """Walk the closure from `roots` adding referenced DataTypes/Enumerations
     and (when in ctx.inline_class_names) referenced Classes. Also gathers
     association edges between included classes so they can be emitted as
-    UML Associations."""
+    UML Associations.
+
+    v1.1 transitive datatype policy:
+      * datatype_substitutions: when a property's type points at a source
+        DataType named in the map, the closure rebinds the reference to the
+        substitution target (a local target class or a UML primitive) before
+        deciding whether to pull the original into the closure. This prevents
+        excluded/substituted source DataTypes from being pulled in transitively
+        via attributes of other DataTypes (e.g. source Identifier.versionRationale
+        typed RationaleDefinition).
+      * exclude_datatypes: source DataType names to skip entirely. A property
+        whose type points at an excluded DataType is not followed (the DataType
+        does not appear in the closure, and is not emitted).
+    """
     out = UmlClosure()
     out.classes.extend(roots)
     out.class_ids.update(c.id for c in roots)
+    # Pull policy from ctx if not explicitly overridden
+    subs = datatype_substitutions or getattr(ctx, "datatype_substitutions", None) or {}
+    excludes = exclude_datatypes or getattr(ctx, "exclude_datatypes", None) or set()
+    targets_by_name = target_classes_by_name or getattr(ctx, "target_classes_by_name", None) or {}
     # Property pairs we've already considered as association edges (avoid duplicates)
     seen_assocs: set[tuple] = set()
     # FIFO queue of classes whose properties still need walking
@@ -1722,6 +1746,23 @@ def compute_uml_closure(roots: list[UmlClass], ctx: BuildContext,
                 continue
             if target.name in ctx.exclude_class_names:
                 continue
+            # v1.1: skip excluded source DataTypes entirely (don't pull them
+            # or anything they transitively reference).
+            if target.name in excludes:
+                continue
+            # v1.1: rebind substituted source DataType references to the
+            # substitution target before deciding what to pull. If the
+            # substitution maps to a UML primitive name we just skip the pull
+            # (primitives are emitted as separate uml:PrimitiveType packagedElements
+            # via _collect_used_primitives elsewhere).
+            if target.name in subs:
+                repl = subs[target.name]
+                if repl in {"String", "Integer", "Boolean", "Real"}:
+                    continue
+                repl_cls = targets_by_name.get(repl)
+                if repl_cls is not None:
+                    target = repl_cls
+                    tid = repl_cls.id
             if target.kind in ("datatype", "enumeration"):
                 if tid not in out.type_ids:
                     out.type_ids.add(tid)
@@ -3738,9 +3779,26 @@ def _load_with_composition(config_path: Path,
 
     inherited: list[str] = []
 
+    # Effective datatype substitutions / excludes start from this config
+    effective_subs: dict = dict(effective.get("transformation", {})
+                                         .get("datatypeSubstitutions", {}) or {})
+    effective_excludes: set = set(effective.get("transformation", {})
+                                            .get("excludeDatatypes", []) or [])
+
     for base_rel in compose_list:
         base_path = (config_path.parent / base_rel).resolve()
         base_cfg, base_inherited = _load_with_composition(base_path, _seen)
+
+        # Substitutions: base first, local overrides on key conflict
+        base_subs = (base_cfg.get("transformation", {})
+                              .get("datatypeSubstitutions", {})) or {}
+        merged_subs = dict(base_subs)
+        merged_subs.update(effective_subs)
+        effective_subs = merged_subs
+        # Excludes: union
+        effective_excludes |= set(
+            (base_cfg.get("transformation", {}).get("excludeDatatypes", [])) or []
+        )
 
         # Merge classes
         for bc in base_cfg.get("mapping", {}).get("class", []) or []:
@@ -3798,7 +3856,78 @@ def _load_with_composition(config_path: Path,
     effective.setdefault("mapping", {})["class"] = list(classes_by_name.values())
     effective["mapping"]["association"] = list(associations_by_name.values())
     effective["package"] = list(packages_by_name.values())
+    # Carry the merged substitutions/excludes back onto the effective cfg
+    if effective_subs:
+        effective.setdefault("transformation", {})["datatypeSubstitutions"] = effective_subs
+    if effective_excludes:
+        effective.setdefault("transformation", {})["excludeDatatypes"] = sorted(effective_excludes)
     return effective, inherited
+
+
+_UML_PRIMITIVE_NAMES = {"String", "Integer", "Boolean", "Real"}
+
+
+def _apply_datatype_substitutions(
+    target_classes_by_name: dict[str, "UmlClass"],
+    source_model: "Model",
+    substitutions: dict[str, str],
+    excludes: set[str],
+) -> tuple[int, int]:
+    """For every synthetic target class's property:
+      * if the property's type points at a source DataType named in `excludes`,
+        drop the property entirely;
+      * if the property's type points at a source DataType named in `substitutions`,
+        replace the type with the substitution (a UML primitive or a local
+        target class id).
+    Returns (substitution_count, drop_count).
+    """
+    if not substitutions and not excludes:
+        return 0, 0
+
+    # Pre-compute lookups: source DataType name -> (replacement_target_id, replacement_primitive)
+    name_to_replacement: dict[str, tuple[Optional[str], Optional[str]]] = {}
+    for src_name, repl in substitutions.items():
+        if repl in _UML_PRIMITIVE_NAMES:
+            # Map e.g. "String" -> JSON-schema-style "string"
+            prim = PRIMITIVE_FRAGMENTS.get(repl, "string")
+            name_to_replacement[src_name] = (None, prim)
+        elif repl in target_classes_by_name:
+            name_to_replacement[src_name] = (target_classes_by_name[repl].id, None)
+        else:
+            # Replacement target not present in this profile's class set —
+            # leave the property typed as the source DataType (no-op).
+            pass
+
+    subs_count = 0
+    drop_count = 0
+    for cls in target_classes_by_name.values():
+        new_props: list[Property] = []
+        for p in cls.properties:
+            if p.type_id is None or p.is_assoc_end:
+                new_props.append(p)
+                continue
+            target = source_model.elements.get(p.type_id)
+            if target is None:
+                new_props.append(p)
+                continue
+            if target.name in excludes:
+                drop_count += 1
+                continue
+            repl = name_to_replacement.get(target.name)
+            if repl is not None:
+                tid, prim = repl
+                new_props.append(Property(
+                    id=p.id, name=p.name,
+                    type_id=tid, primitive=prim,
+                    lower=p.lower, upper=p.upper,
+                    doc=p.doc, is_assoc_end=p.is_assoc_end,
+                    aggregation=p.aggregation,
+                ))
+                subs_count += 1
+                continue
+            new_props.append(p)
+        cls.properties = new_props
+    return subs_count, drop_count
 
 
 def emit_uml_from_config(
@@ -3880,6 +4009,18 @@ def emit_uml_from_config(
             if parent_cls.id not in target_cls.parents:
                 target_cls.parents.append(parent_cls.id)
 
+    # Apply v1.1 datatype substitutions and excludes BEFORE associations are
+    # rendered so substituted attrs are settled. Substitutions/excludes are
+    # already merged through the composition chain by _load_with_composition.
+    subs = cfg.get("transformation", {}).get("datatypeSubstitutions", {}) or {}
+    excludes = set(cfg.get("transformation", {}).get("excludeDatatypes", []) or [])
+    n_subs, n_drops = _apply_datatype_substitutions(
+        target_classes_by_name, source_model, subs, excludes
+    )
+    if n_subs or n_drops:
+        print(f"datatype substitutions: {n_subs} retyped, {n_drops} dropped",
+              file=sys.stderr)
+
     # Render associations as synthetic assoc-end Properties on the relevant
     # target class(es)
     for assoc in cfg.get("mapping", {}).get("association", []):
@@ -3918,6 +4059,9 @@ def emit_uml_from_config(
         external_class_refs={},
         local_defs=OrderedDict(),
         expanding=set(),
+        datatype_substitutions=subs,
+        exclude_datatypes=excludes,
+        target_classes_by_name=target_classes_by_name,
     )
 
     # The roots are the synthetic target classes

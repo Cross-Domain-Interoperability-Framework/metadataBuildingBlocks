@@ -11,8 +11,8 @@ skinparam class {
 }
 
 class "RepresentedVariable" as RepresentedVariable #FEFECE {
-  +name : ObjectName [1]
-  +definition : InternationalString [1]
+  +name : string [1]
+  +definition : string [1]
 }
 class "IdentifierComponent" as IdentifierComponent #EEEEEE
 IdentifierComponent "1" <-- RepresentedVariable : isDefinedBy
@@ -26,9 +26,5 @@ class "SubstantiveValueDomain" as SubstantiveValueDomain #EEEEEE
 RepresentedVariable --> "0..*" SubstantiveValueDomain : takesSubstantiveValuesFrom
 class "SentinelValueDomain" as SentinelValueDomain #EEEEEE
 RepresentedVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
-class "ObjectName" as ObjectName <<dataType>> #FAE5D3
-RepresentedVariable ..> ObjectName : name
-class "InternationalString" as InternationalString <<dataType>> #FAE5D3
-RepresentedVariable ..> InternationalString : definition
 
 @enduml
