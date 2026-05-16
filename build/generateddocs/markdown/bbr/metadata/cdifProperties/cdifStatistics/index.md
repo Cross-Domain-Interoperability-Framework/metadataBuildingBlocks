@@ -327,15 +327,15 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
             schema1:name "arithmetic mean" ] ;
     cdif:appliesTo ex:var-temperature ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/category/surface> ;
-            cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 1.581e+01 ;
-                    cdi:isWeighted true ] ;
-            cdi:typeOfStatistic "mean" ],
-        [ a cdi:CategoryStatistics ;
             cdi:for <https://example.org/category/deep> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
                     cdi:content 1.007e+01 ;
+                    cdi:isWeighted true ] ;
+            cdi:typeOfStatistic "mean" ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/category/surface> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 1.581e+01 ;
                     cdi:isWeighted true ] ;
             cdi:typeOfStatistic "mean" ] .
 
