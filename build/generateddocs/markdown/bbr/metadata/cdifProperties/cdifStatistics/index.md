@@ -79,10 +79,20 @@ one cdi:statistic value object carrying cdi:computationBase + cdi:content.
 {
   "@context": {
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "ex": "https://example.org/"
+    "ex": "https://example.org/",
+    "schema": "http://schema.org/"
   },
-  "@type": ["cdi:Statistics"],
-  "cdi:typeOfStatistic": "count",
+  "@type": [
+    "cdi:Statistics"
+  ],
+  "cdi:typeOfStatistic": {
+    "@type": [
+      "schema:DefinedTerm"
+    ],
+    "schema:name": "Count",
+    "schema:termCode": "count",
+    "schema:inDefinedTermSet": "https://ddialliance.org/vocab/statistic-types"
+  },
   "cdi:statistic": [
     {
       "cdi:computationBase": "Total",
@@ -103,13 +113,21 @@ one cdi:statistic value object carrying cdi:computationBase + cdi:content.
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifStatistics/context.jsonld",
     {
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "ex": "https://example.org/"
+      "ex": "https://example.org/",
+      "schema": "http://schema.org/"
     }
   ],
   "@type": [
     "cdi:Statistics"
   ],
-  "cdi:typeOfStatistic": "count",
+  "cdi:typeOfStatistic": {
+    "@type": [
+      "schema:DefinedTerm"
+    ],
+    "schema:name": "Count",
+    "schema:termCode": "count",
+    "schema:inDefinedTermSet": "https://ddialliance.org/vocab/statistic-types"
+  },
   "cdi:statistic": [
     {
       "cdi:computationBase": "Total",
@@ -122,12 +140,16 @@ one cdi:statistic value object carrying cdi:computationBase + cdi:content.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 [] a cdi:Statistics ;
     cdi:statistic [ cdi:computationBase "Total" ;
             cdi:content 1500 ] ;
-    cdi:typeOfStatistic "count" .
+    cdi:typeOfStatistic [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
+            schema1:name "Count" ;
+            schema1:termCode "count" ] .
 
 
 ```
@@ -148,15 +170,21 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
     "ex": "https://example.org/"
   },
   "@id": "ex:stats/temperature-mean",
-  "@type": ["cdi:Statistics"],
+  "@type": [
+    "cdi:Statistics"
+  ],
   "cdi:typeOfStatistic": {
-    "@type": ["schema:DefinedTerm"],
+    "@type": [
+      "schema:DefinedTerm"
+    ],
     "schema:name": "arithmetic mean",
     "schema:identifier": "https://example.org/vocab/stat-types/mean",
     "schema:inDefinedTermSet": "https://example.org/vocab/stat-types"
   },
   "cdif:appliesTo": [
-    { "@id": "ex:var-temperature" }
+    {
+      "@id": "ex:var-temperature"
+    }
   ],
   "cdi:hasWeight": {
     "@id": "ex:var-sample-weight"
@@ -177,10 +205,21 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
   ],
   "cdif:has_CategoryStatistics": [
     {
-      "@type": ["cdi:CategoryStatistics"],
-      "cdi:typeOfStatistic": "mean",
+      "@type": [
+        "cdi:CategoryStatistics"
+      ],
+      "cdi:typeOfStatistic": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "Mean",
+        "schema:termCode": "mean",
+        "schema:inDefinedTermSet": "https://ddialliance.org/vocab/statistic-types"
+      },
       "cdi:for": {
-        "@type": ["cdi:Category"],
+        "@type": [
+          "cdi:Category"
+        ],
         "@id": "ex:category/surface",
         "cdif:descriptiveText": "Surface samples (depth < 10 m)"
       },
@@ -193,8 +232,17 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
       ]
     },
     {
-      "@type": ["cdi:CategoryStatistics"],
-      "cdi:typeOfStatistic": "mean",
+      "@type": [
+        "cdi:CategoryStatistics"
+      ],
+      "cdi:typeOfStatistic": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "Mean",
+        "schema:termCode": "mean",
+        "schema:inDefinedTermSet": "https://ddialliance.org/vocab/statistic-types"
+      },
       "cdi:for": {
         "@id": "ex:category/deep"
       },
@@ -267,7 +315,14 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
       "@type": [
         "cdi:CategoryStatistics"
       ],
-      "cdi:typeOfStatistic": "mean",
+      "cdi:typeOfStatistic": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "Mean",
+        "schema:termCode": "mean",
+        "schema:inDefinedTermSet": "https://ddialliance.org/vocab/statistic-types"
+      },
       "cdi:for": {
         "@type": [
           "cdi:Category"
@@ -287,7 +342,14 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
       "@type": [
         "cdi:CategoryStatistics"
       ],
-      "cdi:typeOfStatistic": "mean",
+      "cdi:typeOfStatistic": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "Mean",
+        "schema:termCode": "mean",
+        "schema:inDefinedTermSet": "https://ddialliance.org/vocab/statistic-types"
+      },
       "cdi:for": {
         "@id": "ex:category/deep"
       },
@@ -327,17 +389,23 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
             schema1:name "arithmetic mean" ] ;
     cdif:appliesTo ex:var-temperature ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/category/deep> ;
-            cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 1.007e+01 ;
-                    cdi:isWeighted true ] ;
-            cdi:typeOfStatistic "mean" ],
-        [ a cdi:CategoryStatistics ;
             cdi:for <https://example.org/category/surface> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
                     cdi:content 1.581e+01 ;
                     cdi:isWeighted true ] ;
-            cdi:typeOfStatistic "mean" ] .
+            cdi:typeOfStatistic [ a schema1:DefinedTerm ;
+                    schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
+                    schema1:name "Mean" ;
+                    schema1:termCode "mean" ] ],
+        [ a cdi:CategoryStatistics ;
+            cdi:for <https://example.org/category/deep> ;
+            cdi:statistic [ cdi:computationBase "ValidOnly" ;
+                    cdi:content 1.007e+01 ;
+                    cdi:isWeighted true ] ;
+            cdi:typeOfStatistic [ a schema1:DefinedTerm ;
+                    schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
+                    schema1:name "Mean" ;
+                    schema1:termCode "mean" ] ] .
 
 <https://example.org/category/surface> a cdi:Category ;
     cdif:descriptiveText "Surface samples (depth < 10 m)" .

@@ -42,7 +42,8 @@ Implementation of Schema.org PropertyValue as value for variableMeasured propert
   "@context": {
     "schema": "http://schema.org/",
     "ex": "https://example.org/",
-    "xsd": "http://www.w3.org/2001/XMLSchema#"
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcat": "http://www.w3.org/ns/dcat#"
   },
   "@type": [
     "schema:PropertyValue"
@@ -76,7 +77,8 @@ Implementation of Schema.org PropertyValue as value for variableMeasured propert
   "schema:maxValue": 200,
   "schema:url": {
     "@type": [
-      "schema:CreativeWork"
+      "schema:CreativeWork",
+      "dcat:Relationship"
     ],
     "schema:name": "WMO Guide to Meteorological Instruments – Temperature",
     "schema:url": "https://library.wmo.int/idurl/4/68695"
@@ -96,7 +98,8 @@ Implementation of Schema.org PropertyValue as value for variableMeasured propert
     {
       "schema": "http://schema.org/",
       "ex": "https://example.org/",
-      "xsd": "http://www.w3.org/2001/XMLSchema#"
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "dcat": "http://www.w3.org/ns/dcat#"
     }
   ],
   "@type": [
@@ -131,7 +134,8 @@ Implementation of Schema.org PropertyValue as value for variableMeasured propert
   "schema:maxValue": 200,
   "schema:url": {
     "@type": [
-      "schema:CreativeWork"
+      "schema:CreativeWork",
+      "dcat:Relationship"
     ],
     "schema:name": "WMO Guide to Meteorological Instruments \u2013 Temperature",
     "schema:url": "https://library.wmo.int/idurl/4/68695"
@@ -141,6 +145,7 @@ Implementation of Schema.org PropertyValue as value for variableMeasured propert
 
 #### ttl
 ```ttl
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -154,7 +159,8 @@ ex:variableMeasured_346 a schema1:PropertyValue ;
     schema1:propertyID ex:definedTerm_zZc ;
     schema1:unitCode "C" ;
     schema1:unitText "deg C" ;
-    schema1:url [ a schema1:CreativeWork ;
+    schema1:url [ a schema1:CreativeWork,
+                dcat:Relationship ;
             schema1:name "WMO Guide to Meteorological Instruments – Temperature" ;
             schema1:url "https://library.wmo.int/idurl/4/68695" ] .
 
@@ -181,6 +187,7 @@ unitText, unitCode (DefinedTerm), minValue, maxValue, and url (cdif:Reference).
 {
   "@context": {
     "schema": "http://schema.org/",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "ex": "https://example.org/"
   },
   "@id": "ex:variableMeasuredComplete_001",
@@ -218,7 +225,7 @@ unitText, unitCode (DefinedTerm), minValue, maxValue, and url (cdif:Reference).
   "schema:minValue": -2.1,
   "schema:maxValue": 35.4,
   "schema:url": {
-    "@type": ["schema:CreativeWork"],
+    "@type": ["schema:CreativeWork", "dcat:Relationship"],
     "schema:name": "TEOS-10 Manual — Temperature",
     "schema:description": "Thermodynamic Equation of Seawater documentation on temperature definitions",
     "schema:url": "http://www.teos-10.org/pubs/TEOS-10_Manual.pdf"
@@ -237,6 +244,7 @@ unitText, unitCode (DefinedTerm), minValue, maxValue, and url (cdif:Reference).
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/context.jsonld",
     {
       "schema": "http://schema.org/",
+      "dcat": "http://www.w3.org/ns/dcat#",
       "ex": "https://example.org/"
     }
   ],
@@ -289,7 +297,8 @@ unitText, unitCode (DefinedTerm), minValue, maxValue, and url (cdif:Reference).
   "schema:maxValue": 35.4,
   "schema:url": {
     "@type": [
-      "schema:CreativeWork"
+      "schema:CreativeWork",
+      "dcat:Relationship"
     ],
     "schema:name": "TEOS-10 Manual \u2014 Temperature",
     "schema:description": "Thermodynamic Equation of Seawater documentation on temperature definitions",
@@ -300,6 +309,7 @@ unitText, unitCode (DefinedTerm), minValue, maxValue, and url (cdif:Reference).
 
 #### ttl
 ```ttl
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -328,7 +338,8 @@ ex:variableMeasuredComplete_001 a schema1:PropertyValue ;
             schema1:name "Degrees Celsius" ;
             schema1:termCode "degC" ] ;
     schema1:unitText "degrees Celsius" ;
-    schema1:url [ a schema1:CreativeWork ;
+    schema1:url [ a schema1:CreativeWork,
+                dcat:Relationship ;
             schema1:description "Thermodynamic Equation of Seawater documentation on temperature definitions" ;
             schema1:name "TEOS-10 Manual — Temperature" ;
             schema1:url "http://www.teos-10.org/pubs/TEOS-10_Manual.pdf" ] .

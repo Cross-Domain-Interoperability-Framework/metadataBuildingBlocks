@@ -1,68 +1,64 @@
 
-# CDIF Reference (Schema)
+# CDIF Relation (Schema)
 
-`cdif.bbr.metadata.cdifProperties.cdifReference` *v0.1*
+`cdif.bbr.metadata.cdifProperties.cdifReference` *v0.2*
 
-A typed reference to an external entity, combining the schema.org labeled-link surface (name, description, url) with the DDI-CDI dt-Reference semantics (uri, description) and an optional cdif:semantic role expressed as a SKOS Concept. Replaces direct use of schemaorgProperties/labeledLink whenever a reference needs an explicit semantic role or DDI-CDI provenance. Defines properties: @type (must include 'cdif:Reference'), schema:name, schema:description, schema:url (required), cdi:uri, cdi:description, cdif:semantic (skos:Concept).
+A typed relation describing a link to another resource, combining the schema.org labeled-link surface (name, description, url) from labeledLink with the DCAT qualifiedRelation pattern. Carries a third @type (dcat:Relationship), a SKOS-typed role (dcat:hadRole), and the DCAT-canonical pointer to the related resource (dcterms:relation). Use as the target of a dcat:qualifiedRelation property, or wherever a typed link with an explicit role is needed. Defines properties: @type (must include 'schema:CreativeWork' and 'dcat:Relationship'), schema:name, schema:description, schema:url (required), dcat:hadRole (skos:Concept), dcterms:relation.
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
 ## Description
 
-## CDIF Reference
+## CDIF Relation
 
-Defines a typed reference to an external entity for use within CDIF metadata. A `cdif:Reference` combines three things:
+A typed relation describing a link to another resource. Combines the schema.org labeled-link surface inherited from `schemaorgProperties/labeledLink` (`schema:name`, `schema:description`, required `schema:url`) with the DCAT `dcat:qualifiedRelation` pattern by adding:
 
-1. The schema.org `CreativeWork` surface inherited from `schemaorgProperties/labeledLink` — a human-readable `schema:name`, `schema:description`, and required `schema:url`.
-2. The DDI-CDI `dt-Reference` semantics — `cdi:uri` for the canonical machine-readable identifier of the referenced entity (which may differ from a presentation URL), and `cdi:description` for the DDI-CDI-style description.
-3. An optional `cdif:semantic` slot expressing the *role* of this reference as a [SKOS Concept](https://www.w3.org/TR/skos-reference/) — for example, distinguishing a reference to a physical sample from a reference to its registration metadata (see [Discovery issue 13](https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13)).
+1. A second `@type` entry: `dcat:Relationship`, so the node satisfies DCAT-3 consumers expecting a typed Relationship resource.
+2. `dcat:hadRole` — the role of the related resource as a `skos:Concept`.
+3. `dcterms:relation` — the URI of the related resource (DCAT-canonical pointer to "what is being related to"). Distinct from `schema:url`, which is the presentation URL inherited from `labeledLink`.
 
 ### When to use
 
-Prefer `cdif:Reference` over `schemaorgProperties/labeledLink` whenever a reference needs:
-
-- An explicit **semantic role** beyond "labeled link" (use `cdif:semantic`).
-- A **distinct identifier** for the referenced entity separate from a presentation URL (use `cdi:uri`).
-- Round-trippability with the DDI-CDI `dt-Reference` data type.
-
-Continue to use `labeledLink` directly when the reference is a plain hyperlink and no semantic role is required.
+Use this building block wherever a metadata record needs a typed link to another resource with an explicit role — for example, to express that this dataset is a version of another dataset, derives from a source sample, or points at a sample-registration record (see [Discovery issue 13](https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13)). It is the target shape for `dcat:qualifiedRelation` on a `dcat:Resource`.
 
 ### Required properties
 
-- `@type` must contain `cdif:Reference` (and inherits the `schema:CreativeWork` requirement from labeledLink, so `@type` is typically `["schema:CreativeWork", "cdif:Reference"]`).
-- `schema:url` is required (inherited from labeledLink).
+- `@type` must contain both `schema:CreativeWork` (inherited from `labeledLink`) and `dcat:Relationship` — typically `["schema:CreativeWork", "dcat:Relationship"]`.
+- `schema:url` is required (inherited from `labeledLink`).
 
 All other properties are optional.
 
-### Type declaration
+### Relationship to upstream vocabularies
 
-JSON-LD instance documents that conform to this building block must declare `cdif:Reference` (rather than the previous `cdi:Reference`) in the `@type` array. The CDIF profile now owns the `Reference` concept; the `cdif:` namespace makes that ownership explicit and lets the SHACL rule below target it without conflicting with DDI-CDI's native `cdi:Reference` definition.
+- `dcat:Relationship` (DCAT 3) is a class describing a qualified relationship between two resources. It is the target of `dcat:qualifiedRelation` on a `dcat:Resource`.
+- `dcat:hadRole` carries a `dcat:Role` or `skos:Concept` describing the role the related resource plays.
+- `dcterms:relation` is the dcterms (also written `dct:`) canonical pointer to the related resource.
 
-### Relationship to DDI-CDI
+### Note on the building-block name
 
-DDI-CDI defines `dt-Reference` as a DataType with attributes including a URI and a description. CDIF promotes this concept to a profile-level type (`cdif:Reference`) so that profile validators can target it directly via SHACL and so cross-profile UML can reference one canonical class. The `cdi:` attribute names are retained to preserve the round-trip with DDI-CDI source models; only the *type label* has been re-namespaced.
+The building-block directory is named `cdifReference` for historical reasons (it began life as a typed reference combining schema.org and DDI-CDI `dt-Reference` semantics). The DDI-CDI surface has been retired; the BB now models a DCAT-flavoured `cdif:Relation`. The folder name is retained so the 7 downstream BBs that `$ref` this schema continue to resolve.
 
 ## Examples
 
-### CDIF Reference - minimal
-Minimal cdif:Reference. Declares the @type as both schema:CreativeWork (inherited
-from labeledLink) and cdif:Reference (the CDIF profile type label). Carries the
-required schema:url plus a distinct cdi:uri to address the referenced entity
-independently of its presentation page.
+### CDIF Relation - minimal
+Minimal cdif:Relation. Declares the @type with both required entries
+(schema:CreativeWork inherited from labeledLink, dcat:Relationship from
+the DCAT surface), carries the required schema:url, and uses
+dcterms:relation to point at the related resource.
 #### json
 ```json
 {
   "@context": {
     "schema": "http://schema.org/",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "ex": "https://example.org/"
   },
-  "@id": "ex:CdifReferenceExample_001",
-  "@type": ["schema:CreativeWork", "cdif:Reference"],
-  "schema:name": "Source dataset for derived measurements",
-  "schema:url": "https://example.org/datasets/source-2024",
-  "cdi:uri": "https://doi.org/10.5281/zenodo.7654321"
+  "@id": "ex:CdifRelationExample_001",
+  "@type": ["schema:CreativeWork", "dcat:Relationship"],
+  "schema:name": "Predecessor version of this dataset",
+  "schema:url": "https://example.org/datasets/source-2023",
+  "dcterms:relation": "https://example.org/datasets/source-2023"
 }
 
 ```
@@ -73,77 +69,76 @@ independently of its presentation page.
   "@context": [
     {
       "schema": "http://schema.org/",
-      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/"
+      "dcterms": "http://purl.org/dc/terms/",
+      "dcat": "http://www.w3.org/ns/dcat#"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifReference/context.jsonld",
     {
       "schema": "http://schema.org/",
-      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "dcat": "http://www.w3.org/ns/dcat#",
       "ex": "https://example.org/"
     }
   ],
-  "@id": "ex:CdifReferenceExample_001",
+  "@id": "ex:CdifRelationExample_001",
   "@type": [
     "schema:CreativeWork",
-    "cdif:Reference"
+    "dcat:Relationship"
   ],
-  "schema:name": "Source dataset for derived measurements",
-  "schema:url": "https://example.org/datasets/source-2024",
-  "cdi:uri": "https://doi.org/10.5281/zenodo.7654321"
+  "schema:name": "Predecessor version of this dataset",
+  "schema:url": "https://example.org/datasets/source-2023",
+  "dcterms:relation": "https://example.org/datasets/source-2023"
 }
 ```
 
 #### ttl
 ```ttl
-@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
 
-ex:CdifReferenceExample_001 a schema1:CreativeWork,
-        cdif:Reference ;
-    cdi:uri "https://doi.org/10.5281/zenodo.7654321" ;
-    schema1:name "Source dataset for derived measurements" ;
-    schema1:url "https://example.org/datasets/source-2024" .
+ex:CdifRelationExample_001 a schema1:CreativeWork,
+        dcat:Relationship ;
+    dcterms:relation "https://example.org/datasets/source-2023" ;
+    schema1:name "Predecessor version of this dataset" ;
+    schema1:url "https://example.org/datasets/source-2023" .
 
 
 ```
 
 
-### CDIF Reference - complete (with semantic role)
-Full cdif:Reference exercising the cdif:semantic slot. Uses a SKOS Concept to
-classify the reference as a 'sample registration record' (distinguishing this
-metadata-about-the-sample from a reference to the physical sample itself).
-See https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13
-for the motivating discussion.
+### CDIF Relation - complete (with role)
+Full cdif:Relation exercising dcat:hadRole as a SKOS Concept (here, the
+role 'isVersionOf' from a relation-role vocabulary). Demonstrates the
+DCAT qualifiedRelation pattern: this node is the target of an outer
+dcat:qualifiedRelation property, with dcterms:relation pointing at the
+related resource and dcat:hadRole classifying the role.
 #### json
 ```json
 {
   "@context": {
     "schema": "http://schema.org/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#",
     "ex": "https://example.org/"
   },
-  "@id": "ex:CdifReferenceComplete_001",
-  "@type": ["schema:CreativeWork", "cdif:Reference"],
-  "schema:name": "Sample registration record IGSN IECUR0001",
-  "schema:description": "Landing page in the SESAR registry describing this physical rock sample.",
-  "schema:url": "https://app.geosamples.org/sample/igsn/IECUR0001",
-  "cdi:uri": "https://hdl.handle.net/10273/IECUR0001",
-  "cdi:description": "Canonical IGSN handle identifying the physical sample, distinct from the registry landing page above.",
-  "cdif:semantic": {
-    "@id": "ex:concepts/sampleRegistration",
+  "@id": "ex:CdifRelationComplete_001",
+  "@type": ["schema:CreativeWork", "dcat:Relationship"],
+  "schema:name": "Predecessor version of this dataset",
+  "schema:description": "Relationship pointing at the previous published version, expressed in the DCAT qualifiedRelation pattern with a SKOS-typed role.",
+  "schema:url": "https://example.org/datasets/source-2023",
+  "dcterms:relation": "https://doi.org/10.5281/zenodo.7654320",
+  "dcat:hadRole": {
+    "@id": "ex:concepts/isVersionOf",
     "@type": ["skos:Concept"],
     "skos:prefLabel": {
-      "@value": "sample registration record",
+      "@value": "is version of",
       "@language": "en"
     },
-    "skos:inScheme": { "@id": "ex:vocab/referenceRoles" },
-    "skos:notation": ["sampleRegistration"]
+    "skos:inScheme": { "@id": "ex:vocab/relationRoles" },
+    "skos:notation": ["isVersionOf"]
   }
 }
 
@@ -156,42 +151,41 @@ for the motivating discussion.
     {
       "schema": "http://schema.org/",
       "skos": "http://www.w3.org/2004/02/skos/core#",
-      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/"
+      "dcterms": "http://purl.org/dc/terms/",
+      "dcat": "http://www.w3.org/ns/dcat#"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifReference/context.jsonld",
     {
       "schema": "http://schema.org/",
       "skos": "http://www.w3.org/2004/02/skos/core#",
-      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "dcat": "http://www.w3.org/ns/dcat#",
       "ex": "https://example.org/"
     }
   ],
-  "@id": "ex:CdifReferenceComplete_001",
+  "@id": "ex:CdifRelationComplete_001",
   "@type": [
     "schema:CreativeWork",
-    "cdif:Reference"
+    "dcat:Relationship"
   ],
-  "schema:name": "Sample registration record IGSN IECUR0001",
-  "schema:description": "Landing page in the SESAR registry describing this physical rock sample.",
-  "schema:url": "https://app.geosamples.org/sample/igsn/IECUR0001",
-  "cdi:uri": "https://hdl.handle.net/10273/IECUR0001",
-  "cdi:description": "Canonical IGSN handle identifying the physical sample, distinct from the registry landing page above.",
-  "cdif:semantic": {
-    "@id": "ex:concepts/sampleRegistration",
+  "schema:name": "Predecessor version of this dataset",
+  "schema:description": "Relationship pointing at the previous published version, expressed in the DCAT qualifiedRelation pattern with a SKOS-typed role.",
+  "schema:url": "https://example.org/datasets/source-2023",
+  "dcterms:relation": "https://doi.org/10.5281/zenodo.7654320",
+  "dcat:hadRole": {
+    "@id": "ex:concepts/isVersionOf",
     "@type": [
       "skos:Concept"
     ],
     "skos:prefLabel": {
-      "@value": "sample registration record",
+      "@value": "is version of",
       "@language": "en"
     },
     "skos:inScheme": {
-      "@id": "ex:vocab/referenceRoles"
+      "@id": "ex:vocab/relationRoles"
     },
     "skos:notation": [
-      "sampleRegistration"
+      "isVersionOf"
     ]
   }
 }
@@ -199,25 +193,24 @@ for the motivating discussion.
 
 #### ttl
 ```ttl
-@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
-ex:CdifReferenceComplete_001 a schema1:CreativeWork,
-        cdif:Reference ;
-    cdi:description "Canonical IGSN handle identifying the physical sample, distinct from the registry landing page above." ;
-    cdi:uri "https://hdl.handle.net/10273/IECUR0001" ;
-    schema1:description "Landing page in the SESAR registry describing this physical rock sample." ;
-    schema1:name "Sample registration record IGSN IECUR0001" ;
-    schema1:url "https://app.geosamples.org/sample/igsn/IECUR0001" ;
-    cdif:semantic <https://example.org/concepts/sampleRegistration> .
+ex:CdifRelationComplete_001 a schema1:CreativeWork,
+        dcat:Relationship ;
+    dcterms:relation "https://doi.org/10.5281/zenodo.7654320" ;
+    schema1:description "Relationship pointing at the previous published version, expressed in the DCAT qualifiedRelation pattern with a SKOS-typed role." ;
+    schema1:name "Predecessor version of this dataset" ;
+    schema1:url "https://example.org/datasets/source-2023" ;
+    dcat:hadRole <https://example.org/concepts/isVersionOf> .
 
-<https://example.org/concepts/sampleRegistration> a skos:Concept ;
-    skos:inScheme <https://example.org/vocab/referenceRoles> ;
-    skos:notation "sampleRegistration" ;
-    skos:prefLabel "sample registration record"@en .
+<https://example.org/concepts/isVersionOf> a skos:Concept ;
+    skos:inScheme <https://example.org/vocab/relationRoles> ;
+    skos:notation "isVersionOf" ;
+    skos:prefLabel "is version of"@en .
 
 
 ```
@@ -227,34 +220,34 @@ ex:CdifReferenceComplete_001 a schema1:CreativeWork,
 ```yaml
 $schema: https://json-schema.org/draft/2020-12/schema
 type: object
-description: see https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13
-  for discussion on how to make assertion about the sample registration and metadata
-  distinct from statements about the physical object
+description: Building block to implement relations to other resources using a URL
+  and some semantics.
 allOf:
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
-- $ref: '#/$defs/Reference'
+- $ref: '#/$defs/Relation'
 $defs:
-  Reference:
+  Relation:
     type: object
-    description: based on DDI-CDI reference to an entity (dt-Reference)
+    description: DCAT Relationship surface added on top of the schema.org labeled
+      link construct.
     properties:
       '@type':
         type: array
         items:
           type: string
         contains:
-          const: cdif:Reference
+          const: dcat:Relationship
         minItems: 1
-      cdi:uri:
+      dcat:hadRole:
+        description: Role of the related resource as a SKOS Concept (DCAT canonical
+          role slot).
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+      dcterms:relation:
         type: string
         format: uri
-        description: URI of the referenced entity
-      cdi:description:
-        type: string
-        description: Human-readable description of the reference
-      cdif:semantic:
-        description: Semantic role of this reference
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+        description: URI of the related resource (DCAT canonical pointer to what is
+          being related to; distinct from schema:url which is the presentation URL
+          inherited from labeledLink).
 x-jsonld-prefixes:
   schema: http://schema.org/
   skos: http://www.w3.org/2004/02/skos/core#
@@ -297,8 +290,9 @@ You can find the full JSON-LD context here:
 ## Sources
 
 * [schema.org/CreativeWork](https://schema.org/CreativeWork)
-* [DDI-CDI dt-Reference](https://ddialliance.org/Specification/DDI-CDI/1.0/)
-* [SKOS Concept (semantic role)](https://www.w3.org/TR/skos-reference/)
+* [DCAT 3 qualifiedRelation](https://www.w3.org/TR/vocab-dcat-3/#Property:resource_qualified_relation)
+* [DCAT 3 Relationship](https://www.w3.org/TR/vocab-dcat-3/#Class:Relationship)
+* [SKOS Concept (role of related resource)](https://www.w3.org/TR/skos-reference/)
 * [Discovery issue 13 - distinct assertions about sample registration vs physical object](https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13)
 
 # For developers

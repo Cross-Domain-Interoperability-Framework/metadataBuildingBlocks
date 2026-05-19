@@ -194,7 +194,8 @@ response media types, and a POST create operation with a request body.
     "oas": "https://spec.openapis.org/oas/3.1#",
     "spdx": "http://spdx.org/rdf/terms#",
     "ex": "https://example.org/",
-    "dcterms": "http://purl.org/dc/terms/"
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#"
   },
   "@id": "ex:openApiWebAPI_001",
   "@type": ["schema:WebAPI"],
@@ -207,13 +208,13 @@ response media types, and a POST create operation with a request body.
     "schema:inDefinedTermSet": "https://geochem.example.org/serviceType/"
   },
   "schema:termsOfService": {
-    "@type": ["schema:CreativeWork"],
+    "@type": ["schema:CreativeWork", "dcat:Relationship"],
     "schema:name": "Data Portal Terms of Use",
     "schema:description": "Open access with CC-BY 4.0 attribution requirement; rate limited to 1000 requests per hour.",
     "schema:url": "https://geochem.example.org/terms-of-use"
   },
   "schema:documentation": {
-    "@type": ["schema:CreativeWork"],
+    "@type": ["schema:CreativeWork", "dcat:Relationship"],
     "schema:name": "Geochemistry Data Service OpenAPI 3.1 specification",
     "schema:url": "https://geochem.example.org/api/v2/openapi.json"
   },
@@ -392,7 +393,8 @@ response media types, and a POST create operation with a request body.
       "oas": "https://spec.openapis.org/oas/3.1#",
       "spdx": "http://spdx.org/rdf/terms#",
       "ex": "https://example.org/",
-      "dcterms": "http://purl.org/dc/terms/"
+      "dcterms": "http://purl.org/dc/terms/",
+      "dcat": "http://www.w3.org/ns/dcat#"
     }
   ],
   "@id": "ex:openApiWebAPI_001",
@@ -411,7 +413,8 @@ response media types, and a POST create operation with a request body.
   },
   "schema:termsOfService": {
     "@type": [
-      "schema:CreativeWork"
+      "schema:CreativeWork",
+      "dcat:Relationship"
     ],
     "schema:name": "Data Portal Terms of Use",
     "schema:description": "Open access with CC-BY 4.0 attribution requirement; rate limited to 1000 requests per hour.",
@@ -419,7 +422,8 @@ response media types, and a POST create operation with a request body.
   },
   "schema:documentation": {
     "@type": [
-      "schema:CreativeWork"
+      "schema:CreativeWork",
+      "dcat:Relationship"
     ],
     "schema:name": "Geochemistry Data Service OpenAPI 3.1 specification",
     "schema:url": "https://geochem.example.org/api/v2/openapi.json"
@@ -599,6 +603,7 @@ response media types, and a POST create operation with a request body.
 
 #### ttl
 ```ttl
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix ex: <https://example.org/> .
 @prefix ns1: <https://spec.openapis.org/oas/3.1#$> .
 @prefix oas: <https://spec.openapis.org/oas/3.1#> .
@@ -608,7 +613,8 @@ response media types, and a POST create operation with a request body.
 
 ex:openApiWebAPI_001 a schema1:WebAPI ;
     schema1:description "OpenAPI 3.1 service providing search and submission over a global geochemical reference database with major and trace element data from 50,000+ samples." ;
-    schema1:documentation [ a schema1:CreativeWork ;
+    schema1:documentation [ a schema1:CreativeWork,
+                dcat:Relationship ;
             schema1:name "Geochemistry Data Service OpenAPI 3.1 specification" ;
             schema1:url "https://geochem.example.org/api/v2/openapi.json" ] ;
     schema1:name "Geochemistry Data Service" ;
@@ -618,7 +624,8 @@ ex:openApiWebAPI_001 a schema1:WebAPI ;
             schema1:inDefinedTermSet "https://geochem.example.org/serviceType/" ;
             schema1:name "Geochemistry Query API v2" ;
             schema1:termCode "geochem-api/v2" ] ;
-    schema1:termsOfService [ a schema1:CreativeWork ;
+    schema1:termsOfService [ a schema1:CreativeWork,
+                dcat:Relationship ;
             schema1:description "Open access with CC-BY 4.0 attribution requirement; rate limited to 1000 requests per hour." ;
             schema1:name "Data Portal Terms of Use" ;
             schema1:url "https://geochem.example.org/terms-of-use" ] ;
@@ -635,18 +642,18 @@ ex:op_searchAnalyses a schema1:SearchAction ;
                 ex:param_end,
                 ex:param_format,
                 ex:param_start ;
-            oas:response [ schema1:description "Invalid query parameter (e.g. malformed bbox)." ;
+            oas:response [ schema1:description "Tabular geochemical analysis results matching the query." ;
+                    oas:code "200" ;
+                    oas:content [ schema1:encodingFormat "text/csv" ;
+                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.csv-frictionless.json" ;
+                                    oas:type "string" ] ],
+                        [ schema1:encodingFormat "application/json" ;
+                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.json" ;
+                                    oas:type "object" ] ] ],
+                [ schema1:description "Invalid query parameter (e.g. malformed bbox)." ;
                     oas:code "400" ;
                     oas:content [ schema1:encodingFormat "application/json" ;
-                            oas:schema [ oas:type "object" ] ] ],
-                [ schema1:description "Tabular geochemical analysis results matching the query." ;
-                    oas:code "200" ;
-                    oas:content [ schema1:encodingFormat "application/json" ;
-                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.json" ;
-                                    oas:type "object" ] ],
-                        [ schema1:encodingFormat "text/csv" ;
-                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.csv-frictionless.json" ;
-                                    oas:type "string" ] ] ] ] .
+                            oas:schema [ oas:type "object" ] ] ] ] .
 
 ex:op_submitAnalysis a schema1:CreateAction ;
     schema1:description "Submit a new geochemical analysis record. Requires authentication." ;

@@ -2452,19 +2452,19 @@
     },
     "cdif.bbr.metadata.cdifProperties.cdifReference": {
       "type": "object",
-      "description": "see https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13 for discussion on how to make assertion about the sample registration and metadata distinct from statements about the physical object",
+      "description": "Building block to implement relations to other resources using a URL and some semantics.",
       "allOf": [
         {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink"
         },
         {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifReference/$defs/Reference"
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifReference/$defs/Relation"
         }
       ],
       "$defs": {
-        "Reference": {
+        "Relation": {
           "type": "object",
-          "description": "based on DDI-CDI reference to an entity (dt-Reference)",
+          "description": "DCAT Relationship surface added on top of the schema.org labeled link construct.",
           "properties": {
             "@type": {
               "type": "array",
@@ -2473,27 +2473,23 @@
               },
               "contains": {
                 "enum": [
-                  "cdif:Reference"
+                  "dcat:Relationship"
                 ]
               },
               "minItems": 1
             },
-            "cdi:uri": {
-              "type": "string",
-              "format": "uri",
-              "description": "URI of the referenced entity"
-            },
-            "cdi:description": {
-              "type": "string",
-              "description": "Human-readable description of the reference"
-            },
-            "cdif:semantic": {
-              "description": "Semantic role of this reference",
+            "dcat:hadRole": {
+              "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot).",
               "allOf": [
                 {
                   "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
                 }
               ]
+            },
+            "dcterms:relation": {
+              "type": "string",
+              "format": "uri",
+              "description": "URI of the related resource (DCAT canonical pointer to what is being related to; distinct from schema:url which is the presentation URL inherited from labeledLink)."
             }
           }
         }

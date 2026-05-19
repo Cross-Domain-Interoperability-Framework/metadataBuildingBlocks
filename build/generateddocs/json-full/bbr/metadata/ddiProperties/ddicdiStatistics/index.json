@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-05-16",
+  "dateOfLastChange": "2026-05-19",
   "link": "https://github.com/usgin/metadataBuildingBlocks",
   "maturity": "draft",
   "scope": "unstable",
@@ -31,14 +31,20 @@
     "cdif.bbr.metadata.ddiProperties.ddicdiStatistics": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiStatistics/rules.shacl"
     ],
+    "cdif.bbr.metadata.skosProperties.skosConcept": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
+    ],
     "cdif.bbr.metadata.ddiProperties.ddicdiInstanceVariable": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiInstanceVariable/rules.shacl"
     ],
     "cdif.bbr.metadata.ddiProperties.ddicdiValueDomain": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiValueDomain/rules.shacl"
     ],
-    "cdif.bbr.metadata.skosProperties.skosConcept": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
+    "cdif.bbr.metadata.ddiProperties.ddicdiDataStructureComponent": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiDataStructureComponent/rules.shacl"
+    ],
+    "cdif.bbr.metadata.ddiProperties.ddicdiRepresentedVariable": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiRepresentedVariable/rules.shacl"
     ],
     "cdif.bbr.metadata.ddiProperties.ddicdiPresentationalVariable": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiPresentationalVariable/rules.shacl"
@@ -46,29 +52,23 @@
     "cdif.bbr.metadata.ddiProperties.ddicdiEnumerationDomain": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiEnumerationDomain/rules.shacl"
     ],
-    "cdif.bbr.metadata.ddiProperties.ddicdiMachine": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiMachine/rules.shacl"
+    "cdif.bbr.metadata.ddiProperties.ddicdiOrganization": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiOrganization/rules.shacl"
     ],
     "cdif.bbr.metadata.ddiProperties.ddicdiProcessingAgent": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiProcessingAgent/rules.shacl"
     ],
+    "cdif.bbr.metadata.ddiProperties.ddicdiMachine": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiMachine/rules.shacl"
+    ],
     "cdif.bbr.metadata.ddiProperties.ddicdiIndividual": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiIndividual/rules.shacl"
-    ],
-    "cdif.bbr.metadata.ddiProperties.ddicdiOrganization": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiOrganization/rules.shacl"
-    ],
-    "cdif.bbr.metadata.ddiProperties.ddicdiDataStructureComponent": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiDataStructureComponent/rules.shacl"
-    ],
-    "cdif.bbr.metadata.ddiProperties.ddicdiRepresentedVariable": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/ddiProperties/ddicdiRepresentedVariable/rules.shacl"
     ]
   },
   "dependsOn": [
-    "cdif.bbr.metadata.ddiProperties.ddicdiInstanceVariable",
     "cdif.bbr.metadata.ddiProperties.ddicdiDataTypes",
-    "cdif.bbr.metadata.skosProperties.skosConcept"
+    "cdif.bbr.metadata.skosProperties.skosConcept",
+    "cdif.bbr.metadata.ddiProperties.ddicdiInstanceVariable"
   ],
   "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiStatistics/context.jsonld",
   "schema": {
@@ -103,7 +103,7 @@
         },
         {
           "language": "ttl",
-          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n<https://example.org/stats/seaWaterTemp/summary> a cdi:Statistics ;\n    cdi:hasWeight <https://example.org/var/sampleWeight> ;\n    cdi:statistic [ a cdi:Statistic ;\n            cdi:computationBase \"ValidOnly\" ;\n            cdi:content 1487 ;\n            cdi:isWeighted false ;\n            cdi:typeOfNumericValue \"decimal\" ],\n        [ a cdi:Statistic ;\n            cdi:computationBase \"ValidOnly\" ;\n            cdi:content 1.243e+01 ;\n            cdi:isWeighted true ;\n            cdi:typeOfNumericValue \"double\" ] ;\n    cdi:typeOfStatistic [ a cdi:ControlledVocabularyEntry ;\n            cdi:entryValue \"mean\" ] .\n\n",
+          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n<https://example.org/stats/seaWaterTemp/summary> a cdi:Statistics ;\n    cdi:hasWeight <https://example.org/var/sampleWeight> ;\n    cdi:statistic [ a cdi:Statistic ;\n            cdi:computationBase \"ValidOnly\" ;\n            cdi:content 1.243e+01 ;\n            cdi:isWeighted true ;\n            cdi:typeOfNumericValue \"double\" ],\n        [ a cdi:Statistic ;\n            cdi:computationBase \"ValidOnly\" ;\n            cdi:content 1487 ;\n            cdi:isWeighted false ;\n            cdi:typeOfNumericValue \"decimal\" ] ;\n    cdi:typeOfStatistic [ a cdi:ControlledVocabularyEntry ;\n            cdi:entryValue \"mean\" ] .\n\n",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/ddiProperties/ddicdiStatistics/example_1_1.ttl"
         }
       ]

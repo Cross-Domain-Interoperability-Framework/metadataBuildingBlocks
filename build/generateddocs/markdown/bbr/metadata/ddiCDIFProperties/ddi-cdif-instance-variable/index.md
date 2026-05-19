@@ -122,7 +122,9 @@ mapping.
 {
   "@context": {
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "ex": "https://example.org/"
+    "ex": "https://example.org/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "schema": "http://schema.org/"
   },
   "@type": [
     "cdi:InstanceVariable"
@@ -199,17 +201,19 @@ mapping.
   },
   "cdi:externalDefinition": {
     "@type": [
-      "cdif:Reference"
+      "schema:CreativeWork",
+      "dcat:Relationship"
     ],
-    "cdi:uri": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/",
-    "cdi:description": "BODC P01 sea water temperature parameter usage"
+    "schema:url": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/",
+    "schema:description": "BODC P01 sea water temperature parameter usage"
   },
   "cdi:source": {
     "@type": [
-      "cdif:Reference"
+      "schema:CreativeWork",
+      "dcat:Relationship"
     ],
-    "cdi:uri": "https://example.org/processing/sst-2025-pipeline",
-    "cdi:description": "Provenance: derived by the ocean temperature 2025 processing pipeline."
+    "schema:url": "https://example.org/processing/sst-2025-pipeline",
+    "schema:description": "Provenance: derived by the ocean temperature 2025 processing pipeline."
   },
   "cdi:variableFunction": [
     {
@@ -233,9 +237,10 @@ mapping.
     "cdi:entryReference": [
       {
         "@type": [
-          "cdif:Reference"
+          "schema:CreativeWork",
+          "dcat:Relationship"
         ],
-        "cdi:uri": "http://www.w3.org/2001/XMLSchema#decimal"
+        "schema:url": "http://www.w3.org/2001/XMLSchema#decimal"
       }
     ]
   },
@@ -268,9 +273,10 @@ mapping.
     "cdi:entryReference": [
       {
         "@type": [
-          "cdif:Reference"
+          "schema:CreativeWork",
+          "dcat:Relationship"
         ],
-        "cdi:uri": "http://qudt.org/vocab/unit/DEG_C"
+        "schema:url": "http://qudt.org/vocab/unit/DEG_C"
       }
     ]
   },
@@ -448,7 +454,9 @@ mapping.
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-instance-variable/context.jsonld",
     {
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "ex": "https://example.org/"
+      "ex": "https://example.org/",
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "schema": "http://schema.org/"
     }
   ],
   "@type": [
@@ -526,17 +534,19 @@ mapping.
   },
   "cdi:externalDefinition": {
     "@type": [
-      "cdif:Reference"
+      "schema:CreativeWork",
+      "dcat:Relationship"
     ],
-    "cdi:uri": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/",
-    "cdi:description": "BODC P01 sea water temperature parameter usage"
+    "schema:url": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/",
+    "schema:description": "BODC P01 sea water temperature parameter usage"
   },
   "cdi:source": {
     "@type": [
-      "cdif:Reference"
+      "schema:CreativeWork",
+      "dcat:Relationship"
     ],
-    "cdi:uri": "https://example.org/processing/sst-2025-pipeline",
-    "cdi:description": "Provenance: derived by the ocean temperature 2025 processing pipeline."
+    "schema:url": "https://example.org/processing/sst-2025-pipeline",
+    "schema:description": "Provenance: derived by the ocean temperature 2025 processing pipeline."
   },
   "cdi:variableFunction": [
     {
@@ -560,9 +570,10 @@ mapping.
     "cdi:entryReference": [
       {
         "@type": [
-          "cdif:Reference"
+          "schema:CreativeWork",
+          "dcat:Relationship"
         ],
-        "cdi:uri": "http://www.w3.org/2001/XMLSchema#decimal"
+        "schema:url": "http://www.w3.org/2001/XMLSchema#decimal"
       }
     ]
   },
@@ -595,9 +606,10 @@ mapping.
     "cdi:entryReference": [
       {
         "@type": [
-          "cdif:Reference"
+          "schema:CreativeWork",
+          "dcat:Relationship"
         ],
-        "cdi:uri": "http://qudt.org/vocab/unit/DEG_C"
+        "schema:url": "http://qudt.org/vocab/unit/DEG_C"
       }
     ]
   },
@@ -767,6 +779,8 @@ mapping.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> a cdi:InstanceVariable ;
@@ -775,8 +789,9 @@ mapping.
                     cdi:content "Decimal-valued sea water temperature observation as stored in the ocean-temperature 2025 dataset." ;
                     cdi:language "en" ] ] ;
     cdi:describedUnitOfMeasure [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryReference [ a <cdif:Reference> ;
-                    cdi:uri "http://qudt.org/vocab/unit/DEG_C" ] ;
+            cdi:entryReference [ a schema1:CreativeWork,
+                        dcat:Relationship ;
+                    schema1:url "http://qudt.org/vocab/unit/DEG_C" ] ;
             cdi:entryValue "DEG_C" ;
             cdi:name "QUDT Units" ] ;
     cdi:descriptiveText [ a cdi:InternationalString ;
@@ -788,9 +803,10 @@ mapping.
                     cdi:content "Sea Water Temperature" ;
                     cdi:language "en" ] ;
             cdi:maxLength 32 ] ;
-    cdi:externalDefinition [ a <cdif:Reference> ;
-            cdi:description "BODC P01 sea water temperature parameter usage" ;
-            cdi:uri "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/" ] ;
+    cdi:externalDefinition [ a schema1:CreativeWork,
+                dcat:Relationship ;
+            schema1:description "BODC P01 sea water temperature parameter usage" ;
+            schema1:url "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/" ] ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:decimal" ;
             cdi:name "XML Schema Datatypes" ] ;
@@ -808,17 +824,19 @@ mapping.
                     cdi:entryValue "technical-name" ] ;
             cdi:name "sea_water_temperature" ] ;
     cdi:physicalDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryReference [ a <cdif:Reference> ;
-                    cdi:uri "http://www.w3.org/2001/XMLSchema#decimal" ] ;
+            cdi:entryReference [ a schema1:CreativeWork,
+                        dcat:Relationship ;
+                    schema1:url "http://www.w3.org/2001/XMLSchema#decimal" ] ;
             cdi:entryValue "xsd:decimal" ;
             cdi:name "XML Schema Datatypes" ] ;
     cdi:platformType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "SPSSstyle" ;
             cdi:name "DDI-CDI sentinel platform types" ] ;
     cdi:simpleUnitOfMeasure "Cel" ;
-    cdi:source [ a <cdif:Reference> ;
-            cdi:description "Provenance: derived by the ocean temperature 2025 processing pipeline." ;
-            cdi:uri "https://example.org/processing/sst-2025-pipeline" ] ;
+    cdi:source [ a schema1:CreativeWork,
+                dcat:Relationship ;
+            schema1:description "Provenance: derived by the ocean temperature 2025 processing pipeline." ;
+            schema1:url "https://example.org/processing/sst-2025-pipeline" ] ;
     cdi:takesSentinelConceptsFrom <https://example.org/cd/temperatureSentinelConcepts> ;
     cdi:takesSentinelValuesFrom <https://example.org/vd/temperatureSentinel> ;
     cdi:takesSubstantiveConceptsFrom <https://example.org/cd/seaWaterTemperatureConcept> ;

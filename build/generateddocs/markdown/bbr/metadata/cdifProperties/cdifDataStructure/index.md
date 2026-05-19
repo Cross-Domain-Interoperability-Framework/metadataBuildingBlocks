@@ -432,105 +432,190 @@ each cell in the cube.
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "cdif": "https://cdif.org/0.1/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "ex": "https://example.org/"
+    "ex": "https://example.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#"
   },
-  "@type": ["cdi:DimensionalDataStructure"],
+  "@type": [
+    "cdi:DimensionalDataStructure"
+  ],
   "@id": "ex:struct/salesCube",
   "cdi:has_DataStructureComponent": [
     {
-      "@type": ["cdi:DimensionComponent"],
+      "@type": [
+        "cdi:DimensionComponent"
+      ],
       "@id": "ex:struct/salesCube/comp/country",
       "cdif:isDefinedBy_RepresentedVariable": {
-        "@type": ["cdi:RepresentedVariable"],
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
         "@id": "ex:struct/salesCube/rv/country",
         "cdi:name": [
-          { "@type": ["cdi:ObjectName"], "cdi:name": "country" }
+          {
+            "@type": [
+              "cdi:ObjectName"
+            ],
+            "cdi:name": "country"
+          }
         ],
         "cdi:hasIntendedDataType": {
-          "@type": ["cdi:ControlledVocabularyEntry"],
-          "cdi:entryValue": ["xsd:string"]
+          "@type": [
+            "cdi:ControlledVocabularyEntry"
+          ],
+          "cdi:entryValue": [
+            "xsd:string"
+          ]
         }
       }
     },
     {
-      "@type": ["cdi:DimensionComponent"],
+      "@type": [
+        "cdi:DimensionComponent"
+      ],
       "@id": "ex:struct/salesCube/comp/quarter",
       "cdif:isDefinedBy_RepresentedVariable": {
-        "@type": ["cdi:RepresentedVariable"],
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
         "@id": "ex:struct/salesCube/rv/quarter",
         "cdi:name": [
-          { "@type": ["cdi:ObjectName"], "cdi:name": "quarter" }
+          {
+            "@type": [
+              "cdi:ObjectName"
+            ],
+            "cdi:name": "quarter"
+          }
         ],
         "cdi:hasIntendedDataType": {
-          "@type": ["cdi:ControlledVocabularyEntry"],
-          "cdi:entryValue": ["xsd:gYearMonth"]
+          "@type": [
+            "cdi:ControlledVocabularyEntry"
+          ],
+          "cdi:entryValue": [
+            "xsd:gYearMonth"
+          ]
         }
       }
     },
     {
-      "@type": ["cdi:DimensionComponent"],
+      "@type": [
+        "cdi:DimensionComponent"
+      ],
       "@id": "ex:struct/salesCube/comp/productCategory",
       "cdif:isDefinedBy_RepresentedVariable": {
-        "@type": ["cdi:RepresentedVariable"],
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
         "@id": "ex:struct/salesCube/rv/productCategory",
         "cdi:name": [
-          { "@type": ["cdi:ObjectName"], "cdi:name": "product_category" }
+          {
+            "@type": [
+              "cdi:ObjectName"
+            ],
+            "cdi:name": "product_category"
+          }
         ],
         "cdi:hasIntendedDataType": {
-          "@type": ["cdi:ControlledVocabularyEntry"],
-          "cdi:entryValue": ["xsd:string"]
+          "@type": [
+            "cdi:ControlledVocabularyEntry"
+          ],
+          "cdi:entryValue": [
+            "xsd:string"
+          ]
         }
       }
     },
     {
-      "@type": ["cdi:MeasureComponent"],
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
       "@id": "ex:struct/salesCube/comp/salesAmount",
       "cdif:isDefinedBy_RepresentedVariable": {
-        "@type": ["cdi:RepresentedVariable"],
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
         "@id": "ex:struct/salesCube/rv/salesAmount",
         "cdi:name": [
-          { "@type": ["cdi:ObjectName"], "cdi:name": "sales_amount" }
+          {
+            "@type": [
+              "cdi:ObjectName"
+            ],
+            "cdi:name": "sales_amount"
+          }
         ],
         "cdi:simpleUnitOfMeasure": "USD",
         "cdi:hasIntendedDataType": {
-          "@type": ["cdi:ControlledVocabularyEntry"],
-          "cdi:entryValue": ["xsd:decimal"]
+          "@type": [
+            "cdi:ControlledVocabularyEntry"
+          ],
+          "cdi:entryValue": [
+            "xsd:decimal"
+          ]
         }
       },
       "cdi:semantic": [
         {
-          "@type": ["cdi:PairedControlledVocabularyEntry"],
-          "cdi:purpose": "measure",
-          "cdi:use": "monetary-total"
+          "@type": [
+            "skos:Concept"
+          ],
+          "skos:prefLabel": "Monetary Total",
+          "skos:notation": [
+            "monetary-total"
+          ],
+          "skos:inScheme": {
+            "@id": "https://example.org/vocab/measure"
+          }
         }
       ]
     },
     {
-      "@type": ["cdi:AttributeComponent"],
+      "@type": [
+        "cdi:AttributeComponent"
+      ],
       "@id": "ex:struct/salesCube/comp/currency",
       "cdi:qualifies": [
-        { "@id": "ex:struct/salesCube/comp/salesAmount" }
+        {
+          "@id": "ex:struct/salesCube/comp/salesAmount"
+        }
       ],
       "cdif:isDefinedBy_RepresentedVariable": {
-        "@type": ["cdi:RepresentedVariable"],
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
         "@id": "ex:struct/salesCube/rv/currency",
         "cdi:name": [
-          { "@type": ["cdi:ObjectName"], "cdi:name": "currency" }
+          {
+            "@type": [
+              "cdi:ObjectName"
+            ],
+            "cdi:name": "currency"
+          }
         ],
         "cdi:hasIntendedDataType": {
-          "@type": ["cdi:ControlledVocabularyEntry"],
-          "cdi:entryValue": ["xsd:string"]
+          "@type": [
+            "cdi:ControlledVocabularyEntry"
+          ],
+          "cdi:entryValue": [
+            "xsd:string"
+          ]
         }
       }
     }
   ],
   "cdi:has_PrimaryKey": {
-    "@type": ["cdif:PrimaryKey"],
+    "@type": [
+      "cdif:PrimaryKey"
+    ],
     "@id": "ex:struct/salesCube/pk",
     "cdif:isComposedOf": [
-      { "@id": "ex:var/country" },
-      { "@id": "ex:var/quarter" },
-      { "@id": "ex:var/productCategory" }
+      {
+        "@id": "ex:var/country"
+      },
+      {
+        "@id": "ex:var/quarter"
+      },
+      {
+        "@id": "ex:var/productCategory"
+      }
     ]
   }
 }
@@ -552,7 +637,8 @@ each cell in the cube.
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
       "cdif": "https://cdif.org/0.1/",
       "xsd": "http://www.w3.org/2001/XMLSchema#",
-      "ex": "https://example.org/"
+      "ex": "https://example.org/",
+      "skos": "http://www.w3.org/2004/02/skos/core#"
     }
   ],
   "@type": [
@@ -675,10 +761,15 @@ each cell in the cube.
       "cdi:semantic": [
         {
           "@type": [
-            "cdi:PairedControlledVocabularyEntry"
+            "skos:Concept"
           ],
-          "cdi:purpose": "measure",
-          "cdi:use": "monetary-total"
+          "skos:prefLabel": "Monetary Total",
+          "skos:notation": [
+            "monetary-total"
+          ],
+          "skos:inScheme": {
+            "@id": "https://example.org/vocab/measure"
+          }
         }
       ]
     },
@@ -740,6 +831,7 @@ each cell in the cube.
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://cdif.org/0.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 <https://example.org/struct/salesCube> a cdi:DimensionalDataStructure ;
     cdi:has_DataStructureComponent <https://example.org/struct/salesCube/comp/country>,
@@ -799,9 +891,10 @@ each cell in the cube.
     cdi:simpleUnitOfMeasure "USD" .
 
 <https://example.org/struct/salesCube/comp/salesAmount> a cdi:MeasureComponent ;
-    cdi:semantic [ a cdi:PairedControlledVocabularyEntry ;
-            cdi:purpose "measure" ;
-            cdi:use "monetary-total" ] ;
+    cdi:semantic [ a skos:Concept ;
+            skos:inScheme <https://example.org/vocab/measure> ;
+            skos:notation "monetary-total" ;
+            skos:prefLabel "Monetary Total" ] ;
     cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/salesAmount> .
 
 

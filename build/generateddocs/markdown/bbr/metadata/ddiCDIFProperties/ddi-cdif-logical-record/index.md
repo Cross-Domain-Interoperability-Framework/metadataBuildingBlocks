@@ -85,30 +85,53 @@ cdi:has_InstanceVariable @id-refs.
 {
   "@context": {
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "ex": "https://example.org/"
+    "ex": "https://example.org/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "schema": "http://schema.org/"
   },
-  "@type": ["cdi:LogicalRecord"],
+  "@type": [
+    "cdi:LogicalRecord"
+  ],
   "@id": "ex:logical-record/visits-2026",
   "cdi:organizes": [
-    { "@id": "ex:dataset/visits-2026-wide" },
-    { "@id": "ex:dataset/visits-2026-long" }
+    {
+      "@id": "ex:dataset/visits-2026-wide"
+    },
+    {
+      "@id": "ex:dataset/visits-2026-long"
+    }
   ],
   "cdi:isDefinedBy": [
     {
-      "@type": ["cdi:ControlledVocabularyEntry"],
+      "@type": [
+        "cdi:ControlledVocabularyEntry"
+      ],
       "cdi:name": "DDI-CDI UnitType vocabulary",
       "cdi:vocabulary": {
-        "@type": ["cdif:Reference"],
-        "cdi:uri": "https://ddialliance.org/Specification/DDI-CDI/1.0/CV/UnitType"
+        "@type": [
+          "schema:CreativeWork",
+          "dcat:Relationship"
+        ],
+        "schema:url": "https://ddialliance.org/Specification/DDI-CDI/1.0/CV/UnitType"
       },
-      "cdi:entryValue": ["Patient"]
+      "cdi:entryValue": [
+        "Patient"
+      ]
     }
   ],
   "cdi:has_InstanceVariable": [
-    { "@id": "ex:var/patient-id" },
-    { "@id": "ex:var/visit-date" },
-    { "@id": "ex:var/temperature" },
-    { "@id": "ex:var/heart-rate" }
+    {
+      "@id": "ex:var/patient-id"
+    },
+    {
+      "@id": "ex:var/visit-date"
+    },
+    {
+      "@id": "ex:var/temperature"
+    },
+    {
+      "@id": "ex:var/heart-rate"
+    }
   ]
 }
 
@@ -124,7 +147,9 @@ cdi:has_InstanceVariable @id-refs.
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-logical-record/context.jsonld",
     {
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "ex": "https://example.org/"
+      "ex": "https://example.org/",
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "schema": "http://schema.org/"
     }
   ],
   "@type": [
@@ -147,9 +172,10 @@ cdi:has_InstanceVariable @id-refs.
       "cdi:name": "DDI-CDI UnitType vocabulary",
       "cdi:vocabulary": {
         "@type": [
-          "cdif:Reference"
+          "schema:CreativeWork",
+          "dcat:Relationship"
         ],
-        "cdi:uri": "https://ddialliance.org/Specification/DDI-CDI/1.0/CV/UnitType"
+        "schema:url": "https://ddialliance.org/Specification/DDI-CDI/1.0/CV/UnitType"
       },
       "cdi:entryValue": [
         "Patient"
@@ -176,6 +202,8 @@ cdi:has_InstanceVariable @id-refs.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix schema1: <http://schema.org/> .
 
 <https://example.org/logical-record/visits-2026> a cdi:LogicalRecord ;
     cdi:has_InstanceVariable <https://example.org/var/heart-rate>,
@@ -185,8 +213,9 @@ cdi:has_InstanceVariable @id-refs.
     cdi:isDefinedBy [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "Patient" ;
             cdi:name "DDI-CDI UnitType vocabulary" ;
-            cdi:vocabulary [ a <cdif:Reference> ;
-                    cdi:uri "https://ddialliance.org/Specification/DDI-CDI/1.0/CV/UnitType" ] ] ;
+            cdi:vocabulary [ a schema1:CreativeWork,
+                        dcat:Relationship ;
+                    schema1:url "https://ddialliance.org/Specification/DDI-CDI/1.0/CV/UnitType" ] ] ;
     cdi:organizes <https://example.org/dataset/visits-2026-long>,
         <https://example.org/dataset/visits-2026-wide> .
 
