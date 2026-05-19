@@ -65,7 +65,7 @@
                 },
                 "cdi:typeOfStatistic": {
                     "description": "Controlled-vocabulary entry naming the kind of statistic — e.g. mean, median, count, sum, stdDev.",
-                    "$ref": "#/$defs/ControlledVocabularyEntry"
+                    "$ref": "#/$defs/SkosConcept"
                 },
                 "cdi:statistic": {
                     "type": "array",
@@ -170,7 +170,7 @@
                 },
                 "cdi:typeOfStatistic": {
                     "description": "Controlled-vocabulary entry naming the kind of statistic.",
-                    "$ref": "#/$defs/ControlledVocabularyEntry"
+                    "$ref": "#/$defs/SkosConcept"
                 },
                 "cdi:statistic": {
                     "type": "array",
@@ -338,13 +338,10 @@
                 }
             }
         },
-        "ControlledVocabularyEntry": {
-            "title": "ControlledVocabularyEntry",
-            "description": "DDI-CDI ControlledVocabularyEntry — a vocabulary-bound term reference. Modelled here as a string literal, an @id-only reference, or a structured schema:DefinedTerm.",
+        "SkosConcept": {
+            "title": "SKOS Concept (CDIF vocabulary-bound term reference)",
+            "description": "Vocabulary-bound term reference. CDIF policy implements the DDI-CDI ControlledVocabularyEntry / PairedControlledVocabularyEntry concept as a skos:Concept from the skosProperties building block. Under the union-type-policy a Concept value MUST be a controlled-vocabulary term — either an @id-only reference into a known scheme, a structured schema:DefinedTerm, or a full inline skos:Concept node. Plain strings are NOT permitted because vocabulary identity cannot be recovered from an unscoped string label.",
             "anyOf": [
-                {
-                    "type": "string"
-                },
                 {
                     "type": "object",
                     "properties": {
@@ -358,6 +355,9 @@
                 },
                 {
                     "$ref": "../../schemaorgProperties/definedTerm/definedTermSchema.json"
+                },
+                {
+                    "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
                 }
             ]
         }

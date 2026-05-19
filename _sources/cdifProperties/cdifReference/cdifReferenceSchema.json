@@ -1,0 +1,40 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "description": "Building block to implement relations to other resources using a URL and some samantics.",
+    "allOf": [
+        {
+            "$ref": "../../schemaorgProperties/labeledLink/labeledLinkSchema.json"
+        },
+        {
+            "$ref": "#/$defs/Relation"
+        }
+    ],
+    "$defs": {
+        "Relation": {
+            "type": "object",
+            "description": "DCAT Relationship surface added on top of the schema.org labeled link construct.",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "dcat:Relationship"
+                    },
+                    "minItems": 1
+                },
+                "dcat:hadRole": {
+                    "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot).",
+                    "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
+                },
+                "dcterms:relation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URI of the related resource (DCAT canonical pointer to what is being related to; distinct from schema:url which is the presentation URL inherited from labeledLink)."
+                }
+            }
+        }
+    }
+}

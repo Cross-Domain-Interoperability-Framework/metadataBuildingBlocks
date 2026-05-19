@@ -1,29 +1,29 @@
-- title: CDIF Reference - minimal
+- title: CDIF Relation - minimal
   content: |-
-    Minimal cdif:Reference. Declares the @type as both schema:CreativeWork (inherited
-    from labeledLink) and cdif:Reference (the CDIF profile type label). Carries the
-    required schema:url plus a distinct cdi:uri to address the referenced entity
-    independently of its presentation page.
+    Minimal cdif:Relation. Declares the @type with both required entries
+    (schema:CreativeWork inherited from labeledLink, dcat:Relationship from
+    the DCAT surface), carries the required schema:url, and uses
+    dcterms:relation to point at the related resource.
   prefixes:
     schema: http://schema.org/
-    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-    cdif: https://cdif.org/0.1/
+    dcterms: http://purl.org/dc/terms/
+    dcat: http://www.w3.org/ns/dcat#
   snippets:
     - language: json
       ref: exampleCdifReference.json
 
-- title: CDIF Reference - complete (with semantic role)
+- title: CDIF Relation - complete (with role)
   content: |-
-    Full cdif:Reference exercising the cdif:semantic slot. Uses a SKOS Concept to
-    classify the reference as a 'sample registration record' (distinguishing this
-    metadata-about-the-sample from a reference to the physical sample itself).
-    See https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13
-    for the motivating discussion.
+    Full cdif:Relation exercising dcat:hadRole as a SKOS Concept (here, the
+    role 'isVersionOf' from a relation-role vocabulary). Demonstrates the
+    DCAT qualifiedRelation pattern: this node is the target of an outer
+    dcat:qualifiedRelation property, with dcterms:relation pointing at the
+    related resource and dcat:hadRole classifying the role.
   prefixes:
     schema: http://schema.org/
     skos: http://www.w3.org/2004/02/skos/core#
-    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-    cdif: https://cdif.org/0.1/
+    dcterms: http://purl.org/dc/terms/
+    dcat: http://www.w3.org/ns/dcat#
   snippets:
     - language: json
       ref: exampleCdifReferenceComplete.json

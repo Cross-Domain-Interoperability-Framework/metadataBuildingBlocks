@@ -18,6 +18,7 @@ metadataBuildingBlocks/
 │   │   ├── organization/            # schema:Organization
 │   │   ├── identifier/              # schema:identifier (PropertyValue)
 │   │   ├── definedTerm/             # schema:DefinedTerm
+│   │   ├── definedTermSet/          # schema:DefinedTermSet (controlled vocab / list of DefinedTerms)
 │   │   ├── additionalProperty/      # schema:PropertyValue for soft-typed properties
 │   │   ├── variableMeasured/        # schema:variableMeasured (PropertyValue)
 │   │   ├── statisticalVariable/     # schema:StatisticalVariable
@@ -51,7 +52,8 @@ metadataBuildingBlocks/
 │   │   ├── cdifRepresentedVariable/ # CDIF RepresentedVariable — conceptual variable definition referenced by Data Structure components; carries name, definition, intended data type, unit-of-measure, takesSubstantiveValuesFrom / takesSentinelValuesFrom
 │   │   ├── cdifDataStructure/       # CDIF DataStructure — root `anyOf` over cdi:DataStructure / cdi:DimensionalDataStructure / cdi:LongDataStructure / cdi:WideDataStructure; carries components, primary key, foreign keys, dimension groups. LongDataStructure enforces 1× IdentifierComponent / 1× VariableDescriptorComponent / 1× VariableValueComponent (+ 0..* Attribute) via Draft 2020-12 `contains` + `minContains`/`maxContains`.
 │   │   ├── cdifDataStructureComponent/  # CDIF DataStructureComponent — component subclasses (cdi:IdentifierComponent, cdi:MeasureComponent, cdi:AttributeComponent, cdi:DimensionComponent, cdi:VariableValueComponent, cdi:VariableDescriptorComponent); `cdi:isDefinedBy` refs cdifRepresentedVariable (or cdifDescriptorVariable for the descriptor variant); `AttributeComponent.cdi:qualifies` carries the attribute-qualifies-measure relationship at component level.
-│   │   └── cdifDescriptorVariable/  # CDIF DescriptorVariable + DescriptorValueDomain — long-format pattern where a descriptor-column code maps to the RepresentedVariable it names; `cdif:takesValuesFrom` entries pair `cdif:value` (the code) with `cdif:isDefinedBy → cdi:RepresentedVariable`
+│   │   ├── cdifDescriptorVariable/  # CDIF DescriptorVariable + DescriptorValueDomain — long-format pattern where a descriptor-column code maps to the RepresentedVariable it names; `cdif:takesValuesFrom` entries pair `cdif:value` (the code) with `cdif:isDefinedBy → cdi:RepresentedVariable`
+│   │   └── cdifReference/           # CDIF Reference — typed external reference combining schema.org labeled-link surface (name, description, url) with DDI-CDI dt-Reference semantics and an optional `cdif:semantic` SKOS Concept role
 │   ├── provProperties/              # W3C PROV provenance types
 │   │   ├── generatedBy/             # prov:wasGeneratedBy (Activity)
 │   │   ├── provActivity/            # PROV-O native activity (extends generatedBy)
@@ -94,7 +96,6 @@ metadataBuildingBlocks/
 │   │   ├── xasInstrument/           # XAS instrument (beamline, synchrotron)
 │   │   ├── xasFacility/             # XAS facility (synchrotron source)
 │   │   ├── xasGeneratedBy/          # XAS analysis event (extends cdifProvActivity)
-│   │   ├── xasHDF5DataStructure/    # HDF5 data structure for XAS
 │   │   ├── xasXdiTabularTextDataset/ # XDI tabular text dataset
 │   │   ├── xasCore/             # XAS mandatory property group
 │   │   └── xasOptional/             # XAS optional property group
@@ -233,9 +234,10 @@ Audit rule: if a property in a `cdifProperties/` BB carries the `cdi:` prefix, t
 - `cdi:content` retained inside `cdi:LanguageString` / `cdi:LabelForDisplay` (canonical use); migrated to `cdif:content` only outside those structured-string contexts
 - `cdi:statistics` → `cdif:statistics`, `cdi:appliesTo` → `cdif:appliesTo`, `cdi:indexedBy` → `cdif:indexedBy` (CDIF additions, not in the canonical model)
 
-Two further `cdif:` conventions established in the 2026-03-model reconciliation:
+Three further `cdif:` conventions established in the 2026-03-model reconciliation:
 - **InternationalString / LabelForDisplay / ObjectName simplification.** Where a canonical DDI-CDI property is valued by one of those structured-string datatypes, the CDIF profile simplifies it to a plain `string` and renames the property to `cdif:` (e.g. on `cdi:Category` in `cdifStatistics`: `cdif:name`, `cdif:descriptiveText`, `cdif:definition`, `cdif:displayLabel`).
 - **Polymorphic role-name disambiguation.** The DDI-CDI association role names `has`, `uses`, `isDefinedBy`, `isDescribedBy` are polymorphic (their valid target depends on the owning class). In `cdifProperties` they are split into target-suffixed `cdif:` keys — `cdif:has_DataStructureComponent`, `cdif:has_Concept`, `cdif:uses_Concept`, `cdif:isDefinedBy_RepresentedVariable`, `cdif:isDefinedBy_DescriptorVariable`, `cdif:isDefinedBy_Concept`, `cdif:isDescribedBy_StatisticsCollection`, etc. — so each JSON key has a single, unambiguous value type.
+- **ControlledVocabularyEntry → skos:Concept normalization (union-type policy).** Canonical DDI-CDI `cdi:ControlledVocabularyEntry` and `cdi:PairedControlledVocabularyEntry` values are implemented as `skos:Concept` from the skosProperties building block. Concept-typed slots — including `cdi:typeOfStatistic` (in `cdifStatistics`) and `cdi:semantic` (on Data Structure components) — accept an `@id`-only reference into a known scheme, a structured `schema:DefinedTerm`, or a full inline `skos:Concept` node. Plain strings are **not** permitted, because vocabulary identity cannot be recovered from an unscoped string label.
 
 ## Data Description vs Data Structure profiles
 
@@ -430,7 +432,7 @@ $defs:
 
 2. **`ref:` must match the actual filename** in the building block directory. Copy-paste errors referencing files from other BBs (e.g., `exampleWebAPI.json` in a non-webAPI BB) will cause validation failures.
 
-2. **Schema prefix must use `http`, not `https`**, with a trailing slash:
+3. **Schema prefix must use `http`, not `https`**, with a trailing slash:
    ```yaml
    # CORRECT
    prefixes:

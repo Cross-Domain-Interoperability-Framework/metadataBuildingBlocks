@@ -3,7 +3,7 @@ Created by S.M. Richard and claude-code  2026-02-15
 
 Core modular schema components following the [OGC Building Blocks](https://opengeospatial.github.io/bblocks/) pattern for implementation of modular interoperable metadata for the [Cross-Domain Interoperability Framework (CDIF)](https://cdif.org). Each building block is a self-contained directory with a JSON Schema, JSON-LD context, metadata, and description. Building blocks compose into profiles that define complete metadata schemas for specific use cases.
 
-This repository contains the **shared core building blocks** (schema.org properties, CDIF properties, PROV-O provenance, data quality, XAS spectroscopy, and DDI-CDI). Domain-specific building blocks have been refactored into separate repositories:
+This repository contains the **shared core building blocks** (schema.org properties, CDIF properties, PROV-O provenance, SKOS vocabulary, Bioschemas, data quality, XAS spectroscopy, and DDI-CDI). Domain-specific building blocks have been refactored into separate repositories:
 
 - **[ddeBuildingBlocks](https://github.com/usgin/ddeBuildingBlocks)** — DDE (Deep-time Digital Earth) geoscience properties and profiles (7 BBs + 11 profiles)
 - **[geochemBuildingBlocks](https://github.com/usgin/geochemBuildingBlocks)** — ADA (IEDA Analytics & Data Archive) geochemistry properties and profiles (30 BBs + 36 profiles)
@@ -215,8 +215,13 @@ Each BB's `schema.yaml` validates a single Node (or, for multi-class BBs, an `an
 | `ddicdiStatisticalClassification` | DDI-CDI StatisticalClassification (extends EnumerationDomain) — full classification with `cdi:has` reaching ClassificationItem / ClassificationItemPosition / LevelStructure, plus `cdi:isMaintainedBy` (refs `ddicdiOrganization`), `cdi:isIndexedBy` (ClassificationIndex), and self-references for variant/successor/predecessor lineage. |
 | `ddicdiControlledVocabularyEntry` | DDI-CDI ControlledVocabularyEntry — entry from an externally maintained controlled vocabulary. 5 properties: `cdi:entryReference`, `cdi:entryValue`, `cdi:name`, `cdi:valueForOther`, `cdi:vocabulary`. Same shape as the inlined `dt-ControlledVocabularyEntry` `$def` in `ddicdiDataTypes`. |
 | `ddicdiDataStructure` | DDI-CDI DataStructure — multi-root BB covering DataStructure plus the four leaf subclasses (`Dimensional`, `KeyValue`, `Long`, `Wide`). Inherits component properties from DataStructureComponent: `cdi:has → ForeignKey` (1..*), `cdi:identifier`, `cdi:isDefinedBy → RepresentedVariable` (refs `ddicdiRepresentedVariable`), `cdi:semantic`, `cdi:specialization`. |
+| `ddicdiDataStructureComponent` | DDI-CDI DataStructureComponent subclasses (IdentifierComponent, MeasureComponent, AttributeComponent, DimensionComponent, VariableValueComponent, VariableDescriptorComponent). |
 | `ddicdiRepresentedVariable` | DDI-CDI RepresentedVariable — variable definition with `cdi:takesSubstantiveValuesFrom` / `cdi:takesSentinelValuesFrom` (refs `ddicdiValueDomain`), conceptual domains, unit-of-measure, and intended data type. Pulled out as its own BB to break the DataStructure → RepresentedVariable → ValueDomain transitive cascade. |
+| `ddicdiInstanceVariable` | DDI-CDI InstanceVariable plus the RepresentedVariable property set (ConceptualVariable-level properties excluded). |
+| `ddicdiPresentationalVariable` | DDI-CDI ReferenceVariable / DescriptorVariable — long-format presentational variables. |
+| `ddicdiLogicalRecord` | DDI-CDI LogicalRecord. |
 | `ddicdiLogicalRecordRepository` | DDI-CDI LogicalRecordRepository — successor to the retired `DataStore` class (renamed and relocated to the FormatDescription package in the 2026-03 model). `$defs` for LogicalRecordRepositoryStructure, LogicalRecordRelationship (successor to RecordRelation), and InstanceVariableMap. |
+| `ddicdiPhysicalDataSet` | DDI-CDI PhysicalDataSet subclasses (Wide / Long / Dimensional / Tabular / Structured DataSet). |
 | `ddicdiPhysicalMapping` | DDI-CDI PhysicalMapping — successor to the retired `ValueMapping` class; describes how an InstanceVariable's values are physically represented. Root validates `cdi:PhysicalMapping` / `cdi:TextMapping` / `cdi:LocatorMapping`; `$def` for PhysicalMappingPosition. |
 | `ddicdiStatistics` | DDI-CDI Statistics / CategoryStatistics / StatisticsCollection — summary and per-category statistics for an instance variable. |
 | `ddicdiKeyValueStructure` | DDI-CDI KeyValueStructure family (KeyValue package): KeyValueStructure, KeyValueDataStore, InstanceKey, MainKeyMember, ContextualComponent, SyntheticIdComponent. |
@@ -265,35 +270,19 @@ The repository implements a three-tier provenance architecture:
 
 | Building Block | Description |
 |----------------|-------------|
+| `xasSample` | Material sample that is the `schema:mainEntity` of an XAS analysis (extends `schema:Product`). |
 | `xasInstrument` | XAS instrument with `schema:hasPart` for hierarchical sub-components (refs generic instrument building block). |
+| `xasFacility` | XAS facility (synchrotron source / beamline host). |
 | `xasGeneratedBy` | XAS analysis event — extends `cdifProvActivity` with `xas:AnalysisEvent` typing, XAS facility location, sample object, XAS-specific instrument types, and XAS additional properties (edge_energy, calibration method, etc.). |
+| `xasXdiTabularTextDataset` | XDI data structure description — fixed-width tabular text dataset for XAS experiment results. |
 | `xasCore` | XAS mandatory properties — `prov:wasGeneratedBy` items use `allOf` with `cdifProvActivity` + NXsource/NXmonochromator instrument constraints via `schema:instrument` sub-key. |
 | `xasOptional` | Same provenance structure as `xasCore` — `cdifProvActivity` activity with XAS instrument constraints. |
 
 ## Building Block Conformance URIs
 
-Each building block that represents a CDIF specification component declares a required `dcterms:conformsTo` URI in the metadata catalog record (`schema:subjectOf`). This constraint ensures that metadata records explicitly identify which specification components they implement.
+Each building block that represents a CDIF specification component declares a required `dcterms:conformsTo` URI in the metadata catalog record (`schema:subjectOf`). When building blocks are composed into profiles via `allOf`, these constraints roll up automatically — the conformsTo array must include URIs for **all** constituent building blocks. Corresponding SHACL shapes enforce the same constraints via `sh:hasValue` on `dcterms:conformsTo`.
 
-| Building Block | Conformance URI |
-|---|---|
-| `cdifCore` | `https://w3id.org/cdif/core/1.0` |
-| `CDIFDiscoveryProfile` | `https://w3id.org/cdif/discovery/1.0` |
-| `cdifDataDescription` | `https://w3id.org/cdif/data_description/1.0` |
-| `CDIFDataStructureProfile` | `https://w3id.org/cdif/data_structure/1.0` |
-| `cdifArchiveDistribution` | `https://w3id.org/cdif/manifest/1.0` |
-| `cdifProvenance` | `https://w3id.org/cdif/provenance/1.0` |
-| `xasOptional` | `https://w3id.org/cdif/xasDiscovery/1.0` |
-| `xasCore` | `https://w3id.org/cdif/xasCore/1.0` |
-
-### How it works
-
-Each building block's `schema.yaml` adds a `contains` constraint on `schema:subjectOf` → `dcterms:conformsTo` requiring its specific URI. When building blocks are composed into profiles via `allOf`, these constraints roll up automatically — the conformsTo array must include URIs for **all** constituent building blocks.
-
-For example, the **CDIFDiscoveryProfile** profile (cdifCore + discovery properties) requires conformsTo to contain both `w3id.org/cdif/core/1.0` and `w3id.org/cdif/discovery/1.0`.
-
-These conformance URIs are distinct from the OGC building block identifiers (e.g., `https://w3id.org/cdif/bbr/metadata/cdifProperties/cdifCore`), which identify the building block artifacts themselves. Both may appear in a record's conformsTo array.
-
-Corresponding SHACL shapes enforce the same constraints via `sh:hasValue` on `dcterms:conformsTo`.
+See [agents.md → Building Block Conformance URIs](agents.md#building-block-conformance-uris) for the canonical table of URIs, the per-profile rollup, the URI convention (no trailing slash), and the JSON Schema / SHACL patterns used to enforce them.
 
 ## Building Block Identifiers and Web Resolution
 

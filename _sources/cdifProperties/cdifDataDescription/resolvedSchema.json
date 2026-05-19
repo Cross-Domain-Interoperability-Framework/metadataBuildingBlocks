@@ -1983,34 +1983,65 @@
                   "description": "link to a web page useful for interpreting the variable"
                 },
                 {
-                  "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
                   "type": "object",
-                  "properties": {
-                    "@type": {
-                      "default": "schema:CreativeWork",
-                      "type": "array",
-                      "items": {
-                        "type": "string"
+                  "description": "Building block to implement relations to other resources using a URL and some semantics.",
+                  "allOf": [
+                    {
+                      "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+                      "type": "object",
+                      "properties": {
+                        "@type": {
+                          "default": "schema:CreativeWork",
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "schema:CreativeWork"
+                          },
+                          "minItems": 1
+                        },
+                        "schema:name": {
+                          "type": "string"
+                        },
+                        "schema:description": {
+                          "type": "string"
+                        },
+                        "schema:url": {
+                          "type": "string",
+                          "format": "uri"
+                        }
                       },
-                      "contains": {
-                        "const": "schema:CreativeWork"
-                      },
-                      "minItems": 1
+                      "required": [
+                        "@type",
+                        "schema:url"
+                      ]
                     },
-                    "schema:name": {
-                      "type": "string"
-                    },
-                    "schema:description": {
-                      "type": "string"
-                    },
-                    "schema:url": {
-                      "type": "string",
-                      "format": "uri"
+                    {
+                      "type": "object",
+                      "description": "DCAT Relationship surface added on top of the schema.org labeled link construct.",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "dcat:Relationship"
+                          },
+                          "minItems": 1
+                        },
+                        "dcat:hadRole": {
+                          "$ref": "#/$defs/SkosConcept",
+                          "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot)."
+                        },
+                        "dcterms:relation": {
+                          "type": "string",
+                          "format": "uri",
+                          "description": "URI of the related resource (DCAT canonical pointer to what is being related to; distinct from schema:url which is the presentation URL inherited from labeledLink)."
+                        }
+                      }
                     }
-                  },
-                  "required": [
-                    "@type",
-                    "schema:url"
                   ]
                 }
               ]
@@ -2024,7 +2055,7 @@
       ]
     },
     "DefinedTerm": {
-      "description": "schema.org Defined Term schema",
+      "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
       "type": "object",
       "properties": {
         "@type": {
@@ -2047,7 +2078,7 @@
               "type": "string"
             },
             {
-              "description": "Properties for a schema.org identifier",
+              "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
               "type": "object",
               "properties": {
                 "@type": {
@@ -2696,12 +2727,9 @@
           "minItems": 1
         },
         "cdi:typeOfStatistic": {
-          "title": "ControlledVocabularyEntry",
+          "title": "SKOS Concept (CDIF vocabulary-bound term reference)",
           "description": "Controlled-vocabulary entry naming the kind of statistic — e.g. mean, median, count, sum, stdDev.",
           "anyOf": [
-            {
-              "type": "string"
-            },
             {
               "type": "object",
               "properties": {
@@ -2715,6 +2743,9 @@
             },
             {
               "$ref": "#/$defs/DefinedTerm"
+            },
+            {
+              "$ref": "#/$defs/SkosConcept"
             }
           ]
         },
@@ -2885,12 +2916,9 @@
           ]
         },
         "cdi:typeOfStatistic": {
-          "title": "ControlledVocabularyEntry",
+          "title": "SKOS Concept (CDIF vocabulary-bound term reference)",
           "description": "Controlled-vocabulary entry naming the kind of statistic.",
           "anyOf": [
-            {
-              "type": "string"
-            },
             {
               "type": "object",
               "properties": {
@@ -2904,6 +2932,9 @@
             },
             {
               "$ref": "#/$defs/DefinedTerm"
+            },
+            {
+              "$ref": "#/$defs/SkosConcept"
             }
           ]
         },

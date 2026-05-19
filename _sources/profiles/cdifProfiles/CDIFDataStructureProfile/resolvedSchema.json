@@ -139,7 +139,7 @@
             }
           },
           {
-            "$ref": "#/$defs/LabeledLink"
+            "$ref": "#/$defs/Reference"
           }
         ]
       }
@@ -163,7 +163,7 @@
             }
           },
           {
-            "$ref": "#/$defs/LabeledLink"
+            "$ref": "#/$defs/Reference"
           }
         ]
       }
@@ -319,7 +319,7 @@
                     "default": "not specified"
                   },
                   {
-                    "$ref": "#/$defs/LabeledLink"
+                    "$ref": "#/$defs/Reference"
                   }
                 ]
               },
@@ -330,7 +330,7 @@
                     "type": "string"
                   },
                   {
-                    "$ref": "#/$defs/LabeledLink"
+                    "$ref": "#/$defs/Reference"
                   }
                 ]
               },
@@ -760,7 +760,7 @@
             }
           },
           {
-            "$ref": "#/$defs/LabeledLink"
+            "$ref": "#/$defs/Reference"
           }
         ]
       }
@@ -1072,7 +1072,7 @@
             }
           },
           {
-            "$ref": "#/$defs/LabeledLink"
+            "$ref": "#/$defs/Reference"
           }
         ]
       }
@@ -2525,39 +2525,512 @@
     }
   ],
   "$defs": {
-    "LabeledLink": {
-      "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+    "Reference": {
+      "type": "object",
+      "description": "Building block to implement relations to other resources using a URL and some semantics.",
+      "allOf": [
+        {
+          "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+          "type": "object",
+          "properties": {
+            "@type": {
+              "default": "schema:CreativeWork",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "schema:CreativeWork"
+              },
+              "minItems": 1
+            },
+            "schema:name": {
+              "type": "string"
+            },
+            "schema:description": {
+              "type": "string"
+            },
+            "schema:url": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "required": [
+            "@type",
+            "schema:url"
+          ]
+        },
+        {
+          "type": "object",
+          "description": "DCAT Relationship surface added on top of the schema.org labeled link construct.",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "dcat:Relationship"
+              },
+              "minItems": 1
+            },
+            "dcat:hadRole": {
+              "$ref": "#/$defs/SkosConcept",
+              "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot)."
+            },
+            "dcterms:relation": {
+              "type": "string",
+              "format": "uri",
+              "description": "URI of the related resource (DCAT canonical pointer to what is being related to; distinct from schema:url which is the presentation URL inherited from labeledLink)."
+            }
+          }
+        }
+      ]
+    },
+    "SkosConcept": {
+      "title": "SKOS Concept",
+      "description": "JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel), notations, hierarchical relations (broader/narrower), associative relations (related), cross-scheme mapping properties, scheme membership, and documentary notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).",
       "type": "object",
       "properties": {
+        "@context": {
+          "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "skos": {
+                  "const": "http://www.w3.org/2004/02/skos/core#"
+                }
+              },
+              "required": [
+                "skos"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object"
+                  }
+                ]
+              },
+              "contains": {
+                "type": "object",
+                "properties": {
+                  "skos": {
+                    "const": "http://www.w3.org/2004/02/skos/core#"
+                  }
+                },
+                "required": [
+                  "skos"
+                ]
+              }
+            }
+          ]
+        },
+        "@id": {
+          "type": "string",
+          "description": "URI identifier for this concept."
+        },
         "@type": {
-          "default": "schema:CreativeWork",
           "type": "array",
           "items": {
             "type": "string"
           },
           "contains": {
-            "const": "schema:CreativeWork"
+            "const": "skos:Concept"
           },
           "minItems": 1
         },
-        "schema:name": {
-          "type": "string"
+        "skos:prefLabel": {
+          "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/LanguageTaggedValue"
+              }
+            }
+          ]
         },
-        "schema:description": {
-          "type": "string"
+        "skos:altLabel": {
+          "description": "Alternative lexical labels (acronyms, abbreviations, variants).",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
         },
-        "schema:url": {
-          "type": "string",
-          "format": "uri"
+        "skos:hiddenLabel": {
+          "description": "Labels accessible to free-text search but not displayed.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:notation": {
+          "description": "Classification code for this concept within a scheme.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "skos:definition": {
+          "description": "Formal explanation of the meaning of this concept.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:scopeNote": {
+          "description": "Note clarifying meaning and/or intended use.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:note": {
+          "description": "General note about this concept.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:historyNote": {
+          "description": "Note about past state or use.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:changeNote": {
+          "description": "Note documenting a change.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:editorialNote": {
+          "description": "Note for editors and maintainers.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:example": {
+          "description": "Example of use of this concept.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:inScheme": {
+          "description": "Concept scheme(s) this concept belongs to.",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              }
+            }
+          ]
+        },
+        "skos:topConceptOf": {
+          "description": "Concept scheme(s) for which this is a top concept.",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              }
+            }
+          ]
+        },
+        "skos:broader": {
+          "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ConceptRef"
+              },
+              {
+                "$comment": "circular-ref"
+              }
+            ]
+          }
+        },
+        "skos:narrower": {
+          "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ConceptRef"
+              },
+              {
+                "$comment": "circular-ref"
+              }
+            ]
+          }
+        },
+        "skos:related": {
+          "description": "Associatively related concepts.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ConceptRef"
+              },
+              {
+                "$comment": "circular-ref"
+              }
+            ]
+          }
+        },
+        "skos:exactMatch": {
+          "description": "Concepts in other schemes with equivalent meaning.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConceptRef"
+          }
+        },
+        "skos:closeMatch": {
+          "description": "Concepts in other schemes with similar meaning.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConceptRef"
+          }
+        },
+        "skos:broadMatch": {
+          "description": "Broader concepts in other schemes.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConceptRef"
+          }
+        },
+        "skos:narrowMatch": {
+          "description": "Narrower concepts in other schemes.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConceptRef"
+          }
+        },
+        "skos:relatedMatch": {
+          "description": "Related concepts in other schemes.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConceptRef"
+          }
         }
       },
       "required": [
         "@type",
-        "schema:url"
+        "skos:prefLabel"
       ]
     },
     "Identifier": {
-      "description": "Properties for a schema.org identifier",
+      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
       "type": "object",
       "properties": {
         "@type": {
@@ -2607,7 +3080,7 @@
       ]
     },
     "DefinedTerm": {
-      "description": "schema.org Defined Term schema",
+      "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
       "type": "object",
       "properties": {
         "@type": {
@@ -3222,7 +3695,7 @@
                   "description": "link to a web page useful for interpreting the variable"
                 },
                 {
-                  "$ref": "#/$defs/LabeledLink"
+                  "$ref": "#/$defs/Reference"
                 }
               ]
             }
@@ -3232,448 +3705,6 @@
             "schema:name"
           ]
         }
-      ]
-    },
-    "SkosConcept": {
-      "title": "SKOS Concept",
-      "description": "JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel), notations, hierarchical relations (broader/narrower), associative relations (related), cross-scheme mapping properties, scheme membership, and documentary notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).",
-      "type": "object",
-      "properties": {
-        "@context": {
-          "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "skos": {
-                  "const": "http://www.w3.org/2004/02/skos/core#"
-                }
-              },
-              "required": [
-                "skos"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "object"
-                  }
-                ]
-              },
-              "contains": {
-                "type": "object",
-                "properties": {
-                  "skos": {
-                    "const": "http://www.w3.org/2004/02/skos/core#"
-                  }
-                },
-                "required": [
-                  "skos"
-                ]
-              }
-            }
-          ]
-        },
-        "@id": {
-          "type": "string",
-          "description": "URI identifier for this concept."
-        },
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "skos:Concept"
-          },
-          "minItems": 1
-        },
-        "skos:prefLabel": {
-          "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "$ref": "#/$defs/LanguageTaggedValue"
-              }
-            }
-          ]
-        },
-        "skos:altLabel": {
-          "description": "Alternative lexical labels (acronyms, abbreviations, variants).",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:hiddenLabel": {
-          "description": "Labels accessible to free-text search but not displayed.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:notation": {
-          "description": "Classification code for this concept within a scheme.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "skos:definition": {
-          "description": "Formal explanation of the meaning of this concept.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:scopeNote": {
-          "description": "Note clarifying meaning and/or intended use.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:note": {
-          "description": "General note about this concept.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:historyNote": {
-          "description": "Note about past state or use.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:changeNote": {
-          "description": "Note documenting a change.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:editorialNote": {
-          "description": "Note for editors and maintainers.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:example": {
-          "description": "Example of use of this concept.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:inScheme": {
-          "description": "Concept scheme(s) this concept belongs to.",
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              }
-            }
-          ]
-        },
-        "skos:topConceptOf": {
-          "description": "Concept scheme(s) for which this is a top concept.",
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              }
-            }
-          ]
-        },
-        "skos:broader": {
-          "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/ConceptRef"
-              },
-              {
-                "$comment": "circular-ref"
-              }
-            ]
-          }
-        },
-        "skos:narrower": {
-          "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/ConceptRef"
-              },
-              {
-                "$comment": "circular-ref"
-              }
-            ]
-          }
-        },
-        "skos:related": {
-          "description": "Associatively related concepts.",
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/ConceptRef"
-              },
-              {
-                "$comment": "circular-ref"
-              }
-            ]
-          }
-        },
-        "skos:exactMatch": {
-          "description": "Concepts in other schemes with equivalent meaning.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ConceptRef"
-          }
-        },
-        "skos:closeMatch": {
-          "description": "Concepts in other schemes with similar meaning.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ConceptRef"
-          }
-        },
-        "skos:broadMatch": {
-          "description": "Broader concepts in other schemes.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ConceptRef"
-          }
-        },
-        "skos:narrowMatch": {
-          "description": "Narrower concepts in other schemes.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ConceptRef"
-          }
-        },
-        "skos:relatedMatch": {
-          "description": "Related concepts in other schemes.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ConceptRef"
-          }
-        }
-      },
-      "required": [
-        "@type",
-        "skos:prefLabel"
       ]
     },
     "SentinelValueDomain": {
@@ -4832,6 +4863,37 @@
         }
       ]
     },
+    "LanguageTaggedValue": {
+      "type": "object",
+      "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
+      "properties": {
+        "@value": {
+          "type": "string",
+          "description": "The text content."
+        },
+        "@language": {
+          "type": "string",
+          "description": "BCP 47 language tag (e.g. en, fr, de)."
+        }
+      },
+      "required": [
+        "@value",
+        "@language"
+      ]
+    },
+    "ConceptRef": {
+      "type": "object",
+      "description": "A reference to a SKOS Concept by URI.",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "URI of the referenced concept."
+        }
+      },
+      "required": [
+        "@id"
+      ]
+    },
     "CdifInstanceVariable_DefinedTerm": {
       "anyOf": [
         {
@@ -4952,12 +5014,9 @@
           "minItems": 1
         },
         "cdi:typeOfStatistic": {
-          "title": "ControlledVocabularyEntry",
+          "title": "SKOS Concept (CDIF vocabulary-bound term reference)",
           "description": "Controlled-vocabulary entry naming the kind of statistic — e.g. mean, median, count, sum, stdDev.",
           "anyOf": [
-            {
-              "type": "string"
-            },
             {
               "type": "object",
               "properties": {
@@ -4971,6 +5030,9 @@
             },
             {
               "$ref": "#/$defs/DefinedTerm"
+            },
+            {
+              "$ref": "#/$defs/SkosConcept"
             }
           ]
         },
@@ -5141,12 +5203,9 @@
           ]
         },
         "cdi:typeOfStatistic": {
-          "title": "ControlledVocabularyEntry",
+          "title": "SKOS Concept (CDIF vocabulary-bound term reference)",
           "description": "Controlled-vocabulary entry naming the kind of statistic.",
           "anyOf": [
-            {
-              "type": "string"
-            },
             {
               "type": "object",
               "properties": {
@@ -5160,6 +5219,9 @@
             },
             {
               "$ref": "#/$defs/DefinedTerm"
+            },
+            {
+              "$ref": "#/$defs/SkosConcept"
             }
           ]
         },
@@ -5223,37 +5285,6 @@
         "cdi:statistic"
       ]
     },
-    "LanguageTaggedValue": {
-      "type": "object",
-      "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-      "properties": {
-        "@value": {
-          "type": "string",
-          "description": "The text content."
-        },
-        "@language": {
-          "type": "string",
-          "description": "BCP 47 language tag (e.g. en, fr, de)."
-        }
-      },
-      "required": [
-        "@value",
-        "@language"
-      ]
-    },
-    "ConceptRef": {
-      "type": "object",
-      "description": "A reference to a SKOS Concept by URI.",
-      "properties": {
-        "@id": {
-          "type": "string",
-          "description": "URI of the referenced concept."
-        }
-      },
-      "required": [
-        "@id"
-      ]
-    },
     "id-reference": {
       "type": "object",
       "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
@@ -5307,11 +5338,11 @@
                   "description": "Identifier for this RepresentedVariable node"
                 },
                 "cdi:describedUnitOfMeasure": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary."
                 },
                 "cdi:hasIntendedDataType": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "The data type intended to be used by this variable. Supports the optional use of an external controlled vocabulary."
                 },
                 "cdi:takesSentinelValuesFrom": {
@@ -5379,7 +5410,7 @@
                   ]
                 },
                 "cdi:unitOfMeasureKind": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete."
                 },
                 "cdi:definition": {
@@ -5395,7 +5426,7 @@
                   "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
                 },
                 "cdi:externalDefinition": {
-                  "$ref": "#/$defs/Reference",
+                  "$ref": "#/$defs/DdiCdifDataTypes_Reference",
                   "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                 },
                 "cdi:identifier": {
@@ -5492,11 +5523,11 @@
                   "description": "Identifier for this RepresentedVariable node"
                 },
                 "cdi:describedUnitOfMeasure": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary."
                 },
                 "cdi:hasIntendedDataType": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "The data type intended to be used by this variable. Supports the optional use of an external controlled vocabulary."
                 },
                 "cdi:takesSentinelValuesFrom": {
@@ -5564,7 +5595,7 @@
                   ]
                 },
                 "cdi:unitOfMeasureKind": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete."
                 },
                 "cdi:definition": {
@@ -5580,7 +5611,7 @@
                   "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
                 },
                 "cdi:externalDefinition": {
-                  "$ref": "#/$defs/Reference",
+                  "$ref": "#/$defs/DdiCdifDataTypes_Reference",
                   "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                 },
                 "cdi:identifier": {
@@ -5622,7 +5653,7 @@
         "cdi:semantic": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/PairedControlledVocabularyEntry"
+            "$ref": "#/$defs/SkosConcept"
           },
           "minItems": 1,
           "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
@@ -5698,11 +5729,11 @@
                             "description": "Identifier for this RepresentedVariable node"
                           },
                           "cdi:describedUnitOfMeasure": {
-                            "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                            "$ref": "#/$defs/SkosConcept",
                             "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary."
                           },
                           "cdi:hasIntendedDataType": {
-                            "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                            "$ref": "#/$defs/SkosConcept",
                             "description": "The data type intended to be used by this variable. Supports the optional use of an external controlled vocabulary."
                           },
                           "cdi:takesSentinelValuesFrom": {
@@ -5770,7 +5801,7 @@
                             ]
                           },
                           "cdi:unitOfMeasureKind": {
-                            "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                            "$ref": "#/$defs/SkosConcept",
                             "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete."
                           },
                           "cdi:definition": {
@@ -5786,7 +5817,7 @@
                             "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
                           },
                           "cdi:externalDefinition": {
-                            "$ref": "#/$defs/Reference",
+                            "$ref": "#/$defs/DdiCdifDataTypes_Reference",
                             "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                           },
                           "cdi:identifier": {
@@ -5828,7 +5859,7 @@
                   "cdi:semantic": {
                     "type": "array",
                     "items": {
-                      "$ref": "#/$defs/PairedControlledVocabularyEntry"
+                      "$ref": "#/$defs/SkosConcept"
                     },
                     "minItems": 1,
                     "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
@@ -5871,11 +5902,11 @@
                   "description": "Identifier for this RepresentedVariable node"
                 },
                 "cdi:describedUnitOfMeasure": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary."
                 },
                 "cdi:hasIntendedDataType": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "The data type intended to be used by this variable. Supports the optional use of an external controlled vocabulary."
                 },
                 "cdi:takesSentinelValuesFrom": {
@@ -5943,7 +5974,7 @@
                   ]
                 },
                 "cdi:unitOfMeasureKind": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete."
                 },
                 "cdi:definition": {
@@ -5959,7 +5990,7 @@
                   "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
                 },
                 "cdi:externalDefinition": {
-                  "$ref": "#/$defs/Reference",
+                  "$ref": "#/$defs/DdiCdifDataTypes_Reference",
                   "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                 },
                 "cdi:identifier": {
@@ -6001,7 +6032,7 @@
         "cdi:semantic": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/PairedControlledVocabularyEntry"
+            "$ref": "#/$defs/SkosConcept"
           },
           "minItems": 1,
           "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
@@ -6051,11 +6082,11 @@
                   "description": "Identifier for this RepresentedVariable node"
                 },
                 "cdi:describedUnitOfMeasure": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary."
                 },
                 "cdi:hasIntendedDataType": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "The data type intended to be used by this variable. Supports the optional use of an external controlled vocabulary."
                 },
                 "cdi:takesSentinelValuesFrom": {
@@ -6123,7 +6154,7 @@
                   ]
                 },
                 "cdi:unitOfMeasureKind": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete."
                 },
                 "cdi:definition": {
@@ -6139,7 +6170,7 @@
                   "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
                 },
                 "cdi:externalDefinition": {
-                  "$ref": "#/$defs/Reference",
+                  "$ref": "#/$defs/DdiCdifDataTypes_Reference",
                   "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                 },
                 "cdi:identifier": {
@@ -6228,11 +6259,11 @@
                   "description": "Identifier for this RepresentedVariable node"
                 },
                 "cdi:describedUnitOfMeasure": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary."
                 },
                 "cdi:hasIntendedDataType": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "The data type intended to be used by this variable. Supports the optional use of an external controlled vocabulary."
                 },
                 "cdi:takesSentinelValuesFrom": {
@@ -6300,7 +6331,7 @@
                   ]
                 },
                 "cdi:unitOfMeasureKind": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete."
                 },
                 "cdi:definition": {
@@ -6316,7 +6347,7 @@
                   "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
                 },
                 "cdi:externalDefinition": {
-                  "$ref": "#/$defs/Reference",
+                  "$ref": "#/$defs/DdiCdifDataTypes_Reference",
                   "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                 },
                 "cdi:identifier": {
@@ -6358,7 +6389,7 @@
         "cdi:semantic": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/PairedControlledVocabularyEntry"
+            "$ref": "#/$defs/SkosConcept"
           },
           "minItems": 1,
           "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
@@ -6455,11 +6486,11 @@
                                 "description": "Identifier for this RepresentedVariable node"
                               },
                               "cdi:describedUnitOfMeasure": {
-                                "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                                "$ref": "#/$defs/SkosConcept",
                                 "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary."
                               },
                               "cdi:hasIntendedDataType": {
-                                "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                                "$ref": "#/$defs/SkosConcept",
                                 "description": "The data type intended to be used by this variable. Supports the optional use of an external controlled vocabulary."
                               },
                               "cdi:takesSentinelValuesFrom": {
@@ -6527,7 +6558,7 @@
                                 ]
                               },
                               "cdi:unitOfMeasureKind": {
-                                "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                                "$ref": "#/$defs/SkosConcept",
                                 "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete."
                               },
                               "cdi:definition": {
@@ -6543,7 +6574,7 @@
                                 "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
                               },
                               "cdi:externalDefinition": {
-                                "$ref": "#/$defs/Reference",
+                                "$ref": "#/$defs/DdiCdifDataTypes_Reference",
                                 "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                               },
                               "cdi:identifier": {
@@ -6629,7 +6660,7 @@
         "cdi:semantic": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/PairedControlledVocabularyEntry"
+            "$ref": "#/$defs/SkosConcept"
           },
           "minItems": 1,
           "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
@@ -6792,50 +6823,6 @@
         }
       }
     },
-    "DdiCdifDataTypes_ControlledVocabularyEntry": {
-      "type": "object",
-      "description": "DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry). Allows for unstructured content which may be an entry from an externally maintained controlled vocabulary. When the content is from a controlled vocabulary, provide the code value of the entry along with a reference to the vocabulary from which the value is taken.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:ControlledVocabularyEntry"
-          },
-          "minItems": 1
-        },
-        "cdi:entryReference": {
-          "description": "A reference to the specific item in the vocabulary referenced by cdi:vocabulary, using a URI or other resolvable identifier.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Reference"
-          },
-          "minItems": 1
-        },
-        "cdi:entryValue": {
-          "description": "The value of the entry of the controlled vocabulary. If no controlled vocabulary is used the term is entered here and none of the properties defining the controlled vocabulary location are used.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 1
-        },
-        "cdi:name": {
-          "type": "string",
-          "description": "The name of the code list (controlled vocabulary)."
-        },
-        "cdi:valueForOther": {
-          "type": "string",
-          "description": "If the value of the string is \"Other\" or the equivalent from the codelist, this attribute can provide a more specific value not found in the codelist."
-        },
-        "cdi:vocabulary": {
-          "$ref": "#/$defs/Reference",
-          "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier."
-        }
-      }
-    },
     "InternationalString": {
       "type": "object",
       "description": "DDI-CDI internationalized string (dt-InternationalString)",
@@ -6932,7 +6919,7 @@
                   "description": "A formal description of the set of values in human-readable language."
                 },
                 "cdi:formatPattern": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "A pattern for a number as described in Unicode Locale Data Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html) Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns) and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns) . Examples would be #,##0.### to describe the pattern for a decimal number, or yyyy.MM.dd G 'at' HH:mm:ss zzz for a datetime pattern."
                 },
                 "cdi:identifier": {
@@ -6940,7 +6927,7 @@
                   "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                 },
                 "cdi:logicalExpression": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "A logical expression where the values of \"x\" making the expression true are the members of the set of valid values. For example, \"(all reals x such that x > 0)\" describes the real numbers greater than 0."
                 },
                 "cdi:maximumValueExclusive": {
@@ -6978,7 +6965,7 @@
                       "description": "Content of the property expressed as a simple string."
                     },
                     "cdi:typeOfContent": {
-                      "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                      "$ref": "#/$defs/SkosConcept",
                       "description": "Optional use of a controlled vocabulary to specifically type the associated content."
                     }
                   }
@@ -7018,7 +7005,7 @@
                   "description": "If value is False, the members are unique within the collection - if True, there may be duplicates. (Note that a mathematical “bag” permits duplicates and is unordered - a “set” does not have duplicates and may be ordered.)"
                 },
                 "cdi:externalDefinition": {
-                  "$ref": "#/$defs/Reference",
+                  "$ref": "#/$defs/DdiCdifDataTypes_Reference",
                   "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                 },
                 "cdi:identifier": {
@@ -7146,7 +7133,7 @@
                   "description": "A formal description of the set of values in human-readable language."
                 },
                 "cdi:formatPattern": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "A pattern for a number as described in Unicode Locale Data Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html) Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns) and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns) . Examples would be #,##0.### to describe the pattern for a decimal number, or yyyy.MM.dd G 'at' HH:mm:ss zzz for a datetime pattern."
                 },
                 "cdi:identifier": {
@@ -7154,7 +7141,7 @@
                   "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                 },
                 "cdi:logicalExpression": {
-                  "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                  "$ref": "#/$defs/SkosConcept",
                   "description": "A logical expression where the values of \"x\" making the expression true are the members of the set of valid values. For example, \"(all reals x such that x > 0)\" describes the real numbers greater than 0."
                 },
                 "cdi:maximumValueExclusive": {
@@ -7192,7 +7179,7 @@
                       "description": "Content of the property expressed as a simple string."
                     },
                     "cdi:typeOfContent": {
-                      "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+                      "$ref": "#/$defs/SkosConcept",
                       "description": "Optional use of a controlled vocabulary to specifically type the associated content."
                     }
                   }
@@ -7232,7 +7219,7 @@
                   "description": "If value is False, the members are unique within the collection - if True, there may be duplicates. (Note that a mathematical “bag” permits duplicates and is unordered - a “set” does not have duplicates and may be ordered.)"
                 },
                 "cdi:externalDefinition": {
-                  "$ref": "#/$defs/Reference",
+                  "$ref": "#/$defs/DdiCdifDataTypes_Reference",
                   "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                 },
                 "cdi:identifier": {
@@ -7329,7 +7316,7 @@
           "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
         },
         "cdi:externalDefinition": {
-          "$ref": "#/$defs/Reference",
+          "$ref": "#/$defs/DdiCdifDataTypes_Reference",
           "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
         },
         "cdi:identifier": {
@@ -7378,7 +7365,7 @@
           "minItems": 1
         },
         "cdi:locationVariant": {
-          "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+          "$ref": "#/$defs/ControlledVocabularyEntry",
           "description": "Geographic or locale variant"
         },
         "cdi:maxLength": {
@@ -7391,7 +7378,7 @@
         }
       }
     },
-    "Reference": {
+    "DdiCdifDataTypes_Reference": {
       "type": "object",
       "description": "DDI-CDI reference to an entity (dt-Reference)",
       "properties": {
@@ -7401,7 +7388,7 @@
             "type": "string"
           },
           "contains": {
-            "const": "cdi:Reference"
+            "const": "cdif:Reference"
           },
           "minItems": 1
         },
@@ -7445,7 +7432,7 @@
           ]
         },
         "cdi:semantic": {
-          "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+          "$ref": "#/$defs/ControlledVocabularyEntry",
           "description": "Semantic role of this reference"
         }
       }
@@ -7469,37 +7456,13 @@
           "description": "The name string"
         },
         "cdi:context": {
-          "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
+          "$ref": "#/$defs/ControlledVocabularyEntry",
           "description": "Context or usage of this name"
         }
       },
       "required": [
         "cdi:name"
       ]
-    },
-    "PairedControlledVocabularyEntry": {
-      "type": "object",
-      "description": "DDI-CDI tightly-bound pair of controlled vocabulary entries (dt-PairedControlledVocabularyEntry). The extent property describes the extent to which the parent term applies for the specific case.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:PairedControlledVocabularyEntry"
-          },
-          "minItems": 1
-        },
-        "cdi:term": {
-          "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
-          "description": "The term attributed to the parent class (e.g. the role of a contributor)."
-        },
-        "cdi:extent": {
-          "$ref": "#/$defs/DdiCdifDataTypes_ControlledVocabularyEntry",
-          "description": "Extent to which the parent term applies for the specific case. When paired with a CASRAI Contributor Role, typical values are \"lead\", \"equal\", or \"supporting\"."
-        }
-      }
     },
     "LanguageString": {
       "type": "object",
@@ -7527,6 +7490,50 @@
       "required": [
         "cdi:content"
       ]
+    },
+    "ControlledVocabularyEntry": {
+      "type": "object",
+      "description": "DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry). Allows for unstructured content which may be an entry from an externally maintained controlled vocabulary. When the content is from a controlled vocabulary, provide the code value of the entry along with a reference to the vocabulary from which the value is taken.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ControlledVocabularyEntry"
+          },
+          "minItems": 1
+        },
+        "cdi:entryReference": {
+          "description": "A reference to the specific item in the vocabulary referenced by cdi:vocabulary, using a URI or other resolvable identifier.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DdiCdifDataTypes_Reference"
+          },
+          "minItems": 1
+        },
+        "cdi:entryValue": {
+          "description": "The value of the entry of the controlled vocabulary. If no controlled vocabulary is used the term is entered here and none of the properties defining the controlled vocabulary location are used.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "cdi:name": {
+          "type": "string",
+          "description": "The name of the code list (controlled vocabulary)."
+        },
+        "cdi:valueForOther": {
+          "type": "string",
+          "description": "If the value of the string is \"Other\" or the equivalent from the codelist, this attribute can provide a more specific value not found in the codelist."
+        },
+        "cdi:vocabulary": {
+          "$ref": "#/$defs/DdiCdifDataTypes_Reference",
+          "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier."
+        }
+      }
     }
   }
 }

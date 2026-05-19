@@ -1,32 +1,28 @@
-## CDIF Reference
+## CDIF Relation
 
-Defines a typed reference to an external entity for use within CDIF metadata. A `cdif:Reference` combines three things:
+A typed relation describing a link to another resource. Combines the schema.org labeled-link surface inherited from `schemaorgProperties/labeledLink` (`schema:name`, `schema:description`, required `schema:url`) with the DCAT `dcat:qualifiedRelation` pattern by adding:
 
-1. The schema.org `CreativeWork` surface inherited from `schemaorgProperties/labeledLink` — a human-readable `schema:name`, `schema:description`, and required `schema:url`.
-2. The DDI-CDI `dt-Reference` semantics — `cdi:uri` for the canonical machine-readable identifier of the referenced entity (which may differ from a presentation URL), and `cdi:description` for the DDI-CDI-style description.
-3. An optional `cdif:semantic` slot expressing the *role* of this reference as a [SKOS Concept](https://www.w3.org/TR/skos-reference/) — for example, distinguishing a reference to a physical sample from a reference to its registration metadata (see [Discovery issue 13](https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13)).
+1. A second `@type` entry: `dcat:Relationship`, so the node satisfies DCAT-3 consumers expecting a typed Relationship resource.
+2. `dcat:hadRole` — the role of the related resource as a `skos:Concept`.
+3. `dcterms:relation` — the URI of the related resource (DCAT-canonical pointer to "what is being related to"). Distinct from `schema:url`, which is the presentation URL inherited from `labeledLink`.
 
 ### When to use
 
-Prefer `cdif:Reference` over `schemaorgProperties/labeledLink` whenever a reference needs:
-
-- An explicit **semantic role** beyond "labeled link" (use `cdif:semantic`).
-- A **distinct identifier** for the referenced entity separate from a presentation URL (use `cdi:uri`).
-- Round-trippability with the DDI-CDI `dt-Reference` data type.
-
-Continue to use `labeledLink` directly when the reference is a plain hyperlink and no semantic role is required.
+Use this building block wherever a metadata record needs a typed link to another resource with an explicit role — for example, to express that this dataset is a version of another dataset, derives from a source sample, or points at a sample-registration record (see [Discovery issue 13](https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13)). It is the target shape for `dcat:qualifiedRelation` on a `dcat:Resource`.
 
 ### Required properties
 
-- `@type` must contain `cdif:Reference` (and inherits the `schema:CreativeWork` requirement from labeledLink, so `@type` is typically `["schema:CreativeWork", "cdif:Reference"]`).
-- `schema:url` is required (inherited from labeledLink).
+- `@type` must contain both `schema:CreativeWork` (inherited from `labeledLink`) and `dcat:Relationship` — typically `["schema:CreativeWork", "dcat:Relationship"]`.
+- `schema:url` is required (inherited from `labeledLink`).
 
 All other properties are optional.
 
-### Type declaration
+### Relationship to upstream vocabularies
 
-JSON-LD instance documents that conform to this building block must declare `cdif:Reference` (rather than the previous `cdi:Reference`) in the `@type` array. The CDIF profile now owns the `Reference` concept; the `cdif:` namespace makes that ownership explicit and lets the SHACL rule below target it without conflicting with DDI-CDI's native `cdi:Reference` definition.
+- `dcat:Relationship` (DCAT 3) is a class describing a qualified relationship between two resources. It is the target of `dcat:qualifiedRelation` on a `dcat:Resource`.
+- `dcat:hadRole` carries a `dcat:Role` or `skos:Concept` describing the role the related resource plays.
+- `dcterms:relation` is the dcterms (also written `dct:`) canonical pointer to the related resource.
 
-### Relationship to DDI-CDI
+### Note on the building-block name
 
-DDI-CDI defines `dt-Reference` as a DataType with attributes including a URI and a description. CDIF promotes this concept to a profile-level type (`cdif:Reference`) so that profile validators can target it directly via SHACL and so cross-profile UML can reference one canonical class. The `cdi:` attribute names are retained to preserve the round-trip with DDI-CDI source models; only the *type label* has been re-namespaced.
+The building-block directory is named `cdifReference` for historical reasons (it began life as a typed reference combining schema.org and DDI-CDI `dt-Reference` semantics). The DDI-CDI surface has been retired; the BB now models a DCAT-flavoured `cdif:Relation`. The folder name is retained so the 7 downstream BBs that `$ref` this schema continue to resolve.
