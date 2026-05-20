@@ -271,24 +271,29 @@ properties:
   schema:name:
     type: string
     description: Human-readable name (label) for the term set.
+    x-jsonld-id: http://schema.org/name
   schema:description:
     type: string
     description: Description of the scope and purpose of the term set.
+    x-jsonld-id: http://schema.org/description
   schema:identifier:
     description: Formal identifier for the term set, as a string or structured PropertyValue.
     anyOf:
     - type: string
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
+    x-jsonld-id: http://schema.org/identifier
   schema:url:
     type: string
     format: uri
     description: URL where the term set is published.
+    x-jsonld-id: http://schema.org/url
   schema:hasDefinedTerm:
     type: array
     minItems: 1
     description: The terms that make up this set. Each item is a schema:DefinedTerm.
     items:
       $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+    x-jsonld-id: http://schema.org/hasDefinedTerm
 allOf:
 - required:
   - '@type'

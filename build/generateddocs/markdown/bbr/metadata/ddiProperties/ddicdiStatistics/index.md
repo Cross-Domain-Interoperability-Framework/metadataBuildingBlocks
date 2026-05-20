@@ -166,24 +166,29 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:statistic:
         type: array
         items:
           $ref: '#/$defs/Statistic'
         description: The value of the identified type of statistic. May be repeated
           to provide unweighted or weighted values and different computation bases.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/statistic
       cdi:typeOfStatistic:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry
         description: Type of summary statistics (e.g. count, mean, mode, median, etc.)
           or category statistics for the associated instance variable
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic
       cdi:hasWeight:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight
       cdi:has:
         anyOf:
         - $ref: '#/$defs/StatisticsCollection'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has
     required:
     - '@type'
   CategoryStatistics:
@@ -205,28 +210,34 @@ $defs:
         anyOf:
         - $ref: '#/$defs/Category'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/for
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:statistic:
         type: array
         items:
           $ref: '#/$defs/Statistic'
         description: The value of the identified type of statistic. May be repeated
           to provide unweighted or weighted values and different computation bases.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/statistic
       cdi:typeOfStatistic:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry
         description: Type of summary statistics (e.g. count, mean, mode, median, etc.)
           or category statistics for the associated instance variable
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic
       cdi:hasWeight:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight
       cdi:has:
         anyOf:
         - $ref: '#/$defs/StatisticsCollection'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has
     required:
     - '@type'
   StatisticsCollection:
@@ -247,10 +258,12 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:hasWeight:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight
     required:
     - '@type'
   Category:
@@ -271,12 +284,14 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
         description: A short natural language account of the characteristics of the
           object.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/descriptiveText
       cdi:definition:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
         description: Natural language statement conveying the meaning of a concept,
           differentiating it from other concepts. Supports the use of multiple languages
           and structured text. 'externalDefinition' can't be used if 'definition'
           is used.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/definition
       cdi:displayLabel:
         type: array
         items:
@@ -284,6 +299,7 @@ $defs:
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/displayLabel
       cdi:externalDefinition:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Reference
         description: A reference to an external definition of a concept (that is,
@@ -291,10 +307,12 @@ $defs:
           description). An example is a SKOS concept. The definition property is assumed
           to duplicate the external one referenced if externalDefinition is used.
           Other corresponding properties are assumed to be included unchanged if used.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:name:
         type: array
         items:
@@ -302,12 +320,14 @@ $defs:
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdi:uses:
         type: array
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/uses
     required:
     - '@type'
   Statistic:
@@ -332,15 +352,19 @@ $defs:
           options are total = all cases, valid and missing (invalid); validOnly =
           Only valid values, missing (invalid) are not included in the calculation;
           missingOnly = Only missing (invalid) cases included in the calculation.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/computationBase
       cdi:content:
         type: number
         description: The value of the statistic expressed as a real number.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/content
       cdi:isWeighted:
         type: boolean
         description: Set to True if the statistic is weighted.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isWeighted
       cdi:typeOfNumericValue:
         type: string
         description: Indicate the type of numeric value as decimal, float, double.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfNumericValue
 x-jsonld-prefixes:
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
 

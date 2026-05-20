@@ -550,6 +550,7 @@ properties:
     - type: array
       items:
         $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#prefLabel
   skos:altLabel:
     description: Alternative lexical labels (acronyms, abbreviations, variants).
     anyOf:
@@ -560,6 +561,7 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#altLabel
   skos:hiddenLabel:
     description: Labels accessible to free-text search but not displayed.
     anyOf:
@@ -570,11 +572,13 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#hiddenLabel
   skos:notation:
     description: Classification code for this concept within a scheme.
     type: array
     items:
       type: string
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#notation
   skos:definition:
     description: Formal explanation of the meaning of this concept.
     anyOf:
@@ -585,6 +589,7 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#definition
   skos:scopeNote:
     description: Note clarifying meaning and/or intended use.
     anyOf:
@@ -595,6 +600,7 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#scopeNote
   skos:note:
     description: General note about this concept.
     anyOf:
@@ -605,6 +611,7 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#note
   skos:historyNote:
     description: Note about past state or use.
     anyOf:
@@ -615,6 +622,7 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#historyNote
   skos:changeNote:
     description: Note documenting a change.
     anyOf:
@@ -625,6 +633,7 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#changeNote
   skos:editorialNote:
     description: Note for editors and maintainers.
     anyOf:
@@ -635,6 +644,7 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#editorialNote
   skos:example:
     description: Example of use of this concept.
     anyOf:
@@ -645,6 +655,7 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#example
   skos:inScheme:
     description: Concept scheme(s) this concept belongs to.
     anyOf:
@@ -662,6 +673,7 @@ properties:
             type: string
         required:
         - '@id'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#inScheme
   skos:topConceptOf:
     description: Concept scheme(s) for which this is a top concept.
     anyOf:
@@ -679,6 +691,7 @@ properties:
             type: string
         required:
         - '@id'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#topConceptOf
   skos:broader:
     description: Broader (parent) concepts in the hierarchy. Items are inline concept
       objects or @id references.
@@ -687,6 +700,7 @@ properties:
       anyOf:
       - $ref: '#/$defs/ConceptRef'
       - $ref: '#'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#broader
   skos:narrower:
     description: Narrower (child) concepts in the hierarchy. Items are inline concept
       objects or @id references.
@@ -695,6 +709,7 @@ properties:
       anyOf:
       - $ref: '#/$defs/ConceptRef'
       - $ref: '#'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#narrower
   skos:related:
     description: Associatively related concepts.
     type: array
@@ -702,31 +717,37 @@ properties:
       anyOf:
       - $ref: '#/$defs/ConceptRef'
       - $ref: '#'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#related
   skos:exactMatch:
     description: Concepts in other schemes with equivalent meaning.
     type: array
     items:
       $ref: '#/$defs/ConceptRef'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#exactMatch
   skos:closeMatch:
     description: Concepts in other schemes with similar meaning.
     type: array
     items:
       $ref: '#/$defs/ConceptRef'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#closeMatch
   skos:broadMatch:
     description: Broader concepts in other schemes.
     type: array
     items:
       $ref: '#/$defs/ConceptRef'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#broadMatch
   skos:narrowMatch:
     description: Narrower concepts in other schemes.
     type: array
     items:
       $ref: '#/$defs/ConceptRef'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#narrowMatch
   skos:relatedMatch:
     description: Related concepts in other schemes.
     type: array
     items:
       $ref: '#/$defs/ConceptRef'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#relatedMatch
 required:
 - '@type'
 - skos:prefLabel

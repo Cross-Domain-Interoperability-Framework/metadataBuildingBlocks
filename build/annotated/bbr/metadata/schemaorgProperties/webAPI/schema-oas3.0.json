@@ -30,6 +30,7 @@
             },
             "dcat:hadRole": {
               "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot).",
+              "x-jsonld-id": "http://www.w3.org/ns/dcat#hadRole",
               "allOf": [
                 {
                   "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
@@ -39,7 +40,8 @@
             "dcterms:relation": {
               "type": "string",
               "format": "uri",
-              "description": "URI of the related resource (DCAT canonical pointer to what is being related to; distinct from schema:url which is the presentation URL inherited from labeledLink)."
+              "description": "URI of the related resource (DCAT canonical pointer to what is being related to; distinct from schema:url which is the presentation URL inherited from labeledLink).",
+              "x-jsonld-id": "http://purl.org/dc/terms/relation"
             }
           }
         }
@@ -75,7 +77,8 @@
         },
         "schema:name": {
           "type": "string",
-          "description": "text label for the term that is useful to human user"
+          "description": "text label for the term that is useful to human user",
+          "x-jsonld-id": "http://schema.org/name"
         },
         "schema:identifier": {
           "anyOf": [
@@ -85,15 +88,18 @@
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
             }
-          ]
+          ],
+          "x-jsonld-id": "http://schema.org/identifier"
         },
         "schema:inDefinedTermSet": {
           "type": "string",
-          "description": "Name for the controlled vocabulary responsible for this keyword."
+          "description": "Name for the controlled vocabulary responsible for this keyword.",
+          "x-jsonld-id": "http://schema.org/inDefinedTermSet"
         },
         "schema:termCode": {
           "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation",
+          "x-jsonld-id": "http://schema.org/termCode"
         }
       },
       "allOf": [
@@ -161,7 +167,8 @@
         },
         "schema:name": {
           "type": "string",
-          "description": "text label for the action"
+          "description": "text label for the action",
+          "x-jsonld-id": "http://schema.org/name"
         },
         "schema:target": {
           "type": "object",
@@ -181,11 +188,13 @@
               "minItems": 1
             },
             "schema:description": {
-              "type": "string"
+              "type": "string",
+              "x-jsonld-id": "http://schema.org/description"
             },
             "schema:urlTemplate": {
               "type": "string",
-              "description": "a templated URL; parameters are enclosed in curly braces ({..}); parameters are not required. If included, parameters MUST be documented in the query-input element. Template should be consitent with URI Template (https://datatracker.ietf.org/doc/html/rfc6570) examples: - http://portal.chordsrt.com/api/v1/data.{encoding}; single parameter - http://portal.chordsrt.com/api/v1/data.{encoding}?instruments={instruments}&start={start}&end={end} ; multiple parameters - {endpoint}{encoding}; endpoint URL path is a parameter,should only appear in potential actions for API specification descriptions, which are generic-not specific to a particular endpoint."
+              "description": "a templated URL; parameters are enclosed in curly braces ({..}); parameters are not required. If included, parameters MUST be documented in the query-input element. Template should be consitent with URI Template (https://datatracker.ietf.org/doc/html/rfc6570) examples: - http://portal.chordsrt.com/api/v1/data.{encoding}; single parameter - http://portal.chordsrt.com/api/v1/data.{encoding}?instruments={instruments}&start={start}&end={end} ; multiple parameters - {endpoint}{encoding}; endpoint URL path is a parameter,should only appear in potential actions for API specification descriptions, which are generic-not specific to a particular endpoint.",
+              "x-jsonld-id": "http://schema.org/urlTemplate"
             },
             "schema:httpMethod": {
               "title": "HTTP Method",
@@ -205,19 +214,22 @@
                   "OPTIONS",
                   "PROPFIND"
                 ]
-              }
+              },
+              "x-jsonld-id": "http://schema.org/httpMethod"
             },
             "schema:contentType": {
               "type": "array",
               "description": "The supported content type(s) for an EntryPoint response. a MIME type (https://www.iana.org/assignments/media-types/media-types.xhtml) that specifies the content type for messages in resonses from the service endpoint. This is a schema.org property, and is redundant with encodingFormat in the result property for the Action.",
               "items": {
                 "type": "string"
-              }
+              },
+              "x-jsonld-id": "http://schema.org/contentType"
             }
           },
           "required": [
             "schema:urlTemplate"
-          ]
+          ],
+          "x-jsonld-id": "http://schema.org/target"
         },
         "schema:result": {
           "type": "object",
@@ -240,12 +252,15 @@
               "type": "array",
               "items": {
                 "type": "string"
-              }
+              },
+              "x-jsonld-id": "http://schema.org/encodingFormat"
             },
             "schema:description": {
-              "type": "string"
+              "type": "string",
+              "x-jsonld-id": "http://schema.org/description"
             }
-          }
+          },
+          "x-jsonld-id": "http://schema.org/result"
         },
         "schema:object": {
           "type": "object",
@@ -260,9 +275,11 @@
               "minItems": 1
             },
             "schema:description": {
-              "type": "string"
+              "type": "string",
+              "x-jsonld-id": "http://schema.org/description"
             }
-          }
+          },
+          "x-jsonld-id": "http://schema.org/object"
         },
         "schema:query-input": {
           "type": "array",
@@ -287,17 +304,21 @@
                 "minItems": 1
               },
               "schema:valueName": {
-                "type": "string"
+                "type": "string",
+                "x-jsonld-id": "http://schema.org/valueName"
               },
               "schema:description": {
-                "type": "string"
+                "type": "string",
+                "x-jsonld-id": "http://schema.org/description"
               },
               "schema:valueRequired": {
                 "type": "boolean",
-                "default": true
+                "default": true,
+                "x-jsonld-id": "http://schema.org/valueRequired"
               },
               "schema:valuePattern": {
-                "type": "string"
+                "type": "string",
+                "x-jsonld-id": "http://schema.org/valuePattern"
               }
             },
             "required": [
@@ -305,7 +326,8 @@
               "schema:description"
             ]
           },
-          "description": "set of explanations of the parameters in the URL template for the target."
+          "description": "set of explanations of the parameters in the URL template for the target.",
+          "x-jsonld-id": "http://schema.org/query-input"
         }
       },
       "required": [
@@ -336,14 +358,17 @@
           "minItems": 1
         },
         "schema:name": {
-          "type": "string"
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/name"
         },
         "schema:description": {
-          "type": "string"
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/description"
         },
         "schema:url": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "x-jsonld-id": "http://schema.org/url"
         }
       },
       "required": [
@@ -436,7 +461,8 @@
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue"
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#prefLabel"
         },
         "skos:altLabel": {
           "description": "Alternative lexical labels (acronyms, abbreviations, variants).",
@@ -460,7 +486,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#altLabel"
         },
         "skos:hiddenLabel": {
           "description": "Labels accessible to free-text search but not displayed.",
@@ -484,14 +511,16 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#hiddenLabel"
         },
         "skos:notation": {
           "description": "Classification code for this concept within a scheme.",
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#notation"
         },
         "skos:definition": {
           "description": "Formal explanation of the meaning of this concept.",
@@ -515,7 +544,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#definition"
         },
         "skos:scopeNote": {
           "description": "Note clarifying meaning and/or intended use.",
@@ -539,7 +569,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#scopeNote"
         },
         "skos:note": {
           "description": "General note about this concept.",
@@ -563,7 +594,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#note"
         },
         "skos:historyNote": {
           "description": "Note about past state or use.",
@@ -587,7 +619,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#historyNote"
         },
         "skos:changeNote": {
           "description": "Note documenting a change.",
@@ -611,7 +644,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#changeNote"
         },
         "skos:editorialNote": {
           "description": "Note for editors and maintainers.",
@@ -635,7 +669,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#editorialNote"
         },
         "skos:example": {
           "description": "Example of use of this concept.",
@@ -659,7 +694,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#example"
         },
         "skos:inScheme": {
           "description": "Concept scheme(s) this concept belongs to.",
@@ -689,7 +725,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#inScheme"
         },
         "skos:topConceptOf": {
           "description": "Concept scheme(s) for which this is a top concept.",
@@ -719,7 +756,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#topConceptOf"
         },
         "skos:broader": {
           "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
@@ -733,7 +771,8 @@
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
               }
             ]
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#broader"
         },
         "skos:narrower": {
           "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
@@ -747,7 +786,8 @@
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
               }
             ]
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#narrower"
         },
         "skos:related": {
           "description": "Associatively related concepts.",
@@ -761,42 +801,48 @@
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
               }
             ]
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#related"
         },
         "skos:exactMatch": {
           "description": "Concepts in other schemes with equivalent meaning.",
           "type": "array",
           "items": {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef"
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#exactMatch"
         },
         "skos:closeMatch": {
           "description": "Concepts in other schemes with similar meaning.",
           "type": "array",
           "items": {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef"
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#closeMatch"
         },
         "skos:broadMatch": {
           "description": "Broader concepts in other schemes.",
           "type": "array",
           "items": {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef"
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#broadMatch"
         },
         "skos:narrowMatch": {
           "description": "Narrower concepts in other schemes.",
           "type": "array",
           "items": {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef"
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#narrowMatch"
         },
         "skos:relatedMatch": {
           "description": "Related concepts in other schemes.",
           "type": "array",
           "items": {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef"
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#relatedMatch"
         }
       },
       "required": [
@@ -860,16 +906,19 @@
         },
         "schema:propertyID": {
           "type": "string",
-          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability",
+          "x-jsonld-id": "http://schema.org/propertyID"
         },
         "schema:value": {
           "type": "string",
-          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ",
+          "x-jsonld-id": "http://schema.org/value"
         },
         "schema:url": {
           "type": "string",
           "format": "uri",
-          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ ",
+          "x-jsonld-id": "http://schema.org/url"
         }
       },
       "allOf": [
@@ -925,7 +974,8 @@
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.json#/$defs/DefinedTerm"
         }
       ],
-      "description": "specify the kind of service. Ideally this should be a resolvable identifier. Currently there is no widely adopted registry for serviceType identifiers, in large part because services might be defined at different levels of granularity, and classifications might focus on function, data formats, thematic content, security, or other aspects of the service definition. For interoperability, there must be an external arrangement between data providers and consumers on the strings that will be used to specify service types."
+      "description": "specify the kind of service. Ideally this should be a resolvable identifier. Currently there is no widely adopted registry for serviceType identifiers, in large part because services might be defined at different levels of granularity, and classifications might focus on function, data formats, thematic content, security, or other aspects of the service definition. For interoperability, there must be an external arrangement between data providers and consumers on the strings that will be used to specify service types.",
+      "x-jsonld-id": "http://schema.org/serviceType"
     },
     "schema:termsOfService": {
       "description": "Description of access privileges required to use the API, e.g. registration, licensing, payments. Note that access constraints applying to all distributions of the resource should be specified in the access constraints for the resource description as a whole.",
@@ -937,7 +987,8 @@
         {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.json#/$defs/Reference"
         }
-      ]
+      ],
+      "x-jsonld-id": "http://schema.org/termsOfService"
     },
     "schema:documentation": {
       "description": "a document that provides a machine-actionable description of a service instance. Examples include OpenAPI documents, OGC Capabilities documents. Software designed to utilise a particular service type will typically include functionality to parse such a description document and engage with the service endpoint. If such a document is available for the service instance providing the resource distribution, it should be included in the distribution metadata.",
@@ -948,14 +999,16 @@
         {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.json#/$defs/Reference"
         }
-      ]
+      ],
+      "x-jsonld-id": "http://schema.org/documentation"
     },
     "schema:potentialAction": {
       "type": "array",
       "description": "actions that can be invoked via the API",
       "items": {
         "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.json#/$defs/Action"
-      }
+      },
+      "x-jsonld-id": "http://schema.org/potentialAction"
     }
   },
   "required": [

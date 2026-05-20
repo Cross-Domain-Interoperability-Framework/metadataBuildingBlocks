@@ -201,6 +201,7 @@ $defs:
         - type: array
           items:
             $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#prefLabel
       skos:altLabel:
         description: Alternative lexical labels.
         anyOf:
@@ -210,11 +211,13 @@ $defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#altLabel
       skos:notation:
         description: Classification code for this collection.
         type: array
         items:
           type: string
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#notation
       skos:definition:
         description: Formal explanation of the purpose of this collection.
         anyOf:
@@ -224,6 +227,7 @@ $defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#definition
       skos:note:
         description: General note about this collection.
         anyOf:
@@ -233,6 +237,7 @@ $defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#note
       skos:member:
         description: Members of this collection (concepts or nested collections, inline
           or by @id reference).
@@ -248,6 +253,7 @@ $defs:
             - '@id'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
           - $ref: '#/$defs/Collection'
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#member
     required:
     - '@type'
     - skos:prefLabel
@@ -295,6 +301,7 @@ $defs:
         - type: array
           items:
             $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#prefLabel
       skos:altLabel:
         description: Alternative lexical labels.
         anyOf:
@@ -304,6 +311,7 @@ $defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#altLabel
       skos:notation:
         description: Classification code for this ordered collection.
         anyOf:
@@ -311,6 +319,7 @@ $defs:
         - type: array
           items:
             type: string
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#notation
       skos:memberList:
         description: Ordered list of members using JSON-LD @list construct.
         type: object
@@ -327,6 +336,7 @@ $defs:
                 required:
                 - '@id'
               - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#memberList
     required:
     - '@type'
     - skos:prefLabel

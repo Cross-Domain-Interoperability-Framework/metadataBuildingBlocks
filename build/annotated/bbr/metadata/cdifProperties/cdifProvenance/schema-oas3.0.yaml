@@ -36,20 +36,26 @@ x-defs:
                 sub-key
               properties:
                 schema:instrument:
-                  $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Instrument
+                  x-jsonld-id: http://schema.org/instrument
+                  allOf:
+                  - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Instrument
               required:
               - schema:instrument
+          x-jsonld-id: http://www.w3.org/ns/prov#used
         schema:name:
           type: string
           description: Human-readable name for the activity
+          x-jsonld-id: http://schema.org/name
         schema:description:
           type: string
           description: Text description of what this activity did
+          x-jsonld-id: http://schema.org/description
         schema:identifier:
           description: Formal identifier for this activity
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/Identifier
           - type: string
+          x-jsonld-id: http://schema.org/identifier
         schema:agent:
           description: Primary responsible agent for this activity (maps to PROV wasAssociatedWith)
           anyOf:
@@ -63,6 +69,7 @@ x-defs:
                 description: reference to an agent defined elsewhere
             required:
             - '@id'
+          x-jsonld-id: http://schema.org/agent
         schema:participant:
           description: Other participants in this activity
           type: array
@@ -78,6 +85,7 @@ x-defs:
                   description: reference to a participant defined elsewhere
               required:
               - '@id'
+          x-jsonld-id: http://schema.org/participant
         schema:object:
           description: Input entity (or entities) for this activity. Per schema.org,
             the range of schema:object is schema:Thing. Accepts four shapes (1) a
@@ -110,6 +118,7 @@ x-defs:
               anyOf:
               - type: string
               - type: object
+          x-jsonld-id: http://schema.org/object
         schema:result:
           description: 'Output entity (or entities) produced by this activity. Per
             schema.org, the range is schema:Thing. Accepts: (1) a string URI reference
@@ -143,6 +152,7 @@ x-defs:
               anyOf:
               - type: string
               - type: object
+          x-jsonld-id: http://schema.org/result
         schema:actionStatus:
           type: string
           description: Status of this activity
@@ -151,12 +161,15 @@ x-defs:
           - schema:ActiveActionStatus
           - schema:PotentialActionStatus
           - schema:FailedActionStatus
+          x-jsonld-id: http://schema.org/actionStatus
         schema:startTime:
           type: string
           description: ISO8601 date-time when the activity started (maps to PROV startedAtTime)
+          x-jsonld-id: http://schema.org/startTime
         schema:endTime:
           type: string
           description: ISO8601 date-time when the activity ended (maps to PROV endedAtTime)
+          x-jsonld-id: http://schema.org/endTime
         schema:location:
           description: Where the activity occurred
           anyOf:
@@ -167,6 +180,7 @@ x-defs:
               '@id':
                 type: string
                 description: reference to a place defined elsewhere
+          x-jsonld-id: http://schema.org/location
         schema:actionProcess:
           description: Methodology or protocol for this activity
           anyOf:
@@ -177,14 +191,17 @@ x-defs:
               '@id':
                 type: string
                 description: reference to a methodology defined elsewhere
+          x-jsonld-id: http://schema.org/actionProcess
         schema:error:
           type: string
           description: Error description for failed activities
+          x-jsonld-id: http://schema.org/error
         schema:additionalProperty:
           description: Domain-specific extension properties
           type: array
           items:
             $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/AdditionalProperty
+          x-jsonld-id: http://schema.org/additionalProperty
     $defs:
       Person:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
@@ -218,18 +235,22 @@ x-defs:
           schema:name:
             type: string
             description: Name of the methodology or protocol
+            x-jsonld-id: http://schema.org/name
           schema:description:
             type: string
             description: Description of the methodology
+            x-jsonld-id: http://schema.org/description
           schema:url:
             type: string
             format: uri
             description: URL to a published methodology or protocol document
+            x-jsonld-id: http://schema.org/url
           schema:step:
             type: array
             description: Ordered steps in this methodology
             items:
               $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifProvActivity/$defs/HowToStep
+            x-jsonld-id: http://schema.org/step
         required:
         - '@type'
         anyOf:
@@ -252,16 +273,20 @@ x-defs:
           schema:name:
             type: string
             description: Name of this step
+            x-jsonld-id: http://schema.org/name
           schema:description:
             type: string
             description: Description of what this step involves
+            x-jsonld-id: http://schema.org/description
           schema:url:
             type: string
             format: uri
             description: URL to documentation for this step
+            x-jsonld-id: http://schema.org/url
           schema:position:
             type: integer
             description: Ordinal position of this step
+            x-jsonld-id: http://schema.org/position
         required:
         - '@type'
         - schema:name
@@ -294,6 +319,7 @@ x-defs:
                 type: string
                 description: a resolvable reference to a representation of the software
                   or instrument used
+        x-jsonld-id: http://www.w3.org/ns/prov#used
     x-jsonld-prefixes:
       schema: http://schema.org/
       prov: http://www.w3.org/ns/prov#
@@ -317,18 +343,23 @@ x-defs:
         type: string
         description: string label for person that is meaningful for human users, should
           format consistently. Recommend 'Family Name, Given name' format.
+        x-jsonld-id: http://schema.org/name
       schema:description:
         type: string
+        x-jsonld-id: http://schema.org/description
       schema:identifier:
         description: identifier for person, recommend ORCID
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
         - type: string
+        x-jsonld-id: http://schema.org/identifier
       schema:alternateName:
         type: string
         description: other labels by which the person might be known
+        x-jsonld-id: http://schema.org/alternateName
       schema:affiliation:
         description: if affiliation is present, value must be a schema:Organization.
+        x-jsonld-id: http://schema.org/affiliation
         allOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
       schema:contactPoint:
@@ -347,8 +378,10 @@ x-defs:
             minItems: 1
           schema:email:
             type: string
+            x-jsonld-id: http://schema.org/email
         required:
         - schema:email
+        x-jsonld-id: http://schema.org/contactPoint
       schema:sameAs:
         type: array
         description: other identifiers for the person
@@ -359,6 +392,7 @@ x-defs:
             properties:
               '@id':
                 type: string
+        x-jsonld-id: http://schema.org/sameAs
     allOf:
     - required:
       - '@type'
@@ -403,19 +437,24 @@ x-defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
           - type: string
+        x-jsonld-id: http://schema.org/additionalType
       schema:name:
         type: string
         description: string label for organization that is meaningful for human users
+        x-jsonld-id: http://schema.org/name
       schema:alternateName:
         type: string
         description: other labels by which the organization might be known
+        x-jsonld-id: http://schema.org/alternateName
       schema:description:
         type: string
+        x-jsonld-id: http://schema.org/description
       schema:identifier:
         description: identifier for organization
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
         - type: string
+        x-jsonld-id: http://schema.org/identifier
       schema:sameAs:
         type: array
         description: other identifiers for the organization
@@ -426,6 +465,7 @@ x-defs:
             properties:
               '@id':
                 type: string
+        x-jsonld-id: http://schema.org/sameAs
     allOf:
     - required:
       - '@type'
@@ -459,6 +499,7 @@ x-defs:
         anyOf:
         - type: string
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+        x-jsonld-id: http://schema.org/roleName
       schema:contributor:
         anyOf:
         - type: object
@@ -470,6 +511,7 @@ x-defs:
           - '@id'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.person
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization
+        x-jsonld-id: http://schema.org/contributor
     required:
     - '@type'
     - schema:roleName
@@ -510,15 +552,18 @@ x-defs:
         description: In this context for the schema:PropertyValue, this field is an
           identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
           for interoperability
+        x-jsonld-id: http://schema.org/propertyID
       schema:value:
         type: string
         description: the identifier string. E.g. 10.5066/F7VX0DMQ
+        x-jsonld-id: http://schema.org/value
       schema:url:
         type: string
         format: uri
         description: 'web-resolveable string for the identifier; host name part is
           location of a resolver that will return some representation for the given
           identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ '
+        x-jsonld-id: http://schema.org/url
     allOf:
     - required:
       - '@type'
@@ -575,19 +620,23 @@ x-defs:
         items:
           type: string
         minItems: 1
+        x-jsonld-id: http://schema.org/additionalType
       schema:name:
         type: string
         minLength: 3
         description: Human-readable name for this instrument.
+        x-jsonld-id: http://schema.org/name
       schema:description:
         type: string
         description: Text description of this instrument, its purpose, and capabilities.
+        x-jsonld-id: http://schema.org/description
       schema:alternateName:
         description: Alternate name(s), e.g. specific make/model designation, common
           abbreviation.
         type: array
         items:
           type: string
+        x-jsonld-id: http://schema.org/alternateName
       schema:identifier:
         description: Formal identifier(s) for this instrument. Use PropertyValue for
           structured identifiers (e.g. PIDINST, serial number, inventory number).
@@ -596,12 +645,15 @@ x-defs:
           anyOf:
           - type: string
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
+        x-jsonld-id: http://schema.org/identifier
       schema:url:
         type: string
         format: uri
         description: Landing page URL for this instrument.
+        x-jsonld-id: http://schema.org/url
       schema:manufacturer:
         description: Organization that manufactured this instrument.
+        x-jsonld-id: http://schema.org/manufacturer
         allOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Organization
       schema:model:
@@ -619,20 +671,25 @@ x-defs:
           schema:name:
             type: string
             description: Model name or number.
+            x-jsonld-id: http://schema.org/name
           schema:identifier:
             description: Model identifier.
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
+            x-jsonld-id: http://schema.org/identifier
         required:
         - schema:name
+        x-jsonld-id: http://schema.org/model
       schema:category:
         description: Instrument type classification(s) from a controlled vocabulary.
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/DefinedTerm
+        x-jsonld-id: http://schema.org/category
       schema:owner:
         description: Organization that owns this instrument.
+        x-jsonld-id: http://schema.org/owner
         allOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Organization
       schema:contributor:
@@ -642,19 +699,23 @@ x-defs:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/AgentInRole
+        x-jsonld-id: http://schema.org/contributor
       schema:additionalProperty:
         type: array
         description: Instrument-specific properties (measured variables, detection
           limits, calibration information, operating parameters, etc.).
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/AdditionalProperty
+        x-jsonld-id: http://schema.org/additionalProperty
       schema:validFrom:
         type: string
         description: Date the instrument was commissioned (ISO 8601).
+        x-jsonld-id: http://schema.org/validFrom
       schema:validThrough:
         type: string
         description: Date the instrument was decommissioned (ISO 8601). Absent if
           still operational.
+        x-jsonld-id: http://schema.org/validThrough
       schema:hasPart:
         type: array
         description: Sub-components of this instrument system. Each item is either
@@ -669,12 +730,14 @@ x-defs:
                 description: Reference to a sub-component defined elsewhere.
             required:
             - '@id'
+        x-jsonld-id: http://schema.org/hasPart
       schema:relatedLink:
         type: array
         description: Links to related resources (manuals, datasheets, calibration
           records, related instruments).
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Reference
+        x-jsonld-id: http://schema.org/relatedLink
       schema:subjectOf:
         description: Catalog record metadata-about-metadata for this instrument description.
         type: object
@@ -688,12 +751,14 @@ x-defs:
           schema:dateModified:
             type: string
             description: Date this metadata record was last modified (ISO 8601).
+            x-jsonld-id: http://schema.org/dateModified
           schema:about:
             type: object
             properties:
               '@id':
                 type: string
                 description: Reference back to the instrument @id.
+            x-jsonld-id: http://schema.org/about
           dcterms:conformsTo:
             description: Schema or profile this metadata record conforms to.
             type: array
@@ -704,6 +769,7 @@ x-defs:
                 properties:
                   '@id':
                     type: string
+        x-jsonld-id: http://schema.org/subjectOf
     required:
     - '@type'
     - schema:name
@@ -740,27 +806,35 @@ x-defs:
           schema:name:
             type: string
             minLength: 3
+            x-jsonld-id: http://schema.org/name
           schema:description:
             type: string
+            x-jsonld-id: http://schema.org/description
           schema:alternateName:
             type: array
             items:
               type: string
+            x-jsonld-id: http://schema.org/alternateName
           schema:identifier:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
+            x-jsonld-id: http://schema.org/identifier
           schema:additionalType:
             description: Component type classification.
             type: array
             items:
               type: string
+            x-jsonld-id: http://schema.org/additionalType
           schema:additionalProperty:
             type: array
             items:
               $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/AdditionalProperty
+            x-jsonld-id: http://schema.org/additionalProperty
           schema:manufacturer:
-            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Organization
+            x-jsonld-id: http://schema.org/manufacturer
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Organization
           schema:model:
             type: object
             properties:
@@ -774,10 +848,13 @@ x-defs:
                 minItems: 1
               schema:name:
                 type: string
+                x-jsonld-id: http://schema.org/name
               schema:identifier:
                 anyOf:
                 - type: string
                 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.instrument/$defs/Identifier
+                x-jsonld-id: http://schema.org/identifier
+            x-jsonld-id: http://schema.org/model
         required:
         - schema:name
     x-jsonld-prefixes:
@@ -807,17 +884,20 @@ x-defs:
           anyOf:
           - type: string
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/DefinedTerm
+        x-jsonld-id: http://schema.org/additionalType
       schema:name:
         description: A place name for the location, either as a string or a DefinedTerm
           from a gazetteer.
         anyOf:
         - type: string
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/DefinedTerm
+        x-jsonld-id: http://schema.org/name
       schema:identifier:
         description: Formal identifier for this place (e.g. ROR identifier for a facility).
         anyOf:
         - type: string
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/Identifier
+        x-jsonld-id: http://schema.org/identifier
       schema:alternateName:
         description: Alternate or abbreviated name(s) for this place.
         type: array
@@ -825,6 +905,7 @@ x-defs:
           anyOf:
           - type: string
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.spatialExtent/$defs/DefinedTerm
+        x-jsonld-id: http://schema.org/alternateName
       schema:geo:
         description: Either a bounding box or a point location.
         anyOf:
@@ -848,10 +929,12 @@ x-defs:
               type: number
               minimum: -90
               maximum: 90
+              x-jsonld-id: http://schema.org/latitude
             schema:longitude:
               type: number
               minimum: -180
               maximum: 180
+              x-jsonld-id: http://schema.org/longitude
           required:
           - '@type'
           - schema:latitude
@@ -880,6 +963,7 @@ x-defs:
                 be used to separate the latitude and longitude values. The two corner
                 coordinate points are separated by a space. 'East longitude' means
                 positive longitude values are east of the prime (Greenwich) meridian.
+              x-jsonld-id: http://schema.org/box
           required:
           - '@type'
           - schema:box
@@ -904,9 +988,11 @@ x-defs:
                 also separated by a space. ''East longitude'' means positive longitude
                 values are east of the prime (Greenwich) meridian. e.g. ''39.33 120.77
                 40.44 123.96 41.00 121.34'' '
+              x-jsonld-id: http://schema.org/line
           required:
           - '@type'
           - schema:line
+        x-jsonld-id: http://schema.org/geo
       geosparql:hasGeometry:
         type: object
         description: Optional geographic extent using wkt geometry, see Ocean InfoHub
@@ -984,20 +1070,25 @@ x-defs:
         description: identifier or name for the property concept quantified by the
           values in this variable slot. Multiple values can specify the property at
           different levels of granularity.
+        x-jsonld-id: http://schema.org/propertyID
       schema:name:
         type: string
+        x-jsonld-id: http://schema.org/name
       schema:value:
         anyOf:
         - type: string
         - type: number
         - type: boolean
         - type: object
+        x-jsonld-id: http://schema.org/value
       schema:unitCode:
         anyOf:
         - type: string
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm
+        x-jsonld-id: http://schema.org/unitCode
       schema:unitText:
         type: string
+        x-jsonld-id: http://schema.org/unitText
     required:
     - schema:name
     - schema:value
@@ -1042,17 +1133,21 @@ x-defs:
       schema:name:
         type: string
         description: text label for the term that is useful to human user
+        x-jsonld-id: http://schema.org/name
       schema:identifier:
         anyOf:
         - type: string
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        x-jsonld-id: http://schema.org/identifier
       schema:inDefinedTermSet:
         type: string
         description: Name for the controlled vocabulary responsible for this keyword.
+        x-jsonld-id: http://schema.org/inDefinedTermSet
       schema:termCode:
         type: string
         description: A representative code for this keyword in the controlled vocabulary.
           Analogous to skos:Notation
+        x-jsonld-id: http://schema.org/termCode
     allOf:
     - required:
       - '@type'
@@ -1091,6 +1186,7 @@ x-defs:
           dcat:hadRole:
             description: Role of the related resource as a SKOS Concept (DCAT canonical
               role slot).
+            x-jsonld-id: http://www.w3.org/ns/dcat#hadRole
             allOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
           dcterms:relation:
@@ -1099,6 +1195,7 @@ x-defs:
             description: URI of the related resource (DCAT canonical pointer to what
               is being related to; distinct from schema:url which is the presentation
               URL inherited from labeledLink).
+            x-jsonld-id: http://purl.org/dc/terms/relation
     x-jsonld-prefixes:
       schema: http://schema.org/
       skos: http://www.w3.org/2004/02/skos/core#
@@ -1125,11 +1222,14 @@ x-defs:
         minItems: 1
       schema:name:
         type: string
+        x-jsonld-id: http://schema.org/name
       schema:description:
         type: string
+        x-jsonld-id: http://schema.org/description
       schema:url:
         type: string
         format: uri
+        x-jsonld-id: http://schema.org/url
     required:
     - '@type'
     - schema:url
@@ -1191,6 +1291,7 @@ x-defs:
         - type: array
           items:
             $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#prefLabel
       skos:altLabel:
         description: Alternative lexical labels (acronyms, abbreviations, variants).
         anyOf:
@@ -1201,6 +1302,7 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#altLabel
       skos:hiddenLabel:
         description: Labels accessible to free-text search but not displayed.
         anyOf:
@@ -1211,11 +1313,13 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#hiddenLabel
       skos:notation:
         description: Classification code for this concept within a scheme.
         type: array
         items:
           type: string
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#notation
       skos:definition:
         description: Formal explanation of the meaning of this concept.
         anyOf:
@@ -1226,6 +1330,7 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#definition
       skos:scopeNote:
         description: Note clarifying meaning and/or intended use.
         anyOf:
@@ -1236,6 +1341,7 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#scopeNote
       skos:note:
         description: General note about this concept.
         anyOf:
@@ -1246,6 +1352,7 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#note
       skos:historyNote:
         description: Note about past state or use.
         anyOf:
@@ -1256,6 +1363,7 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#historyNote
       skos:changeNote:
         description: Note documenting a change.
         anyOf:
@@ -1266,6 +1374,7 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#changeNote
       skos:editorialNote:
         description: Note for editors and maintainers.
         anyOf:
@@ -1276,6 +1385,7 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#editorialNote
       skos:example:
         description: Example of use of this concept.
         anyOf:
@@ -1286,6 +1396,7 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#example
       skos:inScheme:
         description: Concept scheme(s) this concept belongs to.
         anyOf:
@@ -1303,6 +1414,7 @@ x-defs:
                 type: string
             required:
             - '@id'
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#inScheme
       skos:topConceptOf:
         description: Concept scheme(s) for which this is a top concept.
         anyOf:
@@ -1320,6 +1432,7 @@ x-defs:
                 type: string
             required:
             - '@id'
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#topConceptOf
       skos:broader:
         description: Broader (parent) concepts in the hierarchy. Items are inline
           concept objects or @id references.
@@ -1328,6 +1441,7 @@ x-defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#broader
       skos:narrower:
         description: Narrower (child) concepts in the hierarchy. Items are inline
           concept objects or @id references.
@@ -1336,6 +1450,7 @@ x-defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#narrower
       skos:related:
         description: Associatively related concepts.
         type: array
@@ -1343,31 +1458,37 @@ x-defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#related
       skos:exactMatch:
         description: Concepts in other schemes with equivalent meaning.
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#exactMatch
       skos:closeMatch:
         description: Concepts in other schemes with similar meaning.
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#closeMatch
       skos:broadMatch:
         description: Broader concepts in other schemes.
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#broadMatch
       skos:narrowMatch:
         description: Narrower concepts in other schemes.
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#narrowMatch
       skos:relatedMatch:
         description: Related concepts in other schemes.
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvenance/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#relatedMatch
     required:
     - '@type'
     - skos:prefLabel

@@ -215,6 +215,7 @@ properties:
     - type: array
       items:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/IndividualName
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/individualName
   cdi:contactInformation:
     description: Contact details for this individual
     anyOf:
@@ -222,15 +223,19 @@ properties:
     - type: array
       items:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ContactInformation
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/contactInformation
   cdi:identifier:
     description: Formal identifier for this agent
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
   cdi:image:
     description: Image associated with this agent
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/PrivateImage
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/image
   cdi:purpose:
     description: Purpose or role of this agent
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/purpose
 required:
 - '@type'
 x-jsonld-prefixes:

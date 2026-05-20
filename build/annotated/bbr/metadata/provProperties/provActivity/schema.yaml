@@ -22,10 +22,12 @@ allOf:
       type: string
       description: Human-readable name for the activity (schema.org fallback -- PROV-O
         has no name property)
+      x-jsonld-id: http://schema.org/name
     schema:description:
       type: string
       description: Text description of what this activity did (schema.org fallback
         -- PROV-O has no description property)
+      x-jsonld-id: http://schema.org/description
     prov:generated:
       description: Entities produced by this activity (inverse of prov:wasGeneratedBy)
       type: array
@@ -37,6 +39,7 @@ allOf:
             '@id':
               type: string
               description: reference to an entity produced by this activity
+      x-jsonld-id: http://www.w3.org/ns/prov#generated
     prov:wasAssociatedWith:
       description: Agents responsible for this activity (PROV-O native -- maps to
         schema:agent in cdifProvActivity)
@@ -52,6 +55,7 @@ allOf:
             '@id':
               type: string
               description: reference to an agent defined elsewhere
+      x-jsonld-id: http://www.w3.org/ns/prov#wasAssociatedWith
     prov:wasInformedBy:
       description: Other activities that communicated information to this one (PROV-O
         activity-to-activity chain -- maps to schema:object in cdifProvActivity)
@@ -64,14 +68,17 @@ allOf:
               type: string
               description: reference to a prior activity
         - type: string
+      x-jsonld-id: http://www.w3.org/ns/prov#wasInformedBy
     prov:startedAtTime:
       type: string
       description: ISO8601 date-time when the activity started (PROV-O native -- maps
         to schema:startTime in cdifProvActivity)
+      x-jsonld-id: http://www.w3.org/ns/prov#startedAtTime
     prov:endedAtTime:
       type: string
       description: ISO8601 date-time when the activity ended (PROV-O native -- maps
         to schema:endTime in cdifProvActivity)
+      x-jsonld-id: http://www.w3.org/ns/prov#endedAtTime
     prov:atLocation:
       description: Location where the activity occurred (PROV-O expanded term -- maps
         to schema:location in cdifProvActivity)
@@ -83,6 +90,7 @@ allOf:
           '@id':
             type: string
             description: reference to a place defined elsewhere
+      x-jsonld-id: http://www.w3.org/ns/prov#atLocation
     prov:wasStartedBy:
       description: Entity that triggered the start of this activity (PROV-O expanded
         term)
@@ -93,6 +101,7 @@ allOf:
           '@id':
             type: string
             description: reference to a triggering entity
+      x-jsonld-id: http://www.w3.org/ns/prov#wasStartedBy
     prov:wasEndedBy:
       description: Entity that triggered the end of this activity (PROV-O expanded
         term)
@@ -103,6 +112,7 @@ allOf:
           '@id':
             type: string
             description: reference to an entity that ended this activity
+      x-jsonld-id: http://www.w3.org/ns/prov#wasEndedBy
     schema:actionStatus:
       type: string
       description: Status of this activity (schema.org fallback -- no PROV-O equivalent)
@@ -111,6 +121,7 @@ allOf:
       - schema:ActiveActionStatus
       - schema:PotentialActionStatus
       - schema:FailedActionStatus
+      x-jsonld-id: http://schema.org/actionStatus
     schema:actionProcess:
       description: Methodology or protocol for this activity (schema.org fallback
         -- PROV-O has prov:hadPlan only inside qualified Association)
@@ -122,10 +133,12 @@ allOf:
           '@id':
             type: string
             description: reference to a methodology defined elsewhere
+      x-jsonld-id: http://schema.org/actionProcess
     schema:error:
       type: string
       description: Error description for failed activities (schema.org fallback --
         no PROV-O equivalent)
+      x-jsonld-id: http://schema.org/error
 $defs:
   Person:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml
@@ -157,18 +170,22 @@ $defs:
       schema:name:
         type: string
         description: Name of the methodology or protocol
+        x-jsonld-id: http://schema.org/name
       schema:description:
         type: string
         description: Description of the methodology
+        x-jsonld-id: http://schema.org/description
       schema:url:
         type: string
         format: uri
         description: URL to a published methodology or protocol document
+        x-jsonld-id: http://schema.org/url
       schema:step:
         type: array
         description: Ordered steps in this methodology
         items:
           $ref: '#/$defs/HowToStep'
+        x-jsonld-id: http://schema.org/step
     required:
     - '@type'
     anyOf:
@@ -190,16 +207,20 @@ $defs:
       schema:name:
         type: string
         description: Name of this step
+        x-jsonld-id: http://schema.org/name
       schema:description:
         type: string
         description: Description of what this step involves
+        x-jsonld-id: http://schema.org/description
       schema:url:
         type: string
         format: uri
         description: URL to documentation for this step
+        x-jsonld-id: http://schema.org/url
       schema:position:
         type: integer
         description: Ordinal position of this step
+        x-jsonld-id: http://schema.org/position
     required:
     - '@type'
     - schema:name

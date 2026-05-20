@@ -20,6 +20,7 @@ allOf:
             properties:
               '@id':
                 const: https://w3id.org/cdif/xasDiscovery/1.0
+      x-jsonld-id: http://schema.org/subjectOf
     prov:wasGeneratedBy:
       type: array
       items:
@@ -165,10 +166,13 @@ allOf:
                             - '@type'
                             - schema:additionalType
                             - schema:additionalProperty
+                        x-jsonld-id: http://schema.org/hasPart
                     required:
                     - schema:hasPart
+                    x-jsonld-id: http://schema.org/instrument
             schema:object:
               $ref: '#/$defs/XasSample'
+              x-jsonld-id: http://schema.org/object
     schema:distribution:
       type: array
       items:
@@ -201,6 +205,7 @@ allOf:
         required:
         - '@type'
         - dcterms:conformsTo
+      x-jsonld-id: http://schema.org/distribution
     schema:measurementTechnique:
       type: array
       description: 'Require DefinedTerms for both: absorption edge (XDI dict) and
@@ -235,6 +240,7 @@ allOf:
           required:
           - schema:name
           - schema:inDefinedTermSet
+      x-jsonld-id: http://schema.org/measurementTechnique
     schema:keywords:
       type: array
       description: extends base CDIF keyword schema to require defined terms for the
@@ -252,12 +258,15 @@ allOf:
             minItems: 1
           schema:name:
             type: string
+            x-jsonld-id: http://schema.org/name
           schema:identifier:
             type: string
+            x-jsonld-id: http://schema.org/identifier
           schema:inDefinedTermSet:
             type: string
             description: need to include this to tag what the keyword is about; we're
               using the keywords as soft-typed properties
+            x-jsonld-id: http://schema.org/inDefinedTermSet
         required:
         - '@type'
         - schema:name
@@ -278,6 +287,7 @@ allOf:
               const: http://sweetontology.net/matrElement
           required:
           - schema:inDefinedTermSet
+      x-jsonld-id: http://schema.org/keywords
 $defs:
   CdifMandatory:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema.yaml

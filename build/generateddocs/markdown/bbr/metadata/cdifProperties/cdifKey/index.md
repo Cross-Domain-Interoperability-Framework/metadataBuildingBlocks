@@ -310,14 +310,17 @@ properties:
                 type: string
             required:
             - '@id'
+          x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/indexes
         cdi:value:
           type: integer
           description: Index value (position) of the variable in the ordered key.
+          x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/value
       required:
       - '@type'
       - cdi:indexes
       - cdi:value
     minItems: 1
+    x-jsonld-id: https://cdif.org/0.1/isComposedOf
 required:
 - '@type'
 - cdif:isComposedOf

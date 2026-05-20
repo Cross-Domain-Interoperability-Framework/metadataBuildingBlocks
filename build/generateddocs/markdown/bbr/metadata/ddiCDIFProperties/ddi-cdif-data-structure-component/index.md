@@ -238,6 +238,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-represented-variable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDefinedBy
     required:
     - '@type'
     - cdi:isDefinedBy
@@ -264,14 +265,17 @@ $defs:
         description: Human understandable name (liguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:isDefinedBy:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-represented-variable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDefinedBy
       cdi:semantic:
         type: array
         items:
@@ -279,6 +283,7 @@ $defs:
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic
     required:
     - '@type'
   AttributeComponent:
@@ -303,14 +308,17 @@ $defs:
           - $ref: '#/$defs/DataStructureComponent'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/qualifies
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:isDefinedBy:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-represented-variable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDefinedBy
       cdi:semantic:
         type: array
         items:
@@ -318,6 +326,7 @@ $defs:
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic
     required:
     - '@type'
   DimensionComponent:
@@ -345,6 +354,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-represented-variable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDefinedBy
     required:
     - '@type'
     - cdi:isDefinedBy
@@ -367,10 +377,12 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:isDefinedBy:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-represented-variable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDefinedBy
       cdi:semantic:
         type: array
         items:
@@ -378,6 +390,7 @@ $defs:
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic
     required:
     - '@type'
   VariableDescriptorComponent:
@@ -399,14 +412,17 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-presentational-variable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDefinedBy
       cdi:refersTo:
         anyOf:
         - $ref: '#/$defs/VariableValueComponent'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/refersTo
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:semantic:
         type: array
         items:
@@ -414,6 +430,7 @@ $defs:
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic
     required:
     - '@type'
   DataStructureComponent:
@@ -434,10 +451,12 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:isDefinedBy:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-represented-variable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDefinedBy
       cdi:semantic:
         type: array
         items:
@@ -445,6 +464,7 @@ $defs:
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic
     required:
     - '@type'
 x-jsonld-prefixes:

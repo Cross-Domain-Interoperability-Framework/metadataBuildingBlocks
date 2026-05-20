@@ -291,18 +291,18 @@ and three physical-mapping entries.
 
 [] a cdi:TabularTextDataSet,
         schema1:Dataset ;
-    ns1:hasPhysicalMapping [ ns1:format "#,##0.00" ;
+    ns1:hasPhysicalMapping [ ns1:formats_InstanceVariable ex:var-station-id ;
+            ns1:index 0 ;
+            ns1:physicalDataType "String" ;
+            cdi:isRequired true ;
+            cdi:length 16 ],
+        [ ns1:format "#,##0.00" ;
             ns1:formats_InstanceVariable ex:var-temperature ;
             ns1:index 2 ;
             ns1:physicalDataType "Numeric" ;
             cdi:decimalPositions 2 ;
             cdi:length 12 ;
             cdi:scale 1 ],
-        [ ns1:formats_InstanceVariable ex:var-station-id ;
-            ns1:index 0 ;
-            ns1:physicalDataType "String" ;
-            cdi:isRequired true ;
-            cdi:length 16 ],
         [ ns1:format "YYYY-MM-DD" ;
             ns1:formats_InstanceVariable ex:var-date ;
             ns1:index 1 ;
@@ -350,6 +350,7 @@ properties:
         const: cdi:TabularTextDataSet
   cdi:arrayBase:
     type: integer
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/arrayBase
   csvw:commentPrefix:
     type: string
     description: An atomic property that sets the comment prefix flag to the single
@@ -374,8 +375,10 @@ properties:
     description: Schema constraint is that one of {'isDelimited','isFixedWidth'} must
       be present with a True value; the other one may be present or omitted, but if
       present must have a false value.
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDelimited
   cdi:isFixedWidth:
     type: boolean
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isFixedWidth
   csvw:lineTerminators:
     type: string
     enum:
@@ -409,15 +412,18 @@ properties:
     type: string
     description: The character used to escape special characters in the data. From
       DDI-CDI PhysicalSegmentLayout.escapeCharacter.
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/escapeCharacter
   cdi:headerIsCaseSensitive:
     type: boolean
     default: false
     description: Whether column header names are case-sensitive. From DDI-CDI PhysicalSegmentLayout.headerIsCaseSensitive.
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/headerIsCaseSensitive
   cdi:treatConsecutiveDelimitersAsOne:
     type: boolean
     default: false
     description: Whether consecutive delimiters should be treated as a single delimiter.
       From DDI-CDI PhysicalSegmentLayout.treatConsecutiveDelimitersAsOne.
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/treatConsecutiveDelimitersAsOne
   csvw:tableDirection:
     type: string
     enum:
@@ -459,15 +465,19 @@ oneOf:
 - properties:
     cdi:isDelimited:
       const: true
+      x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDelimited
     cdi:isFixedWidth:
       const: false
+      x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isFixedWidth
   required:
   - cdi:isDelimited
 - properties:
     cdi:isDelimited:
       const: false
+      x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDelimited
     cdi:isFixedWidth:
       const: true
+      x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isFixedWidth
   required:
   - cdi:isFixedWidth
 required:

@@ -253,16 +253,19 @@ anyOf:
     schema:description:
       type: string
       description: free text description of the temporal interval
+      x-jsonld-id: http://schema.org/description
     time:intervalStartedBy:
       type: string
       format: uri
       description: 'identifier for a named time ordinal era that is older bound of
         time interval, e.g. ''isc:LowerDevonian'' '
+      x-jsonld-id: http://www.w3.org/2006/time#intervalStartedBy
     time:intervalFinishedBy:
       type: string
       format: uri
       description: 'identifier for a named time ordinal era that is younger bound
         of time interval, e.g. ''isc:LowerDevonian'' '
+      x-jsonld-id: http://www.w3.org/2006/time#intervalFinishedBy
   anyOf:
   - required:
     - time:intervalStartedBy
@@ -296,6 +299,7 @@ anyOf:
     schema:description:
       type: string
       description: free text description of the temporal interval
+      x-jsonld-id: http://schema.org/description
     time:hasBeginning:
       type: object
       properties:
@@ -308,6 +312,8 @@ anyOf:
           minItems: 1
         time:inTimePosition:
           $ref: '#/$defs/timePosition_type'
+          x-jsonld-id: http://www.w3.org/2006/time#inTimePosition
+      x-jsonld-id: http://www.w3.org/2006/time#hasBeginning
     time:hasEnd:
       type: object
       properties:
@@ -320,6 +326,8 @@ anyOf:
           minItems: 1
         time:inTimePosition:
           $ref: '#/$defs/timePosition_type'
+          x-jsonld-id: http://www.w3.org/2006/time#inTimePosition
+      x-jsonld-id: http://www.w3.org/2006/time#hasEnd
   anyOf:
   - required:
     - time:hasBeginning
@@ -345,8 +353,10 @@ $defs:
         description: identifier for a temporal reference system; default is million
           years before prsent as a decimal number
         default: http://www.opengis.net/def/crs/OGC/0/ChronometricGeologicTime
+        x-jsonld-id: http://www.w3.org/2006/time#hasTRS
       time:numericPosition:
         type: number
+        x-jsonld-id: http://www.w3.org/2006/time#numericPosition
     required:
     - '@type'
     - time:hasTRS

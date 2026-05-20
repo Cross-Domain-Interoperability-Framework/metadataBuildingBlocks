@@ -463,19 +463,24 @@ allOf:
           properties:
             schema:instrument:
               $ref: '#/$defs/Instrument'
+              x-jsonld-id: http://schema.org/instrument
           required:
           - schema:instrument
+      x-jsonld-id: http://www.w3.org/ns/prov#used
     schema:name:
       type: string
       description: Human-readable name for the activity
+      x-jsonld-id: http://schema.org/name
     schema:description:
       type: string
       description: Text description of what this activity did
+      x-jsonld-id: http://schema.org/description
     schema:identifier:
       description: Formal identifier for this activity
       anyOf:
       - $ref: '#/$defs/Identifier'
       - type: string
+      x-jsonld-id: http://schema.org/identifier
     schema:agent:
       description: Primary responsible agent for this activity (maps to PROV wasAssociatedWith)
       anyOf:
@@ -489,6 +494,7 @@ allOf:
             description: reference to an agent defined elsewhere
         required:
         - '@id'
+      x-jsonld-id: http://schema.org/agent
     schema:participant:
       description: Other participants in this activity
       type: array
@@ -504,6 +510,7 @@ allOf:
               description: reference to a participant defined elsewhere
           required:
           - '@id'
+      x-jsonld-id: http://schema.org/participant
     schema:object:
       description: Input entity (or entities) for this activity. Per schema.org, the
         range of schema:object is schema:Thing. Accepts four shapes (1) a string URI,
@@ -536,6 +543,7 @@ allOf:
           anyOf:
           - type: string
           - type: object
+      x-jsonld-id: http://schema.org/object
     schema:result:
       description: 'Output entity (or entities) produced by this activity. Per schema.org,
         the range is schema:Thing. Accepts: (1) a string URI reference (action chaining
@@ -568,6 +576,7 @@ allOf:
           anyOf:
           - type: string
           - type: object
+      x-jsonld-id: http://schema.org/result
     schema:actionStatus:
       type: string
       description: Status of this activity
@@ -576,12 +585,15 @@ allOf:
       - schema:ActiveActionStatus
       - schema:PotentialActionStatus
       - schema:FailedActionStatus
+      x-jsonld-id: http://schema.org/actionStatus
     schema:startTime:
       type: string
       description: ISO8601 date-time when the activity started (maps to PROV startedAtTime)
+      x-jsonld-id: http://schema.org/startTime
     schema:endTime:
       type: string
       description: ISO8601 date-time when the activity ended (maps to PROV endedAtTime)
+      x-jsonld-id: http://schema.org/endTime
     schema:location:
       description: Where the activity occurred
       anyOf:
@@ -592,6 +604,7 @@ allOf:
           '@id':
             type: string
             description: reference to a place defined elsewhere
+      x-jsonld-id: http://schema.org/location
     schema:actionProcess:
       description: Methodology or protocol for this activity
       anyOf:
@@ -602,14 +615,17 @@ allOf:
           '@id':
             type: string
             description: reference to a methodology defined elsewhere
+      x-jsonld-id: http://schema.org/actionProcess
     schema:error:
       type: string
       description: Error description for failed activities
+      x-jsonld-id: http://schema.org/error
     schema:additionalProperty:
       description: Domain-specific extension properties
       type: array
       items:
         $ref: '#/$defs/AdditionalProperty'
+      x-jsonld-id: http://schema.org/additionalProperty
 $defs:
   Person:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml
@@ -641,18 +657,22 @@ $defs:
       schema:name:
         type: string
         description: Name of the methodology or protocol
+        x-jsonld-id: http://schema.org/name
       schema:description:
         type: string
         description: Description of the methodology
+        x-jsonld-id: http://schema.org/description
       schema:url:
         type: string
         format: uri
         description: URL to a published methodology or protocol document
+        x-jsonld-id: http://schema.org/url
       schema:step:
         type: array
         description: Ordered steps in this methodology
         items:
           $ref: '#/$defs/HowToStep'
+        x-jsonld-id: http://schema.org/step
     required:
     - '@type'
     anyOf:
@@ -674,16 +694,20 @@ $defs:
       schema:name:
         type: string
         description: Name of this step
+        x-jsonld-id: http://schema.org/name
       schema:description:
         type: string
         description: Description of what this step involves
+        x-jsonld-id: http://schema.org/description
       schema:url:
         type: string
         format: uri
         description: URL to documentation for this step
+        x-jsonld-id: http://schema.org/url
       schema:position:
         type: integer
         description: Ordinal position of this step
+        x-jsonld-id: http://schema.org/position
     required:
     - '@type'
     - schema:name

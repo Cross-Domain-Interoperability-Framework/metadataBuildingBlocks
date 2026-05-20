@@ -444,19 +444,23 @@ properties:
     minItems: 1
   schema:name:
     type: string
+    x-jsonld-id: http://schema.org/name
   schema:description:
     type: string
     description: Description of this distribution, e.g. what format, access constraints,
       etc.
+    x-jsonld-id: http://schema.org/description
   schema:contentUrl:
     type: string
     format: uri
+    x-jsonld-id: http://schema.org/contentUrl
   schema:encodingFormat:
     type: array
     description: MIME type with extension; should indicate the serialization scheme
       in sufficient detail that machine can know how to parse.
     items:
       type: string
+    x-jsonld-id: http://schema.org/encodingFormat
   spdx:checksum:
     type: object
     description: A string value calculated from the content of the resource representation,
@@ -503,6 +507,7 @@ properties:
         - '@id'
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml
+    x-jsonld-id: http://schema.org/provider
 required:
 - schema:contentUrl
 - '@type'

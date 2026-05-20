@@ -35,6 +35,7 @@ properties:
   schema:name:
     type: string
     description: text label for the action
+    x-jsonld-id: http://schema.org/name
   schema:target:
     type: object
     description: specifies the request target location and request syntax. Documentation
@@ -51,6 +52,7 @@ properties:
         minItems: 1
       schema:description:
         type: string
+        x-jsonld-id: http://schema.org/description
       schema:urlTemplate:
         type: string
         description: 'a templated URL; parameters are enclosed in curly braces ({..});
@@ -61,6 +63,7 @@ properties:
           ; multiple parameters - {endpoint}{encoding}; endpoint URL path is a parameter,should
           only appear in potential actions for API specification descriptions, which
           are generic-not specific to a particular endpoint.'
+        x-jsonld-id: http://schema.org/urlTemplate
       schema:httpMethod:
         title: HTTP Method
         description: only applicable if protocol is http or a protocol that tunnels
@@ -79,6 +82,7 @@ properties:
           - HEAD
           - OPTIONS
           - PROPFIND
+        x-jsonld-id: http://schema.org/httpMethod
       schema:contentType:
         type: array
         description: The supported content type(s) for an EntryPoint response. a MIME
@@ -88,8 +92,10 @@ properties:
           result property for the Action.
         items:
           type: string
+        x-jsonld-id: http://schema.org/contentType
     required:
     - schema:urlTemplate
+    x-jsonld-id: http://schema.org/target
   schema:result:
     type: object
     description: specifies the serialization scheme (encoding format, information
@@ -109,8 +115,11 @@ properties:
         type: array
         items:
           type: string
+        x-jsonld-id: http://schema.org/encodingFormat
       schema:description:
         type: string
+        x-jsonld-id: http://schema.org/description
+    x-jsonld-id: http://schema.org/result
   schema:object:
     type: object
     description: The entity upon which the action is carried out, whose state is kept
@@ -127,6 +136,8 @@ properties:
         minItems: 1
       schema:description:
         type: string
+        x-jsonld-id: http://schema.org/description
+    x-jsonld-id: http://schema.org/object
   schema:query-input:
     type: array
     items:
@@ -145,18 +156,23 @@ properties:
           minItems: 1
         schema:valueName:
           type: string
+          x-jsonld-id: http://schema.org/valueName
         schema:description:
           type: string
+          x-jsonld-id: http://schema.org/description
         schema:valueRequired:
           type: boolean
           default: true
+          x-jsonld-id: http://schema.org/valueRequired
         schema:valuePattern:
           type: string
+          x-jsonld-id: http://schema.org/valuePattern
       required:
       - schema:valueName
       - schema:description
     description: set of explanations of the parameters in the URL template for the
       target.
+    x-jsonld-id: http://schema.org/query-input
 required:
 - schema:name
 - schema:target

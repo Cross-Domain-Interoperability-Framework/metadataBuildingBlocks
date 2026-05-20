@@ -987,14 +987,14 @@ ex:component-gas-chromatograph a schema1:Product,
             schema1:propertyID "carrierGas" ;
             schema1:value "Helium" ],
         [ a schema1:PropertyValue ;
-            schema1:name "Column" ;
-            schema1:propertyID "columnType" ;
-            schema1:value "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard" ],
-        [ a schema1:PropertyValue ;
             schema1:name "Carrier gas flow rate" ;
             schema1:propertyID "carrierGasFlow" ;
             schema1:unitText "mL/min" ;
-            schema1:value 1.5e+00 ] ;
+            schema1:value 1.5e+00 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Column" ;
+            schema1:propertyID "columnType" ;
+            schema1:value "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard" ] ;
     schema1:additionalType "wd:Q848143" ;
     schema1:description "GC with Rtx-5ms (5% diphenyl / 95% dimethyl polysiloxane) fused silica capillary column, 30 m × 0.250 mm × 0.50 µm, with 5 m × 0.250 mm guard column. Helium carrier gas at 1.500 mL/min." ;
     schema1:manufacturer [ a schema1:Organization ;
@@ -1006,14 +1006,14 @@ ex:component-gas-chromatograph a schema1:Product,
 ex:component-mass-spectrometer a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Detector gain" ;
-            schema1:propertyID "detectorGain" ;
-            schema1:value 100000 ],
-        [ a schema1:PropertyValue ;
             schema1:name "Ion source temperature" ;
             schema1:propertyID "ionSourceTemperature" ;
             schema1:unitText "°C" ;
             schema1:value 300 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Detector gain" ;
+            schema1:propertyID "detectorGain" ;
+            schema1:value 100000 ],
         [ a schema1:PropertyValue ;
             schema1:name "Full scan time" ;
             schema1:propertyID "scanTime" ;
@@ -1033,15 +1033,15 @@ ex:component-mass-spectrometer a schema1:Product,
 ex:component-pyrolysis-oven a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Maximum temperature" ;
-            schema1:propertyID "maxTemperature" ;
-            schema1:unitText "°C" ;
-            schema1:value 1300 ],
-        [ a schema1:PropertyValue ;
             schema1:name "Maximum heating rate" ;
             schema1:propertyID "heatingRate" ;
             schema1:unitText "°C/ms" ;
-            schema1:value 10 ] ;
+            schema1:value 10 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Maximum temperature" ;
+            schema1:propertyID "maxTemperature" ;
+            schema1:unitText "°C" ;
+            schema1:value 1300 ] ;
     schema1:additionalType "wd:Q3099911" ;
     schema1:description "Flash pyrolysis front-end interface coupled to GC-MS. Flash heats at 10°C/ms to temperatures up to 1300°C. Samples loaded in quartz tubes." ;
     schema1:manufacturer [ a schema1:Organization ;
@@ -1053,22 +1053,22 @@ ex:component-pyrolysis-oven a schema1:Product,
 ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Measured variables" ;
-            schema1:propertyID "MeasuredVariable" ;
-            schema1:value "mass-to-charge ratio (m/z); ion abundance; retention time" ],
+            schema1:name "Ionization mode" ;
+            schema1:propertyID "ionizationMode" ;
+            schema1:value "Electron Ionization (EI), positive polarity" ],
         [ a schema1:PropertyValue ;
             schema1:name "Full scan detection limit" ;
             schema1:propertyID "detectionLimit" ;
             schema1:unitText "ng" ;
             schema1:value "sub-nanogram" ],
         [ a schema1:PropertyValue ;
+            schema1:name "Measured variables" ;
+            schema1:propertyID "MeasuredVariable" ;
+            schema1:value "mass-to-charge ratio (m/z); ion abundance; retention time" ],
+        [ a schema1:PropertyValue ;
             schema1:name "Full scan m/z range" ;
             schema1:propertyID "scanRange" ;
             schema1:value "50-500" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Ionization mode" ;
-            schema1:propertyID "ionizationMode" ;
-            schema1:value "Electron Ionization (EI), positive polarity" ],
         [ a schema1:PropertyValue ;
             schema1:name "MRM target compounds" ;
             schema1:propertyID "mrmCapability" ;
@@ -1078,17 +1078,17 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
     schema1:alternateName "GSFC Astrobiology Lab Pyrolysis GC-MS System",
         "Py-GC-MS/MS" ;
     schema1:category [ a schema1:DefinedTerm ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
-            schema1:name "Pyrolysis Gas Chromatography Mass Spectrometry" ;
-            schema1:termCode "Py-GC-MS" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "https://vocab.nerc.ac.uk/collection/L05/current/" ;
                     schema1:url "https://vocab.nerc.ac.uk/collection/L05/current/LAB02/" ;
                     schema1:value "LAB02" ] ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
             schema1:name "Gas Chromatography Mass Spectrometry" ;
-            schema1:termCode "GCMS" ] ;
+            schema1:termCode "GCMS" ],
+        [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+            schema1:name "Pyrolysis Gas Chromatography Mass Spectrometry" ;
+            schema1:termCode "Py-GC-MS" ] ;
     schema1:contributor [ a schema1:Role ;
             schema1:contributor <https://orcid.org/0000-0002-4805-7062> ;
             schema1:roleName [ a schema1:DefinedTerm ;
@@ -1127,17 +1127,17 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
     schema1:owner <https://ror.org/0171mag52> ;
     schema1:relatedLink [ a schema1:CreativeWork,
                 dcat:Relationship ;
-            schema1:name "Dworkin et al. (2024) — Organic compounds in asteroid Bennu samples" ;
-            schema1:url "https://doi.org/10.1038/s41586-024-08335-1" ],
-        [ a schema1:CreativeWork,
-                dcat:Relationship ;
             schema1:description "User manual for the TSQ 9000 triple quadrupole GC-MS/MS system" ;
             schema1:name "TSQ 9000 User Guide" ;
             schema1:url "https://www.thermofisher.com/document-connect/document-connect.html?url=https://assets.thermofisher.com/TFS-Assets/CMD/manuals/man-80000-97071-tsq-9000-user-guide.pdf" ],
         [ a schema1:CreativeWork,
                 dcat:Relationship ;
             schema1:name "2023 annual calibration report" ;
-            schema1:url "https://example.org/calibration/pygcms-gsfc-2023.pdf" ] ;
+            schema1:url "https://example.org/calibration/pygcms-gsfc-2023.pdf" ],
+        [ a schema1:CreativeWork,
+                dcat:Relationship ;
+            schema1:name "Dworkin et al. (2024) — Organic compounds in asteroid Bennu samples" ;
+            schema1:url "https://doi.org/10.1038/s41586-024-08335-1" ] ;
     schema1:subjectOf ex:metadata-instrument-pygcms-001 ;
     schema1:url "https://science.gsfc.nasa.gov/sed/bio/jason.p.dworkin" ;
     schema1:validFrom "2023-01-15" .
@@ -1679,12 +1679,12 @@ ex:instrument-icpms-lab42 a schema1:Product,
     schema1:hasPart ex:component-autosampler-lab42,
         ex:component-chiller-lab42 ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "inventoryNumber" ;
-            schema1:value "GEOL-LAB42-ICPMS-003" ],
-        [ a schema1:PropertyValue ;
             schema1:propertyID "https://doi.org" ;
             schema1:url "https://doi.org/10.xxxx/instrument.icpms.lab42" ;
-            schema1:value "10.xxxx/instrument.icpms.lab42" ] ;
+            schema1:value "10.xxxx/instrument.icpms.lab42" ],
+        [ a schema1:PropertyValue ;
+            schema1:propertyID "inventoryNumber" ;
+            schema1:value "GEOL-LAB42-ICPMS-003" ] ;
     schema1:manufacturer [ a schema1:Organization ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "https://ror.org" ;
@@ -1700,13 +1700,13 @@ ex:instrument-icpms-lab42 a schema1:Product,
     schema1:owner <https://ror.org/03m2x1q45> ;
     schema1:relatedLink [ a schema1:CreativeWork,
                 dcat:Relationship ;
-            schema1:description "Complete user and maintenance manual for the Agilent 7900 quadrupole ICP-MS system" ;
-            schema1:name "Agilent 7900 ICP-MS User Manual" ;
-            schema1:url "https://www.agilent.com/cs/library/usermanuals/public/7900-icpms-manual.pdf" ],
+            schema1:name "2025 Annual Calibration Report" ;
+            schema1:url "https://example.org/calibration/icpms-lab42-2025.pdf" ],
         [ a schema1:CreativeWork,
                 dcat:Relationship ;
-            schema1:name "2025 Annual Calibration Report" ;
-            schema1:url "https://example.org/calibration/icpms-lab42-2025.pdf" ] ;
+            schema1:description "Complete user and maintenance manual for the Agilent 7900 quadrupole ICP-MS system" ;
+            schema1:name "Agilent 7900 ICP-MS User Manual" ;
+            schema1:url "https://www.agilent.com/cs/library/usermanuals/public/7900-icpms-manual.pdf" ] ;
     schema1:subjectOf ex:metadata-instrument-icpms-lab42 ;
     schema1:url "https://example.org/facilities/lab42/icpms" ;
     schema1:validFrom "2019-06-01" ;
@@ -1779,18 +1779,22 @@ properties:
     items:
       type: string
     minItems: 1
+    x-jsonld-id: http://schema.org/additionalType
   schema:name:
     type: string
     minLength: 3
     description: Human-readable name for this instrument.
+    x-jsonld-id: http://schema.org/name
   schema:description:
     type: string
     description: Text description of this instrument, its purpose, and capabilities.
+    x-jsonld-id: http://schema.org/description
   schema:alternateName:
     description: Alternate name(s), e.g. specific make/model designation, common abbreviation.
     type: array
     items:
       type: string
+    x-jsonld-id: http://schema.org/alternateName
   schema:identifier:
     description: Formal identifier(s) for this instrument. Use PropertyValue for structured
       identifiers (e.g. PIDINST, serial number, inventory number).
@@ -1799,13 +1803,16 @@ properties:
       anyOf:
       - type: string
       - $ref: '#/$defs/Identifier'
+    x-jsonld-id: http://schema.org/identifier
   schema:url:
     type: string
     format: uri
     description: Landing page URL for this instrument.
+    x-jsonld-id: http://schema.org/url
   schema:manufacturer:
     description: Organization that manufactured this instrument.
     $ref: '#/$defs/Organization'
+    x-jsonld-id: http://schema.org/manufacturer
   schema:model:
     type: object
     description: Product model information for this instrument.
@@ -1820,40 +1827,49 @@ properties:
       schema:name:
         type: string
         description: Model name or number.
+        x-jsonld-id: http://schema.org/name
       schema:identifier:
         description: Model identifier.
         anyOf:
         - type: string
         - $ref: '#/$defs/Identifier'
+        x-jsonld-id: http://schema.org/identifier
     required:
     - schema:name
+    x-jsonld-id: http://schema.org/model
   schema:category:
     description: Instrument type classification(s) from a controlled vocabulary.
     type: array
     items:
       $ref: '#/$defs/DefinedTerm'
+    x-jsonld-id: http://schema.org/category
   schema:owner:
     description: Organization that owns this instrument.
     $ref: '#/$defs/Organization'
+    x-jsonld-id: http://schema.org/owner
   schema:contributor:
     description: Agents associated with this instrument in specific roles (e.g. operator,
       custodian, principal investigator). Use schema:owner for the owning organization.
     type: array
     items:
       $ref: '#/$defs/AgentInRole'
+    x-jsonld-id: http://schema.org/contributor
   schema:additionalProperty:
     type: array
     description: Instrument-specific properties (measured variables, detection limits,
       calibration information, operating parameters, etc.).
     items:
       $ref: '#/$defs/AdditionalProperty'
+    x-jsonld-id: http://schema.org/additionalProperty
   schema:validFrom:
     type: string
     description: Date the instrument was commissioned (ISO 8601).
+    x-jsonld-id: http://schema.org/validFrom
   schema:validThrough:
     type: string
     description: Date the instrument was decommissioned (ISO 8601). Absent if still
       operational.
+    x-jsonld-id: http://schema.org/validThrough
   schema:hasPart:
     type: array
     description: Sub-components of this instrument system. Each item is either an
@@ -1868,12 +1884,14 @@ properties:
             description: Reference to a sub-component defined elsewhere.
         required:
         - '@id'
+    x-jsonld-id: http://schema.org/hasPart
   schema:relatedLink:
     type: array
     description: Links to related resources (manuals, datasheets, calibration records,
       related instruments).
     items:
       $ref: '#/$defs/Reference'
+    x-jsonld-id: http://schema.org/relatedLink
   schema:subjectOf:
     description: Catalog record metadata-about-metadata for this instrument description.
     type: object
@@ -1887,12 +1905,14 @@ properties:
       schema:dateModified:
         type: string
         description: Date this metadata record was last modified (ISO 8601).
+        x-jsonld-id: http://schema.org/dateModified
       schema:about:
         type: object
         properties:
           '@id':
             type: string
             description: Reference back to the instrument @id.
+        x-jsonld-id: http://schema.org/about
       dcterms:conformsTo:
         description: Schema or profile this metadata record conforms to.
         type: array
@@ -1903,6 +1923,7 @@ properties:
             properties:
               '@id':
                 type: string
+    x-jsonld-id: http://schema.org/subjectOf
 required:
 - '@type'
 - schema:name
@@ -1938,27 +1959,34 @@ $defs:
       schema:name:
         type: string
         minLength: 3
+        x-jsonld-id: http://schema.org/name
       schema:description:
         type: string
+        x-jsonld-id: http://schema.org/description
       schema:alternateName:
         type: array
         items:
           type: string
+        x-jsonld-id: http://schema.org/alternateName
       schema:identifier:
         anyOf:
         - type: string
         - $ref: '#/$defs/Identifier'
+        x-jsonld-id: http://schema.org/identifier
       schema:additionalType:
         description: Component type classification.
         type: array
         items:
           type: string
+        x-jsonld-id: http://schema.org/additionalType
       schema:additionalProperty:
         type: array
         items:
           $ref: '#/$defs/AdditionalProperty'
+        x-jsonld-id: http://schema.org/additionalProperty
       schema:manufacturer:
         $ref: '#/$defs/Organization'
+        x-jsonld-id: http://schema.org/manufacturer
       schema:model:
         type: object
         properties:
@@ -1971,10 +1999,13 @@ $defs:
             minItems: 1
           schema:name:
             type: string
+            x-jsonld-id: http://schema.org/name
           schema:identifier:
             anyOf:
             - type: string
             - $ref: '#/$defs/Identifier'
+            x-jsonld-id: http://schema.org/identifier
+        x-jsonld-id: http://schema.org/model
     required:
     - schema:name
 x-jsonld-prefixes:

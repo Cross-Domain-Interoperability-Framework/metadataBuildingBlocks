@@ -528,7 +528,13 @@ SPDX checksum.
 
 <file:///github/workspace/#7c6ef03f6b0e88dec54d9897f591deab> a cdi:TabularTextDataSet,
         schema1:MediaObject ;
-    ns1:hasPhysicalMapping [ ns1:format "string" ;
+    ns1:hasPhysicalMapping [ ns1:format "decimal" ;
+            ns1:formats_InstanceVariable <file:///github/workspace/#var-uncertainty> ;
+            ns1:index 2 ;
+            ns1:physicalDataType "float64" ;
+            cdi:isRequired false ;
+            cdi:nullSequence "NA" ],
+        [ ns1:format "string" ;
             ns1:formats_InstanceVariable <file:///github/workspace/#var-sample-id> ;
             ns1:index 0 ;
             ns1:physicalDataType "string" ;
@@ -538,12 +544,6 @@ SPDX checksum.
             ns1:index 1 ;
             ns1:physicalDataType "float64" ;
             cdi:isRequired true ;
-            cdi:nullSequence "NA" ],
-        [ ns1:format "decimal" ;
-            ns1:formats_InstanceVariable <file:///github/workspace/#var-uncertainty> ;
-            ns1:index 2 ;
-            ns1:physicalDataType "float64" ;
-            cdi:isRequired false ;
             cdi:nullSequence "NA" ] ;
     cdi:isDelimited true ;
     schema1:description "Measurement data with column structure described via CSVW and physical mappings." ;
@@ -559,15 +559,15 @@ SPDX checksum.
 <file:///github/workspace/#a6143a557a62f78ae39fcb80578b74a3> a cdi:StructuredDataSet,
         schema1:MediaObject ;
     ns1:hasPhysicalMapping [ ns1:format "decimal" ;
-            ns1:formats_InstanceVariable <file:///github/workspace/#var-intensity> ;
-            ns1:index 1 ;
-            ns1:locator "/spectra/intensity" ;
-            ns1:physicalDataType "float32" ;
-            cdi:isRequired true ],
-        [ ns1:format "decimal" ;
             ns1:formats_InstanceVariable <file:///github/workspace/#var-wavelength> ;
             ns1:index 0 ;
             ns1:locator "/spectra/wavelength" ;
+            ns1:physicalDataType "float32" ;
+            cdi:isRequired true ],
+        [ ns1:format "decimal" ;
+            ns1:formats_InstanceVariable <file:///github/workspace/#var-intensity> ;
+            ns1:index 1 ;
+            ns1:locator "/spectra/intensity" ;
             ns1:physicalDataType "float32" ;
             cdi:isRequired true ] ;
     schema1:description "Spectral data cube with wavelength and intensity dimensions." ;
@@ -633,6 +633,7 @@ allOf:
   properties:
     schema:hasPart:
       $ref: '#/$defs/archivePartArray'
+      x-jsonld-id: http://schema.org/hasPart
 $defs:
   archivePartArray:
     type: array
@@ -665,14 +666,17 @@ $defs:
         schema:name:
           type: string
           description: Filename of the component file within the archive.
+          x-jsonld-id: http://schema.org/name
         schema:description:
           type: string
           description: Description of the file content. May include checksum information.
+          x-jsonld-id: http://schema.org/description
         schema:encodingFormat:
           type: array
           description: MIME type(s) for this file.
           items:
             type: string
+          x-jsonld-id: http://schema.org/encodingFormat
         schema:size:
           type: object
           description: File size as a QuantitativeValue.
@@ -687,9 +691,12 @@ $defs:
             schema:value:
               type: number
               description: Numeric size value.
+              x-jsonld-id: http://schema.org/value
             schema:unitText:
               type: string
               description: Unit of measure for size (e.g. 'byte').
+              x-jsonld-id: http://schema.org/unitText
+          x-jsonld-id: http://schema.org/size
         schema:about:
           type: array
           description: For metadata sidecar files, references the data file this metadata
@@ -701,6 +708,7 @@ $defs:
                 type: string
                 description: Reference to the @id of the data file described by this
                   sidecar.
+          x-jsonld-id: http://schema.org/about
         spdx:checksum:
           type: object
           description: Checksum for integrity verification of this component file.
@@ -714,10 +722,13 @@ $defs:
               minItems: 1
             spdx:algorithm:
               type: string
+              x-jsonld-id: http://spdx.org/rdf/terms#algorithm
             spdx:checksumValue:
               type: string
+              x-jsonld-id: http://spdx.org/rdf/terms#checksumValue
           required:
           - '@type'
+          x-jsonld-id: http://spdx.org/rdf/terms#checksum
       required:
       - '@type'
       - schema:name

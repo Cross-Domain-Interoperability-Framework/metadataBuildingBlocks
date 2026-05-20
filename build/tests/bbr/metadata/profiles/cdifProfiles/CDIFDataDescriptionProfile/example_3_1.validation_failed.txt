@@ -1,5 +1,5 @@
 Validation report for cdif.bbr.metadata.profiles.cdifProfiles.CDIFDataDescriptionProfile - CDIF discovery and data description metadata
-Generated 2026-05-19T22:24:19.615472+00:00
+Generated 2026-05-20T16:23:47.733354+00:00
 === Files ===
 Using exampleCDIFDataDescription_wide.json from examples
 JSON-LD context is present - uplifting
@@ -17,123 +17,233 @@ Validation result for _sources/profiles/cdifProfiles/CDIFDataDescriptionProfile/
   Conforms: True
   
 Focus nodes for _sources/profiles/cdifProfiles/CDIFDataDescriptionProfile/rules.shacl:
- - Shape _:na0b1f800336d4c27bbf5ea9b1e188dc3b9: *none*
- - Shape cdifd:rightsProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:CDIFCatalogRecordShape: *none*
- - Shape cdifd:resourceIdentifierProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:rightsProperty/sh:or/rdf:first: *none*
  - Shape cdifd:CDIFDatasetMandatoryShape: *none*
+ - Shape _:nc19082e8e2554b6394d8fa727738c626b11: *none*
+ - Shape cdifd:resourceIdentifierProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:rightsProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:nc19082e8e2554b6394d8fa727738c626b9: *none*
+ - Shape _:nc19082e8e2554b6394d8fa727738c626b22: *none*
  - Shape cdifd:resourceIdentifierProperty/sh:or/rdf:first: *none*
- - Shape _:na0b1f800336d4c27bbf5ea9b1e188dc3b11: *none*
- - Shape _:na0b1f800336d4c27bbf5ea9b1e188dc3b22: *none*
+ - Shape cdifd:rightsProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFCatalogRecordShape: *none*
+
+Validation result for _sources/cdifProperties/cdifDataDescription/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifProperties/cdifDataDescription/rules.shacl:
+ - Shape cdifd:CDIFDataDescriptionConformsToShape: *none*
+ - Shape cdifd:dataDescriptionVariableShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:dataDescriptionDatasetShape: *none*
+ - Shape cdifd:dataDescriptionVariableShape: ex:var-ph,ex:var-temperature,ex:var-sample-date,ex:var-oxygen,ex:var-salinity,ex:var-station
+ - Shape _:n274c36819f634f4faee8e435154e5b3db6: *none*
+ - Shape _:n274c36819f634f4faee8e435154e5b3db5: *none*
+
+
+** Validation error **
+Validation result for _sources/cdifProperties/cdifInstanceVariable/rules.shacl:
+  Validation Report
+  Conforms: False
+  Results (8):
+  Validation Result in OrConstraintComponent (http://www.w3.org/ns/shacl#OrConstraintComponent):
+  	Severity: sh:Warning
+  	Source Shape: [ sh:message Literal("for cdi InstanceVariable a physical data type should be provided.") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path cdif:physicalDataType ; sh:severity sh:Warning ]
+  	Focus Node: ex:var-sample-date
+  	Value Node: Literal("date")
+  	Result Path: cdif:physicalDataType
+  	Message: for cdi InstanceVariable a physical data type should be provided.
+  Constraint Violation in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
+  	Severity: sh:Violation
+  	Source Shape: [ sh:message Literal("cdi:qualifies is required when cdif:role is Attribute.") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:path cdi:qualifies ; sh:severity sh:Violation ]
+  	Focus Node: ex:var-sample-date
+  	Result Path: cdi:qualifies
+  	Message: cdi:qualifies is required when cdif:role is Attribute.
+  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
+  	Severity: sh:Warning
+  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
+  	Focus Node: ex:var-temperature
+  	Result Path: schema1:propertyID
+  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
+  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
+  	Severity: sh:Warning
+  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
+  	Focus Node: ex:var-sample-date
+  	Result Path: schema1:propertyID
+  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
+  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
+  	Severity: sh:Warning
+  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
+  	Focus Node: ex:var-oxygen
+  	Result Path: schema1:propertyID
+  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
+  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
+  	Severity: sh:Warning
+  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
+  	Focus Node: ex:var-salinity
+  	Result Path: schema1:propertyID
+  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
+  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
+  	Severity: sh:Warning
+  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
+  	Focus Node: ex:var-station
+  	Result Path: schema1:propertyID
+  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
+  Validation Result in MinLengthConstraintComponent (http://www.w3.org/ns/shacl#MinLengthConstraintComponent):
+  	Severity: sh:Warning
+  	Source Shape: cdifd:name2Property
+  	Focus Node: ex:var-ph
+  	Value Node: Literal("ph")
+  	Result Path: schema1:name
+  	Message: variable name is <3 characters, is this name useful?
+  
+Focus nodes for _sources/cdifProperties/cdifInstanceVariable/rules.shacl:
+ - Shape _:n8a85128b43fb422ca44529258212df09b18: *none*
+ - Shape cdifd:CDIFxasInstanceVariableShape: ex:var-ph,ex:var-temperature,ex:var-sample-date,ex:var-oxygen,ex:var-salinity,ex:var-station
+ - Shape _:n8a85128b43fb422ca44529258212df09b68: *none*
+ - Shape _:n8a85128b43fb422ca44529258212df09b64: *none*
+ - Shape _:n8a85128b43fb422ca44529258212df09b65: *none*
+ - Shape cdifd:QualifiesRequiredForAttributeShape: *none*
+ - Shape _:n8a85128b43fb422ca44529258212df09b17: *none*
+ - Shape _:n8a85128b43fb422ca44529258212df09b11: *none*
+ - Shape _:n8a85128b43fb422ca44529258212df09b16: *none*
+ - Shape _:n8a85128b43fb422ca44529258212df09b63: *none*
+ - Shape _:n8a85128b43fb422ca44529258212df09b60: *none*
+ - Shape _:n8a85128b43fb422ca44529258212df09b14: *none*
+ - Shape _:n8a85128b43fb422ca44529258212df09b66: *none*
+ - Shape _:n8a85128b43fb422ca44529258212df09b20: *none*
+ - Shape cdifd:CDIFInstanceVariableShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n8a85128b43fb422ca44529258212df09b10: *none*
+ - Shape _:n8a85128b43fb422ca44529258212df09b15: *none*
+ - Shape _:n8a85128b43fb422ca44529258212df09b13: *none*
+ - Shape cdifd:CDIFInstanceVariableShape: *none*
+ - Shape _:n8a85128b43fb422ca44529258212df09b62: *none*
+ - Shape _:n8a85128b43fb422ca44529258212df09b59: *none*
+ - Shape cdifd:CDIFxasInstanceVariableShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:QualifiesNotAllowedWithoutAttributeShape: *none*
+
+Validation result for _sources/cdifProperties/cdifStatistics/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifProperties/cdifStatistics/rules.shacl:
+ - Shape cdifd:cdifStatisticsShape: *none*
+ - Shape cdifd:cdifCategoryStatisticShape: *none*
+ - Shape cdifd:cdifStatisticsCollectionShape: *none*
+
+Validation result for _sources/skosProperties/skosConcept/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:
+ - Shape skosv:prefLabelUniqueLangShape: *none*
+ - Shape skosv:ConceptShape: *none*
+ - Shape skosv:conceptBroaderNotSelfShape: *none*
 
 Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
- - Shape _:n586959df573a4edaa04daff06afbe103b6: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n586959df573a4edaa04daff06afbe103b8: *none*
- - Shape _:n586959df573a4edaa04daff06afbe103b4: *none*
+ - Shape _:ne31ab8062dad4ea295b8040cf8c0537cb7: *none*
+ - Shape _:ne31ab8062dad4ea295b8040cf8c0537cb8: *none*
+ - Shape _:ne31ab8062dad4ea295b8040cf8c0537cb19: *none*
  - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
- - Shape _:n586959df573a4edaa04daff06afbe103b10: *none*
- - Shape _:n586959df573a4edaa04daff06afbe103b19: *none*
- - Shape _:n586959df573a4edaa04daff06afbe103b26: *none*
- - Shape _:n586959df573a4edaa04daff06afbe103b5: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n586959df573a4edaa04daff06afbe103b7: *none*
+ - Shape _:ne31ab8062dad4ea295b8040cf8c0537cb4: *none*
+ - Shape _:ne31ab8062dad4ea295b8040cf8c0537cb6: *none*
+ - Shape _:ne31ab8062dad4ea295b8040cf8c0537cb5: *none*
+ - Shape _:ne31ab8062dad4ea295b8040cf8c0537cb26: *none*
  - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:ne31ab8062dad4ea295b8040cf8c0537cb10: *none*
 
 Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
- - Shape _:n0ef1e7705950429ba710141a8cf35d6bb21: *none*
  - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nf166549b3e324d3c92e90719c7164ef7b21: *none*
+ - Shape _:nf166549b3e324d3c92e90719c7164ef7b23: *none*
+ - Shape _:nf166549b3e324d3c92e90719c7164ef7b11: *none*
+ - Shape _:nf166549b3e324d3c92e90719c7164ef7b25: *none*
+ - Shape _:nf166549b3e324d3c92e90719c7164ef7b22: *none*
  - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
- - Shape _:n0ef1e7705950429ba710141a8cf35d6bb22: *none*
- - Shape _:n0ef1e7705950429ba710141a8cf35d6bb25: *none*
- - Shape _:n0ef1e7705950429ba710141a8cf35d6bb23: *none*
- - Shape _:n0ef1e7705950429ba710141a8cf35d6bb10: *none*
  - Shape cdifd:CDIFIdentifierShape: *none*
  - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n0ef1e7705950429ba710141a8cf35d6bb11: *none*
- - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n0ef1e7705950429ba710141a8cf35d6bb20: *none*
+ - Shape _:nf166549b3e324d3c92e90719c7164ef7b10: *none*
+ - Shape _:nf166549b3e324d3c92e90719c7164ef7b20: *none*
 
-Validation result for _sources/qualityProperties/qualityMeasure/rules.shacl:
-  Validation Report
-  Conforms: True
-  
-Focus nodes for _sources/qualityProperties/qualityMeasure/rules.shacl:
- - Shape _:n5789bff205574e8396f33a543c8d9acab5: *none*
- - Shape cdifd:qualityMeasurementNode: *none*
- - Shape _:n5789bff205574e8396f33a543c8d9acab4: *none*
- - Shape cdifd:qualityMeasurementNode/sh:property/sh:or/rdf:first: *none*
- - Shape cdifd:qualityMeasurementNode/sh:property/sh:or/rdf:first: *none*
- - Shape _:n5789bff205574e8396f33a543c8d9acab11: *none*
 
-Validation result for _sources/schemaorgProperties/spatialExtent/rules.shacl:
+** Validation error **
+Validation result for _sources/schemaorgProperties/variableMeasured/rules.shacl:
   Validation Report
-  Conforms: True
+  Conforms: False
+  Results (6):
+  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
+  	Severity: sh:Warning
+  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
+  	Focus Node: ex:var-temperature
+  	Result Path: schema1:propertyID
+  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
+  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
+  	Severity: sh:Warning
+  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
+  	Focus Node: ex:var-sample-date
+  	Result Path: schema1:propertyID
+  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
+  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
+  	Severity: sh:Warning
+  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
+  	Focus Node: ex:var-oxygen
+  	Result Path: schema1:propertyID
+  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
+  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
+  	Severity: sh:Warning
+  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
+  	Focus Node: ex:var-salinity
+  	Result Path: schema1:propertyID
+  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
+  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
+  	Severity: sh:Warning
+  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
+  	Focus Node: ex:var-station
+  	Result Path: schema1:propertyID
+  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
+  Validation Result in MinLengthConstraintComponent (http://www.w3.org/ns/shacl#MinLengthConstraintComponent):
+  	Severity: sh:Warning
+  	Source Shape: cdifd:name3Property
+  	Focus Node: ex:var-ph
+  	Value Node: Literal("ph")
+  	Result Path: schema1:name
+  	Message: variable name is <3 characters, is this name useful?
   
-Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:
- - Shape _:na165ec431e714b1f8967b0a84bfe8487b10: *none*
- - Shape _:na165ec431e714b1f8967b0a84bfe8487b3: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
- - Shape _:na165ec431e714b1f8967b0a84bfe8487b41: *none*
- - Shape _:na165ec431e714b1f8967b0a84bfe8487b16: *none*
- - Shape cdifd:geoCoordinatesNode: *none*
- - Shape _:na165ec431e714b1f8967b0a84bfe8487b29: *none*
- - Shape _:na165ec431e714b1f8967b0a84bfe8487b39: *none*
- - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*
- - Shape _:na165ec431e714b1f8967b0a84bfe8487b40: *none*
- - Shape _:na165ec431e714b1f8967b0a84bfe8487b44: *none*
- - Shape _:na165ec431e714b1f8967b0a84bfe8487b13: *none*
- - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFDefinedTermShape: ex:var-oxygen/cdi:describedUnitOfMeasure,ex:var-temperature/cdi:describedUnitOfMeasure
- - Shape cdifd:spatialExtentProperty: ex:gom-water-quality-wide-2025/schema1:spatialCoverage
- - Shape _:na165ec431e714b1f8967b0a84bfe8487b4: *none*
- - Shape _:na165ec431e714b1f8967b0a84bfe8487b38: *none*
- - Shape _:na165ec431e714b1f8967b0a84bfe8487b15: *none*
- - Shape _:na165ec431e714b1f8967b0a84bfe8487b42: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:na165ec431e714b1f8967b0a84bfe8487b9: *none*
- - Shape cdifd:geoShapeNode: ex:gom-water-quality-wide-2025/schema1:spatialCoverage/schema1:geo
- - Shape _:na165ec431e714b1f8967b0a84bfe8487b24: *none*
- - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*
-
-Validation result for _sources/cdifProperties/cdifCore/rules.shacl:
-  Validation Report
-  Conforms: True
-  
-Focus nodes for _sources/cdifProperties/cdifCore/rules.shacl:
- - Shape cdifd:rightsProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n5e7665ca950942ed9b7c68ffdc30c298b5: *none*
- - Shape _:n5e7665ca950942ed9b7c68ffdc30c298b7: *none*
- - Shape cdifd:CDIFCatalogRecordShape: *none*
- - Shape cdifd:resourceIdentifierProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:resourceIdentifierProperty/sh:or/rdf:first: *none*
- - Shape _:n5e7665ca950942ed9b7c68ffdc30c298b18: *none*
- - Shape cdifd:CDIFDatasetMandatoryShape: *none*
- - Shape soso:DatasetNS2Shape: *none*
- - Shape cdifd:rightsProperty/sh:or/rdf:first: *none*
- - Shape soso:DatasetNS1Shape: *none*
- - Shape soso:DatasetNS3Shape: *none*
-
-Validation result for _sources/provProperties/derivedFrom/rules.shacl:
-  Validation Report
-  Conforms: True
-  
-Focus nodes for _sources/provProperties/derivedFrom/rules.shacl:
- - Shape _:n6d84623f642f40f9bbc3fd7022484ab4b4: *none*
- - Shape cdifd:derivedFromProperty/sh:or/rdf:first: *none*
- - Shape cdifd:derivedFromProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:derivedFromProperty: *none*
+Focus nodes for _sources/schemaorgProperties/variableMeasured/rules.shacl:
+ - Shape _:n29be2bcc07104d2fb3057b947e469f1fb37: *none*
+ - Shape _:n29be2bcc07104d2fb3057b947e469f1fb11: *none*
+ - Shape _:n29be2bcc07104d2fb3057b947e469f1fb52: *none*
+ - Shape _:n29be2bcc07104d2fb3057b947e469f1fb5: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n29be2bcc07104d2fb3057b947e469f1fb9: *none*
+ - Shape _:n29be2bcc07104d2fb3057b947e469f1fb51: *none*
+ - Shape _:n29be2bcc07104d2fb3057b947e469f1fb7: *none*
+ - Shape _:n29be2bcc07104d2fb3057b947e469f1fb38: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n29be2bcc07104d2fb3057b947e469f1fb10: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n29be2bcc07104d2fb3057b947e469f1fb4: *none*
+ - Shape _:n29be2bcc07104d2fb3057b947e469f1fb12: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n29be2bcc07104d2fb3057b947e469f1fb8: *none*
+ - Shape _:n29be2bcc07104d2fb3057b947e469f1fb14: *none*
+ - Shape _:n29be2bcc07104d2fb3057b947e469f1fb29: *none*
+ - Shape _:n29be2bcc07104d2fb3057b947e469f1fb30: *none*
+ - Shape _:n29be2bcc07104d2fb3057b947e469f1fb45: *none*
+ - Shape _:n29be2bcc07104d2fb3057b947e469f1fb44: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFVariableMeasuredShape: *none*
 
 Validation result for _sources/cdifProperties/cdifReference/rules.shacl:
   Validation Report
@@ -149,21 +259,169 @@ Validation result for _sources/schemaorgProperties/labeledLink/rules.shacl:
 Focus nodes for _sources/schemaorgProperties/labeledLink/rules.shacl:
  - Shape cdifd:CDIFLabeledLinkShape: *none*
 
-Validation result for _sources/skosProperties/skosConcept/rules.shacl:
+Validation result for _sources/cdifProperties/cdifKey/rules.shacl:
   Validation Report
   Conforms: True
   
-Focus nodes for _sources/skosProperties/skosConcept/rules.shacl:
- - Shape skosv:ConceptShape: *none*
- - Shape skosv:prefLabelUniqueLangShape: *none*
- - Shape skosv:conceptBroaderNotSelfShape: *none*
+Focus nodes for _sources/cdifProperties/cdifKey/rules.shacl:
+ - Shape cdifd:cdifKeyShape: <https://example.org/gom-water-quality-wide-2025/pk>
 
-Validation result for _sources/cdifProperties/cdifCatalogRecord/rules.shacl:
+Validation result for _sources/cdifProperties/cdifValueDomain/rules.shacl:
   Validation Report
   Conforms: True
   
-Focus nodes for _sources/cdifProperties/cdifCatalogRecord/rules.shacl:
+Focus nodes for _sources/cdifProperties/cdifValueDomain/rules.shacl:
+ - Shape cdifd:cdifSentinelValueDomainShape: *none*
+ - Shape cdifd:cdifSubstantiveValueDomainShape: *none*
+
+Validation result for _sources/cdifProperties/cdifEnumerationDomain/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifProperties/cdifEnumerationDomain/rules.shacl:
+ - Shape cdifd:cdifEnumerationDomainShape: *none*
+
+Validation result for _sources/skosProperties/skosConceptScheme/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/skosProperties/skosConceptScheme/rules.shacl:
+ - Shape skosv:schemePrefLabelUniqueLangShape: *none*
+ - Shape skosv:ConceptSchemeShape: *none*
+
+Validation result for _sources/cdifProperties/cdifPhysicalMapping/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifProperties/cdifPhysicalMapping/rules.shacl:
+ - Shape cdifd:physicalMappingShape: *none*
+
+Validation result for _sources/qualityProperties/qualityMeasure/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/qualityProperties/qualityMeasure/rules.shacl:
+ - Shape cdifd:qualityMeasurementNode: *none*
+ - Shape _:na566004c9bcb4a1a83d6473f90af5b22b11: *none*
+ - Shape cdifd:qualityMeasurementNode/sh:property/sh:or/rdf:first: *none*
+ - Shape _:na566004c9bcb4a1a83d6473f90af5b22b5: *none*
+ - Shape _:na566004c9bcb4a1a83d6473f90af5b22b4: *none*
+ - Shape cdifd:qualityMeasurementNode/sh:property/sh:or/rdf:first: *none*
+
+Validation result for _sources/schemaorgProperties/spatialExtent/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/spatialExtent/rules.shacl:
+ - Shape cdifd:spatialExtentProperty: ex:gom-water-quality-wide-2025/schema1:spatialCoverage
+ - Shape _:na620ace568fc4af1aee084840695c10bb16: *none*
+ - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*
+ - Shape _:na620ace568fc4af1aee084840695c10bb13: *none*
+ - Shape cdifd:geoCoordinatesNode/sh:property/sh:or/rdf:first: *none*
+ - Shape _:na620ace568fc4af1aee084840695c10bb38: *none*
+ - Shape _:na620ace568fc4af1aee084840695c10bb44: *none*
+ - Shape cdifd:spatialExtentProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:geoCoordinatesNode: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape _:na620ace568fc4af1aee084840695c10bb9: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:na620ace568fc4af1aee084840695c10bb10: *none*
+ - Shape _:na620ace568fc4af1aee084840695c10bb29: *none*
+ - Shape _:na620ace568fc4af1aee084840695c10bb15: *none*
+ - Shape _:na620ace568fc4af1aee084840695c10bb39: *none*
+ - Shape _:na620ace568fc4af1aee084840695c10bb40: *none*
+ - Shape cdifd:spatialExtentProperty/sh:or/rdf:first: *none*
+ - Shape _:na620ace568fc4af1aee084840695c10bb24: *none*
+ - Shape cdifd:geoShapeNode: ex:gom-water-quality-wide-2025/schema1:spatialCoverage/schema1:geo
+ - Shape _:na620ace568fc4af1aee084840695c10bb41: *none*
+ - Shape _:na620ace568fc4af1aee084840695c10bb42: *none*
+ - Shape _:na620ace568fc4af1aee084840695c10bb3: *none*
+ - Shape cdifd:CDIFDefinedTermShape: ex:var-oxygen/cdi:describedUnitOfMeasure,ex:var-temperature/cdi:describedUnitOfMeasure
+ - Shape _:na620ace568fc4af1aee084840695c10bb4: *none*
+
+Validation result for _sources/cdifProperties/cdifCore/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/cdifProperties/cdifCore/rules.shacl:
+ - Shape cdifd:CDIFDatasetMandatoryShape: *none*
+ - Shape cdifd:resourceIdentifierProperty/sh:or/rdf:first: *none*
+ - Shape _:na076859c546f4f1e9be3703723a6e54db5: *none*
+ - Shape cdifd:rightsProperty/sh:or/rdf:first: *none*
+ - Shape _:na076859c546f4f1e9be3703723a6e54db18: *none*
+ - Shape soso:DatasetNS2Shape: *none*
+ - Shape cdifd:resourceIdentifierProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:rightsProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape soso:DatasetNS1Shape: *none*
  - Shape cdifd:CDIFCatalogRecordShape: *none*
+ - Shape _:na076859c546f4f1e9be3703723a6e54db7: *none*
+ - Shape soso:DatasetNS3Shape: *none*
+
+Validation result for _sources/schemaorgProperties/webAPI/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/webAPI/rules.shacl:
+ - Shape cdifd:webAPINode/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:webAPINode/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb3: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb24: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb18: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb31: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb30: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb35: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb27: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb4: *none*
+ - Shape cdifd:webAPINode: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb26: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb33: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb29: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb10: *none*
+ - Shape cdifd:webAPINode/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb28: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb32: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb17: *none*
+ - Shape cdifd:webAPINode/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb11: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb34: *none*
+ - Shape _:nc975580f6c8e41199be47b41148ddbacb25: *none*
+
+Validation result for _sources/schemaorgProperties/action/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/action/rules.shacl:
+ - Shape cdifd:CDIFActionShape: *none*
+
+Validation result for _sources/schemaorgProperties/agentInRole/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/agentInRole/rules.shacl:
+ - Shape _:n108486cd7fd842b186ccb58fcba16328b17: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape cdifd:roleNameProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFRoleShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n108486cd7fd842b186ccb58fcba16328b18: *none*
+ - Shape cdifd:roleNameProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n108486cd7fd842b186ccb58fcba16328b14: *none*
+ - Shape _:n108486cd7fd842b186ccb58fcba16328b15: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n108486cd7fd842b186ccb58fcba16328b3: *none*
+ - Shape _:n108486cd7fd842b186ccb58fcba16328b16: *none*
+ - Shape cdifd:CDIFDefinedTermShape: ex:var-oxygen/cdi:describedUnitOfMeasure,ex:var-temperature/cdi:describedUnitOfMeasure
+ - Shape cdifd:CDIFRoleShape: *none*
+ - Shape _:n108486cd7fd842b186ccb58fcba16328b4: *none*
+ - Shape _:n108486cd7fd842b186ccb58fcba16328b20: *none*
+
+Validation result for _sources/schemaorgProperties/organization/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/organization/rules.shacl:
+ - Shape cdifd:CDIFOrganizationShape: <https://ror.org/03m2x1q45>
+ - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:rest/rdf:first: *none*
 
 Validation result for _sources/schemaorgProperties/person/rules.shacl:
   Validation Report
@@ -171,55 +429,36 @@ Validation result for _sources/schemaorgProperties/person/rules.shacl:
   
 Focus nodes for _sources/schemaorgProperties/person/rules.shacl:
  - Shape cdifd:maintainerOrProviderContactPointShape: *none*
- - Shape cdifd:maintainerOrProviderContactPointShape/sh:property/sh:or/rdf:first: *none*
- - Shape cdifd:affiliationProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:CDIFPersonShape/sh:or/rdf:rest/rdf:first: *none*
  - Shape cdifd:affiliationProperty/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFPersonShape: *none*
- - Shape cdifd:CDIFContactPointShape: *none*
- - Shape cdifd:contactPointProperty/sh:or/rdf:first: *none*
- - Shape _:n9b95a756f1554608acb37105701f2937b14: *none*
  - Shape cdifd:CDIFPersonShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFPersonShape: *none*
+ - Shape cdifd:maintainerOrProviderContactPointShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:contactPointProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFPersonShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:affiliationProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:CDIFContactPointShape: *none*
  - Shape cdifd:contactPointProperty/sh:or/rdf:rest/rdf:first: *none*
-
-Validation result for _sources/schemaorgProperties/organization/rules.shacl:
-  Validation Report
-  Conforms: True
-  
-Focus nodes for _sources/schemaorgProperties/organization/rules.shacl:
- - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFOrganizationShape: <https://ror.org/03m2x1q45>
+ - Shape _:n74b22b2882dc48f3b39220a2292837deb14: *none*
 
 Validation result for _sources/schemaorgProperties/monetaryGrant/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/monetaryGrant/rules.shacl:
- - Shape _:nf1b8a4c4c6ec49fc8bf1775210ea895ab13: *none*
- - Shape _:nf1b8a4c4c6ec49fc8bf1775210ea895ab14: *none*
- - Shape _:nf1b8a4c4c6ec49fc8bf1775210ea895ab26: *none*
- - Shape _:nf1b8a4c4c6ec49fc8bf1775210ea895ab4: *none*
+ - Shape _:nb1c7357d9080419db0084b379f9772b2b25: *none*
+ - Shape _:nb1c7357d9080419db0084b379f9772b2b26: *none*
  - Shape cdifd:fundingShape: *none*
- - Shape cdifd:fundingShape/sh:or/rdf:first: *none*
- - Shape _:nf1b8a4c4c6ec49fc8bf1775210ea895ab15: *none*
- - Shape _:nf1b8a4c4c6ec49fc8bf1775210ea895ab3: *none*
- - Shape _:nf1b8a4c4c6ec49fc8bf1775210ea895ab5: *none*
- - Shape _:nf1b8a4c4c6ec49fc8bf1775210ea895ab11: *none*
- - Shape _:nf1b8a4c4c6ec49fc8bf1775210ea895ab25: *none*
- - Shape _:nf1b8a4c4c6ec49fc8bf1775210ea895ab12: *none*
- - Shape _:nf1b8a4c4c6ec49fc8bf1775210ea895ab17: *none*
+ - Shape _:nb1c7357d9080419db0084b379f9772b2b17: *none*
  - Shape cdifd:fundingShape/sh:or/rdf:rest/rdf:first: *none*
-
-Validation result for _sources/provProperties/generatedBy/rules.shacl:
-  Validation Report
-  Conforms: True
-  
-Focus nodes for _sources/provProperties/generatedBy/rules.shacl:
- - Shape _:n2a572917625a45aca0114efec0dcc488b5: *none*
- - Shape _:n2a572917625a45aca0114efec0dcc488b4: *none*
- - Shape cdifd:generatedByNode/sh:property/sh:or/rdf:first: *none*
- - Shape cdifd:generatedByNode: *none*
+ - Shape _:nb1c7357d9080419db0084b379f9772b2b13: *none*
+ - Shape _:nb1c7357d9080419db0084b379f9772b2b15: *none*
+ - Shape _:nb1c7357d9080419db0084b379f9772b2b4: *none*
+ - Shape _:nb1c7357d9080419db0084b379f9772b2b3: *none*
+ - Shape _:nb1c7357d9080419db0084b379f9772b2b12: *none*
+ - Shape _:nb1c7357d9080419db0084b379f9772b2b14: *none*
+ - Shape _:nb1c7357d9080419db0084b379f9772b2b5: *none*
+ - Shape _:nb1c7357d9080419db0084b379f9772b2b11: *none*
+ - Shape cdifd:fundingShape/sh:or/rdf:first: *none*
 
 
 ** Validation error **
@@ -238,287 +477,48 @@ Focus nodes for _sources/schemaorgProperties/dataDownload/rules.shacl:
  - Shape cdifd:CDIFDataDownloadShape: ex:gom-water-quality-wide-2025/schema1:distribution
  - Shape <https://www.ogc.org/rules/template/#ConformsToInfo>: ex:gom-water-quality-wide-2025/schema1:distribution
 
-Validation result for _sources/schemaorgProperties/webAPI/rules.shacl:
+Validation result for _sources/cdifProperties/cdifCatalogRecord/rules.shacl:
   Validation Report
   Conforms: True
   
-Focus nodes for _sources/schemaorgProperties/webAPI/rules.shacl:
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b18: *none*
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b25: *none*
- - Shape cdifd:webAPINode: *none*
- - Shape cdifd:webAPINode/sh:property/sh:or/rdf:first: *none*
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b3: *none*
- - Shape cdifd:webAPINode/sh:property/sh:or/rdf:first: *none*
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b11: *none*
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b31: *none*
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b30: *none*
- - Shape cdifd:webAPINode/sh:property/sh:or/rdf:first: *none*
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b17: *none*
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b27: *none*
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b34: *none*
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b26: *none*
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b35: *none*
- - Shape cdifd:webAPINode/sh:property/sh:or/rdf:first: *none*
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b4: *none*
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b24: *none*
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b28: *none*
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b29: *none*
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b33: *none*
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b32: *none*
- - Shape _:n0178abd57d4c4eefbe48882c7dc1cc12b10: *none*
+Focus nodes for _sources/cdifProperties/cdifCatalogRecord/rules.shacl:
+ - Shape cdifd:CDIFCatalogRecordShape: *none*
 
-Validation result for _sources/schemaorgProperties/action/rules.shacl:
+Validation result for _sources/provProperties/derivedFrom/rules.shacl:
   Validation Report
   Conforms: True
   
-Focus nodes for _sources/schemaorgProperties/action/rules.shacl:
- - Shape cdifd:CDIFActionShape: *none*
+Focus nodes for _sources/provProperties/derivedFrom/rules.shacl:
+ - Shape cdifd:derivedFromProperty: *none*
+ - Shape _:n9894c0c4771847408f10383bd0b8efa1b4: *none*
+ - Shape cdifd:derivedFromProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:derivedFromProperty/sh:or/rdf:rest/rdf:first: *none*
 
-Validation result for _sources/schemaorgProperties/agentInRole/rules.shacl:
+Validation result for _sources/provProperties/generatedBy/rules.shacl:
   Validation Report
   Conforms: True
   
-Focus nodes for _sources/schemaorgProperties/agentInRole/rules.shacl:
- - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
- - Shape cdifd:roleNameProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n49593794514e46b1a53e85a1a54d81fbb20: *none*
- - Shape _:n49593794514e46b1a53e85a1a54d81fbb14: *none*
- - Shape _:n49593794514e46b1a53e85a1a54d81fbb4: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n49593794514e46b1a53e85a1a54d81fbb3: *none*
- - Shape _:n49593794514e46b1a53e85a1a54d81fbb15: *none*
- - Shape cdifd:CDIFRoleShape/sh:property/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFRoleShape: *none*
- - Shape _:n49593794514e46b1a53e85a1a54d81fbb16: *none*
- - Shape _:n49593794514e46b1a53e85a1a54d81fbb18: *none*
- - Shape _:n49593794514e46b1a53e85a1a54d81fbb17: *none*
- - Shape cdifd:CDIFDefinedTermShape: ex:var-oxygen/cdi:describedUnitOfMeasure,ex:var-temperature/cdi:describedUnitOfMeasure
- - Shape cdifd:roleNameProperty/sh:or/rdf:first: *none*
-
-Validation result for _sources/cdifProperties/cdifDataDescription/rules.shacl:
-  Validation Report
-  Conforms: True
-  
-Focus nodes for _sources/cdifProperties/cdifDataDescription/rules.shacl:
- - Shape _:n6905d335f20d4ad8bea725bd106d163bb6: *none*
- - Shape cdifd:dataDescriptionVariableShape: ex:var-station,ex:var-ph,ex:var-sample-date,ex:var-oxygen,ex:var-temperature,ex:var-salinity
- - Shape cdifd:dataDescriptionVariableShape/sh:property/sh:or/rdf:first: *none*
- - Shape cdifd:dataDescriptionDatasetShape: *none*
- - Shape _:n6905d335f20d4ad8bea725bd106d163bb5: *none*
- - Shape cdifd:CDIFDataDescriptionConformsToShape: *none*
-
-Validation result for _sources/cdifProperties/cdifKey/rules.shacl:
-  Validation Report
-  Conforms: True
-  
-Focus nodes for _sources/cdifProperties/cdifKey/rules.shacl:
- - Shape cdifd:cdifKeyShape: <https://example.org/gom-water-quality-wide-2025/pk>
-
-
-** Validation error **
-Validation result for _sources/cdifProperties/cdifInstanceVariable/rules.shacl:
-  Validation Report
-  Conforms: False
-  Results (8):
-  Constraint Violation in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
-  	Severity: sh:Violation
-  	Source Shape: [ sh:message Literal("cdi:qualifies is required when cdif:role is Attribute.") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:path cdi:qualifies ; sh:severity sh:Violation ]
-  	Focus Node: ex:var-sample-date
-  	Result Path: cdi:qualifies
-  	Message: cdi:qualifies is required when cdif:role is Attribute.
-  Validation Result in OrConstraintComponent (http://www.w3.org/ns/shacl#OrConstraintComponent):
-  	Severity: sh:Warning
-  	Source Shape: [ sh:message Literal("for cdi InstanceVariable a physical data type should be provided.") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path cdif:physicalDataType ; sh:severity sh:Warning ]
-  	Focus Node: ex:var-sample-date
-  	Value Node: Literal("date")
-  	Result Path: cdif:physicalDataType
-  	Message: for cdi InstanceVariable a physical data type should be provided.
-  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
-  	Severity: sh:Warning
-  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
-  	Focus Node: ex:var-temperature
-  	Result Path: schema1:propertyID
-  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
-  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
-  	Severity: sh:Warning
-  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
-  	Focus Node: ex:var-station
-  	Result Path: schema1:propertyID
-  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
-  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
-  	Severity: sh:Warning
-  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
-  	Focus Node: ex:var-sample-date
-  	Result Path: schema1:propertyID
-  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
-  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
-  	Severity: sh:Warning
-  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
-  	Focus Node: ex:var-oxygen
-  	Result Path: schema1:propertyID
-  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
-  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
-  	Severity: sh:Warning
-  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
-  	Focus Node: ex:var-salinity
-  	Result Path: schema1:propertyID
-  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
-  Validation Result in MinLengthConstraintComponent (http://www.w3.org/ns/shacl#MinLengthConstraintComponent):
-  	Severity: sh:Warning
-  	Source Shape: cdifd:name2Property
-  	Focus Node: ex:var-ph
-  	Value Node: Literal("ph")
-  	Result Path: schema1:name
-  	Message: variable name is <3 characters, is this name useful?
-  
-Focus nodes for _sources/cdifProperties/cdifInstanceVariable/rules.shacl:
- - Shape _:n809446bc1e8c4d55800d93710c7d9808b59: *none*
- - Shape _:n809446bc1e8c4d55800d93710c7d9808b20: *none*
- - Shape _:n809446bc1e8c4d55800d93710c7d9808b10: *none*
- - Shape _:n809446bc1e8c4d55800d93710c7d9808b66: *none*
- - Shape cdifd:QualifiesRequiredForAttributeShape: *none*
- - Shape _:n809446bc1e8c4d55800d93710c7d9808b65: *none*
- - Shape cdifd:CDIFxasInstanceVariableShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n809446bc1e8c4d55800d93710c7d9808b14: *none*
- - Shape _:n809446bc1e8c4d55800d93710c7d9808b18: *none*
- - Shape _:n809446bc1e8c4d55800d93710c7d9808b11: *none*
- - Shape _:n809446bc1e8c4d55800d93710c7d9808b62: *none*
- - Shape cdifd:QualifiesNotAllowedWithoutAttributeShape: *none*
- - Shape _:n809446bc1e8c4d55800d93710c7d9808b17: *none*
- - Shape _:n809446bc1e8c4d55800d93710c7d9808b63: *none*
- - Shape _:n809446bc1e8c4d55800d93710c7d9808b64: *none*
- - Shape cdifd:CDIFInstanceVariableShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n809446bc1e8c4d55800d93710c7d9808b15: *none*
- - Shape _:n809446bc1e8c4d55800d93710c7d9808b13: *none*
- - Shape _:n809446bc1e8c4d55800d93710c7d9808b68: *none*
- - Shape _:n809446bc1e8c4d55800d93710c7d9808b60: *none*
- - Shape cdifd:CDIFxasInstanceVariableShape: ex:var-station,ex:var-ph,ex:var-sample-date,ex:var-oxygen,ex:var-temperature,ex:var-salinity
- - Shape _:n809446bc1e8c4d55800d93710c7d9808b16: *none*
- - Shape cdifd:CDIFInstanceVariableShape: *none*
-
-Validation result for _sources/cdifProperties/cdifStatistics/rules.shacl:
-  Validation Report
-  Conforms: True
-  
-Focus nodes for _sources/cdifProperties/cdifStatistics/rules.shacl:
- - Shape cdifd:cdifStatisticsCollectionShape: *none*
- - Shape cdifd:cdifStatisticsShape: *none*
- - Shape cdifd:cdifCategoryStatisticShape: *none*
-
-
-** Validation error **
-Validation result for _sources/schemaorgProperties/variableMeasured/rules.shacl:
-  Validation Report
-  Conforms: False
-  Results (6):
-  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
-  	Severity: sh:Warning
-  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
-  	Focus Node: ex:var-temperature
-  	Result Path: schema1:propertyID
-  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
-  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
-  	Severity: sh:Warning
-  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
-  	Focus Node: ex:var-station
-  	Result Path: schema1:propertyID
-  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
-  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
-  	Severity: sh:Warning
-  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
-  	Focus Node: ex:var-sample-date
-  	Result Path: schema1:propertyID
-  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
-  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
-  	Severity: sh:Warning
-  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
-  	Focus Node: ex:var-oxygen
-  	Result Path: schema1:propertyID
-  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
-  Validation Result in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):
-  	Severity: sh:Warning
-  	Source Shape: [ sh:message Literal("a propertID must be a uri reference, a name string, or a schema:DefinedTerm") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:class schema1:DefinedTerm ; sh:property [ sh:message Literal("a defined term should have an identifier that is a resolvable URI") ; sh:minCount Literal("1", datatype=xsd:integer) ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ; sh:minLength Literal("5", datatype=xsd:integer) ] [ sh:and <http://recursion.too.deep> ] ) ; sh:path schema1:identifier ] ] ) ; sh:path schema1:propertyID ; sh:severity sh:Warning ]
-  	Focus Node: ex:var-salinity
-  	Result Path: schema1:propertyID
-  	Message: a propertID must be a uri reference, a name string, or a schema:DefinedTerm
-  Validation Result in MinLengthConstraintComponent (http://www.w3.org/ns/shacl#MinLengthConstraintComponent):
-  	Severity: sh:Warning
-  	Source Shape: cdifd:name3Property
-  	Focus Node: ex:var-ph
-  	Value Node: Literal("ph")
-  	Result Path: schema1:name
-  	Message: variable name is <3 characters, is this name useful?
-  
-Focus nodes for _sources/schemaorgProperties/variableMeasured/rules.shacl:
- - Shape _:n3817644e3ec54f1fb0da2ec1df40294fb45: *none*
- - Shape _:n3817644e3ec54f1fb0da2ec1df40294fb9: *none*
- - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n3817644e3ec54f1fb0da2ec1df40294fb52: *none*
- - Shape cdifd:CDIFVariableMeasuredShape: *none*
- - Shape _:n3817644e3ec54f1fb0da2ec1df40294fb4: *none*
- - Shape _:n3817644e3ec54f1fb0da2ec1df40294fb29: *none*
- - Shape _:n3817644e3ec54f1fb0da2ec1df40294fb14: *none*
- - Shape _:n3817644e3ec54f1fb0da2ec1df40294fb11: *none*
- - Shape _:n3817644e3ec54f1fb0da2ec1df40294fb10: *none*
- - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n3817644e3ec54f1fb0da2ec1df40294fb12: *none*
- - Shape _:n3817644e3ec54f1fb0da2ec1df40294fb51: *none*
- - Shape _:n3817644e3ec54f1fb0da2ec1df40294fb38: *none*
- - Shape _:n3817644e3ec54f1fb0da2ec1df40294fb5: *none*
- - Shape _:n3817644e3ec54f1fb0da2ec1df40294fb37: *none*
- - Shape cdifd:CDIFVariableMeasuredShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n3817644e3ec54f1fb0da2ec1df40294fb44: *none*
- - Shape _:n3817644e3ec54f1fb0da2ec1df40294fb8: *none*
- - Shape _:n3817644e3ec54f1fb0da2ec1df40294fb7: *none*
- - Shape _:n3817644e3ec54f1fb0da2ec1df40294fb30: *none*
-
-Validation result for _sources/cdifProperties/cdifValueDomain/rules.shacl:
-  Validation Report
-  Conforms: True
-  
-Focus nodes for _sources/cdifProperties/cdifValueDomain/rules.shacl:
- - Shape cdifd:cdifSubstantiveValueDomainShape: *none*
- - Shape cdifd:cdifSentinelValueDomainShape: *none*
-
-Validation result for _sources/cdifProperties/cdifEnumerationDomain/rules.shacl:
-  Validation Report
-  Conforms: True
-  
-Focus nodes for _sources/cdifProperties/cdifEnumerationDomain/rules.shacl:
- - Shape cdifd:cdifEnumerationDomainShape: *none*
-
-Validation result for _sources/skosProperties/skosConceptScheme/rules.shacl:
-  Validation Report
-  Conforms: True
-  
-Focus nodes for _sources/skosProperties/skosConceptScheme/rules.shacl:
- - Shape skosv:ConceptSchemeShape: *none*
- - Shape skosv:schemePrefLabelUniqueLangShape: *none*
-
-Validation result for _sources/cdifProperties/cdifPhysicalMapping/rules.shacl:
-  Validation Report
-  Conforms: True
-  
-Focus nodes for _sources/cdifProperties/cdifPhysicalMapping/rules.shacl:
- - Shape cdifd:physicalMappingShape: *none*
+Focus nodes for _sources/provProperties/generatedBy/rules.shacl:
+ - Shape _:ne38eabb3e20d4e88acd52fd7667abc4fb5: *none*
+ - Shape cdifd:generatedByNode/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:generatedByNode: *none*
+ - Shape _:ne38eabb3e20d4e88acd52fd7667abc4fb4: *none*
 
 Validation result for _sources/schemaorgProperties/temporalExtent/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/temporalExtent/rules.shacl:
- - Shape cdifd:temporalExtentProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:na6f130340f7a433b826a86dec25e8cc0b3: *none*
- - Shape _:na6f130340f7a433b826a86dec25e8cc0b17: *none*
- - Shape _:na6f130340f7a433b826a86dec25e8cc0b4: *none*
- - Shape cdifd:timeIntervalNode: *none*
- - Shape cdifd:timePositionNode: *none*
- - Shape cdifd:temporalExtentProperty/sh:or/rdf:first: *none*
+ - Shape _:ne6f7538d13e942bdbd78504470401762b4: *none*
  - Shape cdifd:timePositionNode/sh:property/sh:or/rdf:first: *none*
- - Shape _:na6f130340f7a433b826a86dec25e8cc0b5: *none*
+ - Shape cdifd:temporalExtentProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:timePositionNode: *none*
+ - Shape _:ne6f7538d13e942bdbd78504470401762b3: *none*
+ - Shape _:ne6f7538d13e942bdbd78504470401762b5: *none*
+ - Shape _:ne6f7538d13e942bdbd78504470401762b17: *none*
+ - Shape cdifd:timeIntervalNode: *none*
  - Shape cdifd:timeInstantNode: *none*
+ - Shape cdifd:temporalExtentProperty/sh:or/rdf:first: *none*
 
 === End SHACL ===
 

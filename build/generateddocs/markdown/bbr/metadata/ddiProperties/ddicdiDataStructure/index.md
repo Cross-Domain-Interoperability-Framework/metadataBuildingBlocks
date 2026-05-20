@@ -49,36 +49,43 @@ $defs:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ForeignKey
       cdi:has_DataStructureComponent:
         type: array
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
       cdi:has_ComponentPosition:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ComponentPosition'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ComponentPosition
       cdi:has_PrimaryKey:
         anyOf:
         - $ref: '#/$defs/PrimaryKey'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_PrimaryKey
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:semantic:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/PairedControlledVocabularyEntry
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic
       cdi:specialization:
         $ref: '#/$defs/SpecializationRole'
         description: The role played by the component for the data set for purposes
           of harmonization and integration, typically regarding geography, time, etc.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/specialization
     required:
     - '@type'
   DimensionalDataStructure:
@@ -102,42 +109,50 @@ $defs:
           anyOf:
           - $ref: '#/$defs/DimensionGroup'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/uses
       cdi:has_ForeignKey:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ForeignKey
       cdi:has_DataStructureComponent:
         type: array
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
       cdi:has_ComponentPosition:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ComponentPosition'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ComponentPosition
       cdi:has_PrimaryKey:
         anyOf:
         - $ref: '#/$defs/PrimaryKey'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_PrimaryKey
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:semantic:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/PairedControlledVocabularyEntry
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic
       cdi:specialization:
         $ref: '#/$defs/SpecializationRole'
         description: The role played by the component for the data set for purposes
           of harmonization and integration, typically regarding geography, time, etc.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/specialization
     required:
     - '@type'
   LongDataStructure:
@@ -162,36 +177,43 @@ $defs:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ForeignKey
       cdi:has_DataStructureComponent:
         type: array
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
       cdi:has_ComponentPosition:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ComponentPosition'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ComponentPosition
       cdi:has_PrimaryKey:
         anyOf:
         - $ref: '#/$defs/PrimaryKey'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_PrimaryKey
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:semantic:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/PairedControlledVocabularyEntry
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic
       cdi:specialization:
         $ref: '#/$defs/SpecializationRole'
         description: The role played by the component for the data set for purposes
           of harmonization and integration, typically regarding geography, time, etc.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/specialization
     required:
     - '@type'
   WideDataStructure:
@@ -215,36 +237,43 @@ $defs:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ForeignKey
       cdi:has_DataStructureComponent:
         type: array
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
       cdi:has_ComponentPosition:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/ComponentPosition'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ComponentPosition
       cdi:has_PrimaryKey:
         anyOf:
         - $ref: '#/$defs/PrimaryKey'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_PrimaryKey
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:semantic:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/PairedControlledVocabularyEntry
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic
       cdi:specialization:
         $ref: '#/$defs/SpecializationRole'
         description: The role played by the component for the data set for purposes
           of harmonization and integration, typically regarding geography, time, etc.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/specialization
     required:
     - '@type'
   ComponentPosition:
@@ -266,13 +295,16 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:value:
         type: integer
         description: Index value of the member in an ordered array.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/value
       cdi:indexes:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/indexes
     required:
     - '@type'
   DimensionGroup:
@@ -294,6 +326,7 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:name:
         type: array
         items:
@@ -301,6 +334,7 @@ $defs:
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdi:has:
         type: array
         items:
@@ -308,6 +342,7 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has
     required:
     - '@type'
   ForeignKey:
@@ -329,6 +364,7 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:isComposedOf:
         type: array
         items:
@@ -336,6 +372,7 @@ $defs:
           - $ref: '#/$defs/ForeignKeyComponent'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isComposedOf
     required:
     - '@type'
   ForeignKeyComponent:
@@ -356,14 +393,17 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:references:
         anyOf:
         - $ref: '#/$defs/PrimaryKeyComponent'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/references
       cdi:correspondsTo:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/correspondsTo
     required:
     - '@type'
   PrimaryKey:
@@ -384,6 +424,7 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:isComposedOf:
         type: array
         items:
@@ -391,6 +432,7 @@ $defs:
           - $ref: '#/$defs/PrimaryKeyComponent'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isComposedOf
     required:
     - '@type'
   PrimaryKeyComponent:
@@ -411,10 +453,12 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:correspondsTo:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataStructureComponent/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/correspondsTo
     required:
     - '@type'
   SpecializationRole:

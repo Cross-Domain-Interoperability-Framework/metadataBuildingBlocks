@@ -644,12 +644,12 @@ ex:op_searchAnalyses a schema1:SearchAction ;
                 ex:param_start ;
             oas:response [ schema1:description "Tabular geochemical analysis results matching the query." ;
                     oas:code "200" ;
-                    oas:content [ schema1:encodingFormat "text/csv" ;
-                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.csv-frictionless.json" ;
-                                    oas:type "string" ] ],
-                        [ schema1:encodingFormat "application/json" ;
+                    oas:content [ schema1:encodingFormat "application/json" ;
                             oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.json" ;
-                                    oas:type "object" ] ] ],
+                                    oas:type "object" ] ],
+                        [ schema1:encodingFormat "text/csv" ;
+                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.csv-frictionless.json" ;
+                                    oas:type "string" ] ] ],
                 [ schema1:description "Invalid query parameter (e.g. malformed bbox)." ;
                     oas:code "400" ;
                     oas:content [ schema1:encodingFormat "application/json" ;
@@ -666,12 +666,12 @@ ex:op_submitAnalysis a schema1:CreateAction ;
                             oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisSubmission.json" ;
                                     oas:type "object" ] ] ;
                     oas:required true ] ;
-            oas:response [ schema1:description "Analysis accepted; response payload contains the assigned identifier." ;
-                    oas:code "201" ;
+            oas:response [ schema1:description "Authentication required." ;
+                    oas:code "401" ;
                     oas:content [ schema1:encodingFormat "application/json" ;
                             oas:schema [ oas:type "object" ] ] ],
-                [ schema1:description "Authentication required." ;
-                    oas:code "401" ;
+                [ schema1:description "Analysis accepted; response payload contains the assigned identifier." ;
+                    oas:code "201" ;
                     oas:content [ schema1:encodingFormat "application/json" ;
                             oas:schema [ oas:type "object" ] ] ] ] .
 
@@ -737,9 +737,11 @@ properties:
   schema:name:
     type: string
     description: title of the API. Maps OpenAPI info.title.
+    x-jsonld-id: http://schema.org/name
   schema:description:
     type: string
     description: description of the API. Maps OpenAPI info.description. May use CommonMark.
+    x-jsonld-id: http://schema.org/description
   schema:serviceType:
     description: identifier for the kind of service, expected to identify the service
       type and version. For interoperability, ideally a resolvable identifier; otherwise
@@ -748,6 +750,7 @@ properties:
     anyOf:
     - type: string
     - $ref: '#/$defs/DefinedTerm'
+    x-jsonld-id: http://schema.org/serviceType
   schema:termsOfService:
     description: Description of access privileges required to use the API (e.g. registration,
       licensing, payments). Maps OpenAPI info.termsOfService. Note that access constraints
@@ -756,6 +759,7 @@ properties:
     oneOf:
     - type: string
     - $ref: '#/$defs/Reference'
+    x-jsonld-id: http://schema.org/termsOfService
   schema:documentation:
     description: a document that provides a machine-actionable description of this
       service instance, typically the canonical OpenAPI document. Even when this BB
@@ -764,6 +768,7 @@ properties:
     oneOf:
     - type: string
     - $ref: '#/$defs/Reference'
+    x-jsonld-id: http://schema.org/documentation
   spdx:license:
     description: SPDX license identifier expression for the API itself, per OpenAPI
       License Object. Use schema:license at the resource (parent) level for licensing
@@ -772,6 +777,7 @@ properties:
     oneOf:
     - type: string
     - $ref: '#/$defs/Reference'
+    x-jsonld-id: http://spdx.org/rdf/terms#license
   schema:potentialAction:
     type: array
     description: operations exposed by the API. Each entry corresponds to an OpenAPI
@@ -779,6 +785,7 @@ properties:
     minItems: 1
     items:
       $ref: '#/$defs/Operation'
+    x-jsonld-id: http://schema.org/potentialAction
 required:
 - '@type'
 - schema:serviceType
@@ -818,11 +825,14 @@ $defs:
       schema:name:
         type: string
         description: identifier for the operation. Maps OpenAPI operationId.
+        x-jsonld-id: http://schema.org/name
       schema:description:
         type: string
         description: description of the operation. Maps OpenAPI Operation.description.
+        x-jsonld-id: http://schema.org/description
       schema:target:
         $ref: '#/$defs/EntryPoint'
+        x-jsonld-id: http://schema.org/target
     required:
     - schema:name
     - schema:target
@@ -845,6 +855,7 @@ $defs:
         description: full URL template (RFC 6570) for invoking the operation; concatenation
           of the OpenAPI server URL and the path. Parameters are enclosed in curly
           braces {..} and MUST be documented in oas:parameters.
+        x-jsonld-id: http://schema.org/urlTemplate
       schema:httpMethod:
         type: array
         description: HTTP method for the operation. Default GET.
@@ -862,16 +873,19 @@ $defs:
           - QUERY
         default:
         - GET
+        x-jsonld-id: http://schema.org/httpMethod
       oas:parameters:
         type: array
         description: query, path, header, or cookie parameters accepted by the operation.
           Maps OpenAPI Parameter Object.
         items:
           $ref: '#/$defs/Parameter'
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#parameters
       oas:requestBody:
         description: request body for the operation (typically POST/PUT/PATCH). Maps
           OpenAPI Request Body Object.
         $ref: '#/$defs/RequestBody'
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#requestBody
       oas:response:
         type: array
         description: possible responses returned by the operation. Maps OpenAPI Responses
@@ -880,6 +894,7 @@ $defs:
         minItems: 1
         items:
           $ref: '#/$defs/Response'
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#response
     required:
     - schema:urlTemplate
     - oas:response
@@ -893,6 +908,7 @@ $defs:
         type: string
         description: name of the parameter (case-sensitive). For path parameters,
           MUST match a {template} expression in schema:urlTemplate.
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#name
       oas:in:
         type: string
         enum:
@@ -902,18 +918,22 @@ $defs:
         - header
         - cookie
         description: location of the parameter.
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#in
       oas:description:
         type: string
         description: description of the parameter, including serialization or semantic
           notes.
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#description
       oas:required:
         type: boolean
         default: false
         description: whether the parameter is mandatory. MUST be true if oas:in is
           "path".
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#required
       oas:schema:
         description: schema describing the parameter value type, format, and any pattern.
         $ref: '#/$defs/Schema'
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#schema
     required:
     - oas:name
     - oas:in
@@ -923,9 +943,11 @@ $defs:
     properties:
       schema:description:
         type: string
+        x-jsonld-id: http://schema.org/description
       oas:required:
         type: boolean
         default: false
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#required
       oas:content:
         type: array
         description: representations the request body may take. Maps OpenAPI Request
@@ -934,6 +956,7 @@ $defs:
         minItems: 1
         items:
           $ref: '#/$defs/MediaType'
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#content
     required:
     - oas:content
   Response:
@@ -945,9 +968,11 @@ $defs:
         description: HTTP status code (e.g. "200", "404", "303") this response describes.
           Default "200".
         default: '200'
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#code
       schema:description:
         type: string
         description: description of the response.
+        x-jsonld-id: http://schema.org/description
       oas:content:
         type: array
         description: representations the response payload may take. Maps OpenAPI Response
@@ -956,6 +981,7 @@ $defs:
         minItems: 1
         items:
           $ref: '#/$defs/MediaType'
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#content
     required:
     - schema:description
     - oas:content
@@ -968,12 +994,14 @@ $defs:
         type: string
         description: registered MIME type for this representation (e.g. application/json,
           text/csv). Replaces OpenAPI's media-type map key.
+        x-jsonld-id: http://schema.org/encodingFormat
       oas:schema:
         description: schema describing the structure of the payload. May reference
           an external JSON Schema or XML Schema document via oas:$ref. For tabular
           outputs, the referenced schema may align with InstanceVariable definitions
           in cdifInstanceVariable.
         $ref: '#/$defs/Schema'
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#schema
     required:
     - schema:encodingFormat
   Schema:
@@ -993,21 +1021,26 @@ $defs:
         - array
         - object
         default: string
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#type
       oas:format:
         type: string
         description: optional format hint (e.g. "int32", "date-time", "uri", "decimal").
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#format
       oas:pattern:
         type: string
         description: regular expression the value must match (string types).
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#pattern
       oas:enum:
         type: array
         description: enumeration of permitted values.
         items: {}
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#enum
       oas:$ref:
         type: string
         format: uri
         description: reference to an external JSON Schema or XML Schema document describing
           a complex payload structure.
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#$ref
   Reference:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifReference/schema.yaml
   DefinedTerm:

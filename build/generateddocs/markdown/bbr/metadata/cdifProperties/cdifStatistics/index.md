@@ -389,18 +389,18 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
             schema1:name "arithmetic mean" ] ;
     cdif:appliesTo ex:var-temperature ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/category/surface> ;
+            cdi:for <https://example.org/category/deep> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 1.581e+01 ;
+                    cdi:content 1.007e+01 ;
                     cdi:isWeighted true ] ;
             cdi:typeOfStatistic [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
                     schema1:name "Mean" ;
                     schema1:termCode "mean" ] ],
         [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/category/deep> ;
+            cdi:for <https://example.org/category/surface> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 1.007e+01 ;
+                    cdi:content 1.581e+01 ;
                     cdi:isWeighted true ] ;
             cdi:typeOfStatistic [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
@@ -599,17 +599,21 @@ $defs:
         description: "The cases included in determining the statistic \u2014 Total
           (all cases, valid and missing), ValidOnly (valid values only), MissingOnly
           (invalid cases only)."
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/computationBase
       cdi:content:
         type: number
         description: The value of the statistic expressed as a real number.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/content
       cdi:isWeighted:
         type: boolean
         default: false
         description: True if the statistic was computed using a weighting variable.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isWeighted
       cdi:typeOfNumericValue:
         type: string
         description: "The type of numeric value carried in cdi:content \u2014 decimal,
           float, or double."
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfNumericValue
   Statistics:
     title: Statistics
     description: A named bundle of one or more Statistic value objects for an instance
@@ -630,6 +634,7 @@ $defs:
         description: "Controlled-vocabulary entry naming the kind of statistic \u2014
           e.g. mean, median, count, sum, stdDev."
         $ref: '#/$defs/SkosConcept'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic
       cdi:statistic:
         type: array
         description: "Ordered list of Statistic value objects carried by this bundle.
@@ -637,6 +642,7 @@ $defs:
         items:
           $ref: '#/$defs/Statistic'
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/statistic
       cdi:hasWeight:
         description: The InstanceVariable whose values were used as weights when computing
           the Statistic entries (inline cdifInstanceVariable node or an @id-reference).
@@ -648,6 +654,7 @@ $defs:
               type: string
           required:
           - '@id'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight
       cdif:appliesTo:
         type: array
         description: "CDIF addition (not in canonical DDI-CDI): the InstanceVariable(s)
@@ -665,6 +672,7 @@ $defs:
             required:
             - '@id'
         minItems: 1
+        x-jsonld-id: https://cdif.org/0.1/appliesTo
       cdif:has_CategoryStatistics:
         type: array
         description: 'CategoryStatistics entries breaking this Statistics bundle down
@@ -672,6 +680,7 @@ $defs:
           association is polymorphic.'
         items:
           $ref: '#/$defs/CategoryStatistics'
+        x-jsonld-id: https://cdif.org/0.1/has_CategoryStatistics
     required:
     - '@type'
     - cdi:statistic
@@ -702,15 +711,18 @@ $defs:
               type: string
           required:
           - '@id'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/for
       cdi:typeOfStatistic:
         description: Controlled-vocabulary entry naming the kind of statistic.
         $ref: '#/$defs/SkosConcept'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic
       cdi:statistic:
         type: array
         description: Per-category Statistic value objects.
         items:
           $ref: '#/$defs/Statistic'
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/statistic
       cdi:hasWeight:
         description: The InstanceVariable whose values were used as weights (inline
           cdifInstanceVariable node or an @id-reference).
@@ -722,6 +734,7 @@ $defs:
               type: string
           required:
           - '@id'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight
     required:
     - '@type'
     - cdi:for
@@ -754,6 +767,7 @@ $defs:
               type: string
           required:
           - '@id'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight
       cdif:has_Statistics:
         type: array
         description: 'Statistics nodes carried by this collection (inline or @id-ref).
@@ -769,6 +783,7 @@ $defs:
             required:
             - '@id'
         minItems: 1
+        x-jsonld-id: https://cdif.org/0.1/has_Statistics
       cdif:indexedBy:
         type: array
         description: "CDIF addition (not in canonical DDI-CDI): the InstanceVariable(s)
@@ -783,6 +798,7 @@ $defs:
             required:
             - '@id'
         minItems: 1
+        x-jsonld-id: https://cdif.org/0.1/indexedBy
     required:
     - '@type'
     - cdif:has_Statistics
@@ -809,20 +825,24 @@ $defs:
           type: string
         description: Human-understandable name(s). CDIF-simplified from DDI-CDI Category.name
           (ObjectName) to plain strings.
+        x-jsonld-id: https://cdif.org/0.1/name
       cdif:descriptiveText:
         type: string
         description: Short natural-language account of the category. CDIF-simplified
           from DDI-CDI Category.descriptiveText (InternationalString).
+        x-jsonld-id: https://cdif.org/0.1/descriptiveText
       cdif:definition:
         type: string
         description: Natural-language definition of the category. CDIF-simplified
           from DDI-CDI Category.definition (InternationalString).
+        x-jsonld-id: https://cdif.org/0.1/definition
       cdif:displayLabel:
         type: array
         items:
           type: string
         description: Human-readable display label(s). CDIF-simplified from DDI-CDI
           Category.displayLabel (LabelForDisplay).
+        x-jsonld-id: https://cdif.org/0.1/displayLabel
   SkosConcept:
     title: SKOS Concept (CDIF vocabulary-bound term reference)
     description: "Vocabulary-bound term reference. CDIF policy implements the DDI-CDI

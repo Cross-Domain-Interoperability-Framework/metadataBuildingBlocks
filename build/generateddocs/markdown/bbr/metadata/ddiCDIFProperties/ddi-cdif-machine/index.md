@@ -232,12 +232,15 @@ properties:
   cdi:accessLocation:
     description: Network or physical access point for this machine
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/AccessLocation
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/accessLocation
   cdi:function:
     description: Function performed by this machine
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/function
   cdi:machineInterface:
     description: Interface type for this machine
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/machineInterface
   cdi:name:
     description: Name(s) of this machine
     anyOf:
@@ -245,21 +248,27 @@ properties:
     - type: array
       items:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ObjectName
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
   cdi:ownerOperatorContact:
     description: Contact information for the owner or operator
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ContactInformation
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/ownerOperatorContact
   cdi:typeOfMachine:
     description: Classification of this machine
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfMachine
   cdi:identifier:
     description: Formal identifier for this agent
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
   cdi:image:
     description: Image associated with this agent
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/PrivateImage
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/image
   cdi:purpose:
     description: Purpose or role of this agent
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/purpose
 required:
 - '@type'
 x-jsonld-prefixes:

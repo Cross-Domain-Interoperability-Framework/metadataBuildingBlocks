@@ -153,6 +153,7 @@ $defs:
           - if True, there may be duplicates. (Note that a mathematical \u201Cbag\u201D
           permits duplicates and is unordered - a \u201Cset\u201D does not have duplicates
           and may be ordered.)"
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/allowsDuplicates
       cdi:name:
         type: array
         items:
@@ -160,15 +161,18 @@ $defs:
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdi:purpose:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
         description: Intent or reason for the object/the description of the object.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/purpose
       cdi:has:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/Member'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has
     required:
     - '@type'
   List:
@@ -192,12 +196,14 @@ $defs:
           anyOf:
           - $ref: '#/$defs/Position'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has
       cdi:allowsDuplicates:
         type: boolean
         description: "If value is False, the members are unique within the collection
           - if True, there may be duplicates. (Note that a mathematical \u201Cbag\u201D
           permits duplicates and is unordered - a \u201Cset\u201D does not have duplicates
           and may be ordered.)"
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/allowsDuplicates
       cdi:name:
         type: array
         items:
@@ -205,9 +211,11 @@ $defs:
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdi:purpose:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
         description: Intent or reason for the object/the description of the object.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/purpose
     required:
     - '@type'
   Map:
@@ -231,18 +239,21 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/CorrespondenceDefinition
         description: Type of correspondence in terms of commonalities and differences
           between two members.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/correspondence
       cdi:hasTarget:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/Member'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasTarget
       cdi:hasSource:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/Member'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasSource
     required:
     - '@type'
   Member:
@@ -281,18 +292,21 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry
         description: Specifies the semantics of the object in reference to a vocabulary,
           ontology, etc.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantics
       cdi:hasTarget:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/Member'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasTarget
       cdi:hasSource:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/Member'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasSource
     required:
     - '@type'
   Position:
@@ -312,10 +326,12 @@ $defs:
       cdi:value:
         type: integer
         description: Index value of the member in an ordered array.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/value
       cdi:indexes:
         anyOf:
         - $ref: '#/$defs/Member'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/indexes
     required:
     - '@type'
   Structure:
@@ -350,18 +366,22 @@ $defs:
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdi:purpose:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
         description: Intent or reason for the object/the description of the object.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/purpose
       cdi:semantics:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry
         description: Specifies the semantics of the object in reference to a vocabulary,
           ontology, etc.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantics
       cdi:specification:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/StructureSpecification
         description: Provides information on reflexivity, transitivity, and symmetry
           of relationship using a descriptive term from an enumerated list. Use if
           all relations within this relation structure are of the same specification.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/specification
       cdi:topology:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry
         description: 'Means of organizing a set of members in a collection based on
@@ -380,6 +400,7 @@ $defs:
           into non-empty and non-overlapping sub-collections - Tree: organized collection
           where members are vertices, relationships between them are edges and any
           two vertices are connected by exactly one path (sequence of contiguous edges)'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/topology
       cdi:totality:
         type: string
         enum:
@@ -388,16 +409,19 @@ $defs:
         description: Indicates whether the related collections are comprehensive in
           terms of their coverage i.e application to all (total) or some (partial)
           members.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/totality
       cdi:structures:
         anyOf:
         - $ref: '#/$defs/Collection'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/structures
       cdi:has:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/MemberRelationship'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has
     required:
     - '@type'
   IndividualMember:
@@ -434,6 +458,7 @@ $defs:
       cdi:purpose:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
         description: Intent or reason for the object/the description of the object.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/purpose
       cdi:maps:
         type: array
         items:
@@ -441,12 +466,14 @@ $defs:
           - $ref: '#/$defs/Collection'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         minItems: 2
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/maps
       cdi:has:
         type: array
         items:
           anyOf:
           - $ref: '#/$defs/Map'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has
     required:
     - '@type'
 x-jsonld-prefixes:

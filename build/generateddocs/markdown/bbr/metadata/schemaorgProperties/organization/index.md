@@ -239,19 +239,24 @@ properties:
       anyOf:
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
       - type: string
+    x-jsonld-id: http://schema.org/additionalType
   schema:name:
     type: string
     description: string label for organization that is meaningful for human users
+    x-jsonld-id: http://schema.org/name
   schema:alternateName:
     type: string
     description: other labels by which the organization might be known
+    x-jsonld-id: http://schema.org/alternateName
   schema:description:
     type: string
+    x-jsonld-id: http://schema.org/description
   schema:identifier:
     description: identifier for organization
     anyOf:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
     - type: string
+    x-jsonld-id: http://schema.org/identifier
   schema:sameAs:
     type: array
     description: other identifiers for the organization
@@ -262,6 +267,7 @@ properties:
         properties:
           '@id':
             type: string
+    x-jsonld-id: http://schema.org/sameAs
 allOf:
 - required:
   - '@type'

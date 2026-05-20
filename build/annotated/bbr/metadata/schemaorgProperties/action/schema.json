@@ -32,7 +32,8 @@
     },
     "schema:name": {
       "type": "string",
-      "description": "text label for the action"
+      "description": "text label for the action",
+      "x-jsonld-id": "http://schema.org/name"
     },
     "schema:target": {
       "type": "object",
@@ -50,11 +51,13 @@
           "minItems": 1
         },
         "schema:description": {
-          "type": "string"
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/description"
         },
         "schema:urlTemplate": {
           "type": "string",
-          "description": "a templated URL; parameters are enclosed in curly braces ({..}); parameters are not required. If included, parameters MUST be documented in the query-input element. Template should be consitent with URI Template (https://datatracker.ietf.org/doc/html/rfc6570) examples: - http://portal.chordsrt.com/api/v1/data.{encoding}; single parameter - http://portal.chordsrt.com/api/v1/data.{encoding}?instruments={instruments}&start={start}&end={end} ; multiple parameters - {endpoint}{encoding}; endpoint URL path is a parameter,should only appear in potential actions for API specification descriptions, which are generic-not specific to a particular endpoint."
+          "description": "a templated URL; parameters are enclosed in curly braces ({..}); parameters are not required. If included, parameters MUST be documented in the query-input element. Template should be consitent with URI Template (https://datatracker.ietf.org/doc/html/rfc6570) examples: - http://portal.chordsrt.com/api/v1/data.{encoding}; single parameter - http://portal.chordsrt.com/api/v1/data.{encoding}?instruments={instruments}&start={start}&end={end} ; multiple parameters - {endpoint}{encoding}; endpoint URL path is a parameter,should only appear in potential actions for API specification descriptions, which are generic-not specific to a particular endpoint.",
+          "x-jsonld-id": "http://schema.org/urlTemplate"
         },
         "schema:httpMethod": {
           "title": "HTTP Method",
@@ -74,19 +77,22 @@
               "OPTIONS",
               "PROPFIND"
             ]
-          }
+          },
+          "x-jsonld-id": "http://schema.org/httpMethod"
         },
         "schema:contentType": {
           "type": "array",
           "description": "The supported content type(s) for an EntryPoint response. a MIME type (https://www.iana.org/assignments/media-types/media-types.xhtml) that specifies the content type for messages in resonses from the service endpoint. This is a schema.org property, and is redundant with encodingFormat in the result property for the Action.",
           "items": {
             "type": "string"
-          }
+          },
+          "x-jsonld-id": "http://schema.org/contentType"
         }
       },
       "required": [
         "schema:urlTemplate"
-      ]
+      ],
+      "x-jsonld-id": "http://schema.org/target"
     },
     "schema:result": {
       "type": "object",
@@ -107,12 +113,15 @@
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "x-jsonld-id": "http://schema.org/encodingFormat"
         },
         "schema:description": {
-          "type": "string"
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/description"
         }
-      }
+      },
+      "x-jsonld-id": "http://schema.org/result"
     },
     "schema:object": {
       "type": "object",
@@ -127,9 +136,11 @@
           "minItems": 1
         },
         "schema:description": {
-          "type": "string"
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/description"
         }
-      }
+      },
+      "x-jsonld-id": "http://schema.org/object"
     },
     "schema:query-input": {
       "type": "array",
@@ -152,17 +163,21 @@
             "minItems": 1
           },
           "schema:valueName": {
-            "type": "string"
+            "type": "string",
+            "x-jsonld-id": "http://schema.org/valueName"
           },
           "schema:description": {
-            "type": "string"
+            "type": "string",
+            "x-jsonld-id": "http://schema.org/description"
           },
           "schema:valueRequired": {
             "type": "boolean",
-            "default": true
+            "default": true,
+            "x-jsonld-id": "http://schema.org/valueRequired"
           },
           "schema:valuePattern": {
-            "type": "string"
+            "type": "string",
+            "x-jsonld-id": "http://schema.org/valuePattern"
           }
         },
         "required": [
@@ -170,7 +185,8 @@
           "schema:description"
         ]
       },
-      "description": "set of explanations of the parameters in the URL template for the target."
+      "description": "set of explanations of the parameters in the URL template for the target.",
+      "x-jsonld-id": "http://schema.org/query-input"
     }
   },
   "required": [

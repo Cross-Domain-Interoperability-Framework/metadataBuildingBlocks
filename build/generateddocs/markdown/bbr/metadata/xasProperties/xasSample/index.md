@@ -255,31 +255,18 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
 ex:exampleSampel_357h a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "porosity" ;
-            schema1:propertyID "xas:porosity" ;
-            schema1:unitText "percent" ;
-            schema1:value "27" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "crystal unit cell" ;
-            schema1:propertyID "nxs:Field/NXsample/unit_cell" ;
-            schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
-        [ a schema1:PropertyValue ;
             schema1:name "Parent sample" ;
             schema1:propertyID "xas:parentSample" ;
             schema1:value "igsn:10.3476/342573" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "samplePreparation" ;
-            schema1:propertyID "xas:samplePreparation" ;
-            schema1:value "powder on tape, 6 layers" ],
         [ a schema1:PropertyValue ;
             schema1:name "sample mass" ;
             schema1:propertyID "nxs:Field/NXsample/mass" ;
             schema1:unitText "mg" ;
             schema1:value "10" ],
         [ a schema1:PropertyValue ;
-            schema1:name "crystal point group" ;
-            schema1:propertyID "nxs:Field/NXsample/point_group" ;
-            schema1:value "mm2" ],
+            schema1:name "samplePreparation" ;
+            schema1:propertyID "xas:samplePreparation" ;
+            schema1:value "powder on tape, 6 layers" ],
         [ a schema1:PropertyValue ;
             schema1:name "sample material state" ;
             schema1:propertyID "xas:materialState" ;
@@ -287,7 +274,20 @@ ex:exampleSampel_357h a schema1:Product,
         [ a schema1:PropertyValue ;
             schema1:name "stoichiometry" ;
             schema1:propertyID "xas:stoichiometry" ;
-            schema1:value "Na2SeO4" ] ;
+            schema1:value "Na2SeO4" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "crystal unit cell" ;
+            schema1:propertyID "nxs:Field/NXsample/unit_cell" ;
+            schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "porosity" ;
+            schema1:propertyID "xas:porosity" ;
+            schema1:unitText "percent" ;
+            schema1:value "27" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "crystal point group" ;
+            schema1:propertyID "nxs:Field/NXsample/point_group" ;
+            schema1:value "mm2" ] ;
     schema1:additionalType "MaterialSample",
         "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample",
         "https://www.wikidata.org/wiki/Q485146" ;
@@ -331,14 +331,18 @@ properties:
     - contains:
         const: https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample
       minContains: 1
+    x-jsonld-id: http://schema.org/additionalType
   schema:name:
     type: string
+    x-jsonld-id: http://schema.org/name
   schema:identifier:
     anyOf:
     - type: string
     - $ref: '#/$defs/Identifier'
+    x-jsonld-id: http://schema.org/identifier
   schema:description:
     type: string
+    x-jsonld-id: http://schema.org/description
   schema:additionalProperty:
     type: array
     description: extend base definition (AdditionalProperty) with some expected propertyID
@@ -361,6 +365,8 @@ properties:
                 - nxs:Field/NXsample/unit_cell
                 - xas:parentSample
                 - xas:materialState
+            x-jsonld-id: http://schema.org/propertyID
+    x-jsonld-id: http://schema.org/additionalProperty
 required:
 - '@type'
 - schema:additionalType

@@ -576,17 +576,20 @@ properties:
       anyOf:
       - type: string
       - $ref: '#/$defs/DefinedTerm'
+    x-jsonld-id: http://schema.org/additionalType
   schema:name:
     description: A place name for the location, either as a string or a DefinedTerm
       from a gazetteer.
     anyOf:
     - type: string
     - $ref: '#/$defs/DefinedTerm'
+    x-jsonld-id: http://schema.org/name
   schema:identifier:
     description: Formal identifier for this place (e.g. ROR identifier for a facility).
     anyOf:
     - type: string
     - $ref: '#/$defs/Identifier'
+    x-jsonld-id: http://schema.org/identifier
   schema:alternateName:
     description: Alternate or abbreviated name(s) for this place.
     type: array
@@ -594,6 +597,7 @@ properties:
       anyOf:
       - type: string
       - $ref: '#/$defs/DefinedTerm'
+    x-jsonld-id: http://schema.org/alternateName
   schema:geo:
     description: Either a bounding box or a point location.
     anyOf:
@@ -616,10 +620,12 @@ properties:
           type: number
           minimum: -90
           maximum: 90
+          x-jsonld-id: http://schema.org/latitude
         schema:longitude:
           type: number
           minimum: -180
           maximum: 180
+          x-jsonld-id: http://schema.org/longitude
       required:
       - '@type'
       - schema:latitude
@@ -646,6 +652,7 @@ properties:
             used to separate the latitude and longitude values. The two corner coordinate
             points are separated by a space. 'East longitude' means positive longitude
             values are east of the prime (Greenwich) meridian.
+          x-jsonld-id: http://schema.org/box
       required:
       - '@type'
       - schema:box
@@ -669,9 +676,11 @@ properties:
             separated by a space. ''East longitude'' means positive longitude values
             are east of the prime (Greenwich) meridian. e.g. ''39.33 120.77 40.44
             123.96 41.00 121.34'' '
+          x-jsonld-id: http://schema.org/line
       required:
       - '@type'
       - schema:line
+    x-jsonld-id: http://schema.org/geo
   geosparql:hasGeometry:
     type: object
     description: Optional geographic extent using wkt geometry, see Ocean InfoHub

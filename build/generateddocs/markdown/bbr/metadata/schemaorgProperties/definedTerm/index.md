@@ -189,17 +189,21 @@ properties:
   schema:name:
     type: string
     description: text label for the term that is useful to human user
+    x-jsonld-id: http://schema.org/name
   schema:identifier:
     anyOf:
     - type: string
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
+    x-jsonld-id: http://schema.org/identifier
   schema:inDefinedTermSet:
     type: string
     description: Name for the controlled vocabulary responsible for this keyword.
+    x-jsonld-id: http://schema.org/inDefinedTermSet
   schema:termCode:
     type: string
     description: A representative code for this keyword in the controlled vocabulary.
       Analogous to skos:Notation
+    x-jsonld-id: http://schema.org/termCode
 allOf:
 - required:
   - '@type'

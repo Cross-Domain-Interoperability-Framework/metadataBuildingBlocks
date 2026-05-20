@@ -224,12 +224,15 @@ properties:
   schema:identifier:
     $ref: '#/$defs/Identifier'
     description: identifier for a particular grant
+    x-jsonld-id: http://schema.org/identifier
   schema:description:
     type: string
     description: description of the funding or grant
+    x-jsonld-id: http://schema.org/description
   schema:name:
     type: string
     description: title of the grant
+    x-jsonld-id: http://schema.org/name
   schema:funder:
     anyOf:
     - type: object
@@ -242,6 +245,7 @@ properties:
       - '@id'
     - $ref: '#/$defs/Person'
     - $ref: '#/$defs/Organization'
+    x-jsonld-id: http://schema.org/funder
 anyOf:
 - required:
   - schema:funder

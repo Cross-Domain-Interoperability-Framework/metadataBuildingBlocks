@@ -332,10 +332,10 @@ wrapper) and a non-trivial code → variable mapping.
 <https://example.org/vd/measureName> a cdi:DescriptorValueDomain ;
     cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
             cdif:value "heart_rate" ],
-        [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
-            cdif:value "systolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
             cdif:value "diastolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
+            cdif:value "systolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;
             cdif:value "temp_c" ] .
 
@@ -369,6 +369,7 @@ properties:
       in the descriptor column, each paired (via cdif:isDefinedBy) with the RepresentedVariable
       that the code names.
     $ref: '#/$defs/DescriptorValueDomain'
+    x-jsonld-id: https://cdif.org/0.1/hasValuesFrom
   cdi:name:
     type: array
     items:
@@ -377,6 +378,7 @@ properties:
     description: Human understandable name (linguistic signifier, word, phrase, or
       mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided
       to specify usage.
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
 required:
 - '@type'
 - cdif:hasValuesFrom
@@ -408,6 +410,7 @@ $defs:
             cdif:value:
               type: string
               description: The code value as it appears in the descriptor column.
+              x-jsonld-id: https://cdif.org/0.1/value
             cdif:isDefinedBy:
               anyOf:
               - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.yaml
@@ -419,10 +422,12 @@ $defs:
                     type: string
                 required:
                 - '@id'
+              x-jsonld-id: https://cdif.org/0.1/isDefinedBy
           required:
           - cdif:value
           - cdif:isDefinedBy
         minItems: 1
+        x-jsonld-id: https://cdif.org/0.1/takesValuesFrom
     required:
     - '@type'
     - cdif:takesValuesFrom

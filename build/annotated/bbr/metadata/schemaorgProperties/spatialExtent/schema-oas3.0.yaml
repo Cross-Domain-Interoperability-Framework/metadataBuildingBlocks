@@ -24,17 +24,21 @@ x-defs:
       schema:name:
         type: string
         description: text label for the term that is useful to human user
+        x-jsonld-id: http://schema.org/name
       schema:identifier:
         anyOf:
         - type: string
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        x-jsonld-id: http://schema.org/identifier
       schema:inDefinedTermSet:
         type: string
         description: Name for the controlled vocabulary responsible for this keyword.
+        x-jsonld-id: http://schema.org/inDefinedTermSet
       schema:termCode:
         type: string
         description: A representative code for this keyword in the controlled vocabulary.
           Analogous to skos:Notation
+        x-jsonld-id: http://schema.org/termCode
     allOf:
     - required:
       - '@type'
@@ -81,15 +85,18 @@ x-defs:
         description: In this context for the schema:PropertyValue, this field is an
           identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
           for interoperability
+        x-jsonld-id: http://schema.org/propertyID
       schema:value:
         type: string
         description: the identifier string. E.g. 10.5066/F7VX0DMQ
+        x-jsonld-id: http://schema.org/value
       schema:url:
         type: string
         format: uri
         description: 'web-resolveable string for the identifier; host name part is
           location of a resolver that will return some representation for the given
           identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ '
+        x-jsonld-id: http://schema.org/url
     allOf:
     - required:
       - '@type'
@@ -124,17 +131,20 @@ properties:
       anyOf:
       - type: string
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema-oas3.0.yaml#/$defs/DefinedTerm
+    x-jsonld-id: http://schema.org/additionalType
   schema:name:
     description: A place name for the location, either as a string or a DefinedTerm
       from a gazetteer.
     anyOf:
     - type: string
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema-oas3.0.yaml#/$defs/DefinedTerm
+    x-jsonld-id: http://schema.org/name
   schema:identifier:
     description: Formal identifier for this place (e.g. ROR identifier for a facility).
     anyOf:
     - type: string
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema-oas3.0.yaml#/$defs/Identifier
+    x-jsonld-id: http://schema.org/identifier
   schema:alternateName:
     description: Alternate or abbreviated name(s) for this place.
     type: array
@@ -142,6 +152,7 @@ properties:
       anyOf:
       - type: string
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema-oas3.0.yaml#/$defs/DefinedTerm
+    x-jsonld-id: http://schema.org/alternateName
   schema:geo:
     description: Either a bounding box or a point location.
     anyOf:
@@ -165,10 +176,12 @@ properties:
           type: number
           minimum: -90
           maximum: 90
+          x-jsonld-id: http://schema.org/latitude
         schema:longitude:
           type: number
           minimum: -180
           maximum: 180
+          x-jsonld-id: http://schema.org/longitude
       required:
       - '@type'
       - schema:latitude
@@ -196,6 +209,7 @@ properties:
             used to separate the latitude and longitude values. The two corner coordinate
             points are separated by a space. 'East longitude' means positive longitude
             values are east of the prime (Greenwich) meridian.
+          x-jsonld-id: http://schema.org/box
       required:
       - '@type'
       - schema:box
@@ -220,9 +234,11 @@ properties:
             separated by a space. ''East longitude'' means positive longitude values
             are east of the prime (Greenwich) meridian. e.g. ''39.33 120.77 40.44
             123.96 41.00 121.34'' '
+          x-jsonld-id: http://schema.org/line
       required:
       - '@type'
       - schema:line
+    x-jsonld-id: http://schema.org/geo
   geosparql:hasGeometry:
     type: object
     description: Optional geographic extent using wkt geometry, see Ocean InfoHub

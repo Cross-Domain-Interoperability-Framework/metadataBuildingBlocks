@@ -21,22 +21,26 @@
           "minItems": 1
         },
         "schema:name": {
-          "type": "string"
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/name"
         },
         "schema:description": {
           "type": "string",
-          "description": "Description of this distribution, e.g. what format, access constraints, etc."
+          "description": "Description of this distribution, e.g. what format, access constraints, etc.",
+          "x-jsonld-id": "http://schema.org/description"
         },
         "schema:contentUrl": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "x-jsonld-id": "http://schema.org/contentUrl"
         },
         "schema:encodingFormat": {
           "type": "array",
           "description": "MIME type with extension; should indicate the serialization scheme in sufficient detail that machine can know how to parse.",
           "items": {
             "type": "string"
-          }
+          },
+          "x-jsonld-id": "http://schema.org/encodingFormat"
         },
         "spdx:checksum": {
           "type": "object",
@@ -103,7 +107,8 @@
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization"
               }
             ]
-          }
+          },
+          "x-jsonld-id": "http://schema.org/provider"
         }
       },
       "required": [
@@ -187,7 +192,8 @@
           ]
         },
         "cdi:arrayBase": {
-          "type": "integer"
+          "type": "integer",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/arrayBase"
         },
         "csvw:commentPrefix": {
           "type": "string",
@@ -209,10 +215,12 @@
         },
         "cdi:isDelimited": {
           "type": "boolean",
-          "description": "Schema constraint is that one of {'isDelimited','isFixedWidth'} must be present with a True value; the other one may be present or omitted, but if present must have a false value."
+          "description": "Schema constraint is that one of {'isDelimited','isFixedWidth'} must be present with a True value; the other one may be present or omitted, but if present must have a false value.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDelimited"
         },
         "cdi:isFixedWidth": {
-          "type": "boolean"
+          "type": "boolean",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isFixedWidth"
         },
         "csvw:lineTerminators": {
           "type": "string",
@@ -248,17 +256,20 @@
         },
         "cdi:escapeCharacter": {
           "type": "string",
-          "description": "The character used to escape special characters in the data. From DDI-CDI PhysicalSegmentLayout.escapeCharacter."
+          "description": "The character used to escape special characters in the data. From DDI-CDI PhysicalSegmentLayout.escapeCharacter.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/escapeCharacter"
         },
         "cdi:headerIsCaseSensitive": {
           "type": "boolean",
           "default": false,
-          "description": "Whether column header names are case-sensitive. From DDI-CDI PhysicalSegmentLayout.headerIsCaseSensitive."
+          "description": "Whether column header names are case-sensitive. From DDI-CDI PhysicalSegmentLayout.headerIsCaseSensitive.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/headerIsCaseSensitive"
         },
         "cdi:treatConsecutiveDelimitersAsOne": {
           "type": "boolean",
           "default": false,
-          "description": "Whether consecutive delimiters should be treated as a single delimiter. From DDI-CDI PhysicalSegmentLayout.treatConsecutiveDelimitersAsOne."
+          "description": "Whether consecutive delimiters should be treated as a single delimiter. From DDI-CDI PhysicalSegmentLayout.treatConsecutiveDelimitersAsOne.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/treatConsecutiveDelimitersAsOne"
         },
         "csvw:tableDirection": {
           "type": "string",
@@ -308,11 +319,14 @@
         {
           "properties": {
             "cdi:isDelimited": {
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDelimited",
               "enum": [
                 true
               ]
             },
-            "cdi:isFixedWidth": {}
+            "cdi:isFixedWidth": {
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isFixedWidth"
+            }
           },
           "required": [
             "cdi:isDelimited"
@@ -320,8 +334,11 @@
         },
         {
           "properties": {
-            "cdi:isDelimited": {},
+            "cdi:isDelimited": {
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDelimited"
+            },
             "cdi:isFixedWidth": {
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isFixedWidth",
               "enum": [
                 true
               ]
@@ -365,10 +382,12 @@
         },
         "schema:name": {
           "type": "string",
-          "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format."
+          "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format.",
+          "x-jsonld-id": "http://schema.org/name"
         },
         "schema:description": {
-          "type": "string"
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/description"
         },
         "schema:identifier": {
           "description": "identifier for person, recommend ORCID",
@@ -379,14 +398,17 @@
             {
               "type": "string"
             }
-          ]
+          ],
+          "x-jsonld-id": "http://schema.org/identifier"
         },
         "schema:alternateName": {
           "type": "string",
-          "description": "other labels by which the person might be known"
+          "description": "other labels by which the person might be known",
+          "x-jsonld-id": "http://schema.org/alternateName"
         },
         "schema:affiliation": {
           "description": "if affiliation is present, value must be a schema:Organization.",
+          "x-jsonld-id": "http://schema.org/affiliation",
           "allOf": [
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization"
@@ -411,12 +433,14 @@
               "minItems": 1
             },
             "schema:email": {
-              "type": "string"
+              "type": "string",
+              "x-jsonld-id": "http://schema.org/email"
             }
           },
           "required": [
             "schema:email"
-          ]
+          ],
+          "x-jsonld-id": "http://schema.org/contactPoint"
         },
         "schema:sameAs": {
           "type": "array",
@@ -435,7 +459,8 @@
                 }
               }
             ]
-          }
+          },
+          "x-jsonld-id": "http://schema.org/sameAs"
         }
       },
       "allOf": [
@@ -511,18 +536,22 @@
                 "type": "string"
               }
             ]
-          }
+          },
+          "x-jsonld-id": "http://schema.org/additionalType"
         },
         "schema:name": {
           "type": "string",
-          "description": "string label for organization that is meaningful for human users"
+          "description": "string label for organization that is meaningful for human users",
+          "x-jsonld-id": "http://schema.org/name"
         },
         "schema:alternateName": {
           "type": "string",
-          "description": "other labels by which the organization might be known"
+          "description": "other labels by which the organization might be known",
+          "x-jsonld-id": "http://schema.org/alternateName"
         },
         "schema:description": {
-          "type": "string"
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/description"
         },
         "schema:identifier": {
           "description": "identifier for organization",
@@ -533,7 +562,8 @@
             {
               "type": "string"
             }
-          ]
+          ],
+          "x-jsonld-id": "http://schema.org/identifier"
         },
         "schema:sameAs": {
           "type": "array",
@@ -552,7 +582,8 @@
                 }
               }
             ]
-          }
+          },
+          "x-jsonld-id": "http://schema.org/sameAs"
         }
       },
       "allOf": [
@@ -601,31 +632,39 @@
         },
         "cdi:length": {
           "type": "integer",
-          "description": "The column width if the tabular text is fixed width."
+          "description": "The column width if the tabular text is fixed width.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/length"
         },
         "cdi:nullSequence": {
           "type": "string",
-          "description": "The value of this property becomes the null annotation for the described column."
+          "description": "The value of this property becomes the null annotation for the described column.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/nullSequence"
         },
         "cdi:defaultValue": {
           "type": "string",
-          "description": "A default string indicating the value to substitute for an empty string."
+          "description": "A default string indicating the value to substitute for an empty string.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/defaultValue"
         },
         "cdi:scale": {
-          "type": "integer"
+          "type": "integer",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/scale"
         },
         "cdi:decimalPositions": {
-          "type": "integer"
+          "type": "integer",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/decimalPositions"
         },
         "cdi:minimumLength": {
-          "type": "integer"
+          "type": "integer",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/minimumLength"
         },
         "cdi:maximumLength": {
-          "type": "integer"
+          "type": "integer",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/maximumLength"
         },
         "cdi:isRequired": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isRequired"
         },
         "cdif:formats_InstanceVariable": {
           "type": "object",
@@ -664,16 +703,19 @@
         },
         "schema:propertyID": {
           "type": "string",
-          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability",
+          "x-jsonld-id": "http://schema.org/propertyID"
         },
         "schema:value": {
           "type": "string",
-          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ",
+          "x-jsonld-id": "http://schema.org/value"
         },
         "schema:url": {
           "type": "string",
           "format": "uri",
-          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ ",
+          "x-jsonld-id": "http://schema.org/url"
         }
       },
       "allOf": [
@@ -721,7 +763,8 @@
         },
         "schema:name": {
           "type": "string",
-          "description": "text label for the term that is useful to human user"
+          "description": "text label for the term that is useful to human user",
+          "x-jsonld-id": "http://schema.org/name"
         },
         "schema:identifier": {
           "anyOf": [
@@ -731,15 +774,18 @@
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
             }
-          ]
+          ],
+          "x-jsonld-id": "http://schema.org/identifier"
         },
         "schema:inDefinedTermSet": {
           "type": "string",
-          "description": "Name for the controlled vocabulary responsible for this keyword."
+          "description": "Name for the controlled vocabulary responsible for this keyword.",
+          "x-jsonld-id": "http://schema.org/inDefinedTermSet"
         },
         "schema:termCode": {
           "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation",
+          "x-jsonld-id": "http://schema.org/termCode"
         }
       },
       "allOf": [
@@ -786,7 +832,12 @@
       "type": "object",
       "properties": {
         "schema:hasPart": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/$defs/archivePartArray"
+          "x-jsonld-id": "http://schema.org/hasPart",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifArchive/schema-oas3.0.json#/$defs/archivePartArray"
+            }
+          ]
         }
       }
     }
@@ -830,18 +881,21 @@
             },
             "schema:name": {
               "type": "string",
-              "description": "Filename of the component file within the archive."
+              "description": "Filename of the component file within the archive.",
+              "x-jsonld-id": "http://schema.org/name"
             },
             "schema:description": {
               "type": "string",
-              "description": "Description of the file content. May include checksum information."
+              "description": "Description of the file content. May include checksum information.",
+              "x-jsonld-id": "http://schema.org/description"
             },
             "schema:encodingFormat": {
               "type": "array",
               "description": "MIME type(s) for this file.",
               "items": {
                 "type": "string"
-              }
+              },
+              "x-jsonld-id": "http://schema.org/encodingFormat"
             },
             "schema:size": {
               "type": "object",
@@ -861,13 +915,16 @@
                 },
                 "schema:value": {
                   "type": "number",
-                  "description": "Numeric size value."
+                  "description": "Numeric size value.",
+                  "x-jsonld-id": "http://schema.org/value"
                 },
                 "schema:unitText": {
                   "type": "string",
-                  "description": "Unit of measure for size (e.g. 'byte')."
+                  "description": "Unit of measure for size (e.g. 'byte').",
+                  "x-jsonld-id": "http://schema.org/unitText"
                 }
-              }
+              },
+              "x-jsonld-id": "http://schema.org/size"
             },
             "schema:about": {
               "type": "array",
@@ -880,7 +937,8 @@
                     "description": "Reference to the @id of the data file described by this sidecar."
                   }
                 }
-              }
+              },
+              "x-jsonld-id": "http://schema.org/about"
             },
             "spdx:checksum": {
               "type": "object",
@@ -899,15 +957,18 @@
                   "minItems": 1
                 },
                 "spdx:algorithm": {
-                  "type": "string"
+                  "type": "string",
+                  "x-jsonld-id": "http://spdx.org/rdf/terms#algorithm"
                 },
                 "spdx:checksumValue": {
-                  "type": "string"
+                  "type": "string",
+                  "x-jsonld-id": "http://spdx.org/rdf/terms#checksumValue"
                 }
               },
               "required": [
                 "@type"
-              ]
+              ],
+              "x-jsonld-id": "http://spdx.org/rdf/terms#checksum"
             }
           },
           "required": [

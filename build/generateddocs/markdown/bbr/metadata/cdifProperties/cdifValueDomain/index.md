@@ -237,17 +237,20 @@ $defs:
               description: IRI or blank node identifier of the referenced node
           required:
           - '@id'
+        x-jsonld-id: https://cdif.org/0.1/takesValuesFrom
       cdif:displayLabel:
         type: string
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
+        x-jsonld-id: https://cdif.org/0.1/displayLabel
       cdif:recommendedDataType:
         type: array
         description: The data types that are recommended for use with this domain.
         items:
           $ref: '#/$defs/xsdDataType'
         minItems: 1
+        x-jsonld-id: https://cdif.org/0.1/recommendedDataType
     required:
     - '@type'
     anyOf:
@@ -280,17 +283,20 @@ $defs:
               description: IRI or blank node identifier of the referenced node
           required:
           - '@id'
+        x-jsonld-id: https://cdif.org/0.1/takesValuesFrom
       cdif:displayLabel:
         type: string
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
+        x-jsonld-id: https://cdif.org/0.1/displayLabel
       cdif:recommendedDataType:
         type: array
         description: The data types that are recommended for use with this domain.
         items:
           $ref: '#/$defs/xsdDataType'
         minItems: 1
+        x-jsonld-id: https://cdif.org/0.1/recommendedDataType
     required:
     - '@type'
     anyOf:

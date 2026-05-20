@@ -312,6 +312,7 @@ $defs:
         anyOf:
         - $ref: '#/$defs/ReferenceValueDomain'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesValuesFrom
       cdi:takesSentinelValuesFrom:
         type: array
         items:
@@ -319,10 +320,12 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-value-domain/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSentinelValuesFrom
       cdi:takesSubstantiveValuesFrom:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-value-domain/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSubstantiveValuesFrom
       cdi:simpleUnitOfMeasure:
         type: string
         description: The unit in which the data values are measured (kg, pound, euro),
@@ -330,6 +333,7 @@ $defs:
           available (in the legacy system) or needed (as in the case of broad agreement
           within the community of use [i.e., ISO country codes, currencies, etc. in
           SDMX])
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/simpleUnitOfMeasure
       cdi:unitOfMeasureKind:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
         description: Kind of unit of measure, so that it may be prone to translation
@@ -337,12 +341,14 @@ $defs:
           "salinity", etc. This description exists at the conceptual level, indicating
           a limitation on the type of representations which may be used for the variable
           as it is made more concrete.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind
       cdi:definition:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString
         description: Natural language statement conveying the meaning of a concept,
           differentiating it from other concepts. Supports the use of multiple languages
           and structured text. 'externalDefinition' can't be used if 'definition'
           is used.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/definition
       cdi:displayLabel:
         type: array
         items:
@@ -351,6 +357,7 @@ $defs:
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/displayLabel
       cdi:name:
         type: array
         items:
@@ -359,6 +366,7 @@ $defs:
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdi:uses:
         type: array
         items:
@@ -366,6 +374,7 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/uses
     required:
     - '@type'
   DescriptorVariable:
@@ -393,6 +402,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-value-domain/schema.yaml#/$defs/DescriptorValueDomain
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSubstantiveValuesFrom
       cdi:name:
         type: array
         items:
@@ -401,6 +411,7 @@ $defs:
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdi:uses:
         type: array
         items:
@@ -408,6 +419,7 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/uses
     required:
     - '@type'
     - cdi:name
@@ -432,6 +444,7 @@ $defs:
           - if True, there may be duplicates. (Note that a mathematical \u201Cbag\u201D
           permits duplicates and is unordered - a \u201Cset\u201D does not have duplicates
           and may be ordered.)"
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/allowsDuplicates
       cdi:externalDefinition:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Reference
         description: A reference to an external definition of a concept (that is,
@@ -439,10 +452,12 @@ $defs:
           description). An example is a SKOS concept. The definition property is assumed
           to duplicate the external one referenced if externalDefinition is used.
           Other corresponding properties are assumed to be included unchanged if used.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:name:
         type: array
         items:
@@ -451,6 +466,7 @@ $defs:
         description: Human understandable name (liguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdi:isDefinedBy:
         type: array
         items:
@@ -458,6 +474,7 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDefinedBy
       cdi:has:
         type: array
         items:
@@ -465,9 +482,11 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has
       cdi:purpose:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString
         description: Intent or reason for the object/the description of the object.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/purpose
     required:
     - '@type'
   DataPoint:
@@ -488,6 +507,7 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:correspondsTo:
         type: array
         items:
@@ -495,10 +515,12 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure-component/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/correspondsTo
       cdi:isDescribedBy:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDescribedBy
     required:
     - '@type'
   PhysicalSegmentLocation:
@@ -519,6 +541,7 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
     required:
     - '@type'
   ReferenceValueDomain:
@@ -544,16 +567,19 @@ $defs:
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/displayLabel
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:recommendedDataType:
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
         minItems: 1
         description: The data types that are recommended for use with this domain.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/recommendedDataType
     required:
     - '@type'
   SentinelConceptualDomain:
@@ -578,18 +604,22 @@ $defs:
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/displayLabel
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:isDescribedBy:
         anyOf:
         - $ref: '#/$defs/ValueAndConceptDescription'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDescribedBy
       cdi:takesConceptsFrom:
         anyOf:
         - $ref: '#/$defs/ConceptSystem'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesConceptsFrom
     required:
     - '@type'
   SubstantiveConceptualDomain:
@@ -614,18 +644,22 @@ $defs:
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/displayLabel
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:isDescribedBy:
         anyOf:
         - $ref: '#/$defs/ValueAndConceptDescription'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDescribedBy
       cdi:takesConceptsFrom:
         anyOf:
         - $ref: '#/$defs/ConceptSystem'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesConceptsFrom
     required:
     - '@type'
   TypedString:
@@ -644,10 +678,12 @@ $defs:
       cdi:content:
         type: string
         description: Content of the property expressed as a simple string.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/content
       cdi:typeOfContent:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
         description: Optional use of a controlled vocabulary to specifically type
           the associated content.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfContent
   UnitType:
     type: object
     description: Unit type is a type or class of objects of interest (units).
@@ -666,12 +702,14 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString
         description: A short natural language account of the characteristics of the
           object.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/descriptiveText
       cdi:definition:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString
         description: Natural language statement conveying the meaning of a concept,
           differentiating it from other concepts. Supports the use of multiple languages
           and structured text. 'externalDefinition' can't be used if 'definition'
           is used.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/definition
       cdi:displayLabel:
         type: array
         items:
@@ -680,6 +718,7 @@ $defs:
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/displayLabel
       cdi:externalDefinition:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Reference
         description: A reference to an external definition of a concept (that is,
@@ -687,10 +726,12 @@ $defs:
           description). An example is a SKOS concept. The definition property is assumed
           to duplicate the external one referenced if externalDefinition is used.
           Other corresponding properties are assumed to be included unchanged if used.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:name:
         type: array
         items:
@@ -699,6 +740,7 @@ $defs:
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdi:uses:
         type: array
         items:
@@ -706,6 +748,7 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/uses
     required:
     - '@type'
   ValueAndConceptDescription:
@@ -732,9 +775,11 @@ $defs:
         - Ratio
         description: Indicates the type of relationship, nominal, ordinal, interval,
           ratio, or continuous. Use where appropriate for the representation type.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/classificationLevel
       cdi:description:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString
         description: A formal description of the set of values in human-readable language.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/description
       cdi:formatPattern:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
         description: 'A pattern for a number as described in Unicode Locale Data Markup
@@ -743,15 +788,18 @@ $defs:
           and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns)
           . Examples would be #,##0.### to describe the pattern for a decimal number,
           or yyyy.MM.dd G ''at'' HH:mm:ss zzz for a datetime pattern.'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/formatPattern
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:logicalExpression:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
         description: A logical expression where the values of "x" making the expression
           true are the members of the set of valid values. For example, "(all reals
           x such that x > 0)" describes the real numbers greater than 0.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/logicalExpression
       cdi:maximumValueExclusive:
         type: string
         description: 'A string denoting the maximum possible value (excluding this
@@ -761,6 +809,7 @@ $defs:
           value (exclusive). The value of this property becomes the maximum exclusive
           annotation for the described datatype. See Value Constraints in [tabular-data-model]
           for details."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/maximumValueExclusive
       cdi:maximumValueInclusive:
         type: string
         description: 'A string denoting the maximum possible value. From the W3C Recommendation
@@ -769,6 +818,7 @@ $defs:
           that is the maximum valid value (inclusive); equivalent to maxInclusive.
           The value of this property becomes the maximum annotation for the described
           datatype. See Value Constraints in [tabular-data-model] for details."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/maximumValueInclusive
       cdi:minimumValueExclusive:
         type: string
         description: 'A string denoting the minimum possible value (excluding this
@@ -778,6 +828,7 @@ $defs:
           value (exclusive). The value of this property becomes the minimum exclusive
           annotation for the described datatype. See Value Constraints in [tabular-data-model]
           for details."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/minimumValueExclusive
       cdi:minimumValueInclusive:
         type: string
         description: 'A string denoting the minimum possible value. From the W3C Recommendation
@@ -786,11 +837,13 @@ $defs:
           that is the minimum valid value (inclusive); equivalent to minInclusive.
           The value of this property becomes the minimum annotation for the described
           datatype. See Value Constraints in [tabular-data-model] for details."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/minimumValueInclusive
       cdi:regularExpression:
         $ref: '#/$defs/TypedString'
         description: A regular expression where strings matching the expression belong
           to the set of valid values. Use typeOfContent to specify the syntax of the
           regularExpression found in content.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/regularExpression
     required:
     - '@type'
   ValueMapping:
@@ -813,6 +866,7 @@ $defs:
         description: The number of decimal positions expressed as an integer. Used
           when the decimal position is implied (no decimal separator is present) See
           DDI 3.2 ManagedNumericRepresentation_decimalPositions
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/decimalPositions
       cdi:defaultDecimalSeparator:
         type: string
         description: 'Default value is "." (period). The character separating the
@@ -821,6 +875,7 @@ $defs:
           6.4.2: "decimalChar: A string whose value is used to represent a decimal
           point within the number. If the supplied value is not a string, implementations
           MUST issue a warning and proceed as if the property had not been specified."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/defaultDecimalSeparator
       cdi:defaultDigitGroupSeparator:
         type: string
         description: 'Default value is null. A character separating groups of digits
@@ -828,6 +883,7 @@ $defs:
           tabular 6.4.2 groupChar: "A string whose value is used to group digits within
           the number. If the supplied value is not a string, implementations MUST
           issue a warning and proceed as if the property had not been specified."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/defaultDigitGroupSeparator
       cdi:defaultValue:
         type: string
         description: A default string indicating the value to substitute for an empty
@@ -838,6 +894,7 @@ $defs:
           specified, the default for the default property is the empty string, "".
           The value of this property becomes the default annotation for the described
           column."
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/defaultValue
       cdi:format:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
         description: 'This defines the format of the physical representation of the
@@ -871,10 +928,12 @@ $defs:
           "Describes the format of the date field, in formats such as YYYY/MM or MM-DD-YY,
           etc. If this element is omitted, then the format is assumed to be the XML
           Schema format corresponding to the type attribute value."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/format
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:isRequired:
         type: boolean
         description: 'If the value of this property is True indicates that a value
@@ -885,6 +944,7 @@ $defs:
           Cells in [tabular-data-model] for more details. The default is false, which
           means cells can have null values. The value of this property becomes the
           required annotation for the described column."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isRequired
       cdi:length:
         type: integer
         description: 'The length in characters of the physical representation of the
@@ -894,6 +954,7 @@ $defs:
           value. The value of this property becomes the length annotation for the
           described datatype. See Length Constraints in [tabular-data-model] for details."
           Corresponds to DDI2.5 var/location/width and DDI 3.2 PhysicalLocation/Width.'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/length
       cdi:maximumLength:
         type: integer
         description: 'The largest possible value of the length of the physical representation
@@ -903,6 +964,7 @@ $defs:
           of the value. The value of this property becomes the maximum length annotation
           for the described datatype. See Length Constraints in [tabular-data-model]
           for details."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/maximumLength
       cdi:minimumLength:
         type: integer
         description: 'The smallest possible value for the length of the physical representation
@@ -912,6 +974,7 @@ $defs:
           value. The value of this property becomes the minimum length annotation
           for the described datatype. See Length Constraints in [tabular-data-model]
           for details."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/minimumLength
       cdi:nullSequence:
         type: string
         description: 'A string indicating a null value. From the W3C Recommendation
@@ -924,6 +987,7 @@ $defs:
           [tabular-data-model] for more details. If not specified, the default for
           the null property is the empty string ''''. The value of this property becomes
           the null annotation for the described column."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/nullSequence
       cdi:numberPattern:
         type: string
         description: "A pattern description of the format of a numeric value. In W3C
@@ -945,6 +1009,7 @@ $defs:
           + or - sign, \u2026 Implementations MAY also recognise numeric values that
           are in any of the standard-decimal, standard-percent or standard-scientific
           formats listed in the Unicode Common Locale Data Repository. \u2026\""
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/numberPattern
       cdi:formats:
         type: array
         items:
@@ -952,10 +1017,12 @@ $defs:
           - $ref: '#/$defs/DataPoint'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/formats
       cdi:uses:
         anyOf:
         - $ref: '#/$defs/PhysicalSegmentLocation'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/uses
       cdi:physicalDataType:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
         description: 'The base datatype of the physical representation. An integer
@@ -972,12 +1039,14 @@ $defs:
           of each value within that sequence. See 5.11 Datatypes and Parsing Cells
           in [tabular-data-model] for more details. The normalized value of this property
           becomes the datatype annotation for the described column."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/physicalDataType
       cdi:scale:
         type: integer
         description: The scale of the number expressed as an integer. A multiplier
           to be used in combination with the value to determine the measurement. (E.g.,
           a number expressed in 100's with a value of 5 and a scale of 100 would be
           500).
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/scale
     required:
     - '@type'
 x-jsonld-prefixes:

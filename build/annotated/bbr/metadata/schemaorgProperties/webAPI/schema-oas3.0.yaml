@@ -23,6 +23,7 @@ x-defs:
           dcat:hadRole:
             description: Role of the related resource as a SKOS Concept (DCAT canonical
               role slot).
+            x-jsonld-id: http://www.w3.org/ns/dcat#hadRole
             allOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
           dcterms:relation:
@@ -31,6 +32,7 @@ x-defs:
             description: URI of the related resource (DCAT canonical pointer to what
               is being related to; distinct from schema:url which is the presentation
               URL inherited from labeledLink).
+            x-jsonld-id: http://purl.org/dc/terms/relation
     x-jsonld-prefixes:
       schema: http://schema.org/
       skos: http://www.w3.org/2004/02/skos/core#
@@ -67,17 +69,21 @@ x-defs:
       schema:name:
         type: string
         description: text label for the term that is useful to human user
+        x-jsonld-id: http://schema.org/name
       schema:identifier:
         anyOf:
         - type: string
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        x-jsonld-id: http://schema.org/identifier
       schema:inDefinedTermSet:
         type: string
         description: Name for the controlled vocabulary responsible for this keyword.
+        x-jsonld-id: http://schema.org/inDefinedTermSet
       schema:termCode:
         type: string
         description: A representative code for this keyword in the controlled vocabulary.
           Analogous to skos:Notation
+        x-jsonld-id: http://schema.org/termCode
     allOf:
     - required:
       - '@type'
@@ -129,6 +135,7 @@ x-defs:
       schema:name:
         type: string
         description: text label for the action
+        x-jsonld-id: http://schema.org/name
       schema:target:
         type: object
         description: specifies the request target location and request syntax. Documentation
@@ -146,6 +153,7 @@ x-defs:
             minItems: 1
           schema:description:
             type: string
+            x-jsonld-id: http://schema.org/description
           schema:urlTemplate:
             type: string
             description: 'a templated URL; parameters are enclosed in curly braces
@@ -157,6 +165,7 @@ x-defs:
               ; multiple parameters - {endpoint}{encoding}; endpoint URL path is a
               parameter,should only appear in potential actions for API specification
               descriptions, which are generic-not specific to a particular endpoint.'
+            x-jsonld-id: http://schema.org/urlTemplate
           schema:httpMethod:
             title: HTTP Method
             description: only applicable if protocol is http or a protocol that tunnels
@@ -175,6 +184,7 @@ x-defs:
               - HEAD
               - OPTIONS
               - PROPFIND
+            x-jsonld-id: http://schema.org/httpMethod
           schema:contentType:
             type: array
             description: The supported content type(s) for an EntryPoint response.
@@ -184,8 +194,10 @@ x-defs:
               in the result property for the Action.
             items:
               type: string
+            x-jsonld-id: http://schema.org/contentType
         required:
         - schema:urlTemplate
+        x-jsonld-id: http://schema.org/target
       schema:result:
         type: object
         description: specifies the serialization scheme (encoding format, information
@@ -206,8 +218,11 @@ x-defs:
             type: array
             items:
               type: string
+            x-jsonld-id: http://schema.org/encodingFormat
           schema:description:
             type: string
+            x-jsonld-id: http://schema.org/description
+        x-jsonld-id: http://schema.org/result
       schema:object:
         type: object
         description: The entity upon which the action is carried out, whose state
@@ -225,6 +240,8 @@ x-defs:
             minItems: 1
           schema:description:
             type: string
+            x-jsonld-id: http://schema.org/description
+        x-jsonld-id: http://schema.org/object
       schema:query-input:
         type: array
         items:
@@ -244,18 +261,23 @@ x-defs:
               minItems: 1
             schema:valueName:
               type: string
+              x-jsonld-id: http://schema.org/valueName
             schema:description:
               type: string
+              x-jsonld-id: http://schema.org/description
             schema:valueRequired:
               type: boolean
               default: true
+              x-jsonld-id: http://schema.org/valueRequired
             schema:valuePattern:
               type: string
+              x-jsonld-id: http://schema.org/valuePattern
           required:
           - schema:valueName
           - schema:description
         description: set of explanations of the parameters in the URL template for
           the target.
+        x-jsonld-id: http://schema.org/query-input
     required:
     - schema:name
     - schema:target
@@ -278,11 +300,14 @@ x-defs:
         minItems: 1
       schema:name:
         type: string
+        x-jsonld-id: http://schema.org/name
       schema:description:
         type: string
+        x-jsonld-id: http://schema.org/description
       schema:url:
         type: string
         format: uri
+        x-jsonld-id: http://schema.org/url
     required:
     - '@type'
     - schema:url
@@ -344,6 +369,7 @@ x-defs:
         - type: array
           items:
             $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#prefLabel
       skos:altLabel:
         description: Alternative lexical labels (acronyms, abbreviations, variants).
         anyOf:
@@ -354,6 +380,7 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#altLabel
       skos:hiddenLabel:
         description: Labels accessible to free-text search but not displayed.
         anyOf:
@@ -364,11 +391,13 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#hiddenLabel
       skos:notation:
         description: Classification code for this concept within a scheme.
         type: array
         items:
           type: string
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#notation
       skos:definition:
         description: Formal explanation of the meaning of this concept.
         anyOf:
@@ -379,6 +408,7 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#definition
       skos:scopeNote:
         description: Note clarifying meaning and/or intended use.
         anyOf:
@@ -389,6 +419,7 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#scopeNote
       skos:note:
         description: General note about this concept.
         anyOf:
@@ -399,6 +430,7 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#note
       skos:historyNote:
         description: Note about past state or use.
         anyOf:
@@ -409,6 +441,7 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#historyNote
       skos:changeNote:
         description: Note documenting a change.
         anyOf:
@@ -419,6 +452,7 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#changeNote
       skos:editorialNote:
         description: Note for editors and maintainers.
         anyOf:
@@ -429,6 +463,7 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#editorialNote
       skos:example:
         description: Example of use of this concept.
         anyOf:
@@ -439,6 +474,7 @@ x-defs:
             anyOf:
             - type: string
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#example
       skos:inScheme:
         description: Concept scheme(s) this concept belongs to.
         anyOf:
@@ -456,6 +492,7 @@ x-defs:
                 type: string
             required:
             - '@id'
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#inScheme
       skos:topConceptOf:
         description: Concept scheme(s) for which this is a top concept.
         anyOf:
@@ -473,6 +510,7 @@ x-defs:
                 type: string
             required:
             - '@id'
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#topConceptOf
       skos:broader:
         description: Broader (parent) concepts in the hierarchy. Items are inline
           concept objects or @id references.
@@ -481,6 +519,7 @@ x-defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#broader
       skos:narrower:
         description: Narrower (child) concepts in the hierarchy. Items are inline
           concept objects or @id references.
@@ -489,6 +528,7 @@ x-defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#narrower
       skos:related:
         description: Associatively related concepts.
         type: array
@@ -496,31 +536,37 @@ x-defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#related
       skos:exactMatch:
         description: Concepts in other schemes with equivalent meaning.
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#exactMatch
       skos:closeMatch:
         description: Concepts in other schemes with similar meaning.
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#closeMatch
       skos:broadMatch:
         description: Broader concepts in other schemes.
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#broadMatch
       skos:narrowMatch:
         description: Narrower concepts in other schemes.
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#narrowMatch
       skos:relatedMatch:
         description: Related concepts in other schemes.
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#relatedMatch
     required:
     - '@type'
     - skos:prefLabel
@@ -584,15 +630,18 @@ x-defs:
         description: In this context for the schema:PropertyValue, this field is an
           identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
           for interoperability
+        x-jsonld-id: http://schema.org/propertyID
       schema:value:
         type: string
         description: the identifier string. E.g. 10.5066/F7VX0DMQ
+        x-jsonld-id: http://schema.org/value
       schema:url:
         type: string
         format: uri
         description: 'web-resolveable string for the identifier; host name part is
           location of a resolver that will return some representation for the given
           identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ '
+        x-jsonld-id: http://schema.org/url
     allOf:
     - required:
       - '@type'
@@ -632,6 +681,7 @@ properties:
       security, or other aspects of the service definition. For interoperability,
       there must be an external arrangement between data providers and consumers on
       the strings that will be used to specify service types.
+    x-jsonld-id: http://schema.org/serviceType
   schema:termsOfService:
     description: Description of access privileges required to use the API, e.g. registration,
       licensing, payments. Note that access constraints applying to all distributions
@@ -641,6 +691,7 @@ properties:
     - type: string
       default: not specified
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/$defs/Reference
+    x-jsonld-id: http://schema.org/termsOfService
   schema:documentation:
     description: a document that provides a machine-actionable description of a service
       instance. Examples include OpenAPI documents, OGC Capabilities documents. Software
@@ -651,11 +702,13 @@ properties:
     oneOf:
     - type: string
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/$defs/Reference
+    x-jsonld-id: http://schema.org/documentation
   schema:potentialAction:
     type: array
     description: actions that can be invoked via the API
     items:
       $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema-oas3.0.yaml#/$defs/Action
+    x-jsonld-id: http://schema.org/potentialAction
 required:
 - schema:serviceType
 - schema:potentialAction

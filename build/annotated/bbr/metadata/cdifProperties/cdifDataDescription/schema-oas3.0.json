@@ -61,11 +61,13 @@
                       "@id"
                     ]
                   }
-                ]
+                ],
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/indexes"
               },
               "cdi:value": {
                 "type": "integer",
-                "description": "Index value (position) of the variable in the ordered key."
+                "description": "Index value (position) of the variable in the ordered key.",
+                "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/value"
               }
             },
             "required": [
@@ -74,7 +76,8 @@
               "cdi:value"
             ]
           },
-          "minItems": 1
+          "minItems": 1,
+          "x-jsonld-id": "https://cdif.org/0.1/isComposedOf"
         }
       },
       "required": [
@@ -117,20 +120,24 @@
                 "Total",
                 "ValidOnly"
               ],
-              "description": "The cases included in determining the statistic \u2014 Total (all cases, valid and missing), ValidOnly (valid values only), MissingOnly (invalid cases only)."
+              "description": "The cases included in determining the statistic \u2014 Total (all cases, valid and missing), ValidOnly (valid values only), MissingOnly (invalid cases only).",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/computationBase"
             },
             "cdi:content": {
               "type": "number",
-              "description": "The value of the statistic expressed as a real number."
+              "description": "The value of the statistic expressed as a real number.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/content"
             },
             "cdi:isWeighted": {
               "type": "boolean",
               "default": false,
-              "description": "True if the statistic was computed using a weighting variable."
+              "description": "True if the statistic was computed using a weighting variable.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isWeighted"
             },
             "cdi:typeOfNumericValue": {
               "type": "string",
-              "description": "The type of numeric value carried in cdi:content \u2014 decimal, float, or double."
+              "description": "The type of numeric value carried in cdi:content \u2014 decimal, float, or double.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfNumericValue"
             }
           }
         },
@@ -157,6 +164,7 @@
             },
             "cdi:typeOfStatistic": {
               "description": "Controlled-vocabulary entry naming the kind of statistic \u2014 e.g. mean, median, count, sum, stdDev.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic",
               "allOf": [
                 {
                   "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifStatistics/$defs/SkosConcept"
@@ -169,7 +177,8 @@
               "items": {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifStatistics/$defs/Statistic"
               },
-              "minItems": 1
+              "minItems": 1,
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/statistic"
             },
             "cdi:hasWeight": {
               "description": "The InstanceVariable whose values were used as weights when computing the Statistic entries (inline cdifInstanceVariable node or an @id-reference).",
@@ -188,7 +197,8 @@
                     "@id"
                   ]
                 }
-              ]
+              ],
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight"
             },
             "cdif:appliesTo": {
               "type": "array",
@@ -211,14 +221,16 @@
                   }
                 ]
               },
-              "minItems": 1
+              "minItems": 1,
+              "x-jsonld-id": "https://cdif.org/0.1/appliesTo"
             },
             "cdif:has_CategoryStatistics": {
               "type": "array",
               "description": "CategoryStatistics entries breaking this Statistics bundle down by Category. cdif: namespaced and target-suffixed because the DDI-CDI cdi:has association is polymorphic.",
               "items": {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifStatistics/$defs/CategoryStatistics"
-              }
+              },
+              "x-jsonld-id": "https://cdif.org/0.1/has_CategoryStatistics"
             }
           },
           "required": [
@@ -264,10 +276,12 @@
                     "@id"
                   ]
                 }
-              ]
+              ],
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/for"
             },
             "cdi:typeOfStatistic": {
               "description": "Controlled-vocabulary entry naming the kind of statistic.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic",
               "allOf": [
                 {
                   "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifStatistics/$defs/SkosConcept"
@@ -280,7 +294,8 @@
               "items": {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifStatistics/$defs/Statistic"
               },
-              "minItems": 1
+              "minItems": 1,
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/statistic"
             },
             "cdi:hasWeight": {
               "description": "The InstanceVariable whose values were used as weights (inline cdifInstanceVariable node or an @id-reference).",
@@ -299,7 +314,8 @@
                     "@id"
                   ]
                 }
-              ]
+              ],
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight"
             }
           },
           "required": [
@@ -346,7 +362,8 @@
                     "@id"
                   ]
                 }
-              ]
+              ],
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight"
             },
             "cdif:has_Statistics": {
               "type": "array",
@@ -369,7 +386,8 @@
                   }
                 ]
               },
-              "minItems": 1
+              "minItems": 1,
+              "x-jsonld-id": "https://cdif.org/0.1/has_Statistics"
             },
             "cdif:indexedBy": {
               "type": "array",
@@ -392,7 +410,8 @@
                   }
                 ]
               },
-              "minItems": 1
+              "minItems": 1,
+              "x-jsonld-id": "https://cdif.org/0.1/indexedBy"
             }
           },
           "required": [
@@ -425,22 +444,26 @@
               "items": {
                 "type": "string"
               },
-              "description": "Human-understandable name(s). CDIF-simplified from DDI-CDI Category.name (ObjectName) to plain strings."
+              "description": "Human-understandable name(s). CDIF-simplified from DDI-CDI Category.name (ObjectName) to plain strings.",
+              "x-jsonld-id": "https://cdif.org/0.1/name"
             },
             "cdif:descriptiveText": {
               "type": "string",
-              "description": "Short natural-language account of the category. CDIF-simplified from DDI-CDI Category.descriptiveText (InternationalString)."
+              "description": "Short natural-language account of the category. CDIF-simplified from DDI-CDI Category.descriptiveText (InternationalString).",
+              "x-jsonld-id": "https://cdif.org/0.1/descriptiveText"
             },
             "cdif:definition": {
               "type": "string",
-              "description": "Natural-language definition of the category. CDIF-simplified from DDI-CDI Category.definition (InternationalString)."
+              "description": "Natural-language definition of the category. CDIF-simplified from DDI-CDI Category.definition (InternationalString).",
+              "x-jsonld-id": "https://cdif.org/0.1/definition"
             },
             "cdif:displayLabel": {
               "type": "array",
               "items": {
                 "type": "string"
               },
-              "description": "Human-readable display label(s). CDIF-simplified from DDI-CDI Category.displayLabel (LabelForDisplay)."
+              "description": "Human-readable display label(s). CDIF-simplified from DDI-CDI Category.displayLabel (LabelForDisplay).",
+              "x-jsonld-id": "https://cdif.org/0.1/displayLabel"
             }
           }
         },
@@ -589,7 +612,8 @@
               }
             ]
           },
-          "description": "Immutable characteristic of the variable such as geographic designator, weight, temporal designation, etc. (InstanceVariable.function)."
+          "description": "Immutable characteristic of the variable such as geographic designator, weight, temporal designation, etc. (InstanceVariable.function).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/function"
         },
         "cdi:platformType": {
           "anyOf": [
@@ -608,7 +632,8 @@
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifInstanceVariable/$defs/DefinedTerm"
             }
           ],
-          "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType)."
+          "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/platformType"
         },
         "cdi:source": {
           "anyOf": [
@@ -624,7 +649,8 @@
               }
             }
           ],
-          "description": "Reference capturing provenance information for this InstanceVariable (InstanceVariable.source)."
+          "description": "Reference capturing provenance information for this InstanceVariable (InstanceVariable.source).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/source"
         },
         "cdif:isDescribedBy_StatisticsCollection": {
           "description": "The StatisticsCollection holding summary / category statistics for this InstanceVariable (InstanceVariable.isDescribedBy). cdif: namespaced and target-suffixed because the DDI-CDI isDescribedBy association is polymorphic.",
@@ -662,7 +688,8 @@
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifInstanceVariable/$defs/DefinedTerm"
             }
           ],
-          "description": "The data type intended to be used by this variable, independent of its physical representation (RepresentedVariable.hasIntendedDataType)."
+          "description": "The data type intended to be used by this variable, independent of its physical representation (RepresentedVariable.hasIntendedDataType).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType"
         },
         "cdi:describedUnitOfMeasure": {
           "anyOf": [
@@ -681,7 +708,8 @@
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifInstanceVariable/$defs/DefinedTerm"
             }
           ],
-          "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead."
+          "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure"
         },
         "cdi:qualifies": {
           "type": "object",
@@ -690,7 +718,8 @@
               "type": "string"
             }
           },
-          "description": "reference to an instance variable defined for this dataset"
+          "description": "reference to an instance variable defined for this dataset",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/qualifies"
         }
       },
       "allOf": [
@@ -777,11 +806,13 @@
                     "@id"
                   ]
                 }
-              ]
+              ],
+              "x-jsonld-id": "https://cdif.org/0.1/takesValuesFrom"
             },
             "cdif:displayLabel": {
               "type": "string",
-              "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+              "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations.",
+              "x-jsonld-id": "https://cdif.org/0.1/displayLabel"
             },
             "cdif:recommendedDataType": {
               "type": "array",
@@ -789,7 +820,8 @@
               "items": {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifValueDomain/$defs/xsdDataType"
               },
-              "minItems": 1
+              "minItems": 1,
+              "x-jsonld-id": "https://cdif.org/0.1/recommendedDataType"
             }
           },
           "required": [
@@ -846,11 +878,13 @@
                     "@id"
                   ]
                 }
-              ]
+              ],
+              "x-jsonld-id": "https://cdif.org/0.1/takesValuesFrom"
             },
             "cdif:displayLabel": {
               "type": "string",
-              "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+              "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations.",
+              "x-jsonld-id": "https://cdif.org/0.1/displayLabel"
             },
             "cdif:recommendedDataType": {
               "type": "array",
@@ -858,7 +892,8 @@
               "items": {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifValueDomain/$defs/xsdDataType"
               },
-              "minItems": 1
+              "minItems": 1,
+              "x-jsonld-id": "https://cdif.org/0.1/recommendedDataType"
             }
           },
           "required": [
@@ -947,31 +982,39 @@
         },
         "cdi:length": {
           "type": "integer",
-          "description": "The column width if the tabular text is fixed width."
+          "description": "The column width if the tabular text is fixed width.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/length"
         },
         "cdi:nullSequence": {
           "type": "string",
-          "description": "The value of this property becomes the null annotation for the described column."
+          "description": "The value of this property becomes the null annotation for the described column.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/nullSequence"
         },
         "cdi:defaultValue": {
           "type": "string",
-          "description": "A default string indicating the value to substitute for an empty string."
+          "description": "A default string indicating the value to substitute for an empty string.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/defaultValue"
         },
         "cdi:scale": {
-          "type": "integer"
+          "type": "integer",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/scale"
         },
         "cdi:decimalPositions": {
-          "type": "integer"
+          "type": "integer",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/decimalPositions"
         },
         "cdi:minimumLength": {
-          "type": "integer"
+          "type": "integer",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/minimumLength"
         },
         "cdi:maximumLength": {
-          "type": "integer"
+          "type": "integer",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/maximumLength"
         },
         "cdi:isRequired": {
           "type": "boolean",
-          "default": false
+          "default": false,
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isRequired"
         },
         "cdif:formats_InstanceVariable": {
           "type": "object",
@@ -1105,7 +1148,8 @@
               }
             ]
           },
-          "description": "Immutable characteristic of the variable such as geographic designator, weight, temporal designation, etc. (InstanceVariable.function)."
+          "description": "Immutable characteristic of the variable such as geographic designator, weight, temporal designation, etc. (InstanceVariable.function).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/function"
         },
         "cdi:platformType": {
           "anyOf": [
@@ -1124,7 +1168,8 @@
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifInstanceVariable_1/$defs/DefinedTerm"
             }
           ],
-          "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType)."
+          "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/platformType"
         },
         "cdi:source": {
           "anyOf": [
@@ -1140,7 +1185,8 @@
               }
             }
           ],
-          "description": "Reference capturing provenance information for this InstanceVariable (InstanceVariable.source)."
+          "description": "Reference capturing provenance information for this InstanceVariable (InstanceVariable.source).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/source"
         },
         "cdif:isDescribedBy_StatisticsCollection": {
           "description": "The StatisticsCollection holding summary / category statistics for this InstanceVariable (InstanceVariable.isDescribedBy). cdif: namespaced and target-suffixed because the DDI-CDI isDescribedBy association is polymorphic.",
@@ -1178,7 +1224,8 @@
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifInstanceVariable_1/$defs/DefinedTerm"
             }
           ],
-          "description": "The data type intended to be used by this variable, independent of its physical representation (RepresentedVariable.hasIntendedDataType)."
+          "description": "The data type intended to be used by this variable, independent of its physical representation (RepresentedVariable.hasIntendedDataType).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType"
         },
         "cdi:describedUnitOfMeasure": {
           "anyOf": [
@@ -1197,7 +1244,8 @@
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifInstanceVariable_1/$defs/DefinedTerm"
             }
           ],
-          "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead."
+          "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure"
         },
         "cdi:qualifies": {
           "type": "object",
@@ -1206,7 +1254,8 @@
               "type": "string"
             }
           },
-          "description": "reference to an instance variable defined for this dataset"
+          "description": "reference to an instance variable defined for this dataset",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/qualifies"
         }
       },
       "allOf": [
@@ -1261,7 +1310,8 @@
         },
         "schema:name": {
           "type": "string",
-          "description": "text label for the term that is useful to human user"
+          "description": "text label for the term that is useful to human user",
+          "x-jsonld-id": "http://schema.org/name"
         },
         "schema:identifier": {
           "anyOf": [
@@ -1271,15 +1321,18 @@
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
             }
-          ]
+          ],
+          "x-jsonld-id": "http://schema.org/identifier"
         },
         "schema:inDefinedTermSet": {
           "type": "string",
-          "description": "Name for the controlled vocabulary responsible for this keyword."
+          "description": "Name for the controlled vocabulary responsible for this keyword.",
+          "x-jsonld-id": "http://schema.org/inDefinedTermSet"
         },
         "schema:termCode": {
           "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation",
+          "x-jsonld-id": "http://schema.org/termCode"
         }
       },
       "allOf": [
@@ -1394,7 +1447,8 @@
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue"
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#prefLabel"
         },
         "skos:altLabel": {
           "description": "Alternative lexical labels (acronyms, abbreviations, variants).",
@@ -1418,7 +1472,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#altLabel"
         },
         "skos:hiddenLabel": {
           "description": "Labels accessible to free-text search but not displayed.",
@@ -1442,14 +1497,16 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#hiddenLabel"
         },
         "skos:notation": {
           "description": "Classification code for this concept within a scheme.",
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#notation"
         },
         "skos:definition": {
           "description": "Formal explanation of the meaning of this concept.",
@@ -1473,7 +1530,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#definition"
         },
         "skos:scopeNote": {
           "description": "Note clarifying meaning and/or intended use.",
@@ -1497,7 +1555,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#scopeNote"
         },
         "skos:note": {
           "description": "General note about this concept.",
@@ -1521,7 +1580,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#note"
         },
         "skos:historyNote": {
           "description": "Note about past state or use.",
@@ -1545,7 +1605,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#historyNote"
         },
         "skos:changeNote": {
           "description": "Note documenting a change.",
@@ -1569,7 +1630,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#changeNote"
         },
         "skos:editorialNote": {
           "description": "Note for editors and maintainers.",
@@ -1593,7 +1655,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#editorialNote"
         },
         "skos:example": {
           "description": "Example of use of this concept.",
@@ -1617,7 +1680,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#example"
         },
         "skos:inScheme": {
           "description": "Concept scheme(s) this concept belongs to.",
@@ -1647,7 +1711,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#inScheme"
         },
         "skos:topConceptOf": {
           "description": "Concept scheme(s) for which this is a top concept.",
@@ -1677,7 +1742,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#topConceptOf"
         },
         "skos:broader": {
           "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
@@ -1691,7 +1757,8 @@
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
               }
             ]
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#broader"
         },
         "skos:narrower": {
           "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
@@ -1705,7 +1772,8 @@
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
               }
             ]
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#narrower"
         },
         "skos:related": {
           "description": "Associatively related concepts.",
@@ -1719,42 +1787,48 @@
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
               }
             ]
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#related"
         },
         "skos:exactMatch": {
           "description": "Concepts in other schemes with equivalent meaning.",
           "type": "array",
           "items": {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef"
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#exactMatch"
         },
         "skos:closeMatch": {
           "description": "Concepts in other schemes with similar meaning.",
           "type": "array",
           "items": {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef"
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#closeMatch"
         },
         "skos:broadMatch": {
           "description": "Broader concepts in other schemes.",
           "type": "array",
           "items": {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef"
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#broadMatch"
         },
         "skos:narrowMatch": {
           "description": "Narrower concepts in other schemes.",
           "type": "array",
           "items": {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef"
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#narrowMatch"
         },
         "skos:relatedMatch": {
           "description": "Related concepts in other schemes.",
           "type": "array",
           "items": {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef"
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#relatedMatch"
         }
       },
       "required": [
@@ -1828,20 +1902,24 @@
                 "Total",
                 "ValidOnly"
               ],
-              "description": "The cases included in determining the statistic \u2014 Total (all cases, valid and missing), ValidOnly (valid values only), MissingOnly (invalid cases only)."
+              "description": "The cases included in determining the statistic \u2014 Total (all cases, valid and missing), ValidOnly (valid values only), MissingOnly (invalid cases only).",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/computationBase"
             },
             "cdi:content": {
               "type": "number",
-              "description": "The value of the statistic expressed as a real number."
+              "description": "The value of the statistic expressed as a real number.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/content"
             },
             "cdi:isWeighted": {
               "type": "boolean",
               "default": false,
-              "description": "True if the statistic was computed using a weighting variable."
+              "description": "True if the statistic was computed using a weighting variable.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isWeighted"
             },
             "cdi:typeOfNumericValue": {
               "type": "string",
-              "description": "The type of numeric value carried in cdi:content \u2014 decimal, float, or double."
+              "description": "The type of numeric value carried in cdi:content \u2014 decimal, float, or double.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfNumericValue"
             }
           }
         },
@@ -1868,6 +1946,7 @@
             },
             "cdi:typeOfStatistic": {
               "description": "Controlled-vocabulary entry naming the kind of statistic \u2014 e.g. mean, median, count, sum, stdDev.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic",
               "allOf": [
                 {
                   "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifStatistics_1/$defs/SkosConcept"
@@ -1880,7 +1959,8 @@
               "items": {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifStatistics_1/$defs/Statistic"
               },
-              "minItems": 1
+              "minItems": 1,
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/statistic"
             },
             "cdi:hasWeight": {
               "description": "The InstanceVariable whose values were used as weights when computing the Statistic entries (inline cdifInstanceVariable node or an @id-reference).",
@@ -1899,7 +1979,8 @@
                     "@id"
                   ]
                 }
-              ]
+              ],
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight"
             },
             "cdif:appliesTo": {
               "type": "array",
@@ -1922,14 +2003,16 @@
                   }
                 ]
               },
-              "minItems": 1
+              "minItems": 1,
+              "x-jsonld-id": "https://cdif.org/0.1/appliesTo"
             },
             "cdif:has_CategoryStatistics": {
               "type": "array",
               "description": "CategoryStatistics entries breaking this Statistics bundle down by Category. cdif: namespaced and target-suffixed because the DDI-CDI cdi:has association is polymorphic.",
               "items": {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifStatistics_1/$defs/CategoryStatistics"
-              }
+              },
+              "x-jsonld-id": "https://cdif.org/0.1/has_CategoryStatistics"
             }
           },
           "required": [
@@ -1975,10 +2058,12 @@
                     "@id"
                   ]
                 }
-              ]
+              ],
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/for"
             },
             "cdi:typeOfStatistic": {
               "description": "Controlled-vocabulary entry naming the kind of statistic.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic",
               "allOf": [
                 {
                   "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifStatistics_1/$defs/SkosConcept"
@@ -1991,7 +2076,8 @@
               "items": {
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifStatistics_1/$defs/Statistic"
               },
-              "minItems": 1
+              "minItems": 1,
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/statistic"
             },
             "cdi:hasWeight": {
               "description": "The InstanceVariable whose values were used as weights (inline cdifInstanceVariable node or an @id-reference).",
@@ -2010,7 +2096,8 @@
                     "@id"
                   ]
                 }
-              ]
+              ],
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight"
             }
           },
           "required": [
@@ -2057,7 +2144,8 @@
                     "@id"
                   ]
                 }
-              ]
+              ],
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight"
             },
             "cdif:has_Statistics": {
               "type": "array",
@@ -2080,7 +2168,8 @@
                   }
                 ]
               },
-              "minItems": 1
+              "minItems": 1,
+              "x-jsonld-id": "https://cdif.org/0.1/has_Statistics"
             },
             "cdif:indexedBy": {
               "type": "array",
@@ -2103,7 +2192,8 @@
                   }
                 ]
               },
-              "minItems": 1
+              "minItems": 1,
+              "x-jsonld-id": "https://cdif.org/0.1/indexedBy"
             }
           },
           "required": [
@@ -2136,22 +2226,26 @@
               "items": {
                 "type": "string"
               },
-              "description": "Human-understandable name(s). CDIF-simplified from DDI-CDI Category.name (ObjectName) to plain strings."
+              "description": "Human-understandable name(s). CDIF-simplified from DDI-CDI Category.name (ObjectName) to plain strings.",
+              "x-jsonld-id": "https://cdif.org/0.1/name"
             },
             "cdif:descriptiveText": {
               "type": "string",
-              "description": "Short natural-language account of the category. CDIF-simplified from DDI-CDI Category.descriptiveText (InternationalString)."
+              "description": "Short natural-language account of the category. CDIF-simplified from DDI-CDI Category.descriptiveText (InternationalString).",
+              "x-jsonld-id": "https://cdif.org/0.1/descriptiveText"
             },
             "cdif:definition": {
               "type": "string",
-              "description": "Natural-language definition of the category. CDIF-simplified from DDI-CDI Category.definition (InternationalString)."
+              "description": "Natural-language definition of the category. CDIF-simplified from DDI-CDI Category.definition (InternationalString).",
+              "x-jsonld-id": "https://cdif.org/0.1/definition"
             },
             "cdif:displayLabel": {
               "type": "array",
               "items": {
                 "type": "string"
               },
-              "description": "Human-readable display label(s). CDIF-simplified from DDI-CDI Category.displayLabel (LabelForDisplay)."
+              "description": "Human-readable display label(s). CDIF-simplified from DDI-CDI Category.displayLabel (LabelForDisplay).",
+              "x-jsonld-id": "https://cdif.org/0.1/displayLabel"
             }
           }
         },
@@ -2208,18 +2302,21 @@
         },
         "schema:name": {
           "type": "string",
-          "description": "string label associated with the variable in the dataset serialization"
+          "description": "string label associated with the variable in the dataset serialization",
+          "x-jsonld-id": "http://schema.org/name"
         },
         "schema:description": {
           "type": "string",
-          "default": "missing"
+          "default": "missing",
+          "x-jsonld-id": "http://schema.org/description"
         },
         "schema:alternateName": {
           "type": "array",
           "items": {
             "type": "string",
             "description": "human intelligible name for variable that conveys semantics"
-          }
+          },
+          "x-jsonld-id": "http://schema.org/alternateName"
         },
         "schema:measurementTechnique": {
           "anyOf": [
@@ -2239,7 +2336,8 @@
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured/$defs/DefinedTerm"
             }
           ],
-          "description": "Text description or URI specifying how values for the variable were obtained."
+          "description": "Text description or URI specifying how values for the variable were obtained.",
+          "x-jsonld-id": "http://schema.org/measurementTechnique"
         },
         "schema:propertyID": {
           "type": "array",
@@ -2261,11 +2359,13 @@
               }
             ]
           },
-          "description": "identifier or name for the property concept"
+          "description": "identifier or name for the property concept",
+          "x-jsonld-id": "http://schema.org/propertyID"
         },
         "schema:unitText": {
           "type": "string",
-          "description": "unit of measurement as text"
+          "description": "unit of measurement as text",
+          "x-jsonld-id": "http://schema.org/unitText"
         },
         "schema:unitCode": {
           "anyOf": [
@@ -2284,15 +2384,18 @@
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured/$defs/DefinedTerm"
             }
           ],
-          "description": "URI or code identifying the unit of measure"
+          "description": "URI or code identifying the unit of measure",
+          "x-jsonld-id": "http://schema.org/unitCode"
         },
         "schema:minValue": {
           "type": "number",
-          "description": "minimum numeric value in the dataset"
+          "description": "minimum numeric value in the dataset",
+          "x-jsonld-id": "http://schema.org/minValue"
         },
         "schema:maxValue": {
           "type": "number",
-          "description": "maximum numeric value in the dataset"
+          "description": "maximum numeric value in the dataset",
+          "x-jsonld-id": "http://schema.org/maxValue"
         },
         "schema:url": {
           "anyOf": [
@@ -2304,7 +2407,8 @@
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured/$defs/Reference"
             }
-          ]
+          ],
+          "x-jsonld-id": "http://schema.org/url"
         }
       },
       "required": [
@@ -2348,6 +2452,7 @@
         },
         "cdif:identifier": {
           "description": "Identifier for this enumerated (categorical) domain.",
+          "x-jsonld-id": "https://cdif.org/0.1/identifier",
           "allOf": [
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
@@ -2356,7 +2461,8 @@
         },
         "schema:name": {
           "type": "string",
-          "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic)."
+          "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic).",
+          "x-jsonld-id": "http://schema.org/name"
         },
         "cdif:references": {
           "description": "SKOS concept scheme that contains concepts defining the allowed values of this enumeration domain.",
@@ -2373,11 +2479,13 @@
                 }
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "https://cdif.org/0.1/references"
         },
         "cdif:purpose": {
           "type": "string",
-          "description": "Intent or reason for the object/the description of the object."
+          "description": "Intent or reason for the object/the description of the object.",
+          "x-jsonld-id": "https://cdif.org/0.1/purpose"
         }
       },
       "required": [
@@ -2411,16 +2519,19 @@
         },
         "schema:propertyID": {
           "type": "string",
-          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability",
+          "x-jsonld-id": "http://schema.org/propertyID"
         },
         "schema:value": {
           "type": "string",
-          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ",
+          "x-jsonld-id": "http://schema.org/value"
         },
         "schema:url": {
           "type": "string",
           "format": "uri",
-          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ ",
+          "x-jsonld-id": "http://schema.org/url"
         }
       },
       "allOf": [
@@ -2480,6 +2591,7 @@
             },
             "dcat:hadRole": {
               "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot).",
+              "x-jsonld-id": "http://www.w3.org/ns/dcat#hadRole",
               "allOf": [
                 {
                   "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
@@ -2489,7 +2601,8 @@
             "dcterms:relation": {
               "type": "string",
               "format": "uri",
-              "description": "URI of the related resource (DCAT canonical pointer to what is being related to; distinct from schema:url which is the presentation URL inherited from labeledLink)."
+              "description": "URI of the related resource (DCAT canonical pointer to what is being related to; distinct from schema:url which is the presentation URL inherited from labeledLink).",
+              "x-jsonld-id": "http://purl.org/dc/terms/relation"
             }
           }
         }
@@ -2587,7 +2700,8 @@
                 "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#prefLabel"
         },
         "skos:altLabel": {
           "description": "Alternative lexical labels (acronyms, abbreviations, spelling variants).",
@@ -2611,7 +2725,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#altLabel"
         },
         "skos:hiddenLabel": {
           "description": "Labels accessible to free-text search but not displayed.",
@@ -2635,7 +2750,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#hiddenLabel"
         },
         "skos:definition": {
           "description": "Formal explanation of the meaning or purpose of this concept scheme.",
@@ -2659,14 +2775,16 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#definition"
         },
         "skos:notation": {
           "description": "Classification code or notation for this concept scheme.",
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#notation"
         },
         "skos:note": {
           "description": "General note about the concept scheme.",
@@ -2690,7 +2808,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#note"
         },
         "skos:scopeNote": {
           "description": "Note clarifying the intended scope of the concept scheme.",
@@ -2714,7 +2833,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#scopeNote"
         },
         "skos:historyNote": {
           "description": "Note about the history of the concept scheme.",
@@ -2738,7 +2858,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#historyNote"
         },
         "skos:changeNote": {
           "description": "Note documenting a change to the concept scheme.",
@@ -2762,7 +2883,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#changeNote"
         },
         "skos:editorialNote": {
           "description": "Note for editors, translators, and maintainers.",
@@ -2786,7 +2908,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#editorialNote"
         },
         "skos:example": {
           "description": "Example of the use of this concept scheme.",
@@ -2810,7 +2933,8 @@
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#example"
         },
         "skos:hasTopConcept": {
           "description": "Top-level concepts in this scheme. Each item is a skos:Concept (inline or @id reference).",
@@ -2834,7 +2958,8 @@
                 ]
               }
             ]
-          }
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#hasTopConcept"
         },
         "dcterms:creator": {
           "description": "Agent(s) who created this concept scheme.",
@@ -2849,7 +2974,8 @@
                   "type": "string"
                 },
                 "schema:name": {
-                  "type": "string"
+                  "type": "string",
+                  "x-jsonld-id": "http://schema.org/name"
                 }
               }
             },
@@ -2867,22 +2993,26 @@
                         "type": "string"
                       },
                       "schema:name": {
-                        "type": "string"
+                        "type": "string",
+                        "x-jsonld-id": "http://schema.org/name"
                       }
                     }
                   }
                 ]
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://purl.org/dc/terms/creator"
         },
         "dcterms:created": {
           "type": "string",
-          "description": "Date the concept scheme was created (ISO 8601)."
+          "description": "Date the concept scheme was created (ISO 8601).",
+          "x-jsonld-id": "http://purl.org/dc/terms/created"
         },
         "dcterms:modified": {
           "type": "string",
-          "description": "Date the concept scheme was last modified (ISO 8601)."
+          "description": "Date the concept scheme was last modified (ISO 8601).",
+          "x-jsonld-id": "http://purl.org/dc/terms/modified"
         },
         "dcterms:title": {
           "description": "Title of the concept scheme (Dublin Core). Prefer skos:prefLabel for the SKOS label; dcterms:title may be used for additional metadata.",
@@ -2893,7 +3023,8 @@
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
             }
-          ]
+          ],
+          "x-jsonld-id": "http://purl.org/dc/terms/title"
         },
         "dcterms:description": {
           "description": "Description of the concept scheme (Dublin Core).",
@@ -2904,7 +3035,8 @@
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
             }
-          ]
+          ],
+          "x-jsonld-id": "http://purl.org/dc/terms/description"
         },
         "dcterms:license": {
           "description": "License for the concept scheme.",
@@ -2920,14 +3052,17 @@
                 }
               }
             }
-          ]
+          ],
+          "x-jsonld-id": "http://purl.org/dc/terms/license"
         },
         "dcterms:rights": {
           "description": "Rights statement for the concept scheme.",
-          "type": "string"
+          "type": "string",
+          "x-jsonld-id": "http://purl.org/dc/terms/rights"
         },
         "schema:version": {
           "description": "Version identifier for the concept scheme.",
+          "x-jsonld-id": "http://schema.org/version",
           "anyOf": [
             {
               "type": "string"
@@ -2976,14 +3111,17 @@
           "minItems": 1
         },
         "schema:name": {
-          "type": "string"
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/name"
         },
         "schema:description": {
-          "type": "string"
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/description"
         },
         "schema:url": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "x-jsonld-id": "http://schema.org/url"
         }
       },
       "required": [

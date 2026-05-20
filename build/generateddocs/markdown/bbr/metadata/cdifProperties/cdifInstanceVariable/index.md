@@ -446,6 +446,7 @@ properties:
       - $ref: '#/$defs/DefinedTerm'
     description: Immutable characteristic of the variable such as geographic designator,
       weight, temporal designation, etc. (InstanceVariable.function).
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/function
   cdi:platformType:
     anyOf:
     - type: string
@@ -457,6 +458,7 @@ properties:
     description: The application or technical system context in which the variable
       has been realized - typically a statistical processing package or processing
       environment (InstanceVariable.platformType).
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/platformType
   cdi:source:
     anyOf:
     - type: string
@@ -466,6 +468,7 @@ properties:
           type: string
     description: Reference capturing provenance information for this InstanceVariable
       (InstanceVariable.source).
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/source
   cdif:isDescribedBy_StatisticsCollection:
     description: 'The StatisticsCollection holding summary / category statistics for
       this InstanceVariable (InstanceVariable.isDescribedBy). cdif: namespaced and
@@ -488,6 +491,7 @@ properties:
     - $ref: '#/$defs/DefinedTerm'
     description: The data type intended to be used by this variable, independent of
       its physical representation (RepresentedVariable.hasIntendedDataType).
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType
   cdi:describedUnitOfMeasure:
     anyOf:
     - type: string
@@ -499,12 +503,14 @@ properties:
     description: The unit in which the data values are measured, expressed as a controlled-vocabulary
       entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit,
       use cdif:simpleUnitOfMeasure instead.
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure
   cdi:qualifies:
     type: object
     properties:
       '@id':
         type: string
     description: reference to an instance variable defined for this dataset
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/qualifies
 allOf:
 - required:
   - '@type'

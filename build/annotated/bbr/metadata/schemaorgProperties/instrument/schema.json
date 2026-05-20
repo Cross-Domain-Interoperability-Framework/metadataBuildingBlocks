@@ -49,23 +49,27 @@
       "items": {
         "type": "string"
       },
-      "minItems": 1
+      "minItems": 1,
+      "x-jsonld-id": "http://schema.org/additionalType"
     },
     "schema:name": {
       "type": "string",
       "minLength": 3,
-      "description": "Human-readable name for this instrument."
+      "description": "Human-readable name for this instrument.",
+      "x-jsonld-id": "http://schema.org/name"
     },
     "schema:description": {
       "type": "string",
-      "description": "Text description of this instrument, its purpose, and capabilities."
+      "description": "Text description of this instrument, its purpose, and capabilities.",
+      "x-jsonld-id": "http://schema.org/description"
     },
     "schema:alternateName": {
       "description": "Alternate name(s), e.g. specific make/model designation, common abbreviation.",
       "type": "array",
       "items": {
         "type": "string"
-      }
+      },
+      "x-jsonld-id": "http://schema.org/alternateName"
     },
     "schema:identifier": {
       "description": "Formal identifier(s) for this instrument. Use PropertyValue for structured identifiers (e.g. PIDINST, serial number, inventory number).",
@@ -79,16 +83,19 @@
             "$ref": "#/$defs/Identifier"
           }
         ]
-      }
+      },
+      "x-jsonld-id": "http://schema.org/identifier"
     },
     "schema:url": {
       "type": "string",
       "format": "uri",
-      "description": "Landing page URL for this instrument."
+      "description": "Landing page URL for this instrument.",
+      "x-jsonld-id": "http://schema.org/url"
     },
     "schema:manufacturer": {
       "description": "Organization that manufactured this instrument.",
-      "$ref": "#/$defs/Organization"
+      "$ref": "#/$defs/Organization",
+      "x-jsonld-id": "http://schema.org/manufacturer"
     },
     "schema:model": {
       "type": "object",
@@ -106,7 +113,8 @@
         },
         "schema:name": {
           "type": "string",
-          "description": "Model name or number."
+          "description": "Model name or number.",
+          "x-jsonld-id": "http://schema.org/name"
         },
         "schema:identifier": {
           "description": "Model identifier.",
@@ -117,45 +125,53 @@
             {
               "$ref": "#/$defs/Identifier"
             }
-          ]
+          ],
+          "x-jsonld-id": "http://schema.org/identifier"
         }
       },
       "required": [
         "schema:name"
-      ]
+      ],
+      "x-jsonld-id": "http://schema.org/model"
     },
     "schema:category": {
       "description": "Instrument type classification(s) from a controlled vocabulary.",
       "type": "array",
       "items": {
         "$ref": "#/$defs/DefinedTerm"
-      }
+      },
+      "x-jsonld-id": "http://schema.org/category"
     },
     "schema:owner": {
       "description": "Organization that owns this instrument.",
-      "$ref": "#/$defs/Organization"
+      "$ref": "#/$defs/Organization",
+      "x-jsonld-id": "http://schema.org/owner"
     },
     "schema:contributor": {
       "description": "Agents associated with this instrument in specific roles (e.g. operator, custodian, principal investigator). Use schema:owner for the owning organization.",
       "type": "array",
       "items": {
         "$ref": "#/$defs/AgentInRole"
-      }
+      },
+      "x-jsonld-id": "http://schema.org/contributor"
     },
     "schema:additionalProperty": {
       "type": "array",
       "description": "Instrument-specific properties (measured variables, detection limits, calibration information, operating parameters, etc.).",
       "items": {
         "$ref": "#/$defs/AdditionalProperty"
-      }
+      },
+      "x-jsonld-id": "http://schema.org/additionalProperty"
     },
     "schema:validFrom": {
       "type": "string",
-      "description": "Date the instrument was commissioned (ISO 8601)."
+      "description": "Date the instrument was commissioned (ISO 8601).",
+      "x-jsonld-id": "http://schema.org/validFrom"
     },
     "schema:validThrough": {
       "type": "string",
-      "description": "Date the instrument was decommissioned (ISO 8601). Absent if still operational."
+      "description": "Date the instrument was decommissioned (ISO 8601). Absent if still operational.",
+      "x-jsonld-id": "http://schema.org/validThrough"
     },
     "schema:hasPart": {
       "type": "array",
@@ -178,14 +194,16 @@
             ]
           }
         ]
-      }
+      },
+      "x-jsonld-id": "http://schema.org/hasPart"
     },
     "schema:relatedLink": {
       "type": "array",
       "description": "Links to related resources (manuals, datasheets, calibration records, related instruments).",
       "items": {
         "$ref": "#/$defs/Reference"
-      }
+      },
+      "x-jsonld-id": "http://schema.org/relatedLink"
     },
     "schema:subjectOf": {
       "description": "Catalog record metadata-about-metadata for this instrument description.",
@@ -202,7 +220,8 @@
         },
         "schema:dateModified": {
           "type": "string",
-          "description": "Date this metadata record was last modified (ISO 8601)."
+          "description": "Date this metadata record was last modified (ISO 8601).",
+          "x-jsonld-id": "http://schema.org/dateModified"
         },
         "schema:about": {
           "type": "object",
@@ -211,7 +230,8 @@
               "type": "string",
               "description": "Reference back to the instrument @id."
             }
-          }
+          },
+          "x-jsonld-id": "http://schema.org/about"
         },
         "dcterms:conformsTo": {
           "description": "Schema or profile this metadata record conforms to.",
@@ -232,7 +252,8 @@
             ]
           }
         }
-      }
+      },
+      "x-jsonld-id": "http://schema.org/subjectOf"
     }
   },
   "required": [
@@ -280,16 +301,19 @@
         },
         "schema:name": {
           "type": "string",
-          "minLength": 3
+          "minLength": 3,
+          "x-jsonld-id": "http://schema.org/name"
         },
         "schema:description": {
-          "type": "string"
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/description"
         },
         "schema:alternateName": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "x-jsonld-id": "http://schema.org/alternateName"
         },
         "schema:identifier": {
           "anyOf": [
@@ -299,23 +323,27 @@
             {
               "$ref": "#/$defs/Identifier"
             }
-          ]
+          ],
+          "x-jsonld-id": "http://schema.org/identifier"
         },
         "schema:additionalType": {
           "description": "Component type classification.",
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "x-jsonld-id": "http://schema.org/additionalType"
         },
         "schema:additionalProperty": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/AdditionalProperty"
-          }
+          },
+          "x-jsonld-id": "http://schema.org/additionalProperty"
         },
         "schema:manufacturer": {
-          "$ref": "#/$defs/Organization"
+          "$ref": "#/$defs/Organization",
+          "x-jsonld-id": "http://schema.org/manufacturer"
         },
         "schema:model": {
           "type": "object",
@@ -331,7 +359,8 @@
               "minItems": 1
             },
             "schema:name": {
-              "type": "string"
+              "type": "string",
+              "x-jsonld-id": "http://schema.org/name"
             },
             "schema:identifier": {
               "anyOf": [
@@ -341,9 +370,11 @@
                 {
                   "$ref": "#/$defs/Identifier"
                 }
-              ]
+              ],
+              "x-jsonld-id": "http://schema.org/identifier"
             }
-          }
+          },
+          "x-jsonld-id": "http://schema.org/model"
         }
       },
       "required": [

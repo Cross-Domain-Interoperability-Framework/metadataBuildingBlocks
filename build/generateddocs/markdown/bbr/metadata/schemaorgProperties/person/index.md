@@ -278,19 +278,24 @@ properties:
     type: string
     description: string label for person that is meaningful for human users, should
       format consistently. Recommend 'Family Name, Given name' format.
+    x-jsonld-id: http://schema.org/name
   schema:description:
     type: string
+    x-jsonld-id: http://schema.org/description
   schema:identifier:
     description: identifier for person, recommend ORCID
     anyOf:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
     - type: string
+    x-jsonld-id: http://schema.org/identifier
   schema:alternateName:
     type: string
     description: other labels by which the person might be known
+    x-jsonld-id: http://schema.org/alternateName
   schema:affiliation:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml
     description: if affiliation is present, value must be a schema:Organization.
+    x-jsonld-id: http://schema.org/affiliation
   schema:contactPoint:
     type: object
     description: restrict to email only. Schema.org allows telephone and postal contacts
@@ -306,8 +311,10 @@ properties:
         minItems: 1
       schema:email:
         type: string
+        x-jsonld-id: http://schema.org/email
     required:
     - schema:email
+    x-jsonld-id: http://schema.org/contactPoint
   schema:sameAs:
     type: array
     description: other identifiers for the person
@@ -318,6 +325,7 @@ properties:
         properties:
           '@id':
             type: string
+    x-jsonld-id: http://schema.org/sameAs
 allOf:
 - required:
   - '@type'

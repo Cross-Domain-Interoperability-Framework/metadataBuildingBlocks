@@ -100,6 +100,7 @@ properties:
             type: string
             description: a resolvable reference to a representation of the software
               or instrument used
+    x-jsonld-id: http://www.w3.org/ns/prov#used
 x-jsonld-prefixes:
   schema: http://schema.org/
   prov: http://www.w3.org/ns/prov#

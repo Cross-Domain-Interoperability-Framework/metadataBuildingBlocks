@@ -1315,6 +1315,7 @@ properties:
     - type: array
       items:
         $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#prefLabel
   skos:altLabel:
     description: Alternative lexical labels (acronyms, abbreviations, spelling variants).
     anyOf:
@@ -1325,6 +1326,7 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#altLabel
   skos:hiddenLabel:
     description: Labels accessible to free-text search but not displayed.
     anyOf:
@@ -1335,6 +1337,7 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#hiddenLabel
   skos:definition:
     description: Formal explanation of the meaning or purpose of this concept scheme.
     anyOf:
@@ -1345,11 +1348,13 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#definition
   skos:notation:
     description: Classification code or notation for this concept scheme.
     type: array
     items:
       type: string
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#notation
   skos:note:
     description: General note about the concept scheme.
     anyOf:
@@ -1360,6 +1365,7 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#note
   skos:scopeNote:
     description: Note clarifying the intended scope of the concept scheme.
     anyOf:
@@ -1370,6 +1376,7 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#scopeNote
   skos:historyNote:
     description: Note about the history of the concept scheme.
     anyOf:
@@ -1380,6 +1387,7 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#historyNote
   skos:changeNote:
     description: Note documenting a change to the concept scheme.
     anyOf:
@@ -1390,6 +1398,7 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#changeNote
   skos:editorialNote:
     description: Note for editors, translators, and maintainers.
     anyOf:
@@ -1400,6 +1409,7 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#editorialNote
   skos:example:
     description: Example of the use of this concept scheme.
     anyOf:
@@ -1410,6 +1420,7 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#example
   skos:hasTopConcept:
     description: Top-level concepts in this scheme. Each item is a skos:Concept (inline
       or @id reference).
@@ -1425,6 +1436,7 @@ properties:
             description: URI reference to a concept defined elsewhere
         required:
         - '@id'
+    x-jsonld-id: http://www.w3.org/2004/02/skos/core#hasTopConcept
   dcterms:creator:
     description: Agent(s) who created this concept scheme.
     anyOf:
@@ -1435,6 +1447,7 @@ properties:
           type: string
         schema:name:
           type: string
+          x-jsonld-id: http://schema.org/name
     - type: array
       items:
         anyOf:
@@ -1445,23 +1458,29 @@ properties:
               type: string
             schema:name:
               type: string
+              x-jsonld-id: http://schema.org/name
+    x-jsonld-id: http://purl.org/dc/terms/creator
   dcterms:created:
     type: string
     description: Date the concept scheme was created (ISO 8601).
+    x-jsonld-id: http://purl.org/dc/terms/created
   dcterms:modified:
     type: string
     description: Date the concept scheme was last modified (ISO 8601).
+    x-jsonld-id: http://purl.org/dc/terms/modified
   dcterms:title:
     description: Title of the concept scheme (Dublin Core). Prefer skos:prefLabel
       for the SKOS label; dcterms:title may be used for additional metadata.
     anyOf:
     - type: string
     - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://purl.org/dc/terms/title
   dcterms:description:
     description: Description of the concept scheme (Dublin Core).
     anyOf:
     - type: string
     - $ref: '#/$defs/LanguageTaggedValue'
+    x-jsonld-id: http://purl.org/dc/terms/description
   dcterms:license:
     description: License for the concept scheme.
     anyOf:
@@ -1470,14 +1489,17 @@ properties:
       properties:
         '@id':
           type: string
+    x-jsonld-id: http://purl.org/dc/terms/license
   dcterms:rights:
     description: Rights statement for the concept scheme.
     type: string
+    x-jsonld-id: http://purl.org/dc/terms/rights
   schema:version:
     description: Version identifier for the concept scheme.
     type:
     - string
     - number
+    x-jsonld-id: http://schema.org/version
 required:
 - '@type'
 - skos:prefLabel

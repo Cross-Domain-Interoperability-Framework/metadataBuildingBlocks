@@ -267,20 +267,25 @@ properties:
     description: identifier or name for the property concept quantified by the values
       in this variable slot. Multiple values can specify the property at different
       levels of granularity.
+    x-jsonld-id: http://schema.org/propertyID
   schema:name:
     type: string
+    x-jsonld-id: http://schema.org/name
   schema:value:
     anyOf:
     - type: string
     - type: number
     - type: boolean
     - type: object
+    x-jsonld-id: http://schema.org/value
   schema:unitCode:
     anyOf:
     - type: string
     - $ref: '#/$defs/DefinedTerm'
+    x-jsonld-id: http://schema.org/unitCode
   schema:unitText:
     type: string
+    x-jsonld-id: http://schema.org/unitText
 required:
 - schema:name
 - schema:value

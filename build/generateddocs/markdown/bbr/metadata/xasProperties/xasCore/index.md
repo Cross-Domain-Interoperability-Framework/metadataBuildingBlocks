@@ -735,38 +735,38 @@ ex:xas-dataset-001 a schema1:Dataset,
             schema1:url "http://example.com/resource?foo=bar#fragment" ;
             schema1:value "10.12345/xas.2024.001" ] ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "http://sweetontology.net/matrElement/Selenium" ;
-            schema1:inDefinedTermSet "http://sweetontology.net/matrElement" ;
-            schema1:name "Selenium" ;
-            schema1:termCode "Se" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md#K" ;
             schema1:inDefinedTermSet "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md" ;
             schema1:name "K-edge" ;
-            schema1:termCode "K" ] ;
+            schema1:termCode "K" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "http://sweetontology.net/matrElement/Selenium" ;
+            schema1:inDefinedTermSet "http://sweetontology.net/matrElement" ;
+            schema1:name "Selenium" ;
+            schema1:termCode "Se" ] ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
-            schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01188" ;
-            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
-            schema1:name "Transmission" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01196" ;
             schema1:inDefinedTermSet "http://purl.org/pan-science/PaNET/PaNET.owl" ;
             schema1:name "X-Ray Absorption Spectroscopy" ;
-            schema1:termCode "XAS" ] ;
+            schema1:termCode "XAS" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01188" ;
+            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
+            schema1:name "Transmission" ] ;
     schema1:name "Se K-edge XANES of Na2SeO4 reference compound" ;
     schema1:subjectOf <urn:uuid:xas-required-catalog-record> ;
     schema1:url "http://example.com/resource?foo=bar#fragment" ;
     prov:wasGeneratedBy [ schema1:object [ a schema1:Product,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "Stoichiometry" ;
-                            schema1:propertyID "xas:stoichiometry" ;
-                            schema1:value "Na2SeO4" ],
-                        [ a schema1:PropertyValue ;
                             schema1:name "sample preparation method" ;
                             schema1:propertyID "https://example.org/vocab/sample-prep" ;
-                            schema1:value "powder on tape, 6 layers" ] ;
+                            schema1:value "powder on tape, 6 layers" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "Stoichiometry" ;
+                            schema1:propertyID "xas:stoichiometry" ;
+                            schema1:value "Na2SeO4" ] ;
                     schema1:additionalType "MaterialSample",
                         "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample" ;
                     schema1:description "Sodium selenate reference compound, powder" ;
@@ -780,22 +780,18 @@ ex:xas-dataset-001 a schema1:Dataset,
                             schema1:hasPart [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "Probe" ;
-                                            schema1:propertyID "nxs:Field/NXsource/probe" ;
-                                            schema1:value "x-ray" ],
-                                        [ a schema1:PropertyValue ;
                                             schema1:name "x-ray source" ;
                                             schema1:propertyID "nxs:Field/NXsource/type" ;
-                                            schema1:value "Synchrotron X-ray Source" ] ;
+                                            schema1:value "Synchrotron X-ray Source" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "Probe" ;
+                                            schema1:propertyID "nxs:Field/NXsource/probe" ;
+                                            schema1:value "x-ray" ] ;
                                     schema1:additionalType "nxs:BaseClass/NXsource" ;
                                     schema1:name "APS bending magnet source" ],
                                 [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "reflection plane (hkl)" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
-                                            schema1:value "1,1,1" ],
-                                        [ a schema1:PropertyValue ;
                                             schema1:name "crystal type" ;
                                             schema1:propertyID "nxs:Field/NXcrystal/type" ;
                                             schema1:value "Si(111)" ],
@@ -803,7 +799,11 @@ ex:xas-dataset-001 a schema1:Dataset,
                                             schema1:name "d-spacing" ;
                                             schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
                                             schema1:unitText "Angstrom" ;
-                                            schema1:value "3.13550" ] ;
+                                            schema1:value "3.13550" ],
+                                        [ a schema1:PropertyValue ;
+                                            schema1:name "reflection plane (hkl)" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
+                                            schema1:value "1,1,1" ] ;
                                     schema1:additionalType "nxs:BaseClass/NXmonochromator" ;
                                     schema1:name "Si 111" ] ;
                             schema1:name "APS Sector 20-BM beamline instrument" ] ] ] .
@@ -855,6 +855,7 @@ allOf:
             properties:
               '@id':
                 const: https://w3id.org/cdif/xasCore/1.0
+      x-jsonld-id: http://schema.org/subjectOf
     prov:wasGeneratedBy:
       type: array
       items:
@@ -1000,10 +1001,13 @@ allOf:
                             - '@type'
                             - schema:additionalType
                             - schema:additionalProperty
+                        x-jsonld-id: http://schema.org/hasPart
                     required:
                     - schema:hasPart
+                    x-jsonld-id: http://schema.org/instrument
             schema:object:
               $ref: '#/$defs/XasSample'
+              x-jsonld-id: http://schema.org/object
     schema:distribution:
       type: array
       items:
@@ -1036,6 +1040,7 @@ allOf:
         required:
         - '@type'
         - dcterms:conformsTo
+      x-jsonld-id: http://schema.org/distribution
     schema:measurementTechnique:
       type: array
       description: 'Require DefinedTerms for both: absorption edge (XDI dict) and
@@ -1048,12 +1053,16 @@ allOf:
         properties:
           schema:name:
             const: X-Ray Absorption Spectroscopy
+            x-jsonld-id: http://schema.org/name
           schema:termCode:
             const: XAS
+            x-jsonld-id: http://schema.org/termCode
           schema:identifier:
             const: http://purl.org/pan-science/PaNET/PaNET01196
+            x-jsonld-id: http://schema.org/identifier
           schema:inDefinedTermSet:
             const: http://purl.org/pan-science/PaNET/PaNET.owl
+            x-jsonld-id: http://schema.org/inDefinedTermSet
         required:
         - schema:name
         - schema:termCode
@@ -1070,6 +1079,7 @@ allOf:
           required:
           - schema:name
           - schema:inDefinedTermSet
+      x-jsonld-id: http://schema.org/measurementTechnique
     schema:keywords:
       type: array
       description: extends base CDIF keyword schema to require defined terms for the
@@ -1087,12 +1097,15 @@ allOf:
             minItems: 1
           schema:name:
             type: string
+            x-jsonld-id: http://schema.org/name
           schema:identifier:
             type: string
+            x-jsonld-id: http://schema.org/identifier
           schema:inDefinedTermSet:
             type: string
             description: need to include this to tag what the keyword is about; we're
               using the keywords as soft-typed properties
+            x-jsonld-id: http://schema.org/inDefinedTermSet
         required:
         - '@type'
         - schema:name
@@ -1103,6 +1116,7 @@ allOf:
         properties:
           schema:inDefinedTermSet:
             const: https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md
+            x-jsonld-id: http://schema.org/inDefinedTermSet
         required:
         - schema:inDefinedTermSet
       allOf:
@@ -1113,6 +1127,7 @@ allOf:
               const: http://sweetontology.net/matrElement
           required:
           - schema:inDefinedTermSet
+      x-jsonld-id: http://schema.org/keywords
 $defs:
   CdifMandatory:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema.yaml

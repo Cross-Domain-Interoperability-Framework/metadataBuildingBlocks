@@ -27,20 +27,24 @@
             "Total",
             "ValidOnly"
           ],
-          "description": "The cases included in determining the statistic \u2014 Total (all cases, valid and missing), ValidOnly (valid values only), MissingOnly (invalid cases only)."
+          "description": "The cases included in determining the statistic \u2014 Total (all cases, valid and missing), ValidOnly (valid values only), MissingOnly (invalid cases only).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/computationBase"
         },
         "cdi:content": {
           "type": "number",
-          "description": "The value of the statistic expressed as a real number."
+          "description": "The value of the statistic expressed as a real number.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/content"
         },
         "cdi:isWeighted": {
           "type": "boolean",
           "default": false,
-          "description": "True if the statistic was computed using a weighting variable."
+          "description": "True if the statistic was computed using a weighting variable.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isWeighted"
         },
         "cdi:typeOfNumericValue": {
           "type": "string",
-          "description": "The type of numeric value carried in cdi:content \u2014 decimal, float, or double."
+          "description": "The type of numeric value carried in cdi:content \u2014 decimal, float, or double.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfNumericValue"
         }
       }
     },
@@ -65,7 +69,8 @@
         },
         "cdi:typeOfStatistic": {
           "description": "Controlled-vocabulary entry naming the kind of statistic \u2014 e.g. mean, median, count, sum, stdDev.",
-          "$ref": "#/$defs/SkosConcept"
+          "$ref": "#/$defs/SkosConcept",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic"
         },
         "cdi:statistic": {
           "type": "array",
@@ -73,7 +78,8 @@
           "items": {
             "$ref": "#/$defs/Statistic"
           },
-          "minItems": 1
+          "minItems": 1,
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/statistic"
         },
         "cdi:hasWeight": {
           "description": "The InstanceVariable whose values were used as weights when computing the Statistic entries (inline cdifInstanceVariable node or an @id-reference).",
@@ -92,7 +98,8 @@
                 "@id"
               ]
             }
-          ]
+          ],
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight"
         },
         "cdif:appliesTo": {
           "type": "array",
@@ -115,14 +122,16 @@
               }
             ]
           },
-          "minItems": 1
+          "minItems": 1,
+          "x-jsonld-id": "https://cdif.org/0.1/appliesTo"
         },
         "cdif:has_CategoryStatistics": {
           "type": "array",
           "description": "CategoryStatistics entries breaking this Statistics bundle down by Category. cdif: namespaced and target-suffixed because the DDI-CDI cdi:has association is polymorphic.",
           "items": {
             "$ref": "#/$defs/CategoryStatistics"
-          }
+          },
+          "x-jsonld-id": "https://cdif.org/0.1/has_CategoryStatistics"
         }
       },
       "required": [
@@ -166,11 +175,13 @@
                 "@id"
               ]
             }
-          ]
+          ],
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/for"
         },
         "cdi:typeOfStatistic": {
           "description": "Controlled-vocabulary entry naming the kind of statistic.",
-          "$ref": "#/$defs/SkosConcept"
+          "$ref": "#/$defs/SkosConcept",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic"
         },
         "cdi:statistic": {
           "type": "array",
@@ -178,7 +189,8 @@
           "items": {
             "$ref": "#/$defs/Statistic"
           },
-          "minItems": 1
+          "minItems": 1,
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/statistic"
         },
         "cdi:hasWeight": {
           "description": "The InstanceVariable whose values were used as weights (inline cdifInstanceVariable node or an @id-reference).",
@@ -197,7 +209,8 @@
                 "@id"
               ]
             }
-          ]
+          ],
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight"
         }
       },
       "required": [
@@ -242,7 +255,8 @@
                 "@id"
               ]
             }
-          ]
+          ],
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasWeight"
         },
         "cdif:has_Statistics": {
           "type": "array",
@@ -265,7 +279,8 @@
               }
             ]
           },
-          "minItems": 1
+          "minItems": 1,
+          "x-jsonld-id": "https://cdif.org/0.1/has_Statistics"
         },
         "cdif:indexedBy": {
           "type": "array",
@@ -288,7 +303,8 @@
               }
             ]
           },
-          "minItems": 1
+          "minItems": 1,
+          "x-jsonld-id": "https://cdif.org/0.1/indexedBy"
         }
       },
       "required": [
@@ -319,22 +335,26 @@
           "items": {
             "type": "string"
           },
-          "description": "Human-understandable name(s). CDIF-simplified from DDI-CDI Category.name (ObjectName) to plain strings."
+          "description": "Human-understandable name(s). CDIF-simplified from DDI-CDI Category.name (ObjectName) to plain strings.",
+          "x-jsonld-id": "https://cdif.org/0.1/name"
         },
         "cdif:descriptiveText": {
           "type": "string",
-          "description": "Short natural-language account of the category. CDIF-simplified from DDI-CDI Category.descriptiveText (InternationalString)."
+          "description": "Short natural-language account of the category. CDIF-simplified from DDI-CDI Category.descriptiveText (InternationalString).",
+          "x-jsonld-id": "https://cdif.org/0.1/descriptiveText"
         },
         "cdif:definition": {
           "type": "string",
-          "description": "Natural-language definition of the category. CDIF-simplified from DDI-CDI Category.definition (InternationalString)."
+          "description": "Natural-language definition of the category. CDIF-simplified from DDI-CDI Category.definition (InternationalString).",
+          "x-jsonld-id": "https://cdif.org/0.1/definition"
         },
         "cdif:displayLabel": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "description": "Human-readable display label(s). CDIF-simplified from DDI-CDI Category.displayLabel (LabelForDisplay)."
+          "description": "Human-readable display label(s). CDIF-simplified from DDI-CDI Category.displayLabel (LabelForDisplay).",
+          "x-jsonld-id": "https://cdif.org/0.1/displayLabel"
         }
       }
     },

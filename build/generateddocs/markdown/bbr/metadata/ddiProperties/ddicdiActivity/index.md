@@ -316,11 +316,11 @@ ex:activity-statistical-compilation a cdi:Activity ;
             cdi:description "German Labour Force Survey 2024 microdata" ;
             cdi:uri "https://example.org/datasets/national-lfs-2024-DE" ],
         [ a cdi:Reference ;
-            cdi:description "French Labour Force Survey 2024 microdata" ;
-            cdi:uri "https://example.org/datasets/national-lfs-2024-FR" ],
-        [ a cdi:Reference ;
             cdi:description "Swiss Labour Force Survey 2024 microdata" ;
             cdi:uri "https://example.org/datasets/national-lfs-2024-CH" ],
+        [ a cdi:Reference ;
+            cdi:description "French Labour Force Survey 2024 microdata" ;
+            cdi:uri "https://example.org/datasets/national-lfs-2024-FR" ],
         [ a cdi:Reference ;
             cdi:description "Austrian Labour Force Survey 2024 microdata" ;
             cdi:uri "https://example.org/datasets/national-lfs-2024-AT" ] ;
@@ -373,9 +373,11 @@ properties:
     - type: array
       items:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
   cdi:description:
     type: string
     description: Plain text description of the activity
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/description
   cdi:definition:
     description: Formal multilingual definition (InternationalString)
     anyOf:
@@ -383,6 +385,7 @@ properties:
     - type: array
       items:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/definition
   cdi:displayLabel:
     description: Multilingual display label
     anyOf:
@@ -390,19 +393,23 @@ properties:
     - type: array
       items:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/LabelForDisplay
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/displayLabel
   cdi:identifier:
     description: Formal identifier for this activity
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
   cdi:entityUsed:
     description: Entities used as inputs by this activity
     type: array
     items:
       $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Reference
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/entityUsed
   cdi:entityProduced:
     description: Entities produced as outputs by this activity
     type: array
     items:
       $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Reference
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/entityProduced
   cdi:standardModelMapping:
     description: Reference to a standard process model (e.g. GSBPM)
     anyOf:
@@ -410,19 +417,23 @@ properties:
     - type: array
       items:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Reference
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/standardModelMapping
   cdi:start:
     type: string
     format: date-time
     description: Start date-time of the activity (xsd:dateTime)
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/start
   cdi:end:
     type: string
     format: date-time
     description: End date-time of the activity (xsd:dateTime)
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/end
   cdi:hasSubActivity:
     description: Nested sub-activities (cdi:Activity). @id references.
     type: array
     items:
       $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasSubActivity
   cdi:has_Step:
     description: Ordered steps within this activity (cdi:Step)
     type: array
@@ -430,11 +441,13 @@ properties:
       anyOf:
       - $ref: '#/$defs/Step'
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_Step
   cdi:hasInternal:
     description: Internal control logic elements (cdi:ControlLogic). @id references.
     type: array
     items:
       $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasInternal
 required:
 - '@type'
 - cdi:name
@@ -460,9 +473,11 @@ $defs:
         - type: array
           items:
             $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdi:description:
         type: string
         description: Plain text description of the step
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/description
       cdi:definition:
         description: Formal multilingual definition (InternationalString)
         anyOf:
@@ -470,22 +485,28 @@ $defs:
         - type: array
           items:
             $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/InternationalString
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/definition
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:start:
         type: string
         format: date-time
         description: Start date-time of the step (xsd:dateTime)
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/start
       cdi:end:
         type: string
         format: date-time
         description: End date-time of the step (xsd:dateTime)
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/end
       cdi:script:
         description: Executable script or code for this step
         $ref: '#/$defs/CommandCode'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/script
       cdi:scriptingLanguage:
         description: Programming or scripting language used
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/scriptingLanguage
       cdi:receives:
         description: Input parameters received by this step (cdi:Parameter)
         type: array
@@ -493,6 +514,7 @@ $defs:
           anyOf:
           - $ref: '#/$defs/Parameter'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/receives
       cdi:produces:
         description: Output parameters produced by this step (cdi:Parameter)
         type: array
@@ -500,16 +522,19 @@ $defs:
           anyOf:
           - $ref: '#/$defs/Parameter'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/produces
       cdi:entityUsed:
         description: Entities used as inputs by this step
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/entityUsed
       cdi:entityProduced:
         description: Entities produced as outputs by this step
         type: array
         items:
           $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/entityProduced
       cdi:hasSubStep:
         description: Nested sub-steps (cdi:Step)
         type: array
@@ -517,6 +542,7 @@ $defs:
           anyOf:
           - $ref: '#/$defs/Step'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasSubStep
     required:
     - '@type'
     - cdi:name
@@ -534,6 +560,7 @@ $defs:
       cdi:description:
         type: string
         description: Description of the code
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/description
       cdi:commandFile:
         description: External script file reference
         anyOf:
@@ -541,6 +568,7 @@ $defs:
         - type: array
           items:
             $ref: '#/$defs/CommandFile'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/commandFile
       cdi:command:
         description: Inline command content
         anyOf:
@@ -548,6 +576,7 @@ $defs:
         - type: array
           items:
             $ref: '#/$defs/Command'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/command
   Command:
     type: object
     description: DDI-CDI individual command statement (dt-Command)
@@ -562,9 +591,11 @@ $defs:
       cdi:commandContent:
         type: string
         description: The command or code text
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/commandContent
       cdi:programLanguage:
         description: Language of this command
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ControlledVocabularyEntry
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/programLanguage
   CommandFile:
     type: object
     description: DDI-CDI external script file (dt-CommandFile)
@@ -580,9 +611,11 @@ $defs:
         type: string
         format: uri
         description: URI of the script file
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/uri
       cdi:location:
         type: string
         description: Human-readable file location
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/location
   Parameter:
     type: object
     description: DDI-CDI parameter for step data flow (cls-Parameter)
@@ -604,8 +637,10 @@ $defs:
         - type: array
           items:
             $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/ObjectName
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Identifier
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:entityBound:
         description: Reference to the entity this parameter is bound to
         anyOf:
@@ -613,6 +648,7 @@ $defs:
         - type: array
           items:
             $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/Reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/entityBound
     required:
     - '@type'
     - cdi:name

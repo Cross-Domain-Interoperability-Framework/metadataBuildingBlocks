@@ -146,14 +146,14 @@ ex:xasfacility_37yht a schema1:Place ;
             schema1:unitText "Amps" ;
             schema1:value "120" ],
         [ a schema1:PropertyValue ;
+            schema1:name "X-ray Source" ;
+            schema1:propertyID "xas:xray_source" ;
+            schema1:value "APS bending magnet" ],
+        [ a schema1:PropertyValue ;
             schema1:name "Facility energy" ;
             schema1:propertyID "xas:energy" ;
             schema1:unitText "GeV" ;
-            schema1:value "7.00" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "X-ray Source" ;
-            schema1:propertyID "xas:xray_source" ;
-            schema1:value "APS bending magnet" ] ;
+            schema1:value "7.00" ] ;
     schema1:additionalType "xas:Facility" ;
     schema1:identifier "https://ror.org/aps" ;
     schema1:name "APS" .
@@ -184,16 +184,20 @@ properties:
     contains:
       const: xas:Facility
     minItems: 1
+    x-jsonld-id: http://schema.orgadditionalType
   schema:identifier:
     anyOf:
     - type: string
     - $ref: '#/$defs/Identifier'
+    x-jsonld-id: http://schema.orgidentifier
   schema:name:
     type: string
+    x-jsonld-id: http://schema.orgname
   schema:additionalProperty:
     type: array
     items:
       $ref: '#/$defs/AdditionalProperty'
+    x-jsonld-id: http://schema.orgadditionalProperty
 required:
 - '@type'
 - schema:additionalType

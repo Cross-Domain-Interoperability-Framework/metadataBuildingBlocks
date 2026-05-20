@@ -1401,18 +1401,24 @@ allOf:
               const: schema:PropertyValue
           schema:propertyID:
             type: string
+            x-jsonld-id: http://schema.org/propertyID
           schema:value:
             type: string
+            x-jsonld-id: http://schema.org/value
           schema:url:
             type: string
+            x-jsonld-id: http://schema.org/url
+      x-jsonld-id: http://schema.org/identifier
     schema:dateModified:
       type: string
       description: ISO 8601 date when the codelist was last modified.
+      x-jsonld-id: http://schema.org/dateModified
     schema:url:
       type: string
       format: uri
       description: Web location of a page describing the codelist.
       default: missing
+      x-jsonld-id: http://schema.org/url
     schema:license:
       description: License for the codelist.
       type: array
@@ -1423,11 +1429,13 @@ allOf:
           properties:
             '@id':
               type: string
+      x-jsonld-id: http://schema.org/license
     schema:conditionsOfAccess:
       description: Text statement of access conditions for the codelist.
       type: array
       items:
         type: string
+      x-jsonld-id: http://schema.org/conditionsOfAccess
     skos:hasTopConcept:
       description: Top-level concepts that have no skos:broader in this scheme. Required
         for hierarchical codelists.
@@ -1442,6 +1450,7 @@ allOf:
               type: string
           required:
           - '@id'
+      x-jsonld-id: http://www.w3.org/2004/02/skos/core#hasTopConcept
   anyOf:
   - required:
     - schema:license
@@ -1481,6 +1490,7 @@ $defs:
                   type: string
               required:
               - '@id'
+          x-jsonld-id: http://www.w3.org/2004/02/skos/core#inScheme
         skos:definition:
           description: Formal definition of this concept. Required for CDIF codelist
             concepts. String or language-tagged values.
@@ -1491,6 +1501,7 @@ $defs:
               anyOf:
               - type: string
               - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml#/$defs/LanguageTaggedValue
+          x-jsonld-id: http://www.w3.org/2004/02/skos/core#definition
         skos:narrower:
           description: Narrower (child) concepts. If present, each inline concept
             must also declare skos:broader pointing back to the parent concept. Both
@@ -1508,6 +1519,7 @@ $defs:
               - $ref: '#/$defs/CdifCodelistConcept'
               - required:
                 - skos:broader
+          x-jsonld-id: http://www.w3.org/2004/02/skos/core#narrower
         skos:broader:
           description: Broader (parent) concepts. Required on any concept that appears
             as a skos:narrower value of another concept. CDIF requires both directions
@@ -1520,6 +1532,7 @@ $defs:
                 type: string
             required:
             - '@id'
+          x-jsonld-id: http://www.w3.org/2004/02/skos/core#broader
       required:
       - '@id'
       - skos:inScheme

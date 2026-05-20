@@ -243,13 +243,13 @@ ex:software-spectra-eval a schema1:SoftwareApplication ;
 
 [] bios:executesLabProtocol ex:protocol-xrf-soil ;
     bios:parameterValue [ a schema1:PropertyValue ;
-            schema1:name "X-ray tube current" ;
-            schema1:unitText "mA" ;
-            schema1:value 40 ],
-        [ a schema1:PropertyValue ;
             schema1:name "X-ray tube voltage" ;
             schema1:unitText "kV" ;
-            schema1:value 50 ] .
+            schema1:value 50 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "X-ray tube current" ;
+            schema1:unitText "mA" ;
+            schema1:value 40 ] .
 
 
 ```
@@ -278,6 +278,7 @@ properties:
           description: reference to a LabProtocol defined elsewhere
       required:
       - '@id'
+    x-jsonld-id: https://bioschemas.org/executesLabProtocol
   bios:parameterValue:
     description: Actual parameter values used during a lab process execution. Each
       entry is a schema:PropertyValue recording a specific instrument setting or measurement
@@ -285,6 +286,7 @@ properties:
     type: array
     items:
       $ref: '#/$defs/ParameterValue'
+    x-jsonld-id: https://bioschemas.org/parameterValue
   bios:labEquipment:
     description: Laboratory equipment used in a protocol. Instruments, devices, and
       apparatus employed during the process.
@@ -299,6 +301,7 @@ properties:
             description: reference to equipment defined elsewhere
         required:
         - '@id'
+    x-jsonld-id: https://bioschemas.org/labEquipment
   bios:computationalTool:
     description: Software or computational tool used as part of a lab protocol to
       complete a part of it.
@@ -313,6 +316,7 @@ properties:
             description: reference to a software tool defined elsewhere
         required:
         - '@id'
+    x-jsonld-id: https://bioschemas.org/computationalTool
   bios:reagent:
     description: Materials or chemical substances used in protocol execution.
     type: array
@@ -326,8 +330,11 @@ properties:
             type: string
           schema:name:
             type: string
+            x-jsonld-id: http://schema.org/name
           schema:description:
             type: string
+            x-jsonld-id: http://schema.org/description
+    x-jsonld-id: https://bioschemas.org/reagent
 $defs:
   LabProcess:
     type: object
@@ -347,9 +354,11 @@ $defs:
       schema:name:
         type: string
         description: Short human-readable description of the execution
+        x-jsonld-id: http://schema.org/name
       schema:description:
         type: string
         description: Details of the execution, e.g. command line arguments or notes
+        x-jsonld-id: http://schema.org/description
       bios:executesLabProtocol:
         description: The executed protocol
         anyOf:
@@ -360,10 +369,12 @@ $defs:
               type: string
           required:
           - '@id'
+        x-jsonld-id: https://bioschemas.org/executesLabProtocol
       bios:parameterValue:
         type: array
         items:
           $ref: '#/$defs/ParameterValue'
+        x-jsonld-id: https://bioschemas.org/parameterValue
     required:
     - '@type'
     - schema:name
@@ -385,13 +396,16 @@ $defs:
       schema:name:
         type: string
         description: Name of the protocol
+        x-jsonld-id: http://schema.org/name
       schema:description:
         type: string
         description: Description of the protocol
+        x-jsonld-id: http://schema.org/description
       schema:url:
         type: string
         format: uri
         description: URL to a published protocol document
+        x-jsonld-id: http://schema.org/url
       bios:labEquipment:
         description: Equipment used in this protocol
         type: array
@@ -404,6 +418,7 @@ $defs:
                 type: string
             required:
             - '@id'
+        x-jsonld-id: https://bioschemas.org/labEquipment
       bios:computationalTool:
         description: Software tools used in this protocol
         type: array
@@ -416,6 +431,7 @@ $defs:
                 type: string
             required:
             - '@id'
+        x-jsonld-id: https://bioschemas.org/computationalTool
       bios:reagent:
         description: Reagents or materials used
         type: array
@@ -428,12 +444,16 @@ $defs:
                 type: string
               schema:name:
                 type: string
+                x-jsonld-id: http://schema.org/name
+        x-jsonld-id: https://bioschemas.org/reagent
       schema:intendedUse:
         type: string
         description: The protocol type or intended use as an ontology term or text
+        x-jsonld-id: http://schema.org/intendedUse
       schema:measurementMethod:
         type: string
         description: The analytical method implemented by this protocol
+        x-jsonld-id: http://schema.org/measurementMethod
       schema:object:
         description: Expected input parameters (FormalParameter references)
         type: array
@@ -446,6 +466,7 @@ $defs:
                 type: string
             required:
             - '@id'
+        x-jsonld-id: http://schema.org/object
       schema:result:
         description: Expected output parameters (FormalParameter references)
         type: array
@@ -458,6 +479,7 @@ $defs:
                 type: string
             required:
             - '@id'
+        x-jsonld-id: http://schema.org/result
     required:
     - '@type'
     - schema:name
@@ -477,9 +499,11 @@ $defs:
       schema:name:
         type: string
         description: Name or label of the sample
+        x-jsonld-id: http://schema.org/name
       schema:description:
         type: string
         description: Description of the sample
+        x-jsonld-id: http://schema.org/description
       schema:identifier:
         description: Formal sample identifier
         anyOf:
@@ -493,14 +517,18 @@ $defs:
               minItems: 1
             schema:propertyID:
               type: string
+              x-jsonld-id: http://schema.org/propertyID
             schema:value:
               type: string
+              x-jsonld-id: http://schema.org/value
+        x-jsonld-id: http://schema.org/identifier
       schema:additionalProperty:
         type: array
         description: Sample-specific metadata (mass, preparation method, container,
           etc.)
         items:
           $ref: '#/$defs/ParameterValue'
+        x-jsonld-id: http://schema.org/additionalProperty
     required:
     - schema:name
   FormalParameter:
@@ -520,22 +548,27 @@ $defs:
       schema:name:
         type: string
         description: Name matching the corresponding workflow parameter slot
+        x-jsonld-id: http://schema.org/name
       schema:description:
         type: string
         description: Description of what this parameter represents
+        x-jsonld-id: http://schema.org/description
       schema:additionalType:
         description: Further type classification (e.g. File, Dataset, PropertyValue,
           DataType)
         type: array
         items:
           type: string
+        x-jsonld-id: http://schema.org/additionalType
       schema:encodingFormat:
         description: MIME type or URL for expected data format
         type: array
         items:
           type: string
+        x-jsonld-id: http://schema.org/encodingFormat
       schema:defaultValue:
         description: Default value for this parameter
+        x-jsonld-id: http://schema.org/defaultValue
     required:
     - schema:name
   ComputationalWorkflow:
@@ -556,12 +589,15 @@ $defs:
       schema:name:
         type: string
         description: Descriptive title of the workflow
+        x-jsonld-id: http://schema.org/name
       schema:description:
         type: string
         description: Textual explanation of the workflow
+        x-jsonld-id: http://schema.org/description
       schema:version:
         type: string
         description: Version identifier
+        x-jsonld-id: http://schema.org/version
       schema:programmingLanguage:
         description: Language or engine for the workflow
         anyOf:
@@ -572,9 +608,12 @@ $defs:
               type: string
             schema:name:
               type: string
+              x-jsonld-id: http://schema.org/name
             schema:url:
               type: string
               format: uri
+              x-jsonld-id: http://schema.org/url
+        x-jsonld-id: http://schema.org/programmingLanguage
       schema:object:
         description: Input FormalParameters
         type: array
@@ -587,6 +626,7 @@ $defs:
                 type: string
             required:
             - '@id'
+        x-jsonld-id: http://schema.org/object
       schema:result:
         description: Output FormalParameters
         type: array
@@ -599,6 +639,7 @@ $defs:
                 type: string
             required:
             - '@id'
+        x-jsonld-id: http://schema.org/result
       schema:hasPart:
         description: Sub-workflows, sub-protocols, or component tools
         type: array
@@ -611,6 +652,7 @@ $defs:
             required:
             - '@id'
           - type: object
+        x-jsonld-id: http://schema.org/hasPart
     required:
     - '@type'
     - schema:name
@@ -633,18 +675,22 @@ $defs:
       schema:name:
         type: string
         description: Name of the equipment
+        x-jsonld-id: http://schema.org/name
       schema:description:
         type: string
         description: Description including capabilities and specifications
+        x-jsonld-id: http://schema.org/description
       schema:identifier:
         description: Serial number or other formal identifier
         anyOf:
         - type: string
         - type: object
+        x-jsonld-id: http://schema.org/identifier
       schema:url:
         type: string
         format: uri
         description: URL to manufacturer or equipment documentation
+        x-jsonld-id: http://schema.org/url
     required:
     - schema:name
   ComputationalTool:
@@ -661,13 +707,17 @@ $defs:
         type: string
       schema:name:
         type: string
+        x-jsonld-id: http://schema.org/name
       schema:description:
         type: string
+        x-jsonld-id: http://schema.org/description
       schema:url:
         type: string
         format: uri
+        x-jsonld-id: http://schema.org/url
       schema:version:
         type: string
+        x-jsonld-id: http://schema.org/version
     required:
     - schema:name
   ParameterValue:
@@ -688,15 +738,18 @@ $defs:
       schema:name:
         type: string
         description: Name of the parameter
+        x-jsonld-id: http://schema.org/name
       schema:value:
         description: The actual value (string, number, or boolean)
         anyOf:
         - type: string
         - type: number
         - type: boolean
+        x-jsonld-id: http://schema.org/value
       schema:unitText:
         type: string
         description: Unit of measurement (e.g. degrees C, mL/min, mg)
+        x-jsonld-id: http://schema.org/unitText
       schema:propertyID:
         description: Link to the FormalParameter definition this value realizes
         anyOf:
@@ -705,6 +758,7 @@ $defs:
           properties:
             '@id':
               type: string
+        x-jsonld-id: http://schema.org/propertyID
     required:
     - '@type'
     - schema:name

@@ -241,10 +241,12 @@ properties:
   cdif:identifier:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
     description: Identifier for this enumerated (categorical) domain.
+    x-jsonld-id: https://cdif.org/0.1/identifier
   schema:name:
     type: string
     description: Human understandable name (liguistic signifier, word, phrase, or
       mnemonic).
+    x-jsonld-id: http://schema.org/name
   cdif:references:
     description: SKOS concept scheme that contains concepts defining the allowed values
       of this enumeration domain.
@@ -256,9 +258,11 @@ properties:
       properties:
         '@id':
           type: string
+    x-jsonld-id: https://cdif.org/0.1/references
   cdif:purpose:
     type: string
     description: Intent or reason for the object/the description of the object.
+    x-jsonld-id: https://cdif.org/0.1/purpose
 required:
 - '@type'
 - cdif:references

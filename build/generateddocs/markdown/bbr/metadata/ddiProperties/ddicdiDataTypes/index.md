@@ -45,9 +45,11 @@ $defs:
       cdi:name:
         type: string
         description: The name string
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdi:context:
         description: Context or usage of this name
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/context
     required:
     - cdi:name
   OrganizationName:
@@ -64,22 +66,28 @@ $defs:
       cdi:name:
         type: string
         description: The name string
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdi:context:
         description: Context or usage of this name
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/context
       cdi:abbreviation:
         description: Abbreviated form of the name
         $ref: '#/$defs/InternationalString'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/abbreviation
       cdi:effectiveDates:
         description: Date range when this name is/was effective
         $ref: '#/$defs/DateRange'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/effectiveDates
       cdi:isFormal:
         type: boolean
         default: true
         description: Whether this is the formal/legal name
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isFormal
       cdi:typeOfOrganizationName:
         description: Classification of this name (e.g. legal, trade, acronym)
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfOrganizationName
     required:
     - cdi:name
   IndividualName:
@@ -96,44 +104,57 @@ $defs:
       cdi:firstGiven:
         type: string
         description: First or given name
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/firstGiven
       cdi:lastFamily:
         type: string
         description: Last or family name
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/lastFamily
       cdi:middle:
         type: string
         description: Middle name(s)
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/middle
       cdi:prefix:
         type: string
         description: Name prefix (e.g. Dr., Prof.)
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/prefix
       cdi:suffix:
         type: string
         description: Name suffix (e.g. Jr., III)
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/suffix
       cdi:fullName:
         description: Full name as a single internationalized string
         $ref: '#/$defs/InternationalString'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/fullName
       cdi:abbreviation:
         description: Abbreviated form of the name
         $ref: '#/$defs/InternationalString'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/abbreviation
       cdi:isFormal:
         type: boolean
         default: true
         description: Whether this is a formal name
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isFormal
       cdi:isPreferred:
         type: boolean
         default: false
         description: Whether this is the preferred name
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isPreferred
       cdi:effectiveDates:
         description: Date range when this name is/was effective
         $ref: '#/$defs/DateRange'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/effectiveDates
       cdi:context:
         description: Context or usage of this name
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/context
       cdi:typeOfIndividualName:
         description: Classification of this name (e.g. birth, married, pen)
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfIndividualName
       cdi:sex:
         description: Sex specification associated with this name
         $ref: '#/$defs/SexSpecification'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/sex
   LabelForDisplay:
     type: object
     description: DDI-CDI multilingual display label (dt-LabelForDisplay)
@@ -148,12 +169,15 @@ $defs:
       cdi:locationVariant:
         description: Geographic or locale variant
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/locationVariant
       cdi:maxLength:
         type: integer
         description: Maximum display length
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/maxLength
       cdi:languageSpecificString:
         description: The label text with language tag
         $ref: '#/$defs/LanguageString'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/languageSpecificString
   SexSpecification:
     type: object
     description: DDI-CDI sex specification (dt-SexSpecification)
@@ -168,6 +192,7 @@ $defs:
       cdi:sexCode:
         type: string
         description: Code identifying sex (e.g. ISO 5218 values)
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/sexCode
   ContactInformation:
     type: object
     description: DDI-CDI contact information (dt-ContactInformation)
@@ -186,6 +211,7 @@ $defs:
         - type: array
           items:
             $ref: '#/$defs/Address'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/address
       cdi:email:
         description: Email address(es)
         anyOf:
@@ -193,6 +219,7 @@ $defs:
         - type: array
           items:
             $ref: '#/$defs/Email'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/email
       cdi:emessaging:
         description: Electronic messaging contact(s)
         anyOf:
@@ -200,6 +227,7 @@ $defs:
         - type: array
           items:
             $ref: '#/$defs/ElectronicMessageSystem'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/emessaging
       cdi:telephone:
         description: Telephone number(s)
         anyOf:
@@ -207,6 +235,7 @@ $defs:
         - type: array
           items:
             $ref: '#/$defs/Telephone'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/telephone
       cdi:website:
         description: Website link(s)
         anyOf:
@@ -214,6 +243,7 @@ $defs:
         - type: array
           items:
             $ref: '#/$defs/WebLink'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/website
   Address:
     type: object
     description: DDI-CDI postal address (dt-Address)
@@ -230,25 +260,32 @@ $defs:
         type: array
         items:
           type: string
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/line
       cdi:cityPlaceLocal:
         type: string
         description: City, town, or locality
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/cityPlaceLocal
       cdi:stateProvince:
         type: string
         description: State, province, or region
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/stateProvince
       cdi:postalCode:
         type: string
         description: Postal or ZIP code
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/postalCode
       cdi:countryCode:
         description: Country code
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/countryCode
       cdi:typeOfAddress:
         description: Type of address (e.g. home, work, mailing)
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfAddress
       cdi:isPreferred:
         type: boolean
         default: false
         description: Whether this is the preferred address
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isPreferred
   Email:
     type: object
     description: DDI-CDI email address (dt-Email)
@@ -263,13 +300,16 @@ $defs:
       cdi:internetEmail:
         type: string
         description: Email address string
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/internetEmail
       cdi:typeOfEmail:
         description: Type of email (e.g. personal, work)
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfEmail
       cdi:isPreferred:
         type: boolean
         default: false
         description: Whether this is the preferred email
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isPreferred
   Telephone:
     type: object
     description: DDI-CDI telephone number (dt-Telephone)
@@ -284,13 +324,16 @@ $defs:
       cdi:telephoneNumber:
         type: string
         description: Telephone number string
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/telephoneNumber
       cdi:typeOfTelephone:
         description: Type of telephone (e.g. mobile, office, fax)
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfTelephone
       cdi:isPreferred:
         type: boolean
         default: false
         description: Whether this is the preferred telephone
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isPreferred
   WebLink:
     type: object
     description: DDI-CDI website link (dt-WebLink)
@@ -306,13 +349,16 @@ $defs:
         type: string
         format: uri
         description: URI of the website
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/uri
       cdi:typeOfWebsite:
         description: Type of website (e.g. homepage, documentation)
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfWebsite
       cdi:isPreferred:
         type: boolean
         default: false
         description: Whether this is the preferred website
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isPreferred
   ElectronicMessageSystem:
     type: object
     description: DDI-CDI electronic messaging system contact (dt-ElectronicMessageSystem)
@@ -327,13 +373,16 @@ $defs:
       cdi:contactAddress:
         type: string
         description: Messaging address or handle
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/contactAddress
       cdi:typeOfService:
         description: Type of messaging service (e.g. Slack, Teams)
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfService
       cdi:isPreferred:
         type: boolean
         default: false
         description: Whether this is the preferred messaging service
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isPreferred
   AccessLocation:
     type: object
     description: DDI-CDI access location for a machine (dt-AccessLocation)
@@ -349,12 +398,15 @@ $defs:
         type: string
         format: uri
         description: URI of the access endpoint
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/uri
       cdi:mimeType:
         description: MIME type of the resource at this location
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/mimeType
       cdi:physicalLocation:
         description: Physical location description
         $ref: '#/$defs/InternationalString'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/physicalLocation
   PrivateImage:
     type: object
     description: DDI-CDI private image (dt-PrivateImage)
@@ -369,9 +421,11 @@ $defs:
       cdi:effectiveDates:
         description: Date range when this image is effective
         $ref: '#/$defs/DateRange'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/effectiveDates
       cdi:privacy:
         description: Privacy classification
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/privacy
   CatalogDetails:
     type: object
     description: DDI-CDI catalog details (dt-CatalogDetails)
@@ -386,20 +440,26 @@ $defs:
       cdi:title:
         description: Title for the catalog entry
         $ref: '#/$defs/InternationalString'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/title
       cdi:summary:
         description: Summary description
         $ref: '#/$defs/InternationalString'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/summary
       cdi:identifier:
         description: Catalog identifier
         type: object
         properties:
           cdi:identifierContent:
             type: string
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifierContent
           cdi:isUri:
             type: boolean
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isUri
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:creator:
         description: Creator of the catalog entry
         $ref: '#/$defs/AgentInRole'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/creator
   AgentInRole:
     type: object
     description: DDI-CDI agent in a role (dt-AgentInRole)
@@ -414,12 +474,15 @@ $defs:
       cdi:agentName:
         description: Name of the agent
         $ref: '#/$defs/InternationalString'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/agentName
       cdi:reference:
         description: Reference to the agent entity
         $ref: '#/$defs/Reference'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/reference
       cdi:role:
         description: Role of the agent
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/role
   Identifier:
     type: object
     description: DDI-CDI composite identifier (dt-Identifier)
@@ -434,10 +497,12 @@ $defs:
       cdi:ddiIdentifier:
         description: DDI-specific IRDI identifier
         $ref: '#/$defs/InternationalRegistrationDataIdentifier'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/ddiIdentifier
       cdi:uri:
         type: string
         format: uri
         description: URI form of the identifier
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/uri
       cdi:nonDdiIdentifier:
         description: Non-DDI identifier
         anyOf:
@@ -445,6 +510,7 @@ $defs:
         - type: array
           items:
             $ref: '#/$defs/NonDdiIdentifier'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/nonDdiIdentifier
   InternationalRegistrationDataIdentifier:
     type: object
     description: DDI-CDI IRDI (dt-InternationalRegistrationDataIdentifier)
@@ -458,10 +524,13 @@ $defs:
         minItems: 1
       cdi:dataIdentifier:
         type: string
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/dataIdentifier
       cdi:registrationAuthorityIdentifier:
         type: string
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/registrationAuthorityIdentifier
       cdi:versionIdentifier:
         type: string
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/versionIdentifier
     required:
     - cdi:dataIdentifier
     - cdi:registrationAuthorityIdentifier
@@ -480,9 +549,11 @@ $defs:
       cdi:identifierContent:
         type: string
         description: The identifier value
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifierContent
       cdi:managingAgency:
         type: string
         description: Agency managing this identifier scheme
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/managingAgency
     required:
     - cdi:identifierContent
   Reference:
@@ -500,15 +571,19 @@ $defs:
         type: string
         format: uri
         description: URI of the referenced entity
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/uri
       cdi:description:
         type: string
         description: Human-readable description of the reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/description
       cdi:ddiReference:
         description: DDI IRDI reference
         $ref: '#/$defs/InternationalRegistrationDataIdentifier'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/ddiReference
       cdi:semantic:
         description: Semantic role of this reference
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/semantic
   ControlledVocabularyEntry:
     type: object
     description: DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry).
@@ -531,6 +606,7 @@ $defs:
         items:
           $ref: '#/$defs/Reference'
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/entryReference
       cdi:entryValue:
         description: The value of the entry of the controlled vocabulary. If no controlled
           vocabulary is used the term is entered here and none of the properties defining
@@ -539,18 +615,22 @@ $defs:
         items:
           type: string
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/entryValue
       cdi:name:
         type: string
         description: The name of the code list (controlled vocabulary).
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdi:valueForOther:
         type: string
         description: If the value of the string is "Other" or the equivalent from
           the codelist, this attribute can provide a more specific value not found
           in the codelist.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/valueForOther
       cdi:vocabulary:
         description: A reference to the external controlled vocabulary, using a URI
           or other resolvable identifier.
         $ref: '#/$defs/Reference'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/vocabulary
   PairedControlledVocabularyEntry:
     type: object
     description: DDI-CDI tightly-bound pair of controlled vocabulary entries (dt-PairedControlledVocabularyEntry).
@@ -567,11 +647,13 @@ $defs:
       cdi:term:
         description: The term attributed to the parent class (e.g. the role of a contributor).
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/term
       cdi:extent:
         description: Extent to which the parent term applies for the specific case.
           When paired with a CASRAI Contributor Role, typical values are "lead", "equal",
           or "supporting".
         $ref: '#/$defs/ControlledVocabularyEntry'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/extent
   InternationalString:
     type: object
     description: DDI-CDI internationalized string (dt-InternationalString)
@@ -590,6 +672,7 @@ $defs:
         - type: array
           items:
             $ref: '#/$defs/LanguageString'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/languageSpecificString
   LanguageString:
     type: object
     description: DDI-CDI language-tagged string (dt-LanguageString)
@@ -604,9 +687,11 @@ $defs:
       cdi:content:
         type: string
         description: The text content
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/content
       cdi:language:
         type: string
         description: ISO language code (e.g. en, fr, de)
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/language
     required:
     - cdi:content
   DateRange:
@@ -623,9 +708,11 @@ $defs:
       cdi:startDate:
         description: Start date of the range
         $ref: '#/$defs/CombinedDate'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/startDate
       cdi:endDate:
         description: End date of the range
         $ref: '#/$defs/CombinedDate'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/endDate
   CombinedDate:
     type: object
     description: DDI-CDI combined date (dt-CombinedDate)
@@ -641,9 +728,11 @@ $defs:
         type: string
         format: date-time
         description: ISO 8601 date-time value
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isoDate
       cdi:historicDate:
         type: string
         description: Free-text historic date
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/historicDate
   CorrespondenceDefinition:
     type: object
     description: DDI-CDI CorrespondenceDefinition (dt-CorrespondenceDefinition). Describes
@@ -660,15 +749,18 @@ $defs:
       cdi:commonality:
         $ref: '#/$defs/InternationalString'
         description: A description of the common features of the two items.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/commonality
       cdi:commonalityCode:
         type: array
         items:
           $ref: '#/$defs/ControlledVocabularyEntry'
         description: Commonality expressed as a term or code. Supports the use of
           an external controlled vocabulary. Ordered; repeat to cite multiple vocabularies.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/commonalityCode
       cdi:difference:
         $ref: '#/$defs/InternationalString'
         description: A description of the differences between the two items.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/difference
       cdi:matching:
         type: string
         enum:
@@ -676,6 +768,7 @@ $defs:
         - Disjoint
         - ExactMatch
         description: The type of match between the two items (MatchingCriterion).
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/matching
   StructureSpecification:
     type: object
     description: "DDI-CDI StructureSpecification (dt-StructureSpecification). The
@@ -696,6 +789,7 @@ $defs:
         - None
         - Some
         description: Whether members are related to themselves (MemberRelationshipScope).
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/reflexive
       cdi:symmetric:
         type: string
         enum:
@@ -703,6 +797,7 @@ $defs:
         - None
         - Some
         description: Whether the member relationship is symmetric (MemberRelationshipScope).
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/symmetric
       cdi:transitive:
         type: string
         enum:
@@ -710,6 +805,7 @@ $defs:
         - None
         - Some
         description: Whether the member relationship is transitive (MemberRelationshipScope).
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/transitive
 x-jsonld-prefixes:
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
 

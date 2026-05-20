@@ -446,6 +446,7 @@ properties:
       - if True, there may be duplicates. (Note that a mathematical \u201Cbag\u201D
       permits duplicates and is unordered - a \u201Cset\u201D does not have duplicates
       and may be ordered.)"
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/allowsDuplicates
   cdi:arrayBase:
     type: integer
     description: 'The starting value for the numbering of cells, rows, columns, etc.
@@ -454,12 +455,14 @@ properties:
       Metadata on the Web), they appear to standardize on 1 (see https://www.w3.org/TR/tabular-data-model/
       4.3 [Columns] and 4.4 [Rows]: "number - the position of the column amongst the
       columns for the associated table, starting from 1.")'
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/arrayBase
   cdi:commentPrefix:
     type: string
     description: 'A string used to indicate that an input line is a comment, a string
       which precedes a comment in the data file. From https://www.w3.org/TR/tabular-metadata/
       5.9 Dialect commentPrefix: ''An atomic property that sets the comment prefix
       flag to the single provided value, which MUST be a string. The default is "#".'''
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/commentPrefix
   cdi:delimiter:
     type: string
     description: 'The Delimiting character in the data. Must be used if isDelimited
@@ -469,6 +472,7 @@ properties:
       the "CSV Dialect" specification (https://specs.frictionlessdata.io/csv-dialect/#specification):
       "delimiter: specifies a one-character string to use as the field separator.
       Default = ,."'
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/delimiter
   cdi:encoding:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
     description: 'The character encoding of the represented data. From the W3C Recommendation
@@ -479,6 +483,7 @@ properties:
       be encoded using UTF-8, and should be in Unicode Normal Form C as defined in
       [UAX15]. If a CSV file is not encoded using UTF-8, the encoding should be specified
       through the charset parameter in the Content-Type header."'
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/encoding
   cdi:escapeCharacter:
     type: string
     description: '"The string that is used to escape the quote character within escaped
@@ -488,6 +493,7 @@ properties:
       to \. The default is true." From http://specs.frictionlessdata.io/csv-dialect/
       "doubleQuote: controls the handling of quotes inside fields. If true, two consecutive
       quotes should be interpreted as one. Default = true".'
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/escapeCharacter
   cdi:hasHeader:
     type: boolean
     description: 'True if the file contains a header containing column names. From
@@ -497,31 +503,37 @@ properties:
       header property is ignored. The default is true." From http://specs.frictionlessdata.io/csv-dialect/
       "header: indicates whether the file includes a header row. If true the first
       row in the file is a header row, not data. Default = true".'
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasHeader
   cdi:headerIsCaseSensitive:
     type: boolean
     description: 'If True, the case of the labels in the header is significant. From
       the "CSV Dialect" specification (http://specs.frictionlessdata.io/csv-dialect/):
       "caseSensitiveHeader: indicates that case in the header is meaningful. For example,
       columns CAT and Cat should not be equated. Default = false."'
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/headerIsCaseSensitive
   cdi:headerRowCount:
     type: integer
     description: 'The number of lines in the header From https://www.w3.org/TR/tabular-metadata/
       5.9 Dialect "headerRowCount: A numeric atomic property that sets the header
       row count flag to the single provided value, which MUST be a non-negative integer.
       The default is 1."'
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/headerRowCount
   cdi:identifier:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
     description: Identifier for objects requiring short- or long-lasting referencing
       and management.
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
   cdi:isDelimited:
     type: boolean
     description: Indicates whether the data are in a delimited format. If "true,"
       the format is delimited, and the isFixedWidth property must be set to "false."
       If not set to "true," the property isFixedWitdh must be set to "true."
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDelimited
   cdi:isFixedWidth:
     type: boolean
     description: Set to true if the file is fixed-width. If true, isDelimited must
       be set to false.
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isFixedWidth
   cdi:lineTerminator:
     type: array
     items:
@@ -535,6 +547,7 @@ properties:
       provided array. The default is [''rn'', ''n'']." Also, from the "CSV Dialect"
       specification (http://specs.frictionlessdata.io/csv-dialect/): "lineTerminator:
       specifies the character sequence which should terminate rows. Default = rn."'
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/lineTerminator
   cdi:name:
     type: array
     items:
@@ -543,6 +556,7 @@ properties:
     description: A linguistic signifier. Human understandable name (word, phrase,
       or mnemonic) that reflects the ISO/IEC 11179-5 naming principles. If more than
       one name is provided provide a context to differentiate usage.
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
   cdi:nullSequence:
     type: string
     description: 'A string indicating a null value. From the W3C Recommendation "Metadata
@@ -555,10 +569,12 @@ properties:
       more details. If not specified, the default for the null property is the empty
       string ''''. The value of this property becomes the null annotation for the
       described column."'
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/nullSequence
   cdi:overview:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString
     description: Short natural language account of the information obtained from the
       combination of properties and relationships associated with an object.
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/overview
   cdi:isDefinedBy:
     type: array
     items:
@@ -566,10 +582,12 @@ properties:
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
     minItems: 1
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDefinedBy
   cdi:formats:
     anyOf:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-logical-record/schema.yaml
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/formats
   cdi:has_ValueMapping:
     type: array
     items:
@@ -577,6 +595,7 @@ properties:
       - $ref: '#/$defs/ValueMapping'
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
     minItems: 1
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ValueMapping
   cdi:has_ValueMappingPosition:
     type: array
     items:
@@ -584,9 +603,11 @@ properties:
       - $ref: '#/$defs/ValueMappingPosition'
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
     minItems: 1
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ValueMappingPosition
   cdi:purpose:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString
     description: Intent or reason for the object/the description of the object.
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/purpose
   cdi:quoteCharacter:
     type: string
     description: '"The string that is used around escaped cells, or null, set by the
@@ -599,12 +620,14 @@ properties:
       From the CSV Dialect specification (http://specs.frictionlessdata.io/csv-dialect/):
       "quoteChar: specifies a one-character string to use as the quoting character.
       Default = "."'
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/quoteCharacter
   cdi:skipBlankRows:
     type: boolean
     description: 'If the value is True, blank rows are ignored. From the W3C Recommendation
       "Metadata Vocabulary for Tabular Data" (https://www.w3.org/TR/tabular-metadata/)
       5.9 Dialect: "skipBlankRows: A boolean atomic property that sets the skip blank
       rows flag to the single provided boolean value. The default is false."'
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/skipBlankRows
   cdi:skipDataColumns:
     type: integer
     description: 'The number of columns to skip at the beginning of the row. From
@@ -613,6 +636,7 @@ properties:
       flag to the single provided numeric value, which MUST be a non-negative integer.
       The default is 0." A value other than 0 will mean that the source numbers of
       columns will be different from their numbers.'
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/skipDataColumns
   cdi:skipInitialSpace:
     type: boolean
     description: 'If the value is True, skip whitespace at the beginning of a line
@@ -624,6 +648,7 @@ properties:
       "skipInitialSpace: specifies how to interpret whitespace which immediately follows
       a delimiter; if false, it means that whitespace immediately after a delimiter
       should be treated as part of the following field. Default = true."'
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/skipInitialSpace
   cdi:skipRows:
     type: integer
     description: 'Number of input rows to skip preceding the header or data. From
@@ -632,6 +657,7 @@ properties:
       to the single provided numeric value, which MUST be a non-negative integer.
       The default is 0." A value greater than 0 will mean that the source numbers
       of rows will be different from their numbers.'
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/skipRows
   cdi:tableDirection:
     type: string
     enum:
@@ -647,6 +673,7 @@ properties:
       The value of this property becomes the value of the table direction annotation
       for all the tables in the table group. See Bidirectional Tables in [tabular-data-model]
       for details. The default value for this property is ''auto''."'
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/tableDirection
   cdi:textDirection:
     type: string
     enum:
@@ -667,11 +694,13 @@ properties:
       is the value of the table direction annotation on the table, otherwise it is
       the value of this property. See Bidirectional Tables in [tabular-data-model]
       for details."'
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/textDirection
   cdi:treatConsecutiveDelimitersAsOne:
     type: boolean
     description: If the value is True, consecutive (adjacent) delimiters are treated
       as a single delimiter; if the value is False consecutive (adjacent) delimiters
       indicate a missing value.
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/treatConsecutiveDelimitersAsOne
   cdi:trim:
     type: string
     enum:
@@ -686,6 +715,7 @@ properties:
       false to false. If the value provided is a string, sets the trim flag to the
       provided value, which MUST be one of ''true'', ''false'', ''start'', or ''end''.
       The default is true."'
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/trim
 required:
 - '@type'
 $defs:
@@ -707,6 +737,7 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:correspondsTo:
         type: array
         items:
@@ -714,10 +745,12 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-structure-component/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/correspondsTo
       cdi:isDescribedBy:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDescribedBy
     required:
     - '@type'
   PhysicalSegmentLocation:
@@ -738,6 +771,7 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
     required:
     - '@type'
   ValueMapping:
@@ -760,6 +794,7 @@ $defs:
         description: The number of decimal positions expressed as an integer. Used
           when the decimal position is implied (no decimal separator is present) See
           DDI 3.2 ManagedNumericRepresentation_decimalPositions
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/decimalPositions
       cdi:defaultDecimalSeparator:
         type: string
         description: 'Default value is "." (period). The character separating the
@@ -768,6 +803,7 @@ $defs:
           6.4.2: "decimalChar: A string whose value is used to represent a decimal
           point within the number. If the supplied value is not a string, implementations
           MUST issue a warning and proceed as if the property had not been specified."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/defaultDecimalSeparator
       cdi:defaultDigitGroupSeparator:
         type: string
         description: 'Default value is null. A character separating groups of digits
@@ -775,6 +811,7 @@ $defs:
           tabular 6.4.2 groupChar: "A string whose value is used to group digits within
           the number. If the supplied value is not a string, implementations MUST
           issue a warning and proceed as if the property had not been specified."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/defaultDigitGroupSeparator
       cdi:defaultValue:
         type: string
         description: A default string indicating the value to substitute for an empty
@@ -785,6 +822,7 @@ $defs:
           specified, the default for the default property is the empty string, "".
           The value of this property becomes the default annotation for the described
           column."
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/defaultValue
       cdi:format:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
         description: 'This defines the format of the physical representation of the
@@ -818,10 +856,12 @@ $defs:
           "Describes the format of the date field, in formats such as YYYY/MM or MM-DD-YY,
           etc. If this element is omitted, then the format is assumed to be the XML
           Schema format corresponding to the type attribute value."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/format
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:isRequired:
         type: boolean
         description: 'If the value of this property is True indicates that a value
@@ -832,6 +872,7 @@ $defs:
           Cells in [tabular-data-model] for more details. The default is false, which
           means cells can have null values. The value of this property becomes the
           required annotation for the described column."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isRequired
       cdi:length:
         type: integer
         description: 'The length in characters of the physical representation of the
@@ -841,6 +882,7 @@ $defs:
           value. The value of this property becomes the length annotation for the
           described datatype. See Length Constraints in [tabular-data-model] for details."
           Corresponds to DDI2.5 var/location/width and DDI 3.2 PhysicalLocation/Width.'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/length
       cdi:maximumLength:
         type: integer
         description: 'The largest possible value of the length of the physical representation
@@ -850,6 +892,7 @@ $defs:
           of the value. The value of this property becomes the maximum length annotation
           for the described datatype. See Length Constraints in [tabular-data-model]
           for details."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/maximumLength
       cdi:minimumLength:
         type: integer
         description: 'The smallest possible value for the length of the physical representation
@@ -859,6 +902,7 @@ $defs:
           value. The value of this property becomes the minimum length annotation
           for the described datatype. See Length Constraints in [tabular-data-model]
           for details."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/minimumLength
       cdi:nullSequence:
         type: string
         description: 'A string indicating a null value. From the W3C Recommendation
@@ -871,6 +915,7 @@ $defs:
           [tabular-data-model] for more details. If not specified, the default for
           the null property is the empty string ''''. The value of this property becomes
           the null annotation for the described column."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/nullSequence
       cdi:numberPattern:
         type: string
         description: "A pattern description of the format of a numeric value. In W3C
@@ -892,6 +937,7 @@ $defs:
           + or - sign, \u2026 Implementations MAY also recognise numeric values that
           are in any of the standard-decimal, standard-percent or standard-scientific
           formats listed in the Unicode Common Locale Data Repository. \u2026\""
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/numberPattern
       cdi:formats:
         type: array
         items:
@@ -899,10 +945,12 @@ $defs:
           - $ref: '#/$defs/DataPoint'
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
         minItems: 1
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/formats
       cdi:uses:
         anyOf:
         - $ref: '#/$defs/PhysicalSegmentLocation'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/uses
       cdi:physicalDataType:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ControlledVocabularyEntry
         description: 'The base datatype of the physical representation. An integer
@@ -919,12 +967,14 @@ $defs:
           of each value within that sequence. See 5.11 Datatypes and Parsing Cells
           in [tabular-data-model] for more details. The normalized value of this property
           becomes the datatype annotation for the described column."'
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/physicalDataType
       cdi:scale:
         type: integer
         description: The scale of the number expressed as an integer. A multiplier
           to be used in combination with the value to determine the measurement. (E.g.,
           a number expressed in 100's with a value of 5 and a scale of 100 would be
           500).
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/scale
     required:
     - '@type'
   ValueMappingPosition:
@@ -945,13 +995,16 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:indexes:
         anyOf:
         - $ref: '#/$defs/ValueMapping'
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/indexes
       cdi:value:
         type: integer
         description: Index value of the member in an ordered array.
+        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/value
     required:
     - '@type'
 x-jsonld-prefixes:

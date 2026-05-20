@@ -1211,6 +1211,11 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
     schema1:datePublished "2024-01-10" ;
     schema1:description "Quality-controlled temperature profiles from Argo floats deployed worldwide. Profiles extend from the surface to 2000m depth with 2dbar vertical resolution." ;
     schema1:distribution [ a schema1:DataDownload ;
+            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
+            schema1:contentUrl "https://example.org/data/ocean-temp-profiles.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "CSV download" ],
+        [ a schema1:DataDownload ;
             dcterms:conformsTo <https://www.unidata.ucar.edu/software/netcdf/> ;
             schema1:contentUrl "https://example.org/data/ocean-temp-profiles.nc" ;
             schema1:description "Complete dataset in CF-compliant NetCDF4 format" ;
@@ -1219,12 +1224,7 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
             schema1:provider <https://ror.org/04t3en479> ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "checksumAlgorithm_sha256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2" ] ],
-        [ a schema1:DataDownload ;
-            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
-            schema1:contentUrl "https://example.org/data/ocean-temp-profiles.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "CSV download" ] ;
+                    spdx:checksumValue "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:funder [ a schema1:Organization ;
                     schema1:identifier ex:ercRor ;
@@ -1418,10 +1418,12 @@ properties:
     description: A descriptive name of a dataset (e.g., 'Snow depth in Northern Hemisphere').
       The name should uniquely identify the described resource for human use, in the
       scope of the metadata catalog containing this metadata record.
+    x-jsonld-id: http://schema.org/name
   schema:description:
     type: string
     description: A short summary describing a dataset. This text will be indexed by
       search applications, so the more information here, the better.
+    x-jsonld-id: http://schema.org/description
   schema:identifier:
     description: The primary identifier for the dataset; other identifiers should
       be listed in the sameAs field. Schema.org has three ways of encoding identifiers--
@@ -1433,6 +1435,7 @@ properties:
     anyOf:
     - $ref: '#/$defs/Identifier'
     - type: string
+    x-jsonld-id: http://schema.org/identifier
   schema:additionalType:
     description: identifiers for datatypes from other vocabularies (not schema.org)
       that apply to this metadata.
@@ -1442,6 +1445,7 @@ properties:
       anyOf:
       - type: string
       - $ref: '#/$defs/DefinedTerm'
+    x-jsonld-id: http://schema.org/additionalType
   schema:sameAs:
     description: Other identifiers for the dataset, as IRI references, literal strings,
       or structured identifiers using schema:PropertyValue.
@@ -1456,6 +1460,7 @@ properties:
             type: string
             description: IRI for an equivalent resource or alternate identifier
       - $ref: '#/$defs/Identifier'
+    x-jsonld-id: http://schema.org/sameAs
   schema:version:
     type:
     - string
@@ -1463,17 +1468,21 @@ properties:
     description: The version number or identifier for this dataset (text or numeric).
       The values should sort from oldest to newest using an alphanumeric sort on version
       strings
+    x-jsonld-id: http://schema.org/version
   schema:inLanguage:
     type: string
     description: the language of the dataset content
+    x-jsonld-id: http://schema.org/inLanguage
   schema:dateModified:
     type: string
     description: ISO8601 formatted date (and optional time if relevant) when Dataset
       was last updated
+    x-jsonld-id: http://schema.org/dateModified
   schema:datePublished:
     type: string
     description: ISO8601 formatted date (and optional time if relevant) when Dataset
       was made public.
+    x-jsonld-id: http://schema.org/datePublished
   schema:conditionsOfAccess:
     description: 'text statement of conditions for use and access; if an online resource
       documents the restrictions or a URI is used to identify the conditions, recommend
@@ -1490,6 +1499,7 @@ properties:
             type: string
             description: a reference to a resource defining conditions of Access
       - $ref: '#/$defs/Reference'
+    x-jsonld-id: http://schema.org/conditionsOfAccess
   schema:license:
     description: 'legal statement of conditions for use and access; recommend using
       schema:CreativeWork to provide a label (name) for the license, and an identifier.
@@ -1508,12 +1518,14 @@ properties:
             type: string
             description: a reference to a license defintion
       - $ref: '#/$defs/Reference'
+    x-jsonld-id: http://schema.org/license
   schema:url:
     type: string
     format: uri
     description: Web Location of a page describing the dataset (landing page), typically
       providing links or instructions to get the actual resource content; analogous
       to dcat:accessURL. If a direct link is available to get the data, put in distribution/contentUrl
+    x-jsonld-id: http://schema.org/url
   schema:distribution:
     description: specifies how to download the data in a specific format or access
       via a web API. This property describes where to get the data and in what format
@@ -1524,6 +1536,7 @@ properties:
       anyOf:
       - $ref: '#/$defs/DataDownload'
       - $ref: '#/$defs/WebAPI'
+    x-jsonld-id: http://schema.org/distribution
   schema:relatedLink:
     type: array
     description: links to related resources; linkRelationship specifies how the resource
@@ -1542,6 +1555,7 @@ properties:
           anyOf:
           - $ref: '#/$defs/DefinedTerm'
           - type: string
+          x-jsonld-id: http://schema.org/linkRelationship
         schema:target:
           type: object
           properties:
@@ -1555,11 +1569,16 @@ properties:
             schema:encodingFormat:
               type: string
               description: registered MIME types are expected
+              x-jsonld-id: http://schema.org/encodingFormat
             schema:name:
               type: string
+              x-jsonld-id: http://schema.org/name
             schema:url:
               type: string
               format: uri
+              x-jsonld-id: http://schema.org/url
+          x-jsonld-id: http://schema.org/target
+    x-jsonld-id: http://schema.org/relatedLink
   schema:publishingPrinciples:
     description: FDOF digitalObjectMutability, RDA digitalObjectPolicy, FDOF PersistencyPolicy.
       Policies related to maintenance, update, expected time to live. If an online
@@ -1577,6 +1596,7 @@ properties:
             type: string
             description: a reference to a publishing principles statement
       - $ref: '#/$defs/Reference'
+    x-jsonld-id: http://schema.org/publishingPrinciples
   schema:keywords:
     description: Keywords are an array of strings, an array of schema:DefinedTerms,
       or some combination of these. If you have information about a controlled vocabulary
@@ -1589,6 +1609,7 @@ properties:
       anyOf:
       - $ref: '#/$defs/DefinedTerm'
       - type: string
+    x-jsonld-id: http://schema.org/keywords
   schema:creator:
     description: author or orginator of intellectual content of dataset. Uset the
       JSON-LD @list construct to preserve author order. Use contributor with the Role
@@ -1609,6 +1630,7 @@ properties:
             - '@id'
           - $ref: '#/$defs/Person'
           - $ref: '#/$defs/Organization'
+    x-jsonld-id: http://schema.org/creator
   schema:contributor:
     description: other parties who played a role in production of dataset
     type: array
@@ -1625,6 +1647,7 @@ properties:
       - $ref: '#/$defs/Person'
       - $ref: '#/$defs/Organization'
       - $ref: '#/$defs/Contributor'
+    x-jsonld-id: http://schema.org/contributor
   schema:publisher:
     description: Party who made the dataset publicly available
     anyOf:
@@ -1638,6 +1661,7 @@ properties:
       - '@id'
     - $ref: '#/$defs/Person'
     - $ref: '#/$defs/Organization'
+    x-jsonld-id: http://schema.org/publisher
   schema:provider:
     description: Party who maintains the distribution options for the dataset. If
       there are multiple distributions from different providers, use the provider
@@ -1655,10 +1679,12 @@ properties:
         - '@id'
       - $ref: '#/$defs/Person'
       - $ref: '#/$defs/Organization'
+    x-jsonld-id: http://schema.org/provider
   schema:funding:
     type: array
     items:
       $ref: '#/$defs/MonetaryGrant'
+    x-jsonld-id: http://schema.org/funding
   prov:wasGeneratedBy:
     description: Brief information about instruments, software or experimental protocols
       used
@@ -1672,6 +1698,7 @@ properties:
       $ref: '#/$defs/DerivedFrom'
   schema:subjectOf:
     $ref: '#/$defs/CdifCatalogRecord'
+    x-jsonld-id: http://schema.org/subjectOf
 allOf:
 - properties:
     schema:subjectOf:
@@ -1682,6 +1709,7 @@ allOf:
             properties:
               '@id':
                 const: https://w3id.org/cdif/core/1.0
+      x-jsonld-id: http://schema.org/subjectOf
 - required:
   - '@id'
   - '@type'

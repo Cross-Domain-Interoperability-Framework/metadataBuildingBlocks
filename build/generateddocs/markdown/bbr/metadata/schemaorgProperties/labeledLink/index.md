@@ -144,11 +144,14 @@ properties:
     minItems: 1
   schema:name:
     type: string
+    x-jsonld-id: http://schema.org/name
   schema:description:
     type: string
+    x-jsonld-id: http://schema.org/description
   schema:url:
     type: string
     format: uri
+    x-jsonld-id: http://schema.org/url
 required:
 - '@type'
 - schema:url
