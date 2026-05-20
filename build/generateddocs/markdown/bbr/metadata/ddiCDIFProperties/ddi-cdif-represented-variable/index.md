@@ -1028,23 +1028,23 @@ concept references.
                     cdi:uri "http://qudt.org/vocab/unit/" ] ] ;
     cdi:descriptiveText [ a cdi:InternationalString ;
             cdi:languageSpecificString [ a cdi:LanguageString ;
-                    cdi:content "In-situ temperature of sea water at a stated depth and station, expressed in degrees Celsius." ;
-                    cdi:language "en" ],
-                [ a cdi:LanguageString ;
                     cdi:content "Temperatura del agua de mar in situ a una profundidad y estacion declaradas, en grados Celsius." ;
-                    cdi:language "es" ] ] ;
+                    cdi:language "es" ],
+                [ a cdi:LanguageString ;
+                    cdi:content "In-situ temperature of sea water at a stated depth and station, expressed in degrees Celsius." ;
+                    cdi:language "en" ] ] ;
     cdi:displayLabel [ a cdi:LabelForDisplay ;
+            cdi:languageSpecificString [ a cdi:LanguageString ;
+                    cdi:content "Temperature de l'eau de mer" ;
+                    cdi:language "fr" ] ;
+            cdi:maxLength 80 ],
+        [ a cdi:LabelForDisplay ;
             cdi:languageSpecificString [ a cdi:LanguageString ;
                     cdi:content "Sea Water Temperature" ;
                     cdi:language "en" ] ;
             cdi:locationVariant [ a cdi:ControlledVocabularyEntry ;
                     cdi:entryValue "en-US" ] ;
-            cdi:maxLength 32 ],
-        [ a cdi:LabelForDisplay ;
-            cdi:languageSpecificString [ a cdi:LanguageString ;
-                    cdi:content "Temperature de l'eau de mer" ;
-                    cdi:language "fr" ] ;
-            cdi:maxLength 80 ] ;
+            cdi:maxLength 32 ] ;
     cdi:externalDefinition [ a <cdif:Reference> ;
             cdi:description "BODC P01 'Temperature of the water column' parameter usage" ;
             cdi:semantic [ a cdi:ControlledVocabularyEntry ;
@@ -1067,15 +1067,15 @@ concept references.
     cdi:measures <https://example.org/ut/oceanographicStation> ;
     cdi:name [ a cdi:ObjectName ;
             cdi:context [ a cdi:ControlledVocabularyEntry ;
-                    cdi:entryValue "display-name" ] ;
-            cdi:name "Sea Water Temperature" ],
-        [ a cdi:ObjectName ;
-            cdi:context [ a cdi:ControlledVocabularyEntry ;
                     cdi:entryValue "technical-name" ;
                     cdi:name "DDI-CDI naming context" ;
                     cdi:vocabulary [ a <cdif:Reference> ;
                             cdi:uri "https://ddialliance.org/Specification/DDI-CDI/1.0/naming-context" ] ] ;
-            cdi:name "sea_water_temperature" ] ;
+            cdi:name "sea_water_temperature" ],
+        [ a cdi:ObjectName ;
+            cdi:context [ a cdi:ControlledVocabularyEntry ;
+                    cdi:entryValue "display-name" ] ;
+            cdi:name "Sea Water Temperature" ] ;
     cdi:simpleUnitOfMeasure "Cel" ;
     cdi:takesSentinelConceptsFrom <https://example.org/cd/temperatureSentinelConcepts> ;
     cdi:takesSentinelValuesFrom <https://example.org/vd/temperatureSentinel>,

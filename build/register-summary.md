@@ -452,6 +452,12 @@ Schema for a DataDownload distribution that is an archive containing multiple co
 
 Core properties for CDIF metadata, applicable to any resource type. Required properties: @id, @type, schema:name, schema:identifier, schema:dateModified, schema:conditionsOfAccess or schema:license, schema:url or schema:distribution, schema:subjectOf. Optional core properties: schema:description, schema:additionalType, schema:sameAs, schema:version, schema:inLanguage, schema:datePublished, schema:relatedLink, schema:publishingPrinciples, schema:keywords, schema:creator, schema:contributor, schema:publisher, schema:provider, schema:funding, prov:wasGeneratedBy, prov:wasDerivedFrom. Uses building blocks: cdifReference, identifier, definedTerm, dataDownload, webAPI, person, organization, agentInRole, funder, generatedBy, derivedFrom, cdifCatalogRecord.
 
+### `cdif.bbr.metadata.ddiCDIFProperties.ddi-cdif-presentational-variable` — DDI-CDI Presentational Variable
+
+**Type:** schema
+
+Variable that records values of multiple variables in the context of a data structure. Variable playing the role of a variable value component.
+
 ### `cdif.bbr.metadata.ddiCDIFProperties.ddi-cdif-represented-variable` — DDI-CDI Represented Variable
 
 **Type:** schema
@@ -577,12 +583,6 @@ Data organization based on reusable data structure components.
 **Type:** schema
 
 Use of a represented variable within a data set.
-
-### `cdif.bbr.metadata.ddiCDIFProperties.ddi-cdif-presentational-variable` — DDI-CDI Presentational Variable
-
-**Type:** schema
-
-Variable that records values of multiple variables in the context of a data structure. Variable playing the role of a variable value component.
 
 ### `cdif.bbr.metadata.cdifProperties.cdifDataStructure` — CDIF Data Structure
 
