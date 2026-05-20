@@ -88,6 +88,12 @@ class UmlClass:
     properties: list[Property]
     kind: str = "class"         # 'class' | 'datatype' | 'enumeration'
     literals: list[str] = field(default_factory=list)
+    # v1.1: render this config class mapping as <packagedElement uml:DataType>
+    # instead of uml:Class (value types with no identity, e.g. Identifier,
+    # Reference). Kept separate from `kind` so closure/association walking still
+    # treats it as a class (it is referenced as an attribute type, not an
+    # association end).
+    is_datatype: bool = False
 
 
 @dataclass
@@ -1652,42 +1658,6 @@ PRIMITIVE_LOCAL = {
 }
 
 
-def _primitive_xmi_id(acronym: str, prim_local_name: str) -> str:
-    """Stable xmi:id for a profile-local PrimitiveType packagedElement."""
-    return _profile_xmi_id(acronym, prim_local_name)
-
-
-def _collect_used_primitives(closure: UmlClosure, model: Model) -> list[str]:
-    """Return the unique sorted set of UML primitive local-names (e.g.
-    'String', 'Integer') that any included class or datatype attribute uses."""
-    used: set[str] = set()
-    def visit(props: list[Property]) -> None:
-        for p in props:
-            if p.primitive:
-                used.add(PRIMITIVE_LOCAL.get(p.primitive, "String"))
-    for cls in closure.classes:
-        visit(collect_inherited_properties(cls.id, model))
-    for dt in closure.datatypes:
-        visit(dt.properties)
-    return sorted(used)
-
-
-def _emit_primitive_type(w: "_XmiWriter", local_name: str,
-                         acronym: str, profile_uri: str) -> None:
-    """Emit one <packagedElement xmi:type='uml:PrimitiveType'> stub so EA and
-    other tools can resolve primitive references inside the model file
-    without needing to fetch Eclipse's external PrimitiveTypes.xmi."""
-    xmi_id = _primitive_xmi_id(acronym, local_name)
-    uuid = f"{profile_uri}#{local_name}"
-    w._open("packagedElement", {
-        "xmi:id": xmi_id,
-        "xmi:uuid": uuid,
-        "xmi:type": "uml:PrimitiveType",
-    })
-    w._leaf("name", text=local_name)
-    w._close("packagedElement")
-
-
 @dataclass
 class UmlClosure:
     """Result of walking the type/class closure from a set of root classes."""
@@ -1753,8 +1723,8 @@ def compute_uml_closure(roots: list[UmlClass], ctx: BuildContext,
             # v1.1: rebind substituted source DataType references to the
             # substitution target before deciding what to pull. If the
             # substitution maps to a UML primitive name we just skip the pull
-            # (primitives are emitted as separate uml:PrimitiveType packagedElements
-            # via _collect_used_primitives elsewhere).
+            # (primitives are referenced by href to Eclipse's PrimitiveTypes.xmi
+            # on the attribute itself, not emitted as local packagedElements).
             if target.name in subs:
                 repl = subs[target.name]
                 if repl in {"String", "Integer", "Boolean", "Real"}:
@@ -1881,6 +1851,54 @@ def _emit_value(w: _XmiWriter, tag: str, prop_id: str, prop_uuid: str,
     w._close(tag)
 
 
+def _emit_model_identification(w: _XmiWriter, acronym: str, profile_uri: str,
+                               fields: dict) -> None:
+    """Emit a model-level <packagedElement uml:DataType> named
+    'ModelIdentification' carrying constant, read-only identification metadata
+    for the profile model (prefix, version, title, language, uri). Mirrors
+    DDI-CDI's own ModelIdentification pattern so the model self-describes."""
+    dt_id = _profile_xmi_id(acronym, "ModelIdentification")
+    dt_uuid = f"{profile_uri}#ModelIdentification"
+    w._open("packagedElement", {
+        "xmi:id": dt_id, "xmi:uuid": dt_uuid, "xmi:type": "uml:DataType",
+    })
+    _emit_owned_comment(
+        w, dt_id, dt_uuid,
+        "Identification metadata for this profile model: constant, read-only "
+        "attributes carrying the model's prefix, version, title, language and URI.")
+    w._leaf("name", text="ModelIdentification")
+    # (attr-name, value, primitive-local-name, doc) in emission order
+    spec = [
+        ("prefix",       fields.get("prefix") or "cdif",   "String",  "Namespace prefix of the model."),
+        ("majorVersion", fields.get("majorVersion"),       "Integer", "Major version number of the model."),
+        ("minorVersion", fields.get("minorVersion"),       "Integer", "Minor version number of the model."),
+        ("title",        fields.get("title"),              "String",  "Title of the model."),
+        ("language",     fields.get("language"),           "String",  "Primary language of the model."),
+        ("uri",          fields.get("uri") or profile_uri, "String",  "Namespace URI of the model."),
+    ]
+    for name, value, local, doc in spec:
+        if value is None or value == "":
+            continue
+        a_id = f"{dt_id}-{name}"
+        a_uuid = f"{dt_uuid}-{name}"
+        w._open("ownedAttribute", {
+            "xmi:id": a_id, "xmi:uuid": a_uuid, "xmi:type": "uml:Property",
+        })
+        _emit_owned_comment(w, a_id, a_uuid, doc)
+        _emit_value(w, "lowerValue", a_id, a_uuid, "uml:LiteralInteger", "1")
+        _emit_value(w, "upperValue", a_id, a_uuid, "uml:LiteralInteger", "1")
+        w._leaf("name", text=name)
+        lit_type = "uml:LiteralInteger" if local == "Integer" else "uml:LiteralString"
+        _emit_value(w, "defaultValue", a_id, a_uuid, lit_type, str(value))
+        w._leaf("isReadOnly", text="true")
+        w._leaf("type", attrs={
+            "xmi:type": "uml:PrimitiveType",
+            "href": f"{PRIMITIVE_HREF_BASE}#{local}",
+        })
+        w._close("ownedAttribute")
+    w._close("packagedElement")
+
+
 def _emit_property(w: _XmiWriter, owner_xmi_id: str, owner_uuid: str,
                    prop: Property, closure: UmlClosure, model: Model,
                    acronym: str, profile_uri: str,
@@ -1907,8 +1925,11 @@ def _emit_property(w: _XmiWriter, owner_xmi_id: str, owner_uuid: str,
     # type
     if prop.primitive is not None:
         local = PRIMITIVE_LOCAL.get(prop.primitive, "String")
+        # Eclipse UML2 canonical form: reference the standard PrimitiveTypes
+        # library by href rather than a profile-local PrimitiveType stub.
         w._leaf("type", attrs={
-            "xmi:idref": _primitive_xmi_id(acronym, local),
+            "xmi:type": "uml:PrimitiveType",
+            "href": f"{PRIMITIVE_HREF_BASE}#{local}",
         })
     elif prop.type_id:
         # Resolve the target's xmi:id within the profile if it's in the closure;
@@ -1933,8 +1954,9 @@ def _emit_class(w: _XmiWriter, cls: UmlClass, closure: UmlClosure, model: Model,
     w._open("packagedElement", {
         "xmi:id": xmi_id,
         "xmi:uuid": uuid,
-        "xmi:type": "uml:Class",
-        "isAbstract": "true" if cls.is_abstract else None,
+        "xmi:type": "uml:DataType" if cls.is_datatype else "uml:Class",
+        # DataTypes in this model are concrete value types; only classes carry isAbstract.
+        "isAbstract": "true" if (cls.is_abstract and not cls.is_datatype) else None,
     })
     if cls.doc:
         _emit_owned_comment(w, xmi_id, uuid, clean_definition(cls.doc) or "")
@@ -2066,7 +2088,8 @@ def emit_uml(out_path: Path, *,
              main_package_definition: str,
              classes_package_name: Optional[str],
              classes_package_definition: Optional[str],
-             roots: list[UmlClass], ctx: BuildContext, model: Model) -> None:
+             roots: list[UmlClass], ctx: BuildContext, model: Model,
+             model_identification: Optional[dict] = None) -> None:
     """Write an Eclipse UML2 (XMI 2.5) profile model to out_path.
 
     Layout:
@@ -2115,6 +2138,10 @@ def emit_uml(out_path: Path, *,
     if profile_uri:
         w._leaf("URI", text=profile_uri)
 
+    # Model self-identification metadata (DataType sibling of the main package)
+    if model_identification:
+        _emit_model_identification(w, acronym, profile_uri, model_identification)
+
     # Main package - suffix with 'Package' if it would collide with the model id
     mp_id = _profile_xmi_id(acronym, main_package_name)
     if mp_id == model_xmi_id:
@@ -2128,12 +2155,6 @@ def emit_uml(out_path: Path, *,
     if main_package_definition:
         _emit_owned_comment(w, mp_id, mp_uuid, main_package_definition)
     w._leaf("name", text=main_package_name)
-
-    # Profile-local PrimitiveType stubs so referencing tools (EA in particular)
-    # don't have to chase Eclipse's external PrimitiveTypes.xmi to resolve
-    # String/Integer/Boolean/Real.
-    for prim in _collect_used_primitives(closure, model):
-        _emit_primitive_type(w, prim, acronym, profile_uri)
 
     # DataTypes & Enumerations directly under the main package
     for dt in closure.datatypes:
@@ -2733,6 +2754,7 @@ def _render_map_class(
         is_abstract=class_spec.get("isAbstract", src_cls.is_abstract),
         parents=[], properties=props,
         kind="class", literals=[],
+        is_datatype=class_spec.get("isDataType", False),
     )
 
 
@@ -2803,6 +2825,7 @@ def _render_merge_class(
         is_abstract=class_spec.get("isAbstract", False),
         parents=[], properties=props,
         kind="class", literals=[],
+        is_datatype=class_spec.get("isDataType", False),
     )
 
 
@@ -2832,6 +2855,7 @@ def _render_new_class(
         is_abstract=class_spec.get("isAbstract", False),
         parents=[], properties=props,
         kind="class", literals=[],
+        is_datatype=class_spec.get("isDataType", False),
     )
 
 
@@ -3823,6 +3847,11 @@ def _load_with_composition(config_path: Path,
                 # Carry isAbstract from base if local doesn't set it
                 if "isAbstract" not in local and bc.get("isAbstract"):
                     local["isAbstract"] = bc["isAbstract"]
+                # Carry isDataType from base if local doesn't set it (so e.g.
+                # Core's Identifier/Reference DataType decision cascades into a
+                # profile that declares its own local stub of the same name).
+                if "isDataType" not in local and bc.get("isDataType"):
+                    local["isDataType"] = bc["isDataType"]
             else:
                 classes_by_name[tn] = copy.deepcopy(bc)
                 if tn not in own_class_names:
@@ -4119,6 +4148,14 @@ def emit_uml_from_config(
             file=sys.stderr,
         )
     else:
+        model_identification = {
+            "prefix": ctx.prefix or "cdif",
+            "majorVersion": tm.get("majorVersion"),
+            "minorVersion": tm.get("minorVersion"),
+            "title": tm.get("modelTitle"),
+            "language": tm.get("language"),
+            "uri": profile_uri,
+        }
         emit_uml(
             out_path,
             acronym=acronym,
@@ -4132,6 +4169,7 @@ def emit_uml_from_config(
             roots=roots,
             ctx=ctx,
             model=merged_model,
+            model_identification=model_identification,
         )
 
 
