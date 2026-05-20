@@ -19,6 +19,7 @@ Usage:
 """
 
 import argparse
+import os
 import re
 import subprocess
 import sys
@@ -299,7 +300,7 @@ def test_redirect(url: str, accept: str) -> tuple[int, str]:
     """
     cmd = [
         "curl", "-sI",
-        "-o", "/dev/null",
+        "-o", os.devnull,
         "-w", "%{http_code} %{redirect_url}",
         "--max-time", "10",
     ]
@@ -325,7 +326,7 @@ def follow_url(url: str) -> tuple[int, str]:
     """
     cmd = [
         "curl", "-s",
-        "-o", "/dev/null",
+        "-o", os.devnull,
         "-L",                    # follow redirects
         "-w", "%{http_code} %{content_type}",
         "--max-time", "15",
