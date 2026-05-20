@@ -250,6 +250,26 @@ def _deep_merge_inner(base: dict, overlay: dict, in_properties: bool) -> dict:
                     # Merge non-contains parts (overlay wins)
                     result[k] = overlay_schema
                     result[k]["allOf"] = accumulated
+                elif "items" in result[k] and "items" in v:
+                    # Both define items — wrap into items.allOf so constraints
+                    # from each source are preserved (mirrors inline-mode resolver
+                    # which keeps the multi-level allOf structure intact). Without
+                    # this, the structured merge silently drops nested constraints
+                    # from CDIF $refs (e.g. cdifProvActivity's @type contains
+                    # schema:Action) when an ada profile extends the same property
+                    # with additional sibling fields.
+                    base_items = result[k]["items"]
+                    overlay_items = copy.deepcopy(v["items"])
+                    existing_allof = (base_items.get("allOf", [])
+                                       if isinstance(base_items, dict) else [])
+                    if existing_allof and not (set(base_items.keys()) - {"allOf"}):
+                        # base_items is a pure {allOf: [...]} wrapper — extend
+                        new_items_allof = existing_allof + [overlay_items]
+                    else:
+                        new_items_allof = [base_items, overlay_items]
+                    overlay_schema = copy.deepcopy(v)
+                    overlay_schema["items"] = {"allOf": new_items_allof}
+                    result[k] = overlay_schema
                 else:
                     result[k] = copy.deepcopy(v)
             elif k == "properties":
