@@ -248,6 +248,29 @@ jobs:
         with:
           path: '.'
 
+      # The OGC postprocessor ("Validate and process Building Blocks") deploys Pages first;
+      # this workflow re-deploys to override with the fork's viewer. GitHub Pages allows only
+      # one in-progress deployment, so if the postprocessor's deployment is still finalizing
+      # the create call fails with "in progress deployment". Retry a few times with waits so
+      # the cross-workflow race recovers automatically instead of failing the run.
       - name: Deploy to GitHub Pages
         id: deployment
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: Wait for in-progress Pages deployment to clear (before retry 1)
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 60
+      - name: Deploy to GitHub Pages (retry 1)
+        id: deployment_retry1
+        if: steps.deployment.outcome == 'failure'
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: Wait for in-progress Pages deployment to clear (before retry 2)
+        if: steps.deployment.outcome == 'failure' && steps.deployment_retry1.outcome == 'failure'
+        run: sleep 150
+      - name: Deploy to GitHub Pages (retry 2)
+        id: deployment_retry2
+        if: steps.deployment.outcome == 'failure' && steps.deployment_retry1.outcome == 'failure'
         uses: actions/deploy-pages@v4
