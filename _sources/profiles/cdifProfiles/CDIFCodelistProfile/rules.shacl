@@ -53,13 +53,13 @@ cdifcl:ConceptShape
     a sh:NodeShape ;
     sh:targetClass skos:Concept ;
     sh:nodeKind sh:IRI ;
-    sh:message "A CDIF Codelist Concept must have a resolvable IRI, prefLabel, definition, and inScheme." ;
+    sh:message "A CDIF Codelist Concept must have a resolvable IRI, prefLabel, notation, and inScheme." ;
 
     # Must have at least one prefLabel
     sh:property cdifcl:conceptPrefLabelProperty ;
 
-    # Must have at least one definition
-    sh:property cdifcl:conceptDefinitionProperty ;
+    # Must have at least one notation
+    sh:property cdifcl:conceptNotationProperty ;
 
     # Must have inScheme linking to the containing ConceptScheme
     sh:property cdifcl:conceptInSchemeProperty ;
@@ -72,13 +72,6 @@ cdifcl:conceptPrefLabelProperty
     sh:message "Concept must have at least one skos:prefLabel." ;
     .
 
-cdifcl:conceptDefinitionProperty
-    a sh:PropertyShape ;
-    sh:path skos:definition ;
-    sh:minCount 1 ;
-    sh:message "Concept must have at least one skos:definition." ;
-    .
-
 cdifcl:conceptInSchemeProperty
     a sh:PropertyShape ;
     sh:path skos:inScheme ;
@@ -88,16 +81,17 @@ cdifcl:conceptInSchemeProperty
     .
 
 # ============================================================
-# Notation uniqueness (informational — SHACL cannot fully
-# enforce uniqueness across sibling nodes; this validates that
-# notation values are literal strings when present)
+# Notation (required): each concept must carry at least one
+# skos:notation, and notation values must be literal strings.
+# (SHACL cannot enforce notation uniqueness across sibling nodes.)
 # ============================================================
 
 cdifcl:conceptNotationProperty
     a sh:PropertyShape ;
     sh:path skos:notation ;
+    sh:minCount 1 ;
     sh:nodeKind sh:Literal ;
-    sh:message "skos:notation values must be literal strings." ;
+    sh:message "Concept must have at least one skos:notation (literal string)." ;
     .
 
 # ============================================================
