@@ -506,22 +506,7 @@
           "type": "array",
           "minItems": 1,
           "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/CdifCodelistConcept"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              }
-            ]
+            "$ref": "#/$defs/CdifCodelistConcept"
           }
         }
       },
@@ -618,54 +603,6 @@
               "type": "array",
               "items": {
                 "$ref": "#/$defs/LanguageTaggedValue"
-              }
-            }
-          ]
-        },
-        "skos:altLabel": {
-          "description": "Alternative lexical labels (acronyms, abbreviations, variants).",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:hiddenLabel": {
-          "description": "Labels accessible to free-text search but not displayed.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
               }
             }
           ]
@@ -821,30 +758,6 @@
             }
           ]
         },
-        "skos:example": {
-          "description": "Example of use of this concept.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
         "skos:inScheme": {
           "description": "Concept scheme(s) this concept belongs to.",
           "anyOf": [
@@ -911,7 +824,17 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/$defs/ConceptRef"
+                "type": "object",
+                "description": "A reference to a SKOS Concept by URI.",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "URI of the referenced concept."
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
               },
               {
                 "$comment": "circular-ref"
@@ -925,168 +848,73 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/$defs/ConceptRef"
+                "type": "object",
+                "description": "A reference to a SKOS Concept by URI.",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "URI of the referenced concept."
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
               },
               {
                 "$comment": "circular-ref"
               }
             ]
-          }
-        },
-        "skos:related": {
-          "description": "Associatively related concepts.",
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/ConceptRef"
-              },
-              {
-                "$comment": "circular-ref"
-              }
-            ]
-          }
-        },
-        "skos:exactMatch": {
-          "description": "Concepts in other schemes with equivalent meaning.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ConceptRef"
-          }
-        },
-        "skos:closeMatch": {
-          "description": "Concepts in other schemes with similar meaning.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ConceptRef"
-          }
-        },
-        "skos:broadMatch": {
-          "description": "Broader concepts in other schemes.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ConceptRef"
-          }
-        },
-        "skos:narrowMatch": {
-          "description": "Narrower concepts in other schemes.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ConceptRef"
-          }
-        },
-        "skos:relatedMatch": {
-          "description": "Related concepts in other schemes.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ConceptRef"
           }
         }
       },
       "required": [
         "@type",
-        "skos:prefLabel"
+        "skos:prefLabel",
+        "skos:definition",
+        "skos:inScheme"
       ]
     },
     "CdifCodelistConcept": {
       "description": "A SKOS Concept constrained for CDIF codelist use. Must have a resolvable @id, skos:inScheme, skos:definition, and skos:prefLabel.",
-      "allOf": [
-        {
-          "$ref": "#/$defs/Concept"
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "Globally unique, resolvable URI for this concept."
         },
-        {
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "Globally unique, resolvable URI for this concept."
-            },
-            "skos:inScheme": {
-              "description": "The concept scheme this concept belongs to. Required for CDIF codelist concepts.",
-              "anyOf": [
-                {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "@id"
-                  ]
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "@id": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "@id"
-                    ]
-                  }
-                }
-              ]
-            },
-            "skos:definition": {
-              "description": "Formal definition of this concept. Required for CDIF codelist concepts. String or language-tagged values.",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "$ref": "#/$defs/LanguageTaggedValue"
-                      }
-                    ]
-                  }
-                }
-              ]
-            },
-            "skos:narrower": {
-              "description": "Narrower (child) concepts. If present, each inline concept must also declare skos:broader pointing back to the parent concept. Both skos:narrower and skos:broader must be explicit in CDIF codelists.",
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "@id": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "@id"
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "$ref": "#/$defs/CdifCodelistConcept"
-                      },
-                      {
-                        "required": [
-                          "skos:broader"
-                        ]
-                      }
-                    ]
-                  }
-                ]
+        "skos:inScheme": {
+          "description": "The concept scheme this concept belongs to. Required for CDIF codelist concepts.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string"
               }
             },
-            "skos:broader": {
-              "description": "Broader (parent) concepts. Required on any concept that appears as a skos:narrower value of another concept. CDIF requires both directions to be explicit for hierarchy traversal.",
-              "type": "array",
-              "items": {
+            "required": [
+              "@id"
+            ]
+          }
+        },
+        "skos:prefLabel": {
+          "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
+          "type": "string"
+        },
+        "skos:notation": {
+          "description": "Classification code for this concept within a scheme.",
+          "type": "string"
+        },
+        "skos:definition": {
+          "description": "Formal definition of this concept. Required for CDIF codelist concepts. String or language-tagged values.",
+          "type": "string"
+        },
+        "skos:narrower": {
+          "description": "Narrower (child) concepts. If present, each inline concept must also declare skos:broader pointing back to the parent concept. Both skos:narrower and skos:broader must be explicit in CDIF codelists.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
                 "type": "object",
                 "properties": {
                   "@id": {
@@ -1096,15 +924,44 @@
                 "required": [
                   "@id"
                 ]
+              },
+              {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/CdifCodelistConcept"
+                  },
+                  {
+                    "required": [
+                      "skos:broader"
+                    ]
+                  }
+                ]
               }
-            }
-          },
-          "required": [
-            "@id",
-            "skos:inScheme",
-            "skos:definition"
-          ]
+            ]
+          }
+        },
+        "skos:broader": {
+          "description": "Broader (parent) concepts. Required on any concept that appears as a skos:narrower value of another concept. CDIF requires both directions to be explicit for hierarchy traversal.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "@id"
+            ]
+          }
         }
+      },
+      "required": [
+        "@id",
+        "skos:inScheme",
+        "skos:definition",
+        "skos:prefLabel",
+        "skos:notation"
       ]
     },
     "LanguageTaggedValue": {
@@ -1123,19 +980,6 @@
       "required": [
         "@value",
         "@language"
-      ]
-    },
-    "ConceptRef": {
-      "type": "object",
-      "description": "A reference to a SKOS Concept by URI.",
-      "properties": {
-        "@id": {
-          "type": "string",
-          "description": "URI of the referenced concept."
-        }
-      },
-      "required": [
-        "@id"
       ]
     }
   }

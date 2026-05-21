@@ -36,4 +36,3 @@ A `cdi:VariableDescriptorComponent` (in [cdifDataStructureComponent](../cdifData
 ## Dependencies
 
 - [cdifRepresentedVariable](../cdifRepresentedVariable/) — target of `cdif:isDefinedBy` in each descriptor entry.
-- [ddi-cdif-data-types](../../ddiCDIFProperties/ddi-cdif-data-types/) — `cdi:ObjectName` for `cdi:name`.

@@ -34,7 +34,7 @@
                         "$ref": "../cdifValueDomain/schema.yaml#/$defs/SentinelValueDomain"
                     },
                     {
-                        "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
+                        "$ref": "#/$defs/id-reference"
                     }
                 ]
             },
@@ -47,7 +47,7 @@
                     "$ref": "../cdifValueDomain/schema.yaml#/$defs/SubstantiveValueDomain"
                 },
                 {
-                    "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
+                    "$ref": "#/$defs/id-reference"
                 }
             ],
             "description": "The substantive value domain for this RepresentedVariable - the set of valid, meaningful values (RepresentedVariable.takesSubstantiveValuesFrom)."
@@ -57,7 +57,7 @@
             "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a simple string, in cases where no additional information is available (in the legacy system) or needed (as in the case of broad agreement within the community of use [i.e., ISO country codes, currencies, etc. in SDMX])"
         },
         "cdi:descriptiveText": {
-            "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString",
+            "type": "string",
             "description": "A short natural language account of the characteristics of the object."
         },
         "cdi:takesSentinelConceptsFrom": {
@@ -66,7 +66,7 @@
                     "$ref": "#/$defs/SentinelConceptualDomain"
                 },
                 {
-                    "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
+                    "$ref": "#/$defs/id-reference"
                 }
             ]
         },
@@ -76,7 +76,7 @@
                     "$ref": "#/$defs/SubstantiveConceptualDomain"
                 },
                 {
-                    "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
+                    "$ref": "#/$defs/id-reference"
                 }
             ]
         },
@@ -86,7 +86,7 @@
                     "$ref": "#/$defs/UnitType"
                 },
                 {
-                    "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
+                    "$ref": "#/$defs/id-reference"
                 }
             ]
         },
@@ -95,29 +95,29 @@
             "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete."
         },
         "cdi:definition": {
-            "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString",
+            "type": "string",
             "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
         },
         "cdi:displayLabel": {
             "type": "array",
             "items": {
-                "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/LabelForDisplay"
+                "type": "string"
             },
             "minItems": 1,
             "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
         },
         "cdi:externalDefinition": {
-            "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Reference",
+            "$ref": "#/$defs/Reference",
             "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
         },
         "cdi:identifier": {
-            "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier",
+            "$ref": "../../schemaorgProperties/identifier/identifierSchema.json",
             "description": "Identifier for objects requiring short- or long-lasting referencing and management."
         },
         "cdi:name": {
             "type": "array",
             "items": {
-                "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ObjectName"
+                "type": "string"
             },
             "minItems": 1,
             "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
@@ -130,7 +130,7 @@
                         "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
                     },
                     {
-                        "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
+                        "$ref": "#/$defs/id-reference"
                     }
                 ]
             },
@@ -141,6 +141,50 @@
         "@type"
     ],
     "$defs": {
+        "id-reference": {
+            "type": "object",
+            "description": "Reference to a node defined elsewhere in the document via its @id.",
+            "properties": {
+                "@id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "@id"
+            ]
+        },
+        "Reference": {
+            "type": "object",
+            "description": "CDIF reference to an external resource by URL, with optional name and description.",
+            "properties": {
+                "@type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "contains": {
+                        "const": "cdif:Reference"
+                    },
+                    "minItems": 1
+                },
+                "schema:url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL of the referenced resource."
+                },
+                "schema:name": {
+                    "type": "string",
+                    "description": "Human-readable name of the referenced resource."
+                },
+                "schema:description": {
+                    "type": "string",
+                    "description": "Human-readable description of the reference."
+                }
+            },
+            "required": [
+                "@type"
+            ]
+        },
         "ConceptSystem": {
             "type": "object",
             "description": "Set of concepts structured by the relations among them [GSIM 1.1].",
@@ -164,17 +208,17 @@
                     "description": "If value is False, the members are unique within the collection - if True, there may be duplicates. (Note that a mathematical “bag” permits duplicates and is unordered - a “set” does not have duplicates and may be ordered.)"
                 },
                 "cdi:externalDefinition": {
-                    "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Reference",
+                    "$ref": "#/$defs/Reference",
                     "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                 },
                 "cdi:identifier": {
-                    "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier",
+                    "$ref": "../../schemaorgProperties/identifier/identifierSchema.json",
                     "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                 },
                 "cdi:name": {
                     "type": "array",
                     "items": {
-                        "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ObjectName"
+                        "type": "string"
                     },
                     "minItems": 1,
                     "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
@@ -187,7 +231,7 @@
                                 "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
                             },
                             {
-                                "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
+                                "$ref": "#/$defs/id-reference"
                             }
                         ]
                     },
@@ -201,14 +245,14 @@
                                 "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
                             },
                             {
-                                "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
+                                "$ref": "#/$defs/id-reference"
                             }
                         ]
                     },
                     "minItems": 1
                 },
                 "cdi:purpose": {
-                    "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString",
+                    "type": "string",
                     "description": "Intent or reason for the object/the description of the object."
                 }
             },
@@ -237,13 +281,13 @@
                 "cdi:displayLabel": {
                     "type": "array",
                     "items": {
-                        "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/LabelForDisplay"
+                        "type": "string"
                     },
                     "minItems": 1,
                     "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
                 },
                 "cdi:identifier": {
-                    "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier",
+                    "$ref": "../../schemaorgProperties/identifier/identifierSchema.json",
                     "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                 },
                 "cdi:isDescribedBy": {
@@ -252,7 +296,7 @@
                             "$ref": "#/$defs/ValueAndConceptDescription"
                         },
                         {
-                            "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
+                            "$ref": "#/$defs/id-reference"
                         }
                     ]
                 },
@@ -262,7 +306,7 @@
                             "$ref": "#/$defs/ConceptSystem"
                         },
                         {
-                            "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
+                            "$ref": "#/$defs/id-reference"
                         }
                     ]
                 }
@@ -292,13 +336,13 @@
                 "cdi:displayLabel": {
                     "type": "array",
                     "items": {
-                        "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/LabelForDisplay"
+                        "type": "string"
                     },
                     "minItems": 1,
                     "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
                 },
                 "cdi:identifier": {
-                    "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier",
+                    "$ref": "../../schemaorgProperties/identifier/identifierSchema.json",
                     "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                 },
                 "cdi:isDescribedBy": {
@@ -307,7 +351,7 @@
                             "$ref": "#/$defs/ValueAndConceptDescription"
                         },
                         {
-                            "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
+                            "$ref": "#/$defs/id-reference"
                         }
                     ]
                 },
@@ -317,7 +361,7 @@
                             "$ref": "#/$defs/ConceptSystem"
                         },
                         {
-                            "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
+                            "$ref": "#/$defs/id-reference"
                         }
                     ]
                 }
@@ -369,33 +413,33 @@
                     "description": "Identifier for this UnitType node"
                 },
                 "cdi:descriptiveText": {
-                    "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString",
+                    "type": "string",
                     "description": "A short natural language account of the characteristics of the object."
                 },
                 "cdi:definition": {
-                    "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString",
+                    "type": "string",
                     "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
                 },
                 "cdi:displayLabel": {
                     "type": "array",
                     "items": {
-                        "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/LabelForDisplay"
+                        "type": "string"
                     },
                     "minItems": 1,
                     "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
                 },
                 "cdi:externalDefinition": {
-                    "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Reference",
+                    "$ref": "#/$defs/Reference",
                     "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                 },
                 "cdi:identifier": {
-                    "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier",
+                    "$ref": "../../schemaorgProperties/identifier/identifierSchema.json",
                     "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                 },
                 "cdi:name": {
                     "type": "array",
                     "items": {
-                        "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ObjectName"
+                        "type": "string"
                     },
                     "minItems": 1,
                     "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
@@ -408,7 +452,7 @@
                                 "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
                             },
                             {
-                                "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference"
+                                "$ref": "#/$defs/id-reference"
                             }
                         ]
                     },
@@ -449,7 +493,7 @@
                     "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
                 },
                 "cdi:description": {
-                    "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/InternationalString",
+                    "type": "string",
                     "description": "A formal description of the set of values in human-readable language."
                 },
                 "cdi:formatPattern": {
@@ -457,7 +501,7 @@
                     "description": "A pattern for a number as described in Unicode Locale Data Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html) Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns) and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns) . Examples would be #,##0.### to describe the pattern for a decimal number, or yyyy.MM.dd G 'at' HH:mm:ss zzz for a datetime pattern."
                 },
                 "cdi:identifier": {
-                    "$ref": "../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier",
+                    "$ref": "../../schemaorgProperties/identifier/identifierSchema.json",
                     "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                 },
                 "cdi:logicalExpression": {

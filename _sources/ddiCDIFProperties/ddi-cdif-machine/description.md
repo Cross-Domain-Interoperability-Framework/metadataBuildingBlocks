@@ -1,3 +1,0 @@
-DDI-CDI Machine represents a software or hardware Agent (`cls-Machine`, extends `cdi:Agent`). The root `cdi:Machine` carries `cdi:accessLocation` (a `cdi:AccessLocation` with URI, MIME type, and physical location), `cdi:function` and `cdi:typeOfMachine` (controlled-vocabulary classifications), `cdi:machineInterface` describing the interface type, `cdi:ownerOperatorContact` for the responsible party, and `cdi:name`.
-
-Machine is one of the four agent subtypes composed by `ddicdiAgent`. It captures the systems involved in data production or processing — useful for documenting, e.g., the API endpoint of a service, the model identifier of an instrument, or the package used to run a transformation step.

@@ -119,54 +119,8 @@
                                           "description": "Identifier for this EnumerationDomain node"
                                         },
                                         "cdif:identifier": {
-                                          "description": "Identifier for this enumerated (categorical) domain.",
-                                          "type": "object",
-                                          "properties": {
-                                            "@type": {
-                                              "type": "array",
-                                              "items": {
-                                                "type": "string"
-                                              },
-                                              "contains": {
-                                                "const": "schema:PropertyValue"
-                                              },
-                                              "minItems": 1
-                                            },
-                                            "schema:propertyID": {
-                                              "type": "string",
-                                              "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-                                            },
-                                            "schema:value": {
-                                              "type": "string",
-                                              "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-                                            },
-                                            "schema:url": {
-                                              "type": "string",
-                                              "format": "uri",
-                                              "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-                                            }
-                                          },
-                                          "allOf": [
-                                            {
-                                              "required": [
-                                                "@type"
-                                              ]
-                                            },
-                                            {
-                                              "anyOf": [
-                                                {
-                                                  "required": [
-                                                    "schema:value"
-                                                  ]
-                                                },
-                                                {
-                                                  "required": [
-                                                    "schema:url"
-                                                  ]
-                                                }
-                                              ]
-                                            }
-                                          ]
+                                          "$ref": "#/$defs/Identifier",
+                                          "description": "Identifier for this enumerated (categorical) domain."
                                         },
                                         "schema:name": {
                                           "type": "string",
@@ -753,54 +707,8 @@
                                         "description": "Identifier for this EnumerationDomain node"
                                       },
                                       "cdif:identifier": {
-                                        "description": "Identifier for this enumerated (categorical) domain.",
-                                        "type": "object",
-                                        "properties": {
-                                          "@type": {
-                                            "type": "array",
-                                            "items": {
-                                              "type": "string"
-                                            },
-                                            "contains": {
-                                              "const": "schema:PropertyValue"
-                                            },
-                                            "minItems": 1
-                                          },
-                                          "schema:propertyID": {
-                                            "type": "string",
-                                            "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-                                          },
-                                          "schema:value": {
-                                            "type": "string",
-                                            "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-                                          },
-                                          "schema:url": {
-                                            "type": "string",
-                                            "format": "uri",
-                                            "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-                                          }
-                                        },
-                                        "allOf": [
-                                          {
-                                            "required": [
-                                              "@type"
-                                            ]
-                                          },
-                                          {
-                                            "anyOf": [
-                                              {
-                                                "required": [
-                                                  "schema:value"
-                                                ]
-                                              },
-                                              {
-                                                "required": [
-                                                  "schema:url"
-                                                ]
-                                              }
-                                            ]
-                                          }
-                                        ]
+                                        "$ref": "#/$defs/Identifier",
+                                        "description": "Identifier for this enumerated (categorical) domain."
                                       },
                                       "schema:name": {
                                         "type": "string",
@@ -1348,7 +1256,7 @@
                         "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a simple string, in cases where no additional information is available (in the legacy system) or needed (as in the case of broad agreement within the community of use [i.e., ISO country codes, currencies, etc. in SDMX])"
                       },
                       "cdi:descriptiveText": {
-                        "$ref": "#/$defs/InternationalString",
+                        "type": "string",
                         "description": "A short natural language account of the characteristics of the object."
                       },
                       "cdi:takesSentinelConceptsFrom": {
@@ -1374,13 +1282,13 @@
                               "cdi:displayLabel": {
                                 "type": "array",
                                 "items": {
-                                  "$ref": "#/$defs/LabelForDisplay"
+                                  "type": "string"
                                 },
                                 "minItems": 1,
                                 "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
                               },
                               "cdi:identifier": {
-                                "$ref": "#/$defs/DdiCdifDataTypes_Identifier",
+                                "$ref": "#/$defs/Identifier",
                                 "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                               },
                               "cdi:isDescribedBy": {
@@ -1415,7 +1323,7 @@
                                         "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
                                       },
                                       "cdi:description": {
-                                        "$ref": "#/$defs/InternationalString",
+                                        "type": "string",
                                         "description": "A formal description of the set of values in human-readable language."
                                       },
                                       "cdi:formatPattern": {
@@ -1423,7 +1331,7 @@
                                         "description": "A pattern for a number as described in Unicode Locale Data Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html) Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns) and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns) . Examples would be #,##0.### to describe the pattern for a decimal number, or yyyy.MM.dd G 'at' HH:mm:ss zzz for a datetime pattern."
                                       },
                                       "cdi:identifier": {
-                                        "$ref": "#/$defs/DdiCdifDataTypes_Identifier",
+                                        "$ref": "#/$defs/Identifier",
                                         "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                                       },
                                       "cdi:logicalExpression": {
@@ -1509,13 +1417,13 @@
                                         "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                                       },
                                       "cdi:identifier": {
-                                        "$ref": "#/$defs/DdiCdifDataTypes_Identifier",
+                                        "$ref": "#/$defs/Identifier",
                                         "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                                       },
                                       "cdi:name": {
                                         "type": "array",
                                         "items": {
-                                          "$ref": "#/$defs/ObjectName"
+                                          "type": "string"
                                         },
                                         "minItems": 1,
                                         "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
@@ -1549,7 +1457,7 @@
                                         "minItems": 1
                                       },
                                       "cdi:purpose": {
-                                        "$ref": "#/$defs/InternationalString",
+                                        "type": "string",
                                         "description": "Intent or reason for the object/the description of the object."
                                       }
                                     },
@@ -1595,13 +1503,13 @@
                               "cdi:displayLabel": {
                                 "type": "array",
                                 "items": {
-                                  "$ref": "#/$defs/LabelForDisplay"
+                                  "type": "string"
                                 },
                                 "minItems": 1,
                                 "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
                               },
                               "cdi:identifier": {
-                                "$ref": "#/$defs/DdiCdifDataTypes_Identifier",
+                                "$ref": "#/$defs/Identifier",
                                 "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                               },
                               "cdi:isDescribedBy": {
@@ -1636,7 +1544,7 @@
                                         "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
                                       },
                                       "cdi:description": {
-                                        "$ref": "#/$defs/InternationalString",
+                                        "type": "string",
                                         "description": "A formal description of the set of values in human-readable language."
                                       },
                                       "cdi:formatPattern": {
@@ -1644,7 +1552,7 @@
                                         "description": "A pattern for a number as described in Unicode Locale Data Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html) Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns) and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns) . Examples would be #,##0.### to describe the pattern for a decimal number, or yyyy.MM.dd G 'at' HH:mm:ss zzz for a datetime pattern."
                                       },
                                       "cdi:identifier": {
-                                        "$ref": "#/$defs/DdiCdifDataTypes_Identifier",
+                                        "$ref": "#/$defs/Identifier",
                                         "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                                       },
                                       "cdi:logicalExpression": {
@@ -1730,13 +1638,13 @@
                                         "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                                       },
                                       "cdi:identifier": {
-                                        "$ref": "#/$defs/DdiCdifDataTypes_Identifier",
+                                        "$ref": "#/$defs/Identifier",
                                         "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                                       },
                                       "cdi:name": {
                                         "type": "array",
                                         "items": {
-                                          "$ref": "#/$defs/ObjectName"
+                                          "type": "string"
                                         },
                                         "minItems": 1,
                                         "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
@@ -1770,7 +1678,7 @@
                                         "minItems": 1
                                       },
                                       "cdi:purpose": {
-                                        "$ref": "#/$defs/InternationalString",
+                                        "type": "string",
                                         "description": "Intent or reason for the object/the description of the object."
                                       }
                                     },
@@ -1814,17 +1722,17 @@
                                 "description": "Identifier for this UnitType node"
                               },
                               "cdi:descriptiveText": {
-                                "$ref": "#/$defs/InternationalString",
+                                "type": "string",
                                 "description": "A short natural language account of the characteristics of the object."
                               },
                               "cdi:definition": {
-                                "$ref": "#/$defs/InternationalString",
+                                "type": "string",
                                 "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
                               },
                               "cdi:displayLabel": {
                                 "type": "array",
                                 "items": {
-                                  "$ref": "#/$defs/LabelForDisplay"
+                                  "type": "string"
                                 },
                                 "minItems": 1,
                                 "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
@@ -1834,13 +1742,13 @@
                                 "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                               },
                               "cdi:identifier": {
-                                "$ref": "#/$defs/DdiCdifDataTypes_Identifier",
+                                "$ref": "#/$defs/Identifier",
                                 "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                               },
                               "cdi:name": {
                                 "type": "array",
                                 "items": {
-                                  "$ref": "#/$defs/ObjectName"
+                                  "type": "string"
                                 },
                                 "minItems": 1,
                                 "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
@@ -1874,13 +1782,13 @@
                         "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete."
                       },
                       "cdi:definition": {
-                        "$ref": "#/$defs/InternationalString",
+                        "type": "string",
                         "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
                       },
                       "cdi:displayLabel": {
                         "type": "array",
                         "items": {
-                          "$ref": "#/$defs/LabelForDisplay"
+                          "type": "string"
                         },
                         "minItems": 1,
                         "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
@@ -1890,13 +1798,13 @@
                         "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
                       },
                       "cdi:identifier": {
-                        "$ref": "#/$defs/DdiCdifDataTypes_Identifier",
+                        "$ref": "#/$defs/Identifier",
                         "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                       },
                       "cdi:name": {
                         "type": "array",
                         "items": {
-                          "$ref": "#/$defs/ObjectName"
+                          "type": "string"
                         },
                         "minItems": 1,
                         "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
@@ -1951,7 +1859,7 @@
     "cdi:name": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/ObjectName"
+        "type": "string"
       },
       "minItems": 1,
       "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
@@ -2034,54 +1942,6 @@
               "type": "array",
               "items": {
                 "$ref": "#/$defs/LanguageTaggedValue"
-              }
-            }
-          ]
-        },
-        "skos:altLabel": {
-          "description": "Alternative lexical labels (acronyms, abbreviations, variants).",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:hiddenLabel": {
-          "description": "Labels accessible to free-text search but not displayed.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
               }
             }
           ]
@@ -2237,30 +2097,6 @@
             }
           ]
         },
-        "skos:example": {
-          "description": "Example of use of this concept.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
         "skos:inScheme": {
           "description": "Concept scheme(s) this concept belongs to.",
           "anyOf": [
@@ -2327,7 +2163,17 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/$defs/ConceptRef"
+                "type": "object",
+                "description": "A reference to a SKOS Concept by URI.",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "URI of the referenced concept."
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
               },
               {
                 "$comment": "circular-ref"
@@ -2341,72 +2187,35 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/$defs/ConceptRef"
+                "type": "object",
+                "description": "A reference to a SKOS Concept by URI.",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "URI of the referenced concept."
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
               },
               {
                 "$comment": "circular-ref"
               }
             ]
-          }
-        },
-        "skos:related": {
-          "description": "Associatively related concepts.",
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/ConceptRef"
-              },
-              {
-                "$comment": "circular-ref"
-              }
-            ]
-          }
-        },
-        "skos:exactMatch": {
-          "description": "Concepts in other schemes with equivalent meaning.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ConceptRef"
-          }
-        },
-        "skos:closeMatch": {
-          "description": "Concepts in other schemes with similar meaning.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ConceptRef"
-          }
-        },
-        "skos:broadMatch": {
-          "description": "Broader concepts in other schemes.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ConceptRef"
-          }
-        },
-        "skos:narrowMatch": {
-          "description": "Narrower concepts in other schemes.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ConceptRef"
-          }
-        },
-        "skos:relatedMatch": {
-          "description": "Related concepts in other schemes.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ConceptRef"
           }
         }
       },
       "required": [
         "@type",
-        "skos:prefLabel"
+        "skos:prefLabel",
+        "skos:definition",
+        "skos:inScheme"
       ]
     },
-    "ObjectName": {
+    "Identifier": {
+      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
       "type": "object",
-      "description": "DDI-CDI structured name wrapper (dt-ObjectName)",
       "properties": {
         "@type": {
           "type": "array",
@@ -2414,97 +2223,61 @@
             "type": "string"
           },
           "contains": {
-            "const": "cdi:ObjectName"
+            "const": "schema:PropertyValue"
           },
           "minItems": 1
         },
-        "cdi:name": {
+        "schema:propertyID": {
           "type": "string",
-          "description": "The name string"
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
         },
-        "cdi:context": {
-          "$ref": "#/$defs/ControlledVocabularyEntry",
-          "description": "Context or usage of this name"
+        "schema:value": {
+          "type": "string",
+          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
         }
       },
-      "required": [
-        "cdi:name"
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:value"
+              ]
+            },
+            {
+              "required": [
+                "schema:url"
+              ]
+            }
+          ]
+        }
       ]
     },
     "id-reference": {
       "type": "object",
-      "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+      "description": "Reference to a node defined elsewhere in the document via its @id.",
       "properties": {
         "@id": {
-          "type": "string",
-          "description": "IRI or blank node identifier of the referenced node"
+          "type": "string"
         }
       },
       "required": [
         "@id"
       ]
     },
-    "InternationalString": {
-      "type": "object",
-      "description": "DDI-CDI internationalized string (dt-InternationalString)",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:InternationalString"
-          },
-          "minItems": 1
-        },
-        "cdi:languageSpecificString": {
-          "description": "Language-tagged string value(s)",
-          "anyOf": [
-            {
-              "$ref": "#/$defs/LanguageString"
-            },
-            {
-              "type": "array",
-              "items": {
-                "$ref": "#/$defs/LanguageString"
-              }
-            }
-          ]
-        }
-      }
-    },
-    "LabelForDisplay": {
-      "type": "object",
-      "description": "DDI-CDI multilingual display label (dt-LabelForDisplay)",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:LabelForDisplay"
-          },
-          "minItems": 1
-        },
-        "cdi:locationVariant": {
-          "$ref": "#/$defs/ControlledVocabularyEntry",
-          "description": "Geographic or locale variant"
-        },
-        "cdi:maxLength": {
-          "type": "integer",
-          "description": "Maximum display length"
-        },
-        "cdi:languageSpecificString": {
-          "$ref": "#/$defs/LanguageString",
-          "description": "The label text with language tag"
-        }
-      }
-    },
     "Reference": {
       "type": "object",
-      "description": "DDI-CDI reference to an entity (dt-Reference)",
+      "description": "CDIF reference to an external resource by URL, with optional name and description.",
       "properties": {
         "@type": {
           "type": "array",
@@ -2516,163 +2289,23 @@
           },
           "minItems": 1
         },
-        "cdi:uri": {
+        "schema:url": {
           "type": "string",
           "format": "uri",
-          "description": "URI of the referenced entity"
+          "description": "URL of the referenced resource."
         },
-        "cdi:description": {
+        "schema:name": {
           "type": "string",
-          "description": "Human-readable description of the reference"
+          "description": "Human-readable name of the referenced resource."
         },
-        "cdi:ddiReference": {
-          "type": "object",
-          "description": "DDI IRDI reference",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:InternationalRegistrationDataIdentifier"
-              },
-              "minItems": 1
-            },
-            "cdi:dataIdentifier": {
-              "type": "string"
-            },
-            "cdi:registrationAuthorityIdentifier": {
-              "type": "string"
-            },
-            "cdi:versionIdentifier": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "cdi:dataIdentifier",
-            "cdi:registrationAuthorityIdentifier",
-            "cdi:versionIdentifier"
-          ]
-        },
-        "cdi:semantic": {
-          "$ref": "#/$defs/ControlledVocabularyEntry",
-          "description": "Semantic role of this reference"
-        }
-      }
-    },
-    "DdiCdifDataTypes_Identifier": {
-      "type": "object",
-      "description": "DDI-CDI composite identifier (dt-Identifier)",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:Identifier"
-          },
-          "minItems": 1
-        },
-        "cdi:ddiIdentifier": {
-          "type": "object",
-          "description": "DDI-specific IRDI identifier",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:InternationalRegistrationDataIdentifier"
-              },
-              "minItems": 1
-            },
-            "cdi:dataIdentifier": {
-              "type": "string"
-            },
-            "cdi:registrationAuthorityIdentifier": {
-              "type": "string"
-            },
-            "cdi:versionIdentifier": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "cdi:dataIdentifier",
-            "cdi:registrationAuthorityIdentifier",
-            "cdi:versionIdentifier"
-          ]
-        },
-        "cdi:uri": {
+        "schema:description": {
           "type": "string",
-          "format": "uri",
-          "description": "URI form of the identifier"
-        },
-        "cdi:nonDdiIdentifier": {
-          "description": "Non-DDI identifier",
-          "anyOf": [
-            {
-              "type": "object",
-              "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
-              "properties": {
-                "@type": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "const": "cdi:NonDdiIdentifier"
-                  },
-                  "minItems": 1
-                },
-                "cdi:identifierContent": {
-                  "type": "string",
-                  "description": "The identifier value"
-                },
-                "cdi:managingAgency": {
-                  "type": "string",
-                  "description": "Agency managing this identifier scheme"
-                }
-              },
-              "required": [
-                "cdi:identifierContent"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "description": "Non-DDI identifier (dt-NonDdiIdentifier)",
-                "properties": {
-                  "@type": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "contains": {
-                      "const": "cdi:NonDdiIdentifier"
-                    },
-                    "minItems": 1
-                  },
-                  "cdi:identifierContent": {
-                    "type": "string",
-                    "description": "The identifier value"
-                  },
-                  "cdi:managingAgency": {
-                    "type": "string",
-                    "description": "Agency managing this identifier scheme"
-                  }
-                },
-                "required": [
-                  "cdi:identifierContent"
-                ]
-              }
-            }
-          ]
+          "description": "Human-readable description of the reference."
         }
-      }
+      },
+      "required": [
+        "@type"
+      ]
     },
     "LanguageTaggedValue": {
       "type": "object",
@@ -2690,90 +2323,6 @@
       "required": [
         "@value",
         "@language"
-      ]
-    },
-    "ConceptRef": {
-      "type": "object",
-      "description": "A reference to a SKOS Concept by URI.",
-      "properties": {
-        "@id": {
-          "type": "string",
-          "description": "URI of the referenced concept."
-        }
-      },
-      "required": [
-        "@id"
-      ]
-    },
-    "ControlledVocabularyEntry": {
-      "type": "object",
-      "description": "DDI-CDI controlled vocabulary entry (dt-ControlledVocabularyEntry). Allows for unstructured content which may be an entry from an externally maintained controlled vocabulary. When the content is from a controlled vocabulary, provide the code value of the entry along with a reference to the vocabulary from which the value is taken.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:ControlledVocabularyEntry"
-          },
-          "minItems": 1
-        },
-        "cdi:entryReference": {
-          "description": "A reference to the specific item in the vocabulary referenced by cdi:vocabulary, using a URI or other resolvable identifier.",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Reference"
-          },
-          "minItems": 1
-        },
-        "cdi:entryValue": {
-          "description": "The value of the entry of the controlled vocabulary. If no controlled vocabulary is used the term is entered here and none of the properties defining the controlled vocabulary location are used.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 1
-        },
-        "cdi:name": {
-          "type": "string",
-          "description": "The name of the code list (controlled vocabulary)."
-        },
-        "cdi:valueForOther": {
-          "type": "string",
-          "description": "If the value of the string is \"Other\" or the equivalent from the codelist, this attribute can provide a more specific value not found in the codelist."
-        },
-        "cdi:vocabulary": {
-          "$ref": "#/$defs/Reference",
-          "description": "A reference to the external controlled vocabulary, using a URI or other resolvable identifier."
-        }
-      }
-    },
-    "LanguageString": {
-      "type": "object",
-      "description": "DDI-CDI language-tagged string (dt-LanguageString)",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdi:LanguageString"
-          },
-          "minItems": 1
-        },
-        "cdi:content": {
-          "type": "string",
-          "description": "The text content"
-        },
-        "cdi:language": {
-          "type": "string",
-          "description": "ISO language code (e.g. en, fr, de)"
-        }
-      },
-      "required": [
-        "cdi:content"
       ]
     }
   }

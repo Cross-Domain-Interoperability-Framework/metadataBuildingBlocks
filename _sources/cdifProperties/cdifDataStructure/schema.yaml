@@ -7,6 +7,14 @@ anyOf:
 - '$ref': '#/$defs/LongDataStructure'
 - '$ref': '#/$defs/WideDataStructure'
 '$defs':
+  id-reference:
+    type: object
+    description: Reference to a node defined elsewhere in the document via its @id.
+    properties:
+      '@id':
+        type: string
+    required:
+    - '@id'
   DataStructure:
     type: object
     description: Data organization based on reusable data structure components.
@@ -26,14 +34,14 @@ anyOf:
         items:
           anyOf:
           - '$ref': '#/$defs/ForeignKey'
-          - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+          - '$ref': '#/$defs/id-reference'
         minItems: 1
       'cdi:has_DataStructureComponent':
         type: array
         items:
           anyOf:
           - '$ref': ../cdifDataStructureComponent/schema.yaml
-          - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+          - '$ref': '#/$defs/id-reference'
         minItems: 1
       'cdi:has_PrimaryKey':
         '$ref': '#/$defs/PrimaryKey'
@@ -138,7 +146,7 @@ anyOf:
         items:
           anyOf:
           - '$ref': ../cdifDataStructureComponent/schema.yaml
-          - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+          - '$ref': '#/$defs/id-reference'
         minItems: 1
       'cdi:has_PrimaryKey':
         '$ref': '#/$defs/PrimaryKey'
@@ -161,13 +169,13 @@ anyOf:
         type: string
         description: Identifier for this DimensionGroup node
       'cdi:identifier':
-        '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier'
+        '$ref': '../../schemaorgProperties/identifier/schema.yaml'
         description: >-
           Identifier for objects requiring short- or long-lasting referencing and management.
       'cdi:name':
         type: array
         items:
-          '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ObjectName'
+          type: string
         minItems: 1
         description: >-
           Human understandable name (liguistic signifier, word, phrase, or mnemonic). May
@@ -177,7 +185,7 @@ anyOf:
         items:
           anyOf:
           - '$ref': ../cdifDataStructureComponent/schema.yaml
-          - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+          - '$ref': '#/$defs/id-reference'
         minItems: 1
     required:
     - '@type'
@@ -196,7 +204,7 @@ anyOf:
         type: string
         description: Identifier for this ForeignKey node
       'cdi:identifier':
-        '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier'
+        '$ref': '../../schemaorgProperties/identifier/schema.yaml'
         description: >-
           Identifier for objects requiring short- or long-lasting referencing and management.
       'cdi:isComposedOf':
@@ -204,7 +212,7 @@ anyOf:
         items:
           anyOf:
           - '$ref': '#/$defs/ForeignKeyComponent'
-          - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+          - '$ref': '#/$defs/id-reference'
         minItems: 1
     required:
     - '@type'
@@ -223,17 +231,17 @@ anyOf:
         type: string
         description: Identifier for this ForeignKeyComponent node
       'cdi:identifier':
-        '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier'
+        '$ref': '../../schemaorgProperties/identifier/schema.yaml'
         description: >-
           Identifier for objects requiring short- or long-lasting referencing and management.
       'cdi:references':
         anyOf:
         - '$ref': '#/$defs/PrimaryKeyComponent'
-        - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+        - '$ref': '#/$defs/id-reference'
       'cdi:correspondsTo':
         anyOf:
         - '$ref': ../cdifDataStructureComponent/schema.yaml
-        - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+        - '$ref': '#/$defs/id-reference'
     required:
     - '@type'
   PrimaryKey:
@@ -261,7 +269,7 @@ anyOf:
         items:
           anyOf:
           - '$ref': '../cdifInstanceVariable/schema.yaml'
-          - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+          - '$ref': '#/$defs/id-reference'
         minItems: 1
     required:
     - '@type'
@@ -281,13 +289,13 @@ anyOf:
         type: string
         description: Identifier for this PrimaryKeyComponent node
       'cdi:identifier':
-        '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier'
+        '$ref': '../../schemaorgProperties/identifier/schema.yaml'
         description: >-
           Identifier for objects requiring short- or long-lasting referencing and management.
       'cdi:correspondsTo':
         anyOf:
         - '$ref': ../cdifDataStructureComponent/schema.yaml
-        - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+        - '$ref': '#/$defs/id-reference'
     required:
     - '@type'
 

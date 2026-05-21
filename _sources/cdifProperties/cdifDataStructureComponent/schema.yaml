@@ -12,6 +12,14 @@ anyOf:
 - '$ref': '#/$defs/VariableValueComponent'
 - '$ref': '#/$defs/VariableDescriptorComponent'
 '$defs':
+  id-reference:
+    type: object
+    description: Reference to a node defined elsewhere in the document via its @id.
+    properties:
+      '@id':
+        type: string
+    required:
+    - '@id'
   IdentifierComponent:
     type: object
     description: >-
@@ -32,7 +40,7 @@ anyOf:
       'cdif:isDefinedBy_RepresentedVariable':
         anyOf:
         - '$ref': ../cdifRepresentedVariable/schema.yaml
-        - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+        - '$ref': '#/$defs/id-reference'
     required:
     - '@type'
     - 'cdif:isDefinedBy_RepresentedVariable'
@@ -55,19 +63,19 @@ anyOf:
       'cdi:name':
         type: array
         items:
-          '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ObjectName'
+          type: string
         minItems: 1
         description: >-
           Human understandable name (liguistic signifier, word, phrase, or mnemonic). May
           follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage.
       'cdi:identifier':
-        '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier'
+        '$ref': '../../schemaorgProperties/identifier/schema.yaml'
         description: >-
           Identifier for objects requiring short- or long-lasting referencing and management.
       'cdif:isDefinedBy_RepresentedVariable':
         anyOf:
         - '$ref': ../cdifRepresentedVariable/schema.yaml
-        - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+        - '$ref': '#/$defs/id-reference'
       'cdi:semantic':
         type: array
         items:
@@ -98,16 +106,16 @@ anyOf:
         items:
           anyOf:
           - '$ref': '#/$defs/DataStructureComponent'
-          - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+          - '$ref': '#/$defs/id-reference'
         minItems: 1
       'cdi:identifier':
-        '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier'
+        '$ref': '../../schemaorgProperties/identifier/schema.yaml'
         description: >-
           Identifier for objects requiring short- or long-lasting referencing and management.
       'cdif:isDefinedBy_RepresentedVariable':
         anyOf:
         - '$ref': ../cdifRepresentedVariable/schema.yaml
-        - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+        - '$ref': '#/$defs/id-reference'
       'cdi:semantic':
         type: array
         items:
@@ -138,7 +146,7 @@ anyOf:
       'cdif:isDefinedBy_RepresentedVariable':
         anyOf:
         - '$ref': ../cdifRepresentedVariable/schema.yaml
-        - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+        - '$ref': '#/$defs/id-reference'
 
     required:
     - '@type'
@@ -160,13 +168,13 @@ anyOf:
         type: string
         description: Identifier for this VariableValueComponent node
       'cdi:identifier':
-        '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier'
+        '$ref': '../../schemaorgProperties/identifier/schema.yaml'
         description: >-
           Identifier for objects requiring short- or long-lasting referencing and management.
       'cdif:isDefinedBy_RepresentedVariable':
         anyOf:
         - '$ref': ../cdifRepresentedVariable/schema.yaml
-        - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+        - '$ref': '#/$defs/id-reference'
       'cdi:semantic':
         type: array
         items:
@@ -195,9 +203,9 @@ anyOf:
       'cdif:isDefinedBy_DescriptorVariable':
         '$ref': ../cdifDescriptorVariable/schema.yaml
       'cdi:refersTo':
-        '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+        '$ref': '#/$defs/id-reference'
       'cdi:identifier':
-        '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier'
+        '$ref': '../../schemaorgProperties/identifier/schema.yaml'
         description: >-
           Identifier for objects requiring short- or long-lasting referencing and management.
       'cdi:semantic':
@@ -225,13 +233,13 @@ anyOf:
         type: string
         description: Identifier for this DataStructureComponent node
       'cdi:identifier':
-        '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier'
+        '$ref': '../../schemaorgProperties/identifier/schema.yaml'
         description: >-
           Identifier for objects requiring short- or long-lasting referencing and management.
       'cdif:isDefinedBy_RepresentedVariable':
         anyOf:
         - '$ref': ../cdifRepresentedVariable/schema.yaml
-        - '$ref': '../../ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference'
+        - '$ref': '#/$defs/id-reference'
       'cdi:semantic':
         type: array
         items:

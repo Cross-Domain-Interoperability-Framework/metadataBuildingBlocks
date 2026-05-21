@@ -51,26 +51,6 @@ properties:
     - type: array
       items:
         $ref: '#/$defs/LanguageTaggedValue'
-  'skos:altLabel':
-    description: Alternative lexical labels (acronyms, abbreviations, variants).
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/LanguageTaggedValue'
-    - type: array
-      items:
-        anyOf:
-        - type: string
-        - $ref: '#/$defs/LanguageTaggedValue'
-  'skos:hiddenLabel':
-    description: Labels accessible to free-text search but not displayed.
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/LanguageTaggedValue'
-    - type: array
-      items:
-        anyOf:
-        - type: string
-        - $ref: '#/$defs/LanguageTaggedValue'
   'skos:notation':
     description: Classification code for this concept within a scheme.
     type: array
@@ -136,16 +116,6 @@ properties:
         anyOf:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
-  'skos:example':
-    description: Example of use of this concept.
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/LanguageTaggedValue'
-    - type: array
-      items:
-        anyOf:
-        - type: string
-        - $ref: '#/$defs/LanguageTaggedValue'
   'skos:inScheme':
     description: Concept scheme(s) this concept belongs to.
     anyOf:
@@ -196,41 +166,11 @@ properties:
       anyOf:
       - $ref: '#/$defs/ConceptRef'
       - $ref: '#'
-  'skos:related':
-    description: Associatively related concepts.
-    type: array
-    items:
-      anyOf:
-      - $ref: '#/$defs/ConceptRef'
-      - $ref: '#'
-  'skos:exactMatch':
-    description: Concepts in other schemes with equivalent meaning.
-    type: array
-    items:
-      $ref: '#/$defs/ConceptRef'
-  'skos:closeMatch':
-    description: Concepts in other schemes with similar meaning.
-    type: array
-    items:
-      $ref: '#/$defs/ConceptRef'
-  'skos:broadMatch':
-    description: Broader concepts in other schemes.
-    type: array
-    items:
-      $ref: '#/$defs/ConceptRef'
-  'skos:narrowMatch':
-    description: Narrower concepts in other schemes.
-    type: array
-    items:
-      $ref: '#/$defs/ConceptRef'
-  'skos:relatedMatch':
-    description: Related concepts in other schemes.
-    type: array
-    items:
-      $ref: '#/$defs/ConceptRef'
 required:
 - '@type'
 - 'skos:prefLabel'
+- 'skos:definition'
+- 'skos:inScheme'
 $defs:
   ConceptRef:
     type: object
