@@ -146,6 +146,12 @@ DDI-CDI Machine agent (software/hardware) with access location, function, and in
 
 DDI-CDI Organization agent (group/institution) with structured name, contact information, and identification. Uses DDI Cross-Domain Integration vocabulary.
 
+### `cdif.bbr.metadata.ddiProperties.ddicdiPresentationalVariable` — DDI-CDI Presentational Variable
+
+**Type:** schema
+
+Variable that records values of multiple variables in the context of a data structure. Variable playing the role of a variable value component.
+
 ### `cdif.bbr.metadata.ddiProperties.ddicdiProcessingAgent` — DDI-CDI ProcessingAgent
 
 **Type:** schema
@@ -397,12 +403,6 @@ Structure of a key-value datastore (organized collection of key-value data). It 
 **Type:** schema
 
 Collection of instance variables.
-
-### `cdif.bbr.metadata.ddiProperties.ddicdiPresentationalVariable` — DDI-CDI Presentational Variable
-
-**Type:** schema
-
-Variable that records values of multiple variables in the context of a data structure. Variable playing the role of a variable value component.
 
 ### `cdif.bbr.metadata.cdifProperties.cdifProvActivity` — CDIF Provenance Activity
 

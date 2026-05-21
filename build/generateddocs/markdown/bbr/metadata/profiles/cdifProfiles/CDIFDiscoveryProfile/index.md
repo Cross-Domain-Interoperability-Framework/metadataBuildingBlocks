@@ -1339,15 +1339,6 @@ ex:YOPx123 a schema1:Dataset ;
     schema1:distribution [ a schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "VwuIdrCrJSsrGATePg" ;
-            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "MD5" ;
-                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ],
-        [ a schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
             schema1:encodingFormat "kpZDvhyVo",
                 "sMUGwSqxWzJOYEb",
                 "tNdpXaJgDeWbFkNM" ;
@@ -1356,19 +1347,28 @@ ex:YOPx123 a schema1:Dataset ;
                 ex:sr68lgy ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "j" ;
-                    spdx:checksumValue "h" ] ] ;
+                    spdx:checksumValue "h" ] ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "VwuIdrCrJSsrGATePg" ;
+            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "MD5" ;
+                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/fnjrj68> ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "grant-id" ;
-                    schema1:value "fMuiBjneudpV" ] ;
-            schema1:name "MWoPQAqRYHobey" ],
-        [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/sejer4w6u8> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
                     schema1:value "LZpo" ] ;
             schema1:name "ekckpBtI" ],
+        [ a schema1:MonetaryGrant ;
+            schema1:funder <https://ror.org/fnjrj68> ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "grant-id" ;
+                    schema1:value "fMuiBjneudpV" ] ;
+            schema1:name "MWoPQAqRYHobey" ],
         [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -1381,20 +1381,20 @@ ex:YOPx123 a schema1:Dataset ;
     schema1:inLanguage "bYiJT" ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "ex:rIPXjaCPQX" ;
-                    schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
-                    schema1:value "PVSajGtBPsLzeCTLv" ] ;
-            schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
-            schema1:name "MiSqvcp" ;
-            schema1:termCode "bzOl" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "https://resource.org/identifier" ;
                     schema1:url "http://example.com/resource/tdUMYBItIwdJe" ;
                     schema1:value "tdUMYBItIwdJe" ] ;
             schema1:inDefinedTermSet "sqH" ;
             schema1:name "TiMuawt" ;
-            schema1:termCode "RUUxHY" ] ;
+            schema1:termCode "RUUxHY" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "ex:rIPXjaCPQX" ;
+                    schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
+                    schema1:value "PVSajGtBPsLzeCTLv" ] ;
+            schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
+            schema1:name "MiSqvcp" ;
+            schema1:termCode "bzOl" ] ;
     schema1:license "Kmp",
         "dXhuFoqL" ;
     schema1:name "Test dataset" ;
@@ -3072,15 +3072,15 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:identifier ex:datasetDOI42 ;
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "https://vocab.nerc.ac.uk/collection/P02/current/DOXY/" ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
-            schema1:name "North Atlantic Deep Water" ;
-            schema1:termCode "P02:DOXY" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
             schema1:name "Sea water temperature" ;
             schema1:termCode "TEMPPR01" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "https://vocab.nerc.ac.uk/collection/P02/current/DOXY/" ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;
+            schema1:name "North Atlantic Deep Water" ;
+            schema1:termCode "P02:DOXY" ],
         "Labrador Sea",
         "deep water formation" ;
     schema1:license [ a schema1:CreativeWork ;
