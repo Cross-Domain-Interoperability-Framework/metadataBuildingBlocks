@@ -551,28 +551,6 @@ properties:
       items:
         $ref: '#/$defs/LanguageTaggedValue'
     x-jsonld-id: http://www.w3.org/2004/02/skos/core#prefLabel
-  skos:altLabel:
-    description: Alternative lexical labels (acronyms, abbreviations, variants).
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/LanguageTaggedValue'
-    - type: array
-      items:
-        anyOf:
-        - type: string
-        - $ref: '#/$defs/LanguageTaggedValue'
-    x-jsonld-id: http://www.w3.org/2004/02/skos/core#altLabel
-  skos:hiddenLabel:
-    description: Labels accessible to free-text search but not displayed.
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/LanguageTaggedValue'
-    - type: array
-      items:
-        anyOf:
-        - type: string
-        - $ref: '#/$defs/LanguageTaggedValue'
-    x-jsonld-id: http://www.w3.org/2004/02/skos/core#hiddenLabel
   skos:notation:
     description: Classification code for this concept within a scheme.
     type: array
@@ -645,17 +623,6 @@ properties:
         - type: string
         - $ref: '#/$defs/LanguageTaggedValue'
     x-jsonld-id: http://www.w3.org/2004/02/skos/core#editorialNote
-  skos:example:
-    description: Example of use of this concept.
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/LanguageTaggedValue'
-    - type: array
-      items:
-        anyOf:
-        - type: string
-        - $ref: '#/$defs/LanguageTaggedValue'
-    x-jsonld-id: http://www.w3.org/2004/02/skos/core#example
   skos:inScheme:
     description: Concept scheme(s) this concept belongs to.
     anyOf:
@@ -710,47 +677,11 @@ properties:
       - $ref: '#/$defs/ConceptRef'
       - $ref: '#'
     x-jsonld-id: http://www.w3.org/2004/02/skos/core#narrower
-  skos:related:
-    description: Associatively related concepts.
-    type: array
-    items:
-      anyOf:
-      - $ref: '#/$defs/ConceptRef'
-      - $ref: '#'
-    x-jsonld-id: http://www.w3.org/2004/02/skos/core#related
-  skos:exactMatch:
-    description: Concepts in other schemes with equivalent meaning.
-    type: array
-    items:
-      $ref: '#/$defs/ConceptRef'
-    x-jsonld-id: http://www.w3.org/2004/02/skos/core#exactMatch
-  skos:closeMatch:
-    description: Concepts in other schemes with similar meaning.
-    type: array
-    items:
-      $ref: '#/$defs/ConceptRef'
-    x-jsonld-id: http://www.w3.org/2004/02/skos/core#closeMatch
-  skos:broadMatch:
-    description: Broader concepts in other schemes.
-    type: array
-    items:
-      $ref: '#/$defs/ConceptRef'
-    x-jsonld-id: http://www.w3.org/2004/02/skos/core#broadMatch
-  skos:narrowMatch:
-    description: Narrower concepts in other schemes.
-    type: array
-    items:
-      $ref: '#/$defs/ConceptRef'
-    x-jsonld-id: http://www.w3.org/2004/02/skos/core#narrowMatch
-  skos:relatedMatch:
-    description: Related concepts in other schemes.
-    type: array
-    items:
-      $ref: '#/$defs/ConceptRef'
-    x-jsonld-id: http://www.w3.org/2004/02/skos/core#relatedMatch
 required:
 - '@type'
 - skos:prefLabel
+- skos:definition
+- skos:inScheme
 $defs:
   ConceptRef:
     type: object

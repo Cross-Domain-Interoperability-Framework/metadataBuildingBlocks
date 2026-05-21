@@ -95,9 +95,7 @@ ComponentPosition wrapper.
       "cdif:isDefinedBy_RepresentedVariable": {
         "@type": ["cdi:RepresentedVariable"],
         "@id": "ex:struct/vitalsLong/rv/patientId",
-        "cdi:name": [
-          { "@type": ["cdi:ObjectName"], "cdi:name": "patient_id" }
-        ],
+        "cdi:name": ["patient_id"],
         "cdi:hasIntendedDataType": {
           "@type": ["cdi:ControlledVocabularyEntry"],
           "cdi:entryValue": ["xsd:string"]
@@ -110,9 +108,7 @@ ComponentPosition wrapper.
       "cdif:isDefinedBy_DescriptorVariable": {
         "@type": ["cdi:DescriptorVariable"],
         "@id": "ex:struct/vitalsLong/dv/measureName",
-        "cdi:name": [
-          { "@type": ["cdi:ObjectName"], "cdi:name": "measure_name" }
-        ],
+        "cdi:name": ["measure_name"],
         "cdif:hasValuesFrom": {
           "@type": ["cdi:DescriptorValueDomain"],
           "@id": "ex:struct/vitalsLong/vd/measureName",
@@ -136,9 +132,7 @@ ComponentPosition wrapper.
       "cdif:isDefinedBy_RepresentedVariable": {
         "@type": ["cdi:RepresentedVariable"],
         "@id": "ex:struct/vitalsLong/rv/measureValue",
-        "cdi:name": [
-          { "@type": ["cdi:ObjectName"], "cdi:name": "measure_value" }
-        ],
+        "cdi:name": ["measure_value"],
         "cdi:hasIntendedDataType": {
           "@type": ["cdi:ControlledVocabularyEntry"],
           "cdi:entryValue": ["xsd:decimal"]
@@ -154,9 +148,7 @@ ComponentPosition wrapper.
       "cdif:isDefinedBy_RepresentedVariable": {
         "@type": ["cdi:RepresentedVariable"],
         "@id": "ex:struct/vitalsLong/rv/observedAt",
-        "cdi:name": [
-          { "@type": ["cdi:ObjectName"], "cdi:name": "observed_at" }
-        ],
+        "cdi:name": ["observed_at"],
         "cdi:hasIntendedDataType": {
           "@type": ["cdi:ControlledVocabularyEntry"],
           "cdi:entryValue": ["xsd:dateTime"]
@@ -211,12 +203,7 @@ ComponentPosition wrapper.
         ],
         "@id": "ex:struct/vitalsLong/rv/patientId",
         "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "patient_id"
-          }
+          "patient_id"
         ],
         "cdi:hasIntendedDataType": {
           "@type": [
@@ -239,12 +226,7 @@ ComponentPosition wrapper.
         ],
         "@id": "ex:struct/vitalsLong/dv/measureName",
         "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "measure_name"
-          }
+          "measure_name"
         ],
         "cdif:hasValuesFrom": {
           "@type": [
@@ -282,12 +264,7 @@ ComponentPosition wrapper.
         ],
         "@id": "ex:struct/vitalsLong/rv/measureValue",
         "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "measure_value"
-          }
+          "measure_value"
         ],
         "cdi:hasIntendedDataType": {
           "@type": [
@@ -315,12 +292,7 @@ ComponentPosition wrapper.
         ],
         "@id": "ex:struct/vitalsLong/rv/observedAt",
         "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "observed_at"
-          }
+          "observed_at"
         ],
         "cdi:hasIntendedDataType": {
           "@type": [
@@ -377,8 +349,7 @@ ComponentPosition wrapper.
     cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/patientId> .
 
 <https://example.org/struct/vitalsLong/dv/measureName> a cdi:DescriptorVariable ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "measure_name" ] ;
+    cdi:name "measure_name" ;
     cdif:hasValuesFrom <https://example.org/struct/vitalsLong/vd/measureName> .
 
 <https://example.org/struct/vitalsLong/pk> a cdif:PrimaryKey ;
@@ -389,20 +360,17 @@ ComponentPosition wrapper.
 <https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:decimal" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "measure_value" ] .
+    cdi:name "measure_value" .
 
 <https://example.org/struct/vitalsLong/rv/observedAt> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:dateTime" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "observed_at" ] .
+    cdi:name "observed_at" .
 
 <https://example.org/struct/vitalsLong/rv/patientId> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:string" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "patient_id" ] .
+    cdi:name "patient_id" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
     cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
@@ -450,14 +418,7 @@ each cell in the cube.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/salesCube/rv/country",
-        "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "country"
-          }
-        ],
+        "cdi:name": ["country"],
         "cdi:hasIntendedDataType": {
           "@type": [
             "cdi:ControlledVocabularyEntry"
@@ -478,14 +439,7 @@ each cell in the cube.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/salesCube/rv/quarter",
-        "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "quarter"
-          }
-        ],
+        "cdi:name": ["quarter"],
         "cdi:hasIntendedDataType": {
           "@type": [
             "cdi:ControlledVocabularyEntry"
@@ -506,14 +460,7 @@ each cell in the cube.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/salesCube/rv/productCategory",
-        "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "product_category"
-          }
-        ],
+        "cdi:name": ["product_category"],
         "cdi:hasIntendedDataType": {
           "@type": [
             "cdi:ControlledVocabularyEntry"
@@ -534,14 +481,7 @@ each cell in the cube.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/salesCube/rv/salesAmount",
-        "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "sales_amount"
-          }
-        ],
+        "cdi:name": ["sales_amount"],
         "cdi:simpleUnitOfMeasure": "USD",
         "cdi:hasIntendedDataType": {
           "@type": [
@@ -558,6 +498,7 @@ each cell in the cube.
             "skos:Concept"
           ],
           "skos:prefLabel": "Monetary Total",
+          "skos:definition": "Total monetary value of sales.",
           "skos:notation": [
             "monetary-total"
           ],
@@ -582,14 +523,7 @@ each cell in the cube.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/salesCube/rv/currency",
-        "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "currency"
-          }
-        ],
+        "cdi:name": ["currency"],
         "cdi:hasIntendedDataType": {
           "@type": [
             "cdi:ControlledVocabularyEntry"
@@ -657,12 +591,7 @@ each cell in the cube.
         ],
         "@id": "ex:struct/salesCube/rv/country",
         "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "country"
-          }
+          "country"
         ],
         "cdi:hasIntendedDataType": {
           "@type": [
@@ -685,12 +614,7 @@ each cell in the cube.
         ],
         "@id": "ex:struct/salesCube/rv/quarter",
         "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "quarter"
-          }
+          "quarter"
         ],
         "cdi:hasIntendedDataType": {
           "@type": [
@@ -713,12 +637,7 @@ each cell in the cube.
         ],
         "@id": "ex:struct/salesCube/rv/productCategory",
         "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "product_category"
-          }
+          "product_category"
         ],
         "cdi:hasIntendedDataType": {
           "@type": [
@@ -741,12 +660,7 @@ each cell in the cube.
         ],
         "@id": "ex:struct/salesCube/rv/salesAmount",
         "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "sales_amount"
-          }
+          "sales_amount"
         ],
         "cdi:simpleUnitOfMeasure": "USD",
         "cdi:hasIntendedDataType": {
@@ -764,6 +678,7 @@ each cell in the cube.
             "skos:Concept"
           ],
           "skos:prefLabel": "Monetary Total",
+          "skos:definition": "Total monetary value of sales.",
           "skos:notation": [
             "monetary-total"
           ],
@@ -789,12 +704,7 @@ each cell in the cube.
         ],
         "@id": "ex:struct/salesCube/rv/currency",
         "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "currency"
-          }
+          "currency"
         ],
         "cdi:hasIntendedDataType": {
           "@type": [
@@ -862,36 +772,32 @@ each cell in the cube.
 <https://example.org/struct/salesCube/rv/country> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:string" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "country" ] .
+    cdi:name "country" .
 
 <https://example.org/struct/salesCube/rv/currency> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:string" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "currency" ] .
+    cdi:name "currency" .
 
 <https://example.org/struct/salesCube/rv/productCategory> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:string" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "product_category" ] .
+    cdi:name "product_category" .
 
 <https://example.org/struct/salesCube/rv/quarter> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:gYearMonth" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "quarter" ] .
+    cdi:name "quarter" .
 
 <https://example.org/struct/salesCube/rv/salesAmount> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:decimal" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "sales_amount" ] ;
+    cdi:name "sales_amount" ;
     cdi:simpleUnitOfMeasure "USD" .
 
 <https://example.org/struct/salesCube/comp/salesAmount> a cdi:MeasureComponent ;
     cdi:semantic [ a skos:Concept ;
+            skos:definition "Total monetary value of sales." ;
             skos:inScheme <https://example.org/vocab/measure> ;
             skos:notation "monetary-total" ;
             skos:prefLabel "Monetary Total" ] ;
@@ -1271,6 +1177,14 @@ anyOf:
 - $ref: '#/$defs/LongDataStructure'
 - $ref: '#/$defs/WideDataStructure'
 $defs:
+  id-reference:
+    type: object
+    description: Reference to a node defined elsewhere in the document via its @id.
+    properties:
+      '@id':
+        type: string
+    required:
+    - '@id'
   DataStructure:
     type: object
     description: Data organization based on reusable data structure components.
@@ -1290,7 +1204,7 @@ $defs:
         items:
           anyOf:
           - $ref: '#/$defs/ForeignKey'
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+          - $ref: '#/$defs/id-reference'
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_ForeignKey
       cdi:has_DataStructureComponent:
@@ -1298,7 +1212,7 @@ $defs:
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+          - $ref: '#/$defs/id-reference'
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
       cdi:has_PrimaryKey:
@@ -1406,7 +1320,7 @@ $defs:
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+          - $ref: '#/$defs/id-reference'
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent
       cdi:has_PrimaryKey:
@@ -1431,14 +1345,14 @@ $defs:
         type: string
         description: Identifier for this DimensionGroup node
       cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:name:
         type: array
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ObjectName
+          type: string
         minItems: 1
         description: Human understandable name (liguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
@@ -1449,7 +1363,7 @@ $defs:
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+          - $ref: '#/$defs/id-reference'
         minItems: 1
     required:
     - '@type'
@@ -1469,7 +1383,7 @@ $defs:
         type: string
         description: Identifier for this ForeignKey node
       cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
@@ -1478,7 +1392,7 @@ $defs:
         items:
           anyOf:
           - $ref: '#/$defs/ForeignKeyComponent'
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+          - $ref: '#/$defs/id-reference'
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isComposedOf
     required:
@@ -1498,19 +1412,19 @@ $defs:
         type: string
         description: Identifier for this ForeignKeyComponent node
       cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:references:
         anyOf:
         - $ref: '#/$defs/PrimaryKeyComponent'
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        - $ref: '#/$defs/id-reference'
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/references
       cdi:correspondsTo:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        - $ref: '#/$defs/id-reference'
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/correspondsTo
     required:
     - '@type'
@@ -1537,7 +1451,7 @@ $defs:
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+          - $ref: '#/$defs/id-reference'
         minItems: 1
     required:
     - '@type'
@@ -1557,14 +1471,14 @@ $defs:
         type: string
         description: Identifier for this PrimaryKeyComponent node
       cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:correspondsTo:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        - $ref: '#/$defs/id-reference'
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/correspondsTo
     required:
     - '@type'
@@ -1584,9 +1498,9 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
+    "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "schema": "http://schema.org/",
     "cdif": "https://cdif.org/0.1/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",

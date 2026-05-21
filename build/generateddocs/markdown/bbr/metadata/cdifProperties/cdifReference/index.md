@@ -137,6 +137,10 @@ related resource and dcat:hadRole classifying the role.
       "@value": "is version of",
       "@language": "en"
     },
+    "skos:definition": {
+      "@value": "The related resource is a version, edition, or adaptation of the described resource.",
+      "@language": "en"
+    },
     "skos:inScheme": { "@id": "ex:vocab/relationRoles" },
     "skos:notation": ["isVersionOf"]
   }
@@ -181,6 +185,10 @@ related resource and dcat:hadRole classifying the role.
       "@value": "is version of",
       "@language": "en"
     },
+    "skos:definition": {
+      "@value": "The related resource is a version, edition, or adaptation of the described resource.",
+      "@language": "en"
+    },
     "skos:inScheme": {
       "@id": "ex:vocab/relationRoles"
     },
@@ -208,6 +216,7 @@ ex:CdifRelationComplete_001 a schema1:CreativeWork,
     dcat:hadRole <https://example.org/concepts/isVersionOf> .
 
 <https://example.org/concepts/isVersionOf> a skos:Concept ;
+    skos:definition "The related resource is a version, edition, or adaptation of the described resource."@en ;
     skos:inScheme <https://example.org/vocab/relationRoles> ;
     skos:notation "isVersionOf" ;
     skos:prefLabel "is version of"@en .

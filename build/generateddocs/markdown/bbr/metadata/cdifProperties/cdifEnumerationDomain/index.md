@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.cdifProperties.cdifEnumerationDomain` *v0.1*
 
-Extension point that documents a codification vocabulary as an enumerated value domain. Composes schemaorgProperties/identifier for cdi:identifier; schema:inDefinedTermSet accepts a skosProperties/skosConceptScheme, a schemaorgProperties/definedTermSet, or an @id-only id-reference; cdi:purpose uses the InternationalString datatype from ddi-cdif-data-types.
+Extension point that documents a codification vocabulary as an enumerated value domain. Composes schemaorgProperties/identifier for cdi:identifier; schema:inDefinedTermSet accepts a skosProperties/skosConceptScheme, a schemaorgProperties/definedTermSet, or an @id-only id-reference; cdi:purpose uses a plain string.
 
 [*Status*](http://www.opengis.net/def/status): Under development
 

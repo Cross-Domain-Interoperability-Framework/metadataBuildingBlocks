@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.cdifProperties.cdifInstanceVariable` *v0.2*
 
-Profile of cdi:InstanceVariable / schema:PropertyValue used as a member of a schema:variableMeasured array. Adds DDI-CDI properties (cdif:physicalDataType, cdif:role, cdif:simpleUnitOfMeasure, cdif:uses, cdi:qualifies) on top of schemaorgProperties/variableMeasured and ddiCDIFProperties/ddi-cdif-instance-variable. Accepts a single node, an unwrapped @graph array of nodes (OGC pipeline), or a JSON-LD document with @context and @graph.
+Profile of cdi:InstanceVariable / schema:PropertyValue used as a member of a schema:variableMeasured array. Adds DDI-CDI properties (cdif:physicalDataType, cdif:role, cdif:simpleUnitOfMeasure, cdif:uses, cdi:qualifies) on top of schemaorgProperties/variableMeasured and ddiProperties/ddicdiInstanceVariable. Accepts a single node, an unwrapped @graph array of nodes (OGC pipeline), or a JSON-LD document with @context and @graph.
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -62,7 +62,7 @@ When a dataset's distribution carries `cdi:isStructuredBy` (CDIF **Data Structur
 ### Minimal CDIF Instance Variable
 Single PropertyValue + cdi:InstanceVariable node with the four
 properties required by the CdifInstanceVariableNode shape (which
-inherits ddi-cdif-instance-variable's required list): @type, cdi:name,
+inherits ddicdiInstanceVariable's required list): @type, cdi:name,
 cdi:definition, cdi:takesSubstantiveValuesFrom.
 #### json
 ```json

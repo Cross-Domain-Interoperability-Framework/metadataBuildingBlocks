@@ -47,7 +47,6 @@ A `cdi:VariableDescriptorComponent` (in [cdifDataStructureComponent](../cdifData
 ## Dependencies
 
 - [cdifRepresentedVariable](../cdifRepresentedVariable/) — target of `cdif:isDefinedBy` in each descriptor entry.
-- [ddi-cdif-data-types](../../ddiCDIFProperties/ddi-cdif-data-types/) — `cdi:ObjectName` for `cdi:name`.
 
 ## Examples
 
@@ -146,12 +145,7 @@ wrapper) and a non-trivial code → variable mapping.
   },
   "@type": ["cdi:DescriptorVariable"],
   "@id": "ex:dv/measureName",
-  "cdi:name": [
-    {
-      "@type": ["cdi:ObjectName"],
-      "cdi:name": "measure_name"
-    }
-  ],
+  "cdi:name": ["measure_name"],
   "cdif:hasValuesFrom": {
     "@type": ["cdi:DescriptorValueDomain"],
     "@id": "ex:vd/measureName",
@@ -161,9 +155,7 @@ wrapper) and a non-trivial code → variable mapping.
         "cdif:isDefinedBy": {
           "@type": ["cdi:RepresentedVariable"],
           "@id": "ex:rv/systolicBP",
-          "cdi:name": [
-            { "@type": ["cdi:ObjectName"], "cdi:name": "systolic_blood_pressure" }
-          ],
+          "cdi:name": ["systolic_blood_pressure"],
           "cdi:simpleUnitOfMeasure": "mmHg",
           "cdi:hasIntendedDataType": {
             "@type": ["cdi:ControlledVocabularyEntry"],
@@ -176,9 +168,7 @@ wrapper) and a non-trivial code → variable mapping.
         "cdif:isDefinedBy": {
           "@type": ["cdi:RepresentedVariable"],
           "@id": "ex:rv/diastolicBP",
-          "cdi:name": [
-            { "@type": ["cdi:ObjectName"], "cdi:name": "diastolic_blood_pressure" }
-          ],
+          "cdi:name": ["diastolic_blood_pressure"],
           "cdi:simpleUnitOfMeasure": "mmHg",
           "cdi:hasIntendedDataType": {
             "@type": ["cdi:ControlledVocabularyEntry"],
@@ -223,12 +213,7 @@ wrapper) and a non-trivial code → variable mapping.
   ],
   "@id": "ex:dv/measureName",
   "cdi:name": [
-    {
-      "@type": [
-        "cdi:ObjectName"
-      ],
-      "cdi:name": "measure_name"
-    }
+    "measure_name"
   ],
   "cdif:hasValuesFrom": {
     "@type": [
@@ -244,12 +229,7 @@ wrapper) and a non-trivial code → variable mapping.
           ],
           "@id": "ex:rv/systolicBP",
           "cdi:name": [
-            {
-              "@type": [
-                "cdi:ObjectName"
-              ],
-              "cdi:name": "systolic_blood_pressure"
-            }
+            "systolic_blood_pressure"
           ],
           "cdi:simpleUnitOfMeasure": "mmHg",
           "cdi:hasIntendedDataType": {
@@ -270,12 +250,7 @@ wrapper) and a non-trivial code → variable mapping.
           ],
           "@id": "ex:rv/diastolicBP",
           "cdi:name": [
-            {
-              "@type": [
-                "cdi:ObjectName"
-              ],
-              "cdi:name": "diastolic_blood_pressure"
-            }
+            "diastolic_blood_pressure"
           ],
           "cdi:simpleUnitOfMeasure": "mmHg",
           "cdi:hasIntendedDataType": {
@@ -311,33 +286,30 @@ wrapper) and a non-trivial code → variable mapping.
 @prefix cdif: <https://cdif.org/0.1/> .
 
 <https://example.org/dv/measureName> a cdi:DescriptorVariable ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "measure_name" ] ;
+    cdi:name "measure_name" ;
     cdif:hasValuesFrom <https://example.org/vd/measureName> .
 
 <https://example.org/rv/diastolicBP> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:decimal" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "diastolic_blood_pressure" ] ;
+    cdi:name "diastolic_blood_pressure" ;
     cdi:simpleUnitOfMeasure "mmHg" .
 
 <https://example.org/rv/systolicBP> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:decimal" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "systolic_blood_pressure" ] ;
+    cdi:name "systolic_blood_pressure" ;
     cdi:simpleUnitOfMeasure "mmHg" .
 
 <https://example.org/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;
-            cdif:value "temp_c" ],
-        [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
             cdif:value "systolic_bp" ],
-        [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
-            cdif:value "diastolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
-            cdif:value "heart_rate" ] .
+            cdif:value "heart_rate" ],
+        [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;
+            cdif:value "temp_c" ],
+        [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
+            cdif:value "diastolic_bp" ] .
 
 
 ```
@@ -373,7 +345,7 @@ properties:
   cdi:name:
     type: array
     items:
-      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ObjectName
+      type: string
     minItems: 1
     description: Human understandable name (linguistic signifier, word, phrase, or
       mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided

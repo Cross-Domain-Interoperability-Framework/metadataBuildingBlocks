@@ -265,7 +265,7 @@ description: 'Profile of ddi-cdi Key/PrimaryKey: a CDIF Key is the role of an or
   identify a data instance. Each variable''s position in the key is recorded with
   an explicit cdi:ComponentPosition wrapper carrying cdi:indexes (the variable) and
   cdi:value (the integer position), matching the canonical DDI-CDI PrimaryKey structure
-  in ddi-cdif-data-structure.'
+  in ddicdiDataStructure.'
 type: object
 properties:
   '@type':

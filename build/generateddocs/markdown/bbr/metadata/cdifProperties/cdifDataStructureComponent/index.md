@@ -23,6 +23,14 @@ anyOf:
 - $ref: '#/$defs/VariableValueComponent'
 - $ref: '#/$defs/VariableDescriptorComponent'
 $defs:
+  id-reference:
+    type: object
+    description: Reference to a node defined elsewhere in the document via its @id.
+    properties:
+      '@id':
+        type: string
+    required:
+    - '@id'
   IdentifierComponent:
     type: object
     description: Role given to a represented variable in the context of a long or
@@ -43,7 +51,7 @@ $defs:
       cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.yaml
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        - $ref: '#/$defs/id-reference'
     required:
     - '@type'
     - cdif:isDefinedBy_RepresentedVariable
@@ -65,21 +73,21 @@ $defs:
       cdi:name:
         type: array
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/ObjectName
+          type: string
         minItems: 1
         description: Human understandable name (liguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.yaml
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        - $ref: '#/$defs/id-reference'
       cdi:semantic:
         type: array
         items:
@@ -110,18 +118,18 @@ $defs:
         items:
           anyOf:
           - $ref: '#/$defs/DataStructureComponent'
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+          - $ref: '#/$defs/id-reference'
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/qualifies
       cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.yaml
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        - $ref: '#/$defs/id-reference'
       cdi:semantic:
         type: array
         items:
@@ -156,7 +164,7 @@ $defs:
       cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.yaml
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        - $ref: '#/$defs/id-reference'
     required:
     - '@type'
     - cdif:isDefinedBy_RepresentedVariable
@@ -176,14 +184,14 @@ $defs:
         type: string
         description: Identifier for this VariableValueComponent node
       cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.yaml
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        - $ref: '#/$defs/id-reference'
       cdi:semantic:
         type: array
         items:
@@ -212,10 +220,10 @@ $defs:
       cdif:isDefinedBy_DescriptorVariable:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDescriptorVariable/schema.yaml
       cdi:refersTo:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        $ref: '#/$defs/id-reference'
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/refersTo
       cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
@@ -245,14 +253,14 @@ $defs:
         type: string
         description: Identifier for this DataStructureComponent node
       cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/Identifier
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.yaml
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiCDIFProperties/ddi-cdif-data-types/schema.yaml#/$defs/id-reference
+        - $ref: '#/$defs/id-reference'
       cdi:semantic:
         type: array
         items:
