@@ -3171,29 +3171,69 @@ def _emit_overview_diagram(closure: UmlClosure, model: Model,
 
 def render_puml_to_svg(puml_dir: Path, plantuml_jar: Path,
                         java_exe: str = "java") -> int:
-    """Walk puml_dir and render every .pu to .svg via plantuml.jar.
-    Returns the count of files rendered. Skips files whose .svg is newer."""
-    import subprocess
+    """Render each .pu in puml_dir to .svg via plantuml.jar.
+
+    A .pu is (re)rendered when its .svg is missing OR its content changed since
+    the .svg was last produced. "Changed" is decided by a content hash recorded
+    in _render_cache.json (relative-pu-path -> sha256 of the .pu), NOT by mtime:
+    an mtime check can silently keep a stale diagram when a .pu is rewritten but
+    the render is skipped/fails, which is exactly how the committed SVGs once
+    drifted from their sources. Cache entries are updated only for files that
+    rendered successfully, so a failed render is retried on the next run.
+    Returns the count of .svg files successfully rendered."""
+    import subprocess, hashlib, json
     pu_files = list(puml_dir.rglob("*.pu"))
-    to_render = []
+    cache_path = puml_dir / "_render_cache.json"
+    try:
+        cache = json.loads(cache_path.read_text(encoding="utf-8"))
+        if not isinstance(cache, dict):
+            cache = {}
+    except (OSError, ValueError):
+        cache = {}
+
+    def _sha(p: Path) -> str:
+        return hashlib.sha256(p.read_bytes()).hexdigest()
+
+    cur_hash: dict[str, str] = {}
+    to_render: list[Path] = []
     for pu in pu_files:
+        rel = pu.relative_to(puml_dir).as_posix()
+        h = _sha(pu)
+        cur_hash[rel] = h
         svg = pu.with_suffix(".svg")
-        if not svg.exists() or svg.stat().st_mtime < pu.stat().st_mtime:
+        if not svg.exists() or cache.get(rel) != h:
             to_render.append(pu)
-    if not to_render:
-        return 0
-    # PlantUML can take multiple input files; group by directory to keep
-    # output side-by-side with input.
-    by_dir: dict[Path, list[Path]] = {}
-    for pu in to_render:
-        by_dir.setdefault(pu.parent, []).append(pu)
-    for d, files in by_dir.items():
-        cmd = [java_exe, "-jar", str(plantuml_jar), "-tsvg"] + [str(f) for f in files]
-        result = subprocess.run(cmd, capture_output=True, text=True)
-        if result.returncode != 0:
-            print(f"WARN: plantuml render failed in {d}: {result.stderr[:200]}",
-                  file=sys.stderr)
-    return len(to_render)
+
+    rendered: list[Path] = []
+    if to_render:
+        # PlantUML can take multiple input files; group by directory to keep
+        # output side-by-side with input.
+        by_dir: dict[Path, list[Path]] = {}
+        for pu in to_render:
+            by_dir.setdefault(pu.parent, []).append(pu)
+        for d, files in by_dir.items():
+            cmd = [java_exe, "-jar", str(plantuml_jar), "-tsvg"] + [str(f) for f in files]
+            result = subprocess.run(cmd, capture_output=True, text=True)
+            if result.returncode != 0:
+                # Leave these files out of the cache so they retry next run.
+                print(f"WARN: plantuml render failed in {d}: {result.stderr[:200]}",
+                      file=sys.stderr)
+                continue
+            for f in files:
+                if f.with_suffix(".svg").exists():
+                    rendered.append(f)
+
+    # Record the hash of each successfully rendered .pu; prune entries for .pu
+    # files that no longer exist. Skipped (up-to-date) entries are preserved.
+    for f in rendered:
+        cache[f.relative_to(puml_dir).as_posix()] = cur_hash[f.relative_to(puml_dir).as_posix()]
+    cache = {k: v for k, v in cache.items() if k in cur_hash}
+    try:
+        cache_path.write_text(json.dumps(cache, indent=0, sort_keys=True) + "\n",
+                              encoding="utf-8")
+    except OSError as e:
+        print(f"WARN: could not write {cache_path}: {e}", file=sys.stderr)
+    return len(rendered)
 
 
 def emit_puml(out_dir: Path, *,
