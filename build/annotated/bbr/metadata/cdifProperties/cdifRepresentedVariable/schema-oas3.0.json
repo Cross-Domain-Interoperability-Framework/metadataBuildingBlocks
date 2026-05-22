@@ -682,10 +682,10 @@
           "x-jsonld-id": "http://schema.org/name"
         },
         "cdif:references": {
-          "description": "SKOS concept scheme that contains concepts defining the allowed values of this enumeration domain.",
+          "description": "CDIF codelist (skos:ConceptScheme) whose concepts define the allowed values of this enumeration domain.",
           "anyOf": [
             {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme"
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCodelist"
             },
             {
               "type": "object",
@@ -778,54 +778,37 @@
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
-    "cdif.bbr.metadata.skosProperties.skosConceptScheme": {
-      "title": "SKOS Concept Scheme",
-      "description": "JSON Schema for a SKOS ConceptScheme in JSON-LD form. Validates the root object as a skos:ConceptScheme with prefLabel, hasTopConcept, and nested skos:Concept items. References the skosConcept and skosCollection building blocks. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/) and the SKOS RDF vocabulary (https://www.w3.org/2004/02/skos/core.rdf).",
+    "cdif.bbr.metadata.cdifProperties.cdifCodelist": {
       "type": "object",
+      "title": "CDIF Codelist",
+      "description": "A controlled-vocabulary codelist implemented as a skos:ConceptScheme constrained for CDIF use. The scheme must have a resolvable @id and identify its top concepts via skos:hasTopConcept; each concept (CdifCodelistConcept) must have a resolvable @id, skos:inScheme, skos:prefLabel, and skos:notation. Hierarchical concepts must declare both skos:narrower (for JSON tree traversal) and skos:broader (for upward navigation) where hierarchy exists. CDIF metadata properties (schema:identifier, schema:dateModified, schema:license or schema:conditionsOfAccess) take precedence over the equivalent dcterms properties from the base skos:ConceptScheme.",
       "properties": {
         "@context": {
           "description": "JSON-LD context declaring the skos namespace prefix and any additional prefixes used in concept URIs. May be a single object or an array of strings and objects.",
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "skos": {
-                  "enum": [
-                    "http://www.w3.org/2004/02/skos/core#"
-                  ]
-                }
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
               },
-              "required": [
-                "skos"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "object"
-                  }
-                ]
-              },
-              "contains": {
-                "type": "object",
-                "properties": {
-                  "skos": {
-                    "enum": [
-                      "http://www.w3.org/2004/02/skos/core#"
-                    ]
-                  }
-                },
-                "required": [
-                  "skos"
+              {
+                "type": "object"
+              }
+            ]
+          },
+          "contains": {
+            "type": "object",
+            "properties": {
+              "skos": {
+                "enum": [
+                  "http://www.w3.org/2004/02/skos/core#"
                 ]
               }
-            }
-          ]
+            },
+            "required": [
+              "skos"
+            ]
+          }
         },
         "@id": {
           "type": "string",
@@ -843,404 +826,221 @@
           },
           "minItems": 1
         },
-        "skos:prefLabel": {
-          "description": "Preferred lexical label for the concept scheme. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
+        "schema:identifier": {
+          "description": "Primary identifier for the codelist. May be a string URI or a structured PropertyValue.",
           "anyOf": [
             {
               "type": "string"
             },
             {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#prefLabel"
-        },
-        "skos:altLabel": {
-          "description": "Alternative lexical labels (acronyms, abbreviations, spelling variants).",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
                     "type": "string"
                   },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
+                  "contains": {
+                    "enum": [
+                      "schema:PropertyValue"
+                    ]
                   }
-                ]
+                },
+                "schema:propertyID": {
+                  "type": "string",
+                  "x-jsonld-id": "http://schema.org/propertyID"
+                },
+                "schema:value": {
+                  "type": "string",
+                  "x-jsonld-id": "http://schema.org/value"
+                },
+                "schema:url": {
+                  "type": "string",
+                  "x-jsonld-id": "http://schema.org/url"
+                }
               }
             }
           ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#altLabel"
+          "x-jsonld-id": "http://schema.org/identifier"
         },
-        "skos:hiddenLabel": {
-          "description": "Labels accessible to free-text search but not displayed.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#hiddenLabel"
+        "schema:dateModified": {
+          "type": "string",
+          "description": "ISO 8601 date when the codelist was last modified.",
+          "x-jsonld-id": "http://schema.org/dateModified"
         },
-        "skos:definition": {
-          "description": "Formal explanation of the meaning or purpose of this concept scheme.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#definition"
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Web location of a page describing the codelist.",
+          "default": "missing",
+          "x-jsonld-id": "http://schema.org/url"
         },
-        "skos:notation": {
-          "description": "Classification code or notation for this concept scheme.",
+        "schema:license": {
+          "description": "License for the codelist.",
           "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#notation"
-        },
-        "skos:note": {
-          "description": "General note about the concept scheme.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#note"
-        },
-        "skos:scopeNote": {
-          "description": "Note clarifying the intended scope of the concept scheme.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#scopeNote"
-        },
-        "skos:historyNote": {
-          "description": "Note about the history of the concept scheme.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#historyNote"
-        },
-        "skos:changeNote": {
-          "description": "Note documenting a change to the concept scheme.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#changeNote"
-        },
-        "skos:editorialNote": {
-          "description": "Note for editors, translators, and maintainers.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#editorialNote"
-        },
-        "skos:example": {
-          "description": "Example of the use of this concept scheme.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#example"
-        },
-        "skos:hasTopConcept": {
-          "description": "Top-level concepts in this scheme. Each item is a skos:Concept (inline or @id reference).",
-          "type": "array",
-          "minItems": 1,
           "items": {
             "anyOf": [
               {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/Concept"
+                "type": "string"
               },
               {
                 "type": "object",
                 "properties": {
                   "@id": {
-                    "type": "string",
-                    "description": "URI reference to a concept defined elsewhere"
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "x-jsonld-id": "http://schema.org/license"
+        },
+        "schema:conditionsOfAccess": {
+          "description": "Text statement of access conditions for the codelist.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-jsonld-id": "http://schema.org/conditionsOfAccess"
+        },
+        "skos:prefLabel": {
+          "description": "Preferred lexical label for the concept scheme. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
+          "type": "string",
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#prefLabel"
+        },
+        "skos:definition": {
+          "description": "Formal explanation of the meaning or purpose of this concept scheme.",
+          "type": "string",
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#definition"
+        },
+        "skos:note": {
+          "description": "General note about the concept scheme.",
+          "type": "string",
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#note"
+        },
+        "skos:hasTopConcept": {
+          "description": "Top-level concepts that have no skos:broader in this scheme. Required for hierarchical codelists.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCodelist/$defs/CdifCodelistConcept"
+          },
+          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#hasTopConcept"
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "schema:license"
+          ]
+        },
+        {
+          "required": [
+            "schema:conditionsOfAccess"
+          ]
+        }
+      ],
+      "required": [
+        "@id",
+        "schema:identifier",
+        "schema:dateModified",
+        "skos:hasTopConcept"
+      ],
+      "$defs": {
+        "CdifCodelistConcept": {
+          "description": "A SKOS Concept constrained for CDIF codelist use. Must have a resolvable @id, skos:inScheme, skos:notation, and skos:prefLabel. Becasue JSON-LD is an open-world implementation, any other skos properties may be included.",
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "Globally unique, resolvable URI for this concept."
+            },
+            "skos:inScheme": {
+              "description": "The concept scheme this concept belongs to. Required for CDIF codelist concepts.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
                   }
                 },
                 "required": [
                   "@id"
                 ]
-              }
-            ]
-          },
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#hasTopConcept"
-        },
-        "dcterms:creator": {
-          "description": "Agent(s) who created this concept scheme.",
-          "anyOf": [
-            {
-              "type": "string"
+              },
+              "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#inScheme"
             },
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                },
-                "schema:name": {
-                  "type": "string",
-                  "x-jsonld-id": "http://schema.org/name"
-                }
-              }
+            "skos:prefLabel": {
+              "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
+              "type": "string",
+              "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#prefLabel"
             },
-            {
+            "skos:notation": {
+              "description": "Classification code for this concept within a scheme.",
+              "type": "string",
+              "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#notation"
+            },
+            "skos:definition": {
+              "description": "Formal definition of this concept. Optional for CDIF codelist concepts. A plain string.",
+              "type": "string",
+              "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#definition"
+            },
+            "skos:narrower": {
+              "description": "Narrower (child) concepts. If present, each inline concept must also declare skos:broader pointing back to the parent concept. Both skos:narrower and skos:broader must be explicit in CDIF codelists.",
               "type": "array",
               "items": {
                 "anyOf": [
-                  {
-                    "type": "string"
-                  },
                   {
                     "type": "object",
                     "properties": {
                       "@id": {
                         "type": "string"
-                      },
-                      "schema:name": {
-                        "type": "string",
-                        "x-jsonld-id": "http://schema.org/name"
                       }
-                    }
+                    },
+                    "required": [
+                      "@id"
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifCodelist/$defs/CdifCodelistConcept"
+                      },
+                      {
+                        "required": [
+                          "skos:broader"
+                        ]
+                      }
+                    ]
                   }
                 ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://purl.org/dc/terms/creator"
-        },
-        "dcterms:created": {
-          "type": "string",
-          "description": "Date the concept scheme was created (ISO 8601).",
-          "x-jsonld-id": "http://purl.org/dc/terms/created"
-        },
-        "dcterms:modified": {
-          "type": "string",
-          "description": "Date the concept scheme was last modified (ISO 8601).",
-          "x-jsonld-id": "http://purl.org/dc/terms/modified"
-        },
-        "dcterms:title": {
-          "description": "Title of the concept scheme (Dublin Core). Prefer skos:prefLabel for the SKOS label; dcterms:title may be used for additional metadata.",
-          "anyOf": [
-            {
-              "type": "string"
+              },
+              "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#narrower"
             },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
+            "skos:broader": {
+              "description": "Broader (parent) concepts. Required on any concept that appears as a skos:narrower value of another concept. CDIF requires both directions to be explicit for hierarchy traversal.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              },
+              "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#broader"
             }
-          ],
-          "x-jsonld-id": "http://purl.org/dc/terms/title"
-        },
-        "dcterms:description": {
-          "description": "Description of the concept scheme (Dublin Core).",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConceptScheme/$defs/LanguageTaggedValue"
-            }
-          ],
-          "x-jsonld-id": "http://purl.org/dc/terms/description"
-        },
-        "dcterms:license": {
-          "description": "License for the concept scheme.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              }
-            }
-          ],
-          "x-jsonld-id": "http://purl.org/dc/terms/license"
-        },
-        "dcterms:rights": {
-          "description": "Rights statement for the concept scheme.",
-          "type": "string",
-          "x-jsonld-id": "http://purl.org/dc/terms/rights"
-        },
-        "schema:version": {
-          "description": "Version identifier for the concept scheme.",
-          "x-jsonld-id": "http://schema.org/version",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "number"
-            }
+          },
+          "required": [
+            "@id",
+            "skos:inScheme",
+            "skos:prefLabel",
+            "skos:notation"
           ]
-        }
-      },
-      "required": [
-        "@type",
-        "skos:prefLabel"
-      ],
-      "$defs": {
-        "Concept": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1"
-        },
-        "LanguageTaggedValue": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1/$defs/LanguageTaggedValue"
         }
       },
       "x-jsonld-prefixes": {
@@ -1248,386 +1048,7 @@
         "dcterms": "http://purl.org/dc/terms/",
         "schema": "http://schema.org/"
       },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConceptScheme/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.skosProperties.skosConcept_1": {
-      "title": "SKOS Concept",
-      "description": "JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel), notations, hierarchical relations (broader/narrower), associative relations (related), cross-scheme mapping properties, scheme membership, and documentary notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).",
-      "type": "object",
-      "properties": {
-        "@context": {
-          "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "skos": {
-                  "enum": [
-                    "http://www.w3.org/2004/02/skos/core#"
-                  ]
-                }
-              },
-              "required": [
-                "skos"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "object"
-                  }
-                ]
-              },
-              "contains": {
-                "type": "object",
-                "properties": {
-                  "skos": {
-                    "enum": [
-                      "http://www.w3.org/2004/02/skos/core#"
-                    ]
-                  }
-                },
-                "required": [
-                  "skos"
-                ]
-              }
-            }
-          ]
-        },
-        "@id": {
-          "type": "string",
-          "description": "URI identifier for this concept."
-        },
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "skos:Concept"
-            ]
-          },
-          "minItems": 1
-        },
-        "skos:prefLabel": {
-          "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1/$defs/LanguageTaggedValue"
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#prefLabel"
-        },
-        "skos:notation": {
-          "description": "Classification code for this concept within a scheme.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#notation"
-        },
-        "skos:definition": {
-          "description": "Formal explanation of the meaning of this concept.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#definition"
-        },
-        "skos:scopeNote": {
-          "description": "Note clarifying meaning and/or intended use.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#scopeNote"
-        },
-        "skos:note": {
-          "description": "General note about this concept.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#note"
-        },
-        "skos:historyNote": {
-          "description": "Note about past state or use.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#historyNote"
-        },
-        "skos:changeNote": {
-          "description": "Note documenting a change.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#changeNote"
-        },
-        "skos:editorialNote": {
-          "description": "Note for editors and maintainers.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#editorialNote"
-        },
-        "skos:inScheme": {
-          "description": "Concept scheme(s) this concept belongs to.",
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#inScheme"
-        },
-        "skos:topConceptOf": {
-          "description": "Concept scheme(s) for which this is a top concept.",
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#topConceptOf"
-        },
-        "skos:broader": {
-          "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1/$defs/ConceptRef"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1"
-              }
-            ]
-          },
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#broader"
-        },
-        "skos:narrower": {
-          "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1/$defs/ConceptRef"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept_1"
-              }
-            ]
-          },
-          "x-jsonld-id": "http://www.w3.org/2004/02/skos/core#narrower"
-        }
-      },
-      "required": [
-        "@type",
-        "skos:prefLabel",
-        "skos:definition",
-        "skos:inScheme"
-      ],
-      "$defs": {
-        "ConceptRef": {
-          "type": "object",
-          "description": "A reference to a SKOS Concept by URI.",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "URI of the referenced concept."
-            }
-          },
-          "required": [
-            "@id"
-          ]
-        },
-        "LanguageTaggedValue": {
-          "type": "object",
-          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
-          "properties": {
-            "@value": {
-              "type": "string",
-              "description": "The text content."
-            },
-            "@language": {
-              "type": "string",
-              "description": "BCP 47 language tag (e.g. en, fr, de)."
-            }
-          },
-          "required": [
-            "@value",
-            "@language"
-          ]
-        }
-      },
-      "x-jsonld-prefixes": {
-        "skos": "http://www.w3.org/2004/02/skos/core#"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml",
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCodelist/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     }
   },

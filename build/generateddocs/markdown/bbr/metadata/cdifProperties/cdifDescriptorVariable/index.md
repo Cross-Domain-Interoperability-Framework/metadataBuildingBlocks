@@ -306,10 +306,10 @@ wrapper) and a non-trivial code → variable mapping.
             cdif:value "temp_c" ],
         [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
             cdif:value "diastolic_bp" ],
-        [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
-            cdif:value "heart_rate" ],
         [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
-            cdif:value "systolic_bp" ] .
+            cdif:value "systolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
+            cdif:value "heart_rate" ] .
 
 
 ```

@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.cdifProperties.cdifEnumerationDomain` *v0.1*
 
-Extension point that documents a codification vocabulary as an enumerated value domain. Composes schemaorgProperties/identifier for cdi:identifier; schema:inDefinedTermSet accepts a skosProperties/skosConceptScheme, a schemaorgProperties/definedTermSet, or an @id-only id-reference; cdi:purpose uses a plain string.
+Extension point that documents a codification vocabulary as an enumerated value domain. Composes schemaorgProperties/identifier for cdi:identifier; cdif:references accepts a cdifProperties/cdifCodelist, a schemaorgProperties/definedTermSet, or an @id-only id-reference; cdi:purpose uses a plain string.
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -248,10 +248,10 @@ properties:
       mnemonic).
     x-jsonld-id: http://schema.org/name
   cdif:references:
-    description: SKOS concept scheme that contains concepts defining the allowed values
-      of this enumeration domain.
+    description: CDIF codelist (skos:ConceptScheme) whose concepts define the allowed
+      values of this enumeration domain.
     anyOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConceptScheme/schema.yaml
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCodelist/schema.yaml
     - type: object
       description: object reference via URI or URI fragment referencing an @id in
         the same document
