@@ -80,6 +80,18 @@ jobs:
           <html lang="en">
           <head>
             <meta charset="UTF-8" />
+            <script>
+              // SPA deep-link restore (pairs with the redirect in the site 404.html):
+              // rebuild /viewer/<route> from the encoded ?/<route> form before the app boots.
+              (function (l) {
+                if (l.search && l.search.charAt(1) === '/') {
+                  var decoded = l.search.slice(1).split('&').map(function (s) {
+                    return s.replace(/~and~/g, '&');
+                  }).join('?');
+                  window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+                }
+              })(window.location);
+            </script>
             <link rel="icon" href="https://cross-domain-interoperability-framework.github.io/bblocks-viewer/favicon.ico" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <title>${TITLE} — JSON Schema BB Viewer</title>
@@ -135,6 +147,23 @@ jobs:
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <title>${TITLE}</title>
+            <script>
+              // SPA deep-link support: a /viewer/<route> URL that 404s lands on this page
+              // (the site 404.html is a copy of this landing); bounce it into the viewer
+              // with the route encoded so viewer/index.html can restore it client-side.
+              (function (l) {
+                var vbase = '${BASE_PATH}viewer/';
+                if (l.pathname.indexOf(vbase) === 0 && l.pathname.length > vbase.length) {
+                  var rest = l.pathname.slice(vbase.length);
+                  l.replace(
+                    l.protocol + '//' + l.host + vbase + '?/' +
+                    rest.replace(/&/g, '~and~') +
+                    (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+                    l.hash
+                  );
+                }
+              })(window.location);
+            </script>
             <link rel="icon" href="https://cross-domain-interoperability-framework.github.io/bblocks-viewer/favicon.ico" />
             <style>
               * { box-sizing: border-box; }
