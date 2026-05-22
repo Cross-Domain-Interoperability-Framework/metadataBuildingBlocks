@@ -898,13 +898,13 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:index 0 ;
                     cdif:physicalDataType "String" ],
                 [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "Integer" ],
-                [ cdi:isRequired false ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
                     cdif:index 4 ;
-                    cdif:physicalDataType "String" ] ],
+                    cdif:physicalDataType "String" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "Integer" ] ],
         [ a cdi:PhysicalDataSet,
                 cdi:StructuredDataSet,
                 schema1:DataDownload ;
