@@ -62,11 +62,11 @@ Shared DDI-CDI structured data types from DDICDILibrary/DataTypes: identifiers, 
 
 Schema defining metadata elements to document the temporal extent applicable to the described resource. Defines properties: @type, schema:description, time:intervalStartedBy, time:intervalFinishedBy, @context, time:hasBeginning, time:hasEnd.
 
-### `cdif.bbr.metadata.schemaorgProperties.action` — Action properties
+### `cdif.bbr.metadata.schemaorgProperties.actionResult` — Action result properties
 
 **Type:** schema
 
-Schema defining properties to implement description of an action, a profile of schema.org/Action. Defines properties: @type, schema:name, schema:target, schema:result, schema:object, schema:query-input. Uses building blocks: variableMeasured (schemaorgProperties).
+Schema defining the result of a schema:Action on a schema:WebAPI distribution - the serialization/format of the data the service returns. Typed as schema:DataDownload but without contentUrl/contentSize (the response is generated per request). Defines properties: @type, schema:name, schema:description, schema:encodingFormat, dcterms:conformsTo.
 
 ### `cdif.bbr.metadata.xasProperties.xasXdiTabularTextDataset` — XDI data structure description
 
@@ -182,11 +182,11 @@ DDI-CDI ProcessingAgent that orchestrates production activities, linking agents 
 
 Conceptual variable with a substantive value domain specified.
 
-### `cdif.bbr.metadata.cdifProperties.cdifStatistics` — CDIF Statistics
+### `cdif.bbr.metadata.schemaorgProperties.action` — Action properties
 
 **Type:** schema
 
-Profile of DDI-CDI Statistics, StatisticsCollection, Statistic, CategoryStatistics, and Category. A Statistics node bundles one or more Statistic value objects (mean, count, median, etc.) optionally weighted by an InstanceVariable and optionally broken down by Category via CategoryStatistics. A StatisticsCollection groups multiple Statistics nodes and records the InstanceVariables they index. Composes building block: cdifInstanceVariable (cdifProperties).
+Schema defining properties to implement description of an action, a profile of schema.org/Action. Defines properties: @type, schema:name, schema:target, schema:result, schema:object, schema:query-input. Uses building blocks: variableMeasured (schemaorgProperties).
 
 ### `cdif.bbr.metadata.qualityProperties.qualityMeasure` — Simple quality measurement properties
 
@@ -248,12 +248,6 @@ Schema defining properties for documenting sources used for compiled or aggregat
 
 Schema defining propertis for schema.org varialbleMeasured as defined for CDIF discovery. Implemented as schema.org/PropertyValue. Defines properties: @type, @id, schema:name, schema:description, schema:alternateName, schema:propertyID, schema:measurementTechnique, schema:unitText, schema:unitCode, schema:minValue, schema:maxValue, schema:url. Uses building blocks: definedTerm (schemaorgProperties).
 
-### `cdif.bbr.metadata.schemaorgProperties.webAPI` — WebAPI properties
-
-**Type:** schema
-
-Schema defining properties for documenting a WebAPI used as a resource distribution option. Defines properties: @type, schema:serviceType, schema:termsOfService, schema:documentation, schema:potentialAction. Uses building blocks: cdifReference (cdifProperties), definedTerm (schemaorgProperties), action (schemaorgProperties).
-
 ### `cdif.bbr.metadata.ddiProperties.ddicdiStatistics` — DDI-CDI Statistics
 
 **Type:** schema
@@ -271,6 +265,12 @@ DDI-CDI Agent class hierarchy for CDIF metadata. Covers Agent (abstract base) an
 **Type:** schema
 
 Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.
+
+### `cdif.bbr.metadata.schemaorgProperties.webAPI` — WebAPI properties
+
+**Type:** schema
+
+Schema defining properties for documenting a WebAPI used as a resource distribution option. Defines properties: @type, schema:serviceType, schema:termsOfService, schema:documentation, schema:potentialAction. Uses building blocks: cdifReference (cdifProperties), definedTerm (schemaorgProperties), action (schemaorgProperties).
 
 ### `cdif.bbr.metadata.xasProperties.xasFacility` — WebAPI properties
 
@@ -361,6 +361,12 @@ Variable that records values of multiple variables in the context of a data stru
 **Type:** schema
 
 Profile of ddi-cdi Key/PrimaryKey: a CDIF Key is the role of an ordered set of cdi:InstanceVariables (referenced via cdifInstanceVariable) that uniquely identify a data instance. Defines properties: @type, cdif:isComposedOf. Each cdif:ComponentPosition entry carries cdif:indexes (the InstanceVariable) and cdif:value (the integer position). Composes building block: cdifInstanceVariable (cdifProperties).
+
+### `cdif.bbr.metadata.cdifProperties.cdifStatistics` — CDIF Statistics
+
+**Type:** schema
+
+Profile of DDI-CDI Statistics, StatisticsCollection, Statistic, CategoryStatistics, and Category. A Statistics node bundles one or more Statistic value objects (mean, count, median, etc.) optionally weighted by an InstanceVariable and optionally broken down by Category via CategoryStatistics. A StatisticsCollection groups multiple Statistics nodes and records the InstanceVariables they index. Composes building block: cdifInstanceVariable (cdifProperties).
 
 ### `cdif.bbr.metadata.ddiProperties.ddicdiPhysicalMapping` — DDI-CDI Physical Mapping
 

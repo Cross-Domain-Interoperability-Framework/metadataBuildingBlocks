@@ -856,6 +856,26 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
 <https://example.org/dataset/oceanTemp2025> a schema1:Dataset ;
     schema1:dateModified "2025-09-01" ;
     schema1:distribution [ a cdi:PhysicalDataSet,
+                cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            cdi:characterSet "UTF-8" ;
+            schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Ocean temperature NetCDF cube" ;
+            cdif:fileSize 2.4e+02 ;
+            cdif:fileSizeUofM "MB" ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
+                    cdif:index 1 ;
+                    cdif:locator "/coordinates/depth" ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:nullSequence "NaN" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
+                    cdif:index 0 ;
+                    cdif:locator "/measurements/seaWaterTemperature" ;
+                    cdif:physicalDataType "float32" ] ],
+        [ a cdi:PhysicalDataSet,
                 cdi:TabularTextDataSet,
                 schema1:DataDownload ;
             cdi:characterSet "UTF-8" ;
@@ -884,6 +904,14 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
                     cdif:index 2 ;
                     cdif:physicalDataType "Numeric" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "String" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "Integer" ],
                 [ cdi:decimalPositions 1 ;
                     cdi:isRequired true ;
                     cdi:nullSequence "-999.9" ;
@@ -896,35 +924,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdi:length 20 ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
                     cdif:index 0 ;
-                    cdif:physicalDataType "String" ],
-                [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "String" ],
-                [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "Integer" ] ],
-        [ a cdi:PhysicalDataSet,
-                cdi:StructuredDataSet,
-                schema1:DataDownload ;
-            cdi:characterSet "UTF-8" ;
-            schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.nc" ;
-            schema1:encodingFormat "application/x-netcdf" ;
-            schema1:name "Ocean temperature NetCDF cube" ;
-            cdif:fileSize 2.4e+02 ;
-            cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
-                    cdif:index 1 ;
-                    cdif:locator "/coordinates/depth" ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:isRequired true ;
-                    cdi:nullSequence "NaN" ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
-                    cdif:index 0 ;
-                    cdif:locator "/measurements/seaWaterTemperature" ;
-                    cdif:physicalDataType "float32" ] ] ;
+                    cdif:physicalDataType "String" ] ] ;
     schema1:identifier "https://doi.org/10.1234/ocean-temp-2025" ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:name "Ocean Temperature Monitoring Data" ;
@@ -1158,59 +1158,49 @@ properties:
       drops the @type constraint at profile resolution); consider a SHACL rule if
       runtime enforcement is needed.'
     items:
-      properties:
-        cdif:hasPhysicalMapping:
-          type: array
-          description: Per-field physical mappings linking the variables measured
-            by this distribution to their physical representation in the file - column
-            index, format, physical data type, length, null sequence, etc. Applies
-            to schema:DataDownload items typed as cdi:PhysicalDataSet or one of its
-            subclasses. Each item is a cdifPhysicalMapping.
-          items:
-            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml
-        cdi:characterSet:
-          type: string
-          description: The character set used in the distribution (e.g., UTF-8, ASCII).
-        cdif:fileSize:
-          type: number
-          description: The size of the distribution file.
-        cdif:fileSizeUofM:
-          type: string
-          description: Unit of measure for the file size (e.g., bytes, KB, MB, GB).
-        schema:potentialAction:
-          description: For schema:WebAPI distributions, the potentialAction.result
-            describes the physical realization of the API response bytes - analogous
-            to a DataDownload distribution. The result MAY be additionally typed as
-            cdi:PhysicalDataSet or one of its subclasses, and MAY carry the same physical-realization
-            properties (cdif:hasPhysicalMapping, cdi:characterSet, cdif:fileSize,
-            cdif:fileSizeUofM) as a DataDownload distribution. cdi:PhysicalDataSet
-            typing belongs on the result, NOT on the WebAPI distribution itself -
-            the WebAPI distribution describes the service; the result describes the
-            bytes the service produces.
-          items:
-            properties:
-              schema:result:
+      allOf:
+      - if:
+          properties:
+            '@type':
+              contains:
+                const: schema:DataDownload
+        then:
+          properties:
+            cdif:hasPhysicalMapping:
+              type: array
+              description: Per-field physical mappings linking the variables measured
+                by this DataDownload distribution to their physical representation
+                in the file - column index, format, physical data type, length, null
+                sequence, etc. Each item is a cdifPhysicalMapping.
+              items:
+                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml
+            cdi:characterSet:
+              type: string
+              description: The character set used in the distribution (e.g., UTF-8,
+                ASCII).
+      - if:
+          properties:
+            '@type':
+              contains:
+                const: schema:WebAPI
+        then:
+          properties:
+            schema:potentialAction:
+              items:
                 properties:
-                  cdif:hasPhysicalMapping:
-                    type: array
-                    description: Per-field physical mappings for the API response
-                      bytes. cdif:formats_InstanceVariable should reference the @ids
-                      of variables in the parent dataset's schema:variableMeasured
-                      (the API response is another physical realization of those same
-                      InstanceVariables).
-                    items:
-                      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml
-                  cdi:characterSet:
-                    type: string
-                    description: The character set used in the API response (e.g.,
-                      UTF-8).
-                  cdif:fileSize:
-                    type: number
-                    description: The size of the API response payload.
-                  cdif:fileSizeUofM:
-                    type: string
-                    description: Unit of measure for the response size (e.g., bytes,
-                      KB, MB).
+                  schema:result:
+                    properties:
+                      cdif:hasPhysicalMapping:
+                        type: array
+                        description: Per-field physical mappings for the API response
+                          - the response is another physical realization of the dataset's
+                          variables. Each item is a cdifPhysicalMapping.
+                        items:
+                          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml
+                      cdi:characterSet:
+                        type: string
+                        description: The character set used in the API response (e.g.,
+                          UTF-8).
 required:
 - schema:variableMeasured
 

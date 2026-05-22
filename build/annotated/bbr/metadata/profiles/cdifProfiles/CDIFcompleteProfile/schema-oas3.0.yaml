@@ -534,61 +534,51 @@ x-defs:
           and cdifArchiveDistribution drops the @type constraint at profile resolution);
           consider a SHACL rule if runtime enforcement is needed.'
         items:
-          properties:
-            cdif:hasPhysicalMapping:
-              type: array
-              description: Per-field physical mappings linking the variables measured
-                by this distribution to their physical representation in the file
-                - column index, format, physical data type, length, null sequence,
-                etc. Applies to schema:DataDownload items typed as cdi:PhysicalDataSet
-                or one of its subclasses. Each item is a cdifPhysicalMapping.
-              items:
-                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping
-            cdi:characterSet:
-              type: string
-              description: The character set used in the distribution (e.g., UTF-8,
-                ASCII).
-            cdif:fileSize:
-              type: number
-              description: The size of the distribution file.
-            cdif:fileSizeUofM:
-              type: string
-              description: Unit of measure for the file size (e.g., bytes, KB, MB,
-                GB).
-            schema:potentialAction:
-              description: For schema:WebAPI distributions, the potentialAction.result
-                describes the physical realization of the API response bytes - analogous
-                to a DataDownload distribution. The result MAY be additionally typed
-                as cdi:PhysicalDataSet or one of its subclasses, and MAY carry the
-                same physical-realization properties (cdif:hasPhysicalMapping, cdi:characterSet,
-                cdif:fileSize, cdif:fileSizeUofM) as a DataDownload distribution.
-                cdi:PhysicalDataSet typing belongs on the result, NOT on the WebAPI
-                distribution itself - the WebAPI distribution describes the service;
-                the result describes the bytes the service produces.
-              items:
-                properties:
-                  schema:result:
+          allOf:
+          - if:
+              properties:
+                '@type':
+                  contains:
+                    enum:
+                    - schema:DataDownload
+            then:
+              properties:
+                cdif:hasPhysicalMapping:
+                  type: array
+                  description: Per-field physical mappings linking the variables measured
+                    by this DataDownload distribution to their physical representation
+                    in the file - column index, format, physical data type, length,
+                    null sequence, etc. Each item is a cdifPhysicalMapping.
+                  items:
+                    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping
+                cdi:characterSet:
+                  type: string
+                  description: The character set used in the distribution (e.g., UTF-8,
+                    ASCII).
+          - if:
+              properties:
+                '@type':
+                  contains:
+                    enum:
+                    - schema:WebAPI
+            then:
+              properties:
+                schema:potentialAction:
+                  items:
                     properties:
-                      cdif:hasPhysicalMapping:
-                        type: array
-                        description: Per-field physical mappings for the API response
-                          bytes. cdif:formats_InstanceVariable should reference the
-                          @ids of variables in the parent dataset's schema:variableMeasured
-                          (the API response is another physical realization of those
-                          same InstanceVariables).
-                        items:
-                          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping
-                      cdi:characterSet:
-                        type: string
-                        description: The character set used in the API response (e.g.,
-                          UTF-8).
-                      cdif:fileSize:
-                        type: number
-                        description: The size of the API response payload.
-                      cdif:fileSizeUofM:
-                        type: string
-                        description: Unit of measure for the response size (e.g.,
-                          bytes, KB, MB).
+                      schema:result:
+                        properties:
+                          cdif:hasPhysicalMapping:
+                            type: array
+                            description: Per-field physical mappings for the API response
+                              - the response is another physical realization of the
+                              dataset's variables. Each item is a cdifPhysicalMapping.
+                            items:
+                              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping
+                          cdi:characterSet:
+                            type: string
+                            description: The character set used in the API response
+                              (e.g., UTF-8).
     required:
     - schema:variableMeasured
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataDescription/schema.yaml
@@ -1231,6 +1221,11 @@ x-defs:
         items:
           type: string
         x-jsonld-id: http://schema.org/encodingFormat
+      schema:contentSize:
+        type: string
+        description: File size of this distribution, e.g. '2.5 MB' or a byte count.
+          Per schema.org/contentSize.
+        x-jsonld-id: http://schema.org/contentSize
       spdx:checksum:
         type: object
         description: A string value calculated from the content of the resource representation,
@@ -3311,30 +3306,13 @@ x-defs:
         - schema:urlTemplate
         x-jsonld-id: http://schema.org/target
       schema:result:
-        type: object
         description: specifies the serialization scheme (encoding format, information
-          model) for expected representation of the data. Documentation of the serialization
-          format for the API response.
-        properties:
-          '@type':
-            type: array
-            description: Type of result object. Typically schema:DataDownload, but
-              may include additional types.
-            items:
-              type: string
-            contains:
-              enum:
-              - schema:DataDownload
-            minItems: 1
-          schema:encodingFormat:
-            type: array
-            items:
-              type: string
-            x-jsonld-id: http://schema.org/encodingFormat
-          schema:description:
-            type: string
-            x-jsonld-id: http://schema.org/description
+          model) for the expected representation of the data - documentation of the
+          serialization format for the API response. See the actionResult building
+          block.
         x-jsonld-id: http://schema.org/result
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.actionResult
       schema:object:
         type: object
         description: The entity upon which the action is carried out, whose state
@@ -4077,6 +4055,55 @@ x-defs:
       schema: http://schema.org/
       nxs: http://purl.org/nexusformat/definitions/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.actionResult:
+    title: Action result
+    description: The result of a schema:Action invoked on a schema:WebAPI distribution
+      - documents the serialization/format of the data the service returns. Typed
+      as schema:DataDownload but, unlike a file distribution, an action result has
+      no contentUrl/contentSize because the response is generated per request (its
+      size depends on the request). Profiles may extend this result; e.g. the CDIF
+      Data Description profile adds cdif:hasPhysicalMapping and cdi:characterSet.
+    type: object
+    properties:
+      '@type':
+        type: array
+        description: Type of result object. Typically schema:DataDownload, but may
+          include additional types.
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:DataDownload
+        minItems: 1
+      schema:name:
+        type: string
+        description: text label for the result/response format.
+        x-jsonld-id: http://schema.org/name
+      schema:description:
+        type: string
+        description: description of the result/response representation.
+        x-jsonld-id: http://schema.org/description
+      schema:encodingFormat:
+        type: array
+        description: MIME type(s) of the response serialization.
+        items:
+          type: string
+        x-jsonld-id: http://schema.org/encodingFormat
+      dcterms:conformsTo:
+        type: array
+        description: identifier(s) for a standard or specification the response conforms
+          to.
+        items:
+          type: object
+          properties:
+            '@id':
+              type: string
+        x-jsonld-id: http://purl.org/dc/terms/conformsTo
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+      dcterms: http://purl.org/dc/terms/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/actionResult/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.cdifProperties.cdifCodelist:
     type: object

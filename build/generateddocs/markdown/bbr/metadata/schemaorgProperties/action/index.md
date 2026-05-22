@@ -641,28 +641,10 @@ properties:
     - schema:urlTemplate
     x-jsonld-id: http://schema.org/target
   schema:result:
-    type: object
     description: specifies the serialization scheme (encoding format, information
-      model) for expected representation of the data. Documentation of the serialization
-      format for the API response.
-    properties:
-      '@type':
-        type: array
-        description: Type of result object. Typically schema:DataDownload, but may
-          include additional types.
-        items:
-          type: string
-        contains:
-          const: schema:DataDownload
-        minItems: 1
-      schema:encodingFormat:
-        type: array
-        items:
-          type: string
-        x-jsonld-id: http://schema.org/encodingFormat
-      schema:description:
-        type: string
-        x-jsonld-id: http://schema.org/description
+      model) for the expected representation of the data - documentation of the serialization
+      format for the API response. See the actionResult building block.
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/actionResult/schema.yaml
     x-jsonld-id: http://schema.org/result
   schema:object:
     type: object
@@ -737,6 +719,7 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
     "@version": 1.1
   }
 }
