@@ -230,7 +230,7 @@ Building blocks that add properties to `schema:distribution` items must use part
 The `cdi:` prefix (`http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/`) is reserved for properties and classes defined in the canonical DDI-CDI 1.0 XMI model. The `cdif:` prefix (`https://cdif.org/0.1/`) is used for CDIF inventions, simplifications, or properties whose CDIF semantics diverge from the canonical XMI definition.
 
 Audit rule: if a property in a `cdifProperties/` BB carries the `cdi:` prefix, the values it accepts must be type-compatible with the corresponding `ddiProperties/` definition. If CDIF needs to allow a value shape the XMI doesn't sanction (e.g. literal vs node, or a different target class), rename the property to `cdif:` so the divergence is namespace-visible. Run `tools/audit_cdif_vs_ddi.py` to check. Recent renames driven by this audit (May 2026):
-- `cdi:fileSize` → `cdif:fileSize`, `cdi:fileSizeUofM` → `cdif:fileSizeUofM` (file metadata; not in XMI)
+- `cdi:fileSize` → `cdif:fileSize`, `cdi:fileSizeUofM` → `cdif:fileSizeUofM` (file metadata; not in XMI) — **later removed entirely** (May 2026): file size on a file distribution is `schema:contentSize` (now in the `dataDownload` BB); an action result has no fixed size.
 - `cdi:role` → `cdif:role` (role-on-InstanceVariable; CDIF-only simplification)
 - `cdi:content` retained inside `cdi:LanguageString` / `cdi:LabelForDisplay` (canonical use); migrated to `cdif:content` only outside those structured-string contexts
 - `cdi:statistics` → `cdif:statistics`, `cdi:appliesTo` → `cdif:appliesTo`, `cdi:indexedBy` → `cdif:indexedBy` (CDIF additions, not in the canonical model)
@@ -271,10 +271,37 @@ The bare-`cdi:PhysicalDataSet` case is the "structure reuse" pattern: a dataset 
 
 ### WebAPI `schema:potentialAction.schema:result` physical realization
 
-For `schema:WebAPI` distributions, the physical realization metadata lives on the action's result (the bytes the API serves), not on the distribution itself (which describes the service). At both Data Description and Data Structure profile levels, `schema:distribution.items.schema:potentialAction.items.schema:result` MAY additionally be typed `cdi:PhysicalDataSet` / `cdi:TabularTextDataSet` / `cdi:StructuredDataSet` and carry:
+A `schema:WebAPI` distribution describes the *service*; the bytes it serves are
+described by the action **result**, so physical-realization metadata lives on
+`schema:distribution.items.schema:potentialAction.items.schema:result`, not on the
+WebAPI distribution itself.
 
-- Data Description: `cdi:characterSet`, `cdif:fileSize`, `cdif:fileSizeUofM`, `cdif:hasPhysicalMapping` (whose `cdif:formats_InstanceVariable` references the **parent dataset's** `schema:variableMeasured` `@id`s — the API response is another physical realization of the same conceptual variables; do not redeclare InstanceVariables on the result).
-- Data Structure: `cdi:isStructuredBy`. MAY differ from sibling DataDownload distributions' `cdi:isStructuredBy` (e.g., the API may serve a long-format variant of a wide-format file download).
+- **`potentialAction` is WebAPI-only.** It comes from the `webAPI` BB (on the
+  `WebAPI` branch of cdifCore's `distribution.items.anyOf`). Do **not** add
+  `potentialAction` at `distribution.items` level — that wrongly applies it to
+  `DataDownload` too and duplicates the result.
+- **The result base type is its own BB:** `schemaorgProperties/actionResult`
+  (`@type` contains `schema:DataDownload`, `schema:name`, `schema:description`,
+  `schema:encodingFormat`, `dcterms:conformsTo`). The `action` BB's `schema:result`
+  `$ref`s it. Unlike a file `DataDownload`, the result has **no** `schema:contentUrl`
+  / `schema:contentSize` — the response is generated per request, so its size
+  depends on the request. (`cdif:fileSize` / `cdif:fileSizeUofM` were **removed**;
+  file size on a file distribution is `schema:contentSize`.)
+- **Data Description** adds the per-profile physical props to the result via an
+  `if @type contains schema:WebAPI` branch in `cdifDataDescription`'s
+  `schema:distribution.items.allOf` (a sibling `if @type contains
+  schema:DataDownload` branch adds the same props at the DataDownload top level):
+  `cdi:characterSet`, `cdif:hasPhysicalMapping` (whose `cdif:formats_InstanceVariable`
+  references the **parent dataset's** `schema:variableMeasured` `@id`s — the API
+  response is another physical realization of the same conceptual variables; do not
+  redeclare InstanceVariables on the result). These props are scoped to the Data
+  Description profile — they do **not** appear in Core or Discovery. (This BB-level
+  `items.allOf` `if/then` survives composition — verified in the BB's resolvedSchema
+  — because the profile composes it as a separate `allOf` member; contrast the Data
+  Structure profile, which inlines its distribution `if/then` in the profile schema.)
+- **Data Structure** result: `cdi:isStructuredBy`. MAY differ from sibling
+  DataDownload distributions' `cdi:isStructuredBy` (e.g., the API may serve a
+  long-format variant of a wide-format file download).
 
 The same SHACL rules that target `cdi:TabularTextDataSet` / `cdi:StructuredDataSet` / `cdif:hasPhysicalMapping` apply unchanged because their targets are class-based or path-agnostic.
 
