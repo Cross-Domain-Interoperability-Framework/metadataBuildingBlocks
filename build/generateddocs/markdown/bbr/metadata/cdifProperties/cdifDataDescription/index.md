@@ -856,26 +856,6 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
 <https://example.org/dataset/oceanTemp2025> a schema1:Dataset ;
     schema1:dateModified "2025-09-01" ;
     schema1:distribution [ a cdi:PhysicalDataSet,
-                cdi:StructuredDataSet,
-                schema1:DataDownload ;
-            cdi:characterSet "UTF-8" ;
-            schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.nc" ;
-            schema1:encodingFormat "application/x-netcdf" ;
-            schema1:name "Ocean temperature NetCDF cube" ;
-            cdif:fileSize 2.4e+02 ;
-            cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:nullSequence "NaN" ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
-                    cdif:index 0 ;
-                    cdif:locator "/measurements/seaWaterTemperature" ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:isRequired true ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
-                    cdif:index 1 ;
-                    cdif:locator "/coordinates/depth" ;
-                    cdif:physicalDataType "float32" ] ],
-        [ a cdi:PhysicalDataSet,
                 cdi:TabularTextDataSet,
                 schema1:DataDownload ;
             cdi:characterSet "UTF-8" ;
@@ -894,6 +874,10 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
             cdif:fileSize 1.2e+00 ;
             cdif:fileSizeUofM "MB" ;
             cdif:hasPhysicalMapping [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "String" ],
+                [ cdi:isRequired false ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
                     cdif:index 3 ;
                     cdif:physicalDataType "Integer" ],
@@ -905,11 +889,6 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
                     cdif:index 1 ;
                     cdif:physicalDataType "Numeric" ],
-                [ cdi:isRequired true ;
-                    cdi:length 20 ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "String" ],
                 [ cdi:decimalPositions 2 ;
                     cdi:defaultValue "NaN" ;
                     cdi:isRequired false ;
@@ -921,10 +900,31 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
                     cdif:index 2 ;
                     cdif:physicalDataType "Numeric" ],
-                [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "String" ] ] ;
+                [ cdi:isRequired true ;
+                    cdi:length 20 ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "String" ] ],
+        [ a cdi:PhysicalDataSet,
+                cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            cdi:characterSet "UTF-8" ;
+            schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Ocean temperature NetCDF cube" ;
+            cdif:fileSize 2.4e+02 ;
+            cdif:fileSizeUofM "MB" ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
+                    cdif:index 1 ;
+                    cdif:locator "/coordinates/depth" ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:nullSequence "NaN" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
+                    cdif:index 0 ;
+                    cdif:locator "/measurements/seaWaterTemperature" ;
+                    cdif:physicalDataType "float32" ] ] ;
     schema1:identifier "https://doi.org/10.1234/ocean-temp-2025" ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:name "Ocean Temperature Monitoring Data" ;
