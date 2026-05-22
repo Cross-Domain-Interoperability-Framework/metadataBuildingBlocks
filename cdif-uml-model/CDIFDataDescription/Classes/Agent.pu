@@ -19,13 +19,13 @@ Agent <|-- Person
 class "Organization" as Organization #D5F5E3
 Agent <|-- Organization
 class "Dataset" as Dataset #EEEEEE
-Dataset "0..*" <-- Agent : maintainer
-Dataset "0..*" <-- Agent : provider
-Dataset "0..*" <-- Agent : creator
-Dataset "0..1" <-- Agent : publisher
+Dataset --> "0..*" Agent : maintainer
+Dataset --> "0..*" Agent : provider
+Dataset --> "0..*" Agent : creator
+Dataset --> "0..1" Agent : publisher
 class "Contributor" as Contributor #EEEEEE
-Contributor "0..1" <-- Agent : agent
+Contributor --> "0..1" Agent : agent
 class "MonetaryGrant" as MonetaryGrant #EEEEEE
-MonetaryGrant "0..*" <-- Agent : funder
+MonetaryGrant --> "0..*" Agent : funder
 
 @enduml

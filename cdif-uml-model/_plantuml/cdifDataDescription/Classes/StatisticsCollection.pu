@@ -14,12 +14,12 @@ class "StatisticsCollection" as StatisticsCollection #FEFECE {
   +identifier : Identifier [0..1]
 }
 class "InstanceVariable" as InstanceVariable #EEEEEE
-InstanceVariable "0..1" <-- StatisticsCollection : isDescribedBy
+InstanceVariable --> "0..1" StatisticsCollection : isDescribedBy
 class "Statistics" as Statistics #EEEEEE
 StatisticsCollection --> "1..*" Statistics : has
 StatisticsCollection --> "1..*" InstanceVariable : indexedBy
 StatisticsCollection --> "0..1" InstanceVariable : hasWeight
 class "Dataset" as Dataset #EEEEEE
-Dataset "0..*" <-- StatisticsCollection : statistics
+Dataset --> "0..*" StatisticsCollection : statistics
 
 @enduml

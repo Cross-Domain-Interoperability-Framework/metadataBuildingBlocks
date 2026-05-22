@@ -3093,12 +3093,16 @@ def _emit_class_diagram(cls: UmlClass, closure: UmlClosure, model: Model,
         if other is None:
             continue
         alias = add_related(other, "context")
-        arrow = _aggregation_arrow(agg, direction)
+        # Always render source --> target (forward arrow), matching the overview,
+        # so the arrowhead lands on the association target. For an incoming
+        # association the main class IS the target, so the other (source) class
+        # goes on the left; the multiplicity stays at the target end.
+        arrow = _aggregation_arrow(agg, "out")
         mult = _puml_multiplicity(lo, up)
         if direction == "out":
             lines.append(f'{main_alias} {arrow} "{mult}" {alias} : {role}')
         else:
-            lines.append(f'{alias} "{mult}" {arrow} {main_alias} : {role}')
+            lines.append(f'{alias} {arrow} "{mult}" {main_alias} : {role}')
 
     # Referenced datatypes/enumerations on attributes (not already added)
     for p in cls.properties:
