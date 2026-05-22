@@ -3081,6 +3081,7 @@ def _emit_class_diagram(cls: UmlClass, closure: UmlClosure, model: Model,
             lines.append(f"{main_alias} <|-- {alias}")
 
     # Associations
+    assoc_edges: set[tuple[str, str]] = set()  # (other_id, role) already drawn
     for assoc in _associations_for(cls, closure):
         _pid, src_id, tgt_id, role, lo, up, agg = assoc
         if src_id == cls.id:
@@ -3092,6 +3093,7 @@ def _emit_class_diagram(cls: UmlClass, closure: UmlClosure, model: Model,
         other = model.elements.get(other_id)
         if other is None:
             continue
+        assoc_edges.add((other_id, role))
         alias = add_related(other, "context")
         # Always render source --> target (forward arrow), matching the overview,
         # so the arrowhead lands on the association target. For an incoming
@@ -3104,17 +3106,30 @@ def _emit_class_diagram(cls: UmlClass, closure: UmlClosure, model: Model,
         else:
             lines.append(f'{alias} {arrow} "{mult}" {main_alias} : {role}')
 
-    # Referenced datatypes/enumerations on attributes (not already added)
+    # Referenced types on attributes. A class-typed attribute (e.g. the union
+    # types DefinedTerm/Identifier/Reference/AdditionalProperty) is drawn as an
+    # association so the class shows as a linked box; datatypes/enumerations are
+    # drawn as a ..> dependency. One edge per attribute (the box is de-duped by
+    # add_related), so multiple attributes of the same class each get a link.
     for p in cls.properties:
         if p.is_assoc_end or not p.type_id:
             continue
         target = model.elements.get(p.type_id)
-        if target is None or target.kind == "class":
+        if target is None:
             continue
-        if target.id in related_aliases:
-            continue
-        alias = add_related(target, "context")
-        lines.append(f"{main_alias} ..> {alias} : {p.name}")
+        if target.kind == "class":
+            # Skip if this class+role is already drawn as a real association
+            # (a property can be merged in as both an assoc-end and an attribute).
+            if (target.id, p.name) in assoc_edges:
+                continue
+            alias = add_related(target, "context")
+            mult = _puml_multiplicity(p.lower, p.upper)
+            lines.append(f'{main_alias} --> "{mult}" {alias} : {p.name}')
+        else:
+            if target.id in related_aliases:
+                continue
+            alias = add_related(target, "context")
+            lines.append(f"{main_alias} ..> {alias} : {p.name}")
 
     lines.append("")
     lines.append("@enduml")
@@ -3272,6 +3287,10 @@ h2 { font-size: 1.2rem; color: #2c3e50; border-bottom: 1px solid #ddd;
      padding-bottom: 0.3rem; margin-top: 2rem; }
 .definition { font-size: 1.05rem; line-height: 1.5; color: #444;
               background: white; padding: 1rem; border-left: 3px solid #2c3e50; }
+.union-note { font-size: 0.95rem; line-height: 1.5; color: #5a4a1a;
+              background: #fdf6e3; padding: 0.8rem 1rem; margin-top: 0.6rem;
+              border-left: 3px solid #d4a017; }
+.union-note code { background: #f3e9c9; padding: 0 0.2rem; border-radius: 2px; }
 table { width: 100%; border-collapse: collapse; background: white;
         box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
 th, td { padding: 0.6rem 0.8rem; text-align: left;
@@ -3744,6 +3763,26 @@ def _html_inheritance(cls: UmlClass, closure: UmlClosure,
     return "\n".join(parts)
 
 
+# Classes that JSON-shape unions reduce to (see ucmism2m union-type policy /
+# retype_to_union_canonical.py). On their detail page we note that a plain
+# string and/or an @id object reference may be substituted for the full object
+# in a JSON instance.
+_UNION_SUBSTITUTION_NOTES = {
+    "DefinedTerm": ("In a JSON instance, a property typed as <code>DefinedTerm</code> may also be "
+                    "supplied as a plain string (the term's label) or as an object reference "
+                    "(<code>{\"@id\": ...}</code>) instead of a full schema:DefinedTerm object."),
+    "Identifier": ("In a JSON instance, a property typed as <code>Identifier</code> may also be "
+                   "supplied as a plain string (the bare identifier value) or as an object reference "
+                   "(<code>{\"@id\": ...}</code>) instead of a full schema:PropertyValue object."),
+    "Reference": ("In a JSON instance, a property typed as <code>Reference</code> may also be "
+                  "supplied as a plain string (a URL) or as an object reference "
+                  "(<code>{\"@id\": ...}</code>) instead of a full cdif:Reference object."),
+    "AdditionalProperty": ("In a JSON instance, a property typed as <code>AdditionalProperty</code> may also "
+                           "be supplied as an object reference (<code>{\"@id\": ...}</code>); a plain string "
+                           "is not sufficient because both the property name and its value are required."),
+}
+
+
 def _html_class_page(cls: UmlClass, closure: UmlClosure, model: Model,
                      profile_name: str, profile_dir: Path,
                      puml_dir: Optional[Path],
@@ -3786,6 +3825,10 @@ def _html_class_page(cls: UmlClass, closure: UmlClosure, model: Model,
     definition_html = (f'<div class="definition">{_html_escape(clean_definition(cls.doc) or "")}</div>'
                        if cls.doc else '<p class="empty">No definition.</p>')
 
+    union_sub = _UNION_SUBSTITUTION_NOTES.get(cls.name)
+    union_note_html = (f'<div class="union-note"><strong>JSON serialization:</strong> {union_sub}</div>'
+                       if union_sub else "")
+
     if cls.kind == "enumeration":
         body_extra = "<h2>Literals</h2>"
         if cls.literals:
@@ -3807,6 +3850,7 @@ def _html_class_page(cls: UmlClass, closure: UmlClosure, model: Model,
         f'<h1 class="classname">{_html_escape(cls.name)}{stereotype}</h1>'
         f'<p class="fqn">{_html_escape(profile_name)}::{folder}::{_html_escape(cls.name)}</p>'
         f'<h2>Definition</h2>{definition_html}'
+        f'{union_note_html}'
         f'<h2>Diagram</h2>{diagram_html or "<p class=\"empty\">No diagram available.</p>"}'
         f'{body_extra}'
     )
