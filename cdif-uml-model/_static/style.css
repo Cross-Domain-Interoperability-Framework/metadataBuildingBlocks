@@ -28,9 +28,30 @@ td.mult { font-family: monospace; color: #999; white-space: nowrap; }
 td.doc { color: #555; font-size: 0.95rem; }
 a.classlink { color: #06c; text-decoration: none; }
 a.classlink:hover { text-decoration: underline; }
-.diagram { background: white; padding: 1rem; text-align: center;
-           overflow-x: auto; border: 1px solid #eee; }
-.diagram object, .diagram img { max-width: 100%; }
+.diagram { background: white; border: 1px solid #eee; position: relative; }
+.diagram-viewport { overflow: auto; }
+.diagram-stage { text-align: center; padding: 1rem; }
+.diagram-stage object, .diagram-stage img, .diagram-stage svg { max-width: 100%; }
+.diagram.is-interactive .diagram-viewport { height: 70vh; min-height: 320px;
+    overflow: hidden; background: #fff; cursor: grab; touch-action: none; }
+.diagram.is-interactive .diagram-viewport.grabbing { cursor: grabbing; }
+.diagram.is-interactive .diagram-stage { position: absolute; top: 0; left: 0;
+    padding: 0; transform-origin: 0 0; will-change: transform; }
+.diagram.is-interactive .diagram-stage object,
+.diagram.is-interactive .diagram-stage svg { max-width: none; display: block;
+    pointer-events: none; }
+.diagram-toolbar { position: absolute; top: 8px; right: 8px; display: flex;
+    gap: 4px; z-index: 5; }
+.diagram-toolbar button { font: 600 13px/1 -apple-system, "Segoe UI", sans-serif;
+    color: #fff; background: #2c3e50; border: none; border-radius: 4px;
+    padding: 6px 9px; cursor: pointer; opacity: 0.85;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+.diagram-toolbar button:hover { opacity: 1; }
+.diagram-toast { position: absolute; bottom: 8px; right: 8px;
+    background: rgba(44,62,80,0.92); color: #fff; padding: 6px 10px;
+    border-radius: 4px; font-size: 12px; opacity: 0; transition: opacity 0.2s;
+    pointer-events: none; z-index: 6; }
+.diagram-toast.show { opacity: 1; }
 .diagram pre { text-align: left; background: #f8f8f8; padding: 1rem;
                overflow-x: auto; font-size: 0.85rem; }
 .empty { color: #999; font-style: italic; }
