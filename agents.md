@@ -625,28 +625,34 @@ python tools/augment_register.py
 
 ## deploy-viewer.yml Workflow
 
-The OGC postprocessor's reusable workflow deploys GitHub Pages with the upstream `ogcincubator/bblocks-viewer` and generates `config.js` in-memory (never committed). This means the deployed site uses the upstream viewer (which lacks the "Resolved (JSON)" button) and `register.json` without `resolvedSchema` URLs.
+`process-bblocks.yml` (the "Validate and process Building Blocks" workflow) calls the OGC postprocessor reusable workflow with **`skip-pages: true`**, so the postprocessor validates, builds `build/`, and commits artifacts but does **not** deploy GitHub Pages. **`deploy-viewer.yml` is the sole Pages deployer.** (Previously both deployed Pages, which caused a ~30s window on every push where the custom pages — `bblocks-viewer.html`, the landing — 404'd, plus a cross-workflow Pages-deployment race; `skip-pages` removes both.)
 
-`deploy-viewer.yml` re-deploys Pages after the postprocessor, fixing both issues:
+`deploy-viewer.yml` builds and deploys the entire site:
 
 1. **Runs `augment_register.py`** — injects `resolvedSchema` URLs into `build/register.json`
-2. **Generates `config.js`** — points `window.bblocksRegister` to the local register and sets `baseUrl` for SPA routing
-3. **Generates `index.html`** — loads JS/CSS assets from `smrgeoinfo.github.io/bblocks-viewer/` (the fork) instead of the upstream viewer
+2. **Runs `tools/generate_custom_report.py`** — granular SHACL-severity `report.html`
+3. **Generates `config.js`** — points `window.bblocksRegister` at the local register and sets `baseUrl: '/metadataBuildingBlocks/viewer/'` (the SPA router base)
+4. **Generates `viewer/index.html`** — the SPA loader, loading JS/CSS assets from the CDIF-org fork `cross-domain-interoperability-framework.github.io/bblocks-viewer/`. Served at the **directory** path `/viewer/` so the Vue router base resolves to `/` (home). Carries a deep-link *restore* snippet.
+5. **Generates `index.html`** — the custom landing page (two cards: JSON Schema viewer + UML model browser); copied to `404.html`, which carries a deep-link *redirect* snippet.
+6. **Generates `bblocks-viewer.html`** — a redirect stub to `viewer/` so the pre-move URL still resolves.
+
+**SPA deep links** (spa-github-pages technique): GitHub Pages serves the site `404.html` (the landing) for unknown paths, so a direct `/viewer/<route>` URL would never boot the SPA on its own. `404.html` redirects `/viewer/<route>` → `/viewer/?/<route>`; `viewer/index.html` rebuilds the route via `history.replaceState` before the app boots. Non-viewer 404s still render the landing.
 
 **Trigger:** Runs after "Validate and process Building Blocks" completes successfully, or via `workflow_dispatch`.
 
 **Workflow chain on push:**
 ```
-push → "Validate and process Building Blocks" (OGC postprocessor)
-         ├──→ "Generate JSON Forms schemas" (convert + augment + commit)
-         └──→ "Deploy custom bblocks-viewer" (augment + config.js + index.html → Pages)
+push → "Validate and process Building Blocks" (postprocessor, skip-pages: true — no Pages deploy)
+         ├──→ "Generate JSON Forms schemas" (convert + augment + commit build/)
+         └──→ "Deploy custom bblocks-viewer" (sole Pages deployer: augment + report + config.js
+                + viewer/index.html + index.html/404.html + bblocks-viewer.html → Pages)
 ```
 
 **Custom validation report:** After augmenting the register, the workflow runs `tools/generate_custom_report.py` to replace the bblocks-postprocess `report.html` with a version that shows granular validation labels instead of binary PASS/FAIL. See [generate_custom_report.py](#generate_custom_reportpy) below for details.
 
 **Key detail:** Both `generate-jsonforms` and `deploy-viewer` run `augment_register.py` independently. `generate-jsonforms` commits the augmented `register.json` to the repo (for future runs). `deploy-viewer` augments the checked-out copy before uploading to Pages (because it can't wait for the other workflow's commit).
 
-**bblocks-viewer fork:** `smrgeoinfo/bblocks-viewer` (forked from `ogcincubator/bblocks-viewer`). The fork's `gh-deploy.yml` workflow builds the Vue app and deploys to `smrgeoinfo.github.io/bblocks-viewer/`. The fork adds the "Resolved (JSON)" button to `JsonSchemaViewer.vue` and `resolvedSchema` to `COPY_PROPERTIES` in `bblock.service.js`.
+**bblocks-viewer fork:** `Cross-Domain-Interoperability-Framework/bblocks-viewer` (forked from `smrgeoinfo/bblocks-viewer`, itself forked from upstream `ogcincubator/bblocks-viewer`). Its `gh-deploy.yml` builds the Vue app (`yarn build --base=https://<org>.github.io/<repo>/`) and deploys to `cross-domain-interoperability-framework.github.io/bblocks-viewer/`. The fork adds the "Resolved (JSON)" button to `JsonSchemaViewer.vue` and `resolvedSchema` to `COPY_PROPERTIES` in `bblock.service.js` — upstreamed via `ogcincubator/bblocks-viewer` PR #6.
 
 ## generate_custom_report.py
 
