@@ -12,13 +12,16 @@ skinparam class {
 
 class "WebAPI" as WebAPI #FEFECE {
   +documentation : Reference [0..1]
-  +url : XsdAnyUri [1]
   +termsOfService : Reference [0..1]
   +serviceType : string [0..1]
+  +potentialAction : XsdAnyUri [0..*]
 }
 abstract class "AbstractDistribution" as AbstractDistribution #D6EAF8
 AbstractDistribution <|-- WebAPI
+class "Reference" as Reference #EEEEEE
+WebAPI --> "0..1" Reference : documentation
+WebAPI --> "0..1" Reference : termsOfService
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
-WebAPI ..> XsdAnyUri : url
+WebAPI ..> XsdAnyUri : potentialAction
 
 @enduml

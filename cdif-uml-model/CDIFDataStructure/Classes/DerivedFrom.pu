@@ -11,10 +11,17 @@ skinparam class {
 }
 
 class "DerivedFrom" as DerivedFrom #FEFECE {
-  +identifier : Identifier [1]
   +name : string [0..1]
+  +description : string [0..1]
+  +url : XsdAnyUri [0..1]
+  +relation : XsdAnyUri [0..1]
+  +hadRole : DefinedTerm [0..1]
 }
 class "Dataset" as Dataset #EEEEEE
 Dataset --> "0..*" DerivedFrom : wasDerivedFrom
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+DerivedFrom ..> XsdAnyUri : url
+class "DefinedTerm" as DefinedTerm #EEEEEE
+DerivedFrom --> "0..1" DefinedTerm : hadRole
 
 @enduml

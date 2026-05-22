@@ -16,6 +16,7 @@ class "DataDownload" as DataDownload #FEFECE
 class "WebAPI" as WebAPI #FEFECE
 abstract class "Agent" as Agent #FEFECE
 class "Person" as Person #FEFECE
+class "ContactPoint" as ContactPoint #FEFECE
 class "Organization" as Organization #FEFECE
 class "Contributor" as Contributor #FEFECE
 class "DefinedTerm" as DefinedTerm #FEFECE
@@ -30,7 +31,6 @@ AbstractDistribution <|-- DataDownload
 AbstractDistribution <|-- WebAPI
 Agent <|-- Person
 Agent <|-- Organization
-Dataset --> "0..*" Agent : maintainer
 Dataset --> "0..*" Agent : provider
 Dataset --> "0..*" AbstractDistribution : distribution
 Dataset --> "0..*" Agent : creator
@@ -42,8 +42,10 @@ Dataset --> "0..*" DerivedFrom : wasDerivedFrom
 Dataset --> "1" CatalogRecord : subjectOf
 Dataset --> "0..*" DefinedTerm : keywords
 Dataset --> "0..*" Reference : license
-Contributor --> "0..1" Agent : agent
+DataDownload --> "0..*" Agent : provider
+Contributor --> "0..1" Agent : contributor
 MonetaryGrant --> "0..*" Agent : funder
 CatalogRecord --> "0..1" Dataset : about
+CatalogRecord --> "0..1" Agent : maintainer
 
 @enduml

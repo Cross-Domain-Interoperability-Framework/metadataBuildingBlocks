@@ -12,14 +12,12 @@ skinparam class {
 
 class "Contributor" as Contributor #FEFECE {
   +roleName : DefinedTerm [1]
-  +startDate : XsdDate [0..1]
-  +endDate : XsdDate [0..1]
 }
 class "Dataset" as Dataset #EEEEEE
 Dataset --> "0..*" Contributor : contributor
 abstract class "Agent" as Agent #EEEEEE
-Contributor --> "0..1" Agent : agent
-class "XsdDate" as XsdDate <<dataType>> #FAE5D3
-Contributor ..> XsdDate : startDate
+Contributor --> "0..1" Agent : contributor
+class "DefinedTerm" as DefinedTerm #EEEEEE
+Contributor --> "1" DefinedTerm : roleName
 
 @enduml

@@ -12,13 +12,18 @@ skinparam class {
 
 class "QualityMeasurement" as QualityMeasurement #FEFECE {
   +identifier : Identifier [0..1]
-  +isMeasurementOf : XsdAnyUri [1]
-  +value : string [1]
+  +isMeasurementOf : DefinedTerm [1]
+  +value : DefinedTerm [1]
   +unit : XsdAnyUri [0..1]
 }
 class "Dataset" as Dataset #EEEEEE
 Dataset --> "0..*" QualityMeasurement : hasQualityMeasurement
+class "Identifier" as Identifier #EEEEEE
+QualityMeasurement --> "0..1" Identifier : identifier
+class "DefinedTerm" as DefinedTerm #EEEEEE
+QualityMeasurement --> "1" DefinedTerm : isMeasurementOf
+QualityMeasurement --> "1" DefinedTerm : value
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
-QualityMeasurement ..> XsdAnyUri : isMeasurementOf
+QualityMeasurement ..> XsdAnyUri : unit
 
 @enduml

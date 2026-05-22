@@ -42,6 +42,7 @@ abstract class "AbstractDistribution" as AbstractDistribution #FEFECE
 class "WebAPI" as WebAPI #FEFECE
 abstract class "Agent" as Agent #FEFECE
 class "Person" as Person #FEFECE
+class "ContactPoint" as ContactPoint #FEFECE
 class "Organization" as Organization #FEFECE
 class "Contributor" as Contributor #FEFECE
 class "AdditionalProperty" as AdditionalProperty #FEFECE
@@ -64,6 +65,7 @@ InstanceVariable --> "0..1" SubstantiveValueDomain : takesSubstantiveValuesFrom
 InstanceVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
 VariableMeasured --> "0..1" InstanceVariable : describes
 DataDownload --> "0..*" PhysicalMapping : hasPhysicalMapping
+DataDownload --> "0..*" Agent : provider
 PrimaryKey --> "1..*" PrimaryKeyComponent : isComposedOf
 Statistics --> "1..*" InstanceVariable : appliesTo
 Statistics --> "0..1" InstanceVariable : hasWeight
@@ -83,7 +85,6 @@ Dataset --> "0..*" StatisticsCollection : statistics
 Dataset --> "0..*" SpatialExtent : spatialCoverage
 Dataset --> "0..*" TemporalExtent : temporalCoverage
 Dataset --> "0..*" QualityMeasurement : hasQualityMeasurement
-Dataset --> "0..*" Agent : maintainer
 Dataset --> "0..*" Agent : provider
 Dataset --> "0..*" AbstractDistribution : distribution
 Dataset --> "0..*" Agent : creator
@@ -100,8 +101,9 @@ SpatialExtent --> "0..1" Geometry : hasGeometry
 TemporalExtent --> "0..1" Instant : hasBeginning
 TemporalExtent --> "0..1" Instant : hasEnd
 Instant --> "0..1" TimePosition : inTimePosition
-Contributor --> "0..1" Agent : agent
+Contributor --> "0..1" Agent : contributor
 MonetaryGrant --> "0..*" Agent : funder
 CatalogRecord --> "0..1" Dataset : about
+CatalogRecord --> "0..1" Agent : maintainer
 
 @enduml

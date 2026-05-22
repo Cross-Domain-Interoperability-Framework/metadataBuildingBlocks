@@ -23,7 +23,13 @@ class "VariableMeasured" as VariableMeasured #FEFECE {
 }
 class "Dataset" as Dataset #EEEEEE
 Dataset --> "0..*" VariableMeasured : variableMeasured
+class "Identifier" as Identifier #EEEEEE
+VariableMeasured --> "0..1" Identifier : identifier
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
 VariableMeasured ..> XsdAnyUri : propertyId
+class "DefinedTerm" as DefinedTerm #EEEEEE
+VariableMeasured --> "0..1" DefinedTerm : unitCode
+class "Concept" as Concept #EEEEEE
+VariableMeasured --> "0..1" Concept : describedUnitOfMeasure
 
 @enduml

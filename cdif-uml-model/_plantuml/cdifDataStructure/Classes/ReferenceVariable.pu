@@ -29,5 +29,18 @@ class "ReferenceVariable" as ReferenceVariable #FEFECE {
 }
 class "VariableValueComponent" as VariableValueComponent #EEEEEE
 VariableValueComponent --> "1" ReferenceVariable : isDefinedBy
+class "Concept" as Concept #EEEEEE
+ReferenceVariable --> "1..*" Concept : function
+ReferenceVariable --> "1" Concept : physicalDataType
+ReferenceVariable --> "1" Concept : platformType
+ReferenceVariable --> "1..*" Concept : role
+class "Reference" as Reference #EEEEEE
+ReferenceVariable --> "1" Reference : source
+ReferenceVariable --> "1" Concept : describedUnitOfMeasure
+ReferenceVariable --> "1" Concept : hasIntendedDataType
+ReferenceVariable --> "1" Concept : unitOfMeasureKind
+ReferenceVariable --> "1" Reference : externalDefinition
+class "Identifier" as Identifier #EEEEEE
+ReferenceVariable --> "1" Identifier : identifier
 
 @enduml

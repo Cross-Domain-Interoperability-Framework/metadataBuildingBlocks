@@ -27,7 +27,14 @@ abstract class "AbstractVariable" as AbstractVariable #D6EAF8
 AbstractVariable <|-- VariableMeasured
 class "InstanceVariable" as InstanceVariable #EEEEEE
 VariableMeasured --> "0..1" InstanceVariable : describes
+class "Identifier" as Identifier #EEEEEE
+VariableMeasured --> "0..1" Identifier : identifier
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
 VariableMeasured ..> XsdAnyUri : propertyId
+class "DefinedTerm" as DefinedTerm #EEEEEE
+VariableMeasured --> "0..1" DefinedTerm : unitCode
+class "Concept" as Concept #EEEEEE
+VariableMeasured --> "1" Concept : physicalDataType
+VariableMeasured --> "0..1" Concept : describedUnitOfMeasure
 
 @enduml

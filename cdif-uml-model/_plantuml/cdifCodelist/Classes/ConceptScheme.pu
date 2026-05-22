@@ -33,9 +33,14 @@ class "ConceptScheme" as ConceptScheme #FEFECE {
 class "Concept" as Concept #EEEEEE
 ConceptScheme --> "1..*" Concept : hasTopConcept
 Concept --> "1..*" ConceptScheme : inScheme
+class "Identifier" as Identifier #EEEEEE
+ConceptScheme --> "1" Identifier : identifier
 class "XsdDate" as XsdDate <<dataType>> #FAE5D3
 ConceptScheme ..> XsdDate : dateModified
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
 ConceptScheme ..> XsdAnyUri : url
+class "Reference" as Reference #EEEEEE
+ConceptScheme --> "0..*" Reference : license
+ConceptScheme --> "0..*" Reference : conditionsOfAccess
 
 @enduml

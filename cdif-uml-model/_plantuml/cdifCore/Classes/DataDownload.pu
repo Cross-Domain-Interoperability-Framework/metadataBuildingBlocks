@@ -12,20 +12,18 @@ skinparam class {
 
 class "DataDownload" as DataDownload #FEFECE {
   +contentUrl : XsdAnyUri [0..1]
-  +url : XsdAnyUri [0..1]
   +encodingFormat : DefinedTerm [0..*]
   +contentSize : string [0..1]
-  +dateModified : XsdDate [0..1]
-  +datePublished : XsdDate [0..1]
-  +license : Reference [0..*]
-  +conditionsOfAccess : Reference [0..*]
   +checksum : string [0..*]
+  +conformsTo : XsdAnyUri [0..*]
 }
 abstract class "AbstractDistribution" as AbstractDistribution #D6EAF8
 AbstractDistribution <|-- DataDownload
+abstract class "Agent" as Agent #EEEEEE
+DataDownload --> "0..*" Agent : provider
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
 DataDownload ..> XsdAnyUri : contentUrl
-class "XsdDate" as XsdDate <<dataType>> #FAE5D3
-DataDownload ..> XsdDate : dateModified
+class "DefinedTerm" as DefinedTerm #EEEEEE
+DataDownload --> "0..*" DefinedTerm : encodingFormat
 
 @enduml

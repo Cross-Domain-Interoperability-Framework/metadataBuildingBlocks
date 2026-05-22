@@ -26,7 +26,6 @@ class "Dataset" as Dataset #FEFECE {
   +conditionsOfAccess : Reference [0..*]
   +publishingPrinciples : Reference [0..*]
   +keywords : DefinedTerm [0..*]
-  +includedInDataCatalog : Reference [0..*]
   +relatedLink : Reference [0..*]
 }
 abstract class "AbstractVariable" as AbstractVariable #EEEEEE
@@ -44,7 +43,6 @@ Dataset --> "0..*" TemporalExtent : temporalCoverage
 class "QualityMeasurement" as QualityMeasurement #EEEEEE
 Dataset --> "0..*" QualityMeasurement : hasQualityMeasurement
 abstract class "Agent" as Agent #EEEEEE
-Dataset --> "0..*" Agent : maintainer
 Dataset --> "0..*" Agent : provider
 abstract class "AbstractDistribution" as AbstractDistribution #EEEEEE
 Dataset --> "0..*" AbstractDistribution : distribution
@@ -65,11 +63,19 @@ Dataset --> "0..*" DefinedTerm : keywords
 class "Reference" as Reference #EEEEEE
 Dataset --> "0..*" Reference : license
 CatalogRecord --> "0..1" Dataset : about
+Dataset --> "0..*" DefinedTerm : measurementTechnique
+class "Identifier" as Identifier #EEEEEE
+Dataset --> "1" Identifier : identifier
+Dataset --> "0..*" DefinedTerm : additionalType
+Dataset --> "0..*" Identifier : sameAs
 class "XsdLanguage" as XsdLanguage <<dataType>> #FAE5D3
 Dataset ..> XsdLanguage : inLanguage
 class "XsdDate" as XsdDate <<dataType>> #FAE5D3
 Dataset ..> XsdDate : dateModified
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
 Dataset ..> XsdAnyUri : url
+Dataset --> "0..*" Reference : conditionsOfAccess
+Dataset --> "0..*" Reference : publishingPrinciples
+Dataset --> "0..*" Reference : relatedLink
 
 @enduml
