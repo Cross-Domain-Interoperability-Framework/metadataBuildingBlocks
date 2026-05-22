@@ -47,7 +47,8 @@ metadataBuildingBlocks/
 │   │   ├── cdifStatistics/          # CDIF Statistics / CategoryStatistics / StatisticsCollection — summary values for a dataset/variable; cdif:appliesTo links the variable, cdif:has_* are target-suffixed (cdi:has is polymorphic in DDI-CDI)
 │   │   ├── cdifOpenApi/             # OpenAPI-aligned WebAPI distribution (alternative to schemaorgProperties/webAPI)
 │   │   ├── cdifKey/                 # CDIF Key — ordered set of cdi:InstanceVariables (referenced via cdifInstanceVariable) that uniquely identify a data instance; CDIF profile of ddi-cdi Key/PrimaryKey
-│   │   ├── cdifEnumerationDomain/   # CDIF Enumeration Domain — extension point that documents any codification (skos:ConceptScheme, schema:DefinedTermSet, or @id-only reference) as a cdif:EnumerationDomain
+│   │   ├── cdifCodelist/            # CDIF Codelist — a skos:ConceptScheme constrained for CDIF use (resolvable @id; CdifCodelistConcept members require @id, skos:inScheme, skos:prefLabel, skos:notation; paired skos:narrower/skos:broader for hierarchy). Referenced by CDIFCodelistProfile and by cdifEnumerationDomain (cdif:references)
+│   │   ├── cdifEnumerationDomain/   # CDIF Enumeration Domain — extension point that documents a codification as a cdif:EnumerationDomain; cdif:references accepts a cdifCodelist, a schema:DefinedTermSet, or an @id-only reference
 │   │   ├── cdifValueDomain/         # CDIF Value Domain — cdi:SubstantiveValueDomain + cdi:SentinelValueDomain, with bounds, regex, takesValuesFrom (cdifEnumerationDomain), takesConceptsFrom (skos:Concept)
 │   │   ├── cdifRepresentedVariable/ # CDIF RepresentedVariable — conceptual variable definition referenced by Data Structure components; carries name, definition, intended data type, unit-of-measure, takesSubstantiveValuesFrom / takesSentinelValuesFrom
 │   │   ├── cdifDataStructure/       # CDIF DataStructure — root `anyOf` over cdi:DataStructure / cdi:DimensionalDataStructure / cdi:LongDataStructure / cdi:WideDataStructure; carries components, primary key, foreign keys, dimension groups. LongDataStructure enforces 1× IdentifierComponent / 1× VariableDescriptorComponent / 1× VariableValueComponent (+ 0..* Attribute) via Draft 2020-12 `contains` + `minContains`/`maxContains`.
@@ -101,7 +102,7 @@ metadataBuildingBlocks/
 │   │   └── xasOptional/             # XAS optional property group
 │   └── profiles/                    # Top-level profiles that compose BBs
 │       └── cdifProfiles/
-│           ├── CDIFCodelistProfile/        # CDIF Codelist profile (SKOS ConceptScheme validation)
+│           ├── CDIFCodelistProfile/        # CDIF Codelist profile (thin allOf wrapper over the cdifCodelist BB)
 │           ├── CDIFDiscoveryProfile/       # CDIF Discovery profile
 │           ├── CDIFcompleteProfile/        # CDIF Complete profile (discovery + data description + provenance + archive)
 │           ├── CDIFDataDescriptionProfile/ # CDIF Data Description profile (flat: InstanceVariables with cdif:role / cdi:qualifies; no component classes)
