@@ -66,25 +66,26 @@ jobs:
           window.bblocksViewer = {
             title: "${TITLE}",
             showImported: 0,
-            baseUrl: '${BASE_PATH}',
+            baseUrl: '${BASE_PATH}viewer/',
           };
           EOF
 
-          # ---- bblocks-viewer.html (the JSON Schema BB browser; was previously index.html) ----
-          # Keeps the existing nav banner so visitors who land on this page can navigate to the
-          # landing page or to the UML profile model browser.
-          cat > bblocks-viewer.html << EOF
+          # ---- viewer/index.html (the JSON Schema BB browser) ----
+          # Served at a directory path so the SPA router base ('${BASE_PATH}viewer/') resolves
+          # to "/". Keeps the nav banner for navigating to the landing page or the UML browser.
+          mkdir -p viewer
+          cat > viewer/index.html << EOF
           <!DOCTYPE html>
           <!-- CDIF building blocks viewer - cache-refresh 2026-05-22 -->
           <html lang="en">
           <head>
             <meta charset="UTF-8" />
-            <link rel="icon" href="https://smrgeoinfo.github.io/bblocks-viewer/favicon.ico" />
+            <link rel="icon" href="https://cross-domain-interoperability-framework.github.io/bblocks-viewer/favicon.ico" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <title>${TITLE} — JSON Schema BB Viewer</title>
             <script src="${PAGES_URL}config.js"></script>
-            <script type="module" crossorigin src="https://smrgeoinfo.github.io/bblocks-viewer/assets/index.js"></script>
-            <link rel="stylesheet" href="https://smrgeoinfo.github.io/bblocks-viewer/assets/index.css">
+            <script type="module" crossorigin src="https://cross-domain-interoperability-framework.github.io/bblocks-viewer/assets/index.js"></script>
+            <link rel="stylesheet" href="https://cross-domain-interoperability-framework.github.io/bblocks-viewer/assets/index.css">
             <style>
               .cdif-nav-banner {
                 position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
@@ -113,6 +114,19 @@ jobs:
           </html>
           EOF
 
+          # ---- bblocks-viewer.html: redirect stub so the old URL still resolves ----
+          cat > bblocks-viewer.html << 'REDIR'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8" />
+            <meta http-equiv="refresh" content="0; url=viewer/" />
+            <title>Redirecting</title>
+          </head>
+          <body>Redirecting to the <a href="viewer/">CDIF building blocks viewer</a>.</body>
+          </html>
+          REDIR
+
           # ---- index.html (landing page at repo root URL) ----
           cat > index.html << EOF
           <!DOCTYPE html>
@@ -121,7 +135,7 @@ jobs:
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <title>${TITLE}</title>
-            <link rel="icon" href="https://smrgeoinfo.github.io/bblocks-viewer/favicon.ico" />
+            <link rel="icon" href="https://cross-domain-interoperability-framework.github.io/bblocks-viewer/favicon.ico" />
             <style>
               * { box-sizing: border-box; }
               body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -164,7 +178,7 @@ jobs:
 
           <h2>Two views</h2>
           <div class="views">
-            <a class="view-card" href="${PAGES_URL}bblocks-viewer.html">
+            <a class="view-card" href="${PAGES_URL}viewer/">
               <h3>JSON Schema Building Blocks Viewer &rarr;</h3>
               <p>Browse the <strong>JSON Schema</strong> implementation of every building block and
               profile. Filter by category; drill into resolved schemas, JSON-LD contexts, SHACL rules,
