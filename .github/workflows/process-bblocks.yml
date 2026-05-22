@@ -16,6 +16,13 @@ jobs:
     if: github.run_number != 1
     name: Validate and process
     uses: opengeospatial/bblocks-postprocess/.github/workflows/validate-and-process.yml@master
+    with:
+      # Skip the postprocessor's own GitHub Pages deploy; the custom
+      # deploy-viewer workflow is the sole Pages deployer. This avoids the
+      # double-deploy that left bblocks-viewer.html (and the custom landing
+      # page) 404ing during the gap between the two deployments, and removes
+      # the cross-workflow Pages-deployment race.
+      skip-pages: true
     secrets:
       sparql_username: ${{ secrets.sparql_username }}
       sparql_password: ${{ secrets.sparql_password }}
