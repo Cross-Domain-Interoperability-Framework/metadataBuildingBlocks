@@ -1,0 +1,24 @@
+@startuml
+title AbstractVariable
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+abstract class "AbstractVariable" as AbstractVariable #FEFECE {
+  +identifier : Identifier [0..1]
+  +name : string [1]
+}
+class "InstanceVariable" as InstanceVariable #D5F5E3
+AbstractVariable <|-- InstanceVariable
+class "VariableMeasured" as VariableMeasured #D5F5E3
+AbstractVariable <|-- VariableMeasured
+class "Dataset" as Dataset #EEEEEE
+Dataset "1..*" <-- AbstractVariable : variableMeasured
+
+@enduml

@@ -11,6 +11,8 @@ skinparam class {
 }
 
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+class "EnumerationDomain" as EnumerationDomain #EEEEEE
+EnumerationDomain ..> XsdAnyUri : references
 class "VariableMeasured" as VariableMeasured #EEEEEE
 VariableMeasured ..> XsdAnyUri : propertyId
 class "DataDownload" as DataDownload #EEEEEE
@@ -27,9 +29,18 @@ class "Dataset" as Dataset #EEEEEE
 Dataset ..> XsdAnyUri : url
 abstract class "AbstractGeometry" as AbstractGeometry #EEEEEE
 AbstractGeometry ..> XsdAnyUri : crs
-class "QualityMeasure" as QualityMeasure #EEEEEE
-QualityMeasure ..> XsdAnyUri : metric
-QualityMeasure ..> XsdAnyUri : unit
+class "TemporalExtent" as TemporalExtent #EEEEEE
+TemporalExtent ..> XsdAnyUri : intervalStartedBy
+TemporalExtent ..> XsdAnyUri : intervalFinishedBy
+class "Instant" as Instant #EEEEEE
+Instant ..> XsdAnyUri : identifier
+class "TimePosition" as TimePosition #EEEEEE
+TimePosition ..> XsdAnyUri : hasTRS
+class "Geometry" as Geometry #EEEEEE
+Geometry ..> XsdAnyUri : crs
+class "QualityMeasurement" as QualityMeasurement #EEEEEE
+QualityMeasurement ..> XsdAnyUri : isMeasurementOf
+QualityMeasurement ..> XsdAnyUri : unit
 class "WebAPI" as WebAPI #EEEEEE
 WebAPI ..> XsdAnyUri : url
 class "Organization" as Organization #EEEEEE
@@ -38,6 +49,8 @@ class "AdditionalProperty" as AdditionalProperty #EEEEEE
 AdditionalProperty ..> XsdAnyUri : unitCode
 class "Reference" as Reference #EEEEEE
 Reference ..> XsdAnyUri : url
+class "ProvActivity" as ProvActivity #EEEEEE
+ProvActivity ..> XsdAnyUri : used
 class "CatalogRecord" as CatalogRecord #EEEEEE
 CatalogRecord ..> XsdAnyUri : conformsTo
 

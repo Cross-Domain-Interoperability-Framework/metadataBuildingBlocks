@@ -1,0 +1,22 @@
+@startuml
+title SentinelValueDomain
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "SentinelValueDomain" as SentinelValueDomain #FEFECE {
+  +displayLabel : string [0..1]
+  +recommendedDataType : string [0..*]
+}
+class "InstanceVariable" as InstanceVariable #EEEEEE
+InstanceVariable "0..*" <-- SentinelValueDomain : takesSentinelValuesFrom
+class "EnumerationDomain" as EnumerationDomain #EEEEEE
+SentinelValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
+
+@enduml

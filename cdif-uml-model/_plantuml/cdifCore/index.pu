@@ -30,6 +30,8 @@ AbstractDistribution <|-- DataDownload
 AbstractDistribution <|-- WebAPI
 Agent <|-- Person
 Agent <|-- Organization
+Dataset --> "0..*" Agent : maintainer
+Dataset --> "0..*" Agent : provider
 Dataset --> "0..*" AbstractDistribution : distribution
 Dataset --> "0..*" Agent : creator
 Dataset --> "0..*" Contributor : contributor
@@ -42,5 +44,6 @@ Dataset --> "0..*" DefinedTerm : keywords
 Dataset --> "0..*" Reference : license
 Contributor --> "0..1" Agent : agent
 MonetaryGrant --> "0..*" Agent : funder
+CatalogRecord --> "0..1" Dataset : about
 
 @enduml

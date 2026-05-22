@@ -20,11 +20,13 @@ class "VariableMeasured" as VariableMeasured #FEFECE {
   +physicalDataType : Concept [1]
   +role : string [0..1]
   +describedUnitOfMeasure : Concept [0..1]
+  +minValue : string [0..1]
+  +maxValue : string [0..1]
 }
+abstract class "AbstractVariable" as AbstractVariable #D6EAF8
+AbstractVariable <|-- VariableMeasured
 class "InstanceVariable" as InstanceVariable #EEEEEE
 VariableMeasured --> "0..1" InstanceVariable : describes
-class "Dataset" as Dataset #EEEEEE
-Dataset "1..*" <-- VariableMeasured : variableMeasured
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
 VariableMeasured ..> XsdAnyUri : propertyId
 

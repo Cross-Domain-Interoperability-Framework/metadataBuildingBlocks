@@ -1,0 +1,26 @@
+@startuml
+title DataFingerprint
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "DataFingerprint" as DataFingerprint <<dataType>> #FAE5D3 {
+  +algorithmSpecification : string [1]
+  +algorithmVersion : string [1]
+  +typeOfFingerprint : string [1]
+  +value : string [1]
+}
+class "PhysicalDataSet" as PhysicalDataSet #EEEEEE
+PhysicalDataSet ..> DataFingerprint : fingerprint
+class "TabularTextDataSet" as TabularTextDataSet #EEEEEE
+TabularTextDataSet ..> DataFingerprint : fingerprint
+class "StructuredDataSet" as StructuredDataSet #EEEEEE
+StructuredDataSet ..> DataFingerprint : fingerprint
+
+@enduml

@@ -1,0 +1,22 @@
+@startuml
+title TimePosition
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "TimePosition" as TimePosition #FEFECE {
+  +hasTRS : XsdAnyUri [1]
+  +numericPosition : number [1]
+}
+class "Instant" as Instant #EEEEEE
+Instant "0..1" <-- TimePosition : inTimePosition
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+TimePosition ..> XsdAnyUri : hasTRS
+
+@enduml

@@ -15,10 +15,13 @@ class "ProvActivity" as ProvActivity #FEFECE {
   +description : string [0..1]
   +startedAtTime : XsdDate [0..1]
   +endedAtTime : XsdDate [0..1]
+  +used : XsdAnyUri [0..*]
 }
 class "Dataset" as Dataset #EEEEEE
 Dataset "0..*" <-- ProvActivity : wasGeneratedBy
 class "XsdDate" as XsdDate <<dataType>> #FAE5D3
 ProvActivity ..> XsdDate : startedAtTime
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+ProvActivity ..> XsdAnyUri : used
 
 @enduml

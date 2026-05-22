@@ -1,0 +1,24 @@
+@startuml
+title UnitType
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "UnitType" as UnitType #FEFECE {
+  +descriptiveText : string [1]
+  +definition : string [1]
+  +displayLabel : string [1..*]
+  +externalDefinition : Reference [1]
+  +identifier : Identifier [1]
+  +name : string [1..*]
+}
+class "RepresentedVariable" as RepresentedVariable #EEEEEE
+RepresentedVariable "0..1" <-- UnitType : measures
+
+@enduml

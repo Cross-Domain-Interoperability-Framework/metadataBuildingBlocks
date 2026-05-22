@@ -1,0 +1,75 @@
+@startuml
+title TabularTextDataSet
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "TabularTextDataSet" as TabularTextDataSet #FEFECE {
+  +arrayBase : integer [1]
+  +commentPrefix : string [1]
+  +delimiter : string [1]
+  +escapeCharacter : string [1]
+  +hasHeader : boolean [1]
+  +headerIsCaseSensitive : boolean [1]
+  +headerRowCount : integer [1]
+  +isDelimited : boolean [1]
+  +isFixedWidth : boolean [1]
+  +lineTerminator : string [1..*]
+  +nullSequence : string [1]
+  +quoteCharacter : string [1]
+  +skipBlankRows : boolean [1]
+  +skipDataColumns : integer [1]
+  +skipInitialSpace : boolean [1]
+  +skipRows : integer [1]
+  +tableDirection : TableDirectionValues [1]
+  +textDirection : TextDirectionValues [1]
+  +treatConsecutiveDelimitersAsOne : boolean [1]
+  +trim : TrimValues [1]
+  +characterSet : string [1]
+  +encoding : Concept [1]
+  +fileSize : number [1]
+  +fileSizeUofM : string [1]
+  +fingerprint : DataFingerprint [1]
+  +identifier : Identifier [1]
+  +name : string [1]
+  +overview : string [1]
+  +physicalFileURL : string [1]
+  +purpose : string [1]
+  +recordCount : integer [1]
+  +standard : conformsTo [1..*]
+}
+enum "TableDirectionValues" as TableDirectionValues <<enumeration>> #F9E79F
+{
+  Auto
+  Ltr
+  Rtl
+}
+TabularTextDataSet ..> TableDirectionValues : tableDirection
+enum "TextDirectionValues" as TextDirectionValues <<enumeration>> #F9E79F
+{
+  Auto
+  Inherit
+  Ltr
+  Rtl
+}
+TabularTextDataSet ..> TextDirectionValues : textDirection
+enum "TrimValues" as TrimValues <<enumeration>> #F9E79F
+{
+  Both
+  End
+  Neither
+  Start
+}
+TabularTextDataSet ..> TrimValues : trim
+class "DataFingerprint" as DataFingerprint <<dataType>> #FAE5D3
+TabularTextDataSet ..> DataFingerprint : fingerprint
+class "conformsTo" as conformsTo <<dataType>> #FAE5D3
+TabularTextDataSet ..> conformsTo : standard
+
+@enduml

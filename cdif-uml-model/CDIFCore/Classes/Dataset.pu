@@ -25,10 +25,14 @@ class "Dataset" as Dataset #FEFECE {
   +conditionsOfAccess : Reference [0..*]
   +publishingPrinciples : Reference [0..*]
   +keywords : DefinedTerm [0..*]
+  +includedInDataCatalog : Reference [0..*]
+  +relatedLink : Reference [0..*]
 }
+abstract class "Agent" as Agent #EEEEEE
+Dataset --> "0..*" Agent : maintainer
+Dataset --> "0..*" Agent : provider
 abstract class "AbstractDistribution" as AbstractDistribution #EEEEEE
 Dataset --> "0..*" AbstractDistribution : distribution
-abstract class "Agent" as Agent #EEEEEE
 Dataset --> "0..*" Agent : creator
 class "Contributor" as Contributor #EEEEEE
 Dataset --> "0..*" Contributor : contributor
@@ -45,6 +49,7 @@ class "DefinedTerm" as DefinedTerm #EEEEEE
 Dataset --> "0..*" DefinedTerm : keywords
 class "Reference" as Reference #EEEEEE
 Dataset --> "0..*" Reference : license
+CatalogRecord "0..1" <-- Dataset : about
 class "XsdLanguage" as XsdLanguage <<dataType>> #FAE5D3
 Dataset ..> XsdLanguage : inLanguage
 class "XsdDate" as XsdDate <<dataType>> #FAE5D3

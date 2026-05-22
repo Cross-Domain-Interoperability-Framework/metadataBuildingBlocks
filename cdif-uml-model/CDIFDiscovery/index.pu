@@ -17,7 +17,10 @@ abstract class "AbstractGeometry" as AbstractGeometry #FEFECE
 class "GeoCoordinates" as GeoCoordinates #FEFECE
 class "GeoShape" as GeoShape #FEFECE
 class "TemporalExtent" as TemporalExtent #FEFECE
-class "QualityMeasure" as QualityMeasure #FEFECE
+class "Instant" as Instant #FEFECE
+class "TimePosition" as TimePosition #FEFECE
+class "Geometry" as Geometry #FEFECE
+class "QualityMeasurement" as QualityMeasurement #FEFECE
 class "Concept" as Concept #FEFECE
 class "Identifier" as Identifier #FEFECE
 class "DefinedTerm" as DefinedTerm #FEFECE
@@ -43,7 +46,9 @@ Agent <|-- Organization
 Dataset --> "0..*" VariableMeasured : variableMeasured
 Dataset --> "0..*" SpatialExtent : spatialCoverage
 Dataset --> "0..*" TemporalExtent : temporalCoverage
-Dataset --> "0..*" QualityMeasure : hasQualityMeasurement
+Dataset --> "0..*" QualityMeasurement : hasQualityMeasurement
+Dataset --> "0..*" Agent : maintainer
+Dataset --> "0..*" Agent : provider
 Dataset --> "0..*" AbstractDistribution : distribution
 Dataset --> "0..*" Agent : creator
 Dataset --> "0..*" Contributor : contributor
@@ -55,7 +60,12 @@ Dataset --> "1" CatalogRecord : subjectOf
 Dataset --> "0..*" DefinedTerm : keywords
 Dataset --> "0..*" Reference : license
 SpatialExtent --> "0..1" AbstractGeometry : geo
+SpatialExtent --> "0..1" Geometry : hasGeometry
+TemporalExtent --> "0..1" Instant : hasBeginning
+TemporalExtent --> "0..1" Instant : hasEnd
+Instant --> "0..1" TimePosition : inTimePosition
 Contributor --> "0..1" Agent : agent
 MonetaryGrant --> "0..*" Agent : funder
+CatalogRecord --> "0..1" Dataset : about
 
 @enduml
