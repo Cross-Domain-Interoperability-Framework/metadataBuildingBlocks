@@ -117,6 +117,18 @@ python tools/validate_examples.py --filter person
 
 **Requirements:** Python 3.6+ with `pyyaml`, `jsonschema`
 
+### Validate with SHACL (`validate_shacl.py`)
+
+Optional, standalone SHACL validation for one building block or profile (the JSON-Schema `validate_examples.py` stays the default gate). Gathers the target's `rules.shacl` plus every transitively-composed BB's rules, expands the target's examples from JSON-LD to RDF, and runs `pyshacl`. Report-only by default; `--strict` fails on `sh:Violation`. Catches cross-reference constraints JSON Schema can't (e.g. "every RepresentedVariable used by a component must be instantiated by an InstanceVariable").
+
+```bash
+python tools/validate_shacl.py CDIFDataStructureProfile
+python tools/validate_shacl.py CDIFDataStructureProfile --verbose
+python tools/validate_shacl.py CDIFDataStructureProfile --strict
+```
+
+**Requirements:** `pyshacl` (pulls in `rdflib`) — `pip install --user pyshacl`
+
 ### Audit Building Blocks (`audit_building_blocks.py`)
 
 Comprehensive audit tool for any OGC Building Block repository. Checks file completeness, schema consistency, example validation, SHACL completeness, and property coverage.
@@ -166,6 +178,10 @@ CDIF profiles are in `_sources/profiles/cdifProfiles/`:
 | `CDIFxasProfile` | CDIF XAS profile (allOf: cdifCore + xasOptional + xasCore + discovery properties) |
 
 See [agents.md](agents.md) for the full building block structure, authoring rules, and composition hierarchy.
+
+### Published release repos (downstream)
+
+Four separate repos publish the release form of these profiles for implementers — `core`, `discovery`, `datadescription`, and `codelist` (GitHub org `Cross-Domain-Interoperability-Framework`). Each carries a `*StructuredSchema.json` (generated here via `resolve_schema.py <Profile> --structured`), a merged `*Rules.shacl`, an implementation guide (`.md`/`.docx`), JSON-LD frame, and validated examples. They are **manually synced** from this repo (no automation) — see [agents.md](agents.md) §"Release profile repos & sync".
 
 ### Wrapper Building Blocks
 

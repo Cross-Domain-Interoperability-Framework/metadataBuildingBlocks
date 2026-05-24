@@ -114,7 +114,8 @@ metadataBuildingBlocks/
 │   ├── convert_for_jsonforms.py     # JSON Forms converter (see below)
 │   ├── compare_schemas.py           # Schema comparison tool
 │   ├── validate_instance.py         # Profile-aware validation tool
-│   ├── validate_examples.py         # Validates all examples against resolved schemas
+│   ├── validate_examples.py         # Validates all examples against resolved schemas (JSON Schema only)
+│   ├── validate_shacl.py            # Standalone SHACL validation for a BB/profile (gathers rules transitively, expands JSON-LD, runs pyshacl)
 │   ├── augment_register.py          # Adds resolvedSchema URLs to register.json
 │   ├── regenerate_schema_json.py    # Regenerates *Schema.json files from schema.yaml sources
 │   ├── test_redirects.py            # Tests w3id.org redirect rules for building block URIs
@@ -245,7 +246,7 @@ Three further `cdif:` conventions established in the 2026-03-model reconciliatio
 CDIF carries two parallel ways to describe a dataset's variables:
 
 - **CDIFDataDescriptionProfile** — flat: each `schema:variableMeasured` item is a `cdi:InstanceVariable` with `cdif:role` (UnitIdentifier / Measure / Attribute / Dimension / Descriptor / ReferenceVariable) and, for Attribute, `cdi:qualifies` pointing at the qualified InstanceVariable. Value-domain links (`cdi:takesSentinelValuesFrom` → `cdif:SentinelValueDomain`, `cdi:takesSubstantiveValuesFrom` → `cdif:SubstantiveValueDomain`) live **at the profile level** (added via `cdifDataDescription/schema.yaml`'s `allOf` on `schema:variableMeasured.items`), not on the base `cdifInstanceVariable` BB — this is the mechanism by which Discovery's plain `PropertyValue` and the Data-Description-level extended InstanceVariable diverge from the same base. Per-variable statistics: `cdif:isDescribedBy_StatisticsCollection`. Dataset-level: `cdif:hasPrimaryKey`, `cdif:statistics`. No component classes, no DataStructure node required.
-- **CDIFDataStructureProfile** — full DDI-CDI: `schema:variableMeasured` items still carry InstanceVariables (for physical-column identity), but `cdif:role` is forbidden at this level (redundant — the component subclass on `cdi:isStructuredBy` encodes role). The structural commitments live on `cdi:isStructuredBy → cdi:DataStructure / cdi:DimensionalDataStructure / cdi:LongDataStructure / cdi:WideDataStructure`, which carries `cdi:has_DataStructureComponent` items (IdentifierComponent, MeasureComponent, AttributeComponent, DimensionComponent, VariableValueComponent, VariableDescriptorComponent), `cdi:has_PrimaryKey`, foreign keys, and dimension groups. RepresentedVariables and value domains hang off `cdi:isDefinedBy` on each component.
+- **CDIFDataStructureProfile** — full DDI-CDI: `schema:variableMeasured` items still carry InstanceVariables (for physical-column identity), but `cdif:role` is forbidden at this level (redundant — the component subclass on `cdi:isStructuredBy` encodes role). The structural commitments live on `cdi:isStructuredBy → cdi:DataStructure / cdi:DimensionalDataStructure / cdi:LongDataStructure / cdi:WideDataStructure`, which carries `cdi:has_DataStructureComponent` items (IdentifierComponent, MeasureComponent, AttributeComponent, DimensionComponent, VariableValueComponent, VariableDescriptorComponent), `cdi:has_PrimaryKey`, foreign keys, and dimension groups. RepresentedVariables and value domains hang off `cdi:isDefinedBy` on each component. The profile's `cdi:isStructuredBy` slots (distribution-level and `potentialAction.result`) reference the concrete variant `$defs` — `cdifDataStructure/schema.yaml#/$defs/{Dimensional,Wide,Long}DataStructure` — plus the abstract `#/$defs/DataStructure` (kept because the bare-`cdi:PhysicalDataSet` rule requires the abstract); the `cdifDataStructure` BB itself is unchanged.
 
 ### RepresentedVariable / InstanceVariable disambiguation (Data Structure profile)
 
@@ -256,6 +257,13 @@ To prevent the same property being declared in both places at this profile level
 > If the RepresentedVariable referenced by the InstanceVariable's `cdif:uses` already specifies property *P* (for `cdi:qualifies`: if the wrapping AttributeComponent specifies it), then *P* MUST NOT also be set on the InstanceVariable.
 
 Simplification: JSON Schema and SHACL can't easily express "the InstanceVariable's value domain is a subset of the RepresentedVariable's" — so any duplication is forbidden rather than verifying subsetness. The JSON schema does NOT blanket-disallow these properties on the InstanceVariable; only the SHACL rules fire (and only when there is actually a RepresentedVariable to consult).
+
+`CDIFDataStructureProfile/rules.shacl` also carries two **cross-reference integrity** shapes for RepresentedVariables referenced by a component (`cdif:isDefinedBy_RepresentedVariable`), both `sh:Violation` and both using `sh:targetObjectsOf cdif:isDefinedBy_RepresentedVariable`:
+
+- `RepresentedVariableMustHaveStableIdShape` — the RV must be an IRI node (`sh:nodeKind sh:IRI`), i.e. have a stable `@id`, not an inline blank node.
+- `RepresentedVariableMustBeInstantiatedShape` — the RV must be referenced by at least one `cdi:InstanceVariable` via `cdif:uses` (inverse-path qualified count).
+
+These are coverage/identity constraints JSON Schema cannot express (they correlate sets of `@id`s across `schema:variableMeasured` and `cdi:isStructuredBy`), so they only run under SHACL — in CI, or locally via `tools/validate_shacl.py`, not in the JSON-Schema-only `validate_examples.py`.
 
 ### Conditional distribution typing rules (Data Structure profile)
 
@@ -751,6 +759,30 @@ python tools/validate_examples.py --filter spatialExtent
 
 **Requirements:** `pyyaml`, `jsonschema`
 
+## validate_shacl.py
+
+Standalone, opt-in SHACL validation for a single building block or profile — complements `validate_examples.py` (which is JSON-Schema-only). It resolves the target by name or path, gathers the target's `rules.shacl` **plus every transitively-composed BB's** `rules.shacl` (by walking `schema.yaml` `$ref` links), expands each `example*.json` from JSON-LD to RDF (injecting the BB's `context.jsonld` when an example has no inline `@context`), and runs `pyshacl` (advanced mode, `allow_warnings=True`).
+
+**Report-only by default (always exits 0)** so it can serve as a non-fatal "warnings" check; `--strict` exits non-zero on any `sh:Violation`. The JSON-Schema `validate_examples.py` remains the default gate.
+
+**Usage:**
+```bash
+# Validate one profile's examples against its (transitively gathered) SHACL rules
+python tools/validate_shacl.py CDIFDataStructureProfile
+
+# List every result (warnings + info), not just violations
+python tools/validate_shacl.py CDIFDataStructureProfile --verbose
+
+# Fail the run on any sh:Violation
+python tools/validate_shacl.py _sources/profiles/cdifProfiles/CDIFDataStructureProfile --strict
+```
+
+**CLI options:** `--verbose`/`-v` (list every result, not just violations), `--strict` (exit non-zero on violations).
+
+**Requirements:** `pyshacl` (pulls in `rdflib`, which also provides the JSON-LD parser). Install with `pip install --user pyshacl`.
+
+**Caveat:** it reimplements rule-bundling from the `_sources` `$ref` graph rather than the OGC `build/` bundle, so it can drift from what CI validates — verify against a CI run before treating it as authoritative.
+
 ## audit_building_blocks.py
 
 Comprehensive audit tool for any OGC Building Block repository. Scans a `_sources/` directory and runs 6 checks on each building block:
@@ -868,7 +900,18 @@ python tools/sync_resolve_schema.py
 python tools/sync_resolve_schema.py --apply
 ```
 
-Looks for sibling repos relative to this repo's parent directory.
+Looks for sibling repos relative to this repo's parent directory. **Note:** this does NOT touch the published CDIF release profile repos (below) — it only distributes tool scripts to the usgin/dde/ecrr/geochem BB repos.
+
+## Release profile repos & sync (downstream)
+
+Four **published profile-spec repos** consume this one (GitHub org `Cross-Domain-Interoperability-Framework`): **core**, **discovery**, **datadescription**, **codelist**. Each holds `*StructuredSchema.json`, `*Rules.shacl`, `*ImplementationGuide.md` (+`.docx`), `*-frame.jsonld`, `examples/`, and a `FrameAndValidate.py`. The sync from this repo is **manual** (there is no automation for it):
+
+- **StructuredSchema** ← `python tools/resolve_schema.py <Profile> --structured -o <release>/<file>StructuredSchema.json`. Profiles by name (`CDIFDiscoveryProfile`, `CDIFDataDescriptionProfile`, `CDIFCodelistProfile`); **Core via** `--file _sources/cdifProperties/cdifCore/schema.yaml`. The `-o` is required (otherwise it prints to stdout).
+- **SHACL** — `coreRules.shacl` is a byte-copy of `cdifCore/rules.shacl`; the profile `*Rules.shacl` are **merged** from the ~15 composing BB `rules.shacl` (no merge script lives in those repos). Only re-sync when a `rules.shacl` actually changed.
+- **Implementation guides** — hand-maintained `.md`; regenerate `.docx` with `pandoc <md> --reference-doc=<copy of prior .docx> -o <docx>`.
+- **Examples** — validate with `python FrameAndValidate.py <ex> --validate --schema <S> --frame <F>` (frames the JSON-LD, array-wraps its `ARRAY_PROPERTIES`, then validates). Open-world, so unknown props pass.
+
+Conventions that bit us (keep examples + schema consistent): `schema:contentSize` is a **string**; `cdif:fileSize`/`fileSizeUofM` are **removed**; a WebAPI action result is the **actionResult** BB (`name`/`description`/`encodingFormat`/`conformsTo`, no `contentUrl`/`contentSize`); an object-form **cdifReference** must include `dcat:Relationship` in `@type`; codelist `@context` is an **object**, `skos:notation` is a single **string** required on every `CdifCodelistConcept` (do not array-wrap it). The May/June 2026 re-sync lives on a `reviewRevision202606` branch in each repo.
 
 ## generate_pv_comparison.py
 
