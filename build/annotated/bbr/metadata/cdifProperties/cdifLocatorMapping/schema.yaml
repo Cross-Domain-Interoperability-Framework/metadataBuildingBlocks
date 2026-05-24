@@ -1,0 +1,28 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Locator Mapping Type
+description: Locates a variable's value(s) within a structured (hierarchical) dataset
+  such as XML or JSON, via a locator expression (e.g., XPath or JSONPath). DDI-CDI
+  LocatorMapping. Used in place of column-index/text mappings for cdi:StructuredDataSet
+  distributions.
+type: object
+properties:
+  cdi:locator:
+    type: string
+    description: Expression locating the variable's value(s) in the structured document
+      (XPath, JSONPath, pointer, etc.). LocatorMapping.locator.
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/locator
+  cdif:formats_InstanceVariable:
+    type: object
+    description: Reference to a variable defined in schema:variableMeasured.
+    properties:
+      '@id':
+        type: string
+        description: This should be a reference to a variable defined in the schema:variableMeasured
+          section.
+    x-jsonld-id: https://cdif.org/0.1/formats_InstanceVariable
+required:
+- cdi:locator
+x-jsonld-prefixes:
+  schema: http://schema.org/
+  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+  cdif: https://cdif.org/0.1/

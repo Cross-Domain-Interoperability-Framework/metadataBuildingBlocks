@@ -119,13 +119,13 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
 
 [] a cdi:TabularTextDataSet,
         schema1:Dataset ;
-    ns1:hasPhysicalMapping [ ns1:formats_InstanceVariable ex:var-station-id ;
-            ns1:index 0 ;
-            ns1:physicalDataType "String" ],
-        [ ns1:format "float64" ;
+    ns1:hasPhysicalMapping [ ns1:format "float64" ;
             ns1:formats_InstanceVariable ex:var-temperature ;
             ns1:index 1 ;
-            ns1:physicalDataType "Numeric" ] ;
+            ns1:physicalDataType "Numeric" ],
+        [ ns1:formats_InstanceVariable ex:var-station-id ;
+            ns1:index 0 ;
+            ns1:physicalDataType "String" ] ;
     cdi:isDelimited true ;
     csvw:commentPrefix "#" ;
     csvw:delimiter "," ;
@@ -291,18 +291,18 @@ and three physical-mapping entries.
 
 [] a cdi:TabularTextDataSet,
         schema1:Dataset ;
-    ns1:hasPhysicalMapping [ ns1:formats_InstanceVariable ex:var-station-id ;
-            ns1:index 0 ;
-            ns1:physicalDataType "String" ;
-            cdi:isRequired true ;
-            cdi:length 16 ],
-        [ ns1:format "#,##0.00" ;
+    ns1:hasPhysicalMapping [ ns1:format "#,##0.00" ;
             ns1:formats_InstanceVariable ex:var-temperature ;
             ns1:index 2 ;
             ns1:physicalDataType "Numeric" ;
             cdi:decimalPositions 2 ;
             cdi:length 12 ;
             cdi:scale 1 ],
+        [ ns1:formats_InstanceVariable ex:var-station-id ;
+            ns1:index 0 ;
+            ns1:physicalDataType "String" ;
+            cdi:isRequired true ;
+            cdi:length 16 ],
         [ ns1:format "YYYY-MM-DD" ;
             ns1:formats_InstanceVariable ex:var-date ;
             ns1:index 1 ;

@@ -663,17 +663,6 @@
             }
           }
         },
-        "@context": {
-          "type": "object",
-          "description": "Additional namespace prefix for data description properties.",
-          "properties": {
-            "csvw": {
-              "enum": [
-                "http://www.w3.org/ns/csvw#"
-              ]
-            }
-          }
-        },
         "schema:variableMeasured": {
           "type": "array",
           "items": {
@@ -764,16 +753,66 @@
                   "properties": {
                     "cdif:hasPhysicalMapping": {
                       "type": "array",
-                      "description": "Per-field physical mappings linking the variables measured by this DataDownload distribution to their physical representation in the file - column index, format, physical data type, length, null sequence, etc. Each item is a cdifPhysicalMapping.",
+                      "description": "Per-field physical mappings linking the variables measured by this DataDownload distribution to their physical representation in the file - column index, format, physical data type, null sequence, etc. Each item is a cdifPhysicalMapping or one of its specializations (cdifTextMapping for tabular text, cdifLocatorMapping for structured data); the dataset-type branches below tighten the item type.",
                       "items": {
-                        "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping"
+                        "anyOf": [
+                          {
+                            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping"
+                          },
+                          {
+                            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifTextMapping"
+                          },
+                          {
+                            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifLocatorMapping"
+                          }
+                        ]
                       }
                     },
                     "cdi:characterSet": {
                       "type": "string",
                       "description": "The character set used in the distribution (e.g., UTF-8, ASCII)."
+                    },
+                    "cdi:fingerprint": {
+                      "description": "Integrity fingerprint (checksum/hash) of this distribution's bytes (DDI-CDI DataFingerprint).",
+                      "allOf": [
+                        {
+                          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifDataFingerprint"
+                        }
+                      ]
                     }
                   }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "@type": {
+                      "contains": {
+                        "enum": [
+                          "cdi:TabularTextDataSet"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifTabularTextDataSet"
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "@type": {
+                      "contains": {
+                        "enum": [
+                          "cdi:StructuredDataSet"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifStructuredDataSet"
                 }
               },
               {
@@ -797,9 +836,19 @@
                             "properties": {
                               "cdif:hasPhysicalMapping": {
                                 "type": "array",
-                                "description": "Per-field physical mappings for the API response - the response is another physical realization of the dataset's variables. Each item is a cdifPhysicalMapping.",
+                                "description": "Per-field physical mappings for the API response - the response is another physical realization of the dataset's variables. Each item is a cdifPhysicalMapping or one of its specializations (cdifTextMapping / cdifLocatorMapping).",
                                 "items": {
-                                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping"
+                                  "anyOf": [
+                                    {
+                                      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping"
+                                    },
+                                    {
+                                      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifTextMapping"
+                                    },
+                                    {
+                                      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifLocatorMapping"
+                                    }
+                                  ]
                                 }
                               },
                               "cdi:characterSet": {
@@ -3531,10 +3580,10 @@
         "cdif:physicalDataType": {
           "type": "string"
         },
-        "cdi:length": {
-          "type": "integer",
-          "description": "The column width if the tabular text is fixed width.",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/length"
+        "cdi:numberPattern": {
+          "type": "string",
+          "description": "Number format pattern for the field (PhysicalMapping.numberPattern). Text-format properties (column width, decimal/digit-group separators, display label) live on cdifTextMapping.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/numberPattern"
         },
         "cdi:nullSequence": {
           "type": "string",
@@ -3584,6 +3633,273 @@
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
       },
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifProperties.cdifTextMapping": {
+      "title": "Text Mapping Type",
+      "description": "Physical mapping for a variable in a delimited or fixed-width text dataset. Extends cdifPhysicalMapping with text-format properties (column width and number formatting). DDI-CDI TextMapping.",
+      "allOf": [
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "cdi:length": {
+              "type": "integer",
+              "description": "The column width if the tabular text is fixed width (TextMapping.length).",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/length"
+            },
+            "cdi:defaultDecimalSeparator": {
+              "type": "string",
+              "description": "Decimal separator used when not otherwise specified (TextMapping.defaultDecimalSeparator).",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/defaultDecimalSeparator"
+            },
+            "cdi:defaultDigitGroupSeparator": {
+              "type": "string",
+              "description": "Digit-group (thousands) separator (TextMapping.defaultDigitGroupSeparator).",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/defaultDigitGroupSeparator"
+            },
+            "cdif:displayLabel": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Human-readable label(s) for display. CDIF simplification (plain string) of DDI-CDI TextMapping.displayLabel, whose model type is LabelForDisplay. Per the cdi/cdif namespace policy a structured-string type simplified to a plain string is in the cdif namespace.",
+              "x-jsonld-id": "https://cdif.org/0.1/displayLabel"
+            }
+          }
+        }
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "cdif": "https://cdif.org/0.1/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTextMapping/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifProperties.cdifLocatorMapping": {
+      "title": "Locator Mapping Type",
+      "description": "Locates a variable's value(s) within a structured (hierarchical) dataset such as XML or JSON, via a locator expression (e.g., XPath or JSONPath). DDI-CDI LocatorMapping. Used in place of column-index/text mappings for cdi:StructuredDataSet distributions.",
+      "type": "object",
+      "properties": {
+        "cdi:locator": {
+          "type": "string",
+          "description": "Expression locating the variable's value(s) in the structured document (XPath, JSONPath, pointer, etc.). LocatorMapping.locator.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/locator"
+        },
+        "cdif:formats_InstanceVariable": {
+          "type": "object",
+          "description": "Reference to a variable defined in schema:variableMeasured.",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "This should be a reference to a variable defined in the schema:variableMeasured section."
+            }
+          },
+          "x-jsonld-id": "https://cdif.org/0.1/formats_InstanceVariable"
+        }
+      },
+      "required": [
+        "cdi:locator"
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "cdif": "https://cdif.org/0.1/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifLocatorMapping/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifProperties.cdifDataFingerprint": {
+      "title": "Data Fingerprint",
+      "description": "A fingerprint (checksum/hash) of a physical dataset, used to verify integrity. DDI-CDI DataFingerprint datatype, carried on a cdi:PhysicalDataSet (schema:DataDownload distribution) via cdi:fingerprint.",
+      "type": "object",
+      "properties": {
+        "cdi:value": {
+          "type": "string",
+          "description": "The fingerprint value (e.g., the hex digest). DataFingerprint.value.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/value"
+        },
+        "cdi:algorithmSpecification": {
+          "type": "string",
+          "description": "Identifier or name of the algorithm specification (e.g., SHA-256, MD5). DataFingerprint.algorithmSpecification.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/algorithmSpecification"
+        },
+        "cdi:algorithmVersion": {
+          "type": "string",
+          "description": "Version of the fingerprint algorithm/specification. DataFingerprint.algorithmVersion.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/algorithmVersion"
+        },
+        "cdi:typeOfFingerprint": {
+          "type": "string",
+          "description": "The kind of fingerprint (e.g., checksum, hash, digest). DataFingerprint.typeOfFingerprint.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfFingerprint"
+        }
+      },
+      "required": [
+        "cdi:value"
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataFingerprint/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifProperties.cdifTabularTextDataSet": {
+      "title": "Tabular Text DataSet",
+      "description": "Dataset-level physical layout properties of a delimited or fixed-width text dataset (CSV, TSV, fixed-width). A subclass of cdi:PhysicalDataSet, carried on a schema:DataDownload distribution dual-typed cdi:TabularTextDataSet. DDI-CDI TabularTextDataSet. This is an attribute mixin (no @type of its own); the @type token is carried by the distribution. Per-field mappings are cdifTextMapping (on cdif:hasPhysicalMapping).",
+      "type": "object",
+      "properties": {
+        "cdi:arrayBase": {
+          "type": "integer",
+          "default": 1,
+          "description": "Index of the first element/column (TabularTextDataSet.arrayBase).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/arrayBase"
+        },
+        "cdi:commentPrefix": {
+          "type": "string",
+          "description": "Character(s) that mark a line as a comment.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/commentPrefix"
+        },
+        "cdi:delimiter": {
+          "type": "string",
+          "description": "Field delimiter (e.g., \",\" or tab).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/delimiter"
+        },
+        "cdi:escapeCharacter": {
+          "type": "string",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/escapeCharacter"
+        },
+        "cdi:hasHeader": {
+          "type": "boolean",
+          "default": true,
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasHeader"
+        },
+        "cdi:headerIsCaseSensitive": {
+          "type": "boolean",
+          "default": false,
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/headerIsCaseSensitive"
+        },
+        "cdi:headerRowCount": {
+          "type": "integer",
+          "default": 1,
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/headerRowCount"
+        },
+        "cdi:isDelimited": {
+          "type": "boolean",
+          "default": true,
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDelimited"
+        },
+        "cdi:isFixedWidth": {
+          "type": "boolean",
+          "default": false,
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isFixedWidth"
+        },
+        "cdi:lineTerminator": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Allowed line terminators, in order (default [CRLF, LF]).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/lineTerminator"
+        },
+        "cdi:nullSequence": {
+          "type": "string",
+          "description": "Value interpreted as null at the dataset level.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/nullSequence"
+        },
+        "cdi:quoteCharacter": {
+          "type": "string",
+          "default": "\"",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/quoteCharacter"
+        },
+        "cdi:skipBlankRows": {
+          "type": "boolean",
+          "default": false,
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/skipBlankRows"
+        },
+        "cdi:skipDataColumns": {
+          "type": "integer",
+          "default": 0,
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/skipDataColumns"
+        },
+        "cdi:skipInitialSpace": {
+          "type": "boolean",
+          "default": true,
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/skipInitialSpace"
+        },
+        "cdi:skipRows": {
+          "type": "integer",
+          "default": 0,
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/skipRows"
+        },
+        "cdi:tableDirection": {
+          "type": "string",
+          "default": "Auto",
+          "enum": [
+            "Auto",
+            "Ltr",
+            "Rtl"
+          ],
+          "description": "Direction in which columns are arranged in each row (DDI-CDI TabularTextDataSet.tableDirection, TableDirectionValues enumeration).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/tableDirection"
+        },
+        "cdi:textDirection": {
+          "type": "string",
+          "enum": [
+            "Auto",
+            "Inherit",
+            "Ltr",
+            "Rtl"
+          ],
+          "description": "Reading order of text within cells (DDI-CDI TabularTextDataSet.textDirection, TextDirectionValues enumeration).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/textDirection"
+        },
+        "cdi:treatConsecutiveDelimitersAsOne": {
+          "type": "boolean",
+          "default": false,
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/treatConsecutiveDelimitersAsOne"
+        },
+        "cdi:trim": {
+          "type": "string",
+          "enum": [
+            "Both",
+            "End",
+            "Neither",
+            "Start"
+          ],
+          "description": "Which spaces to remove from a data value (DDI-CDI TabularTextDataSet.trim, TrimValues enumeration).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/trim"
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "cdif": "https://cdif.org/0.1/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularTextDataSet/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifProperties.cdifStructuredDataSet": {
+      "title": "Structured DataSet",
+      "description": "Dataset-level marker for a structured (hierarchical) dataset such as XML or JSON. A subclass of cdi:PhysicalDataSet, carried on a schema:DataDownload distribution dual-typed cdi:StructuredDataSet. DDI-CDI StructuredDataSet. It has no distinct tabular-layout attributes; fields are located with cdifLocatorMapping values of cdif:hasPhysicalMapping (rather than column-index/text mappings). This is an attribute mixin (no @type of its own; the token is carried by the distribution).",
+      "type": "object",
+      "properties": {
+        "cdif:encoding": {
+          "type": "string",
+          "description": "Character encoding / serialization of the structured document (e.g., utf-8, application/json). CDIF simplification (plain charset string) of DDI-CDI PhysicalDataSet.encoding, whose model type is ControlledVocabularyEntry. The cdi/cdif namespace policy does not allow a ControlledVocabularyEntry as a plain string in the cdi namespace, so this property is in the cdif namespace.",
+          "x-jsonld-id": "https://cdif.org/0.1/encoding"
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "cdif": "https://cdif.org/0.1/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifStructuredDataSet/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.cdifProperties.cdifArchive": {
@@ -5081,9 +5397,10 @@
               {
                 "type": "object",
                 "properties": {
-                  "cdif:locator": {
+                  "cdi:locator": {
                     "type": "string",
-                    "description": "String that can be used by software to locate values of the variable in this physical dataset."
+                    "description": "String that can be used by software to locate values of the variable in this physical dataset (DDI-CDI LocatorMapping.locator).",
+                    "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/locator"
                   }
                 }
               }

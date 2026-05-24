@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping` *v0.1*
 
-metadata to document the physical serialization of variables in a data structure. Defines properties: cdif:index, cdif:format, cdif:physicalDataType, cdi:length, cdi:nullSequence, cdi:defaultValue, cdi:scale, cdi:decimalPositions, cdi:minimumLength, cdi:maximumLength, cdi:isRequired, cdif:formats_InstanceVariable.
+Base physical mapping: metadata to document the physical serialization of a variable in a data structure. Defines properties: cdif:index, cdif:format, cdif:physicalDataType, cdi:numberPattern, cdi:nullSequence, cdi:defaultValue, cdi:scale, cdi:decimalPositions, cdi:minimumLength, cdi:maximumLength, cdi:isRequired, cdif:formats_InstanceVariable. Text-format specifics (cdi:length and number separators) are in cdifTextMapping; structured-document location is in cdifLocatorMapping.
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -182,10 +182,12 @@ properties:
       or MM-DD-YY.
   cdif:physicalDataType:
     type: string
-  cdi:length:
-    type: integer
-    description: The column width if the tabular text is fixed width.
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/length
+  cdi:numberPattern:
+    type: string
+    description: Number format pattern for the field (PhysicalMapping.numberPattern).
+      Text-format properties (column width, decimal/digit-group separators, display
+      label) live on cdifTextMapping.
+    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/numberPattern
   cdi:nullSequence:
     type: string
     description: The value of this property becomes the null annotation for the described

@@ -1,0 +1,51 @@
+
+
+{
+  "itemIdentifier": "cdif.bbr.metadata.cdifProperties.cdifTextMapping",
+  "$schema": "metaschema.yaml",
+  "name": "CDIF TextMapping building block",
+  "abstract": "Physical mapping for a variable in a delimited or fixed-width text dataset. Extends cdifPhysicalMapping with cdi:length, cdi:defaultDecimalSeparator, cdi:defaultDigitGroupSeparator, and cdif:displayLabel (cdif: because LabelForDisplay is simplified to a plain string). DDI-CDI TextMapping (a specialization of PhysicalMapping).",
+  "status": "under-development",
+  "dateTimeAddition": "2026-05-24T00:00:00Z",
+  "itemClass": "schema",
+  "register": "cdif-building-block-register",
+  "version": "0.1",
+  "dateOfLastChange": "2026-05-24",
+  "link": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "maturity": "draft",
+  "scope": "unstable",
+  "tags": [
+    "cdif",
+    "ddi-cdi",
+    "TextMapping",
+    "PhysicalMapping"
+  ],
+  "sources": [
+    {
+      "title": "DDI-CDI 1.0 Specification",
+      "link": "https://ddialliance.org/Specification/DDI-CDI/1.0/"
+    }
+  ],
+  "shaclShapes": {
+    "cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifPhysicalMapping/rules.shacl"
+    ]
+  },
+  "dependsOn": [
+    "cdif.bbr.metadata.cdifProperties.cdifPhysicalMapping"
+  ],
+  "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTextMapping/context.jsonld",
+  "schema": {
+    "application/yaml": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTextMapping/schema.yaml",
+    "application/json": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTextMapping/schema.json"
+  },
+  "sourceSchema": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifTextMapping/schema.yaml",
+  "sourceLdContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifTextMapping/context.jsonld",
+  "resolvedSchemaProperties": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTextMapping/resolvedProperties.json",
+  "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifTextMapping/",
+  "validationPassed": true,
+  "description": "# CDIF TextMapping\n\nPhysical mapping for a variable in a delimited or fixed-width **text** dataset. Extends\n[`cdifPhysicalMapping`](../cdifPhysicalMapping/) (via `allOf`) with the text-format\nproperties from DDI-CDI `TextMapping`:\n\n- `cdi:length` \u2014 column width for fixed-width text\n- `cdi:defaultDecimalSeparator`\n- `cdi:defaultDigitGroupSeparator`\n- `cdif:displayLabel` (cdif: \u2014 LabelForDisplay simplified to a plain string)\n\nUsed as the item type for `cdif:hasPhysicalMapping` on a distribution typed\n`cdi:TabularTextDataSet`. The base `cdifPhysicalMapping` carries the\nserialization-agnostic properties (index, format, physical data type, scale, lengths,\nnull sequence, default value, number pattern); structured-document location is in\n`cdifLocatorMapping`.\n",
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: Text Mapping Type\ndescription: Physical mapping for a variable in a delimited or fixed-width text dataset.\n  Extends cdifPhysicalMapping with text-format properties (column width and number\n  formatting). DDI-CDI TextMapping.\nallOf:\n- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml\n- type: object\n  properties:\n    cdi:length:\n      type: integer\n      description: The column width if the tabular text is fixed width (TextMapping.length).\n      x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/length\n    cdi:defaultDecimalSeparator:\n      type: string\n      description: Decimal separator used when not otherwise specified (TextMapping.defaultDecimalSeparator).\n      x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/defaultDecimalSeparator\n    cdi:defaultDigitGroupSeparator:\n      type: string\n      description: Digit-group (thousands) separator (TextMapping.defaultDigitGroupSeparator).\n      x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/defaultDigitGroupSeparator\n    cdif:displayLabel:\n      type: array\n      items:\n        type: string\n      description: Human-readable label(s) for display. CDIF simplification (plain\n        string) of DDI-CDI TextMapping.displayLabel, whose model type is LabelForDisplay.\n        Per the cdi/cdif namespace policy a structured-string type simplified to a\n        plain string is in the cdif namespace.\n      x-jsonld-id: https://cdif.org/0.1/displayLabel\nx-jsonld-prefixes:\n  schema: http://schema.org/\n  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\n  cdif: https://cdif.org/0.1/\n",
+  "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "gitPath": "_sources/cdifProperties/cdifTextMapping"
+}

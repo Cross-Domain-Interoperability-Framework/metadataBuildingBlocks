@@ -54,12 +54,6 @@ properties:
           properties:
             '@id':
               const: https://w3id.org/cdif/data_description/1.0
-  '@context':
-    type: object
-    description: Additional namespace prefix for data description properties.
-    properties:
-      csvw:
-        const: http://www.w3.org/ns/csvw#
   schema:variableMeasured:
     type: array
     items:
@@ -126,14 +120,37 @@ properties:
               type: array
               description: Per-field physical mappings linking the variables measured
                 by this DataDownload distribution to their physical representation
-                in the file - column index, format, physical data type, length, null
-                sequence, etc. Each item is a cdifPhysicalMapping.
+                in the file - column index, format, physical data type, null sequence,
+                etc. Each item is a cdifPhysicalMapping or one of its specializations
+                (cdifTextMapping for tabular text, cdifLocatorMapping for structured
+                data); the dataset-type branches below tighten the item type.
               items:
-                $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml
+                anyOf:
+                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml
+                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTextMapping/schema.yaml
+                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifLocatorMapping/schema.yaml
             cdi:characterSet:
               type: string
               description: The character set used in the distribution (e.g., UTF-8,
                 ASCII).
+            cdi:fingerprint:
+              description: Integrity fingerprint (checksum/hash) of this distribution's
+                bytes (DDI-CDI DataFingerprint).
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataFingerprint/schema.yaml
+      - if:
+          properties:
+            '@type':
+              contains:
+                const: cdi:TabularTextDataSet
+        then:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTabularTextDataSet/schema.yaml
+      - if:
+          properties:
+            '@type':
+              contains:
+                const: cdi:StructuredDataSet
+        then:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifStructuredDataSet/schema.yaml
       - if:
           properties:
             '@type':
@@ -150,9 +167,13 @@ properties:
                         type: array
                         description: Per-field physical mappings for the API response
                           - the response is another physical realization of the dataset's
-                          variables. Each item is a cdifPhysicalMapping.
+                          variables. Each item is a cdifPhysicalMapping or one of
+                          its specializations (cdifTextMapping / cdifLocatorMapping).
                         items:
-                          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml
+                          anyOf:
+                          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifPhysicalMapping/schema.yaml
+                          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifTextMapping/schema.yaml
+                          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifLocatorMapping/schema.yaml
                       cdi:characterSet:
                         type: string
                         description: The character set used in the API response (e.g.,
