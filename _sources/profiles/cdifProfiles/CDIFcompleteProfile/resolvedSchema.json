@@ -609,12 +609,12 @@
                                 "type": "string",
                                 "description": "Digit-group (thousands) separator (TextMapping.defaultDigitGroupSeparator)."
                               },
-                              "cdi:displayLabel": {
+                              "cdif:displayLabel": {
                                 "type": "array",
                                 "items": {
                                   "type": "string"
                                 },
-                                "description": "Human-readable label(s) for display (DDI-CDI TextMapping.displayLabel). Per CDIF convention LabelForDisplay is carried as a plain string under cdi:displayLabel (matching its use across cdifInstanceVariable, cdifKey, etc.)."
+                                "description": "Human-readable label(s) for display. CDIF simplification (plain string) of DDI-CDI TextMapping.displayLabel, whose model type is LabelForDisplay. Per the cdi/cdif namespace policy a structured-string type simplified to a plain string is in the cdif namespace."
                               }
                             }
                           }
@@ -814,24 +814,9 @@
               "description": "Dataset-level marker for a structured (hierarchical) dataset such as XML or JSON. A subclass of cdi:PhysicalDataSet, carried on a schema:DataDownload distribution dual-typed cdi:StructuredDataSet. DDI-CDI StructuredDataSet. It has no distinct tabular-layout attributes; fields are located with cdifLocatorMapping values of cdif:hasPhysicalMapping (rather than column-index/text mappings). This is an attribute mixin (no @type of its own; the token is carried by the distribution).",
               "type": "object",
               "properties": {
-                "cdi:encoding": {
-                  "description": "Character encoding / serialization of the structured document (e.g., utf-8, application/json). DDI-CDI PhysicalDataSet.encoding (ControlledVocabularyEntry) - given as a code string or an @id reference to a controlled-vocabulary entry.",
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "@id"
-                      ]
-                    }
-                  ]
+                "cdif:encoding": {
+                  "type": "string",
+                  "description": "Character encoding / serialization of the structured document (e.g., utf-8, application/json). CDIF simplification (plain charset string) of DDI-CDI PhysicalDataSet.encoding, whose model type is ControlledVocabularyEntry. The cdi/cdif namespace policy does not allow a ControlledVocabularyEntry as a plain string in the cdi namespace, so this property is in the cdif namespace."
                 }
               }
             }
@@ -883,12 +868,12 @@
                                           "type": "string",
                                           "description": "Digit-group (thousands) separator (TextMapping.defaultDigitGroupSeparator)."
                                         },
-                                        "cdi:displayLabel": {
+                                        "cdif:displayLabel": {
                                           "type": "array",
                                           "items": {
                                             "type": "string"
                                           },
-                                          "description": "Human-readable label(s) for display (DDI-CDI TextMapping.displayLabel). Per CDIF convention LabelForDisplay is carried as a plain string under cdi:displayLabel (matching its use across cdifInstanceVariable, cdifKey, etc.)."
+                                          "description": "Human-readable label(s) for display. CDIF simplification (plain string) of DDI-CDI TextMapping.displayLabel, whose model type is LabelForDisplay. Per the cdi/cdif namespace policy a structured-string type simplified to a plain string is in the cdif namespace."
                                         }
                                       }
                                     }
