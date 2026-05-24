@@ -1459,8 +1459,12 @@ def main(argv: Optional[list[str]] = None) -> int:
                                  ctx_overrides=overrides, output_format="ea")
             print(f"Wrote {args.emit_ea_xmi}", file=sys.stderr)
         if args.emit_puml:
+            puml_overrides = dict(overrides)
+            if args.cross_profile_registry and args.cross_profile_registry.exists():
+                with open(args.cross_profile_registry, "r", encoding="utf-8") as f:
+                    puml_overrides["cross_profile_registry"] = json.load(f)
             emit_uml_from_config(args.config, model, args.emit_puml,
-                                 ctx_overrides=overrides, output_format="puml")
+                                 ctx_overrides=puml_overrides, output_format="puml")
             if args.plantuml_jar and args.plantuml_jar.exists():
                 n = render_puml_to_svg(args.emit_puml, args.plantuml_jar,
                                        java_exe=args.java_exe)
@@ -2946,6 +2950,33 @@ _PUML_COLORS = {
     "enum_bg":       "#F9E79F",
 }
 
+# Overview class-box fill keyed by the profile that introduced the class
+# (the originating profile, as recorded in the cross-profile registry). Lets the
+# composed model browser show at a glance where each class comes from. Keys are
+# the registry's profile umlNames. The HTML legend is built from the same map.
+_PROFILE_COLORS = {
+    "CDIFCore":            "#D6EAF8",  # blue
+    "CDIFDiscovery":       "#D5F5E3",  # green
+    "CDIFDataDescription": "#FCF3CF",  # yellow
+    "CDIFDataStructure":   "#FAE5D3",  # peach
+    "CDIFCodelist":        "#E8DAEF",  # purple
+}
+_PROFILE_COLOR_DEFAULT = "#FEFECE"
+# Display order for the legend; any profile not listed is appended afterwards.
+_PROFILE_ORDER = ["CDIFCore", "CDIFDiscovery", "CDIFDataDescription",
+                  "CDIFDataStructure", "CDIFCodelist"]
+# Origins hidden by the overview "Hide inherited" toggle.
+_INHERITED_ORIGINS = {"CDIFCore", "CDIFDiscovery"}
+
+
+def _overview_keep_local(name: str, origin: Optional[dict[str, str]],
+                         profile_name: str) -> bool:
+    """Keep predicate for the simplified overview: drop only Core/Discovery
+    classes that are *inherited* into this profile (a profile never hides its
+    own classes, so Core/Discovery's own pages keep everything)."""
+    o = (origin or {}).get(name, profile_name)
+    return o == profile_name or o not in _INHERITED_ORIGINS
+
 
 def _puml_safe(name: str) -> str:
     """Convert a UML name into a token usable as a PlantUML alias."""
@@ -3140,33 +3171,58 @@ def _emit_class_diagram(cls: UmlClass, closure: UmlClosure, model: Model,
 
 
 def _emit_overview_diagram(closure: UmlClosure, model: Model,
-                           profile_name: str, out_path: Path) -> None:
+                           profile_name: str, out_path: Path, *,
+                           origin: Optional[dict[str, str]] = None,
+                           out_path_local: Optional[Path] = None) -> None:
     """Write an overview index.pu showing all profile classes + inheritance +
-    associations (no attributes)."""
-    lines = _puml_header(f"{profile_name} — overview")
-    aliases: dict[str, str] = {}
-    for cls in closure.classes:
-        alias = _puml_safe(cls.name)
-        aliases[cls.id] = alias
-        lines.extend(_puml_class_box(cls, alias=alias,
-                                      bg=_PUML_COLORS["main_bg"],
-                                      show_attrs=False, model=model))
-    # Inheritance edges between included classes
-    for cls in closure.classes:
-        for pid in cls.parents:
-            if pid in aliases:
-                lines.append(f"{aliases[pid]} <|-- {aliases[cls.id]}")
-    # Associations
-    for assoc in closure.associations:
-        _pid, src_id, tgt_id, role, lo, up, agg = assoc
-        if src_id not in aliases or tgt_id not in aliases:
-            continue
-        arrow = _aggregation_arrow(agg, "out")
-        mult = _puml_multiplicity(lo, up)
-        lines.append(f'{aliases[src_id]} {arrow} "{mult}" {aliases[tgt_id]} : {role}')
-    lines.append("")
-    lines.append("@enduml")
-    out_path.write_text("\n".join(lines), encoding="utf-8")
+    associations (no attributes). Class boxes are filled by their originating
+    profile (`origin`: class name -> profile umlName); classes absent from the
+    map are treated as belonging to this profile.
+
+    If `out_path_local` is given, also write a simplified overview that omits
+    classes whose origin is in `_INHERITED_ORIGINS` (Core/Discovery) and any
+    edge that would touch an omitted class."""
+    origin = origin or {}
+
+    def color_for(name: str) -> str:
+        return _PROFILE_COLORS.get(origin.get(name, profile_name),
+                                   _PROFILE_COLOR_DEFAULT)
+
+    def build(keep) -> str:
+        lines = _puml_header(f"{profile_name} — overview")
+        aliases: dict[str, str] = {}
+        for cls in closure.classes:
+            if not keep(cls.name):
+                continue
+            alias = _puml_safe(cls.name)
+            aliases[cls.id] = alias
+            lines.extend(_puml_class_box(cls, alias=alias,
+                                          bg=color_for(cls.name),
+                                          show_attrs=False, model=model))
+        # Inheritance edges between included classes
+        for cls in closure.classes:
+            if cls.id not in aliases:
+                continue
+            for pid in cls.parents:
+                if pid in aliases:
+                    lines.append(f"{aliases[pid]} <|-- {aliases[cls.id]}")
+        # Associations (both ends must be included)
+        for assoc in closure.associations:
+            _pid, src_id, tgt_id, role, lo, up, agg = assoc
+            if src_id not in aliases or tgt_id not in aliases:
+                continue
+            arrow = _aggregation_arrow(agg, "out")
+            mult = _puml_multiplicity(lo, up)
+            lines.append(f'{aliases[src_id]} {arrow} "{mult}" {aliases[tgt_id]} : {role}')
+        lines.append("")
+        lines.append("@enduml")
+        return "\n".join(lines)
+
+    out_path.write_text(build(lambda _n: True), encoding="utf-8")
+    if out_path_local is not None:
+        out_path_local.write_text(
+            build(lambda n: _overview_keep_local(n, origin, profile_name)),
+            encoding="utf-8")
 
 
 def render_puml_to_svg(puml_dir: Path, plantuml_jar: Path,
@@ -3240,13 +3296,18 @@ def emit_puml(out_dir: Path, *,
               profile_name: str,
               roots: list[UmlClass],
               ctx: BuildContext,
-              model: Model) -> dict:
+              model: Model,
+              origin: Optional[dict[str, str]] = None) -> dict:
     """Emit PlantUML files for a profile.
 
     Layout:
       <out_dir>/index.pu              — overview of all classes
+      <out_dir>/index.local.pu        — overview with inherited Core/Discovery hidden
       <out_dir>/Classes/<Name>.pu     — per-class context diagram
       <out_dir>/DataTypes/<Name>.pu   — per-datatype usage diagram
+
+    `origin` maps class name -> originating profile umlName (cross-profile
+    registry); used to color overview boxes and build the simplified overview.
 
     Returns a manifest dict with counts and paths.
     """
@@ -3257,7 +3318,21 @@ def emit_puml(out_dir: Path, *,
     datatypes_dir = out_dir / "DataTypes"
     datatypes_dir.mkdir(exist_ok=True)
 
-    _emit_overview_diagram(closure, model, profile_name, out_dir / "index.pu")
+    # A simplified overview is only meaningful when some classes would be hidden
+    # (Core/Discovery-origin) AND some would remain — otherwise (Core, Discovery,
+    # Codelist) skip it and clear any stale copy from a previous run.
+    kept = sum(1 for c in closure.classes
+               if _overview_keep_local(c.name, origin, profile_name))
+    local_pu = out_dir / "index.local.pu"
+    if 0 < kept < len(closure.classes):
+        _emit_overview_diagram(closure, model, profile_name, out_dir / "index.pu",
+                               origin=origin, out_path_local=local_pu)
+    else:
+        _emit_overview_diagram(closure, model, profile_name, out_dir / "index.pu",
+                               origin=origin)
+        for stale in (local_pu, local_pu.with_suffix(".svg")):
+            if stale.exists():
+                stale.unlink()
 
     class_paths = []
     for cls in closure.classes:
@@ -3372,6 +3447,15 @@ a.classlink:hover { text-decoration: underline; }
 .diagram-toast.show { opacity: 1; }
 .diagram pre { text-align: left; background: #f8f8f8; padding: 1rem;
                overflow-x: auto; font-size: 0.85rem; }
+.overview-toggle { font: 600 13px/1 -apple-system, "Segoe UI", sans-serif;
+    color: #fff; background: #2c3e50; border: none; border-radius: 4px;
+    padding: 7px 12px; cursor: pointer; margin: 0 0 0.6rem; }
+.overview-toggle:hover { opacity: 0.9; }
+.diagram-legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem;
+    margin: 0 0 0.8rem; font-size: 0.85rem; color: #444; }
+.legend-item { display: inline-flex; align-items: center; gap: 0.35rem; }
+.legend-swatch { width: 14px; height: 14px; border: 1px solid #404040;
+    border-radius: 2px; display: inline-block; flex: none; }
 .empty { color: #999; font-style: italic; }
 ul.classlist { list-style: none; padding: 0;
                display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -3505,7 +3589,7 @@ _HTML_DIAGRAM_JS = r"""
   function enhance(box, viewport, stage, svg, nat) {
     box.classList.add("is-interactive");
     var scale = 1, tx = 0, ty = 0;
-    var viewKey = "cdifDiagramView:" + location.pathname;
+    var viewKey = "cdifDiagramView:" + location.pathname + ":" + (box.getAttribute("data-svg") || "");
     function apply() {
       stage.style.transform = "translate(" + tx + "px," + ty + "px) scale(" + scale + ")";
     }
@@ -3600,6 +3684,8 @@ _HTML_DIAGRAM_JS = r"""
   }
 
   function setup(box) {
+    if (!box || box._ready) return;   // idempotent: also guards lazy reveal
+    box._ready = true;
     var viewport = box.querySelector(".diagram-viewport");
     var stage = box.querySelector(".diagram-stage");
     var src = box.getAttribute("data-svg");
@@ -3623,9 +3709,35 @@ _HTML_DIAGRAM_JS = r"""
     }).catch(function () { /* keep the static <object> fallback */ });
   }
 
+  function isShown(el) { return !!el && el.offsetParent !== null; }
+
+  // Overview full/simplified toggle (profile index only). The two diagrams are
+  // emitted as #overview-full and #overview-local (the latter hidden); the
+  // simplified one is set up lazily the first time it is revealed so its fit()
+  // runs with a non-zero viewport.
+  function initToggle() {
+    var btn = document.querySelector("[data-overview-toggle]");
+    var full = document.getElementById("overview-full");
+    var local = document.getElementById("overview-local");
+    if (!btn || !full || !local) return;
+    var simplified = false;
+    btn.addEventListener("click", function () {
+      simplified = !simplified;
+      full.hidden = simplified;
+      local.hidden = !simplified;
+      btn.textContent = simplified
+        ? "Show full model (with inherited)"
+        : "Hide inherited (Core/Discovery)";
+      setup(simplified ? local : full);
+    });
+  }
+
   function init() {
     var boxes = document.querySelectorAll(".diagram[data-diagram]");
-    for (var i = 0; i < boxes.length; i++) setup(boxes[i]);
+    for (var i = 0; i < boxes.length; i++) {
+      if (isShown(boxes[i])) setup(boxes[i]);
+    }
+    initToggle();
   }
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
@@ -3658,18 +3770,22 @@ def _html_link_class(cls_name: str, kind: str,
     return f'<a class="classlink" href="{href}">{_html_escape(cls_name)}</a>'
 
 
-def _html_render_diagram(pu_path: Path) -> str:
+def _html_render_diagram(pu_path: Path, *, div_id: Optional[str] = None,
+                         hidden: bool = False) -> str:
     """Return the HTML for embedding a diagram. If a sibling .svg exists
     (rendered upstream), embed it via <object>; otherwise drop the .pu source
-    in a <pre>."""
+    in a <pre>. `div_id`/`hidden` support the overview full/simplified toggle."""
     svg_path = pu_path.with_suffix(".svg")
+    id_attr = f' id="{div_id}"' if div_id else ""
+    hidden_attr = " hidden" if hidden else ""
     if svg_path.exists():
         name = _html_escape(svg_path.name)
-        return (f'<div class="diagram" data-diagram data-svg="{name}">'
+        return (f'<div class="diagram" data-diagram data-svg="{name}"{id_attr}{hidden_attr}>'
                 f'<div class="diagram-viewport"><div class="diagram-stage">'
                 f'<object data="{name}" type="image/svg+xml"></object>'
                 f'</div></div></div>')
-    return (f'<div class="diagram"><pre>{_html_escape(pu_path.read_text(encoding="utf-8"))}</pre>'
+    return (f'<div class="diagram"{id_attr}{hidden_attr}>'
+            f'<pre>{_html_escape(pu_path.read_text(encoding="utf-8"))}</pre>'
             f'<p class="empty">(SVG render unavailable — install plantuml.jar '
             f'and rerun <code>plantuml -tsvg {pu_path.name}</code> in this directory)</p></div>')
 
@@ -3931,18 +4047,54 @@ def _html_folder_index(folder: str, items: list[UmlClass],
 def _html_profile_index(profile_name: str, closure: UmlClosure,
                         profile_dir: Path, puml_dir: Optional[Path],
                         inherited_class_names: Optional[set[str]] = None,
-                        composes_chain: Optional[list[str]] = None) -> None:
+                        composes_chain: Optional[list[str]] = None,
+                        cross_profile_registry: Optional[dict[str, str]] = None) -> None:
+    registry = cross_profile_registry or {}
+
+    def _copy_overview(stem: str) -> Optional[Path]:
+        """Copy <stem>.pu/.svg from puml_dir next to the index and return the
+        local .pu path (so the diagram is self-contained), or None if absent.
+        If the source is gone, remove any stale copy next to the index."""
+        dst_pu = profile_dir / f"{stem}.pu"
+        src_pu = puml_dir / f"{stem}.pu" if puml_dir is not None else None
+        if src_pu is None or not src_pu.exists():
+            for stale in (dst_pu, dst_pu.with_suffix(".svg")):
+                if stale.exists():
+                    stale.unlink()
+            return None
+        if not dst_pu.exists() or dst_pu.read_text(encoding="utf-8") != src_pu.read_text(encoding="utf-8"):
+            dst_pu.write_text(src_pu.read_text(encoding="utf-8"), encoding="utf-8")
+        src_svg = src_pu.with_suffix(".svg")
+        if src_svg.exists():
+            (profile_dir / f"{stem}.svg").write_bytes(src_svg.read_bytes())
+        return dst_pu
+
     overview_html = ""
-    if puml_dir is not None:
-        ov_pu = puml_dir / "index.pu"
-        if ov_pu.exists():
-            target_pu = profile_dir / "index.pu"
-            if not target_pu.exists() or target_pu.read_text(encoding="utf-8") != ov_pu.read_text(encoding="utf-8"):
-                target_pu.write_text(ov_pu.read_text(encoding="utf-8"), encoding="utf-8")
-            ov_svg = ov_pu.with_suffix(".svg")
-            if ov_svg.exists():
-                (profile_dir / "index.svg").write_bytes(ov_svg.read_bytes())
-            overview_html = _html_render_diagram(target_pu)
+    full_pu = _copy_overview("index")
+    if full_pu is not None:
+        # The simplified overview is emitted only when it is meaningful (see
+        # emit_puml); its presence is the signal to offer the toggle.
+        local_pu = _copy_overview("index.local")
+        # Color legend: profiles actually present among the overview classes.
+        present: dict[str, int] = {}
+        for c in closure.classes:
+            prof = registry.get(c.name, profile_name)
+            present[prof] = present.get(prof, 0) + 1
+        order = _PROFILE_ORDER + [p for p in sorted(present) if p not in _PROFILE_ORDER]
+        legend_items = "".join(
+            f'<span class="legend-item"><span class="legend-swatch" '
+            f'style="background:{_PROFILE_COLORS.get(p, _PROFILE_COLOR_DEFAULT)}"></span>'
+            f'{_html_escape(p)} ({present[p]})</span>'
+            for p in order if p in present)
+        legend_html = f'<div class="diagram-legend">{legend_items}</div>'
+        toggle_html = ""
+        local_html = ""
+        if local_pu is not None:
+            toggle_html = ('<button type="button" class="overview-toggle" '
+                           'data-overview-toggle>Hide inherited (Core/Discovery)</button>')
+            local_html = _html_render_diagram(local_pu, div_id="overview-local", hidden=True)
+        full_html = _html_render_diagram(full_pu, div_id="overview-full")
+        overview_html = f"{toggle_html}{legend_html}{full_html}{local_html}"
 
     inh = inherited_class_names or set()
 
@@ -4089,7 +4241,8 @@ def emit_html(out_dir: Path, *,
                        inherited_class_names=inherited)
     _html_profile_index(profile_name, closure, profile_dir, puml_dir,
                         inherited_class_names=inherited,
-                        composes_chain=composes_chain or [])
+                        composes_chain=composes_chain or [],
+                        cross_profile_registry=cross_profile_registry)
 
     # Refresh the root index by scanning sibling profile dirs. Skip sibling
     # build-intermediate dirs (_static for CSS, _plantuml for .pu/.svg sources).
@@ -4476,12 +4629,14 @@ def emit_uml_from_config(
             model=merged_model,
         )
     elif output_format == "puml":
+        origin = (ctx_overrides or {}).get("cross_profile_registry") if ctx_overrides else None
         manifest = emit_puml(
             out_path,
             profile_name=model_name,
             roots=roots,
             ctx=ctx,
             model=merged_model,
+            origin=origin,
         )
         print(
             f"PlantUML: {manifest['classes']} classes, "
