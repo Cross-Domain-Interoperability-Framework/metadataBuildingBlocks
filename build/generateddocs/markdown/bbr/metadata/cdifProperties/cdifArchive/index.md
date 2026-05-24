@@ -534,17 +534,17 @@ SPDX checksum.
             ns1:physicalDataType "float64" ;
             cdi:isRequired true ;
             cdi:nullSequence "NA" ],
-        [ ns1:format "string" ;
-            ns1:formats_InstanceVariable <file:///github/workspace/#var-sample-id> ;
-            ns1:index 0 ;
-            ns1:physicalDataType "string" ;
-            cdi:isRequired true ],
         [ ns1:format "decimal" ;
             ns1:formats_InstanceVariable <file:///github/workspace/#var-uncertainty> ;
             ns1:index 2 ;
             ns1:physicalDataType "float64" ;
             cdi:isRequired false ;
-            cdi:nullSequence "NA" ] ;
+            cdi:nullSequence "NA" ],
+        [ ns1:format "string" ;
+            ns1:formats_InstanceVariable <file:///github/workspace/#var-sample-id> ;
+            ns1:index 0 ;
+            ns1:physicalDataType "string" ;
+            cdi:isRequired true ] ;
     cdi:isDelimited true ;
     schema1:description "Measurement data with column structure described via CSVW and physical mappings." ;
     schema1:encodingFormat "text/csv" ;
