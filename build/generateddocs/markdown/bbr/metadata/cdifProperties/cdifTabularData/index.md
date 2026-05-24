@@ -291,12 +291,7 @@ and three physical-mapping entries.
 
 [] a cdi:TabularTextDataSet,
         schema1:Dataset ;
-    ns1:hasPhysicalMapping [ ns1:format "YYYY-MM-DD" ;
-            ns1:formats_InstanceVariable ex:var-date ;
-            ns1:index 1 ;
-            ns1:physicalDataType "Date" ;
-            cdi:nullSequence "NA" ],
-        [ ns1:formats_InstanceVariable ex:var-station-id ;
+    ns1:hasPhysicalMapping [ ns1:formats_InstanceVariable ex:var-station-id ;
             ns1:index 0 ;
             ns1:physicalDataType "String" ;
             cdi:isRequired true ;
@@ -307,7 +302,12 @@ and three physical-mapping entries.
             ns1:physicalDataType "Numeric" ;
             cdi:decimalPositions 2 ;
             cdi:length 12 ;
-            cdi:scale 1 ] ;
+            cdi:scale 1 ],
+        [ ns1:format "YYYY-MM-DD" ;
+            ns1:formats_InstanceVariable ex:var-date ;
+            ns1:index 1 ;
+            ns1:physicalDataType "Date" ;
+            cdi:nullSequence "NA" ] ;
     cdi:arrayBase 1 ;
     cdi:escapeCharacter "\"" ;
     cdi:headerIsCaseSensitive false ;
