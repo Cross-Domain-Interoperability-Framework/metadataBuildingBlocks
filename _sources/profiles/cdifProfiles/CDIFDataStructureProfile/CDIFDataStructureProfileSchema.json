@@ -46,7 +46,16 @@
                                 "description": "Points at the Data Structure node that describes how this distribution's bytes are organized. Inline cdifDataStructure or @id-reference to a node defined elsewhere in the document. This property is specific to the Data Structure profile - the Data Description profile does not carry it. Required on DataDownload distributions typed as cdi:PhysicalDataSet (or subclass); for schema:WebAPI distributions, it lives on schema:potentialAction.items .schema:result instead (which describes the API response bytes - see the cdifDataDescription extension).",
                                 "anyOf": [
                                     {
-                                        "$ref": "../../../cdifProperties/cdifDataStructure/cdifDataStructureSchema.json"
+                                        "$ref": "../../../cdifProperties/cdifDataStructure/schema.yaml#/$defs/DimensionalDataStructure"
+                                    },
+                                    {
+                                        "$ref": "../../../cdifProperties/cdifDataStructure/schema.yaml#/$defs/WideDataStructure"
+                                    },
+                                    {
+                                        "$ref": "../../../cdifProperties/cdifDataStructure/schema.yaml#/$defs/LongDataStructure"
+                                    },
+                                    {
+                                        "$ref": "../../../cdifProperties/cdifDataStructure/schema.yaml#/$defs/DataStructure"
                                     },
                                     {
                                         "type": "object",
@@ -70,7 +79,16 @@
                                                     "description": "Data Structure for the API response bytes. MAY differ from isStructuredBy values on sibling DataDownload distributions (e.g., the API may serve a long-format variant of a tabular dataset). Required on the result when the distribution is a schema:WebAPI.",
                                                     "anyOf": [
                                                         {
-                                                            "$ref": "../../../cdifProperties/cdifDataStructure/cdifDataStructureSchema.json"
+                                                            "$ref": "../../../cdifProperties/cdifDataStructure/schema.yaml#/$defs/DimensionalDataStructure"
+                                                        },
+                                                        {
+                                                            "$ref": "../../../cdifProperties/cdifDataStructure/schema.yaml#/$defs/WideDataStructure"
+                                                        },
+                                                        {
+                                                            "$ref": "../../../cdifProperties/cdifDataStructure/schema.yaml#/$defs/LongDataStructure"
+                                                        },
+                                                        {
+                                                            "$ref": "../../../cdifProperties/cdifDataStructure/schema.yaml#/$defs/DataStructure"
                                                         },
                                                         {
                                                             "type": "object",
@@ -247,8 +265,14 @@
         }
     ],
     "$defs": {
-        "CdifDataStructure": {
-            "$ref": "../../../cdifProperties/cdifDataStructure/cdifDataStructureSchema.json"
+        "CdifDimensionalDataStructure": {
+            "$ref": "../../../cdifProperties/cdifDataStructure/schema.yaml#/$defs/DimensionalDataStructure"
+        },
+        "CdifWideDataStructure": {
+            "$ref": "../../../cdifProperties/cdifDataStructure/schema.yaml#/$defs/WideDataStructure"
+        },
+        "CdifLongDataStructure": {
+            "$ref": "../../../cdifProperties/cdifDataStructure/schema.yaml#/$defs/LongDataStructure"
         },
         "CdifDataStructureComponent": {
             "$ref": "../../../cdifProperties/cdifDataStructureComponent/cdifDataStructureComponentSchema.json"
