@@ -2094,13 +2094,13 @@ optional Attribute) and its own cdif:PrimaryKey.
                             schema1:valueName "offset" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Maximum number of observations to return (default 100)." ;
+                            schema1:valueName "limit" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Response format token (csv only for this example)." ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of observations to return (default 100)." ;
-                            schema1:valueName "limit" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a cdi:PhysicalDataSet,
                                 cdi:TabularTextDataSet,
@@ -2116,10 +2116,10 @@ optional Attribute) and its own cdif:PrimaryKey.
                             csvw:headerRowCount 1 ;
                             cdif:fileSize 5e-01 ;
                             cdif:fileSizeUofM "MB" ;
-                            cdif:hasPhysicalMapping [ cdif:format "ISO8601" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
-                                    cdif:index 3 ;
-                                    cdif:physicalDataType "dateTime" ],
+                            cdif:hasPhysicalMapping [ cdif:format "decimal" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
+                                    cdif:index 2 ;
+                                    cdif:physicalDataType "decimal" ],
                                 [ cdif:format "string" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
                                     cdif:index 1 ;
@@ -2128,10 +2128,10 @@ optional Attribute) and its own cdif:PrimaryKey.
                                     cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
                                     cdif:index 0 ;
                                     cdif:physicalDataType "string" ],
-                                [ cdif:format "decimal" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
-                                    cdif:index 2 ;
-                                    cdif:physicalDataType "decimal" ] ] ;
+                                [ cdif:format "ISO8601" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
+                                    cdif:index 3 ;
+                                    cdif:physicalDataType "dateTime" ] ] ;
                     schema1:target [ a schema1:EntryPoint ;
                             schema1:contentType "text/csv" ;
                             schema1:description "OGC API Features endpoint returning vitals observations as long-format CSV." ;
@@ -2262,12 +2262,12 @@ optional Attribute) and its own cdif:PrimaryKey.
     cdi:simpleUnitOfMeasure "Cel" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
-            cdif:value "heart_rate" ],
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
+            cdif:value "systolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/diastolicBP> ;
             cdif:value "diastolic_bp" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
-            cdif:value "systolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
+            cdif:value "heart_rate" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/temperatureC> ;
             cdif:value "temp_c" ] .
 

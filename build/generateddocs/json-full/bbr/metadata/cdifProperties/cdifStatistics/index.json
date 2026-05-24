@@ -29,12 +29,6 @@
     "cdif.bbr.metadata.cdifProperties.cdifStatistics": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifProperties/cdifStatistics/rules.shacl"
     ],
-    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
-    ],
-    "cdif.bbr.metadata.schemaorgProperties.identifier": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
-    ],
     "cdif.bbr.metadata.skosProperties.skosConcept": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
     ],
@@ -49,12 +43,18 @@
     ],
     "cdif.bbr.metadata.schemaorgProperties.labeledLink": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/labeledLink/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
     ]
   },
   "dependsOn": [
-    "cdif.bbr.metadata.schemaorgProperties.definedTerm",
     "cdif.bbr.metadata.skosProperties.skosConcept",
-    "cdif.bbr.metadata.cdifProperties.cdifInstanceVariable"
+    "cdif.bbr.metadata.cdifProperties.cdifInstanceVariable",
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm"
   ],
   "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifStatistics/context.jsonld",
   "schema": {
@@ -117,7 +117,7 @@
         {
           "language": "ttl",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifProperties/cdifStatistics/example_2_1.ttl",
-          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix cdif: <https://cdif.org/0.1/> .\n@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n<https://example.org/stats/temperature-mean> a cdi:Statistics ;\n    cdi:hasWeight ex:var-sample-weight ;\n    cdi:statistic [ cdi:computationBase \"ValidOnly\" ;\n            cdi:content 1.243e+01 ;\n            cdi:isWeighted true ;\n            cdi:typeOfNumericValue \"double\" ],\n        [ cdi:computationBase \"Total\" ;\n            cdi:content 1.21e+01 ;\n            cdi:isWeighted false ;\n            cdi:typeOfNumericValue \"double\" ] ;\n    cdi:typeOfStatistic [ a schema1:DefinedTerm ;\n            schema1:identifier \"https://example.org/vocab/stat-types/mean\" ;\n            schema1:inDefinedTermSet \"https://example.org/vocab/stat-types\" ;\n            schema1:name \"arithmetic mean\" ] ;\n    cdif:appliesTo ex:var-temperature ;\n    cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;\n            cdi:for <https://example.org/category/surface> ;\n            cdi:statistic [ cdi:computationBase \"ValidOnly\" ;\n                    cdi:content 1.581e+01 ;\n                    cdi:isWeighted true ] ;\n            cdi:typeOfStatistic [ a schema1:DefinedTerm ;\n                    schema1:inDefinedTermSet \"https://ddialliance.org/vocab/statistic-types\" ;\n                    schema1:name \"Mean\" ;\n                    schema1:termCode \"mean\" ] ],\n        [ a cdi:CategoryStatistics ;\n            cdi:for <https://example.org/category/deep> ;\n            cdi:statistic [ cdi:computationBase \"ValidOnly\" ;\n                    cdi:content 1.007e+01 ;\n                    cdi:isWeighted true ] ;\n            cdi:typeOfStatistic [ a schema1:DefinedTerm ;\n                    schema1:inDefinedTermSet \"https://ddialliance.org/vocab/statistic-types\" ;\n                    schema1:name \"Mean\" ;\n                    schema1:termCode \"mean\" ] ] .\n\n<https://example.org/category/surface> a cdi:Category ;\n    cdif:descriptiveText \"Surface samples (depth < 10 m)\" .\n\n"
+          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix cdif: <https://cdif.org/0.1/> .\n@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n<https://example.org/stats/temperature-mean> a cdi:Statistics ;\n    cdi:hasWeight ex:var-sample-weight ;\n    cdi:statistic [ cdi:computationBase \"Total\" ;\n            cdi:content 1.21e+01 ;\n            cdi:isWeighted false ;\n            cdi:typeOfNumericValue \"double\" ],\n        [ cdi:computationBase \"ValidOnly\" ;\n            cdi:content 1.243e+01 ;\n            cdi:isWeighted true ;\n            cdi:typeOfNumericValue \"double\" ] ;\n    cdi:typeOfStatistic [ a schema1:DefinedTerm ;\n            schema1:identifier \"https://example.org/vocab/stat-types/mean\" ;\n            schema1:inDefinedTermSet \"https://example.org/vocab/stat-types\" ;\n            schema1:name \"arithmetic mean\" ] ;\n    cdif:appliesTo ex:var-temperature ;\n    cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;\n            cdi:for <https://example.org/category/deep> ;\n            cdi:statistic [ cdi:computationBase \"ValidOnly\" ;\n                    cdi:content 1.007e+01 ;\n                    cdi:isWeighted true ] ;\n            cdi:typeOfStatistic [ a schema1:DefinedTerm ;\n                    schema1:inDefinedTermSet \"https://ddialliance.org/vocab/statistic-types\" ;\n                    schema1:name \"Mean\" ;\n                    schema1:termCode \"mean\" ] ],\n        [ a cdi:CategoryStatistics ;\n            cdi:for <https://example.org/category/surface> ;\n            cdi:statistic [ cdi:computationBase \"ValidOnly\" ;\n                    cdi:content 1.581e+01 ;\n                    cdi:isWeighted true ] ;\n            cdi:typeOfStatistic [ a schema1:DefinedTerm ;\n                    schema1:inDefinedTermSet \"https://ddialliance.org/vocab/statistic-types\" ;\n                    schema1:name \"Mean\" ;\n                    schema1:termCode \"mean\" ] ] .\n\n<https://example.org/category/surface> a cdi:Category ;\n    cdif:descriptiveText \"Surface samples (depth < 10 m)\" .\n\n"
         }
       ]
     },
