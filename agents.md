@@ -495,6 +495,40 @@ If the workflow fails, check the error log for:
 - `FileNotFoundError` for example files (wrong `ref:` in `examples.yaml`)
 - Date format errors (must be `YYYY-MM-DD`, not e.g. `2025-11=04`)
 
+### Upstream tooling (OGC bblocks) and local reproduction
+
+CI is a thin wrapper: `.github/workflows/process-bblocks.yml` calls the OGC reusable workflow `opengeospatial/bblocks-postprocess/.github/workflows/validate-and-process.yml@master` on push to `main`. It runs JSON Schema validation, JSON-LD uplift, and SHACL, then **auto-commits** `build/` + `register.json` (commits "Building blocks postprocessing" and "Generate JSON Forms schemas"). We pass `skip-pages: true` (the custom `deploy-viewer.yml` is the sole Pages deployer).
+
+This postprocess — not the local Python tools — is the **authoritative** SHACL/uplift check. Reproduce it locally with Docker (no fork/CI needed):
+
+```bash
+# Full validate + build (writes build/, register.json)
+docker run --pull=always --rm --workdir /workspace -v "$(pwd):/workspace" \
+  ghcr.io/opengeospatial/bblocks-postprocess --clean true
+
+# One block only
+docker run ... ghcr.io/opengeospatial/bblocks-postprocess --clean true --filter <bblock-id>
+
+# Preview the register in the viewer at http://localhost:9090
+docker run --rm --pull=always -v "$(pwd):/register" -p 9090:9090 \
+  ghcr.io/ogcincubator/bblocks-viewer
+```
+
+Per-example validation order in the postprocess: **1) JSON Schema → 2) JSON-LD uplift (JSON + `context.jsonld` → `.jsonld`/`.ttl`) → 3) SHACL.** `tools/validate_examples.py` covers only step 1; `tools/validate_shacl.py` approximates step 3 (it gathers rules from the `$ref` graph rather than the postprocessor's bundle, so confirm against the Docker run when it matters).
+
+### OGC conventions vs. this repo
+
+The generic OGC docs (<https://ogcincubator.github.io/bblocks-docs/all-bblocks-docs.md>) describe options we deliberately do or don't use:
+
+| Generic OGC convention | This repo |
+|---|---|
+| SHACL in `shapes.ttl`, or `shaclShapes`/`shaclClosures` in `bblock.json` | **`rules.shacl`** auto-detected per dir; no `shaclShapes` field |
+| `$ref: bblocks://{id}` | **relative paths** (`../cdifCore/schema.yaml`) |
+| `x-jsonld-context` / `x-jsonld-prefixes` schema keywords | auto-detected **`context.jsonld`** + inline `@context` blocks (no `x-jsonld-*`) |
+| SHACL inheritance via `isProfileOf` | schema **`allOf` composition** (profiles compose BBs; rules bundle by dependency) |
+
+`bblock.json` allowed values: `status` ∈ {under-development, experimental, stable, superseded, retired, invalid, reserved, submitted}; `itemClass` ∈ {schema, datatype, path, parameter, header, cookie, response, api, model} (we use `schema`). `itemIdentifier` is auto-generated from the `_sources` path — never set it manually.
+
 ## Vocabulary Namespaces
 
 | Prefix | URI | Used In |
