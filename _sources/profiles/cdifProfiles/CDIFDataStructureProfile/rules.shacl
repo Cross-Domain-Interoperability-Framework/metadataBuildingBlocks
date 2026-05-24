@@ -20,6 +20,15 @@
 # Strictly speaking the InstanceVariable could carry a value domain that is a
 # subset of the RepresentedVariable's — JSON Schema and SHACL can't express that
 # subset check, so we use the simplification: any overlap is forbidden.
+#
+# It also adds two structural-integrity rules for RepresentedVariables that are
+# referenced by a DataStructureComponent (cdif:isDefinedBy_RepresentedVariable):
+#   - each such RepresentedVariable must have a stable @id (be an IRI node, not an
+#     inline blank node), so that it can be referenced; and
+#   - each such RepresentedVariable must be instantiated by at least one
+#     InstanceVariable via cdif:uses.
+# These are SHACL-only (no JSON Schema equivalent): they are cross-reference
+# coverage/identity constraints that JSON Schema cannot express.
 
 cdifds:NoDuplicateHasIntendedDataTypeShape
     a sh:NodeShape ;
@@ -189,5 +198,34 @@ cdifds:NoDuplicateQualifiesShape
         sh:maxCount 0 ;
         sh:severity sh:Violation ;
         sh:message "cdi:qualifies is already defined on the AttributeComponent that wraps the RepresentedVariable this InstanceVariable cdif:uses; remove the duplicate from the InstanceVariable." ;
+    ]
+    .
+
+# A RepresentedVariable referenced by a DataStructureComponent must be identified
+# by a stable @id (an IRI node), not an inline blank node. Without an @id it
+# cannot be the target of an InstanceVariable's cdif:uses, which the next rule
+# requires. Targets the objects of cdif:isDefinedBy_RepresentedVariable directly,
+# so it applies whether the RepresentedVariable is inlined or referenced by @id.
+cdifds:RepresentedVariableMustHaveStableIdShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf cdif:isDefinedBy_RepresentedVariable ;
+    sh:nodeKind sh:IRI ;
+    sh:severity sh:Violation ;
+    sh:message "A RepresentedVariable referenced by a DataStructureComponent (cdif:isDefinedBy_RepresentedVariable) must be identified by a stable @id (IRI), not an inline blank node, so that an InstanceVariable can reference it via cdif:uses." ;
+    .
+
+# Every RepresentedVariable referenced by a DataStructureComponent must also be
+# instantiated: at least one InstanceVariable must reference it via cdif:uses.
+# Uses the inverse of cdif:uses from the RepresentedVariable (the target object)
+# and requires at least one such subject typed cdi:InstanceVariable.
+cdifds:RepresentedVariableMustBeInstantiatedShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf cdif:isDefinedBy_RepresentedVariable ;
+    sh:property [
+        sh:path [ sh:inversePath cdif:uses ] ;
+        sh:qualifiedValueShape [ sh:class cdi:InstanceVariable ] ;
+        sh:qualifiedMinCount 1 ;
+        sh:severity sh:Violation ;
+        sh:message "This RepresentedVariable is referenced by a DataStructureComponent (cdif:isDefinedBy_RepresentedVariable) but no InstanceVariable references it via cdif:uses. Add an InstanceVariable in schema:variableMeasured whose cdif:uses points at this RepresentedVariable." ;
     ]
     .
