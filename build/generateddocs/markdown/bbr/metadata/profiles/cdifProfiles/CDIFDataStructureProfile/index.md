@@ -2065,22 +2065,22 @@ optional Attribute) and its own cdif:PrimaryKey.
             csvw:headerRowCount 1 ;
             cdif:fileSize 2.4e+00 ;
             cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdif:format "string" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "string" ],
+            cdif:hasPhysicalMapping [ cdif:format "ISO8601" ;
+                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "dateTime" ],
                 [ cdif:format "string" ;
                     cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
                     cdif:index 1 ;
                     cdif:physicalDataType "string" ],
-                [ cdif:format "ISO8601" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "dateTime" ],
                 [ cdif:format "decimal" ;
                     cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
                     cdif:index 2 ;
-                    cdif:physicalDataType "decimal" ] ],
+                    cdif:physicalDataType "decimal" ],
+                [ cdif:format "string" ;
+                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "string" ] ],
         [ a schema1:WebAPI ;
             schema1:documentation [ a schema1:CreativeWork,
                         dcat:Relationship ;
@@ -2090,13 +2090,13 @@ optional Attribute) and its own cdif:PrimaryKey.
             schema1:potentialAction [ a schema1:Action ;
                     schema1:name "Query vitals as long-format CSV" ;
                     schema1:query-input [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of observations to return (default 100)." ;
-                            schema1:valueName "limit" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Response format token (csv only for this example)." ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Maximum number of observations to return (default 100)." ;
+                            schema1:valueName "limit" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
                             schema1:description "Starting index for pagination." ;
@@ -2120,6 +2120,10 @@ optional Attribute) and its own cdif:PrimaryKey.
                                     cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
                                     cdif:index 0 ;
                                     cdif:physicalDataType "string" ],
+                                [ cdif:format "ISO8601" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
+                                    cdif:index 3 ;
+                                    cdif:physicalDataType "dateTime" ],
                                 [ cdif:format "decimal" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
                                     cdif:index 2 ;
@@ -2127,11 +2131,7 @@ optional Attribute) and its own cdif:PrimaryKey.
                                 [ cdif:format "string" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
                                     cdif:index 1 ;
-                                    cdif:physicalDataType "string" ],
-                                [ cdif:format "ISO8601" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
-                                    cdif:index 3 ;
-                                    cdif:physicalDataType "dateTime" ] ] ;
+                                    cdif:physicalDataType "string" ] ] ;
                     schema1:target [ a schema1:EntryPoint ;
                             schema1:contentType "text/csv" ;
                             schema1:description "OGC API Features endpoint returning vitals observations as long-format CSV." ;
@@ -2262,14 +2262,14 @@ optional Attribute) and its own cdif:PrimaryKey.
     cdi:simpleUnitOfMeasure "Cel" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
-            cdif:value "heart_rate" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/temperatureC> ;
-            cdif:value "temp_c" ],
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/diastolicBP> ;
+            cdif:value "diastolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
             cdif:value "systolic_bp" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/diastolicBP> ;
-            cdif:value "diastolic_bp" ] .
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
+            cdif:value "heart_rate" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/temperatureC> ;
+            cdif:value "temp_c" ] .
 
 <https://orcid.org/0000-0001-8898-3457> a schema1:Person ;
     schema1:identifier [ a schema1:PropertyValue ;
@@ -2437,7 +2437,10 @@ allOf:
               .schema:result instead (which describes the API response bytes - see
               the cdifDataDescription extension).
             anyOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructure/schema.yaml
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructure/schema.yaml#/$defs/DimensionalDataStructure
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructure/schema.yaml#/$defs/WideDataStructure
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructure/schema.yaml#/$defs/LongDataStructure
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructure/schema.yaml#/$defs/DataStructure
             - type: object
               properties:
                 '@id':
@@ -2456,7 +2459,10 @@ allOf:
                         of a tabular dataset). Required on the result when the distribution
                         is a schema:WebAPI.
                       anyOf:
-                      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructure/schema.yaml
+                      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructure/schema.yaml#/$defs/DimensionalDataStructure
+                      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructure/schema.yaml#/$defs/WideDataStructure
+                      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructure/schema.yaml#/$defs/LongDataStructure
+                      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructure/schema.yaml#/$defs/DataStructure
                       - type: object
                         properties:
                           '@id':
@@ -2535,8 +2541,12 @@ allOf:
               '@id':
                 const: https://w3id.org/cdif/data_structure/1.0
 $defs:
-  CdifDataStructure:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructure/schema.yaml
+  CdifDimensionalDataStructure:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructure/schema.yaml#/$defs/DimensionalDataStructure
+  CdifWideDataStructure:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructure/schema.yaml#/$defs/WideDataStructure
+  CdifLongDataStructure:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructure/schema.yaml#/$defs/LongDataStructure
   CdifDataStructureComponent:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifDataStructureComponent/schema.yaml
   CdifRepresentedVariable:

@@ -61,14 +61,12 @@ inScheme, broader, notation, and cross-references via related.
 #### json
 ```json
 {
-  "@context": [
-    {
-      "skos": "http://www.w3.org/2004/02/skos/core#",
-      "dcterms": "http://purl.org/dc/terms/",
-      "schema": "http://schema.org/",
-      "sf": "https://w3id.org/isample/vocabulary/sampledfeature/"
-    }
-  ],
+  "@context": {
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "schema": "http://schema.org/",
+    "sf": "https://w3id.org/isample/vocabulary/sampledfeature/"
+  },
   "@id": "sf:sampledfeaturevocabulary",
   "@type": [
     "skos:ConceptScheme"
@@ -1350,13 +1348,11 @@ No optional properties (notation, altLabel, mappings, notes, DC metadata).
 #### json
 ```json
 {
-  "@context": [
-    {
-      "skos": "http://www.w3.org/2004/02/skos/core#",
-      "schema": "http://schema.org/",
-      "mat": "https://w3id.org/isample/vocabulary/material/"
-    }
-  ],
+  "@context": {
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "http://schema.org/",
+    "mat": "https://w3id.org/isample/vocabulary/material/"
+  },
   "@id": "mat:materialsvocabulary",
   "@type": [
     "skos:ConceptScheme"
