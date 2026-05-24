@@ -1,0 +1,52 @@
+@startuml
+title CDIFDataDescription — overview
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+abstract class "AbstractVariable" as AbstractVariable #FCF3CF
+class "InstanceVariable" as InstanceVariable #FAE5D3
+class "VariableMeasured" as VariableMeasured #FCF3CF
+class "DataDownload" as DataDownload #FCF3CF
+class "PrimaryKey" as PrimaryKey #FAE5D3
+class "PrimaryKeyComponent" as PrimaryKeyComponent #FAE5D3
+class "Statistic" as Statistic #FCF3CF
+class "Statistics" as Statistics #FCF3CF
+class "CategoryStatistics" as CategoryStatistics #FCF3CF
+class "StatisticsCollection" as StatisticsCollection #FCF3CF
+class "Category" as Category #FCF3CF
+class "SubstantiveValueDomain" as SubstantiveValueDomain #FAE5D3
+class "SentinelValueDomain" as SentinelValueDomain #FAE5D3
+class "EnumerationDomain" as EnumerationDomain #FAE5D3
+class "PhysicalMapping" as PhysicalMapping #FCF3CF
+class "Concept" as Concept #FCF3CF
+class "Identifier" as Identifier #FCF3CF
+class "DefinedTerm" as DefinedTerm #FCF3CF
+AbstractVariable <|-- InstanceVariable
+AbstractVariable <|-- VariableMeasured
+InstanceVariable --> "0..1" StatisticsCollection : isDescribedBy
+InstanceVariable --> "0..1" InstanceVariable : qualifies
+InstanceVariable --> "0..1" SubstantiveValueDomain : takesSubstantiveValuesFrom
+InstanceVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
+VariableMeasured --> "0..1" InstanceVariable : describes
+DataDownload --> "0..*" PhysicalMapping : hasPhysicalMapping
+PrimaryKey --> "1..*" PrimaryKeyComponent : isComposedOf
+Statistics --> "1..*" InstanceVariable : appliesTo
+Statistics --> "0..1" InstanceVariable : hasWeight
+Statistics --> "0..*" CategoryStatistics : has
+CategoryStatistics --> "1" Category : for
+CategoryStatistics --> "0..1" InstanceVariable : hasWeight
+StatisticsCollection --> "1..*" Statistics : has
+StatisticsCollection --> "1..*" InstanceVariable : indexedBy
+StatisticsCollection --> "0..1" InstanceVariable : hasWeight
+SubstantiveValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
+SentinelValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
+PhysicalMapping --> "1" InstanceVariable : formats
+
+@enduml

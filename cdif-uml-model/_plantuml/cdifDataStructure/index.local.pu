@@ -54,37 +54,8 @@ class "PhysicalMapping" as PhysicalMapping #FCF3CF
 class "Concept" as Concept #FCF3CF
 class "Identifier" as Identifier #FCF3CF
 class "DefinedTerm" as DefinedTerm #FCF3CF
-class "Dataset" as Dataset #D5F5E3
-class "SpatialExtent" as SpatialExtent #D5F5E3
-abstract class "AbstractGeometry" as AbstractGeometry #D5F5E3
-class "GeoCoordinates" as GeoCoordinates #D5F5E3
-class "GeoShape" as GeoShape #D5F5E3
-class "TemporalExtent" as TemporalExtent #D5F5E3
-class "Instant" as Instant #D5F5E3
-class "TimePosition" as TimePosition #D5F5E3
-class "Geometry" as Geometry #D5F5E3
-class "QualityMeasurement" as QualityMeasurement #D5F5E3
-abstract class "AbstractDistribution" as AbstractDistribution #D6EAF8
-class "WebAPI" as WebAPI #D6EAF8
-abstract class "Agent" as Agent #D6EAF8
-class "Person" as Person #D6EAF8
-class "ContactPoint" as ContactPoint #D6EAF8
-class "Organization" as Organization #D6EAF8
-class "Contributor" as Contributor #D6EAF8
-class "AdditionalProperty" as AdditionalProperty #D6EAF8
-class "Reference" as Reference #D6EAF8
-class "MonetaryGrant" as MonetaryGrant #D6EAF8
-class "ProvActivity" as ProvActivity #D6EAF8
-class "DerivedFrom" as DerivedFrom #D6EAF8
-class "CatalogRecord" as CatalogRecord #D6EAF8
 AbstractVariable <|-- InstanceVariable
 AbstractVariable <|-- VariableMeasured
-AbstractDistribution <|-- DataDownload
-AbstractGeometry <|-- GeoCoordinates
-AbstractGeometry <|-- GeoShape
-AbstractDistribution <|-- WebAPI
-Agent <|-- Person
-Agent <|-- Organization
 DataStructure --> "0..*" ForeignKey : has
 WideDataStructure --> "1..*" IdentifierComponent : has
 WideDataStructure --> "1..*" MeasureComponent : has
@@ -135,7 +106,6 @@ SentinelConceptualDomain --> "0..1" ConceptSystem : takesConceptsFrom
 VariableMeasured --> "0..1" InstanceVariable : describes
 DataDownload --> "0..1" DataStructure : isStructuredBy
 DataDownload --> "0..*" PhysicalMapping : hasPhysicalMapping
-DataDownload --> "0..*" Agent : provider
 Statistics --> "1..*" InstanceVariable : appliesTo
 Statistics --> "0..1" InstanceVariable : hasWeight
 Statistics --> "0..*" CategoryStatistics : has
@@ -145,32 +115,5 @@ StatisticsCollection --> "1..*" Statistics : has
 StatisticsCollection --> "1..*" InstanceVariable : indexedBy
 StatisticsCollection --> "0..1" InstanceVariable : hasWeight
 PhysicalMapping --> "1" InstanceVariable : formats
-Dataset --> "1..*" AbstractVariable : variableMeasured
-Dataset --> "0..1" PrimaryKey : hasPrimaryKey
-Dataset --> "0..*" Statistics : statistics
-Dataset --> "0..*" StatisticsCollection : statistics
-Dataset --> "0..*" SpatialExtent : spatialCoverage
-Dataset --> "0..*" TemporalExtent : temporalCoverage
-Dataset --> "0..*" QualityMeasurement : hasQualityMeasurement
-Dataset --> "0..*" Agent : provider
-Dataset --> "0..*" AbstractDistribution : distribution
-Dataset --> "0..*" Agent : creator
-Dataset --> "0..*" Contributor : contributor
-Dataset --> "0..1" Agent : publisher
-Dataset --> "0..*" MonetaryGrant : funding
-Dataset --> "0..*" ProvActivity : wasGeneratedBy
-Dataset --> "0..*" DerivedFrom : wasDerivedFrom
-Dataset --> "1" CatalogRecord : subjectOf
-Dataset --> "0..*" DefinedTerm : keywords
-Dataset --> "0..*" Reference : license
-SpatialExtent --> "0..1" AbstractGeometry : geo
-SpatialExtent --> "0..1" Geometry : hasGeometry
-TemporalExtent --> "0..1" Instant : hasBeginning
-TemporalExtent --> "0..1" Instant : hasEnd
-Instant --> "0..1" TimePosition : inTimePosition
-Contributor --> "0..1" Agent : contributor
-MonetaryGrant --> "0..*" Agent : funder
-CatalogRecord --> "0..1" Dataset : about
-CatalogRecord --> "0..1" Agent : maintainer
 
 @enduml

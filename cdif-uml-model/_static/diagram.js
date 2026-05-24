@@ -110,7 +110,7 @@
   function enhance(box, viewport, stage, svg, nat) {
     box.classList.add("is-interactive");
     var scale = 1, tx = 0, ty = 0;
-    var viewKey = "cdifDiagramView:" + location.pathname;
+    var viewKey = "cdifDiagramView:" + location.pathname + ":" + (box.getAttribute("data-svg") || "");
     function apply() {
       stage.style.transform = "translate(" + tx + "px," + ty + "px) scale(" + scale + ")";
     }
@@ -205,6 +205,8 @@
   }
 
   function setup(box) {
+    if (!box || box._ready) return;   // idempotent: also guards lazy reveal
+    box._ready = true;
     var viewport = box.querySelector(".diagram-viewport");
     var stage = box.querySelector(".diagram-stage");
     var src = box.getAttribute("data-svg");
@@ -228,9 +230,35 @@
     }).catch(function () { /* keep the static <object> fallback */ });
   }
 
+  function isShown(el) { return !!el && el.offsetParent !== null; }
+
+  // Overview full/simplified toggle (profile index only). The two diagrams are
+  // emitted as #overview-full and #overview-local (the latter hidden); the
+  // simplified one is set up lazily the first time it is revealed so its fit()
+  // runs with a non-zero viewport.
+  function initToggle() {
+    var btn = document.querySelector("[data-overview-toggle]");
+    var full = document.getElementById("overview-full");
+    var local = document.getElementById("overview-local");
+    if (!btn || !full || !local) return;
+    var simplified = false;
+    btn.addEventListener("click", function () {
+      simplified = !simplified;
+      full.hidden = simplified;
+      local.hidden = !simplified;
+      btn.textContent = simplified
+        ? "Show full model (with inherited)"
+        : "Hide inherited (Core/Discovery)";
+      setup(simplified ? local : full);
+    });
+  }
+
   function init() {
     var boxes = document.querySelectorAll(".diagram[data-diagram]");
-    for (var i = 0; i < boxes.length; i++) setup(boxes[i]);
+    for (var i = 0; i < boxes.length; i++) {
+      if (isShown(boxes[i])) setup(boxes[i]);
+    }
+    initToggle();
   }
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
