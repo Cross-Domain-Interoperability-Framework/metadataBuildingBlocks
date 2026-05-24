@@ -143,14 +143,14 @@ use cdif:locator HDF5-style paths for each variable.
 
 [] a cdi:StructuredDataSet ;
     ns1:hasPhysicalMapping [ ns1:format "float64" ;
-            ns1:formats_InstanceVariable ex:var-temperature ;
-            ns1:index 0 ;
-            ns1:locator "/temperature[*][*]" ;
-            ns1:physicalDataType "Numeric" ],
-        [ ns1:format "float64" ;
             ns1:formats_InstanceVariable ex:var-pressure ;
             ns1:index 1 ;
             ns1:locator "/pressure[*][*]" ;
+            ns1:physicalDataType "Numeric" ],
+        [ ns1:format "float64" ;
+            ns1:formats_InstanceVariable ex:var-temperature ;
+            ns1:index 0 ;
+            ns1:locator "/temperature[*][*]" ;
             ns1:physicalDataType "Numeric" ] .
 
 
