@@ -233,32 +233,44 @@
   function isShown(el) { return !!el && el.offsetParent !== null; }
 
   // Overview full/simplified toggle (profile index only). The two diagrams are
-  // emitted as #overview-full and #overview-local (the latter hidden); the
-  // simplified one is set up lazily the first time it is revealed so its fit()
-  // runs with a non-zero viewport.
+  // emitted as #overview-full and #overview-local (the latter hidden); the shown
+  // one is set up lazily the first time it becomes visible so its fit() runs with
+  // a non-zero viewport. The choice is persisted per page in sessionStorage so
+  // drilling into a class and using the diagram Back button returns to the same
+  // (e.g. simplified) view instead of resetting to the full model.
   function initToggle() {
     var btn = document.querySelector("[data-overview-toggle]");
     var full = document.getElementById("overview-full");
     var local = document.getElementById("overview-local");
     if (!btn || !full || !local) return;
-    var simplified = false;
-    btn.addEventListener("click", function () {
-      simplified = !simplified;
+    var key = "cdifOverviewSimplified:" + location.pathname;
+    function apply(simplified) {
       full.hidden = simplified;
       local.hidden = !simplified;
       btn.textContent = simplified
         ? "Show full model (with inherited)"
         : "Hide inherited (Core/Discovery)";
-      setup(simplified ? local : full);
+      var shown = simplified ? local : full;
+      if (shown && !shown._ready) setup(shown);
+    }
+    var simplified = false;
+    try { simplified = sessionStorage.getItem(key) === "1"; } catch (e) {}
+    apply(simplified);
+    btn.addEventListener("click", function () {
+      simplified = !simplified;
+      try { sessionStorage.setItem(key, simplified ? "1" : "0"); } catch (e) {}
+      apply(simplified);
     });
   }
 
   function init() {
+    // Apply any persisted simplified/full choice first (it sets up the visible
+    // diagram), then set up any remaining visible diagrams (class pages, etc.).
+    initToggle();
     var boxes = document.querySelectorAll(".diagram[data-diagram]");
     for (var i = 0; i < boxes.length; i++) {
       if (isShown(boxes[i])) setup(boxes[i]);
     }
-    initToggle();
   }
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

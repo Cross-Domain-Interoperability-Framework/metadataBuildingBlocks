@@ -14,7 +14,7 @@ class "DataStructure" as DataStructure #FAE5D3
 class "WideDataStructure" as WideDataStructure #FAE5D3
 class "LongDataStructure" as LongDataStructure #FAE5D3
 class "DimensionalDataStructure" as DimensionalDataStructure #FAE5D3
-class "DataStructureComponent" as DataStructureComponent #FAE5D3
+abstract class "DataStructureComponent" as DataStructureComponent #FAE5D3
 class "IdentifierComponent" as IdentifierComponent #FAE5D3
 class "MeasureComponent" as MeasureComponent #FAE5D3
 class "AttributeComponent" as AttributeComponent #FAE5D3
@@ -77,6 +77,15 @@ class "MonetaryGrant" as MonetaryGrant #D6EAF8
 class "ProvActivity" as ProvActivity #D6EAF8
 class "DerivedFrom" as DerivedFrom #D6EAF8
 class "CatalogRecord" as CatalogRecord #D6EAF8
+DataStructure <|-- WideDataStructure
+DataStructure <|-- LongDataStructure
+DataStructure <|-- DimensionalDataStructure
+DataStructureComponent <|-- IdentifierComponent
+DataStructureComponent <|-- MeasureComponent
+DataStructureComponent <|-- AttributeComponent
+DataStructureComponent <|-- DimensionComponent
+DataStructureComponent <|-- VariableValueComponent
+DataStructureComponent <|-- VariableDescriptorComponent
 AbstractVariable <|-- InstanceVariable
 AbstractVariable <|-- VariableMeasured
 AbstractDistribution <|-- DataDownload
@@ -85,11 +94,12 @@ AbstractGeometry <|-- GeoShape
 AbstractDistribution <|-- WebAPI
 Agent <|-- Person
 Agent <|-- Organization
+DataStructure --> "1..*" DataStructureComponent : has
+DataStructure --> "0..1" PrimaryKey : has
 DataStructure --> "0..*" ForeignKey : has
 WideDataStructure --> "1..*" IdentifierComponent : has
 WideDataStructure --> "1..*" MeasureComponent : has
 WideDataStructure --> "0..*" AttributeComponent : has
-WideDataStructure --> "0..1" PrimaryKey : has
 LongDataStructure --> "1..*" IdentifierComponent : has
 LongDataStructure --> "1..*" VariableDescriptorComponent : has
 LongDataStructure --> "1..*" VariableValueComponent : has

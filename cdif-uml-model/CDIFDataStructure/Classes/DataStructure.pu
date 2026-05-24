@@ -14,6 +14,16 @@ class "DataStructure" as DataStructure #FEFECE {
   +identifier : Identifier [1]
   +semantic : Concept [1..*]
 }
+class "WideDataStructure" as WideDataStructure #D5F5E3
+DataStructure <|-- WideDataStructure
+class "LongDataStructure" as LongDataStructure #D5F5E3
+DataStructure <|-- LongDataStructure
+class "DimensionalDataStructure" as DimensionalDataStructure #D5F5E3
+DataStructure <|-- DimensionalDataStructure
+abstract class "DataStructureComponent" as DataStructureComponent #EEEEEE
+DataStructure --> "1..*" DataStructureComponent : has
+class "PrimaryKey" as PrimaryKey #EEEEEE
+DataStructure --> "0..1" PrimaryKey : has
 class "ForeignKey" as ForeignKey #EEEEEE
 DataStructure --> "0..*" ForeignKey : has
 class "DataDownload" as DataDownload #EEEEEE

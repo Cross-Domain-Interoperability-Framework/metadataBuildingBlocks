@@ -38,7 +38,12 @@ a.classlink:hover { text-decoration: underline; }
 .diagram-stage object, .diagram-stage img, .diagram-stage svg { max-width: 100%; }
 .diagram.is-interactive .diagram-viewport { height: 70vh; min-height: 320px;
     overflow: hidden; background: #fff; cursor: grab; touch-action: none;
-    user-select: none; -webkit-user-select: none; -moz-user-select: none; }
+    user-select: none; -webkit-user-select: none; -moz-user-select: none;
+    /* position:relative makes the viewport the containing block for the absolute
+       stage, and contain:paint forces the (will-change/transform composited)
+       stage to be clipped to this box and confined to its own stacking context —
+       otherwise panning the graph up lets it paint over the text above it. */
+    position: relative; contain: paint; }
 .diagram.is-interactive .diagram-viewport.grabbing { cursor: grabbing; }
 .diagram.is-interactive .diagram-stage { position: absolute; top: 0; left: 0;
     padding: 0; transform-origin: 0 0; will-change: transform; }
@@ -71,6 +76,15 @@ a.classlink:hover { text-decoration: underline; }
 .legend-item { display: inline-flex; align-items: center; gap: 0.35rem; }
 .legend-swatch { width: 14px; height: 14px; border: 1px solid #404040;
     border-radius: 2px; display: inline-block; flex: none; }
+.overview-section { position: relative; }
+.overview-controls { position: sticky; top: 0; z-index: 6; background: #fafafa;
+    padding: 0.5rem 0 0.3rem; }
+.overview-controls .overview-toggle { margin: 0 0 0.5rem; }
+.overview-controls .diagram-legend { margin: 0; }
+/* Keep the diagram (whose interactive stage uses transform/will-change, i.e. a
+   compositing layer) in its own stacking context BELOW the sticky controls, so
+   panning/scrolling never paints the graph over the toggle + legend. */
+.overview-section .diagram { z-index: 1; }
 .empty { color: #999; font-style: italic; }
 ul.classlist { list-style: none; padding: 0;
                display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
