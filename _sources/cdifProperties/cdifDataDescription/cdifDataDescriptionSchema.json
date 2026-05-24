@@ -71,15 +71,6 @@
                 }
             }
         },
-        "@context": {
-            "type": "object",
-            "description": "Additional namespace prefix for data description properties.",
-            "properties": {
-                "csvw": {
-                    "const": "http://www.w3.org/ns/csvw#"
-                }
-            }
-        },
         "schema:variableMeasured": {
             "type": "array",
             "items": {
@@ -168,16 +159,58 @@
                             "properties": {
                                 "cdif:hasPhysicalMapping": {
                                     "type": "array",
-                                    "description": "Per-field physical mappings linking the variables measured by this DataDownload distribution to their physical representation in the file - column index, format, physical data type, length, null sequence, etc. Each item is a cdifPhysicalMapping.",
+                                    "description": "Per-field physical mappings linking the variables measured by this DataDownload distribution to their physical representation in the file - column index, format, physical data type, null sequence, etc. Each item is a cdifPhysicalMapping or one of its specializations (cdifTextMapping for tabular text, cdifLocatorMapping for structured data); the dataset-type branches below tighten the item type.",
                                     "items": {
-                                        "$ref": "../cdifPhysicalMapping/cdifPhysicalMappingSchema.json"
+                                        "anyOf": [
+                                            {
+                                                "$ref": "../cdifPhysicalMapping/cdifPhysicalMappingSchema.json"
+                                            },
+                                            {
+                                                "$ref": "../cdifTextMapping/cdifTextMappingSchema.json"
+                                            },
+                                            {
+                                                "$ref": "../cdifLocatorMapping/cdifLocatorMappingSchema.json"
+                                            }
+                                        ]
                                     }
                                 },
                                 "cdi:characterSet": {
                                     "type": "string",
                                     "description": "The character set used in the distribution (e.g., UTF-8, ASCII)."
+                                },
+                                "cdi:fingerprint": {
+                                    "description": "Integrity fingerprint (checksum/hash) of this distribution's bytes (DDI-CDI DataFingerprint).",
+                                    "$ref": "../cdifDataFingerprint/cdifDataFingerprintSchema.json"
                                 }
                             }
+                        }
+                    },
+                    {
+                        "if": {
+                            "properties": {
+                                "@type": {
+                                    "contains": {
+                                        "const": "cdi:TabularTextDataSet"
+                                    }
+                                }
+                            }
+                        },
+                        "then": {
+                            "$ref": "../cdifTabularTextDataSet/cdifTabularTextDataSetSchema.json"
+                        }
+                    },
+                    {
+                        "if": {
+                            "properties": {
+                                "@type": {
+                                    "contains": {
+                                        "const": "cdi:StructuredDataSet"
+                                    }
+                                }
+                            }
+                        },
+                        "then": {
+                            "$ref": "../cdifStructuredDataSet/cdifStructuredDataSetSchema.json"
                         }
                     },
                     {
@@ -199,9 +232,19 @@
                                                 "properties": {
                                                     "cdif:hasPhysicalMapping": {
                                                         "type": "array",
-                                                        "description": "Per-field physical mappings for the API response - the response is another physical realization of the dataset's variables. Each item is a cdifPhysicalMapping.",
+                                                        "description": "Per-field physical mappings for the API response - the response is another physical realization of the dataset's variables. Each item is a cdifPhysicalMapping or one of its specializations (cdifTextMapping / cdifLocatorMapping).",
                                                         "items": {
-                                                            "$ref": "../cdifPhysicalMapping/cdifPhysicalMappingSchema.json"
+                                                            "anyOf": [
+                                                                {
+                                                                    "$ref": "../cdifPhysicalMapping/cdifPhysicalMappingSchema.json"
+                                                                },
+                                                                {
+                                                                    "$ref": "../cdifTextMapping/cdifTextMappingSchema.json"
+                                                                },
+                                                                {
+                                                                    "$ref": "../cdifLocatorMapping/cdifLocatorMappingSchema.json"
+                                                                }
+                                                            ]
                                                         }
                                                     },
                                                     "cdi:characterSet": {

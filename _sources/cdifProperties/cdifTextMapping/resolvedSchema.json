@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Text Mapping Type",
+  "description": "Physical mapping for a variable in a delimited or fixed-width text dataset. Extends cdifPhysicalMapping with text-format properties (column width and number formatting). DDI-CDI TextMapping.",
+  "properties": {
+    "cdif:index": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Non-negative integer that orders the fields in the data structure (column number)."
+    },
+    "cdif:format": {
+      "type": "string",
+      "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
+    },
+    "cdif:physicalDataType": {
+      "type": "string"
+    },
+    "cdi:numberPattern": {
+      "type": "string",
+      "description": "Number format pattern for the field (PhysicalMapping.numberPattern). Text-format properties (column width, decimal/digit-group separators, display label) live on cdifTextMapping."
+    },
+    "cdi:nullSequence": {
+      "type": "string",
+      "description": "The value of this property becomes the null annotation for the described column."
+    },
+    "cdi:defaultValue": {
+      "type": "string",
+      "description": "A default string indicating the value to substitute for an empty string."
+    },
+    "cdi:scale": {
+      "type": "integer"
+    },
+    "cdi:decimalPositions": {
+      "type": "integer"
+    },
+    "cdi:minimumLength": {
+      "type": "integer"
+    },
+    "cdi:maximumLength": {
+      "type": "integer"
+    },
+    "cdi:isRequired": {
+      "type": "boolean",
+      "default": false
+    },
+    "cdif:formats_InstanceVariable": {
+      "type": "object",
+      "description": "Reference to a variable defined in schema:variableMeasured.",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "This should be a reference to a variable defined in the schema:variableMeasured section."
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "type": "object",
+      "properties": {
+        "cdi:length": {
+          "type": "integer",
+          "description": "The column width if the tabular text is fixed width (TextMapping.length)."
+        },
+        "cdi:defaultDecimalSeparator": {
+          "type": "string",
+          "description": "Decimal separator used when not otherwise specified (TextMapping.defaultDecimalSeparator)."
+        },
+        "cdi:defaultDigitGroupSeparator": {
+          "type": "string",
+          "description": "Digit-group (thousands) separator (TextMapping.defaultDigitGroupSeparator)."
+        },
+        "cdif:displayLabel": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Human-readable label(s) for display. CDIF simplification (plain string) of DDI-CDI TextMapping.displayLabel, whose model type is LabelForDisplay. Per the cdi/cdif namespace policy a structured-string type simplified to a plain string is in the cdif namespace."
+        }
+      }
+    }
+  ]
+}
