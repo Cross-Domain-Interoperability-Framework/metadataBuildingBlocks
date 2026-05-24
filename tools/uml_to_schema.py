@@ -3423,7 +3423,12 @@ a.classlink:hover { text-decoration: underline; }
 .diagram-stage object, .diagram-stage img, .diagram-stage svg { max-width: 100%; }
 .diagram.is-interactive .diagram-viewport { height: 70vh; min-height: 320px;
     overflow: hidden; background: #fff; cursor: grab; touch-action: none;
-    user-select: none; -webkit-user-select: none; -moz-user-select: none; }
+    user-select: none; -webkit-user-select: none; -moz-user-select: none;
+    /* position:relative makes the viewport the containing block for the absolute
+       stage, and contain:paint forces the (will-change/transform composited)
+       stage to be clipped to this box and confined to its own stacking context —
+       otherwise panning the graph up lets it paint over the text above it. */
+    position: relative; contain: paint; }
 .diagram.is-interactive .diagram-viewport.grabbing { cursor: grabbing; }
 .diagram.is-interactive .diagram-stage { position: absolute; top: 0; left: 0;
     padding: 0; transform-origin: 0 0; will-change: transform; }
@@ -3456,6 +3461,15 @@ a.classlink:hover { text-decoration: underline; }
 .legend-item { display: inline-flex; align-items: center; gap: 0.35rem; }
 .legend-swatch { width: 14px; height: 14px; border: 1px solid #404040;
     border-radius: 2px; display: inline-block; flex: none; }
+.overview-section { position: relative; }
+.overview-controls { position: sticky; top: 0; z-index: 6; background: #fafafa;
+    padding: 0.5rem 0 0.3rem; }
+.overview-controls .overview-toggle { margin: 0 0 0.5rem; }
+.overview-controls .diagram-legend { margin: 0; }
+/* Keep the diagram (whose interactive stage uses transform/will-change, i.e. a
+   compositing layer) in its own stacking context BELOW the sticky controls, so
+   panning/scrolling never paints the graph over the toggle + legend. */
+.overview-section .diagram { z-index: 1; }
 .empty { color: #999; font-style: italic; }
 ul.classlist { list-style: none; padding: 0;
                display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -3712,32 +3726,44 @@ _HTML_DIAGRAM_JS = r"""
   function isShown(el) { return !!el && el.offsetParent !== null; }
 
   // Overview full/simplified toggle (profile index only). The two diagrams are
-  // emitted as #overview-full and #overview-local (the latter hidden); the
-  // simplified one is set up lazily the first time it is revealed so its fit()
-  // runs with a non-zero viewport.
+  // emitted as #overview-full and #overview-local (the latter hidden); the shown
+  // one is set up lazily the first time it becomes visible so its fit() runs with
+  // a non-zero viewport. The choice is persisted per page in sessionStorage so
+  // drilling into a class and using the diagram Back button returns to the same
+  // (e.g. simplified) view instead of resetting to the full model.
   function initToggle() {
     var btn = document.querySelector("[data-overview-toggle]");
     var full = document.getElementById("overview-full");
     var local = document.getElementById("overview-local");
     if (!btn || !full || !local) return;
-    var simplified = false;
-    btn.addEventListener("click", function () {
-      simplified = !simplified;
+    var key = "cdifOverviewSimplified:" + location.pathname;
+    function apply(simplified) {
       full.hidden = simplified;
       local.hidden = !simplified;
       btn.textContent = simplified
         ? "Show full model (with inherited)"
         : "Hide inherited (Core/Discovery)";
-      setup(simplified ? local : full);
+      var shown = simplified ? local : full;
+      if (shown && !shown._ready) setup(shown);
+    }
+    var simplified = false;
+    try { simplified = sessionStorage.getItem(key) === "1"; } catch (e) {}
+    apply(simplified);
+    btn.addEventListener("click", function () {
+      simplified = !simplified;
+      try { sessionStorage.setItem(key, simplified ? "1" : "0"); } catch (e) {}
+      apply(simplified);
     });
   }
 
   function init() {
+    // Apply any persisted simplified/full choice first (it sets up the visible
+    // diagram), then set up any remaining visible diagrams (class pages, etc.).
+    initToggle();
     var boxes = document.querySelectorAll(".diagram[data-diagram]");
     for (var i = 0; i < boxes.length; i++) {
       if (isShown(boxes[i])) setup(boxes[i]);
     }
-    initToggle();
   }
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
@@ -4094,7 +4120,14 @@ def _html_profile_index(profile_name: str, closure: UmlClosure,
                            'data-overview-toggle>Hide inherited (Core/Discovery)</button>')
             local_html = _html_render_diagram(local_pu, div_id="overview-local", hidden=True)
         full_html = _html_render_diagram(full_pu, div_id="overview-full")
-        overview_html = f"{toggle_html}{legend_html}{full_html}{local_html}"
+        # Controls in a sticky bar so the toggle + legend stay visible while the
+        # (tall, interactive) diagram is on screen — e.g. after the diagram Back
+        # button restores scroll to the diagram. The bar un-pins once you scroll
+        # past the overview section into the class lists.
+        controls_html = (f'<div class="overview-controls">{toggle_html}'
+                         f'{legend_html}</div>')
+        overview_html = (f'<div class="overview-section">{controls_html}'
+                         f'{full_html}{local_html}</div>')
 
     inh = inherited_class_names or set()
 
