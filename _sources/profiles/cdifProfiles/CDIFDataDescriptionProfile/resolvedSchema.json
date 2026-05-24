@@ -214,6 +214,10 @@
                   "type": "string"
                 }
               },
+              "schema:contentSize": {
+                "type": "string",
+                "description": "File size of this distribution, e.g. '2.5 MB' or a byte count. Per schema.org/contentSize."
+              },
               "spdx:checksum": {
                 "type": "object",
                 "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
@@ -427,8 +431,9 @@
                       ]
                     },
                     "schema:result": {
+                      "title": "Action result",
+                      "description": "specifies the serialization scheme (encoding format, information model) for the expected representation of the data - documentation of the serialization format for the API response. See the actionResult building block.",
                       "type": "object",
-                      "description": "specifies the serialization scheme (encoding format, information model) for expected representation of the data. Documentation of the serialization format for the API response.",
                       "properties": {
                         "@type": {
                           "type": "array",
@@ -441,14 +446,32 @@
                           },
                           "minItems": 1
                         },
+                        "schema:name": {
+                          "type": "string",
+                          "description": "text label for the result/response format."
+                        },
+                        "schema:description": {
+                          "type": "string",
+                          "description": "description of the result/response representation."
+                        },
                         "schema:encodingFormat": {
                           "type": "array",
+                          "description": "MIME type(s) of the response serialization.",
                           "items": {
                             "type": "string"
                           }
                         },
-                        "schema:description": {
-                          "type": "string"
+                        "dcterms:conformsTo": {
+                          "type": "array",
+                          "description": "identifier(s) for a standard or specification the response conforms to.",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "@id": {
+                                "type": "string"
+                              }
+                            }
+                          }
                         }
                       }
                     },
@@ -525,165 +548,178 @@
             ]
           }
         ],
-        "properties": {
-          "cdif:hasPhysicalMapping": {
-            "type": "array",
-            "description": "Per-field physical mappings linking the variables measured by this distribution to their physical representation in the file - column index, format, physical data type, length, null sequence, etc. Applies to schema:DataDownload items typed as cdi:PhysicalDataSet or one of its subclasses. Each item is a cdifPhysicalMapping.",
-            "items": {
-              "title": "Physical Mapping Type",
-              "description": "Defines implementation-specific properties for the representation of a variable in a dataset. Aligned with CDIF 2026 schema using DDI-CDI flat per-column mapping structure.",
-              "type": "object",
+        "allOf": [
+          {
+            "if": {
               "properties": {
-                "cdif:index": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "description": "Non-negative integer that orders the fields in the data structure (column number)."
-                },
-                "cdif:format": {
-                  "type": "string",
-                  "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
-                },
-                "cdif:physicalDataType": {
-                  "type": "string"
-                },
-                "cdi:length": {
-                  "type": "integer",
-                  "description": "The column width if the tabular text is fixed width."
-                },
-                "cdi:nullSequence": {
-                  "type": "string",
-                  "description": "The value of this property becomes the null annotation for the described column."
-                },
-                "cdi:defaultValue": {
-                  "type": "string",
-                  "description": "A default string indicating the value to substitute for an empty string."
-                },
-                "cdi:scale": {
-                  "type": "integer"
-                },
-                "cdi:decimalPositions": {
-                  "type": "integer"
-                },
-                "cdi:minimumLength": {
-                  "type": "integer"
-                },
-                "cdi:maximumLength": {
-                  "type": "integer"
-                },
-                "cdi:isRequired": {
-                  "type": "boolean",
-                  "default": false
-                },
-                "cdif:formats_InstanceVariable": {
-                  "type": "object",
-                  "description": "Reference to a variable defined in schema:variableMeasured.",
-                  "properties": {
-                    "@id": {
-                      "type": "string",
-                      "description": "This should be a reference to a variable defined in the schema:variableMeasured section."
+                "@type": {
+                  "contains": {
+                    "const": "schema:DataDownload"
+                  }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "cdif:hasPhysicalMapping": {
+                  "type": "array",
+                  "description": "Per-field physical mappings linking the variables measured by this DataDownload distribution to their physical representation in the file - column index, format, physical data type, length, null sequence, etc. Each item is a cdifPhysicalMapping.",
+                  "items": {
+                    "title": "Physical Mapping Type",
+                    "description": "Defines implementation-specific properties for the representation of a variable in a dataset. Aligned with CDIF 2026 schema using DDI-CDI flat per-column mapping structure.",
+                    "type": "object",
+                    "properties": {
+                      "cdif:index": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Non-negative integer that orders the fields in the data structure (column number)."
+                      },
+                      "cdif:format": {
+                        "type": "string",
+                        "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
+                      },
+                      "cdif:physicalDataType": {
+                        "type": "string"
+                      },
+                      "cdi:length": {
+                        "type": "integer",
+                        "description": "The column width if the tabular text is fixed width."
+                      },
+                      "cdi:nullSequence": {
+                        "type": "string",
+                        "description": "The value of this property becomes the null annotation for the described column."
+                      },
+                      "cdi:defaultValue": {
+                        "type": "string",
+                        "description": "A default string indicating the value to substitute for an empty string."
+                      },
+                      "cdi:scale": {
+                        "type": "integer"
+                      },
+                      "cdi:decimalPositions": {
+                        "type": "integer"
+                      },
+                      "cdi:minimumLength": {
+                        "type": "integer"
+                      },
+                      "cdi:maximumLength": {
+                        "type": "integer"
+                      },
+                      "cdi:isRequired": {
+                        "type": "boolean",
+                        "default": false
+                      },
+                      "cdif:formats_InstanceVariable": {
+                        "type": "object",
+                        "description": "Reference to a variable defined in schema:variableMeasured.",
+                        "properties": {
+                          "@id": {
+                            "type": "string",
+                            "description": "This should be a reference to a variable defined in the schema:variableMeasured section."
+                          }
+                        }
+                      }
                     }
                   }
+                },
+                "cdi:characterSet": {
+                  "type": "string",
+                  "description": "The character set used in the distribution (e.g., UTF-8, ASCII)."
                 }
               }
             }
           },
-          "cdi:characterSet": {
-            "type": "string",
-            "description": "The character set used in the distribution (e.g., UTF-8, ASCII)."
-          },
-          "cdif:fileSize": {
-            "type": "number",
-            "description": "The size of the distribution file."
-          },
-          "cdif:fileSizeUofM": {
-            "type": "string",
-            "description": "Unit of measure for the file size (e.g., bytes, KB, MB, GB)."
-          },
-          "schema:potentialAction": {
-            "description": "For schema:WebAPI distributions, the potentialAction.result describes the physical realization of the API response bytes - analogous to a DataDownload distribution. The result MAY be additionally typed as cdi:PhysicalDataSet or one of its subclasses, and MAY carry the same physical-realization properties (cdif:hasPhysicalMapping, cdi:characterSet, cdif:fileSize, cdif:fileSizeUofM) as a DataDownload distribution. cdi:PhysicalDataSet typing belongs on the result, NOT on the WebAPI distribution itself - the WebAPI distribution describes the service; the result describes the bytes the service produces.",
-            "items": {
+          {
+            "if": {
               "properties": {
-                "schema:result": {
-                  "properties": {
-                    "cdif:hasPhysicalMapping": {
-                      "type": "array",
-                      "description": "Per-field physical mappings for the API response bytes. cdif:formats_InstanceVariable should reference the @ids of variables in the parent dataset's schema:variableMeasured (the API response is another physical realization of those same InstanceVariables).",
-                      "items": {
-                        "title": "Physical Mapping Type",
-                        "description": "Defines implementation-specific properties for the representation of a variable in a dataset. Aligned with CDIF 2026 schema using DDI-CDI flat per-column mapping structure.",
-                        "type": "object",
+                "@type": {
+                  "contains": {
+                    "const": "schema:WebAPI"
+                  }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "schema:potentialAction": {
+                  "items": {
+                    "properties": {
+                      "schema:result": {
                         "properties": {
-                          "cdif:index": {
-                            "type": "integer",
-                            "minimum": 0,
-                            "description": "Non-negative integer that orders the fields in the data structure (column number)."
-                          },
-                          "cdif:format": {
-                            "type": "string",
-                            "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
-                          },
-                          "cdif:physicalDataType": {
-                            "type": "string"
-                          },
-                          "cdi:length": {
-                            "type": "integer",
-                            "description": "The column width if the tabular text is fixed width."
-                          },
-                          "cdi:nullSequence": {
-                            "type": "string",
-                            "description": "The value of this property becomes the null annotation for the described column."
-                          },
-                          "cdi:defaultValue": {
-                            "type": "string",
-                            "description": "A default string indicating the value to substitute for an empty string."
-                          },
-                          "cdi:scale": {
-                            "type": "integer"
-                          },
-                          "cdi:decimalPositions": {
-                            "type": "integer"
-                          },
-                          "cdi:minimumLength": {
-                            "type": "integer"
-                          },
-                          "cdi:maximumLength": {
-                            "type": "integer"
-                          },
-                          "cdi:isRequired": {
-                            "type": "boolean",
-                            "default": false
-                          },
-                          "cdif:formats_InstanceVariable": {
-                            "type": "object",
-                            "description": "Reference to a variable defined in schema:variableMeasured.",
-                            "properties": {
-                              "@id": {
-                                "type": "string",
-                                "description": "This should be a reference to a variable defined in the schema:variableMeasured section."
+                          "cdif:hasPhysicalMapping": {
+                            "type": "array",
+                            "description": "Per-field physical mappings for the API response - the response is another physical realization of the dataset's variables. Each item is a cdifPhysicalMapping.",
+                            "items": {
+                              "title": "Physical Mapping Type",
+                              "description": "Defines implementation-specific properties for the representation of a variable in a dataset. Aligned with CDIF 2026 schema using DDI-CDI flat per-column mapping structure.",
+                              "type": "object",
+                              "properties": {
+                                "cdif:index": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "description": "Non-negative integer that orders the fields in the data structure (column number)."
+                                },
+                                "cdif:format": {
+                                  "type": "string",
+                                  "description": "A format for number expressed as a string, or date format like YYYY/MM or MM-DD-YY."
+                                },
+                                "cdif:physicalDataType": {
+                                  "type": "string"
+                                },
+                                "cdi:length": {
+                                  "type": "integer",
+                                  "description": "The column width if the tabular text is fixed width."
+                                },
+                                "cdi:nullSequence": {
+                                  "type": "string",
+                                  "description": "The value of this property becomes the null annotation for the described column."
+                                },
+                                "cdi:defaultValue": {
+                                  "type": "string",
+                                  "description": "A default string indicating the value to substitute for an empty string."
+                                },
+                                "cdi:scale": {
+                                  "type": "integer"
+                                },
+                                "cdi:decimalPositions": {
+                                  "type": "integer"
+                                },
+                                "cdi:minimumLength": {
+                                  "type": "integer"
+                                },
+                                "cdi:maximumLength": {
+                                  "type": "integer"
+                                },
+                                "cdi:isRequired": {
+                                  "type": "boolean",
+                                  "default": false
+                                },
+                                "cdif:formats_InstanceVariable": {
+                                  "type": "object",
+                                  "description": "Reference to a variable defined in schema:variableMeasured.",
+                                  "properties": {
+                                    "@id": {
+                                      "type": "string",
+                                      "description": "This should be a reference to a variable defined in the schema:variableMeasured section."
+                                    }
+                                  }
+                                }
                               }
                             }
+                          },
+                          "cdi:characterSet": {
+                            "type": "string",
+                            "description": "The character set used in the API response (e.g., UTF-8)."
                           }
                         }
                       }
-                    },
-                    "cdi:characterSet": {
-                      "type": "string",
-                      "description": "The character set used in the API response (e.g., UTF-8)."
-                    },
-                    "cdif:fileSize": {
-                      "type": "number",
-                      "description": "The size of the API response payload."
-                    },
-                    "cdif:fileSizeUofM": {
-                      "type": "string",
-                      "description": "Unit of measure for the response size (e.g., bytes, KB, MB)."
                     }
                   }
                 }
               }
             }
           }
-        }
+        ]
       }
     },
     "schema:relatedLink": {
@@ -1435,29 +1471,16 @@
                                       "description": "A controlled-vocabulary codelist implemented as a skos:ConceptScheme constrained for CDIF use. The scheme must have a resolvable @id and identify its top concepts via skos:hasTopConcept; each concept (CdifCodelistConcept) must have a resolvable @id, skos:inScheme, skos:prefLabel, and skos:notation. Hierarchical concepts must declare both skos:narrower (for JSON tree traversal) and skos:broader (for upward navigation) where hierarchy exists. CDIF metadata properties (schema:identifier, schema:dateModified, schema:license or schema:conditionsOfAccess) take precedence over the equivalent dcterms properties from the base skos:ConceptScheme.",
                                       "properties": {
                                         "@context": {
-                                          "description": "JSON-LD context declaring the skos namespace prefix and any additional prefixes used in concept URIs. May be a single object or an array of strings and objects.",
-                                          "type": "array",
-                                          "items": {
-                                            "anyOf": [
-                                              {
-                                                "type": "string"
-                                              },
-                                              {
-                                                "type": "object"
-                                              }
-                                            ]
+                                          "description": "JSON-LD context (an object) declaring the skos namespace prefix and any additional prefixes used in concept URIs.",
+                                          "type": "object",
+                                          "properties": {
+                                            "skos": {
+                                              "const": "http://www.w3.org/2004/02/skos/core#"
+                                            }
                                           },
-                                          "contains": {
-                                            "type": "object",
-                                            "properties": {
-                                              "skos": {
-                                                "const": "http://www.w3.org/2004/02/skos/core#"
-                                              }
-                                            },
-                                            "required": [
-                                              "skos"
-                                            ]
-                                          }
+                                          "required": [
+                                            "skos"
+                                          ]
                                         },
                                         "@id": {
                                           "type": "string",
@@ -1755,29 +1778,16 @@
                                     "description": "A controlled-vocabulary codelist implemented as a skos:ConceptScheme constrained for CDIF use. The scheme must have a resolvable @id and identify its top concepts via skos:hasTopConcept; each concept (CdifCodelistConcept) must have a resolvable @id, skos:inScheme, skos:prefLabel, and skos:notation. Hierarchical concepts must declare both skos:narrower (for JSON tree traversal) and skos:broader (for upward navigation) where hierarchy exists. CDIF metadata properties (schema:identifier, schema:dateModified, schema:license or schema:conditionsOfAccess) take precedence over the equivalent dcterms properties from the base skos:ConceptScheme.",
                                     "properties": {
                                       "@context": {
-                                        "description": "JSON-LD context declaring the skos namespace prefix and any additional prefixes used in concept URIs. May be a single object or an array of strings and objects.",
-                                        "type": "array",
-                                        "items": {
-                                          "anyOf": [
-                                            {
-                                              "type": "string"
-                                            },
-                                            {
-                                              "type": "object"
-                                            }
-                                          ]
+                                        "description": "JSON-LD context (an object) declaring the skos namespace prefix and any additional prefixes used in concept URIs.",
+                                        "type": "object",
+                                        "properties": {
+                                          "skos": {
+                                            "const": "http://www.w3.org/2004/02/skos/core#"
+                                          }
                                         },
-                                        "contains": {
-                                          "type": "object",
-                                          "properties": {
-                                            "skos": {
-                                              "const": "http://www.w3.org/2004/02/skos/core#"
-                                            }
-                                          },
-                                          "required": [
-                                            "skos"
-                                          ]
-                                        }
+                                        "required": [
+                                          "skos"
+                                        ]
                                       },
                                       "@id": {
                                         "type": "string",

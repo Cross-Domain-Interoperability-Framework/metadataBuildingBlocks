@@ -5,29 +5,16 @@
   "description": "CDIF profile for controlled-vocabulary codelists. Composes the cdifCodelist building block: a skos:ConceptScheme constrained for CDIF codelist use (resolvable @id; each concept requires @id, skos:inScheme, skos:prefLabel, skos:notation; both skos:narrower and skos:broader required where there is hierarchy). schema: metadata properties (schema:identifier, schema:dateModified, schema:license or schema:conditionsOfAccess) take precedence over the equivalent dcterms properties from the base skos:ConceptScheme.",
   "properties": {
     "@context": {
-      "description": "JSON-LD context declaring the skos namespace prefix and any additional prefixes used in concept URIs. May be a single object or an array of strings and objects.",
-      "type": "array",
-      "items": {
-        "anyOf": [
-          {
-            "type": "string"
-          },
-          {
-            "type": "object"
-          }
-        ]
+      "description": "JSON-LD context (an object) declaring the skos namespace prefix and any additional prefixes used in concept URIs.",
+      "type": "object",
+      "properties": {
+        "skos": {
+          "const": "http://www.w3.org/2004/02/skos/core#"
+        }
       },
-      "contains": {
-        "type": "object",
-        "properties": {
-          "skos": {
-            "const": "http://www.w3.org/2004/02/skos/core#"
-          }
-        },
-        "required": [
-          "skos"
-        ]
-      }
+      "required": [
+        "skos"
+      ]
     },
     "@id": {
       "type": "string",
