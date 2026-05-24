@@ -54,12 +54,6 @@ properties:
           properties:
             '@id':
               const: 'https://w3id.org/cdif/data_description/1.0'
-  '@context':
-    type: object
-    description: Additional namespace prefix for data description properties.
-    properties:
-      csvw:
-        const: "http://www.w3.org/ns/csvw#"
   'schema:variableMeasured':
     type: array
     items:
@@ -128,13 +122,46 @@ properties:
               description: >-
                 Per-field physical mappings linking the variables measured by this
                 DataDownload distribution to their physical representation in the
-                file - column index, format, physical data type, length, null
-                sequence, etc. Each item is a cdifPhysicalMapping.
+                file - column index, format, physical data type, null sequence, etc.
+                Each item is a cdifPhysicalMapping or one of its specializations
+                (cdifTextMapping for tabular text, cdifLocatorMapping for structured
+                data); the dataset-type branches below tighten the item type.
               items:
-                '$ref': '../cdifPhysicalMapping/schema.yaml'
+                anyOf:
+                - '$ref': '../cdifPhysicalMapping/schema.yaml'
+                - '$ref': '../cdifTextMapping/schema.yaml'
+                - '$ref': '../cdifLocatorMapping/schema.yaml'
             'cdi:characterSet':
               type: string
               description: The character set used in the distribution (e.g., UTF-8, ASCII).
+            'cdi:fingerprint':
+              description: >-
+                Integrity fingerprint (checksum/hash) of this distribution's bytes
+                (DDI-CDI DataFingerprint).
+              '$ref': '../cdifDataFingerprint/schema.yaml'
+      # A schema:DataDownload also typed cdi:TabularTextDataSet carries the
+      # delimited/fixed-width layout attributes (delimiter, hasHeader, quoteCharacter,
+      # ...). Per-field text-format mappings (cdifTextMapping) are available via the
+      # cdif:hasPhysicalMapping anyOf above.
+      - if:
+          properties:
+            '@type':
+              contains:
+                const: cdi:TabularTextDataSet
+        then:
+          '$ref': '../cdifTabularTextDataSet/schema.yaml'
+      # A schema:DataDownload also typed cdi:StructuredDataSet carries structured-dataset
+      # attributes (encoding). Its fields MAY be located with cdifLocatorMapping
+      # (XPath/JSONPath) or, as in existing CDIF cube/array usage, with index-based
+      # cdifPhysicalMapping - the cdif:hasPhysicalMapping anyOf above permits both.
+      # Forcing a single mapping kind per dataset type (if wanted) belongs in SHACL.
+      - if:
+          properties:
+            '@type':
+              contains:
+                const: cdi:StructuredDataSet
+        then:
+          '$ref': '../cdifStructuredDataSet/schema.yaml'
       - if:
           properties:
             '@type':
@@ -152,9 +179,13 @@ properties:
                         description: >-
                           Per-field physical mappings for the API response - the
                           response is another physical realization of the dataset's
-                          variables. Each item is a cdifPhysicalMapping.
+                          variables. Each item is a cdifPhysicalMapping or one of its
+                          specializations (cdifTextMapping / cdifLocatorMapping).
                         items:
-                          '$ref': '../cdifPhysicalMapping/schema.yaml'
+                          anyOf:
+                          - '$ref': '../cdifPhysicalMapping/schema.yaml'
+                          - '$ref': '../cdifTextMapping/schema.yaml'
+                          - '$ref': '../cdifLocatorMapping/schema.yaml'
                       'cdi:characterSet':
                         type: string
                         description: The character set used in the API response (e.g., UTF-8).

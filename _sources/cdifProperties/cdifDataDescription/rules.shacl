@@ -74,3 +74,24 @@ cdifd:CDIFDataDescriptionConformsToShape a sh:NodeShape ;
         sh:hasValue <https://w3id.org/cdif/data_description/1.0> ;
         sh:message "Metadata record must declare conformance to the CDIF data description profile (https://w3id.org/cdif/data_description/1.0)" ;
     ] .
+
+# A schema:distribution typed cdi:StructuredDataSet locates each variable in the
+# structured document with a LocatorMapping: every cdif:hasPhysicalMapping entry
+# must carry cdi:locator (i.e., be a cdifLocatorMapping, not a column-index/text
+# mapping). The JSON Schema keeps cdif:hasPhysicalMapping permissive (any mapping
+# kind); this rule enforces the structured-data semantics.
+cdifd:structuredDataSetLocatorMappingShape
+    a sh:NodeShape ;
+    sh:targetClass cdi:StructuredDataSet ;
+    sh:property [
+        sh:path cdif:hasPhysicalMapping ;
+        sh:node [
+            a sh:NodeShape ;
+            sh:property [
+                sh:path cdi:locator ;
+                sh:minCount 1 ;
+            ] ;
+        ] ;
+        sh:severity sh:Violation ;
+        sh:message "A cdi:StructuredDataSet distribution's cdif:hasPhysicalMapping entries must be LocatorMappings (carry cdi:locator), not column-index/text mappings." ;
+    ] .
