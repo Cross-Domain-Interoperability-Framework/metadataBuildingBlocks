@@ -298,16 +298,16 @@ and three physical-mapping entries.
             cdi:decimalPositions 2 ;
             cdi:length 12 ;
             cdi:scale 1 ],
-        [ ns1:formats_InstanceVariable ex:var-station-id ;
-            ns1:index 0 ;
-            ns1:physicalDataType "String" ;
-            cdi:isRequired true ;
-            cdi:length 16 ],
         [ ns1:format "YYYY-MM-DD" ;
             ns1:formats_InstanceVariable ex:var-date ;
             ns1:index 1 ;
             ns1:physicalDataType "Date" ;
-            cdi:nullSequence "NA" ] ;
+            cdi:nullSequence "NA" ],
+        [ ns1:formats_InstanceVariable ex:var-station-id ;
+            ns1:index 0 ;
+            ns1:physicalDataType "String" ;
+            cdi:isRequired true ;
+            cdi:length 16 ] ;
     cdi:arrayBase 1 ;
     cdi:escapeCharacter "\"" ;
     cdi:headerIsCaseSensitive false ;

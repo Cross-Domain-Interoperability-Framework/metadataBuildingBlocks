@@ -559,15 +559,15 @@ SPDX checksum.
 <file:///github/workspace/#a6143a557a62f78ae39fcb80578b74a3> a cdi:StructuredDataSet,
         schema1:MediaObject ;
     ns1:hasPhysicalMapping [ ns1:format "decimal" ;
-            ns1:formats_InstanceVariable <file:///github/workspace/#var-wavelength> ;
-            ns1:index 0 ;
-            ns1:locator "/spectra/wavelength" ;
-            ns1:physicalDataType "float32" ;
-            cdi:isRequired true ],
-        [ ns1:format "decimal" ;
             ns1:formats_InstanceVariable <file:///github/workspace/#var-intensity> ;
             ns1:index 1 ;
             ns1:locator "/spectra/intensity" ;
+            ns1:physicalDataType "float32" ;
+            cdi:isRequired true ],
+        [ ns1:format "decimal" ;
+            ns1:formats_InstanceVariable <file:///github/workspace/#var-wavelength> ;
+            ns1:index 0 ;
+            ns1:locator "/spectra/wavelength" ;
             ns1:physicalDataType "float32" ;
             cdi:isRequired true ] ;
     schema1:description "Spectral data cube with wavelength and intensity dimensions." ;
