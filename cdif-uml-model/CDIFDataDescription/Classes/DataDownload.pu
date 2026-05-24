@@ -12,6 +12,7 @@ skinparam class {
 
 class "DataDownload" as DataDownload #FEFECE {
   +characterSet : string [0..1]
+  +fingerprint : DataFingerprint [0..1]
   +contentUrl : XsdAnyUri [0..1]
   +encodingFormat : DefinedTerm [0..*]
   +contentSize : string [0..1]
@@ -20,10 +21,16 @@ class "DataDownload" as DataDownload #FEFECE {
 }
 abstract class "AbstractDistribution" as AbstractDistribution #D6EAF8
 AbstractDistribution <|-- DataDownload
+class "TabularTextDataSet" as TabularTextDataSet #D5F5E3
+DataDownload <|-- TabularTextDataSet
+class "StructuredDataSet" as StructuredDataSet #D5F5E3
+DataDownload <|-- StructuredDataSet
 class "PhysicalMapping" as PhysicalMapping #EEEEEE
 DataDownload --> "0..*" PhysicalMapping : hasPhysicalMapping
 abstract class "Agent" as Agent #EEEEEE
 DataDownload --> "0..*" Agent : provider
+class "DataFingerprint" as DataFingerprint #EEEEEE
+DataDownload --> "0..1" DataFingerprint : fingerprint
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
 DataDownload ..> XsdAnyUri : contentUrl
 class "DefinedTerm" as DefinedTerm #EEEEEE

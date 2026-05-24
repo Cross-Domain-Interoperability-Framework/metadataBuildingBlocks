@@ -25,11 +25,20 @@ class "SubstantiveValueDomain" as SubstantiveValueDomain #FAE5D3
 class "SentinelValueDomain" as SentinelValueDomain #FAE5D3
 class "EnumerationDomain" as EnumerationDomain #FAE5D3
 class "PhysicalMapping" as PhysicalMapping #FCF3CF
+class "TextMapping" as TextMapping #FCF3CF
+class "LocatorMapping" as LocatorMapping #FCF3CF
+class "TabularTextDataSet" as TabularTextDataSet #FAE5D3
+class "StructuredDataSet" as StructuredDataSet #FAE5D3
+class "DataFingerprint" as DataFingerprint #FCF3CF
 class "Concept" as Concept #FCF3CF
 class "Identifier" as Identifier #FCF3CF
 class "DefinedTerm" as DefinedTerm #FCF3CF
 AbstractVariable <|-- InstanceVariable
 AbstractVariable <|-- VariableMeasured
+PhysicalMapping <|-- TextMapping
+PhysicalMapping <|-- LocatorMapping
+DataDownload <|-- TabularTextDataSet
+DataDownload <|-- StructuredDataSet
 InstanceVariable --> "0..1" StatisticsCollection : isDescribedBy
 InstanceVariable --> "0..1" InstanceVariable : qualifies
 InstanceVariable --> "0..1" SubstantiveValueDomain : takesSubstantiveValuesFrom
@@ -48,5 +57,9 @@ StatisticsCollection --> "0..1" InstanceVariable : hasWeight
 SubstantiveValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
 SentinelValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
 PhysicalMapping --> "1" InstanceVariable : formats
+TextMapping --> "1" InstanceVariable : formats
+LocatorMapping --> "1" InstanceVariable : formats
+TabularTextDataSet --> "0..*" PhysicalMapping : hasPhysicalMapping
+StructuredDataSet --> "0..*" PhysicalMapping : hasPhysicalMapping
 
 @enduml

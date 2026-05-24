@@ -51,6 +51,9 @@ class "CategoryStatistics" as CategoryStatistics #FCF3CF
 class "StatisticsCollection" as StatisticsCollection #FCF3CF
 class "Category" as Category #FCF3CF
 class "PhysicalMapping" as PhysicalMapping #FCF3CF
+class "TextMapping" as TextMapping #FCF3CF
+class "LocatorMapping" as LocatorMapping #FCF3CF
+class "DataFingerprint" as DataFingerprint #FCF3CF
 class "Concept" as Concept #FCF3CF
 class "Identifier" as Identifier #FCF3CF
 class "DefinedTerm" as DefinedTerm #FCF3CF
@@ -64,7 +67,11 @@ DataStructureComponent <|-- DimensionComponent
 DataStructureComponent <|-- VariableValueComponent
 DataStructureComponent <|-- VariableDescriptorComponent
 AbstractVariable <|-- InstanceVariable
+DataDownload <|-- TabularTextDataSet
+DataDownload <|-- StructuredDataSet
 AbstractVariable <|-- VariableMeasured
+PhysicalMapping <|-- TextMapping
+PhysicalMapping <|-- LocatorMapping
 DataStructure --> "1..*" DataStructureComponent : has
 DataStructure --> "0..1" PrimaryKey : has
 DataStructure --> "0..*" ForeignKey : has
@@ -113,6 +120,10 @@ ForeignKeyComponent --> "1" PrimaryKeyComponent : references
 ConceptSystem --> "0..*" Concept : has
 SubstantiveConceptualDomain --> "0..1" ConceptSystem : takesConceptsFrom
 SentinelConceptualDomain --> "0..1" ConceptSystem : takesConceptsFrom
+TabularTextDataSet --> "0..1" DataStructure : isStructuredBy
+TabularTextDataSet --> "0..*" PhysicalMapping : hasPhysicalMapping
+StructuredDataSet --> "0..1" DataStructure : isStructuredBy
+StructuredDataSet --> "0..*" PhysicalMapping : hasPhysicalMapping
 VariableMeasured --> "0..1" InstanceVariable : describes
 DataDownload --> "0..1" DataStructure : isStructuredBy
 DataDownload --> "0..*" PhysicalMapping : hasPhysicalMapping
@@ -125,5 +136,7 @@ StatisticsCollection --> "1..*" Statistics : has
 StatisticsCollection --> "1..*" InstanceVariable : indexedBy
 StatisticsCollection --> "0..1" InstanceVariable : hasWeight
 PhysicalMapping --> "1" InstanceVariable : formats
+TextMapping --> "1" InstanceVariable : formats
+LocatorMapping --> "1" InstanceVariable : formats
 
 @enduml

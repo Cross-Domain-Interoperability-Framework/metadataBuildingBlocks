@@ -1,0 +1,24 @@
+@startuml
+title TextMapping
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "TextMapping" as TextMapping #FEFECE {
+  +length : integer [0..1]
+  +defaultDecimalSeparator : string [0..1]
+  +defaultDigitGroupSeparator : string [0..1]
+  +displayLabel : string [0..*]
+}
+class "PhysicalMapping" as PhysicalMapping #D6EAF8
+PhysicalMapping <|-- TextMapping
+class "InstanceVariable" as InstanceVariable #EEEEEE
+TextMapping --> "1" InstanceVariable : formats
+
+@enduml
