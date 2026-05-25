@@ -25,7 +25,6 @@ class "ComponentPosition" as ComponentPosition #FAE5D3
 class "PrimaryKey" as PrimaryKey #FAE5D3
 class "PrimaryKeyComponent" as PrimaryKeyComponent #FAE5D3
 class "RepresentedVariable" as RepresentedVariable #FAE5D3
-class "ReferenceVariable" as ReferenceVariable #FAE5D3
 class "DescriptorVariable" as DescriptorVariable #FAE5D3
 class "InstanceVariable" as InstanceVariable #FAE5D3
 class "SubstantiveValueDomain" as SubstantiveValueDomain #FAE5D3
@@ -92,7 +91,6 @@ DataStructureComponent <|-- MeasureComponent
 DataStructureComponent <|-- AttributeComponent
 DataStructureComponent <|-- DimensionComponent
 DataStructureComponent <|-- VariableValueComponent
-DataStructureComponent <|-- VariableDescriptorComponent
 AbstractVariable <|-- InstanceVariable
 DataDownload <|-- TabularTextDataSet
 DataDownload <|-- StructuredDataSet
@@ -120,12 +118,8 @@ DimensionalDataStructure --> "1..*" DimensionComponent : has
 DimensionalDataStructure --> "1..*" MeasureComponent : has
 DimensionalDataStructure --> "0..*" AttributeComponent : has
 DimensionalDataStructure --> "1..*" ComponentPosition : has
-IdentifierComponent --> "1" RepresentedVariable : isDefinedBy
-MeasureComponent --> "1" RepresentedVariable : isDefinedBy
-AttributeComponent --> "1" RepresentedVariable : isDefinedBy
+DataStructureComponent --> "1" RepresentedVariable : isDefinedBy
 AttributeComponent --> "0..*" MeasureComponent : qualifies
-DimensionComponent --> "1" RepresentedVariable : isDefinedBy
-VariableValueComponent --> "1" ReferenceVariable : isDefinedBy
 VariableDescriptorComponent --> "1" DescriptorVariable : isDefinedBy
 ComponentPosition --> "1" DimensionComponent : indexes
 PrimaryKey --> "1..*" PrimaryKeyComponent : isComposedOf
