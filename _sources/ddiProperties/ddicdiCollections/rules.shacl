@@ -1,7 +1,42 @@
-# SHACL rules skeleton for DDI-CDI Collections.
-# TODO: author NodeShape and PropertyShape constraints from the UML model.
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix cdi:   <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
 
-@prefix sh:   <http://www.w3.org/ns/shacl#> .
-@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
-@prefix cdi:  <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+cdifd:ddicdiCollectionShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:Collection ;
+
+	# -- RECOMMENDED (Warning) --
+
+	sh:property [
+		sh:path cdi:has ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI Collection should reference at least one cdi:has Member (or id-reference)" ;
+	] ;
+
+	# -- INFORMATIONAL (Info) --
+
+	sh:property [
+		sh:path cdi:name ;
+		sh:severity sh:Info ;
+		sh:message "cdi:name may carry one or more ObjectName entries naming the collection" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:allowsDuplicates ;
+		sh:datatype xsd:boolean ;
+		sh:severity sh:Info ;
+		sh:message "cdi:allowsDuplicates indicates whether duplicate members are permitted" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:purpose ;
+		sh:severity sh:Info ;
+		sh:message "cdi:purpose may carry the intent or reason for the collection" ;
+	] ;
+	.

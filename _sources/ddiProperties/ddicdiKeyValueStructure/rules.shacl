@@ -1,7 +1,53 @@
-# SHACL rules skeleton for DDI-CDI Key Value Structure.
-# TODO: author NodeShape and PropertyShape constraints from the UML model.
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix cdi:   <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
 
-@prefix sh:   <http://www.w3.org/ns/shacl#> .
-@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
-@prefix cdi:  <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+cdifd:ddicdiKeyValueStructureShape
+	a sh:NodeShape ;
+	sh:targetClass cdi:KeyValueStructure ;
+
+	# -- RECOMMENDED (Warning) --
+
+	sh:property [
+		sh:path cdi:has_DataStructureComponent ;
+		sh:minCount 1 ;
+		sh:severity sh:Warning ;
+		sh:message "A DDI-CDI KeyValueStructure should reference at least one cdi:has_DataStructureComponent (or id-reference)" ;
+	] ;
+
+	# -- INFORMATIONAL (Info) --
+
+	sh:property [
+		sh:path cdi:has_PrimaryKey ;
+		sh:severity sh:Info ;
+		sh:message "cdi:has_PrimaryKey may reference the PrimaryKey (or id-reference) of the structure" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:has_ForeignKey ;
+		sh:severity sh:Info ;
+		sh:message "cdi:has_ForeignKey may reference one or more ForeignKey entries (or id-references)" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:has_ComponentPosition ;
+		sh:severity sh:Info ;
+		sh:message "cdi:has_ComponentPosition may record the ordered positions of components" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:identifier ;
+		sh:severity sh:Info ;
+		sh:message "cdi:identifier may carry an identifier for the structure" ;
+	] ;
+
+	sh:property [
+		sh:path cdi:isDefinedBy ;
+		sh:severity sh:Info ;
+		sh:message "cdi:isDefinedBy may reference the Concept(s) that define the structure" ;
+	] ;
+	.
