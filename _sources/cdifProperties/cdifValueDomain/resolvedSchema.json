@@ -43,54 +43,8 @@
                   "description": "Identifier for this EnumerationDomain node"
                 },
                 "cdif:identifier": {
-                  "description": "Identifier for this enumerated (categorical) domain.",
-                  "type": "object",
-                  "properties": {
-                    "@type": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "contains": {
-                        "const": "schema:PropertyValue"
-                      },
-                      "minItems": 1
-                    },
-                    "schema:propertyID": {
-                      "type": "string",
-                      "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-                    },
-                    "schema:value": {
-                      "type": "string",
-                      "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-                    },
-                    "schema:url": {
-                      "type": "string",
-                      "format": "uri",
-                      "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-                    }
-                  },
-                  "allOf": [
-                    {
-                      "required": [
-                        "@type"
-                      ]
-                    },
-                    {
-                      "anyOf": [
-                        {
-                          "required": [
-                            "schema:value"
-                          ]
-                        },
-                        {
-                          "required": [
-                            "schema:url"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "$ref": "#/$defs/Identifier",
+                  "description": "Identifier for this enumerated (categorical) domain."
                 },
                 "schema:name": {
                   "type": "string",
@@ -321,6 +275,732 @@
             ]
           },
           "minItems": 1
+        },
+        "cdi:isDescribedBy": {
+          "description": "A ValueAndConceptDescription giving the formal description (ranges, patterns, classification level, expressions) of the values this domain admits.",
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "Formal description of a set of values.",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:ValueAndConceptDescription"
+                  },
+                  "minItems": 1
+                },
+                "@id": {
+                  "type": "string",
+                  "description": "Identifier for this ValueAndConceptDescription node"
+                },
+                "cdi:classificationLevel": {
+                  "type": "string",
+                  "enum": [
+                    "Continuous",
+                    "Interval",
+                    "Nominal",
+                    "Ordinal",
+                    "Ratio"
+                  ],
+                  "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
+                },
+                "cdi:description": {
+                  "type": "string",
+                  "description": "A formal description of the set of values in human-readable language."
+                },
+                "cdi:formatPattern": {
+                  "title": "SKOS Concept",
+                  "description": "A pattern for a number as described in Unicode Locale Data Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html) Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns) and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns) . Examples would be #,##0.### to describe the pattern for a decimal number, or yyyy.MM.dd G 'at' HH:mm:ss zzz for a datetime pattern.",
+                  "type": "object",
+                  "properties": {
+                    "@context": {
+                      "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "skos": {
+                              "const": "http://www.w3.org/2004/02/skos/core#"
+                            }
+                          },
+                          "required": [
+                            "skos"
+                          ]
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "object"
+                              }
+                            ]
+                          },
+                          "contains": {
+                            "type": "object",
+                            "properties": {
+                              "skos": {
+                                "const": "http://www.w3.org/2004/02/skos/core#"
+                              }
+                            },
+                            "required": [
+                              "skos"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "@id": {
+                      "type": "string",
+                      "description": "URI identifier for this concept."
+                    },
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "skos:Concept"
+                      },
+                      "minItems": 1
+                    },
+                    "skos:prefLabel": {
+                      "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/$defs/LanguageTaggedValue"
+                          }
+                        }
+                      ]
+                    },
+                    "skos:notation": {
+                      "description": "Classification code for this concept within a scheme.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "skos:definition": {
+                      "description": "Formal explanation of the meaning of this concept.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:scopeNote": {
+                      "description": "Note clarifying meaning and/or intended use.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:note": {
+                      "description": "General note about this concept.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:historyNote": {
+                      "description": "Note about past state or use.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:changeNote": {
+                      "description": "Note documenting a change.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:editorialNote": {
+                      "description": "Note for editors and maintainers.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:inScheme": {
+                      "description": "Concept scheme(s) this concept belongs to.",
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id"
+                          ]
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "@id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "@id"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:topConceptOf": {
+                      "description": "Concept scheme(s) for which this is a top concept.",
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id"
+                          ]
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "@id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "@id"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:broader": {
+                      "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/$defs/ConceptRef"
+                          },
+                          {
+                            "$comment": "circular-ref"
+                          }
+                        ]
+                      }
+                    },
+                    "skos:narrower": {
+                      "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/$defs/ConceptRef"
+                          },
+                          {
+                            "$comment": "circular-ref"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "@type",
+                    "skos:prefLabel",
+                    "skos:definition",
+                    "skos:inScheme"
+                  ]
+                },
+                "cdi:identifier": {
+                  "$ref": "#/$defs/Identifier",
+                  "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                },
+                "cdi:logicalExpression": {
+                  "title": "SKOS Concept",
+                  "description": "A logical expression where the values of \"x\" making the expression true are the members of the set of valid values. For example, \"(all reals x such that x > 0)\" describes the real numbers greater than 0.",
+                  "type": "object",
+                  "properties": {
+                    "@context": {
+                      "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "skos": {
+                              "const": "http://www.w3.org/2004/02/skos/core#"
+                            }
+                          },
+                          "required": [
+                            "skos"
+                          ]
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "object"
+                              }
+                            ]
+                          },
+                          "contains": {
+                            "type": "object",
+                            "properties": {
+                              "skos": {
+                                "const": "http://www.w3.org/2004/02/skos/core#"
+                              }
+                            },
+                            "required": [
+                              "skos"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "@id": {
+                      "type": "string",
+                      "description": "URI identifier for this concept."
+                    },
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "skos:Concept"
+                      },
+                      "minItems": 1
+                    },
+                    "skos:prefLabel": {
+                      "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/$defs/LanguageTaggedValue"
+                          }
+                        }
+                      ]
+                    },
+                    "skos:notation": {
+                      "description": "Classification code for this concept within a scheme.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "skos:definition": {
+                      "description": "Formal explanation of the meaning of this concept.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:scopeNote": {
+                      "description": "Note clarifying meaning and/or intended use.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:note": {
+                      "description": "General note about this concept.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:historyNote": {
+                      "description": "Note about past state or use.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:changeNote": {
+                      "description": "Note documenting a change.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:editorialNote": {
+                      "description": "Note for editors and maintainers.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:inScheme": {
+                      "description": "Concept scheme(s) this concept belongs to.",
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id"
+                          ]
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "@id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "@id"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:topConceptOf": {
+                      "description": "Concept scheme(s) for which this is a top concept.",
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id"
+                          ]
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "@id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "@id"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:broader": {
+                      "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/$defs/ConceptRef"
+                          },
+                          {
+                            "$comment": "circular-ref"
+                          }
+                        ]
+                      }
+                    },
+                    "skos:narrower": {
+                      "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/$defs/ConceptRef"
+                          },
+                          {
+                            "$comment": "circular-ref"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "@type",
+                    "skos:prefLabel",
+                    "skos:definition",
+                    "skos:inScheme"
+                  ]
+                },
+                "cdi:maximumValueExclusive": {
+                  "type": "string",
+                  "description": "A string denoting the maximum possible value (excluding this value). From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"maxExclusive: An atomic property that contains a single number or string that is the maximum valid value (exclusive). The value of this property becomes the maximum exclusive annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                },
+                "cdi:maximumValueInclusive": {
+                  "type": "string",
+                  "description": "A string denoting the maximum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"maximum: An atomic property that contains a single number or string that is the maximum valid value (inclusive); equivalent to maxInclusive. The value of this property becomes the maximum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                },
+                "cdi:minimumValueExclusive": {
+                  "type": "string",
+                  "description": "A string denoting the minimum possible value (excluding this value). From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minExclusive: An atomic property that contains a single number or string that is the minimum valid value (exclusive). The value of this property becomes the minimum exclusive annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                },
+                "cdi:minimumValueInclusive": {
+                  "type": "string",
+                  "description": "A string denoting the minimum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minimum: An atomic property that contains a single number or string that is the minimum valid value (inclusive); equivalent to minInclusive. The value of this property becomes the minimum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                },
+                "cdi:regularExpression": {
+                  "type": "string",
+                  "description": "A regular expression where strings matching the expression belong to the set of valid values."
+                }
+              },
+              "required": [
+                "@type"
+              ]
+            },
+            {
+              "type": "object",
+              "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "IRI or blank node identifier of the referenced node"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            }
+          ]
         }
       },
       "required": [
@@ -379,54 +1059,8 @@
                   "description": "Identifier for this EnumerationDomain node"
                 },
                 "cdif:identifier": {
-                  "description": "Identifier for this enumerated (categorical) domain.",
-                  "type": "object",
-                  "properties": {
-                    "@type": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "contains": {
-                        "const": "schema:PropertyValue"
-                      },
-                      "minItems": 1
-                    },
-                    "schema:propertyID": {
-                      "type": "string",
-                      "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-                    },
-                    "schema:value": {
-                      "type": "string",
-                      "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-                    },
-                    "schema:url": {
-                      "type": "string",
-                      "format": "uri",
-                      "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-                    }
-                  },
-                  "allOf": [
-                    {
-                      "required": [
-                        "@type"
-                      ]
-                    },
-                    {
-                      "anyOf": [
-                        {
-                          "required": [
-                            "schema:value"
-                          ]
-                        },
-                        {
-                          "required": [
-                            "schema:url"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+                  "$ref": "#/$defs/Identifier",
+                  "description": "Identifier for this enumerated (categorical) domain."
                 },
                 "schema:name": {
                   "type": "string",
@@ -657,6 +1291,732 @@
             ]
           },
           "minItems": 1
+        },
+        "cdi:isDescribedBy": {
+          "description": "A ValueAndConceptDescription giving the formal description (ranges, patterns, classification level, expressions) of the values this domain admits.",
+          "anyOf": [
+            {
+              "type": "object",
+              "description": "Formal description of a set of values.",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdi:ValueAndConceptDescription"
+                  },
+                  "minItems": 1
+                },
+                "@id": {
+                  "type": "string",
+                  "description": "Identifier for this ValueAndConceptDescription node"
+                },
+                "cdi:classificationLevel": {
+                  "type": "string",
+                  "enum": [
+                    "Continuous",
+                    "Interval",
+                    "Nominal",
+                    "Ordinal",
+                    "Ratio"
+                  ],
+                  "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
+                },
+                "cdi:description": {
+                  "type": "string",
+                  "description": "A formal description of the set of values in human-readable language."
+                },
+                "cdi:formatPattern": {
+                  "title": "SKOS Concept",
+                  "description": "A pattern for a number as described in Unicode Locale Data Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html) Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns) and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns) . Examples would be #,##0.### to describe the pattern for a decimal number, or yyyy.MM.dd G 'at' HH:mm:ss zzz for a datetime pattern.",
+                  "type": "object",
+                  "properties": {
+                    "@context": {
+                      "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "skos": {
+                              "const": "http://www.w3.org/2004/02/skos/core#"
+                            }
+                          },
+                          "required": [
+                            "skos"
+                          ]
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "object"
+                              }
+                            ]
+                          },
+                          "contains": {
+                            "type": "object",
+                            "properties": {
+                              "skos": {
+                                "const": "http://www.w3.org/2004/02/skos/core#"
+                              }
+                            },
+                            "required": [
+                              "skos"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "@id": {
+                      "type": "string",
+                      "description": "URI identifier for this concept."
+                    },
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "skos:Concept"
+                      },
+                      "minItems": 1
+                    },
+                    "skos:prefLabel": {
+                      "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/$defs/LanguageTaggedValue"
+                          }
+                        }
+                      ]
+                    },
+                    "skos:notation": {
+                      "description": "Classification code for this concept within a scheme.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "skos:definition": {
+                      "description": "Formal explanation of the meaning of this concept.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:scopeNote": {
+                      "description": "Note clarifying meaning and/or intended use.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:note": {
+                      "description": "General note about this concept.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:historyNote": {
+                      "description": "Note about past state or use.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:changeNote": {
+                      "description": "Note documenting a change.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:editorialNote": {
+                      "description": "Note for editors and maintainers.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:inScheme": {
+                      "description": "Concept scheme(s) this concept belongs to.",
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id"
+                          ]
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "@id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "@id"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:topConceptOf": {
+                      "description": "Concept scheme(s) for which this is a top concept.",
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id"
+                          ]
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "@id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "@id"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:broader": {
+                      "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/$defs/ConceptRef"
+                          },
+                          {
+                            "$comment": "circular-ref"
+                          }
+                        ]
+                      }
+                    },
+                    "skos:narrower": {
+                      "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/$defs/ConceptRef"
+                          },
+                          {
+                            "$comment": "circular-ref"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "@type",
+                    "skos:prefLabel",
+                    "skos:definition",
+                    "skos:inScheme"
+                  ]
+                },
+                "cdi:identifier": {
+                  "$ref": "#/$defs/Identifier",
+                  "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                },
+                "cdi:logicalExpression": {
+                  "title": "SKOS Concept",
+                  "description": "A logical expression where the values of \"x\" making the expression true are the members of the set of valid values. For example, \"(all reals x such that x > 0)\" describes the real numbers greater than 0.",
+                  "type": "object",
+                  "properties": {
+                    "@context": {
+                      "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "skos": {
+                              "const": "http://www.w3.org/2004/02/skos/core#"
+                            }
+                          },
+                          "required": [
+                            "skos"
+                          ]
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "object"
+                              }
+                            ]
+                          },
+                          "contains": {
+                            "type": "object",
+                            "properties": {
+                              "skos": {
+                                "const": "http://www.w3.org/2004/02/skos/core#"
+                              }
+                            },
+                            "required": [
+                              "skos"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "@id": {
+                      "type": "string",
+                      "description": "URI identifier for this concept."
+                    },
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "contains": {
+                        "const": "skos:Concept"
+                      },
+                      "minItems": 1
+                    },
+                    "skos:prefLabel": {
+                      "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/$defs/LanguageTaggedValue"
+                          }
+                        }
+                      ]
+                    },
+                    "skos:notation": {
+                      "description": "Classification code for this concept within a scheme.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "skos:definition": {
+                      "description": "Formal explanation of the meaning of this concept.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:scopeNote": {
+                      "description": "Note clarifying meaning and/or intended use.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:note": {
+                      "description": "General note about this concept.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:historyNote": {
+                      "description": "Note about past state or use.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:changeNote": {
+                      "description": "Note documenting a change.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:editorialNote": {
+                      "description": "Note for editors and maintainers.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/$defs/LanguageTaggedValue"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "$ref": "#/$defs/LanguageTaggedValue"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:inScheme": {
+                      "description": "Concept scheme(s) this concept belongs to.",
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id"
+                          ]
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "@id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "@id"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:topConceptOf": {
+                      "description": "Concept scheme(s) for which this is a top concept.",
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id"
+                          ]
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "@id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "@id"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:broader": {
+                      "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/$defs/ConceptRef"
+                          },
+                          {
+                            "$comment": "circular-ref"
+                          }
+                        ]
+                      }
+                    },
+                    "skos:narrower": {
+                      "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/$defs/ConceptRef"
+                          },
+                          {
+                            "$comment": "circular-ref"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "@type",
+                    "skos:prefLabel",
+                    "skos:definition",
+                    "skos:inScheme"
+                  ]
+                },
+                "cdi:maximumValueExclusive": {
+                  "type": "string",
+                  "description": "A string denoting the maximum possible value (excluding this value). From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"maxExclusive: An atomic property that contains a single number or string that is the maximum valid value (exclusive). The value of this property becomes the maximum exclusive annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                },
+                "cdi:maximumValueInclusive": {
+                  "type": "string",
+                  "description": "A string denoting the maximum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"maximum: An atomic property that contains a single number or string that is the maximum valid value (inclusive); equivalent to maxInclusive. The value of this property becomes the maximum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                },
+                "cdi:minimumValueExclusive": {
+                  "type": "string",
+                  "description": "A string denoting the minimum possible value (excluding this value). From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minExclusive: An atomic property that contains a single number or string that is the minimum valid value (exclusive). The value of this property becomes the minimum exclusive annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                },
+                "cdi:minimumValueInclusive": {
+                  "type": "string",
+                  "description": "A string denoting the minimum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minimum: An atomic property that contains a single number or string that is the minimum valid value (inclusive); equivalent to minInclusive. The value of this property becomes the minimum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                },
+                "cdi:regularExpression": {
+                  "type": "string",
+                  "description": "A regular expression where strings matching the expression belong to the set of valid values."
+                }
+              },
+              "required": [
+                "@type"
+              ]
+            },
+            {
+              "type": "object",
+              "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "IRI or blank node identifier of the referenced node"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            }
+          ]
         }
       },
       "required": [
@@ -677,6 +2037,56 @@
     }
   ],
   "$defs": {
+    "Identifier": {
+      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:PropertyValue"
+          },
+          "minItems": 1
+        },
+        "schema:propertyID": {
+          "type": "string",
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+        },
+        "schema:value": {
+          "type": "string",
+          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:value"
+              ]
+            },
+            {
+              "required": [
+                "schema:url"
+              ]
+            }
+          ]
+        }
+      ]
+    },
     "CdifCodelistConcept": {
       "description": "A SKOS Concept constrained for CDIF codelist use. Must have a resolvable @id, skos:inScheme, skos:notation, and skos:prefLabel. Becasue JSON-LD is an open-world implementation, any other skos properties may be included.",
       "type": "object",
@@ -764,6 +2174,37 @@
         "skos:inScheme",
         "skos:prefLabel",
         "skos:notation"
+      ]
+    },
+    "LanguageTaggedValue": {
+      "type": "object",
+      "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
+      "properties": {
+        "@value": {
+          "type": "string",
+          "description": "The text content."
+        },
+        "@language": {
+          "type": "string",
+          "description": "BCP 47 language tag (e.g. en, fr, de)."
+        }
+      },
+      "required": [
+        "@value",
+        "@language"
+      ]
+    },
+    "ConceptRef": {
+      "type": "object",
+      "description": "A reference to a SKOS Concept by URI.",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "URI of the referenced concept."
+        }
+      },
+      "required": [
+        "@id"
       ]
     }
   }

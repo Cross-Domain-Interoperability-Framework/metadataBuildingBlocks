@@ -824,6 +824,94 @@
                       ]
                     },
                     "minItems": 1
+                  },
+                  "cdi:isDescribedBy": {
+                    "description": "A ValueAndConceptDescription giving the formal description (ranges, patterns, classification level, expressions) of the values this domain admits.",
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "description": "Formal description of a set of values.",
+                        "properties": {
+                          "@type": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "contains": {
+                              "const": "cdi:ValueAndConceptDescription"
+                            },
+                            "minItems": 1
+                          },
+                          "@id": {
+                            "type": "string",
+                            "description": "Identifier for this ValueAndConceptDescription node"
+                          },
+                          "cdi:classificationLevel": {
+                            "type": "string",
+                            "enum": [
+                              "Continuous",
+                              "Interval",
+                              "Nominal",
+                              "Ordinal",
+                              "Ratio"
+                            ],
+                            "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
+                          },
+                          "cdi:description": {
+                            "type": "string",
+                            "description": "A formal description of the set of values in human-readable language."
+                          },
+                          "cdi:formatPattern": {
+                            "$ref": "#/$defs/SkosConcept",
+                            "description": "A pattern for a number as described in Unicode Locale Data Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html) Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns) and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns) . Examples would be #,##0.### to describe the pattern for a decimal number, or yyyy.MM.dd G 'at' HH:mm:ss zzz for a datetime pattern."
+                          },
+                          "cdi:identifier": {
+                            "$ref": "#/$defs/Identifier",
+                            "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                          },
+                          "cdi:logicalExpression": {
+                            "$ref": "#/$defs/SkosConcept",
+                            "description": "A logical expression where the values of \"x\" making the expression true are the members of the set of valid values. For example, \"(all reals x such that x > 0)\" describes the real numbers greater than 0."
+                          },
+                          "cdi:maximumValueExclusive": {
+                            "type": "string",
+                            "description": "A string denoting the maximum possible value (excluding this value). From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"maxExclusive: An atomic property that contains a single number or string that is the maximum valid value (exclusive). The value of this property becomes the maximum exclusive annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                          },
+                          "cdi:maximumValueInclusive": {
+                            "type": "string",
+                            "description": "A string denoting the maximum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"maximum: An atomic property that contains a single number or string that is the maximum valid value (inclusive); equivalent to maxInclusive. The value of this property becomes the maximum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                          },
+                          "cdi:minimumValueExclusive": {
+                            "type": "string",
+                            "description": "A string denoting the minimum possible value (excluding this value). From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minExclusive: An atomic property that contains a single number or string that is the minimum valid value (exclusive). The value of this property becomes the minimum exclusive annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                          },
+                          "cdi:minimumValueInclusive": {
+                            "type": "string",
+                            "description": "A string denoting the minimum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minimum: An atomic property that contains a single number or string that is the minimum valid value (inclusive); equivalent to minInclusive. The value of this property becomes the minimum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                          },
+                          "cdi:regularExpression": {
+                            "type": "string",
+                            "description": "A regular expression where strings matching the expression belong to the set of valid values."
+                          }
+                        },
+                        "required": [
+                          "@type"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+                        "properties": {
+                          "@id": {
+                            "type": "string",
+                            "description": "IRI or blank node identifier of the referenced node"
+                          }
+                        },
+                        "required": [
+                          "@id"
+                        ]
+                      }
+                    ]
                   }
                 },
                 "required": [
@@ -1124,6 +1212,94 @@
                     ]
                   },
                   "minItems": 1
+                },
+                "cdi:isDescribedBy": {
+                  "description": "A ValueAndConceptDescription giving the formal description (ranges, patterns, classification level, expressions) of the values this domain admits.",
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "description": "Formal description of a set of values.",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "contains": {
+                            "const": "cdi:ValueAndConceptDescription"
+                          },
+                          "minItems": 1
+                        },
+                        "@id": {
+                          "type": "string",
+                          "description": "Identifier for this ValueAndConceptDescription node"
+                        },
+                        "cdi:classificationLevel": {
+                          "type": "string",
+                          "enum": [
+                            "Continuous",
+                            "Interval",
+                            "Nominal",
+                            "Ordinal",
+                            "Ratio"
+                          ],
+                          "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
+                        },
+                        "cdi:description": {
+                          "type": "string",
+                          "description": "A formal description of the set of values in human-readable language."
+                        },
+                        "cdi:formatPattern": {
+                          "$ref": "#/$defs/SkosConcept",
+                          "description": "A pattern for a number as described in Unicode Locale Data Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html) Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns) and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns) . Examples would be #,##0.### to describe the pattern for a decimal number, or yyyy.MM.dd G 'at' HH:mm:ss zzz for a datetime pattern."
+                        },
+                        "cdi:identifier": {
+                          "$ref": "#/$defs/Identifier",
+                          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+                        },
+                        "cdi:logicalExpression": {
+                          "$ref": "#/$defs/SkosConcept",
+                          "description": "A logical expression where the values of \"x\" making the expression true are the members of the set of valid values. For example, \"(all reals x such that x > 0)\" describes the real numbers greater than 0."
+                        },
+                        "cdi:maximumValueExclusive": {
+                          "type": "string",
+                          "description": "A string denoting the maximum possible value (excluding this value). From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"maxExclusive: An atomic property that contains a single number or string that is the maximum valid value (exclusive). The value of this property becomes the maximum exclusive annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                        },
+                        "cdi:maximumValueInclusive": {
+                          "type": "string",
+                          "description": "A string denoting the maximum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"maximum: An atomic property that contains a single number or string that is the maximum valid value (inclusive); equivalent to maxInclusive. The value of this property becomes the maximum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                        },
+                        "cdi:minimumValueExclusive": {
+                          "type": "string",
+                          "description": "A string denoting the minimum possible value (excluding this value). From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minExclusive: An atomic property that contains a single number or string that is the minimum valid value (exclusive). The value of this property becomes the minimum exclusive annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                        },
+                        "cdi:minimumValueInclusive": {
+                          "type": "string",
+                          "description": "A string denoting the minimum possible value. From the W3C Recommendation \"Metadata Vocabulary for Tabular Data\" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: \"minimum: An atomic property that contains a single number or string that is the minimum valid value (inclusive); equivalent to minInclusive. The value of this property becomes the minimum annotation for the described datatype. See Value Constraints in [tabular-data-model] for details.\""
+                        },
+                        "cdi:regularExpression": {
+                          "type": "string",
+                          "description": "A regular expression where strings matching the expression belong to the set of valid values."
+                        }
+                      },
+                      "required": [
+                        "@type"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
+                      "properties": {
+                        "@id": {
+                          "type": "string",
+                          "description": "IRI or blank node identifier of the referenced node"
+                        }
+                      },
+                      "required": [
+                        "@id"
+                      ]
+                    }
+                  ]
                 }
               },
               "required": [
