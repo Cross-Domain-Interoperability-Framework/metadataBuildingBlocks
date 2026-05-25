@@ -109,6 +109,66 @@ def load_shapes_graph(rule_files):
     return g
 
 
+def merge_shapes_dedup(rule_files, profile_name):
+    """Merge the rule files into one shapes graph, deduping shapes that are
+    defined in more than one source (a naive union would yield e.g. a
+    PropertyShape with two sh:path, which pyshacl rejects).
+
+    Precedence for a duplicated *named* shape: the profile's own rules.shacl
+    wins (it intentionally overrides base shapes like CDIFCatalogRecordShape /
+    CDIFDatasetMandatoryShape); otherwise the BB whose directory name appears in
+    the shape's local name wins (e.g. definedTerm owns CDIFDefinedTermShape);
+    else fall back to sorted directory name. The winner's full subgraph
+    (concise bounded description) is emitted; losers are dropped.
+    """
+    import rdflib
+    from rdflib import RDF
+    SH = rdflib.Namespace("http://www.w3.org/ns/shacl#")
+    parsed = []
+    for rf in rule_files:
+        g = rdflib.Graph()
+        g.parse(str(rf), format="turtle")
+        parsed.append((rf, g))
+
+    def priority(rf, local):
+        name = rf.parent.name
+        if name == profile_name:
+            return (0, name)
+        if name.lower() in local.lower():
+            return (1, name)
+        return (2, name)
+
+    # collect named shapes -> candidate (rf, graph) definitions
+    shape_defs = {}
+    for rf, g in parsed:
+        for typ in (SH.NodeShape, SH.PropertyShape):
+            for s in g.subjects(RDF.type, typ):
+                if isinstance(s, rdflib.BNode):
+                    continue
+                shape_defs.setdefault(s, []).append((rf, g))
+
+    out = rdflib.Graph()
+    for s, cands in shape_defs.items():
+        local = str(s).split("#")[-1].split("/")[-1]
+        rf, g = min(cands, key=lambda c: priority(c[0], local))
+        for tr in g.cbd(s):
+            out.add(tr)
+    for prefix, ns in (
+        ("rdf", rdflib.RDF), ("rdfs", rdflib.RDFS), ("sh", SH), ("xsd", rdflib.XSD),
+        ("schema", "http://schema.org/"), ("dcterms", "http://purl.org/dc/terms/"),
+        ("cdi", "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"),
+        ("cdif", "https://cdif.org/0.1/"),
+        ("cdifd", "https://cdif.org/validation/0.1/shacl#"),
+        ("skos", "http://www.w3.org/2004/02/skos/core#"),
+        ("dqv", "http://www.w3.org/ns/dqv#"), ("spdx", "http://spdx.org/rdf/terms#"),
+        ("csvw", "http://www.w3.org/ns/csvw#"), ("prov", "http://www.w3.org/ns/prov#"),
+        ("time", "http://www.w3.org/2006/time#"), ("dcat", "http://www.w3.org/ns/dcat#"),
+        ("geosparql", "http://www.opengis.net/ont/geosparql#"),
+    ):
+        out.bind(prefix, ns, replace=True)
+    return out
+
+
 def load_example_graph(example_path: Path, context_jsonld: Path):
     """Expand a JSON-LD example to an RDF graph; inject context.jsonld if absent."""
     import rdflib
@@ -146,6 +206,10 @@ def main():
                     help="List every result (default: violations + summary)")
     ap.add_argument("--strict", action="store_true",
                     help="Exit non-zero if any sh:Violation is found")
+    ap.add_argument("--emit-shapes", metavar="FILE",
+                    help="Write the merged+deduped shapes graph (the $ref-graph "
+                         "rule bundle) to FILE as Turtle, then exit. Use to "
+                         "(re)generate a release profile's *Rules.shacl.")
     args = ap.parse_args()
 
     try:
@@ -158,6 +222,14 @@ def main():
     target_dir = find_target_dir(args.target)
     schema_files = gather_schema_files(target_dir / "schema.yaml")
     rule_files = gather_rule_files(schema_files)
+
+    if args.emit_shapes:
+        merged = merge_shapes_dedup(rule_files, target_dir.name)
+        merged.serialize(destination=args.emit_shapes, format="turtle")
+        print(f"Wrote {len(merged)} triples from {len(rule_files)} rules.shacl "
+              f"to {args.emit_shapes}")
+        return
+
     examples = sorted(target_dir.glob("example*.json"))
     context_jsonld = target_dir / "context.jsonld"
 
