@@ -2393,6 +2393,22 @@ x-defs:
               $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifValueDomain/$defs/xsdDataType
             minItems: 1
             x-jsonld-id: https://cdif.org/0.1/recommendedDataType
+          cdi:isDescribedBy:
+            description: A ValueAndConceptDescription giving the formal description
+              (ranges, patterns, classification level, expressions) of the values
+              this domain admits.
+            anyOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifValueDomain/$defs/ValueAndConceptDescription
+            - type: object
+              description: JSON-LD @id reference to a node defined elsewhere in the
+                graph
+              properties:
+                '@id':
+                  type: string
+                  description: IRI or blank node identifier of the referenced node
+              required:
+              - '@id'
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDescribedBy
         required:
         - '@type'
         anyOf:
@@ -2441,6 +2457,22 @@ x-defs:
               $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifValueDomain/$defs/xsdDataType
             minItems: 1
             x-jsonld-id: https://cdif.org/0.1/recommendedDataType
+          cdi:isDescribedBy:
+            description: A ValueAndConceptDescription giving the formal description
+              (ranges, patterns, classification level, expressions) of the values
+              this domain admits.
+            anyOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifValueDomain/$defs/ValueAndConceptDescription
+            - type: object
+              description: JSON-LD @id reference to a node defined elsewhere in the
+                graph
+              properties:
+                '@id':
+                  type: string
+                  description: IRI or blank node identifier of the referenced node
+              required:
+              - '@id'
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDescribedBy
         required:
         - '@type'
         anyOf:
@@ -2448,6 +2480,105 @@ x-defs:
           - cdif:takesValuesFrom
         - required:
           - cdif:recommendedDataType
+      ValueAndConceptDescription:
+        type: object
+        description: Formal description of a set of values.
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - cdi:ValueAndConceptDescription
+            minItems: 1
+          '@id':
+            type: string
+            description: Identifier for this ValueAndConceptDescription node
+          cdi:classificationLevel:
+            type: string
+            enum:
+            - Continuous
+            - Interval
+            - Nominal
+            - Ordinal
+            - Ratio
+            description: Indicates the type of relationship, nominal, ordinal, interval,
+              ratio, or continuous. Use where appropriate for the representation type.
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/classificationLevel
+          cdi:description:
+            type: string
+            description: A formal description of the set of values in human-readable
+              language.
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/description
+          cdi:formatPattern:
+            description: 'A pattern for a number as described in Unicode Locale Data
+              Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html)
+              Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns)
+              and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns)
+              . Examples would be #,##0.### to describe the pattern for a decimal
+              number, or yyyy.MM.dd G ''at'' HH:mm:ss zzz for a datetime pattern.'
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/formatPattern
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+          cdi:identifier:
+            description: Identifier for objects requiring short- or long-lasting referencing
+              and management.
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+          cdi:logicalExpression:
+            description: A logical expression where the values of "x" making the expression
+              true are the members of the set of valid values. For example, "(all
+              reals x such that x > 0)" describes the real numbers greater than 0.
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/logicalExpression
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFcompleteProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+          cdi:maximumValueExclusive:
+            type: string
+            description: 'A string denoting the maximum possible value (excluding
+              this value). From the W3C Recommendation "Metadata Vocabulary for Tabular
+              Data" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: "maxExclusive:
+              An atomic property that contains a single number or string that is the
+              maximum valid value (exclusive). The value of this property becomes
+              the maximum exclusive annotation for the described datatype. See Value
+              Constraints in [tabular-data-model] for details."'
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/maximumValueExclusive
+          cdi:maximumValueInclusive:
+            type: string
+            description: 'A string denoting the maximum possible value. From the W3C
+              Recommendation "Metadata Vocabulary for Tabular Data" (https://www.w3.org/TR/tabular-metadata/)
+              5.11.2: "maximum: An atomic property that contains a single number or
+              string that is the maximum valid value (inclusive); equivalent to maxInclusive.
+              The value of this property becomes the maximum annotation for the described
+              datatype. See Value Constraints in [tabular-data-model] for details."'
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/maximumValueInclusive
+          cdi:minimumValueExclusive:
+            type: string
+            description: 'A string denoting the minimum possible value (excluding
+              this value). From the W3C Recommendation "Metadata Vocabulary for Tabular
+              Data" (https://www.w3.org/TR/tabular-metadata/) 5.11.2: "minExclusive:
+              An atomic property that contains a single number or string that is the
+              minimum valid value (exclusive). The value of this property becomes
+              the minimum exclusive annotation for the described datatype. See Value
+              Constraints in [tabular-data-model] for details."'
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/minimumValueExclusive
+          cdi:minimumValueInclusive:
+            type: string
+            description: 'A string denoting the minimum possible value. From the W3C
+              Recommendation "Metadata Vocabulary for Tabular Data" (https://www.w3.org/TR/tabular-metadata/)
+              5.11.2: "minimum: An atomic property that contains a single number or
+              string that is the minimum valid value (inclusive); equivalent to minInclusive.
+              The value of this property becomes the minimum annotation for the described
+              datatype. See Value Constraints in [tabular-data-model] for details."'
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/minimumValueInclusive
+          cdi:regularExpression:
+            type: string
+            description: A regular expression where strings matching the expression
+              belong to the set of valid values.
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/regularExpression
+        required:
+        - '@type'
       xsdDataType:
         type: string
         enum:

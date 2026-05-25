@@ -1446,29 +1446,6 @@ x-defs:
             x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/purpose
         required:
         - '@type'
-      TypedString:
-        type: object
-        description: TypedString combines a type with content defined as a simple
-          string. May be used wherever a simple string needs to support a type definition
-          to clarify its content.
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            contains:
-              enum:
-              - cdi:TypedString
-            minItems: 1
-          cdif:content:
-            type: string
-            description: Content of the property expressed as a simple string.
-          cdi:typeOfContent:
-            description: Optional use of a controlled vocabulary to specifically type
-              the associated content.
-            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfContent
-            allOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataStructureProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
       UnitType:
         type: object
         description: Unit type is a type or class of objects of interest (units).
@@ -1535,6 +1512,150 @@ x-defs:
             minItems: 1
         required:
         - '@type'
+    x-jsonld-prefixes:
+      cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.cdifProperties.cdifValueDomain:
+    title: CDIF Value Domain
+    description: "Value domain for substantive or sentinel values for a variable.
+      Typically a description and/or enumeration of allowed values of interest. CDIF
+      profile of the DDI-CDI ValueDomain \u2014 a single node is either a cdif:SubstantiveValueDomain
+      (subject-matter values) or a cdif:SentinelValueDomain (processing/missing-value
+      codes)."
+    oneOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataStructureProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifValueDomain/$defs/SubstantiveValueDomain
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataStructureProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifValueDomain/$defs/SentinelValueDomain
+    $defs:
+      SubstantiveValueDomain:
+        type: object
+        description: Value domain for a substantive conceptual domain. Typically a
+          description and/or enumeration of allowed values of interest.
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - cdif:SubstantiveValueDomain
+            minItems: 1
+          '@id':
+            type: string
+            description: Identifier for this SubstantiveValueDomain node
+          cdif:takesValuesFrom:
+            anyOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataStructureProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifEnumerationDomain
+            - type: object
+              description: JSON-LD @id reference to a node defined elsewhere in the
+                graph
+              properties:
+                '@id':
+                  type: string
+                  description: IRI or blank node identifier of the referenced node
+              required:
+              - '@id'
+            x-jsonld-id: https://cdif.org/0.1/takesValuesFrom
+          cdif:displayLabel:
+            type: string
+            description: A human-readable display label for the object. Supports the
+              use of multiple languages. Repeat for labels with different content,
+              for example, labels with differing length limitations.
+            x-jsonld-id: https://cdif.org/0.1/displayLabel
+          cdif:recommendedDataType:
+            type: array
+            description: The data types that are recommended for use with this domain.
+            items:
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataStructureProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifValueDomain/$defs/xsdDataType
+            minItems: 1
+            x-jsonld-id: https://cdif.org/0.1/recommendedDataType
+          cdi:isDescribedBy:
+            description: A ValueAndConceptDescription giving the formal description
+              (ranges, patterns, classification level, expressions) of the values
+              this domain admits.
+            anyOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataStructureProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifValueDomain/$defs/ValueAndConceptDescription
+            - type: object
+              description: JSON-LD @id reference to a node defined elsewhere in the
+                graph
+              properties:
+                '@id':
+                  type: string
+                  description: IRI or blank node identifier of the referenced node
+              required:
+              - '@id'
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDescribedBy
+        required:
+        - '@type'
+        anyOf:
+        - required:
+          - cdif:takesValuesFrom
+        - required:
+          - cdif:recommendedDataType
+      SentinelValueDomain:
+        type: object
+        description: Value domain for a sentinel conceptual domain.
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - cdif:SentinelValueDomain
+            minItems: 1
+          '@id':
+            type: string
+            description: Identifier for this SentinelValueDomain node
+          cdif:takesValuesFrom:
+            anyOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataStructureProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifEnumerationDomain
+            - type: object
+              description: JSON-LD @id reference to a node defined elsewhere in the
+                graph
+              properties:
+                '@id':
+                  type: string
+                  description: IRI or blank node identifier of the referenced node
+              required:
+              - '@id'
+            x-jsonld-id: https://cdif.org/0.1/takesValuesFrom
+          cdif:displayLabel:
+            type: string
+            description: A human-readable display label for the object. Supports the
+              use of multiple languages. Repeat for labels with different content,
+              for example, labels with differing length limitations.
+            x-jsonld-id: https://cdif.org/0.1/displayLabel
+          cdif:recommendedDataType:
+            type: array
+            description: The data types that are recommended for use with this domain.
+            items:
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataStructureProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifValueDomain/$defs/xsdDataType
+            minItems: 1
+            x-jsonld-id: https://cdif.org/0.1/recommendedDataType
+          cdi:isDescribedBy:
+            description: A ValueAndConceptDescription giving the formal description
+              (ranges, patterns, classification level, expressions) of the values
+              this domain admits.
+            anyOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataStructureProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifValueDomain/$defs/ValueAndConceptDescription
+            - type: object
+              description: JSON-LD @id reference to a node defined elsewhere in the
+                graph
+              properties:
+                '@id':
+                  type: string
+                  description: IRI or blank node identifier of the referenced node
+              required:
+              - '@id'
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDescribedBy
+        required:
+        - '@type'
+        anyOf:
+        - required:
+          - cdif:takesValuesFrom
+        - required:
+          - cdif:recommendedDataType
       ValueAndConceptDescription:
         type: object
         description: Formal description of a set of values.
@@ -1628,126 +1749,12 @@ x-defs:
               datatype. See Value Constraints in [tabular-data-model] for details."'
             x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/minimumValueInclusive
           cdi:regularExpression:
+            type: string
             description: A regular expression where strings matching the expression
-              belong to the set of valid values. Use typeOfContent to specify the
-              syntax of the regularExpression found in content.
+              belong to the set of valid values.
             x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/regularExpression
-            allOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataStructureProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifRepresentedVariable/$defs/TypedString
         required:
         - '@type'
-    x-jsonld-prefixes:
-      cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.cdifProperties.cdifValueDomain:
-    title: CDIF Value Domain
-    description: "Value domain for substantive or sentinel values for a variable.
-      Typically a description and/or enumeration of allowed values of interest. CDIF
-      profile of the DDI-CDI ValueDomain \u2014 a single node is either a cdif:SubstantiveValueDomain
-      (subject-matter values) or a cdif:SentinelValueDomain (processing/missing-value
-      codes)."
-    oneOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataStructureProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifValueDomain/$defs/SubstantiveValueDomain
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataStructureProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifValueDomain/$defs/SentinelValueDomain
-    $defs:
-      SubstantiveValueDomain:
-        type: object
-        description: Value domain for a substantive conceptual domain. Typically a
-          description and/or enumeration of allowed values of interest.
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            contains:
-              enum:
-              - cdif:SubstantiveValueDomain
-            minItems: 1
-          '@id':
-            type: string
-            description: Identifier for this SubstantiveValueDomain node
-          cdif:takesValuesFrom:
-            anyOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataStructureProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifEnumerationDomain
-            - type: object
-              description: JSON-LD @id reference to a node defined elsewhere in the
-                graph
-              properties:
-                '@id':
-                  type: string
-                  description: IRI or blank node identifier of the referenced node
-              required:
-              - '@id'
-            x-jsonld-id: https://cdif.org/0.1/takesValuesFrom
-          cdif:displayLabel:
-            type: string
-            description: A human-readable display label for the object. Supports the
-              use of multiple languages. Repeat for labels with different content,
-              for example, labels with differing length limitations.
-            x-jsonld-id: https://cdif.org/0.1/displayLabel
-          cdif:recommendedDataType:
-            type: array
-            description: The data types that are recommended for use with this domain.
-            items:
-              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataStructureProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifValueDomain/$defs/xsdDataType
-            minItems: 1
-            x-jsonld-id: https://cdif.org/0.1/recommendedDataType
-        required:
-        - '@type'
-        anyOf:
-        - required:
-          - cdif:takesValuesFrom
-        - required:
-          - cdif:recommendedDataType
-      SentinelValueDomain:
-        type: object
-        description: Value domain for a sentinel conceptual domain.
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            contains:
-              enum:
-              - cdif:SentinelValueDomain
-            minItems: 1
-          '@id':
-            type: string
-            description: Identifier for this SentinelValueDomain node
-          cdif:takesValuesFrom:
-            anyOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataStructureProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifEnumerationDomain
-            - type: object
-              description: JSON-LD @id reference to a node defined elsewhere in the
-                graph
-              properties:
-                '@id':
-                  type: string
-                  description: IRI or blank node identifier of the referenced node
-              required:
-              - '@id'
-            x-jsonld-id: https://cdif.org/0.1/takesValuesFrom
-          cdif:displayLabel:
-            type: string
-            description: A human-readable display label for the object. Supports the
-              use of multiple languages. Repeat for labels with different content,
-              for example, labels with differing length limitations.
-            x-jsonld-id: https://cdif.org/0.1/displayLabel
-          cdif:recommendedDataType:
-            type: array
-            description: The data types that are recommended for use with this domain.
-            items:
-              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfiles/CDIFDataStructureProfile/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifProperties.cdifValueDomain/$defs/xsdDataType
-            minItems: 1
-            x-jsonld-id: https://cdif.org/0.1/recommendedDataType
-        required:
-        - '@type'
-        anyOf:
-        - required:
-          - cdif:takesValuesFrom
-        - required:
-          - cdif:recommendedDataType
       xsdDataType:
         type: string
         enum:
