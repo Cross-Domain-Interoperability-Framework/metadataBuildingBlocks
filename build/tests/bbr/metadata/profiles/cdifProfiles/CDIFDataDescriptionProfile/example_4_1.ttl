@@ -33,30 +33,30 @@ ex:gom-water-quality-long-2025 a schema1:Dataset ;
             cdif:fileSize 712 ;
             cdif:fileSizeUofM "KB" ;
             cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:nullSequence "NA" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-value ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "float64" ],
-                [ cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-unit ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "string" ],
-                [ cdi:isRequired true ;
-                    cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-parameter ;
-                    cdif:index 2 ;
-                    cdif:physicalDataType "string" ],
+                    cdif:format "YYYY-MM-DD" ;
+                    cdif:formats_InstanceVariable ex:var-sample-date ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "date" ],
                 [ cdi:isRequired true ;
                     cdif:format "string" ;
                     cdif:formats_InstanceVariable ex:var-station ;
                     cdif:index 0 ;
                     cdif:physicalDataType "string" ],
+                [ cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-unit ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "string" ],
                 [ cdi:isRequired true ;
-                    cdif:format "YYYY-MM-DD" ;
-                    cdif:formats_InstanceVariable ex:var-sample-date ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "date" ] ] ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-value ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:isRequired true ;
+                    cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-parameter ;
+                    cdif:index 2 ;
+                    cdif:physicalDataType "string" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "https://doi.org" ;
             schema1:url "https://doi.org/10.5281/zenodo.5151516" ;
@@ -175,7 +175,7 @@ ex:var-sample-date a cdi:InstanceVariable,
     schema1:name "sample_date" ;
     cdif:displayLabel "Sampling date" ;
     cdif:physicalDataType "date" ;
-    cdif:role "Attribute" .
+    cdif:role "Dimension" .
 
 ex:var-station a cdi:InstanceVariable,
         schema1:PropertyValue ;
@@ -189,11 +189,15 @@ ex:var-station a cdi:InstanceVariable,
 ex:var-unit a cdi:InstanceVariable,
         schema1:PropertyValue ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#string" ;
+    cdi:qualifies ex:var-value ;
     schema1:description "Reporting unit symbol for the row's value (e.g., Cel, 1, mg/L)." ;
     schema1:name "unit" ;
     cdif:displayLabel "Unit of measure" ;
     cdif:physicalDataType "string" ;
     cdif:role "Attribute" .
+
+<https://ror.org/03m2x1q45> a schema1:Organization ;
+    schema1:name "University of Arizona" .
 
 ex:var-value a cdi:InstanceVariable,
         schema1:PropertyValue ;
@@ -203,7 +207,4 @@ ex:var-value a cdi:InstanceVariable,
     cdif:displayLabel "Measured value" ;
     cdif:physicalDataType "float64" ;
     cdif:role "ReferenceVariable" .
-
-<https://ror.org/03m2x1q45> a schema1:Organization ;
-    schema1:name "University of Arizona" .
 
