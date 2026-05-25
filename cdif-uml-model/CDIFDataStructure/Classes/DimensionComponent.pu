@@ -12,8 +12,6 @@ skinparam class {
 
 class "DimensionComponent" as DimensionComponent #FEFECE {
   +categoricalAdditivity : boolean [1]
-  +identifier : Identifier [1]
-  +semantic : Concept [1..*]
 }
 abstract class "DataStructureComponent" as DataStructureComponent #D6EAF8
 DataStructureComponent <|-- DimensionComponent
@@ -23,9 +21,5 @@ class "RepresentedVariable" as RepresentedVariable #EEEEEE
 DimensionComponent --> "1" RepresentedVariable : isDefinedBy
 class "ComponentPosition" as ComponentPosition #EEEEEE
 ComponentPosition --> "1" DimensionComponent : indexes
-class "Identifier" as Identifier #EEEEEE
-DimensionComponent --> "1" Identifier : identifier
-class "Concept" as Concept #EEEEEE
-DimensionComponent --> "1..*" Concept : semantic
 
 @enduml

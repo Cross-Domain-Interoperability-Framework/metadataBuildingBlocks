@@ -10,10 +10,7 @@ skinparam class {
   FontSize 12
 }
 
-class "IdentifierComponent" as IdentifierComponent #FEFECE {
-  +identifier : Identifier [1]
-  +semantic : Concept [1..*]
-}
+class "IdentifierComponent" as IdentifierComponent #FEFECE
 abstract class "DataStructureComponent" as DataStructureComponent #D6EAF8
 DataStructureComponent <|-- IdentifierComponent
 class "WideDataStructure" as WideDataStructure #EEEEEE
@@ -26,9 +23,5 @@ class "RepresentedVariable" as RepresentedVariable #EEEEEE
 IdentifierComponent --> "1" RepresentedVariable : isDefinedBy
 class "PrimaryKeyComponent" as PrimaryKeyComponent #EEEEEE
 PrimaryKeyComponent --> "1" IdentifierComponent : correspondsTo
-class "Identifier" as Identifier #EEEEEE
-IdentifierComponent --> "1" Identifier : identifier
-class "Concept" as Concept #EEEEEE
-IdentifierComponent --> "1..*" Concept : semantic
 
 @enduml
