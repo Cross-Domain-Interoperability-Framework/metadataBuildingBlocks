@@ -3250,6 +3250,13 @@ def _emit_overview_diagram(closure: UmlClosure, model: Model,
     edge that would touch an omitted class."""
     origin = origin or {}
 
+    # Edges a subclass inherited from an ancestor are drawn on the ancestor
+    # only, not duplicated on every subclass (matches the per-class diagrams).
+    inherited_edges: set[tuple[str, str, str]] = set()
+    for cls in closure.classes:
+        for role, tgt in _inherited_assoc_keys(cls, closure, model):
+            inherited_edges.add((cls.id, role, tgt))
+
     def color_for(name: str) -> str:
         return _PROFILE_COLORS.get(origin.get(name, profile_name),
                                    _PROFILE_COLOR_DEFAULT)
@@ -3277,6 +3284,8 @@ def _emit_overview_diagram(closure: UmlClosure, model: Model,
             _pid, src_id, tgt_id, role, lo, up, agg = assoc
             if src_id not in aliases or tgt_id not in aliases:
                 continue
+            if (src_id, role, tgt_id) in inherited_edges:
+                continue  # inherited from an ancestor — drawn on the parent only
             arrow = _aggregation_arrow(agg, "out")
             mult = _puml_multiplicity(lo, up)
             lines.append(f'{aliases[src_id]} {arrow} "{mult}" {aliases[tgt_id]} : {role}')
