@@ -24,9 +24,9 @@ ex:gom-temp-cube-2025 a schema1:Dataset ;
             cdif:fileSize 1.846e+02 ;
             cdif:fileSizeUofM "MB" ;
             cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:locator "/depth" ;
+                    cdi:locator "/lat" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-depth ;
+                    cdif:formats_InstanceVariable ex:var-lat ;
                     cdif:physicalDataType "float32" ],
                 [ cdi:isRequired true ;
                     cdi:locator "/lon" ;
@@ -45,9 +45,9 @@ ex:gom-temp-cube-2025 a schema1:Dataset ;
                     cdif:formats_InstanceVariable ex:var-temperature ;
                     cdif:physicalDataType "float32" ],
                 [ cdi:isRequired true ;
-                    cdi:locator "/lat" ;
+                    cdi:locator "/depth" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-lat ;
+                    cdif:formats_InstanceVariable ex:var-depth ;
                     cdif:physicalDataType "float32" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "https://doi.org" ;
@@ -83,12 +83,12 @@ ex:gom-temp-cube-2025 a schema1:Dataset ;
 
 ex:var-depth a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:displayLabel "Depth below sea surface" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#float" ;
     schema1:description "Standard ocean depth level below sea surface." ;
     schema1:maxValue 4e+03 ;
     schema1:minValue 0e+00 ;
     schema1:name "depth" ;
+    cdif:displayLabel "Depth below sea surface" ;
     cdif:physicalDataType "float32" ;
     cdif:role "Dimension" ;
     cdif:simpleUnitOfMeasure "m" ;
@@ -96,12 +96,12 @@ ex:var-depth a cdi:InstanceVariable,
 
 ex:var-lat a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:displayLabel "Latitude" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#float" ;
     schema1:description "Cell-centre latitude (WGS84)." ;
     schema1:maxValue 4.5e+01 ;
     schema1:minValue 4.1e+01 ;
     schema1:name "latitude" ;
+    cdif:displayLabel "Latitude" ;
     cdif:physicalDataType "float32" ;
     cdif:role "Dimension" ;
     cdif:simpleUnitOfMeasure "deg" ;
@@ -109,12 +109,12 @@ ex:var-lat a cdi:InstanceVariable,
 
 ex:var-lon a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:displayLabel "Longitude" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#float" ;
     schema1:description "Cell-centre longitude (WGS84)." ;
     schema1:maxValue -6.5e+01 ;
     schema1:minValue -7.1e+01 ;
     schema1:name "longitude" ;
+    cdif:displayLabel "Longitude" ;
     cdif:physicalDataType "float32" ;
     cdif:role "Dimension" ;
     cdif:simpleUnitOfMeasure "deg" ;
@@ -125,7 +125,6 @@ ex:var-temperature a cdi:InstanceVariable,
     cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
             schema1:identifier "http://qudt.org/vocab/unit/DEG_C" ;
             schema1:name "degree Celsius" ] ;
-    cdi:displayLabel "Sea-water temperature" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#float" ;
     schema1:description "Monthly mean in-situ sea-water temperature for the cell." ;
     schema1:maxValue 2.8e+01 ;
@@ -133,6 +132,7 @@ ex:var-temperature a cdi:InstanceVariable,
     schema1:minValue -2e+00 ;
     schema1:name "sea_water_temperature" ;
     schema1:propertyID "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/" ;
+    cdif:displayLabel "Sea-water temperature" ;
     cdif:physicalDataType "float32" ;
     cdif:role "Measure" ;
     cdif:simpleUnitOfMeasure "Cel" ;
@@ -143,10 +143,10 @@ ex:var-time a cdi:InstanceVariable,
     cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
             schema1:identifier "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian" ;
             schema1:name "days since 2024-01-01" ] ;
-    cdi:displayLabel "Time" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#date" ;
     schema1:description "Mid-month timestamp of the monthly mean field." ;
     schema1:name "time" ;
+    cdif:displayLabel "Time" ;
     cdif:physicalDataType "int32" ;
     cdif:role "Dimension" ;
     cdif:simpleUnitOfMeasure "d" .

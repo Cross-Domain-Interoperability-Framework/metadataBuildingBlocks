@@ -70,7 +70,7 @@ $defs:
       '@id':
         type: string
         description: Identifier for this MeasureComponent node
-      cdi:name:
+      cdif:name:
         type: array
         items:
           type: string
@@ -78,7 +78,6 @@ $defs:
         description: Human understandable name (liguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing

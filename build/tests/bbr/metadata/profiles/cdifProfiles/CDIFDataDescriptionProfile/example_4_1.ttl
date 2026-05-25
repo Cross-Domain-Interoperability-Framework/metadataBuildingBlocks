@@ -33,15 +33,6 @@ ex:gom-water-quality-long-2025 a schema1:Dataset ;
             cdif:fileSize 712 ;
             cdif:fileSizeUofM "KB" ;
             cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-parameter ;
-                    cdif:index 2 ;
-                    cdif:physicalDataType "string" ],
-                [ cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-unit ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "string" ],
-                [ cdi:isRequired true ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-value ;
@@ -56,6 +47,15 @@ ex:gom-water-quality-long-2025 a schema1:Dataset ;
                     cdif:format "string" ;
                     cdif:formats_InstanceVariable ex:var-station ;
                     cdif:index 0 ;
+                    cdif:physicalDataType "string" ],
+                [ cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-unit ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "string" ],
+                [ cdi:isRequired true ;
+                    cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-parameter ;
+                    cdif:index 2 ;
                     cdif:physicalDataType "string" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "https://doi.org" ;
@@ -104,26 +104,26 @@ ex:var-dissolved-oxygen a cdi:InstanceVariable,
     cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
             schema1:identifier "http://qudt.org/vocab/unit/MilliGM-PER-L" ;
             schema1:name "milligram per litre" ] ;
-    cdi:displayLabel "Dissolved oxygen" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     schema1:description "Dissolved oxygen parameter. Rows whose descriptor column equals 'dissolved_oxygen' record values for this variable." ;
     schema1:maxValue 1.5e+01 ;
     schema1:measurementTechnique "Optode sensor" ;
     schema1:minValue 0e+00 ;
     schema1:name "dissolved_oxygen" ;
+    cdif:displayLabel "Dissolved oxygen" ;
     cdif:physicalDataType "float64" ;
     cdif:role "Measure" ;
     cdif:simpleUnitOfMeasure "mg/L" .
 
 ex:var-ph a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:displayLabel "pH" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     schema1:description "pH parameter. Rows whose descriptor column equals 'ph' record values for this variable." ;
     schema1:maxValue 1.4e+01 ;
     schema1:measurementTechnique "Glass electrode, two-point calibration" ;
     schema1:minValue 0e+00 ;
     schema1:name "ph" ;
+    cdif:displayLabel "pH" ;
     cdif:physicalDataType "float64" ;
     cdif:role "Measure" ;
     cdif:simpleUnitOfMeasure "1" ;
@@ -131,13 +131,13 @@ ex:var-ph a cdi:InstanceVariable,
 
 ex:var-salinity a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:displayLabel "Practical salinity" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     schema1:description "Practical salinity parameter. Rows whose descriptor column equals 'salinity' record values for this variable." ;
     schema1:maxValue 4.2e+01 ;
     schema1:measurementTechnique "CTD profiler" ;
     schema1:minValue 0e+00 ;
     schema1:name "salinity" ;
+    cdif:displayLabel "Practical salinity" ;
     cdif:physicalDataType "float64" ;
     cdif:role "Measure" ;
     cdif:simpleUnitOfMeasure "1" ;
@@ -148,59 +148,59 @@ ex:var-temperature a cdi:InstanceVariable,
     cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
             schema1:identifier "http://qudt.org/vocab/unit/DEG_C" ;
             schema1:name "degree Celsius" ] ;
-    cdi:displayLabel "Sea-water temperature" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     schema1:description "Temperature parameter. Rows whose descriptor column equals 'temperature' record values for this variable." ;
     schema1:maxValue 3e+01 ;
     schema1:measurementTechnique "CTD profiler" ;
     schema1:minValue -2e+00 ;
     schema1:name "temperature" ;
+    cdif:displayLabel "Sea-water temperature" ;
     cdif:physicalDataType "float64" ;
     cdif:role "Measure" ;
     cdif:simpleUnitOfMeasure "Cel" .
 
 ex:var-parameter a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:displayLabel "Parameter" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#string" ;
     schema1:description "Descriptor column. Each value names the measured property whose numeric reading is recorded in the value column. Permitted codes are ph, temperature, salinity, dissolved_oxygen." ;
     schema1:name "parameter" ;
+    cdif:displayLabel "Parameter" ;
     cdif:physicalDataType "string" ;
     cdif:role "Descriptor" .
 
 ex:var-sample-date a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:displayLabel "Sampling date" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#date" ;
     schema1:description "Date the water sample was collected." ;
     schema1:name "sample_date" ;
+    cdif:displayLabel "Sampling date" ;
     cdif:physicalDataType "date" ;
     cdif:role "Attribute" .
 
 ex:var-station a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:displayLabel "Monitoring station" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#string" ;
     schema1:description "Monitoring station identifier; unit of observation." ;
     schema1:name "station_id" ;
+    cdif:displayLabel "Monitoring station" ;
     cdif:physicalDataType "string" ;
     cdif:role "UnitIdentifier" .
 
 ex:var-unit a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:displayLabel "Unit of measure" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#string" ;
     schema1:description "Reporting unit symbol for the row's value (e.g., Cel, 1, mg/L)." ;
     schema1:name "unit" ;
+    cdif:displayLabel "Unit of measure" ;
     cdif:physicalDataType "string" ;
     cdif:role "Attribute" .
 
 ex:var-value a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:displayLabel "Measured value" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     schema1:description "Reference column. Holds the numeric value of whichever parameter is named in the descriptor column for that row." ;
     schema1:name "value" ;
+    cdif:displayLabel "Measured value" ;
     cdif:physicalDataType "float64" ;
     cdif:role "ReferenceVariable" .
 

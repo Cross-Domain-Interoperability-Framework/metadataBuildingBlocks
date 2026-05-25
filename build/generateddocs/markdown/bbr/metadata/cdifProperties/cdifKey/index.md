@@ -114,11 +114,15 @@ every property the schema permits including @id on the Key itself.
     "cdif": "https://cdif.org/0.1/",
     "ex": "https://example.org/"
   },
-  "@type": ["cdif:Key"],
+  "@type": [
+    "cdif:Key"
+  ],
   "@id": "ex:dataset/observations/key/primary",
   "cdif:isComposedOf": [
     {
-      "@type": ["cdi:ComponentPosition"],
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
       "@id": "ex:dataset/observations/key/primary/pos/1",
       "cdi:value": 1,
       "cdi:indexes": {
@@ -128,23 +132,37 @@ every property the schema permits including @id on the Key itself.
           "schema:PropertyValue"
         ],
         "schema:name": "year",
-        "schema:alternateName": ["Observation year"],
+        "schema:alternateName": [
+          "Observation year"
+        ],
         "schema:description": "Calendar year in which the observation was recorded.",
-        "schema:propertyID": ["ex:concept/calendarYear"],
+        "schema:propertyID": [
+          "ex:concept/calendarYear"
+        ],
         "schema:unitText": "year",
         "cdi:identifier": "ex:var/year",
-        "cdif:physicalDataType": ["xsd:gYear"],
+        "cdif:physicalDataType": [
+          "xsd:gYear"
+        ],
         "cdi:simpleUnitOfMeasure": "year",
-        "cdi:name": "year",
-        "cdi:displayLabel": "Observation year",
+        "cdif:name": [
+          "year"
+        ],
+        "cdif:displayLabel": [
+          "Observation year"
+        ],
         "cdif:role": "Dimension"
       }
     },
     {
-      "@type": ["cdi:ComponentPosition"],
+      "@type": [
+        "cdi:ComponentPosition"
+      ],
       "@id": "ex:dataset/observations/key/primary/pos/2",
       "cdi:value": 2,
-      "cdi:indexes": { "@id": "ex:var/countryCode" }
+      "cdi:indexes": {
+        "@id": "ex:var/countryCode"
+      }
     }
   ]
 }
@@ -200,8 +218,12 @@ every property the schema permits including @id on the Key itself.
           "xsd:gYear"
         ],
         "cdi:simpleUnitOfMeasure": "year",
-        "cdi:name": "year",
-        "cdi:displayLabel": "Observation year",
+        "cdif:name": [
+          "year"
+        ],
+        "cdif:displayLabel": [
+          "Observation year"
+        ],
         "cdif:role": "Dimension"
       }
     },
@@ -240,15 +262,15 @@ every property the schema permits including @id on the Key itself.
 
 <https://example.org/var/year> a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:displayLabel "Observation year" ;
     cdi:identifier "ex:var/year" ;
-    cdi:name "year" ;
     cdi:simpleUnitOfMeasure "year" ;
     schema1:alternateName "Observation year" ;
     schema1:description "Calendar year in which the observation was recorded." ;
     schema1:name "year" ;
     schema1:propertyID "ex:concept/calendarYear" ;
     schema1:unitText "year" ;
+    cdif:displayLabel "Observation year" ;
+    cdif:name "year" ;
     cdif:physicalDataType "xsd:gYear" ;
     cdif:role "Dimension" .
 

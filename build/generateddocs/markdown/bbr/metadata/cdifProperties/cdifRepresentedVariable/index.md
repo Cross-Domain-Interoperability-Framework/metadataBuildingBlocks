@@ -61,10 +61,9 @@ properties:
       (in the legacy system) or needed (as in the case of broad agreement within the
       community of use [i.e., ISO country codes, currencies, etc. in SDMX])
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/simpleUnitOfMeasure
-  cdi:descriptiveText:
+  cdif:descriptiveText:
     type: string
     description: A short natural language account of the characteristics of the object.
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/descriptiveText
   cdi:takesSentinelConceptsFrom:
     anyOf:
     - $ref: '#/$defs/SentinelConceptualDomain'
@@ -88,13 +87,12 @@ properties:
       on the type of representations which may be used for the variable as it is made
       more concrete.
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind
-  cdi:definition:
+  cdif:definition:
     type: string
     description: Natural language statement conveying the meaning of a concept, differentiating
       it from other concepts. Supports the use of multiple languages and structured
       text. 'externalDefinition' can't be used if 'definition' is used.
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/definition
-  cdi:displayLabel:
+  cdif:displayLabel:
     type: array
     items:
       type: string
@@ -102,7 +100,6 @@ properties:
     description: A human-readable display label for the object. Supports the use of
       multiple languages. Repeat for labels with different content, for example, labels
       with differing length limitations.
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/displayLabel
   cdi:externalDefinition:
     $ref: '#/$defs/Reference'
     description: A reference to an external definition of a concept (that is, a concept
@@ -116,7 +113,7 @@ properties:
     description: Identifier for objects requiring short- or long-lasting referencing
       and management.
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
-  cdi:name:
+  cdif:name:
     type: array
     items:
       type: string
@@ -124,7 +121,6 @@ properties:
     description: Human understandable name (linguistic signifier, word, phrase, or
       mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided
       to specify usage.
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
   cdif:uses_Concept:
     type: array
     items:
@@ -201,7 +197,7 @@ $defs:
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
-      cdi:name:
+      cdif:name:
         type: array
         items:
           type: string
@@ -209,7 +205,6 @@ $defs:
         description: Human understandable name (liguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdif:isDefinedBy_Concept:
         type: array
         items:
@@ -244,7 +239,7 @@ $defs:
       '@id':
         type: string
         description: Identifier for this SentinelConceptualDomain node
-      cdi:displayLabel:
+      cdif:displayLabel:
         type: array
         items:
           type: string
@@ -252,7 +247,6 @@ $defs:
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/displayLabel
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
@@ -284,7 +278,7 @@ $defs:
       '@id':
         type: string
         description: Identifier for this SubstantiveConceptualDomain node
-      cdi:displayLabel:
+      cdif:displayLabel:
         type: array
         items:
           type: string
@@ -292,7 +286,6 @@ $defs:
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/displayLabel
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
@@ -345,19 +338,17 @@ $defs:
       '@id':
         type: string
         description: Identifier for this UnitType node
-      cdi:descriptiveText:
+      cdif:descriptiveText:
         type: string
         description: A short natural language account of the characteristics of the
           object.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/descriptiveText
-      cdi:definition:
+      cdif:definition:
         type: string
         description: Natural language statement conveying the meaning of a concept,
           differentiating it from other concepts. Supports the use of multiple languages
           and structured text. 'externalDefinition' can't be used if 'definition'
           is used.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/definition
-      cdi:displayLabel:
+      cdif:displayLabel:
         type: array
         items:
           type: string
@@ -365,7 +356,6 @@ $defs:
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/displayLabel
       cdi:externalDefinition:
         $ref: '#/$defs/Reference'
         description: A reference to an external definition of a concept (that is,
@@ -379,7 +369,7 @@ $defs:
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
-      cdi:name:
+      cdif:name:
         type: array
         items:
           type: string
@@ -387,7 +377,6 @@ $defs:
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdif:uses_Concept:
         type: array
         items:

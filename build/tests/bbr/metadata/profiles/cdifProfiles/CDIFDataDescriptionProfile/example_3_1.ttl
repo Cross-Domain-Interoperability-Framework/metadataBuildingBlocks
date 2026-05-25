@@ -34,37 +34,37 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
             cdif:hasPhysicalMapping [ cdi:decimalPositions 2 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-temperature ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "float64" ],
-                [ cdi:decimalPositions 2 ;
-                    cdi:nullSequence "NA" ;
-                    cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-ph ;
                     cdif:index 2 ;
                     cdif:physicalDataType "float64" ],
-                [ cdi:isRequired true ;
-                    cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-station ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "string" ],
                 [ cdi:decimalPositions 3 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-salinity ;
                     cdif:index 4 ;
                     cdif:physicalDataType "float64" ],
+                [ cdi:decimalPositions 2 ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-temperature ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "float64" ],
                 [ cdi:isRequired true ;
-                    cdif:format "YYYY-MM-DD" ;
-                    cdif:formats_InstanceVariable ex:var-sample-date ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "date" ],
+                    cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-station ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "string" ],
                 [ cdi:decimalPositions 2 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-oxygen ;
                     cdif:index 5 ;
-                    cdif:physicalDataType "float64" ] ] ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:isRequired true ;
+                    cdif:format "YYYY-MM-DD" ;
+                    cdif:formats_InstanceVariable ex:var-sample-date ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "date" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "https://doi.org" ;
             schema1:url "https://doi.org/10.5281/zenodo.5151515" ;
@@ -111,20 +111,19 @@ ex:var-oxygen a cdi:InstanceVariable,
     cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
             schema1:identifier "http://qudt.org/vocab/unit/MilliGM-PER-L" ;
             schema1:name "milligram per litre" ] ;
-    cdi:displayLabel "Dissolved oxygen" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     schema1:description "Dissolved oxygen concentration in water." ;
     schema1:maxValue 1.5e+01 ;
     schema1:measurementTechnique "Optode sensor" ;
     schema1:minValue 0e+00 ;
     schema1:name "dissolved_oxygen" ;
+    cdif:displayLabel "Dissolved oxygen" ;
     cdif:physicalDataType "float64" ;
     cdif:role "Measure" ;
     cdif:simpleUnitOfMeasure "mg/L" .
 
 ex:var-ph a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:displayLabel "pH" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     schema1:description "pH of the water sample (unitless)." ;
     schema1:maxValue 1.4e+01 ;
@@ -132,6 +131,7 @@ ex:var-ph a cdi:InstanceVariable,
     schema1:minValue 0e+00 ;
     schema1:name "ph" ;
     schema1:propertyID "http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/" ;
+    cdif:displayLabel "pH" ;
     cdif:physicalDataType "float64" ;
     cdif:role "Measure" ;
     cdif:simpleUnitOfMeasure "1" ;
@@ -139,13 +139,13 @@ ex:var-ph a cdi:InstanceVariable,
 
 ex:var-salinity a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:displayLabel "Practical salinity" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     schema1:description "Practical salinity (PSU)." ;
     schema1:maxValue 4.2e+01 ;
     schema1:measurementTechnique "CTD profiler" ;
     schema1:minValue 0e+00 ;
     schema1:name "salinity" ;
+    cdif:displayLabel "Practical salinity" ;
     cdif:physicalDataType "float64" ;
     cdif:role "Measure" ;
     cdif:simpleUnitOfMeasure "1" ;
@@ -156,13 +156,13 @@ ex:var-temperature a cdi:InstanceVariable,
     cdi:describedUnitOfMeasure [ a schema1:DefinedTerm ;
             schema1:identifier "http://qudt.org/vocab/unit/DEG_C" ;
             schema1:name "degree Celsius" ] ;
-    cdi:displayLabel "Sea-water temperature" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     schema1:description "Sea-water temperature at sample depth." ;
     schema1:maxValue 3e+01 ;
     schema1:measurementTechnique "CTD profiler" ;
     schema1:minValue -2e+00 ;
     schema1:name "temperature" ;
+    cdif:displayLabel "Sea-water temperature" ;
     cdif:physicalDataType "float64" ;
     cdif:role "Measure" ;
     cdif:simpleUnitOfMeasure "Cel" .
@@ -172,19 +172,19 @@ ex:var-temperature a cdi:InstanceVariable,
 
 ex:var-sample-date a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:displayLabel "Sampling date" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#date" ;
     schema1:description "Date the water sample was collected; primary key component." ;
     schema1:name "sample_date" ;
+    cdif:displayLabel "Sampling date" ;
     cdif:physicalDataType "date" ;
     cdif:role "Attribute" .
 
 ex:var-station a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:displayLabel "Monitoring station" ;
     cdi:intendedDataType "https://www.w3.org/TR/xmlschema-2/#string" ;
     schema1:description "Monitoring station identifier; primary key component." ;
     schema1:name "station_id" ;
+    cdif:displayLabel "Monitoring station" ;
     cdif:physicalDataType "string" ;
     cdif:role "UnitIdentifier" .
 

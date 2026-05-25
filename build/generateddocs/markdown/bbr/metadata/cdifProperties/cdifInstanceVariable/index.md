@@ -70,28 +70,22 @@ cdi:definition, cdi:takesSubstantiveValuesFrom.
   "@context": {
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "ex": "https://example.org/"
+    "ex": "https://example.org/",
+    "cdif": "https://cdif.org/0.1/"
   },
-  "@type": ["cdi:InstanceVariable", "schema:PropertyValue"],
+  "@type": [
+    "cdi:InstanceVariable",
+    "schema:PropertyValue"
+  ],
   "@id": "ex:var/temperature",
   "schema:name": "temperature",
-  "cdi:name": [
-    {
-      "@type": ["cdi:ObjectName"],
-      "cdi:name": "temperature"
-    }
+  "cdif:name": [
+    "temperature"
   ],
-  "cdi:definition": {
-    "@type": ["cdi:InternationalString"],
-    "cdi:languageSpecificString": [
-      {
-        "@type": ["cdi:LanguageString"],
-        "cdi:content": "Air temperature measurement.",
-        "cdi:language": "en"
-      }
-    ]
-  },
-  "cdi:takesSubstantiveValuesFrom": { "@id": "ex:value-domain/decimal" }
+  "cdif:definition": "Air temperature measurement.",
+  "cdi:takesSubstantiveValuesFrom": {
+    "@id": "ex:value-domain/decimal"
+  }
 }
 
 ```
@@ -108,7 +102,8 @@ cdi:definition, cdi:takesSubstantiveValuesFrom.
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "ex": "https://example.org/"
+      "ex": "https://example.org/",
+      "cdif": "https://cdif.org/0.1/"
     }
   ],
   "@type": [
@@ -117,28 +112,10 @@ cdi:definition, cdi:takesSubstantiveValuesFrom.
   ],
   "@id": "ex:var/temperature",
   "schema:name": "temperature",
-  "cdi:name": [
-    {
-      "@type": [
-        "cdi:ObjectName"
-      ],
-      "cdi:name": "temperature"
-    }
+  "cdif:name": [
+    "temperature"
   ],
-  "cdi:definition": {
-    "@type": [
-      "cdi:InternationalString"
-    ],
-    "cdi:languageSpecificString": [
-      {
-        "@type": [
-          "cdi:LanguageString"
-        ],
-        "cdi:content": "Air temperature measurement.",
-        "cdi:language": "en"
-      }
-    ]
-  },
+  "cdif:definition": "Air temperature measurement.",
   "cdi:takesSubstantiveValuesFrom": {
     "@id": "ex:value-domain/decimal"
   }
@@ -148,18 +125,15 @@ cdi:definition, cdi:takesSubstantiveValuesFrom.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
 @prefix schema1: <http://schema.org/> .
 
 <https://example.org/var/temperature> a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:definition [ a cdi:InternationalString ;
-            cdi:languageSpecificString [ a cdi:LanguageString ;
-                    cdi:content "Air temperature measurement." ;
-                    cdi:language "en" ] ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "temperature" ] ;
     cdi:takesSubstantiveValuesFrom <https://example.org/value-domain/decimal> ;
-    schema1:name "temperature" .
+    schema1:name "temperature" ;
+    cdif:definition "Air temperature measurement." ;
+    cdif:name "temperature" .
 
 
 ```
@@ -189,48 +163,48 @@ them via schema:variableMeasured.
   ],
   "@id": "xas:monochromatorEnergy",
   "schema:name": "energy",
-  "schema:alternateName": ["Monochromator energy"],
+  "schema:alternateName": [
+    "Monochromator energy"
+  ],
   "schema:description": "Incident photon energy selected by the monochromator during the XAS scan.",
-  "schema:propertyID": ["xas:monochromatorEnergyConcept"],
+  "schema:propertyID": [
+    "xas:monochromatorEnergyConcept"
+  ],
   "schema:unitText": "eV",
   "cdi:identifier": {
-    "@type": ["cdi:Identifier"],
+    "@type": [
+      "cdi:Identifier"
+    ],
     "cdi:uri": "https://xas.org/dictionary/monochromatorEnergy"
   },
-  "cdi:name": [
-    {
-      "@type": ["cdi:ObjectName"],
-      "cdi:name": "energy"
-    }
+  "cdif:name": [
+    "energy"
   ],
-  "cdi:displayLabel": [
-    {
-      "@type": ["cdi:LabelForDisplay"],
-      "cdi:content": "Monochromator energy",
-      "cdi:language": "en"
-    }
+  "cdif:displayLabel": [
+    "Monochromator energy"
   ],
-  "cdi:definition": {
-    "@type": ["cdi:InternationalString"],
-    "cdi:languageSpecificString": [
-      {
-        "@type": ["cdi:LanguageString"],
-        "cdi:content": "Incident photon energy selected by the monochromator during the XAS scan.",
-        "cdi:language": "en"
-      }
-    ]
-  },
+  "cdif:definition": "Incident photon energy selected by the monochromator during the XAS scan.",
   "cdif:physicalDataType": [
     {
-      "@type": ["cdi:ControlledVocabularyEntry"],
-      "cdi:entryValue": ["xsd:decimal"]
+      "@type": [
+        "cdi:ControlledVocabularyEntry"
+      ],
+      "cdi:entryValue": [
+        "xsd:decimal"
+      ]
     }
   ],
-  "cdi:takesSubstantiveValuesFrom": { "@id": "ex:value-domain/decimal-eV" },
+  "cdi:takesSubstantiveValuesFrom": {
+    "@id": "ex:value-domain/decimal-eV"
+  },
   "cdif:simpleUnitOfMeasure": "eV",
-  "cdif:uses": ["xas:monochromatorEnergyConcept"],
+  "cdif:uses": [
+    "xas:monochromatorEnergyConcept"
+  ],
   "cdif:role": "Attribute",
-  "cdi:qualifies": { "@id": "ex:temperatureVariable" }
+  "cdi:qualifies": {
+    "@id": "ex:temperatureVariable"
+  }
 }
 
 ```
@@ -276,37 +250,13 @@ them via schema:variableMeasured.
     ],
     "cdi:uri": "https://xas.org/dictionary/monochromatorEnergy"
   },
-  "cdi:name": [
-    {
-      "@type": [
-        "cdi:ObjectName"
-      ],
-      "cdi:name": "energy"
-    }
+  "cdif:name": [
+    "energy"
   ],
-  "cdi:displayLabel": [
-    {
-      "@type": [
-        "cdi:LabelForDisplay"
-      ],
-      "cdi:content": "Monochromator energy",
-      "cdi:language": "en"
-    }
+  "cdif:displayLabel": [
+    "Monochromator energy"
   ],
-  "cdi:definition": {
-    "@type": [
-      "cdi:InternationalString"
-    ],
-    "cdi:languageSpecificString": [
-      {
-        "@type": [
-          "cdi:LanguageString"
-        ],
-        "cdi:content": "Incident photon energy selected by the monochromator during the XAS scan.",
-        "cdi:language": "en"
-      }
-    ]
-  },
+  "cdif:definition": "Incident photon energy selected by the monochromator during the XAS scan.",
   "cdif:physicalDataType": [
     {
       "@type": [
@@ -341,17 +291,8 @@ them via schema:variableMeasured.
 
 xas:monochromatorEnergy a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:definition [ a cdi:InternationalString ;
-            cdi:languageSpecificString [ a cdi:LanguageString ;
-                    cdi:content "Incident photon energy selected by the monochromator during the XAS scan." ;
-                    cdi:language "en" ] ] ;
-    cdi:displayLabel [ a cdi:LabelForDisplay ;
-            cdi:content "Monochromator energy" ;
-            cdi:language "en" ] ;
     cdi:identifier [ a cdi:Identifier ;
             cdi:uri "https://xas.org/dictionary/monochromatorEnergy" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "energy" ] ;
     cdi:qualifies ex:temperatureVariable ;
     cdi:takesSubstantiveValuesFrom <https://example.org/value-domain/decimal-eV> ;
     schema1:alternateName "Monochromator energy" ;
@@ -359,6 +300,9 @@ xas:monochromatorEnergy a cdi:InstanceVariable,
     schema1:name "energy" ;
     schema1:propertyID "xas:monochromatorEnergyConcept" ;
     schema1:unitText "eV" ;
+    cdif:definition "Incident photon energy selected by the monochromator during the XAS scan." ;
+    cdif:displayLabel "Monochromator energy" ;
+    cdif:name "energy" ;
     cdif:physicalDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:decimal" ] ;
     cdif:role "Attribute" ;

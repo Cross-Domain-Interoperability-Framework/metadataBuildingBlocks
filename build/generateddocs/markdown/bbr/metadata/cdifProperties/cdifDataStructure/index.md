@@ -86,83 +86,139 @@ ComponentPosition wrapper.
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "ex": "https://example.org/"
   },
-  "@type": ["cdi:LongDataStructure"],
+  "@type": [
+    "cdi:LongDataStructure"
+  ],
   "@id": "ex:struct/vitalsLong",
   "cdi:has_DataStructureComponent": [
     {
-      "@type": ["cdi:IdentifierComponent"],
+      "@type": [
+        "cdi:IdentifierComponent"
+      ],
       "@id": "ex:struct/vitalsLong/comp/patientId",
       "cdif:isDefinedBy_RepresentedVariable": {
-        "@type": ["cdi:RepresentedVariable"],
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
         "@id": "ex:struct/vitalsLong/rv/patientId",
-        "cdi:name": ["patient_id"],
+        "cdif:name": [
+          "patient_id"
+        ],
         "cdi:hasIntendedDataType": {
-          "@type": ["cdi:ControlledVocabularyEntry"],
-          "cdi:entryValue": ["xsd:string"]
+          "@type": [
+            "cdi:ControlledVocabularyEntry"
+          ],
+          "cdi:entryValue": [
+            "xsd:string"
+          ]
         }
       }
     },
     {
-      "@type": ["cdi:VariableDescriptorComponent"],
+      "@type": [
+        "cdi:VariableDescriptorComponent"
+      ],
       "@id": "ex:struct/vitalsLong/comp/measureName",
       "cdif:isDefinedBy_DescriptorVariable": {
-        "@type": ["cdi:DescriptorVariable"],
+        "@type": [
+          "cdi:DescriptorVariable"
+        ],
         "@id": "ex:struct/vitalsLong/dv/measureName",
-        "cdi:name": ["measure_name"],
+        "cdif:name": [
+          "measure_name"
+        ],
         "cdif:hasValuesFrom": {
-          "@type": ["cdi:DescriptorValueDomain"],
+          "@type": [
+            "cdi:DescriptorValueDomain"
+          ],
           "@id": "ex:struct/vitalsLong/vd/measureName",
           "cdif:takesValuesFrom": [
             {
               "cdif:value": "heart_rate",
-              "cdif:isDefinedBy": { "@id": "ex:struct/vitalsLong/rv/heartRate" }
+              "cdif:isDefinedBy": {
+                "@id": "ex:struct/vitalsLong/rv/heartRate"
+              }
             },
             {
               "cdif:value": "systolic_bp",
-              "cdif:isDefinedBy": { "@id": "ex:struct/vitalsLong/rv/systolicBP" }
+              "cdif:isDefinedBy": {
+                "@id": "ex:struct/vitalsLong/rv/systolicBP"
+              }
             }
           ]
         }
       },
-      "cdi:refersTo": { "@id": "ex:struct/vitalsLong/comp/measureValue" }
+      "cdi:refersTo": {
+        "@id": "ex:struct/vitalsLong/comp/measureValue"
+      }
     },
     {
-      "@type": ["cdi:VariableValueComponent"],
+      "@type": [
+        "cdi:VariableValueComponent"
+      ],
       "@id": "ex:struct/vitalsLong/comp/measureValue",
       "cdif:isDefinedBy_RepresentedVariable": {
-        "@type": ["cdi:RepresentedVariable"],
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
         "@id": "ex:struct/vitalsLong/rv/measureValue",
-        "cdi:name": ["measure_value"],
+        "cdif:name": [
+          "measure_value"
+        ],
         "cdi:hasIntendedDataType": {
-          "@type": ["cdi:ControlledVocabularyEntry"],
-          "cdi:entryValue": ["xsd:decimal"]
+          "@type": [
+            "cdi:ControlledVocabularyEntry"
+          ],
+          "cdi:entryValue": [
+            "xsd:decimal"
+          ]
         }
       }
     },
     {
-      "@type": ["cdi:AttributeComponent"],
+      "@type": [
+        "cdi:AttributeComponent"
+      ],
       "@id": "ex:struct/vitalsLong/comp/observedAt",
       "cdi:qualifies": [
-        { "@id": "ex:struct/vitalsLong/comp/measureValue" }
+        {
+          "@id": "ex:struct/vitalsLong/comp/measureValue"
+        }
       ],
       "cdif:isDefinedBy_RepresentedVariable": {
-        "@type": ["cdi:RepresentedVariable"],
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
         "@id": "ex:struct/vitalsLong/rv/observedAt",
-        "cdi:name": ["observed_at"],
+        "cdif:name": [
+          "observed_at"
+        ],
         "cdi:hasIntendedDataType": {
-          "@type": ["cdi:ControlledVocabularyEntry"],
-          "cdi:entryValue": ["xsd:dateTime"]
+          "@type": [
+            "cdi:ControlledVocabularyEntry"
+          ],
+          "cdi:entryValue": [
+            "xsd:dateTime"
+          ]
         }
       }
     }
   ],
   "cdi:has_PrimaryKey": {
-    "@type": ["cdif:PrimaryKey"],
+    "@type": [
+      "cdif:PrimaryKey"
+    ],
     "@id": "ex:struct/vitalsLong/pk",
     "cdif:isComposedOf": [
-      { "@id": "ex:var/patientId" },
-      { "@id": "ex:var/measureName" },
-      { "@id": "ex:var/observedAt" }
+      {
+        "@id": "ex:var/patientId"
+      },
+      {
+        "@id": "ex:var/measureName"
+      },
+      {
+        "@id": "ex:var/observedAt"
+      }
     ]
   }
 }
@@ -202,7 +258,7 @@ ComponentPosition wrapper.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/vitalsLong/rv/patientId",
-        "cdi:name": [
+        "cdif:name": [
           "patient_id"
         ],
         "cdi:hasIntendedDataType": {
@@ -225,7 +281,7 @@ ComponentPosition wrapper.
           "cdi:DescriptorVariable"
         ],
         "@id": "ex:struct/vitalsLong/dv/measureName",
-        "cdi:name": [
+        "cdif:name": [
           "measure_name"
         ],
         "cdif:hasValuesFrom": {
@@ -263,7 +319,7 @@ ComponentPosition wrapper.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/vitalsLong/rv/measureValue",
-        "cdi:name": [
+        "cdif:name": [
           "measure_value"
         ],
         "cdi:hasIntendedDataType": {
@@ -291,7 +347,7 @@ ComponentPosition wrapper.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/vitalsLong/rv/observedAt",
-        "cdi:name": [
+        "cdif:name": [
           "observed_at"
         ],
         "cdi:hasIntendedDataType": {
@@ -349,8 +405,8 @@ ComponentPosition wrapper.
     cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/patientId> .
 
 <https://example.org/struct/vitalsLong/dv/measureName> a cdi:DescriptorVariable ;
-    cdi:name "measure_name" ;
-    cdif:hasValuesFrom <https://example.org/struct/vitalsLong/vd/measureName> .
+    cdif:hasValuesFrom <https://example.org/struct/vitalsLong/vd/measureName> ;
+    cdif:name "measure_name" .
 
 <https://example.org/struct/vitalsLong/pk> a cdif:PrimaryKey ;
     cdif:isComposedOf <https://example.org/var/measureName>,
@@ -360,17 +416,17 @@ ComponentPosition wrapper.
 <https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:decimal" ] ;
-    cdi:name "measure_value" .
+    cdif:name "measure_value" .
 
 <https://example.org/struct/vitalsLong/rv/observedAt> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:dateTime" ] ;
-    cdi:name "observed_at" .
+    cdif:name "observed_at" .
 
 <https://example.org/struct/vitalsLong/rv/patientId> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:string" ] ;
-    cdi:name "patient_id" .
+    cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
     cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
@@ -418,7 +474,9 @@ each cell in the cube.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/salesCube/rv/country",
-        "cdi:name": ["country"],
+        "cdif:name": [
+          "country"
+        ],
         "cdi:hasIntendedDataType": {
           "@type": [
             "cdi:ControlledVocabularyEntry"
@@ -439,7 +497,9 @@ each cell in the cube.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/salesCube/rv/quarter",
-        "cdi:name": ["quarter"],
+        "cdif:name": [
+          "quarter"
+        ],
         "cdi:hasIntendedDataType": {
           "@type": [
             "cdi:ControlledVocabularyEntry"
@@ -460,7 +520,9 @@ each cell in the cube.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/salesCube/rv/productCategory",
-        "cdi:name": ["product_category"],
+        "cdif:name": [
+          "product_category"
+        ],
         "cdi:hasIntendedDataType": {
           "@type": [
             "cdi:ControlledVocabularyEntry"
@@ -481,7 +543,9 @@ each cell in the cube.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/salesCube/rv/salesAmount",
-        "cdi:name": ["sales_amount"],
+        "cdif:name": [
+          "sales_amount"
+        ],
         "cdi:simpleUnitOfMeasure": "USD",
         "cdi:hasIntendedDataType": {
           "@type": [
@@ -523,7 +587,9 @@ each cell in the cube.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/salesCube/rv/currency",
-        "cdi:name": ["currency"],
+        "cdif:name": [
+          "currency"
+        ],
         "cdi:hasIntendedDataType": {
           "@type": [
             "cdi:ControlledVocabularyEntry"
@@ -590,7 +656,7 @@ each cell in the cube.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/salesCube/rv/country",
-        "cdi:name": [
+        "cdif:name": [
           "country"
         ],
         "cdi:hasIntendedDataType": {
@@ -613,7 +679,7 @@ each cell in the cube.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/salesCube/rv/quarter",
-        "cdi:name": [
+        "cdif:name": [
           "quarter"
         ],
         "cdi:hasIntendedDataType": {
@@ -636,7 +702,7 @@ each cell in the cube.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/salesCube/rv/productCategory",
-        "cdi:name": [
+        "cdif:name": [
           "product_category"
         ],
         "cdi:hasIntendedDataType": {
@@ -659,7 +725,7 @@ each cell in the cube.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/salesCube/rv/salesAmount",
-        "cdi:name": [
+        "cdif:name": [
           "sales_amount"
         ],
         "cdi:simpleUnitOfMeasure": "USD",
@@ -703,7 +769,7 @@ each cell in the cube.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/salesCube/rv/currency",
-        "cdi:name": [
+        "cdif:name": [
           "currency"
         ],
         "cdi:hasIntendedDataType": {
@@ -772,28 +838,28 @@ each cell in the cube.
 <https://example.org/struct/salesCube/rv/country> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:string" ] ;
-    cdi:name "country" .
+    cdif:name "country" .
 
 <https://example.org/struct/salesCube/rv/currency> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:string" ] ;
-    cdi:name "currency" .
+    cdif:name "currency" .
 
 <https://example.org/struct/salesCube/rv/productCategory> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:string" ] ;
-    cdi:name "product_category" .
+    cdif:name "product_category" .
 
 <https://example.org/struct/salesCube/rv/quarter> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:gYearMonth" ] ;
-    cdi:name "quarter" .
+    cdif:name "quarter" .
 
 <https://example.org/struct/salesCube/rv/salesAmount> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:decimal" ] ;
-    cdi:name "sales_amount" ;
-    cdi:simpleUnitOfMeasure "USD" .
+    cdi:simpleUnitOfMeasure "USD" ;
+    cdif:name "sales_amount" .
 
 <https://example.org/struct/salesCube/comp/salesAmount> a cdi:MeasureComponent ;
     cdi:semantic [ a skos:Concept ;
@@ -824,93 +890,139 @@ array — wide-format rows are uniquely identified by patientId alone.
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "ex": "https://example.org/"
   },
-  "@type": ["cdi:WideDataStructure"],
+  "@type": [
+    "cdi:WideDataStructure"
+  ],
   "@id": "ex:struct/vitalsWide",
   "cdi:has_DataStructureComponent": [
     {
-      "@type": ["cdi:IdentifierComponent"],
+      "@type": [
+        "cdi:IdentifierComponent"
+      ],
       "@id": "ex:struct/vitalsWide/comp/patientId",
       "cdif:isDefinedBy_RepresentedVariable": {
-        "@type": ["cdi:RepresentedVariable"],
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
         "@id": "ex:struct/vitalsWide/rv/patientId",
-        "cdi:name": [
-          { "@type": ["cdi:ObjectName"], "cdi:name": "patient_id" }
+        "cdif:name": [
+          "patient_id"
         ],
         "cdi:hasIntendedDataType": {
-          "@type": ["cdi:ControlledVocabularyEntry"],
-          "cdi:entryValue": ["xsd:string"]
+          "@type": [
+            "cdi:ControlledVocabularyEntry"
+          ],
+          "cdi:entryValue": [
+            "xsd:string"
+          ]
         }
       }
     },
     {
-      "@type": ["cdi:MeasureComponent"],
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
       "@id": "ex:struct/vitalsWide/comp/systolicBP",
       "cdif:isDefinedBy_RepresentedVariable": {
-        "@type": ["cdi:RepresentedVariable"],
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
         "@id": "ex:struct/vitalsWide/rv/systolicBP",
-        "cdi:name": [
-          { "@type": ["cdi:ObjectName"], "cdi:name": "systolic_bp" }
+        "cdif:name": [
+          "systolic_bp"
         ],
         "cdi:simpleUnitOfMeasure": "mmHg",
         "cdi:hasIntendedDataType": {
-          "@type": ["cdi:ControlledVocabularyEntry"],
-          "cdi:entryValue": ["xsd:integer"]
+          "@type": [
+            "cdi:ControlledVocabularyEntry"
+          ],
+          "cdi:entryValue": [
+            "xsd:integer"
+          ]
         }
       }
     },
     {
-      "@type": ["cdi:MeasureComponent"],
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
       "@id": "ex:struct/vitalsWide/comp/diastolicBP",
       "cdif:isDefinedBy_RepresentedVariable": {
-        "@type": ["cdi:RepresentedVariable"],
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
         "@id": "ex:struct/vitalsWide/rv/diastolicBP",
-        "cdi:name": [
-          { "@type": ["cdi:ObjectName"], "cdi:name": "diastolic_bp" }
+        "cdif:name": [
+          "diastolic_bp"
         ],
         "cdi:simpleUnitOfMeasure": "mmHg",
         "cdi:hasIntendedDataType": {
-          "@type": ["cdi:ControlledVocabularyEntry"],
-          "cdi:entryValue": ["xsd:integer"]
+          "@type": [
+            "cdi:ControlledVocabularyEntry"
+          ],
+          "cdi:entryValue": [
+            "xsd:integer"
+          ]
         }
       }
     },
     {
-      "@type": ["cdi:MeasureComponent"],
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
       "@id": "ex:struct/vitalsWide/comp/heartRate",
       "cdif:isDefinedBy_RepresentedVariable": {
-        "@type": ["cdi:RepresentedVariable"],
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
         "@id": "ex:struct/vitalsWide/rv/heartRate",
-        "cdi:name": [
-          { "@type": ["cdi:ObjectName"], "cdi:name": "heart_rate" }
+        "cdif:name": [
+          "heart_rate"
         ],
         "cdi:simpleUnitOfMeasure": "bpm",
         "cdi:hasIntendedDataType": {
-          "@type": ["cdi:ControlledVocabularyEntry"],
-          "cdi:entryValue": ["xsd:integer"]
+          "@type": [
+            "cdi:ControlledVocabularyEntry"
+          ],
+          "cdi:entryValue": [
+            "xsd:integer"
+          ]
         }
       }
     },
     {
-      "@type": ["cdi:AttributeComponent"],
+      "@type": [
+        "cdi:AttributeComponent"
+      ],
       "@id": "ex:struct/vitalsWide/comp/observedAt",
       "cdif:isDefinedBy_RepresentedVariable": {
-        "@type": ["cdi:RepresentedVariable"],
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
         "@id": "ex:struct/vitalsWide/rv/observedAt",
-        "cdi:name": [
-          { "@type": ["cdi:ObjectName"], "cdi:name": "observed_at" }
+        "cdif:name": [
+          "observed_at"
         ],
         "cdi:hasIntendedDataType": {
-          "@type": ["cdi:ControlledVocabularyEntry"],
-          "cdi:entryValue": ["xsd:dateTime"]
+          "@type": [
+            "cdi:ControlledVocabularyEntry"
+          ],
+          "cdi:entryValue": [
+            "xsd:dateTime"
+          ]
         }
       }
     }
   ],
   "cdi:has_PrimaryKey": {
-    "@type": ["cdif:PrimaryKey"],
+    "@type": [
+      "cdif:PrimaryKey"
+    ],
     "@id": "ex:struct/vitalsWide/pk",
     "cdif:isComposedOf": [
-      { "@id": "ex:var/patientId" }
+      {
+        "@id": "ex:var/patientId"
+      }
     ]
   }
 }
@@ -950,13 +1062,8 @@ array — wide-format rows are uniquely identified by patientId alone.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/vitalsWide/rv/patientId",
-        "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "patient_id"
-          }
+        "cdif:name": [
+          "patient_id"
         ],
         "cdi:hasIntendedDataType": {
           "@type": [
@@ -978,13 +1085,8 @@ array — wide-format rows are uniquely identified by patientId alone.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/vitalsWide/rv/systolicBP",
-        "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "systolic_bp"
-          }
+        "cdif:name": [
+          "systolic_bp"
         ],
         "cdi:simpleUnitOfMeasure": "mmHg",
         "cdi:hasIntendedDataType": {
@@ -1007,13 +1109,8 @@ array — wide-format rows are uniquely identified by patientId alone.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/vitalsWide/rv/diastolicBP",
-        "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "diastolic_bp"
-          }
+        "cdif:name": [
+          "diastolic_bp"
         ],
         "cdi:simpleUnitOfMeasure": "mmHg",
         "cdi:hasIntendedDataType": {
@@ -1036,13 +1133,8 @@ array — wide-format rows are uniquely identified by patientId alone.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/vitalsWide/rv/heartRate",
-        "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "heart_rate"
-          }
+        "cdif:name": [
+          "heart_rate"
         ],
         "cdi:simpleUnitOfMeasure": "bpm",
         "cdi:hasIntendedDataType": {
@@ -1065,13 +1157,8 @@ array — wide-format rows are uniquely identified by patientId alone.
           "cdi:RepresentedVariable"
         ],
         "@id": "ex:struct/vitalsWide/rv/observedAt",
-        "cdi:name": [
-          {
-            "@type": [
-              "cdi:ObjectName"
-            ],
-            "cdi:name": "observed_at"
-          }
+        "cdif:name": [
+          "observed_at"
         ],
         "cdi:hasIntendedDataType": {
           "@type": [
@@ -1132,35 +1219,30 @@ array — wide-format rows are uniquely identified by patientId alone.
 <https://example.org/struct/vitalsWide/rv/diastolicBP> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:integer" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "diastolic_bp" ] ;
-    cdi:simpleUnitOfMeasure "mmHg" .
+    cdi:simpleUnitOfMeasure "mmHg" ;
+    cdif:name "diastolic_bp" .
 
 <https://example.org/struct/vitalsWide/rv/heartRate> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:integer" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "heart_rate" ] ;
-    cdi:simpleUnitOfMeasure "bpm" .
+    cdi:simpleUnitOfMeasure "bpm" ;
+    cdif:name "heart_rate" .
 
 <https://example.org/struct/vitalsWide/rv/observedAt> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:dateTime" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "observed_at" ] .
+    cdif:name "observed_at" .
 
 <https://example.org/struct/vitalsWide/rv/patientId> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:string" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "patient_id" ] .
+    cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsWide/rv/systolicBP> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:integer" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "systolic_bp" ] ;
-    cdi:simpleUnitOfMeasure "mmHg" .
+    cdi:simpleUnitOfMeasure "mmHg" ;
+    cdif:name "systolic_bp" .
 
 
 ```
@@ -1349,7 +1431,7 @@ $defs:
         description: Identifier for objects requiring short- or long-lasting referencing
           and management.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
-      cdi:name:
+      cdif:name:
         type: array
         items:
           type: string
@@ -1357,7 +1439,6 @@ $defs:
         description: Human understandable name (liguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/name
       cdif:has_DataStructureComponent:
         type: array
         items:

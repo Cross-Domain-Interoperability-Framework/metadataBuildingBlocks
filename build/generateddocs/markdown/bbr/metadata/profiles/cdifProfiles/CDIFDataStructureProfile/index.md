@@ -683,28 +683,10 @@ optional Attribute) and its own cdif:PrimaryKey.
                 "cdi:RepresentedVariable"
               ],
               "@id": "ex:struct/vitalsLong/rv/patientId",
-              "cdi:name": [
-                {
-                  "@type": [
-                    "cdi:ObjectName"
-                  ],
-                  "cdi:name": "patient_id"
-                }
+              "cdif:name": [
+                "patient_id"
               ],
-              "cdi:definition": {
-                "@type": [
-                  "cdi:InternationalString"
-                ],
-                "cdi:languageSpecificString": [
-                  {
-                    "@type": [
-                      "cdi:LanguageString"
-                    ],
-                    "cdi:content": "Pseudonymous patient identifier.",
-                    "cdi:language": "en"
-                  }
-                ]
-              },
+              "cdif:definition": "Pseudonymous patient identifier.",
               "cdi:hasIntendedDataType": {
                 "@type": [
                   "cdi:ControlledVocabularyEntry"
@@ -725,13 +707,8 @@ optional Attribute) and its own cdif:PrimaryKey.
                 "cdi:DescriptorVariable"
               ],
               "@id": "ex:struct/vitalsLong/dv/measureName",
-              "cdi:name": [
-                {
-                  "@type": [
-                    "cdi:ObjectName"
-                  ],
-                  "cdi:name": "measure_name"
-                }
+              "cdif:name": [
+                "measure_name"
               ],
               "cdif:hasValuesFrom": {
                 "@type": [
@@ -746,13 +723,8 @@ optional Attribute) and its own cdif:PrimaryKey.
                         "cdi:RepresentedVariable"
                       ],
                       "@id": "ex:struct/vitalsLong/rv/systolicBP",
-                      "cdi:name": [
-                        {
-                          "@type": [
-                            "cdi:ObjectName"
-                          ],
-                          "cdi:name": "systolic_blood_pressure"
-                        }
+                      "cdif:name": [
+                        "systolic_blood_pressure"
                       ],
                       "cdi:simpleUnitOfMeasure": "mmHg",
                       "cdi:hasIntendedDataType": {
@@ -772,13 +744,8 @@ optional Attribute) and its own cdif:PrimaryKey.
                         "cdi:RepresentedVariable"
                       ],
                       "@id": "ex:struct/vitalsLong/rv/diastolicBP",
-                      "cdi:name": [
-                        {
-                          "@type": [
-                            "cdi:ObjectName"
-                          ],
-                          "cdi:name": "diastolic_blood_pressure"
-                        }
+                      "cdif:name": [
+                        "diastolic_blood_pressure"
                       ],
                       "cdi:simpleUnitOfMeasure": "mmHg",
                       "cdi:hasIntendedDataType": {
@@ -798,13 +765,8 @@ optional Attribute) and its own cdif:PrimaryKey.
                         "cdi:RepresentedVariable"
                       ],
                       "@id": "ex:struct/vitalsLong/rv/heartRate",
-                      "cdi:name": [
-                        {
-                          "@type": [
-                            "cdi:ObjectName"
-                          ],
-                          "cdi:name": "heart_rate"
-                        }
+                      "cdif:name": [
+                        "heart_rate"
                       ],
                       "cdi:simpleUnitOfMeasure": "bpm",
                       "cdi:hasIntendedDataType": {
@@ -824,13 +786,8 @@ optional Attribute) and its own cdif:PrimaryKey.
                         "cdi:RepresentedVariable"
                       ],
                       "@id": "ex:struct/vitalsLong/rv/temperatureC",
-                      "cdi:name": [
-                        {
-                          "@type": [
-                            "cdi:ObjectName"
-                          ],
-                          "cdi:name": "body_temperature_celsius"
-                        }
+                      "cdif:name": [
+                        "body_temperature_celsius"
                       ],
                       "cdi:simpleUnitOfMeasure": "Cel",
                       "cdi:hasIntendedDataType": {
@@ -860,28 +817,10 @@ optional Attribute) and its own cdif:PrimaryKey.
                 "cdi:RepresentedVariable"
               ],
               "@id": "ex:struct/vitalsLong/rv/measureValue",
-              "cdi:name": [
-                {
-                  "@type": [
-                    "cdi:ObjectName"
-                  ],
-                  "cdi:name": "measure_value"
-                }
+              "cdif:name": [
+                "measure_value"
               ],
-              "cdi:definition": {
-                "@type": [
-                  "cdi:InternationalString"
-                ],
-                "cdi:languageSpecificString": [
-                  {
-                    "@type": [
-                      "cdi:LanguageString"
-                    ],
-                    "cdi:content": "Numeric value of the vital sign named by measure_name.",
-                    "cdi:language": "en"
-                  }
-                ]
-              },
+              "cdif:definition": "Numeric value of the vital sign named by measure_name.",
               "cdi:hasIntendedDataType": {
                 "@type": [
                   "cdi:ControlledVocabularyEntry"
@@ -907,28 +846,10 @@ optional Attribute) and its own cdif:PrimaryKey.
                 "cdi:RepresentedVariable"
               ],
               "@id": "ex:struct/vitalsLong/rv/observedAt",
-              "cdi:name": [
-                {
-                  "@type": [
-                    "cdi:ObjectName"
-                  ],
-                  "cdi:name": "observed_at"
-                }
+              "cdif:name": [
+                "observed_at"
               ],
-              "cdi:definition": {
-                "@type": [
-                  "cdi:InternationalString"
-                ],
-                "cdi:languageSpecificString": [
-                  {
-                    "@type": [
-                      "cdi:LanguageString"
-                    ],
-                    "cdi:content": "Timestamp of the observation; qualifies measure_value.",
-                    "cdi:language": "en"
-                  }
-                ]
-              },
+              "cdif:definition": "Timestamp of the observation; qualifies measure_value.",
               "cdi:hasIntendedDataType": {
                 "@type": [
                   "cdi:ControlledVocabularyEntry"
@@ -1543,28 +1464,10 @@ optional Attribute) and its own cdif:PrimaryKey.
                 "cdi:RepresentedVariable"
               ],
               "@id": "ex:struct/vitalsLong/rv/patientId",
-              "cdi:name": [
-                {
-                  "@type": [
-                    "cdi:ObjectName"
-                  ],
-                  "cdi:name": "patient_id"
-                }
+              "cdif:name": [
+                "patient_id"
               ],
-              "cdi:definition": {
-                "@type": [
-                  "cdi:InternationalString"
-                ],
-                "cdi:languageSpecificString": [
-                  {
-                    "@type": [
-                      "cdi:LanguageString"
-                    ],
-                    "cdi:content": "Pseudonymous patient identifier.",
-                    "cdi:language": "en"
-                  }
-                ]
-              },
+              "cdif:definition": "Pseudonymous patient identifier.",
               "cdi:hasIntendedDataType": {
                 "@type": [
                   "cdi:ControlledVocabularyEntry"
@@ -1585,13 +1488,8 @@ optional Attribute) and its own cdif:PrimaryKey.
                 "cdi:DescriptorVariable"
               ],
               "@id": "ex:struct/vitalsLong/dv/measureName",
-              "cdi:name": [
-                {
-                  "@type": [
-                    "cdi:ObjectName"
-                  ],
-                  "cdi:name": "measure_name"
-                }
+              "cdif:name": [
+                "measure_name"
               ],
               "cdif:hasValuesFrom": {
                 "@type": [
@@ -1606,13 +1504,8 @@ optional Attribute) and its own cdif:PrimaryKey.
                         "cdi:RepresentedVariable"
                       ],
                       "@id": "ex:struct/vitalsLong/rv/systolicBP",
-                      "cdi:name": [
-                        {
-                          "@type": [
-                            "cdi:ObjectName"
-                          ],
-                          "cdi:name": "systolic_blood_pressure"
-                        }
+                      "cdif:name": [
+                        "systolic_blood_pressure"
                       ],
                       "cdi:simpleUnitOfMeasure": "mmHg",
                       "cdi:hasIntendedDataType": {
@@ -1632,13 +1525,8 @@ optional Attribute) and its own cdif:PrimaryKey.
                         "cdi:RepresentedVariable"
                       ],
                       "@id": "ex:struct/vitalsLong/rv/diastolicBP",
-                      "cdi:name": [
-                        {
-                          "@type": [
-                            "cdi:ObjectName"
-                          ],
-                          "cdi:name": "diastolic_blood_pressure"
-                        }
+                      "cdif:name": [
+                        "diastolic_blood_pressure"
                       ],
                       "cdi:simpleUnitOfMeasure": "mmHg",
                       "cdi:hasIntendedDataType": {
@@ -1658,13 +1546,8 @@ optional Attribute) and its own cdif:PrimaryKey.
                         "cdi:RepresentedVariable"
                       ],
                       "@id": "ex:struct/vitalsLong/rv/heartRate",
-                      "cdi:name": [
-                        {
-                          "@type": [
-                            "cdi:ObjectName"
-                          ],
-                          "cdi:name": "heart_rate"
-                        }
+                      "cdif:name": [
+                        "heart_rate"
                       ],
                       "cdi:simpleUnitOfMeasure": "bpm",
                       "cdi:hasIntendedDataType": {
@@ -1684,13 +1567,8 @@ optional Attribute) and its own cdif:PrimaryKey.
                         "cdi:RepresentedVariable"
                       ],
                       "@id": "ex:struct/vitalsLong/rv/temperatureC",
-                      "cdi:name": [
-                        {
-                          "@type": [
-                            "cdi:ObjectName"
-                          ],
-                          "cdi:name": "body_temperature_celsius"
-                        }
+                      "cdif:name": [
+                        "body_temperature_celsius"
                       ],
                       "cdi:simpleUnitOfMeasure": "Cel",
                       "cdi:hasIntendedDataType": {
@@ -1720,28 +1598,10 @@ optional Attribute) and its own cdif:PrimaryKey.
                 "cdi:RepresentedVariable"
               ],
               "@id": "ex:struct/vitalsLong/rv/measureValue",
-              "cdi:name": [
-                {
-                  "@type": [
-                    "cdi:ObjectName"
-                  ],
-                  "cdi:name": "measure_value"
-                }
+              "cdif:name": [
+                "measure_value"
               ],
-              "cdi:definition": {
-                "@type": [
-                  "cdi:InternationalString"
-                ],
-                "cdi:languageSpecificString": [
-                  {
-                    "@type": [
-                      "cdi:LanguageString"
-                    ],
-                    "cdi:content": "Numeric value of the vital sign named by measure_name.",
-                    "cdi:language": "en"
-                  }
-                ]
-              },
+              "cdif:definition": "Numeric value of the vital sign named by measure_name.",
               "cdi:hasIntendedDataType": {
                 "@type": [
                   "cdi:ControlledVocabularyEntry"
@@ -1767,28 +1627,10 @@ optional Attribute) and its own cdif:PrimaryKey.
                 "cdi:RepresentedVariable"
               ],
               "@id": "ex:struct/vitalsLong/rv/observedAt",
-              "cdi:name": [
-                {
-                  "@type": [
-                    "cdi:ObjectName"
-                  ],
-                  "cdi:name": "observed_at"
-                }
+              "cdif:name": [
+                "observed_at"
               ],
-              "cdi:definition": {
-                "@type": [
-                  "cdi:InternationalString"
-                ],
-                "cdi:languageSpecificString": [
-                  {
-                    "@type": [
-                      "cdi:LanguageString"
-                    ],
-                    "cdi:content": "Timestamp of the observation; qualifies measure_value.",
-                    "cdi:language": "en"
-                  }
-                ]
-              },
+              "cdif:definition": "Timestamp of the observation; qualifies measure_value.",
               "cdi:hasIntendedDataType": {
                 "@type": [
                   "cdi:ControlledVocabularyEntry"
@@ -2064,13 +1906,13 @@ optional Attribute) and its own cdif:PrimaryKey.
                             schema1:valueName "offset" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of observations to return (default 100)." ;
-                            schema1:valueName "limit" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Response format token (csv only for this example)." ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Maximum number of observations to return (default 100)." ;
+                            schema1:valueName "limit" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a cdi:PhysicalDataSet,
                                 cdi:TabularTextDataSet,
@@ -2086,22 +1928,22 @@ optional Attribute) and its own cdif:PrimaryKey.
                             csvw:headerRowCount 1 ;
                             cdif:fileSize 5e-01 ;
                             cdif:fileSizeUofM "MB" ;
-                            cdif:hasPhysicalMapping [ cdif:format "decimal" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
-                                    cdif:index 2 ;
-                                    cdif:physicalDataType "decimal" ],
-                                [ cdif:format "string" ;
+                            cdif:hasPhysicalMapping [ cdif:format "string" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
                                     cdif:index 1 ;
                                     cdif:physicalDataType "string" ],
-                                [ cdif:format "ISO8601" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
-                                    cdif:index 3 ;
-                                    cdif:physicalDataType "dateTime" ],
                                 [ cdif:format "string" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
                                     cdif:index 0 ;
-                                    cdif:physicalDataType "string" ] ] ;
+                                    cdif:physicalDataType "string" ],
+                                [ cdif:format "decimal" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
+                                    cdif:index 2 ;
+                                    cdif:physicalDataType "decimal" ],
+                                [ cdif:format "ISO8601" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
+                                    cdif:index 3 ;
+                                    cdif:physicalDataType "dateTime" ] ] ;
                     schema1:target [ a schema1:EntryPoint ;
                             schema1:contentType "text/csv" ;
                             schema1:description "OGC API Features endpoint returning vitals observations as long-format CSV." ;
@@ -2236,38 +2078,34 @@ optional Attribute) and its own cdif:PrimaryKey.
 <https://example.org/struct/vitalsLong/rv/diastolicBP> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:decimal" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "diastolic_blood_pressure" ] ;
-    cdi:simpleUnitOfMeasure "mmHg" .
+    cdi:simpleUnitOfMeasure "mmHg" ;
+    cdif:name "diastolic_blood_pressure" .
 
 <https://example.org/struct/vitalsLong/rv/heartRate> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:decimal" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "heart_rate" ] ;
-    cdi:simpleUnitOfMeasure "bpm" .
+    cdi:simpleUnitOfMeasure "bpm" ;
+    cdif:name "heart_rate" .
 
 <https://example.org/struct/vitalsLong/rv/systolicBP> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:decimal" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "systolic_blood_pressure" ] ;
-    cdi:simpleUnitOfMeasure "mmHg" .
+    cdi:simpleUnitOfMeasure "mmHg" ;
+    cdif:name "systolic_blood_pressure" .
 
 <https://example.org/struct/vitalsLong/rv/temperatureC> a cdi:RepresentedVariable ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:decimal" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "body_temperature_celsius" ] ;
-    cdi:simpleUnitOfMeasure "Cel" .
+    cdi:simpleUnitOfMeasure "Cel" ;
+    cdif:name "body_temperature_celsius" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/temperatureC> ;
-            cdif:value "temp_c" ],
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
+            cdif:value "systolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
             cdif:value "heart_rate" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
-            cdif:value "systolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/temperatureC> ;
+            cdif:value "temp_c" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/diastolicBP> ;
             cdif:value "diastolic_bp" ] .
 
@@ -2302,39 +2140,26 @@ optional Attribute) and its own cdif:PrimaryKey.
     cdi:has_PrimaryKey <https://example.org/struct/vitalsLong/pk> .
 
 <https://example.org/struct/vitalsLong/dv/measureName> a cdi:DescriptorVariable ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "measure_name" ] ;
-    cdif:hasValuesFrom <https://example.org/struct/vitalsLong/vd/measureName> .
+    cdif:hasValuesFrom <https://example.org/struct/vitalsLong/vd/measureName> ;
+    cdif:name "measure_name" .
 
 <https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;
-    cdi:definition [ a cdi:InternationalString ;
-            cdi:languageSpecificString [ a cdi:LanguageString ;
-                    cdi:content "Numeric value of the vital sign named by measure_name." ;
-                    cdi:language "en" ] ] ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:decimal" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "measure_value" ] .
+    cdif:definition "Numeric value of the vital sign named by measure_name." ;
+    cdif:name "measure_value" .
 
 <https://example.org/struct/vitalsLong/rv/observedAt> a cdi:RepresentedVariable ;
-    cdi:definition [ a cdi:InternationalString ;
-            cdi:languageSpecificString [ a cdi:LanguageString ;
-                    cdi:content "Timestamp of the observation; qualifies measure_value." ;
-                    cdi:language "en" ] ] ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:dateTime" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "observed_at" ] .
+    cdif:definition "Timestamp of the observation; qualifies measure_value." ;
+    cdif:name "observed_at" .
 
 <https://example.org/struct/vitalsLong/rv/patientId> a cdi:RepresentedVariable ;
-    cdi:definition [ a cdi:InternationalString ;
-            cdi:languageSpecificString [ a cdi:LanguageString ;
-                    cdi:content "Pseudonymous patient identifier." ;
-                    cdi:language "en" ] ] ;
     cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
             cdi:entryValue "xsd:string" ] ;
-    cdi:name [ a cdi:ObjectName ;
-            cdi:name "patient_id" ] .
+    cdif:definition "Pseudonymous patient identifier." ;
+    cdif:name "patient_id" .
 
 <https://ror.org/0171mag52> a schema1:Organization ;
     schema1:identifier [ a schema1:PropertyValue ;
