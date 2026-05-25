@@ -38,29 +38,29 @@ Schema defining properties for documenting hardware or software used in the crea
 
 Base physical mapping: metadata to document the physical serialization of a variable in a data structure. Defines properties: cdif:index, cdif:format, cdif:physicalDataType, cdi:numberPattern, cdi:nullSequence, cdi:defaultValue, cdi:scale, cdi:decimalPositions, cdi:minimumLength, cdi:maximumLength, cdi:isRequired, cdif:formats_InstanceVariable. Text-format specifics (cdi:length and number separators) are in cdifTextMapping; structured-document location is in cdifLocatorMapping.
 
-### `cdif.bbr.metadata.cdifProperties.cdifTabularTextDataSet` — CDIF TabularTextDataSet building block
-
-**Type:** schema
-
-Dataset-level physical layout of a delimited or fixed-width text dataset (CSV, TSV, fixed-width). A subclass of cdi:PhysicalDataSet carried on a schema:DataDownload distribution dual-typed cdi:TabularTextDataSet. Defines cdi:delimiter, cdi:hasHeader, cdi:headerRowCount, cdi:quoteCharacter, cdi:lineTerminator, cdi:isDelimited, cdi:isFixedWidth, cdi:skipRows, cdi:trim, cdi:tableDirection, cdi:textDirection (enumerations modeled as string+enum, matching the canonical ddicdiPhysicalDataSet), and the other DDI-CDI TabularTextDataSet attributes. Per-field mappings are cdifTextMapping.
-
 ### `cdif.bbr.metadata.cdifProperties.cdifDataFingerprint` — CDIF DataFingerprint building block
 
 **Type:** datatype
 
 A fingerprint (checksum/hash) of a physical dataset, for integrity verification. DDI-CDI DataFingerprint datatype carried on a cdi:PhysicalDataSet (schema:DataDownload) via cdi:fingerprint. Defines cdi:value, cdi:algorithmSpecification, cdi:algorithmVersion, cdi:typeOfFingerprint.
 
-### `cdif.bbr.metadata.cdifProperties.cdifLocatorMapping` — CDIF LocatorMapping building block
-
-**Type:** schema
-
-Locates a variable's value(s) within a structured (hierarchical) dataset such as XML or JSON using a locator expression (XPath, JSONPath). Defines cdi:locator and cdif:formats_InstanceVariable. DDI-CDI LocatorMapping; used instead of column-index/text mappings for cdi:StructuredDataSet distributions.
-
 ### `cdif.bbr.metadata.cdifProperties.cdifStructuredDataSet` — CDIF StructuredDataSet building block
 
 **Type:** schema
 
 Dataset-level marker for a structured (hierarchical) dataset such as XML or JSON. A subclass of cdi:PhysicalDataSet carried on a schema:DataDownload distribution dual-typed cdi:StructuredDataSet. DDI-CDI StructuredDataSet; fields are located with cdifLocatorMapping (not column-index/text mappings). Defines cdif:encoding (cdif: because the DDI-CDI ControlledVocabularyEntry type is simplified to a plain charset string).
+
+### `cdif.bbr.metadata.cdifProperties.cdifTabularTextDataSet` — CDIF TabularTextDataSet building block
+
+**Type:** schema
+
+Dataset-level physical layout of a delimited or fixed-width text dataset (CSV, TSV, fixed-width). A subclass of cdi:PhysicalDataSet carried on a schema:DataDownload distribution dual-typed cdi:TabularTextDataSet. Defines cdi:delimiter, cdi:hasHeader, cdi:headerRowCount, cdi:quoteCharacter, cdi:lineTerminator, cdi:isDelimited, cdi:isFixedWidth, cdi:skipRows, cdi:trim, cdi:tableDirection, cdi:textDirection (enumerations modeled as string+enum, matching the canonical ddicdiPhysicalDataSet), and the other DDI-CDI TabularTextDataSet attributes. Per-field mappings are cdifTextMapping.
+
+### `cdif.bbr.metadata.cdifProperties.cdifLocatorMapping` — CDIF LocatorMapping building block
+
+**Type:** schema
+
+Locates a variable's value(s) within a structured (hierarchical) dataset such as XML or JSON using a locator expression (XPath, JSONPath). Defines cdi:locator and cdif:formats_InstanceVariable. DDI-CDI LocatorMapping; used instead of column-index/text mappings for cdi:StructuredDataSet distributions.
 
 ### `cdif.bbr.metadata.skosProperties.skosConcept` — SKOS Concept
 
@@ -199,12 +199,6 @@ DDI-CDI ProcessingAgent that orchestrates production activities, linking agents 
 **Type:** schema
 
 Schema defining properties to implement description of an action, a profile of schema.org/Action. Defines properties: @type, schema:name, schema:target, schema:result, schema:object, schema:query-input. Uses building blocks: variableMeasured (schemaorgProperties).
-
-### `cdif.bbr.metadata.cdifProperties.cdifStatistics` — CDIF Statistics
-
-**Type:** schema
-
-Profile of DDI-CDI Statistics, StatisticsCollection, Statistic, CategoryStatistics, and Category. A Statistics node bundles one or more Statistic value objects (mean, count, median, etc.) optionally weighted by an InstanceVariable and optionally broken down by Category via CategoryStatistics. A StatisticsCollection groups multiple Statistics nodes and records the InstanceVariables they index. Composes building block: cdifInstanceVariable (cdifProperties).
 
 ### `cdif.bbr.metadata.qualityProperties.qualityMeasure` — Simple quality measurement properties
 
@@ -361,6 +355,12 @@ Variable that records values of multiple variables in the context of a data stru
 **Type:** schema
 
 Profile of ddi-cdi Key/PrimaryKey: a CDIF Key is the role of an ordered set of cdi:InstanceVariables (referenced via cdifInstanceVariable) that uniquely identify a data instance. Defines properties: @type, cdif:isComposedOf. Each cdif:ComponentPosition entry carries cdif:indexes (the InstanceVariable) and cdif:value (the integer position). Composes building block: cdifInstanceVariable (cdifProperties).
+
+### `cdif.bbr.metadata.cdifProperties.cdifStatistics` — CDIF Statistics
+
+**Type:** schema
+
+Profile of DDI-CDI Statistics, StatisticsCollection, Statistic, CategoryStatistics, and Category. A Statistics node bundles one or more Statistic value objects (mean, count, median, etc.) optionally weighted by an InstanceVariable and optionally broken down by Category via CategoryStatistics. A StatisticsCollection groups multiple Statistics nodes and records the InstanceVariables they index. Composes building block: cdifInstanceVariable (cdifProperties).
 
 ### `cdif.bbr.metadata.ddiProperties.ddicdiPhysicalMapping` — DDI-CDI Physical Mapping
 
