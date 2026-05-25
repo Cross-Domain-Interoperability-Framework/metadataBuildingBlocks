@@ -2357,16 +2357,16 @@ quality measurements.
     csvw:header true ;
     csvw:headerRowCount 1 ;
     cdif:hasPhysicalMapping [ cdi:isRequired true ;
+            cdif:format "string" ;
+            cdif:formats_InstanceVariable ex:var-sampleID ;
+            cdif:index 0 ;
+            cdif:physicalDataType "string" ],
+        [ cdi:isRequired true ;
             cdi:nullSequence "NA" ;
             cdif:format "decimal" ;
             cdif:formats_InstanceVariable ex:var-concentration ;
             cdif:index 1 ;
             cdif:physicalDataType "float64" ],
-        [ cdi:isRequired true ;
-            cdif:format "string" ;
-            cdif:formats_InstanceVariable ex:var-sampleID ;
-            cdif:index 0 ;
-            cdif:physicalDataType "string" ],
         [ cdi:isRequired false ;
             cdi:nullSequence "NA" ;
             cdif:format "decimal" ;
@@ -2465,11 +2465,11 @@ ex:activity-geochem-analysis a schema1:Action,
                             schema1:name "Inductively coupled plasma mass spectrometer" ;
                             schema1:termCode "LAB21" ] ;
                     schema1:hasPart [ a schema1:Thing ;
-                            schema1:alternateName "CETAC ASX-560" ;
-                            schema1:name "Autosampler" ],
-                        [ a schema1:Thing ;
                             schema1:alternateName "Peltier-cooled cyclonic" ;
-                            schema1:name "Spray chamber" ] ;
+                            schema1:name "Spray chamber" ],
+                        [ a schema1:Thing ;
+                            schema1:alternateName "CETAC ASX-560" ;
+                            schema1:name "Autosampler" ] ;
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
                     schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
                     schema1:termCode "ICP-MS" ] ],
@@ -2556,15 +2556,7 @@ ex:complete-dataset-001 a schema1:Dataset ;
             csvw:tableDirection "Ltr" ;
             csvw:textDirection "Auto" ;
             csvw:trim "true" ;
-            cdif:hasPhysicalMapping [ cdi:defaultValue "UNKNOWN" ;
-                    cdi:isRequired true ;
-                    cdi:maximumLength 40 ;
-                    cdi:minimumLength 3 ;
-                    cdif:format "string" ;
-                    cdif:formats_InstanceVariable ex:var-sampleID ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "string" ],
-                [ cdi:decimalPositions 4 ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 4 ;
                     cdi:isRequired false ;
                     cdi:length 12 ;
                     cdi:nullSequence "-9999" ;
@@ -2572,6 +2564,14 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     cdif:formats_InstanceVariable ex:var-uncertainty ;
                     cdif:index 2 ;
                     cdif:physicalDataType "float64" ],
+                [ cdi:defaultValue "UNKNOWN" ;
+                    cdi:isRequired true ;
+                    cdi:maximumLength 40 ;
+                    cdi:minimumLength 3 ;
+                    cdif:format "string" ;
+                    cdif:formats_InstanceVariable ex:var-sampleID ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "string" ],
                 [ cdi:decimalPositions 4 ;
                     cdi:isRequired true ;
                     cdi:nullSequence "NA" ;
@@ -2590,15 +2590,15 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     spdx:algorithm "SHA256" ;
                     spdx:checksumValue "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4" ] ;
             cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:locator "/spectra/wavelength" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-wavelength ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:isRequired true ;
                     cdi:locator "/spectra/intensity" ;
                     cdi:scale 1000 ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-intensity ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:locator "/spectra/wavelength" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-wavelength ;
                     cdif:physicalDataType "float32" ] ],
         [ a schema1:WebAPI ;
             schema1:documentation [ a schema1:CreativeWork,
@@ -2610,6 +2610,10 @@ ex:complete-dataset-001 a schema1:Dataset ;
                     schema1:object [ a schema1:DataFeed ;
                             schema1:description "Geochemistry observations collection" ] ;
                     schema1:query-input [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Starting index for pagination" ;
+                            schema1:valueName "offset" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
                             schema1:description "Response format: csv or geojson" ;
                             schema1:valueName "format" ;
                             schema1:valuePattern "csv|geojson" ;
@@ -2617,10 +2621,6 @@ ex:complete-dataset-001 a schema1:Dataset ;
                         [ a schema1:PropertyValueSpecification ;
                             schema1:description "Maximum number of features to return" ;
                             schema1:valueName "limit" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Starting index for pagination" ;
-                            schema1:valueName "offset" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a schema1:DataDownload ;
                             cdi:isDelimited true ;
@@ -2631,15 +2631,15 @@ ex:complete-dataset-001 a schema1:Dataset ;
                             csvw:delimiter "," ;
                             csvw:header true ;
                             csvw:headerRowCount 1 ;
-                            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                                    cdif:format "decimal" ;
-                                    cdif:formats_InstanceVariable ex:var-concentration ;
-                                    cdif:index 0 ;
-                                    cdif:physicalDataType "float64" ],
-                                [ cdi:isRequired false ;
+                            cdif:hasPhysicalMapping [ cdi:isRequired false ;
                                     cdif:format "decimal" ;
                                     cdif:formats_InstanceVariable ex:var-uncertainty ;
                                     cdif:index 1 ;
+                                    cdif:physicalDataType "float64" ],
+                                [ cdi:isRequired true ;
+                                    cdif:format "decimal" ;
+                                    cdif:formats_InstanceVariable ex:var-concentration ;
+                                    cdif:index 0 ;
                                     cdif:physicalDataType "float64" ] ] ;
                     schema1:target [ a schema1:EntryPoint ;
                             schema1:contentType "application/geo+json",
@@ -2696,19 +2696,19 @@ ex:complete-dataset-001 a schema1:Dataset ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "https://vocabularyserver.com/keyword" ;
-                    schema1:url "https://vocabularyserver.com/keyword/geochem-001" ;
-                    schema1:value "geochem-001" ] ;
-            schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
-            schema1:name "geochemistry" ;
-            schema1:termCode "GEOCHEM" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://vocabularyserver.com/keyword" ;
                     schema1:url "https://vocabularyserver.com/keyword/spectral-001" ;
                     schema1:value "spectral-001" ] ;
             schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
             schema1:name "spectral analysis" ;
-            schema1:termCode "SPECTRAL" ] ;
+            schema1:termCode "SPECTRAL" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier [ a schema1:PropertyValue ;
+                    schema1:propertyID "https://vocabularyserver.com/keyword" ;
+                    schema1:url "https://vocabularyserver.com/keyword/geochem-001" ;
+                    schema1:value "geochem-001" ] ;
+            schema1:inDefinedTermSet "https://vocabularyserver.com/keyword" ;
+            schema1:name "geochemistry" ;
+            schema1:termCode "GEOCHEM" ] ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;

@@ -559,17 +559,17 @@ SPDX checksum.
 <file:///github/workspace/#a6143a557a62f78ae39fcb80578b74a3> a cdi:StructuredDataSet,
         schema1:MediaObject ;
     ns1:hasPhysicalMapping [ ns1:format "decimal" ;
-            ns1:formats_InstanceVariable <file:///github/workspace/#var-intensity> ;
-            ns1:index 1 ;
-            ns1:physicalDataType "float32" ;
-            cdi:isRequired true ;
-            cdi:locator "/spectra/intensity" ],
-        [ ns1:format "decimal" ;
             ns1:formats_InstanceVariable <file:///github/workspace/#var-wavelength> ;
             ns1:index 0 ;
             ns1:physicalDataType "float32" ;
             cdi:isRequired true ;
-            cdi:locator "/spectra/wavelength" ] ;
+            cdi:locator "/spectra/wavelength" ],
+        [ ns1:format "decimal" ;
+            ns1:formats_InstanceVariable <file:///github/workspace/#var-intensity> ;
+            ns1:index 1 ;
+            ns1:physicalDataType "float32" ;
+            cdi:isRequired true ;
+            cdi:locator "/spectra/intensity" ] ;
     schema1:description "Spectral data cube with wavelength and intensity dimensions." ;
     schema1:encodingFormat "application/x-netcdf" ;
     schema1:name "20260101_GEOCHEM_LAB_SAMPLE-001_spectra.nc" ;
