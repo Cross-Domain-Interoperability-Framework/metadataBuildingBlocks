@@ -14,6 +14,10 @@ class "Dataset" as Dataset #D5F5E3
 abstract class "AbstractDistribution" as AbstractDistribution #D6EAF8
 class "DataDownload" as DataDownload #FCF3CF
 class "WebAPI" as WebAPI #D6EAF8
+class "Action" as Action #D6EAF8
+class "EntryPoint" as EntryPoint #D6EAF8
+class "ActionResult" as ActionResult #D6EAF8
+class "PropertyValueSpecification" as PropertyValueSpecification #D6EAF8
 abstract class "Agent" as Agent #D6EAF8
 class "Person" as Person #D6EAF8
 class "ContactPoint" as ContactPoint #D6EAF8
@@ -43,6 +47,10 @@ Dataset --> "1" CatalogRecord : subjectOf
 Dataset --> "0..*" DefinedTerm : keywords
 Dataset --> "0..*" Reference : license
 DataDownload --> "0..*" Agent : provider
+WebAPI --> "0..*" Action : potentialAction
+Action --> "1" EntryPoint : target
+Action --> "0..1" ActionResult : result
+Action --> "0..*" PropertyValueSpecification : queryInput
 Contributor --> "0..1" Agent : contributor
 MonetaryGrant --> "0..*" Agent : funder
 CatalogRecord --> "0..1" Dataset : about
