@@ -64,16 +64,6 @@ properties:
   cdif:descriptiveText:
     type: string
     description: A short natural language account of the characteristics of the object.
-  cdi:takesSentinelConceptsFrom:
-    anyOf:
-    - $ref: '#/$defs/SentinelConceptualDomain'
-    - $ref: '#/$defs/id-reference'
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSentinelConceptsFrom
-  cdi:takesSubstantiveConceptsFrom:
-    anyOf:
-    - $ref: '#/$defs/SubstantiveConceptualDomain'
-    - $ref: '#/$defs/id-reference'
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSubstantiveConceptsFrom
   cdi:measures:
     anyOf:
     - $ref: '#/$defs/UnitType'
@@ -223,84 +213,6 @@ $defs:
         type: string
         description: Intent or reason for the object/the description of the object.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/purpose
-    required:
-    - '@type'
-  SentinelConceptualDomain:
-    type: object
-    description: Conceptual domain of sentinel concepts.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: cdi:SentinelConceptualDomain
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this SentinelConceptualDomain node
-      cdif:displayLabel:
-        type: array
-        items:
-          type: string
-        minItems: 1
-        description: A human-readable display label for the object. Supports the use
-          of multiple languages. Repeat for labels with different content, for example,
-          labels with differing length limitations.
-      cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
-        description: Identifier for objects requiring short- or long-lasting referencing
-          and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
-      cdi:isDescribedBy:
-        anyOf:
-        - $ref: '#/$defs/ValueAndConceptDescription'
-        - $ref: '#/$defs/id-reference'
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDescribedBy
-      cdi:takesConceptsFrom:
-        anyOf:
-        - $ref: '#/$defs/ConceptSystem'
-        - $ref: '#/$defs/id-reference'
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesConceptsFrom
-    required:
-    - '@type'
-  SubstantiveConceptualDomain:
-    type: object
-    description: Conceptual domain of substantive concepts.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: cdi:SubstantiveConceptualDomain
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this SubstantiveConceptualDomain node
-      cdif:displayLabel:
-        type: array
-        items:
-          type: string
-        minItems: 1
-        description: A human-readable display label for the object. Supports the use
-          of multiple languages. Repeat for labels with different content, for example,
-          labels with differing length limitations.
-      cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
-        description: Identifier for objects requiring short- or long-lasting referencing
-          and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
-      cdi:isDescribedBy:
-        anyOf:
-        - $ref: '#/$defs/ValueAndConceptDescription'
-        - $ref: '#/$defs/id-reference'
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDescribedBy
-      cdi:takesConceptsFrom:
-        anyOf:
-        - $ref: '#/$defs/ConceptSystem'
-        - $ref: '#/$defs/id-reference'
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesConceptsFrom
     required:
     - '@type'
   TypedString:

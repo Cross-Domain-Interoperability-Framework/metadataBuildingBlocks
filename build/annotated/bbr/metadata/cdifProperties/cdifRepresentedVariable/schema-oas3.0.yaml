@@ -729,16 +729,6 @@ properties:
   cdif:descriptiveText:
     type: string
     description: A short natural language account of the characteristics of the object.
-  cdi:takesSentinelConceptsFrom:
-    anyOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.yaml#/$defs/SentinelConceptualDomain
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.yaml#/$defs/id-reference
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSentinelConceptsFrom
-  cdi:takesSubstantiveConceptsFrom:
-    anyOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.yaml#/$defs/SubstantiveConceptualDomain
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.yaml#/$defs/id-reference
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSubstantiveConceptsFrom
   cdi:measures:
     anyOf:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.yaml#/$defs/UnitType
@@ -895,88 +885,6 @@ $defs:
         type: string
         description: Intent or reason for the object/the description of the object.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/purpose
-    required:
-    - '@type'
-  SentinelConceptualDomain:
-    type: object
-    description: Conceptual domain of sentinel concepts.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          enum:
-          - cdi:SentinelConceptualDomain
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this SentinelConceptualDomain node
-      cdif:displayLabel:
-        type: array
-        items:
-          type: string
-        minItems: 1
-        description: A human-readable display label for the object. Supports the use
-          of multiple languages. Repeat for labels with different content, for example,
-          labels with differing length limitations.
-      cdi:identifier:
-        description: Identifier for objects requiring short- or long-lasting referencing
-          and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
-        allOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
-      cdi:isDescribedBy:
-        anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.yaml#/$defs/ValueAndConceptDescription
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.yaml#/$defs/id-reference
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDescribedBy
-      cdi:takesConceptsFrom:
-        anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.yaml#/$defs/ConceptSystem
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.yaml#/$defs/id-reference
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesConceptsFrom
-    required:
-    - '@type'
-  SubstantiveConceptualDomain:
-    type: object
-    description: Conceptual domain of substantive concepts.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          enum:
-          - cdi:SubstantiveConceptualDomain
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this SubstantiveConceptualDomain node
-      cdif:displayLabel:
-        type: array
-        items:
-          type: string
-        minItems: 1
-        description: A human-readable display label for the object. Supports the use
-          of multiple languages. Repeat for labels with different content, for example,
-          labels with differing length limitations.
-      cdi:identifier:
-        description: Identifier for objects requiring short- or long-lasting referencing
-          and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
-        allOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
-      cdi:isDescribedBy:
-        anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.yaml#/$defs/ValueAndConceptDescription
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.yaml#/$defs/id-reference
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDescribedBy
-      cdi:takesConceptsFrom:
-        anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.yaml#/$defs/ConceptSystem
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifRepresentedVariable/schema-oas3.0.yaml#/$defs/id-reference
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesConceptsFrom
     required:
     - '@type'
   TypedString:
