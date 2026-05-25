@@ -3019,7 +3019,8 @@ def _puml_header(title: str) -> list[str]:
 
 
 def _puml_class_box(cls: UmlClass, *, alias: str, bg: str,
-                    show_attrs: bool, model: Model) -> list[str]:
+                    show_attrs: bool, model: Model,
+                    hide_prop_names: Optional[set[str]] = None) -> list[str]:
     stereotype = ""
     if cls.kind == "datatype":
         stereotype = " <<dataType>>"
@@ -3037,7 +3038,8 @@ def _puml_class_box(cls: UmlClass, *, alias: str, bg: str,
         out.append("}")
         return out
     if show_attrs:
-        attrs = [p for p in cls.properties if not p.is_assoc_end]
+        attrs = [p for p in cls.properties if not p.is_assoc_end
+                 and not (hide_prop_names and p.name in hide_prop_names)]
         if attrs:
             out[-1] = head + " {"
             for p in attrs:
@@ -3051,6 +3053,56 @@ def _puml_class_box(cls: UmlClass, *, alias: str, bg: str,
 def _associations_for(cls: UmlClass, closure: UmlClosure) -> list[tuple]:
     """Return association tuples touching cls."""
     return [a for a in closure.associations if a[1] == cls.id or a[2] == cls.id]
+
+
+def _ancestor_ids(cls: UmlClass, model: Model) -> set[str]:
+    """Transitive set of generalization-parent class ids of cls."""
+    out: set[str] = set()
+    stack = list(cls.parents)
+    while stack:
+        pid = stack.pop()
+        if pid in out:
+            continue
+        out.add(pid)
+        parent = model.elements.get(pid)
+        if parent is not None:
+            stack.extend(parent.parents)
+    return out
+
+
+def _inherited_assoc_keys(cls: UmlClass, closure: UmlClosure,
+                          model: Model) -> set[tuple[str, str]]:
+    """(role, target-id) pairs of outgoing associations owned by an ancestor.
+
+    The closure records an outgoing association for every class using its full
+    (inherited) property set — and a bare `map` copies the source class's
+    inherited attributes onto the target too — so a subclass ends up carrying
+    its own copy of each inherited association. An outgoing edge whose
+    (role, target) matches an ancestor's is therefore inherited; dropping it
+    from the subclass's context diagram / table leaves only the associations
+    specific to that class (inherited ones show on the parent's page, reachable
+    via the generalization arrow). Per-variant overrides that reuse a role with
+    a *different* target (e.g. WideDataStructure `has` MeasureComponent vs the
+    generic DataStructure `has` DataStructureComponent) keep distinct keys and
+    are preserved."""
+    ancestors = _ancestor_ids(cls, model)
+    return {(a[3], a[2]) for a in closure.associations if a[1] in ancestors}
+
+
+def _inherited_prop_names(cls: UmlClass, model: Model) -> set[str]:
+    """Names of properties (attributes or association ends) declared on any
+    ancestor of cls. A bare `map` copies a source class's inherited attributes
+    onto the target, so a subclass lists them as if its own; matching by name
+    against ancestors identifies the inherited ones so a context diagram / page
+    can show only the members specific to the class. (Association ends are
+    additionally keyed by target via _inherited_assoc_keys so a per-variant
+    override that reuses a role name with a different target is preserved.)"""
+    names: set[str] = set()
+    for aid in _ancestor_ids(cls, model):
+        a = model.elements.get(aid)
+        if a is not None:
+            names |= {p.name for p in a.properties}
+    return names
 
 
 def _aggregation_arrow(agg: Optional[str], direction: str = "out") -> str:
@@ -3092,10 +3144,17 @@ def _emit_class_diagram(cls: UmlClass, closure: UmlClosure, model: Model,
                                       show_attrs=False, model=model))
         return alias
 
-    # Main class with attributes
+    # Members inherited from an ancestor are shown on the ancestor's page, not
+    # duplicated here (only members specific to this class belong on its
+    # context diagram). Association ends are additionally keyed by target.
+    inherited_names = _inherited_prop_names(cls, model)
+    inherited_keys = _inherited_assoc_keys(cls, closure, model)
+
+    # Main class with attributes (own only)
     lines.extend(_puml_class_box(cls, alias=main_alias,
                                   bg=_PUML_COLORS["main_bg"],
-                                  show_attrs=True, model=model))
+                                  show_attrs=True, model=model,
+                                  hide_prop_names=inherited_names))
 
     # Supertypes (direct only)
     for pid in cls.parents:
@@ -3116,6 +3175,11 @@ def _emit_class_diagram(cls: UmlClass, closure: UmlClosure, model: Model,
     for assoc in _associations_for(cls, closure):
         _pid, src_id, tgt_id, role, lo, up, agg = assoc
         if src_id == cls.id:
+            # Skip outgoing associations inherited from an ancestor — they are
+            # shown on the ancestor's diagram. Only the class's own associations
+            # belong on its context diagram.
+            if (role, tgt_id) in inherited_keys:
+                continue
             other_id = tgt_id
             direction = "out"
         else:
@@ -3145,6 +3209,8 @@ def _emit_class_diagram(cls: UmlClass, closure: UmlClosure, model: Model,
     for p in cls.properties:
         if p.is_assoc_end or not p.type_id:
             continue
+        if p.name in inherited_names:
+            continue  # inherited attribute reference — shown on the parent
         target = model.elements.get(p.type_id)
         if target is None:
             continue
@@ -3852,10 +3918,13 @@ def _html_attr_rows(cls: UmlClass, model: Model,
                     included_ids: set[str],
                     current_profile: str = "",
                     registry: Optional[dict[str, str]] = None) -> str:
+    inherited_names = _inherited_prop_names(cls, model)
     rows = []
     for p in cls.properties:
         if p.is_assoc_end:
             continue
+        if p.name in inherited_names:
+            continue  # inherited attribute — shown on the parent's page
         if p.primitive:
             type_html = f'<span>{_html_escape(p.primitive)}</span>'
         elif p.type_id and p.type_id in model.elements:
@@ -3885,10 +3954,15 @@ def _html_assoc_rows(cls: UmlClass, closure: UmlClosure,
                      model: Model, included_ids: set[str],
                      current_profile: str = "",
                      registry: Optional[dict[str, str]] = None) -> str:
+    inherited_keys = _inherited_assoc_keys(cls, closure, model)
     rows = []
     for assoc in closure.associations:
         _pid, src_id, tgt_id, role, lo, up, agg = assoc
         if cls.id == src_id:
+            # Skip outgoing associations inherited from an ancestor — listed on
+            # the parent's page; only own associations belong here.
+            if (role, tgt_id) in inherited_keys:
+                continue
             other_id, direction = tgt_id, "out"
         elif cls.id == tgt_id:
             other_id, direction = src_id, "in"
@@ -4608,6 +4682,22 @@ def emit_uml_from_config(
         _add_association_property(assoc, target_classes_by_name,
                                   source_model, acronym)
 
+    # Drop properties explicitly excluded for a given owner class
+    # (transformation.excludeProperties: ["ClassName.propertyName", ...]).
+    # Applied to the target class before the closure/emit so the diagram, the
+    # XMI owned attributes, and the XMI association elements all omit them
+    # consistently (used e.g. to drop source-map associations that are not part
+    # of the CDIF profile, such as RepresentedVariable.takesSubstantiveConceptsFrom).
+    exclude_props = set(cfg.get("transformation", {}).get("excludeProperties", []) or [])
+    for spec in exclude_props:
+        cname, _, pname = spec.partition(".")
+        tcls = target_classes_by_name.get(cname)
+        if tcls is not None:
+            kept = [p for p in tcls.properties if p.name != pname]
+            if len(kept) != len(tcls.properties):
+                tcls.properties = kept
+                print(f"excludeProperties: dropped {spec}", file=sys.stderr)
+
     # Build a *merged* Model containing the source elements + the synthetic
     # target classes. The closure walker uses this when chasing property
     # type_ids (most of which point at source DataTypes).
@@ -4634,7 +4724,7 @@ def emit_uml_from_config(
         inline_or_ref_class_names=set(),
         reference_class_names=set(),
         exclude_class_names=set((ctx_overrides or {}).get("exclude_class", set())),
-        exclude_property_specs=set(),
+        exclude_property_specs=exclude_props,
         inline_datatypes=False,
         strict_required=False,
         external_class_refs={},

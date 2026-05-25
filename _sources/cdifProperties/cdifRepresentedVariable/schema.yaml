@@ -51,14 +51,6 @@ properties:
   'cdif:descriptiveText':
     type: string
     description: A short natural language account of the characteristics of the object.
-  'cdi:takesSentinelConceptsFrom':
-    anyOf:
-    - '$ref': '#/$defs/SentinelConceptualDomain'
-    - '$ref': '#/$defs/id-reference'
-  'cdi:takesSubstantiveConceptsFrom':
-    anyOf:
-    - '$ref': '#/$defs/SubstantiveConceptualDomain'
-    - '$ref': '#/$defs/id-reference'
   'cdi:measures':
     anyOf:
     - '$ref': '#/$defs/UnitType'
@@ -203,80 +195,6 @@ required:
       'cdi:purpose':
         type: string
         description: Intent or reason for the object/the description of the object.
-    required:
-    - '@type'
-  SentinelConceptualDomain:
-    type: object
-    description: Conceptual domain of sentinel concepts.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: 'cdi:SentinelConceptualDomain'
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this SentinelConceptualDomain node
-      'cdif:displayLabel':
-        type: array
-        items:
-          type: string
-        minItems: 1
-        description: >-
-          A human-readable display label for the object. Supports the use of multiple languages.
-          Repeat for labels with different content, for example, labels with differing length
-          limitations.
-      'cdi:identifier':
-        '$ref': '../../schemaorgProperties/identifier/schema.yaml'
-        description: >-
-          Identifier for objects requiring short- or long-lasting referencing and management.
-      'cdi:isDescribedBy':
-        anyOf:
-        - '$ref': '#/$defs/ValueAndConceptDescription'
-        - '$ref': '#/$defs/id-reference'
-      'cdi:takesConceptsFrom':
-        anyOf:
-        - '$ref': '#/$defs/ConceptSystem'
-        - '$ref': '#/$defs/id-reference'
-    required:
-    - '@type'
-  SubstantiveConceptualDomain:
-    type: object
-    description: Conceptual domain of substantive concepts.
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: 'cdi:SubstantiveConceptualDomain'
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this SubstantiveConceptualDomain node
-      'cdif:displayLabel':
-        type: array
-        items:
-          type: string
-        minItems: 1
-        description: >-
-          A human-readable display label for the object. Supports the use of multiple languages.
-          Repeat for labels with different content, for example, labels with differing length
-          limitations.
-      'cdi:identifier':
-        '$ref': '../../schemaorgProperties/identifier/schema.yaml'
-        description: >-
-          Identifier for objects requiring short- or long-lasting referencing and management.
-      'cdi:isDescribedBy':
-        anyOf:
-        - '$ref': '#/$defs/ValueAndConceptDescription'
-        - '$ref': '#/$defs/id-reference'
-      'cdi:takesConceptsFrom':
-        anyOf:
-        - '$ref': '#/$defs/ConceptSystem'
-        - '$ref': '#/$defs/id-reference'
     required:
     - '@type'
   TypedString:
