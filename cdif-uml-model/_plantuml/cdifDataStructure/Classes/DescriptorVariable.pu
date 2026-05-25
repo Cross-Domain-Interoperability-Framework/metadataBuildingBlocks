@@ -11,36 +11,14 @@ skinparam class {
 }
 
 class "DescriptorVariable" as DescriptorVariable #FEFECE {
-  +function : Concept [1..*]
-  +physicalDataType : Concept [1]
-  +platformType : Concept [1]
-  +role : Concept [1..*]
-  +source : Reference [1]
-  +describedUnitOfMeasure : Concept [1]
-  +hasIntendedDataType : Concept [1]
-  +simpleUnitOfMeasure : string [1]
-  +descriptiveText : string [1]
-  +unitOfMeasureKind : Concept [1]
-  +definition : string [1]
-  +displayLabel : string [1..*]
-  +externalDefinition : Reference [1]
-  +identifier : Identifier [1]
-  +name : string [1..*]
+  +identifier : Identifier [0..1]
+  +name : string [0..*]
 }
 class "VariableDescriptorComponent" as VariableDescriptorComponent #EEEEEE
 VariableDescriptorComponent --> "1" DescriptorVariable : isDefinedBy
-class "Concept" as Concept #EEEEEE
-DescriptorVariable --> "1..*" Concept : function
-DescriptorVariable --> "1" Concept : physicalDataType
-DescriptorVariable --> "1" Concept : platformType
-DescriptorVariable --> "1..*" Concept : role
-class "Reference" as Reference #EEEEEE
-DescriptorVariable --> "1" Reference : source
-DescriptorVariable --> "1" Concept : describedUnitOfMeasure
-DescriptorVariable --> "1" Concept : hasIntendedDataType
-DescriptorVariable --> "1" Concept : unitOfMeasureKind
-DescriptorVariable --> "1" Reference : externalDefinition
+class "DescriptorValueDomain" as DescriptorValueDomain #EEEEEE
+DescriptorVariable --> "1" DescriptorValueDomain : hasValuesFrom
 class "Identifier" as Identifier #EEEEEE
-DescriptorVariable --> "1" Identifier : identifier
+DescriptorVariable --> "0..1" Identifier : identifier
 
 @enduml
