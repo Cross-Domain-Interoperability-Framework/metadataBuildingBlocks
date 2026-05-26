@@ -313,7 +313,7 @@ where `{category}` is one of `schemaorgProperties`, `cdifProperties`, `provPrope
 
 Examples:
 - `https://w3id.org/cdif/bbr/metadata/schemaorgProperties/person`
-- `https://w3id.org/cdif/bbr/metadata/cdifProperties/cdifProvActivity`
+- `https://w3id.org/cdif/bbr/metadata/cdifDataType/cdifProvActivity`
 - `https://w3id.org/cdif/bbr/metadata/xasProperties/xasGeneratedBy`
 
 The register root `https://w3id.org/cdif/bbr/metadata` resolves to the building blocks viewer home page.

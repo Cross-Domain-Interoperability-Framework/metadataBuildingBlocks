@@ -363,10 +363,10 @@ def main():
     BB_ROOT = r'C:\Users\smrTu\OneDrive\Documents\GithubC\CDIF\metadataBuildingBlocks\_sources'
 
     targets = [
-        (os.path.join(BB_ROOT, 'profiles', 'cdifProfiles', 'CDIFDiscoveryProfile', 'schema.yaml'),
-         os.path.join(BB_ROOT, 'profiles', 'cdifProfiles', 'CDIFDiscoveryProfile', 'CDIFDiscovery_properties.xlsx')),
-        (os.path.join(BB_ROOT, 'profiles', 'cdifProfiles', 'CDIFDataDescriptionProfile', 'schema.yaml'),
-         os.path.join(BB_ROOT, 'profiles', 'cdifProfiles', 'CDIFDataDescriptionProfile', 'CDIFDataDescription_properties.xlsx')),
+        (os.path.join(BB_ROOT, 'profiles', 'cdifCompositeProfile', 'BasicDiscovery', 'schema.yaml'),
+         os.path.join(BB_ROOT, 'profiles', 'cdifCompositeProfile', 'BasicDiscovery', 'BasicDiscovery_properties.xlsx')),
+        (os.path.join(BB_ROOT, 'profiles', 'cdifCompositeProfile', 'BasicDataDescription', 'schema.yaml'),
+         os.path.join(BB_ROOT, 'profiles', 'cdifCompositeProfile', 'BasicDataDescription', 'BasicDataDescription_properties.xlsx')),
     ]
 
     for schema_path, wb_path in targets:

@@ -33,7 +33,7 @@ from pathlib import Path
 import yaml
 
 REPO = Path(__file__).resolve().parent.parent
-CDIF_DIR = REPO / "_sources" / "cdifProperties"
+CDIF_DIR = REPO / "_sources" / "cdifDataType"
 DDI_DIR = REPO / "_sources" / "ddiProperties"
 
 PRIMITIVES = {"string", "integer", "number", "boolean", "null"}

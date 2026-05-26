@@ -173,12 +173,18 @@ def main():
     # Collect all BB dirs
     bb_dirs = []
     for category in ["schemaorgProperties", "provProperties", "qualityProperties",
-                      "cdifProperties", "skosProperties"]:
+                      "cdifDataType", "skosProperties"]:
         cat_dir = BB_ROOT / category
         if cat_dir.exists():
             for d in sorted(cat_dir.iterdir()):
                 if d.is_dir() and (d / "schema.yaml").exists():
                     bb_dirs.append(d)
+    # Profile modules under profiles/cdifProfile/
+    profile_dir = BB_ROOT / "profiles" / "cdifProfile"
+    if profile_dir.exists():
+        for d in sorted(profile_dir.iterdir()):
+            if d.is_dir() and (d / "schema.yaml").exists():
+                bb_dirs.append(d)
 
     # Sort: leaves first, then composites
     leaves = []

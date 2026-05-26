@@ -20,7 +20,7 @@ Requires: pyshacl (pulls in rdflib, which provides the JSON-LD parser).
 Usage:
     python tools/validate_shacl.py CDIFDataStructureProfile
     python tools/validate_shacl.py CDIFDataStructureProfile --verbose
-    python tools/validate_shacl.py _sources/profiles/cdifProfiles/CDIFDataStructureProfile --strict
+    python tools/validate_shacl.py _sources/profiles/cdifCompositeProfile/DataDescriptionWithStructure --strict
 """
 
 import argparse

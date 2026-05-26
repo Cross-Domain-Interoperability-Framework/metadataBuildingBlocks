@@ -492,38 +492,39 @@ def main():
     args = parser.parse_args()
 
     base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    profiles_dir = os.path.join(base, "_sources", "profiles", "cdifProfiles")
+    composites_dir = os.path.join(base, "_sources", "profiles", "cdifCompositeProfile")
+    archive_dir = os.path.join(base, "_sources", "profiles", "archive")
 
     targets = []
     if args.profile in ("codelist", "all"):
         targets.append({
             "name": "CDIFCodelistProfile",
-            "resolved": os.path.join(profiles_dir,
+            "resolved": os.path.join(archive_dir,
                                      "CDIFCodelistProfile", "resolvedSchema.json"),
-            "xlsx": os.path.join(profiles_dir,
+            "xlsx": os.path.join(archive_dir,
                                  "CDIFCodelistProfile",
                                  "CDIFCodelistProfile_properties.xlsx"),
             "existing": False,
         })
     if args.profile in ("discovery", "all"):
         targets.append({
-            "name": "CDIFDiscoveryProfile",
-            "resolved": os.path.join(profiles_dir,
-                                     "CDIFDiscoveryProfile", "resolvedSchema.json"),
-            "xlsx": os.path.join(profiles_dir,
-                                 "CDIFDiscoveryProfile",
-                                 "CDIFDiscovery_properties.xlsx"),
+            "name": "BasicDiscovery",
+            "resolved": os.path.join(composites_dir,
+                                     "BasicDiscovery", "resolvedSchema.json"),
+            "xlsx": os.path.join(composites_dir,
+                                 "BasicDiscovery",
+                                 "BasicDiscovery_properties.xlsx"),
             "existing": True,
         })
     if args.profile in ("datadescription", "all"):
         targets.append({
-            "name": "CDIFDataDescriptionProfile",
-            "resolved": os.path.join(profiles_dir,
-                                     "CDIFDataDescriptionProfile",
+            "name": "BasicDataDescription",
+            "resolved": os.path.join(composites_dir,
+                                     "BasicDataDescription",
                                      "resolvedSchema.json"),
-            "xlsx": os.path.join(profiles_dir,
-                                 "CDIFDataDescriptionProfile",
-                                 "CDIFDataDescriptionProfile_properties.xlsx"),
+            "xlsx": os.path.join(composites_dir,
+                                 "BasicDataDescription",
+                                 "BasicDataDescription_properties.xlsx"),
             "existing": True,
         })
 
