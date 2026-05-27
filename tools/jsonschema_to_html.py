@@ -378,6 +378,11 @@ _PUML_HEADER = (
     "hide empty members\n"
     "skinparam shadowing false\n"
     "skinparam ArrowThickness 1.2\n"
+    # Layout: ortho edges + large ranksep + small nodesep keeps the bounding
+    # box closer to square (~1:1) instead of the default very-wide layout.
+    "skinparam ranksep 250\n"
+    "skinparam nodesep 20\n"
+    "skinparam linetype ortho\n"
     "skinparam class {\n"
     "  ArrowColor #404040\n"
     "  BorderColor #404040\n"

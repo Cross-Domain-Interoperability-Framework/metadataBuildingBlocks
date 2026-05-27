@@ -3009,6 +3009,14 @@ def _puml_header(title: str) -> list[str]:
         "hide empty members",
         "skinparam shadowing false",
         "skinparam ArrowThickness 1.2",
+        # Layout: ortho edges + large ranksep + small nodesep pushes Graphviz
+        # toward a roughly square bounding box. Empirically with these values
+        # the overview diagrams land near 1:1 aspect ratio across small (1-3
+        # classes ~ 0.97), medium (16 ~ 0.98), and large (50+ ~ 1.16) class
+        # counts. Without these the overviews stretch to 6-7:1 wide.
+        "skinparam ranksep 250",
+        "skinparam nodesep 20",
+        "skinparam linetype ortho",
         "skinparam class {",
         "  ArrowColor #404040",
         "  BorderColor #404040",
