@@ -16,13 +16,13 @@ class "ArchivePart" as ArchivePart #FEFECE {
   +description : string [0..1]
   +encodingFormat : string [1..*]
 }
-class "ArchiveDistribution" as ArchiveDistribution #EEEEEE
-ArchiveDistribution *-- "1..*" ArchivePart : hasPart
+class "DataDownload" as DataDownload #EEEEEE
+DataDownload *-- "0..*" ArchivePart : hasPart
 ArchivePart --> "0..*" ArchivePart : about
-class "Checksum" as Checksum #EEEEEE
-ArchivePart *-- "0..1" Checksum : checksum
 class "QuantitativeValue" as QuantitativeValue #EEEEEE
 ArchivePart *-- "0..1" QuantitativeValue : size
+class "Checksum" as Checksum #EEEEEE
+ArchivePart *-- "0..1" Checksum : checksum
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
 ArchivePart ..> XsdAnyUri : identifier
 
