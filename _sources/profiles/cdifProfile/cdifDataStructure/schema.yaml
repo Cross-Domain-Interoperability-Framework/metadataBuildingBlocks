@@ -1,11 +1,23 @@
 '$schema': 'https://json-schema.org/draft/2020-12/schema'
 title: DDI-CDI Data Structure
 description: Data organization based on reusable data structure components.
-anyOf:
-- '$ref': '#/$defs/DataStructure'
-- '$ref': '#/$defs/DimensionalDataStructure'
-- '$ref': '#/$defs/LongDataStructure'
-- '$ref': '#/$defs/WideDataStructure'
+allOf:
+- type: object
+  properties:
+   'schema:subjectOf':
+    properties:
+      'dcterms:conformsTo':
+        allOf:
+        - contains:
+            type: object
+            properties:
+              '@id':
+                const: 'https://w3id.org/cdif/data_structure/1.0'
+- anyOf:
+  - '$ref': '#/$defs/DataStructure' 
+  - '$ref': '#/$defs/DimensionalDataStructure'
+  - '$ref': '#/$defs/LongDataStructure'
+  - '$ref': '#/$defs/WideDataStructure'
 '$defs':
   id-reference:
     type: object

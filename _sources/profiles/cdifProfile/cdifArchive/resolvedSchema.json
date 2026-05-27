@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "title": "CDIF Archive Distribution",
-  "description": "A DataDownload distribution that is an archive file (e.g. ZIP) containing multiple component files described in schema:hasPart. The archive itself is typed as schema:DataDownload; each component file is typed as schema:MediaObject (not DataDownload, since they are not independently accessible via URL). Components may optionally include CDIF data description extensions (cdifTabularData, cdifDataCube) to describe their internal data structure.",
+  "description": "***NOTE---NEEDS work---A DataDownload distribution that is an archive file (e.g. ZIP) containing multiple component files described in schema:hasPart. The archive itself is typed as schema:DataDownload; each component file is typed as schema:MediaObject (not DataDownload, since they are not independently accessible via URL). Components may optionally include CDIF data description extensions (cdifTabularData, cdifDataCube) to describe their internal data structure.",
   "properties": {
     "@id": {
       "type": "string"
@@ -557,9 +557,28 @@
     {
       "type": "object",
       "properties": {
+        "schema:subjectOf": {
+          "type": "object",
+          "properties": {
+            "dcterms:conformsTo": {
+              "allOf": [
+                {
+                  "contains": {
+                    "type": "object",
+                    "properties": {
+                      "@id": {
+                        "const": "https://w3id.org/cdif/data_description/1.0"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
         "schema:hasPart": {
           "type": "array",
-          "description": "Array describing the files contained in the archive. Each item represents a component file that is part of the archive and is not independently accessible.",
+          "description": "NOTE-- this needs to be injected into the data download",
           "items": {
             "allOf": [
               {

@@ -6,6 +6,16 @@ description: Additional constraints for CDIF data description level. Adds
   cdi properties for file characterization (characterSet, fileSize, fileSizeUofM).
 type: object
 properties:
+  '@context':
+    type: object
+    description: Additional JSON-LD namespace prefixes for discovery and data description.
+    properties:
+      geosparql:
+        const: "http://www.opengis.net/ont/geosparql#"
+      dqv:
+        const: "http://www.w3.org/ns/dqv#"
+      cdi:
+        const: "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
   'cdif:hasPrimaryKey':
     anyOf:
     - '$ref': '../../../cdifDataType/cdifKey/schema.yaml'
@@ -108,6 +118,7 @@ properties:
       cdi: dataset type. Not enforced at schema level (the merge with cdifCore
       and cdifArchiveDistribution drops the @type constraint at profile resolution);
       consider a SHACL rule if runtime enforcement is needed.
+    type: array
     items:
       allOf:
       - if:
@@ -189,5 +200,41 @@ properties:
                       'cdi:characterSet':
                         type: string
                         description: The character set used in the API response (e.g., UTF-8).
+  'schema:measurementTechnique':
+    description: The technique, technology, or methodology used for measurement or
+      determination of the dataset values.
+    type: array
+    items:
+      anyOf:
+      - type: string
+      - $ref: '#/$defs/DefinedTerm'
+  'schema:spatialCoverage':
+    description: Geographic extent of resource content.
+    type: array
+    items:
+      $ref: '#/$defs/SpatialExtent'
+  'schema:temporalCoverage':
+    description: Temporal extent of resource content.
+    type: array
+    items:
+      $ref: '#/$defs/TemporalExtent'
+  'dqv:hasQualityMeasurement':
+    description: Quality measurements reported to assess the resource.
+    type: array
+    items:
+      $ref: '#/$defs/QualityMeasure'
+
 required:
 - 'schema:variableMeasured'
+$defs:
+  DefinedTerm:
+    $ref: ../../../schemaorgProperties/definedTerm/schema.yaml
+  SpatialExtent:
+    $ref: ../../../schemaorgProperties/spatialExtent/schema.yaml
+  TemporalExtent:
+    $ref: ../../../schemaorgProperties/temporalExtent/schema.yaml
+  QualityMeasure:
+    $ref: ../../../qualityProperties/qualityMeasure/schema.yaml
+
+
+
