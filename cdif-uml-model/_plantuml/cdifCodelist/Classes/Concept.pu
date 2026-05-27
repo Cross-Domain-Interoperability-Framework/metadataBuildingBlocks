@@ -11,22 +11,17 @@ skinparam class {
 }
 
 class "Concept" as Concept #FEFECE {
-  +prefLabel : string [1..*]
-  +notation : string [1..*]
-  +definition : string [1..*]
-  +scopeNote : string [0..*]
-  +note : string [0..*]
-  +historyNote : string [0..*]
-  +changeNote : string [0..*]
-  +editorialNote : string [0..*]
-  +identifier : Identifier [1]
+  +identifier : XsdAnyUri [1]
+  +prefLabel : string [1]
+  +notation : string [1]
+  +definition : string [0..1]
 }
 class "ConceptScheme" as ConceptScheme #EEEEEE
-ConceptScheme --> "1..*" Concept : hasTopConcept
+ConceptScheme *-- "1..*" Concept : hasTopConcept
 Concept --> "1..*" ConceptScheme : inScheme
 Concept --> "0..*" Concept : broader
 Concept --> "0..*" Concept : narrower
-class "Identifier" as Identifier #EEEEEE
-Concept --> "1" Identifier : identifier
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+Concept ..> XsdAnyUri : identifier
 
 @enduml

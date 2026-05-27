@@ -64,6 +64,7 @@ class "TimePosition" as TimePosition #FEFECE
 class "Geometry" as Geometry #FEFECE
 class "QualityMeasurement" as QualityMeasurement #FEFECE
 class "ProvActivity" as ProvActivity #FEFECE
+class "CatalogRecord" as CatalogRecord #FEFECE
 DataStructure <|-- WideDataStructure
 DataStructure <|-- LongDataStructure
 DataStructure <|-- DimensionalDataStructure
@@ -141,11 +142,13 @@ Dataset --> "0..*" SpatialExtent : spatialCoverage
 Dataset --> "0..*" TemporalExtent : temporalCoverage
 Dataset --> "0..*" QualityMeasurement : hasQualityMeasurement
 Dataset --> "0..*" ProvActivity : wasGeneratedBy
+Dataset --> "1" CatalogRecord : subjectOf
 Dataset --> "0..*" DefinedTerm : keywords
 SpatialExtent --> "0..1" AbstractGeometry : geo
 SpatialExtent --> "0..1" Geometry : hasGeometry
 TemporalExtent --> "0..1" Instant : hasBeginning
 TemporalExtent --> "0..1" Instant : hasEnd
 Instant --> "0..1" TimePosition : inTimePosition
+CatalogRecord --> "0..1" Dataset : about
 
 @enduml

@@ -11,11 +11,13 @@ skinparam class {
 }
 
 class "Identifier" as Identifier #FEFECE {
-  +propertyId : string [0..1]
+  +propertyId : XsdAnyUri [1]
   +value : string [1]
   +url : XsdAnyUri [0..1]
 }
+class "ConceptScheme" as ConceptScheme #EEEEEE
+ConceptScheme *-- "0..1" Identifier : identifier
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
-Identifier ..> XsdAnyUri : url
+Identifier ..> XsdAnyUri : propertyId
 
 @enduml

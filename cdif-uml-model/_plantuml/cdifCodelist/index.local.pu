@@ -13,7 +13,10 @@ skinparam class {
 class "ConceptScheme" as ConceptScheme #E8DAEF
 class "Concept" as Concept #FEFECE
 class "Identifier" as Identifier #FEFECE
-ConceptScheme --> "1..*" Concept : hasTopConcept
+class "CatalogRecord" as CatalogRecord #FEFECE
+ConceptScheme *-- "1" CatalogRecord : subjectOf
+ConceptScheme *-- "0..1" Identifier : identifier
+ConceptScheme *-- "1..*" Concept : hasTopConcept
 Concept --> "1..*" ConceptScheme : inScheme
 Concept --> "0..*" Concept : broader
 Concept --> "0..*" Concept : narrower

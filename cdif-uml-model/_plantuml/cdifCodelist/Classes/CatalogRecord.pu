@@ -1,5 +1,5 @@
 @startuml
-title Identifier
+title CatalogRecord
 hide circle
 hide empty members
 skinparam shadowing false
@@ -10,14 +10,12 @@ skinparam class {
   FontSize 12
 }
 
-class "Identifier" as Identifier #FEFECE {
-  +propertyId : XsdAnyUri [1]
-  +value : string [1]
-  +url : XsdAnyUri [0..1]
+class "CatalogRecord" as CatalogRecord #FEFECE {
+  +conformsTo : XsdAnyUri [1..*]
 }
 class "ConceptScheme" as ConceptScheme #EEEEEE
-ConceptScheme *-- "0..1" Identifier : identifier
+ConceptScheme *-- "1" CatalogRecord : subjectOf
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
-Identifier ..> XsdAnyUri : propertyId
+CatalogRecord ..> XsdAnyUri : conformsTo
 
 @enduml
