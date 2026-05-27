@@ -11,11 +11,21 @@ skinparam class {
 }
 
 class "PrimaryKey" as PrimaryKey #FEFECE {
-  +type : String [1..*]
-  +identifier : String [0..1]
+  +identifier : XsdAnyUri [0..1]
 }
+abstract class "AbstractDataStructure" as AbstractDataStructure #EEEEEE
+AbstractDataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
+class "DataStructure" as DataStructure #EEEEEE
+DataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
+class "DimensionalDataStructure" as DimensionalDataStructure #EEEEEE
+DimensionalDataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
+class "LongDataStructure" as LongDataStructure #EEEEEE
+LongDataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
+class "WideDataStructure" as WideDataStructure #EEEEEE
+WideDataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
+class "InstanceVariable" as InstanceVariable #EEEEEE
+PrimaryKey --> "1..*" InstanceVariable : isComposedOf
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+PrimaryKey ..> XsdAnyUri : identifier
 
-class "id-reference" as id-reference #FEFECE
-
-PrimaryKey --> "1..*" id-reference : isComposedOf
 @enduml

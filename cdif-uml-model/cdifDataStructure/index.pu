@@ -1,5 +1,5 @@
 @startuml
-title cdifDataStructure — overview
+title CDIFDataStructure — overview
 hide circle
 hide empty members
 skinparam shadowing false
@@ -10,49 +10,34 @@ skinparam class {
   FontSize 12
 }
 
-class "Dataset" as Dataset #FEFECE
-
-class "id-reference" as id-reference #FEFECE
-
-class "DataStructure" as DataStructure #FEFECE
-
-class "DimensionalDataStructure" as DimensionalDataStructure #FEFECE
-
-class "LongDataStructure" as LongDataStructure #FEFECE
-
-class "WideDataStructure" as WideDataStructure #FEFECE
-
-class "DimensionGroup" as DimensionGroup #FEFECE
-
-class "ForeignKey" as ForeignKey #FEFECE
-
-class "ForeignKeyComponent" as ForeignKeyComponent #FEFECE
-
-class "PrimaryKey" as PrimaryKey #FEFECE
-
-class "PrimaryKeyComponent" as PrimaryKeyComponent #FEFECE
-
-class "IdentifierComponent" as IdentifierComponent #D6EAF8
-
-class "Identifier" as Identifier #D6EAF8
-
-DataStructure --> "1..*" ForeignKey : has_ForeignKey
-DataStructure --> "1..*" id-reference : has_DataStructureComponent
-DataStructure --> "0..1" PrimaryKey : has_PrimaryKey
-DimensionalDataStructure --> "1..*" IdentifierComponent : has_DataStructureComponent
-DimensionalDataStructure --> "0..1" PrimaryKey : has_PrimaryKey
-LongDataStructure --> "3..*" IdentifierComponent : has_DataStructureComponent
-LongDataStructure --> "0..1" PrimaryKey : has_PrimaryKey
-WideDataStructure --> "1..*" id-reference : has_DataStructureComponent
-WideDataStructure --> "0..1" PrimaryKey : has_PrimaryKey
-DimensionGroup --> "0..1" Identifier : identifier
-DimensionGroup --> "1..*" id-reference : has_DataStructureComponent
-ForeignKey --> "0..1" Identifier : identifier
-ForeignKey --> "1..*" ForeignKeyComponent : isComposedOf
-ForeignKeyComponent --> "0..1" Identifier : identifier
+class "DataDownload" as DataDownload #FEFECE
+class "CatalogRecord" as CatalogRecord #FEFECE
+abstract class "DataStructureComponent" as DataStructureComponent #FAE5D3
+class "InstanceVariable" as InstanceVariable #FAE5D3
+abstract class "AbstractDataStructure" as AbstractDataStructure #FAE5D3
+class "DataStructure" as DataStructure #FAE5D3
+class "DimensionalDataStructure" as DimensionalDataStructure #FAE5D3
+class "LongDataStructure" as LongDataStructure #FAE5D3
+class "WideDataStructure" as WideDataStructure #FAE5D3
+class "DimensionGroup" as DimensionGroup #FAE5D3
+class "PrimaryKey" as PrimaryKey #FAE5D3
+class "PrimaryKeyComponent" as PrimaryKeyComponent #FAE5D3
+class "ForeignKey" as ForeignKey #FAE5D3
+class "ForeignKeyComponent" as ForeignKeyComponent #FAE5D3
+AbstractDataStructure <|-- DataStructure
+AbstractDataStructure <|-- DimensionalDataStructure
+AbstractDataStructure <|-- LongDataStructure
+AbstractDataStructure <|-- WideDataStructure
+DataDownload --> "0..1" CatalogRecord : subjectOf
+DataDownload --> "0..1" AbstractDataStructure : isStructuredBy
+AbstractDataStructure *-- "1..*" DataStructureComponent : hasComponent
+AbstractDataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
+DataStructure *-- "0..*" ForeignKey : hasForeignKey
+DimensionGroup *-- "1..*" DataStructureComponent : hasComponent
+PrimaryKey --> "1..*" InstanceVariable : isComposedOf
+PrimaryKeyComponent --> "0..1" DataStructureComponent : correspondsTo
+ForeignKey *-- "1..*" ForeignKeyComponent : isComposedOf
 ForeignKeyComponent --> "0..1" PrimaryKeyComponent : references
-ForeignKeyComponent --> "0..1" id-reference : correspondsTo
-PrimaryKey --> "1..*" id-reference : isComposedOf
-PrimaryKeyComponent --> "0..1" Identifier : identifier
-PrimaryKeyComponent --> "0..1" id-reference : correspondsTo
+ForeignKeyComponent --> "0..1" DataStructureComponent : correspondsTo
+
 @enduml

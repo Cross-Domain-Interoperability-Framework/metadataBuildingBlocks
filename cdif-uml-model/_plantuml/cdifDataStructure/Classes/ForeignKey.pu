@@ -11,13 +11,13 @@ skinparam class {
 }
 
 class "ForeignKey" as ForeignKey #FEFECE {
-  +identifier : Identifier [1]
+  +identifier : XsdAnyUri [0..1]
 }
 class "DataStructure" as DataStructure #EEEEEE
-DataStructure --> "0..*" ForeignKey : has
+DataStructure *-- "0..*" ForeignKey : hasForeignKey
 class "ForeignKeyComponent" as ForeignKeyComponent #EEEEEE
-ForeignKey --> "1..*" ForeignKeyComponent : isComposedOf
-class "Identifier" as Identifier <<dataType>> #FAE5D3
-ForeignKey ..> Identifier : identifier
+ForeignKey *-- "1..*" ForeignKeyComponent : isComposedOf
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+ForeignKey ..> XsdAnyUri : identifier
 
 @enduml

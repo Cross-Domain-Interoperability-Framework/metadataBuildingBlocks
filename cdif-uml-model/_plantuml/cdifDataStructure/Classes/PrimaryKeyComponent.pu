@@ -11,15 +11,13 @@ skinparam class {
 }
 
 class "PrimaryKeyComponent" as PrimaryKeyComponent #FEFECE {
-  +identifier : Identifier [1]
+  +identifier : XsdAnyUri [0..1]
 }
-class "PrimaryKey" as PrimaryKey #EEEEEE
-PrimaryKey --> "1..*" PrimaryKeyComponent : isComposedOf
-class "IdentifierComponent" as IdentifierComponent #EEEEEE
-PrimaryKeyComponent --> "1" IdentifierComponent : correspondsTo
+abstract class "DataStructureComponent" as DataStructureComponent #EEEEEE
+PrimaryKeyComponent --> "0..1" DataStructureComponent : correspondsTo
 class "ForeignKeyComponent" as ForeignKeyComponent #EEEEEE
-ForeignKeyComponent --> "1" PrimaryKeyComponent : references
-class "Identifier" as Identifier <<dataType>> #FAE5D3
-PrimaryKeyComponent ..> Identifier : identifier
+ForeignKeyComponent --> "0..1" PrimaryKeyComponent : references
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+PrimaryKeyComponent ..> XsdAnyUri : identifier
 
 @enduml

@@ -1,0 +1,80 @@
+@startuml
+title DataDescriptionWithStructure — overview
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+abstract class "CompositeProfile" as CompositeProfile #FEFECE
+class "Dataset" as Dataset #FEFECE
+class "DataDownload" as DataDownload #FEFECE
+class "WebAPI" as WebAPI #FCF3CF
+class "ActionResult" as ActionResult #FCF3CF
+class "ProvActivity" as ProvActivity #FEFECE
+class "CatalogRecord" as CatalogRecord #FEFECE
+class "InstanceVariable" as InstanceVariable #FAE5D3
+abstract class "AbstractMapping" as AbstractMapping #FCF3CF
+class "PhysicalMapping" as PhysicalMapping #FCF3CF
+class "TextMapping" as TextMapping #FCF3CF
+class "LocatorMapping" as LocatorMapping #FCF3CF
+abstract class "AbstractDataSet" as AbstractDataSet #FCF3CF
+class "TabularTextDataSet" as TabularTextDataSet #FCF3CF
+class "StructuredDataSet" as StructuredDataSet #FCF3CF
+class "DataFingerprint" as DataFingerprint #FCF3CF
+class "PrimaryKey" as PrimaryKey #FAE5D3
+class "Statistics" as Statistics #FCF3CF
+class "SubstantiveValueDomain" as SubstantiveValueDomain #FCF3CF
+class "SentinelValueDomain" as SentinelValueDomain #FCF3CF
+abstract class "DataStructureComponent" as DataStructureComponent #FAE5D3
+abstract class "AbstractDataStructure" as AbstractDataStructure #FAE5D3
+class "DataStructure" as DataStructure #FAE5D3
+class "DimensionalDataStructure" as DimensionalDataStructure #FAE5D3
+class "LongDataStructure" as LongDataStructure #FAE5D3
+class "WideDataStructure" as WideDataStructure #FAE5D3
+class "DimensionGroup" as DimensionGroup #FAE5D3
+class "PrimaryKeyComponent" as PrimaryKeyComponent #FAE5D3
+class "ForeignKey" as ForeignKey #FAE5D3
+class "ForeignKeyComponent" as ForeignKeyComponent #FAE5D3
+AbstractMapping <|-- PhysicalMapping
+AbstractMapping <|-- TextMapping
+AbstractMapping <|-- LocatorMapping
+AbstractDataSet <|-- TabularTextDataSet
+AbstractDataSet <|-- StructuredDataSet
+AbstractDataStructure <|-- DataStructure
+AbstractDataStructure <|-- DimensionalDataStructure
+AbstractDataStructure <|-- LongDataStructure
+AbstractDataStructure <|-- WideDataStructure
+Dataset --> "0..*" ProvActivity : wasGeneratedBy
+Dataset --> "1" CatalogRecord : subjectOf
+Dataset *-- "1..*" InstanceVariable : variableMeasured
+Dataset *-- "0..1" PrimaryKey : hasPrimaryKey
+Dataset *-- "0..*" Statistics : statistics
+Dataset *-- "0..*" DataDownload : distribution
+Dataset *-- "0..*" WebAPI : distribution
+DataDownload *-- "0..*" AbstractMapping : hasPhysicalMapping
+DataDownload o-- "0..1" AbstractDataSet : alsoTypedAs
+DataDownload *-- "0..1" DataFingerprint : fingerprint
+DataDownload --> "0..1" CatalogRecord : subjectOf
+DataDownload --> "0..1" AbstractDataStructure : isStructuredBy
+WebAPI *-- "0..*" ActionResult : potentialActionResult
+ActionResult *-- "0..*" AbstractMapping : hasPhysicalMapping
+CatalogRecord --> "0..1" Dataset : about
+InstanceVariable --> "0..1" SubstantiveValueDomain : takesSubstantiveValuesFrom
+InstanceVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
+AbstractMapping --> "1" InstanceVariable : formats
+PrimaryKey --> "1..*" InstanceVariable : isComposedOf
+AbstractDataStructure *-- "1..*" DataStructureComponent : hasComponent
+AbstractDataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
+DataStructure *-- "0..*" ForeignKey : hasForeignKey
+DimensionGroup *-- "1..*" DataStructureComponent : hasComponent
+PrimaryKeyComponent --> "0..1" DataStructureComponent : correspondsTo
+ForeignKey *-- "1..*" ForeignKeyComponent : isComposedOf
+ForeignKeyComponent --> "0..1" PrimaryKeyComponent : references
+ForeignKeyComponent --> "0..1" DataStructureComponent : correspondsTo
+
+@enduml

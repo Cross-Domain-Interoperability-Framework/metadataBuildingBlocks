@@ -1,0 +1,22 @@
+@startuml
+title TemporalExtent
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "TemporalExtent" as TemporalExtent #FEFECE {
+  +startDate : XsdDate [0..1]
+  +endDate : XsdDate [0..1]
+}
+class "Dataset" as Dataset #EEEEEE
+Dataset *-- "0..*" TemporalExtent : temporalCoverage
+class "XsdDate" as XsdDate <<dataType>> #FAE5D3
+TemporalExtent ..> XsdDate : startDate
+
+@enduml

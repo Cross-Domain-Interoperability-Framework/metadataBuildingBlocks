@@ -11,31 +11,11 @@ skinparam class {
 }
 
 class "DataStructure" as DataStructure #FEFECE {
-  +identifier : Identifier [1]
-  +semantic : PairedControlledVocabularyEntry [1..*]
-  +specialization : SpecializationRole [1]
+  +type : string [1..*]
 }
-class "WideDataStructure" as WideDataStructure #D5F5E3
-DataStructure <|-- WideDataStructure
-class "LongDataStructure" as LongDataStructure #D5F5E3
-DataStructure <|-- LongDataStructure
-class "DimensionalDataStructure" as DimensionalDataStructure #D5F5E3
-DataStructure <|-- DimensionalDataStructure
-abstract class "DataStructureComponent" as DataStructureComponent #EEEEEE
-DataStructure --> "1..*" DataStructureComponent : has
-class "PrimaryKey" as PrimaryKey #EEEEEE
-DataStructure --> "0..1" PrimaryKey : has
+abstract class "AbstractDataStructure" as AbstractDataStructure #D6EAF8
+AbstractDataStructure <|-- DataStructure
 class "ForeignKey" as ForeignKey #EEEEEE
-DataStructure --> "0..*" ForeignKey : has
-class "DataDownload" as DataDownload #EEEEEE
-DataDownload --> "0..1" DataStructure : isStructuredBy
-class "ActionResult" as ActionResult #EEEEEE
-ActionResult --> "0..1" DataStructure : isStructuredBy
-class "Identifier" as Identifier <<dataType>> #FAE5D3
-DataStructure ..> Identifier : identifier
-class "PairedControlledVocabularyEntry" as PairedControlledVocabularyEntry <<dataType>> #FAE5D3
-DataStructure ..> PairedControlledVocabularyEntry : semantic
-class "SpecializationRole" as SpecializationRole <<dataType>> #FAE5D3
-DataStructure ..> SpecializationRole : specialization
+DataStructure *-- "0..*" ForeignKey : hasForeignKey
 
 @enduml

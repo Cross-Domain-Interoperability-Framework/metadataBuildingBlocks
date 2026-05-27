@@ -11,17 +11,11 @@ skinparam class {
 }
 
 class "DataStructure" as DataStructure #FEFECE {
-  +type : String [1..*]
-  +identifier : String [0..1]
+  +type : string [1..*]
 }
+abstract class "AbstractDataStructure" as AbstractDataStructure #D6EAF8
+AbstractDataStructure <|-- DataStructure
+class "ForeignKey" as ForeignKey #EEEEEE
+DataStructure *-- "0..*" ForeignKey : hasForeignKey
 
-class "ForeignKey" as ForeignKey #FEFECE
-
-class "id-reference" as id-reference #FEFECE
-
-class "PrimaryKey" as PrimaryKey #FEFECE
-
-DataStructure --> "1..*" ForeignKey : has_ForeignKey
-DataStructure --> "1..*" id-reference : has_DataStructureComponent
-DataStructure --> "0..1" PrimaryKey : has_PrimaryKey
 @enduml

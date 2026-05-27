@@ -10,14 +10,10 @@ skinparam class {
   FontSize 12
 }
 
-class "WideDataStructure" as WideDataStructure #FEFECE
-class "DataStructure" as DataStructure #D6EAF8
-DataStructure <|-- WideDataStructure
-class "IdentifierComponent" as IdentifierComponent #EEEEEE
-WideDataStructure --> "1..*" IdentifierComponent : has
-class "MeasureComponent" as MeasureComponent #EEEEEE
-WideDataStructure --> "1..*" MeasureComponent : has
-class "AttributeComponent" as AttributeComponent #EEEEEE
-WideDataStructure --> "0..*" AttributeComponent : has
+class "WideDataStructure" as WideDataStructure #FEFECE {
+  +type : string [1..*]
+}
+abstract class "AbstractDataStructure" as AbstractDataStructure #D6EAF8
+AbstractDataStructure <|-- WideDataStructure
 
 @enduml

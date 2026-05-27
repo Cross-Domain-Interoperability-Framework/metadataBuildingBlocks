@@ -1,5 +1,5 @@
 @startuml
-title DataDescriptionWithStructure — overview
+title CDIFDataStructure — overview
 hide circle
 hide empty members
 skinparam shadowing false
@@ -10,106 +10,34 @@ skinparam class {
   FontSize 12
 }
 
-class "DataStructure" as DataStructure #FEFECE
-class "WideDataStructure" as WideDataStructure #FEFECE
-class "LongDataStructure" as LongDataStructure #FEFECE
-class "DimensionalDataStructure" as DimensionalDataStructure #FEFECE
-abstract class "DataStructureComponent" as DataStructureComponent #FEFECE
-class "IdentifierComponent" as IdentifierComponent #FEFECE
-class "MeasureComponent" as MeasureComponent #FEFECE
-class "AttributeComponent" as AttributeComponent #FEFECE
-class "DimensionComponent" as DimensionComponent #FEFECE
-class "VariableValueComponent" as VariableValueComponent #FEFECE
-class "VariableDescriptorComponent" as VariableDescriptorComponent #FEFECE
-class "ComponentPosition" as ComponentPosition #FEFECE
-class "PrimaryKey" as PrimaryKey #FEFECE
-class "PrimaryKeyComponent" as PrimaryKeyComponent #FEFECE
-class "RepresentedVariable" as RepresentedVariable #FEFECE
-class "DescriptorVariable" as DescriptorVariable #FEFECE
-class "InstanceVariable" as InstanceVariable #FEFECE
-class "SubstantiveValueDomain" as SubstantiveValueDomain #FEFECE
-class "SentinelValueDomain" as SentinelValueDomain #FEFECE
-class "DescriptorValueDomain" as DescriptorValueDomain #FEFECE
-class "EnumerationDomain" as EnumerationDomain #FEFECE
-class "ForeignKey" as ForeignKey #FEFECE
-class "ForeignKeyComponent" as ForeignKeyComponent #FEFECE
-class "ValueAndConceptDescription" as ValueAndConceptDescription #FEFECE
-class "UnitType" as UnitType #FEFECE
-class "PhysicalDataSet" as PhysicalDataSet #FEFECE
-class "TabularTextDataSet" as TabularTextDataSet #FEFECE
-class "StructuredDataSet" as StructuredDataSet #FEFECE
-class "Dataset" as Dataset #FEFECE
-class "CatalogRecord" as CatalogRecord #FEFECE
 class "DataDownload" as DataDownload #FEFECE
-class "WebAPI" as WebAPI #FCF3CF
-class "ActionResult" as ActionResult #FCF3CF
-abstract class "AbstractMapping" as AbstractMapping #FCF3CF
-class "PhysicalMapping" as PhysicalMapping #FCF3CF
-class "TextMapping" as TextMapping #FCF3CF
-class "LocatorMapping" as LocatorMapping #FCF3CF
-abstract class "AbstractDataSet" as AbstractDataSet #FCF3CF
-class "DataFingerprint" as DataFingerprint #FCF3CF
-class "Statistics" as Statistics #FCF3CF
-DataStructure <|-- WideDataStructure
-DataStructure <|-- LongDataStructure
-DataStructure <|-- DimensionalDataStructure
-DataStructureComponent <|-- IdentifierComponent
-DataStructureComponent <|-- MeasureComponent
-DataStructureComponent <|-- AttributeComponent
-DataStructureComponent <|-- DimensionComponent
-DataStructureComponent <|-- VariableValueComponent
-AbstractDataSet <|-- TabularTextDataSet
-AbstractDataSet <|-- StructuredDataSet
-AbstractMapping <|-- PhysicalMapping
-AbstractMapping <|-- TextMapping
-AbstractMapping <|-- LocatorMapping
-DataStructure --> "1..*" DataStructureComponent : has
-DataStructure --> "0..1" PrimaryKey : has
-DataStructure --> "0..*" ForeignKey : has
-WideDataStructure --> "1..*" IdentifierComponent : has
-WideDataStructure --> "1..*" MeasureComponent : has
-WideDataStructure --> "0..*" AttributeComponent : has
-LongDataStructure --> "1..*" IdentifierComponent : has
-LongDataStructure --> "1..*" VariableDescriptorComponent : has
-LongDataStructure --> "1..*" VariableValueComponent : has
-LongDataStructure --> "0..*" AttributeComponent : has
-DimensionalDataStructure --> "0..*" IdentifierComponent : has
-DimensionalDataStructure --> "1..*" DimensionComponent : has
-DimensionalDataStructure --> "1..*" MeasureComponent : has
-DimensionalDataStructure --> "0..*" AttributeComponent : has
-DimensionalDataStructure --> "1..*" ComponentPosition : has
-DataStructureComponent --> "1" RepresentedVariable : isDefinedBy
-AttributeComponent --> "0..*" MeasureComponent : qualifies
-VariableDescriptorComponent --> "1" DescriptorVariable : isDefinedBy
-VariableDescriptorComponent --> "0..1" VariableValueComponent : refersTo
-ComponentPosition --> "1" DimensionComponent : indexes
-PrimaryKey --> "1..*" PrimaryKeyComponent : isComposedOf
-PrimaryKeyComponent --> "1" IdentifierComponent : correspondsTo
-RepresentedVariable --> "0..*" SubstantiveValueDomain : takesSubstantiveValuesFrom
-RepresentedVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
-RepresentedVariable --> "0..1" UnitType : measures
-DescriptorVariable --> "1" DescriptorValueDomain : hasValuesFrom
-InstanceVariable --> "1" RepresentedVariable : uses
-InstanceVariable --> "0..1" SubstantiveValueDomain : takesSubstantiveValuesFrom
-InstanceVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
-SubstantiveValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
-SentinelValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
-ForeignKey --> "1..*" ForeignKeyComponent : isComposedOf
-ForeignKeyComponent --> "1" DataStructureComponent : correspondsTo
-ForeignKeyComponent --> "1" PrimaryKeyComponent : references
-Dataset *-- "1" CatalogRecord : subjectOf
-Dataset *-- "1..*" InstanceVariable : variableMeasured
-Dataset *-- "0..1" PrimaryKey : hasPrimaryKey
-Dataset *-- "0..*" Statistics : statistics
-Dataset *-- "0..*" DataDownload : distribution
-Dataset *-- "0..*" WebAPI : distribution
-DataDownload --> "0..1" DataStructure : isStructuredBy
-DataDownload *-- "0..*" AbstractMapping : hasPhysicalMapping
-DataDownload o-- "0..1" AbstractDataSet : alsoTypedAs
-DataDownload *-- "0..1" DataFingerprint : fingerprint
-WebAPI *-- "0..*" ActionResult : potentialActionResult
-ActionResult --> "0..1" DataStructure : isStructuredBy
-ActionResult *-- "0..*" AbstractMapping : hasPhysicalMapping
-AbstractMapping --> "1" InstanceVariable : formats
+class "CatalogRecord" as CatalogRecord #FEFECE
+abstract class "DataStructureComponent" as DataStructureComponent #FAE5D3
+class "InstanceVariable" as InstanceVariable #FAE5D3
+abstract class "AbstractDataStructure" as AbstractDataStructure #FAE5D3
+class "DataStructure" as DataStructure #FAE5D3
+class "DimensionalDataStructure" as DimensionalDataStructure #FAE5D3
+class "LongDataStructure" as LongDataStructure #FAE5D3
+class "WideDataStructure" as WideDataStructure #FAE5D3
+class "DimensionGroup" as DimensionGroup #FAE5D3
+class "PrimaryKey" as PrimaryKey #FAE5D3
+class "PrimaryKeyComponent" as PrimaryKeyComponent #FAE5D3
+class "ForeignKey" as ForeignKey #FAE5D3
+class "ForeignKeyComponent" as ForeignKeyComponent #FAE5D3
+AbstractDataStructure <|-- DataStructure
+AbstractDataStructure <|-- DimensionalDataStructure
+AbstractDataStructure <|-- LongDataStructure
+AbstractDataStructure <|-- WideDataStructure
+DataDownload --> "0..1" CatalogRecord : subjectOf
+DataDownload --> "0..1" AbstractDataStructure : isStructuredBy
+AbstractDataStructure *-- "1..*" DataStructureComponent : hasComponent
+AbstractDataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
+DataStructure *-- "0..*" ForeignKey : hasForeignKey
+DimensionGroup *-- "1..*" DataStructureComponent : hasComponent
+PrimaryKey --> "1..*" InstanceVariable : isComposedOf
+PrimaryKeyComponent --> "0..1" DataStructureComponent : correspondsTo
+ForeignKey *-- "1..*" ForeignKeyComponent : isComposedOf
+ForeignKeyComponent --> "0..1" PrimaryKeyComponent : references
+ForeignKeyComponent --> "0..1" DataStructureComponent : correspondsTo
 
 @enduml
