@@ -1,0 +1,23 @@
+@startuml
+title CDIFProvenance — overview
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "ProvActivity" as ProvActivity #FEFECE
+class "Instrument" as Instrument #FEFECE
+class "Dataset" as Dataset #FEFECE
+class "DataDownload" as DataDownload #FEFECE
+class "DefinedTerm" as DefinedTerm #FEFECE
+class "Identifier" as Identifier #FEFECE
+ProvActivity --> "0..*" Instrument : uses
+Dataset *-- "0..*" ProvActivity : wasGeneratedBy
+Dataset --> "0..*" DefinedTerm : keywords
+
+@enduml

@@ -1,0 +1,33 @@
+@startuml
+title CatalogRecord
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "CatalogRecord" as CatalogRecord #FEFECE {
+  +additionalType : DefinedTerm [1..*]
+  +conformsTo : XsdAnyUri [1..*]
+  +sdDatePublished : XsdDate [0..1]
+  +includedInDataCatalog : Reference [0..1]
+}
+class "Dataset" as Dataset #EEEEEE
+Dataset --> "1" CatalogRecord : subjectOf
+CatalogRecord --> "0..1" Dataset : about
+abstract class "Agent" as Agent #EEEEEE
+CatalogRecord --> "0..1" Agent : maintainer
+class "DefinedTerm" as DefinedTerm #EEEEEE
+CatalogRecord --> "1..*" DefinedTerm : additionalType
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+CatalogRecord ..> XsdAnyUri : conformsTo
+class "XsdDate" as XsdDate <<dataType>> #FAE5D3
+CatalogRecord ..> XsdDate : sdDatePublished
+class "Reference" as Reference #EEEEEE
+CatalogRecord --> "0..1" Reference : includedInDataCatalog
+
+@enduml

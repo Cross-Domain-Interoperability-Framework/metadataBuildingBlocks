@@ -1,0 +1,26 @@
+@startuml
+title DefinedTerm
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "DefinedTerm" as DefinedTerm #FEFECE {
+  +identifier : Identifier [0..1]
+  +name : string [1]
+  +termCode : string [0..1]
+  +inDefinedTermSet : XsdAnyUri [0..1]
+}
+class "Dataset" as Dataset #EEEEEE
+Dataset --> "0..*" DefinedTerm : keywords
+class "Identifier" as Identifier #EEEEEE
+DefinedTerm --> "0..1" Identifier : identifier
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+DefinedTerm ..> XsdAnyUri : inDefinedTermSet
+
+@enduml

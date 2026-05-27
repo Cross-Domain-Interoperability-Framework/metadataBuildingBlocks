@@ -1,0 +1,25 @@
+@startuml
+title MonetaryGrant
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "MonetaryGrant" as MonetaryGrant #FEFECE {
+  +identifier : Identifier [0..1]
+  +name : string [0..1]
+  +description : string [0..1]
+}
+class "Dataset" as Dataset #EEEEEE
+Dataset --> "0..*" MonetaryGrant : funding
+abstract class "Agent" as Agent #EEEEEE
+MonetaryGrant --> "0..*" Agent : funder
+class "Identifier" as Identifier #EEEEEE
+MonetaryGrant --> "0..1" Identifier : identifier
+
+@enduml

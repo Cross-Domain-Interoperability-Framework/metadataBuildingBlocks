@@ -1,0 +1,32 @@
+@startuml
+title Person
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "Person" as Person #FEFECE {
+  +description : string [0..1]
+  +alternateName : string [0..1]
+  +affiliation : Organization [0..1]
+  +contactPoint : ContactPoint [0..1]
+  +sameAs : Identifier [0..*]
+}
+abstract class "Agent" as Agent #D6EAF8
+Agent <|-- Person
+class "ProvActivity" as ProvActivity #EEEEEE
+ProvActivity --> "0..1" Person : agent
+ProvActivity --> "0..*" Person : participant
+class "Organization" as Organization #EEEEEE
+Person --> "0..1" Organization : affiliation
+class "ContactPoint" as ContactPoint #EEEEEE
+Person --> "0..1" ContactPoint : contactPoint
+class "Identifier" as Identifier #EEEEEE
+Person --> "0..*" Identifier : sameAs
+
+@enduml

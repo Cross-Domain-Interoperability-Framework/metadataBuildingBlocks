@@ -1,0 +1,21 @@
+@startuml
+title ArchiveDistribution
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "ArchiveDistribution" as ArchiveDistribution #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+}
+class "ArchivePart" as ArchivePart #EEEEEE
+ArchiveDistribution *-- "1..*" ArchivePart : hasPart
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+ArchiveDistribution ..> XsdAnyUri : identifier
+
+@enduml

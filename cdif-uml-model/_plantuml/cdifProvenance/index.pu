@@ -1,0 +1,64 @@
+@startuml
+title CDIFProvenance — overview
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "ProvActivity" as ProvActivity #FEFECE
+class "Instrument" as Instrument #FEFECE
+class "Dataset" as Dataset #FEFECE
+abstract class "AbstractDistribution" as AbstractDistribution #D6EAF8
+class "DataDownload" as DataDownload #FEFECE
+class "WebAPI" as WebAPI #D6EAF8
+class "Action" as Action #D6EAF8
+class "EntryPoint" as EntryPoint #D6EAF8
+class "ActionResult" as ActionResult #D6EAF8
+class "PropertyValueSpecification" as PropertyValueSpecification #D6EAF8
+abstract class "Agent" as Agent #D6EAF8
+class "Person" as Person #D6EAF8
+class "ContactPoint" as ContactPoint #D6EAF8
+class "Organization" as Organization #D6EAF8
+class "Contributor" as Contributor #D6EAF8
+class "DefinedTerm" as DefinedTerm #FEFECE
+class "Identifier" as Identifier #FEFECE
+class "AdditionalProperty" as AdditionalProperty #D6EAF8
+class "Reference" as Reference #D6EAF8
+class "MonetaryGrant" as MonetaryGrant #D6EAF8
+class "DerivedFrom" as DerivedFrom #D6EAF8
+class "CatalogRecord" as CatalogRecord #D6EAF8
+AbstractDistribution <|-- DataDownload
+AbstractDistribution <|-- WebAPI
+Agent <|-- Person
+Agent <|-- Organization
+ProvActivity --> "0..*" Instrument : uses
+ProvActivity --> "0..1" Person : agent
+ProvActivity --> "0..1" Organization : agent
+ProvActivity --> "0..*" Person : participant
+Dataset *-- "0..*" ProvActivity : wasGeneratedBy
+Dataset --> "0..*" Agent : provider
+Dataset --> "0..*" AbstractDistribution : distribution
+Dataset --> "0..*" Agent : creator
+Dataset --> "0..*" Contributor : contributor
+Dataset --> "0..1" Agent : publisher
+Dataset --> "0..*" MonetaryGrant : funding
+Dataset --> "0..*" DerivedFrom : wasDerivedFrom
+Dataset --> "1" CatalogRecord : subjectOf
+Dataset --> "0..*" DefinedTerm : keywords
+Dataset --> "0..*" Reference : license
+DataDownload --> "0..*" Agent : provider
+WebAPI --> "0..*" Action : potentialAction
+Action --> "1" EntryPoint : target
+Action --> "0..1" ActionResult : result
+Action --> "0..*" PropertyValueSpecification : queryInput
+Contributor --> "0..1" Agent : contributor
+MonetaryGrant --> "0..*" Agent : funder
+CatalogRecord --> "0..1" Dataset : about
+CatalogRecord --> "0..1" Agent : maintainer
+
+@enduml

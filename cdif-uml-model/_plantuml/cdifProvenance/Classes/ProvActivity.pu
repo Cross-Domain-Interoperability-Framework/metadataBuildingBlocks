@@ -1,0 +1,39 @@
+@startuml
+title ProvActivity
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "ProvActivity" as ProvActivity #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+  +name : string [0..1]
+  +description : string [0..1]
+  +actionStatus : string [0..1]
+  +startTime : XsdDateTime [0..1]
+  +endTime : XsdDateTime [0..1]
+  +location : string [0..1]
+  +actionProcess : string [0..*]
+  +error : string [0..1]
+  +used : XsdAnyUri [0..*]
+}
+class "Instrument" as Instrument #EEEEEE
+ProvActivity --> "0..*" Instrument : uses
+class "Person" as Person #EEEEEE
+ProvActivity --> "0..1" Person : agent
+class "Organization" as Organization #EEEEEE
+ProvActivity --> "0..1" Organization : agent
+ProvActivity --> "0..*" Person : participant
+class "Dataset" as Dataset #EEEEEE
+Dataset *-- "0..*" ProvActivity : wasGeneratedBy
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+ProvActivity ..> XsdAnyUri : identifier
+class "XsdDateTime" as XsdDateTime <<dataType>> #FAE5D3
+ProvActivity ..> XsdDateTime : startTime
+
+@enduml
