@@ -11,20 +11,15 @@ skinparam class {
 }
 
 class "EnumerationDomain" as EnumerationDomain #FEFECE {
-  +identifier : Identifier [0..1]
-  +name : string [0..1]
-  +references : XsdAnyUri [1]
-  +purpose : string [0..1]
+  +identifier : Identifier [1]
+  +name : ObjectName [1..*]
+  +purpose : InternationalString [1]
 }
-class "SubstantiveValueDomain" as SubstantiveValueDomain #EEEEEE
-SubstantiveValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
-class "SentinelValueDomain" as SentinelValueDomain #EEEEEE
-SentinelValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
-class "Concept" as Concept #EEEEEE
-EnumerationDomain --> "0..1" Concept : isDefinedBy
-class "Identifier" as Identifier #EEEEEE
-EnumerationDomain --> "0..1" Identifier : identifier
-class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
-EnumerationDomain ..> XsdAnyUri : references
+class "Identifier" as Identifier <<dataType>> #FAE5D3
+EnumerationDomain ..> Identifier : identifier
+class "ObjectName" as ObjectName <<dataType>> #FAE5D3
+EnumerationDomain ..> ObjectName : name
+class "InternationalString" as InternationalString <<dataType>> #FAE5D3
+EnumerationDomain ..> InternationalString : purpose
 
 @enduml

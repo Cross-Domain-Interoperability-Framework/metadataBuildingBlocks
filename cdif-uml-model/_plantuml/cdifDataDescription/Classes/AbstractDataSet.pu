@@ -1,0 +1,25 @@
+@startuml
+title AbstractDataSet
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+abstract class "AbstractDataSet" as AbstractDataSet #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+}
+class "TabularTextDataSet" as TabularTextDataSet #D5F5E3
+AbstractDataSet <|-- TabularTextDataSet
+class "StructuredDataSet" as StructuredDataSet #D5F5E3
+AbstractDataSet <|-- StructuredDataSet
+class "DataDownload" as DataDownload #EEEEEE
+DataDownload o-- "0..1" AbstractDataSet : alsoTypedAs
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+AbstractDataSet ..> XsdAnyUri : identifier
+
+@enduml

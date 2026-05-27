@@ -11,18 +11,27 @@ skinparam class {
 }
 
 class "UnitType" as UnitType #FEFECE {
-  +descriptiveText : string [1]
-  +definition : string [1]
-  +displayLabel : string [1..*]
+  +descriptiveText : InternationalString [1]
+  +catalogDetails : CatalogDetails [1]
+  +definition : InternationalString [1]
+  +displayLabel : LabelForDisplay [1..*]
   +externalDefinition : Reference [1]
   +identifier : Identifier [1]
-  +name : string [1..*]
+  +name : ObjectName [1..*]
 }
 class "RepresentedVariable" as RepresentedVariable #EEEEEE
 RepresentedVariable --> "0..1" UnitType : measures
-class "Reference" as Reference #EEEEEE
-UnitType --> "1" Reference : externalDefinition
-class "Identifier" as Identifier #EEEEEE
-UnitType --> "1" Identifier : identifier
+class "InternationalString" as InternationalString <<dataType>> #FAE5D3
+UnitType ..> InternationalString : descriptiveText
+class "CatalogDetails" as CatalogDetails <<dataType>> #FAE5D3
+UnitType ..> CatalogDetails : catalogDetails
+class "LabelForDisplay" as LabelForDisplay <<dataType>> #FAE5D3
+UnitType ..> LabelForDisplay : displayLabel
+class "Reference" as Reference <<dataType>> #FAE5D3
+UnitType ..> Reference : externalDefinition
+class "Identifier" as Identifier <<dataType>> #FAE5D3
+UnitType ..> Identifier : identifier
+class "ObjectName" as ObjectName <<dataType>> #FAE5D3
+UnitType ..> ObjectName : name
 
 @enduml

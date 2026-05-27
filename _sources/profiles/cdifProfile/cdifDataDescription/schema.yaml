@@ -200,41 +200,14 @@ properties:
                       'cdi:characterSet':
                         type: string
                         description: The character set used in the API response (e.g., UTF-8).
-  'schema:measurementTechnique':
-    description: The technique, technology, or methodology used for measurement or
-      determination of the dataset values.
-    type: array
-    items:
-      anyOf:
-      - type: string
-      - $ref: '#/$defs/DefinedTerm'
-  'schema:spatialCoverage':
-    description: Geographic extent of resource content.
-    type: array
-    items:
-      $ref: '#/$defs/SpatialExtent'
-  'schema:temporalCoverage':
-    description: Temporal extent of resource content.
-    type: array
-    items:
-      $ref: '#/$defs/TemporalExtent'
-  'dqv:hasQualityMeasurement':
-    description: Quality measurements reported to assess the resource.
-    type: array
-    items:
-      $ref: '#/$defs/QualityMeasure'
-
+  # NOTE: schema:measurementTechnique, schema:spatialCoverage, schema:temporalCoverage,
+  # and dqv:hasQualityMeasurement are contributed by cdifDiscovery (the profile
+  # module a composite typically composes alongside cdifDataDescription). They
+  # are deliberately NOT re-declared here to avoid duplication. The corresponding
+  # $defs (DefinedTerm / SpatialExtent / TemporalExtent / QualityMeasure) live
+  # in cdifDiscovery.
 required:
 - 'schema:variableMeasured'
-$defs:
-  DefinedTerm:
-    $ref: ../../../schemaorgProperties/definedTerm/schema.yaml
-  SpatialExtent:
-    $ref: ../../../schemaorgProperties/spatialExtent/schema.yaml
-  TemporalExtent:
-    $ref: ../../../schemaorgProperties/temporalExtent/schema.yaml
-  QualityMeasure:
-    $ref: ../../../qualityProperties/qualityMeasure/schema.yaml
 
 
 

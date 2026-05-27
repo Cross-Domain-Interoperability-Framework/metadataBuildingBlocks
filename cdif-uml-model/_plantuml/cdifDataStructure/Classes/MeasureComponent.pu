@@ -11,7 +11,7 @@ skinparam class {
 }
 
 class "MeasureComponent" as MeasureComponent #FEFECE {
-  +name : string [1..*]
+  +name : ObjectName [1..*]
 }
 abstract class "DataStructureComponent" as DataStructureComponent #D6EAF8
 DataStructureComponent <|-- MeasureComponent
@@ -21,5 +21,7 @@ class "DimensionalDataStructure" as DimensionalDataStructure #EEEEEE
 DimensionalDataStructure --> "1..*" MeasureComponent : has
 class "AttributeComponent" as AttributeComponent #EEEEEE
 AttributeComponent --> "0..*" MeasureComponent : qualifies
+class "ObjectName" as ObjectName <<dataType>> #FAE5D3
+MeasureComponent ..> ObjectName : name
 
 @enduml

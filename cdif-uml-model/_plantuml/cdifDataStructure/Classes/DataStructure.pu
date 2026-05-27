@@ -12,7 +12,8 @@ skinparam class {
 
 class "DataStructure" as DataStructure #FEFECE {
   +identifier : Identifier [1]
-  +semantic : Concept [1..*]
+  +semantic : PairedControlledVocabularyEntry [1..*]
+  +specialization : SpecializationRole [1]
 }
 class "WideDataStructure" as WideDataStructure #D5F5E3
 DataStructure <|-- WideDataStructure
@@ -26,17 +27,15 @@ class "PrimaryKey" as PrimaryKey #EEEEEE
 DataStructure --> "0..1" PrimaryKey : has
 class "ForeignKey" as ForeignKey #EEEEEE
 DataStructure --> "0..*" ForeignKey : has
-class "TabularTextDataSet" as TabularTextDataSet #EEEEEE
-TabularTextDataSet --> "0..1" DataStructure : isStructuredBy
-class "StructuredDataSet" as StructuredDataSet #EEEEEE
-StructuredDataSet --> "0..1" DataStructure : isStructuredBy
 class "DataDownload" as DataDownload #EEEEEE
 DataDownload --> "0..1" DataStructure : isStructuredBy
 class "ActionResult" as ActionResult #EEEEEE
 ActionResult --> "0..1" DataStructure : isStructuredBy
-class "Identifier" as Identifier #EEEEEE
-DataStructure --> "1" Identifier : identifier
-class "Concept" as Concept #EEEEEE
-DataStructure --> "1..*" Concept : semantic
+class "Identifier" as Identifier <<dataType>> #FAE5D3
+DataStructure ..> Identifier : identifier
+class "PairedControlledVocabularyEntry" as PairedControlledVocabularyEntry <<dataType>> #FAE5D3
+DataStructure ..> PairedControlledVocabularyEntry : semantic
+class "SpecializationRole" as SpecializationRole <<dataType>> #FAE5D3
+DataStructure ..> SpecializationRole : specialization
 
 @enduml

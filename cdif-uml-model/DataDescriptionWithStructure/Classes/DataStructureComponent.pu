@@ -12,7 +12,8 @@ skinparam class {
 
 abstract class "DataStructureComponent" as DataStructureComponent #FEFECE {
   +identifier : Identifier [1]
-  +semantic : Concept [1..*]
+  +semantic : PairedControlledVocabularyEntry [1..*]
+  +specialization : SpecializationRole [1]
 }
 class "IdentifierComponent" as IdentifierComponent #D5F5E3
 DataStructureComponent <|-- IdentifierComponent
@@ -30,9 +31,11 @@ class "RepresentedVariable" as RepresentedVariable #EEEEEE
 DataStructureComponent --> "1" RepresentedVariable : isDefinedBy
 class "ForeignKeyComponent" as ForeignKeyComponent #EEEEEE
 ForeignKeyComponent --> "1" DataStructureComponent : correspondsTo
-class "Identifier" as Identifier #EEEEEE
-DataStructureComponent --> "1" Identifier : identifier
-class "Concept" as Concept #EEEEEE
-DataStructureComponent --> "1..*" Concept : semantic
+class "Identifier" as Identifier <<dataType>> #FAE5D3
+DataStructureComponent ..> Identifier : identifier
+class "PairedControlledVocabularyEntry" as PairedControlledVocabularyEntry <<dataType>> #FAE5D3
+DataStructureComponent ..> PairedControlledVocabularyEntry : semantic
+class "SpecializationRole" as SpecializationRole <<dataType>> #FAE5D3
+DataStructureComponent ..> SpecializationRole : specialization
 
 @enduml

@@ -38,48 +38,18 @@ class "UnitType" as UnitType #FEFECE
 class "PhysicalDataSet" as PhysicalDataSet #FEFECE
 class "TabularTextDataSet" as TabularTextDataSet #FEFECE
 class "StructuredDataSet" as StructuredDataSet #FEFECE
-abstract class "AbstractVariable" as AbstractVariable #FEFECE
-class "VariableMeasured" as VariableMeasured #FEFECE
+class "Dataset" as Dataset #FEFECE
+class "CatalogRecord" as CatalogRecord #FEFECE
 class "DataDownload" as DataDownload #FEFECE
-class "Statistic" as Statistic #FEFECE
-class "Statistics" as Statistics #FEFECE
-class "CategoryStatistics" as CategoryStatistics #FEFECE
-class "StatisticsCollection" as StatisticsCollection #FEFECE
-class "Category" as Category #FEFECE
+class "WebAPI" as WebAPI #FEFECE
+class "ActionResult" as ActionResult #FEFECE
+abstract class "AbstractMapping" as AbstractMapping #FEFECE
 class "PhysicalMapping" as PhysicalMapping #FEFECE
 class "TextMapping" as TextMapping #FEFECE
 class "LocatorMapping" as LocatorMapping #FEFECE
+abstract class "AbstractDataSet" as AbstractDataSet #FEFECE
 class "DataFingerprint" as DataFingerprint #FEFECE
-class "Concept" as Concept #FEFECE
-class "Identifier" as Identifier #FEFECE
-class "DefinedTerm" as DefinedTerm #FEFECE
-class "Dataset" as Dataset #FEFECE
-class "SpatialExtent" as SpatialExtent #FEFECE
-abstract class "AbstractGeometry" as AbstractGeometry #FEFECE
-class "GeoCoordinates" as GeoCoordinates #FEFECE
-class "GeoShape" as GeoShape #FEFECE
-class "TemporalExtent" as TemporalExtent #FEFECE
-class "Instant" as Instant #FEFECE
-class "TimePosition" as TimePosition #FEFECE
-class "Geometry" as Geometry #FEFECE
-class "QualityMeasurement" as QualityMeasurement #FEFECE
-abstract class "AbstractDistribution" as AbstractDistribution #D6EAF8
-class "WebAPI" as WebAPI #D6EAF8
-class "Action" as Action #D6EAF8
-class "EntryPoint" as EntryPoint #D6EAF8
-class "ActionResult" as ActionResult #D6EAF8
-class "PropertyValueSpecification" as PropertyValueSpecification #D6EAF8
-abstract class "Agent" as Agent #D6EAF8
-class "Person" as Person #D6EAF8
-class "ContactPoint" as ContactPoint #D6EAF8
-class "Organization" as Organization #D6EAF8
-class "Contributor" as Contributor #D6EAF8
-class "AdditionalProperty" as AdditionalProperty #D6EAF8
-class "Reference" as Reference #D6EAF8
-class "MonetaryGrant" as MonetaryGrant #D6EAF8
-class "ProvActivity" as ProvActivity #FEFECE
-class "DerivedFrom" as DerivedFrom #D6EAF8
-class "CatalogRecord" as CatalogRecord #FEFECE
+class "Statistics" as Statistics #FEFECE
 DataStructure <|-- WideDataStructure
 DataStructure <|-- LongDataStructure
 DataStructure <|-- DimensionalDataStructure
@@ -88,18 +58,11 @@ DataStructureComponent <|-- MeasureComponent
 DataStructureComponent <|-- AttributeComponent
 DataStructureComponent <|-- DimensionComponent
 DataStructureComponent <|-- VariableValueComponent
-AbstractVariable <|-- InstanceVariable
-DataDownload <|-- TabularTextDataSet
-DataDownload <|-- StructuredDataSet
-AbstractVariable <|-- VariableMeasured
-AbstractDistribution <|-- DataDownload
-PhysicalMapping <|-- TextMapping
-PhysicalMapping <|-- LocatorMapping
-AbstractGeometry <|-- GeoCoordinates
-AbstractGeometry <|-- GeoShape
-AbstractDistribution <|-- WebAPI
-Agent <|-- Person
-Agent <|-- Organization
+AbstractDataSet <|-- TabularTextDataSet
+AbstractDataSet <|-- StructuredDataSet
+AbstractMapping <|-- PhysicalMapping
+AbstractMapping <|-- TextMapping
+AbstractMapping <|-- LocatorMapping
 DataStructure --> "1..*" DataStructureComponent : has
 DataStructure --> "0..1" PrimaryKey : has
 DataStructure --> "0..*" ForeignKey : has
@@ -122,69 +85,31 @@ VariableDescriptorComponent --> "0..1" VariableValueComponent : refersTo
 ComponentPosition --> "1" DimensionComponent : indexes
 PrimaryKey --> "1..*" PrimaryKeyComponent : isComposedOf
 PrimaryKeyComponent --> "1" IdentifierComponent : correspondsTo
-PrimaryKeyComponent --> "1" InstanceVariable : indexes
 RepresentedVariable --> "0..*" SubstantiveValueDomain : takesSubstantiveValuesFrom
 RepresentedVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
-RepresentedVariable --> "0..*" Concept : uses
 RepresentedVariable --> "0..1" UnitType : measures
 DescriptorVariable --> "1" DescriptorValueDomain : hasValuesFrom
 InstanceVariable --> "1" RepresentedVariable : uses
-InstanceVariable --> "0..1" StatisticsCollection : isDescribedBy
-InstanceVariable --> "0..1" InstanceVariable : qualifies
 InstanceVariable --> "0..1" SubstantiveValueDomain : takesSubstantiveValuesFrom
 InstanceVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
 SubstantiveValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
-SubstantiveValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
 SentinelValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
-SentinelValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
-EnumerationDomain --> "0..1" Concept : isDefinedBy
 ForeignKey --> "1..*" ForeignKeyComponent : isComposedOf
 ForeignKeyComponent --> "1" DataStructureComponent : correspondsTo
 ForeignKeyComponent --> "1" PrimaryKeyComponent : references
-VariableMeasured --> "0..1" InstanceVariable : describes
+Dataset *-- "1" CatalogRecord : subjectOf
+Dataset *-- "1..*" InstanceVariable : variableMeasured
+Dataset *-- "0..1" PrimaryKey : hasPrimaryKey
+Dataset *-- "0..*" Statistics : statistics
+Dataset *-- "0..*" DataDownload : distribution
+Dataset *-- "0..*" WebAPI : distribution
 DataDownload --> "0..1" DataStructure : isStructuredBy
-DataDownload --> "0..*" PhysicalMapping : hasPhysicalMapping
-DataDownload --> "0..*" Agent : provider
-Statistics --> "1..*" InstanceVariable : appliesTo
-Statistics --> "0..1" InstanceVariable : hasWeight
-Statistics --> "0..*" CategoryStatistics : has
-CategoryStatistics --> "1" Category : for
-CategoryStatistics --> "0..1" InstanceVariable : hasWeight
-StatisticsCollection --> "1..*" Statistics : has
-StatisticsCollection --> "1..*" InstanceVariable : indexedBy
-StatisticsCollection --> "0..1" InstanceVariable : hasWeight
-PhysicalMapping --> "1" InstanceVariable : formats
-Dataset --> "1..*" AbstractVariable : variableMeasured
-Dataset --> "0..1" PrimaryKey : hasPrimaryKey
-Dataset --> "0..*" Statistics : statistics
-Dataset --> "0..*" StatisticsCollection : statisticsCollection
-Dataset --> "0..*" SpatialExtent : spatialCoverage
-Dataset --> "0..*" TemporalExtent : temporalCoverage
-Dataset --> "0..*" QualityMeasurement : hasQualityMeasurement
-Dataset --> "0..*" Agent : provider
-Dataset --> "0..*" AbstractDistribution : distribution
-Dataset --> "0..*" Agent : creator
-Dataset --> "0..*" Contributor : contributor
-Dataset --> "0..1" Agent : publisher
-Dataset --> "0..*" MonetaryGrant : funding
-Dataset --> "0..*" ProvActivity : wasGeneratedBy
-Dataset --> "0..*" DerivedFrom : wasDerivedFrom
-Dataset --> "1" CatalogRecord : subjectOf
-Dataset --> "0..*" DefinedTerm : keywords
-Dataset --> "0..*" Reference : license
-SpatialExtent --> "0..1" AbstractGeometry : geo
-SpatialExtent --> "0..1" Geometry : hasGeometry
-TemporalExtent --> "0..1" Instant : hasBeginning
-TemporalExtent --> "0..1" Instant : hasEnd
-Instant --> "0..1" TimePosition : inTimePosition
-WebAPI --> "0..*" Action : potentialAction
-Action --> "1" EntryPoint : target
-Action --> "0..1" ActionResult : result
-Action --> "0..*" PropertyValueSpecification : queryInput
+DataDownload *-- "0..*" AbstractMapping : hasPhysicalMapping
+DataDownload o-- "0..1" AbstractDataSet : alsoTypedAs
+DataDownload *-- "0..1" DataFingerprint : fingerprint
+WebAPI *-- "0..*" ActionResult : potentialActionResult
 ActionResult --> "0..1" DataStructure : isStructuredBy
-Contributor --> "0..1" Agent : contributor
-MonetaryGrant --> "0..*" Agent : funder
-CatalogRecord --> "0..1" Dataset : about
-CatalogRecord --> "0..1" Agent : maintainer
+ActionResult *-- "0..*" AbstractMapping : hasPhysicalMapping
+AbstractMapping --> "1" InstanceVariable : formats
 
 @enduml

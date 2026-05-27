@@ -11,16 +11,13 @@ skinparam class {
 }
 
 class "WebAPI" as WebAPI #FEFECE {
-  +documentation : Reference [0..1]
-  +termsOfService : Reference [0..1]
-  +serviceType : string [0..1]
+  +identifier : XsdAnyUri [0..1]
 }
-abstract class "AbstractDistribution" as AbstractDistribution #D6EAF8
-AbstractDistribution <|-- WebAPI
-class "Action" as Action #EEEEEE
-WebAPI --> "0..*" Action : potentialAction
-class "Reference" as Reference #EEEEEE
-WebAPI --> "0..1" Reference : documentation
-WebAPI --> "0..1" Reference : termsOfService
+class "Dataset" as Dataset #EEEEEE
+Dataset *-- "0..*" WebAPI : distribution
+class "ActionResult" as ActionResult #EEEEEE
+WebAPI *-- "0..*" ActionResult : potentialActionResult
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+WebAPI ..> XsdAnyUri : identifier
 
 @enduml

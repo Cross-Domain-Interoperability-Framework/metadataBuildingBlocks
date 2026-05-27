@@ -1,0 +1,64 @@
+@startuml
+title Identifier
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "Identifier" as Identifier <<dataType>> #FAE5D3 {
+  +ddiIdentifier : InternationalRegistrationDataIdentifier [1]
+  +isDdiIdentifierPersistent : boolean [1]
+  +isDdiIdentifierUniversallyUnique : boolean [1]
+  +nonDdiIdentifier : NonDdiIdentifier [1..*]
+  +uri : XsdAnyUri [1]
+  +versionDate : XsdDate [1]
+  +versionRationale : RationaleDefinition [1]
+  +versionResponsibility : AgentInRole [1]
+}
+class "DataStructure" as DataStructure #EEEEEE
+DataStructure ..> Identifier : identifier
+class "WideDataStructure" as WideDataStructure #EEEEEE
+WideDataStructure ..> Identifier : identifier
+class "LongDataStructure" as LongDataStructure #EEEEEE
+LongDataStructure ..> Identifier : identifier
+class "DimensionalDataStructure" as DimensionalDataStructure #EEEEEE
+DimensionalDataStructure ..> Identifier : identifier
+abstract class "DataStructureComponent" as DataStructureComponent #EEEEEE
+DataStructureComponent ..> Identifier : identifier
+class "IdentifierComponent" as IdentifierComponent #EEEEEE
+IdentifierComponent ..> Identifier : identifier
+class "MeasureComponent" as MeasureComponent #EEEEEE
+MeasureComponent ..> Identifier : identifier
+class "AttributeComponent" as AttributeComponent #EEEEEE
+AttributeComponent ..> Identifier : identifier
+class "DimensionComponent" as DimensionComponent #EEEEEE
+DimensionComponent ..> Identifier : identifier
+class "VariableValueComponent" as VariableValueComponent #EEEEEE
+VariableValueComponent ..> Identifier : identifier
+class "VariableDescriptorComponent" as VariableDescriptorComponent #EEEEEE
+VariableDescriptorComponent ..> Identifier : identifier
+class "PrimaryKeyComponent" as PrimaryKeyComponent #EEEEEE
+PrimaryKeyComponent ..> Identifier : identifier
+class "DescriptorVariable" as DescriptorVariable #EEEEEE
+DescriptorVariable ..> Identifier : identifier
+class "DescriptorValueDomain" as DescriptorValueDomain #EEEEEE
+DescriptorValueDomain ..> Identifier : identifier
+class "EnumerationDomain" as EnumerationDomain #EEEEEE
+EnumerationDomain ..> Identifier : identifier
+class "ForeignKey" as ForeignKey #EEEEEE
+ForeignKey ..> Identifier : identifier
+class "ForeignKeyComponent" as ForeignKeyComponent #EEEEEE
+ForeignKeyComponent ..> Identifier : identifier
+class "ValueAndConceptDescription" as ValueAndConceptDescription #EEEEEE
+ValueAndConceptDescription ..> Identifier : identifier
+class "UnitType" as UnitType #EEEEEE
+UnitType ..> Identifier : identifier
+class "PhysicalDataSet" as PhysicalDataSet #EEEEEE
+PhysicalDataSet ..> Identifier : identifier
+
+@enduml

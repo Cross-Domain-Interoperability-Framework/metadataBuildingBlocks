@@ -11,8 +11,7 @@ skinparam class {
 }
 
 class "SubstantiveValueDomain" as SubstantiveValueDomain #FEFECE {
-  +displayLabel : string [0..1]
-  +recommendedDataType : string [0..*]
+  +identifier : XsdAnyUri [0..1]
 }
 class "RepresentedVariable" as RepresentedVariable #EEEEEE
 RepresentedVariable --> "0..*" SubstantiveValueDomain : takesSubstantiveValuesFrom
@@ -20,7 +19,7 @@ class "InstanceVariable" as InstanceVariable #EEEEEE
 InstanceVariable --> "0..1" SubstantiveValueDomain : takesSubstantiveValuesFrom
 class "ValueAndConceptDescription" as ValueAndConceptDescription #EEEEEE
 SubstantiveValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
-class "EnumerationDomain" as EnumerationDomain #EEEEEE
-SubstantiveValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+SubstantiveValueDomain ..> XsdAnyUri : identifier
 
 @enduml

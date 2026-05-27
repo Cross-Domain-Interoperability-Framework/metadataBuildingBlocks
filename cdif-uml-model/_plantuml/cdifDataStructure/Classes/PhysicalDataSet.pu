@@ -11,25 +11,32 @@ skinparam class {
 }
 
 class "PhysicalDataSet" as PhysicalDataSet #FEFECE {
+  +catalogDetails : CatalogDetails [1]
   +characterSet : string [1]
-  +encoding : Concept [1]
+  +encoding : ControlledVocabularyEntry [1]
   +fileSize : number [1]
   +fileSizeUofM : string [1]
   +fingerprint : DataFingerprint [1]
   +identifier : Identifier [1]
-  +name : string [1]
-  +overview : string [1]
+  +name : ObjectName [1]
+  +overview : InternationalString [1]
   +physicalFileURL : string [1]
-  +purpose : string [1]
+  +purpose : InternationalString [1]
   +recordCount : integer [1]
   +standard : conformsTo [1..*]
 }
-class "Concept" as Concept #EEEEEE
-PhysicalDataSet --> "1" Concept : encoding
+class "CatalogDetails" as CatalogDetails <<dataType>> #FAE5D3
+PhysicalDataSet ..> CatalogDetails : catalogDetails
+class "ControlledVocabularyEntry" as ControlledVocabularyEntry <<dataType>> #FAE5D3
+PhysicalDataSet ..> ControlledVocabularyEntry : encoding
 class "DataFingerprint" as DataFingerprint <<dataType>> #FAE5D3
 PhysicalDataSet ..> DataFingerprint : fingerprint
-class "Identifier" as Identifier #EEEEEE
-PhysicalDataSet --> "1" Identifier : identifier
+class "Identifier" as Identifier <<dataType>> #FAE5D3
+PhysicalDataSet ..> Identifier : identifier
+class "ObjectName" as ObjectName <<dataType>> #FAE5D3
+PhysicalDataSet ..> ObjectName : name
+class "InternationalString" as InternationalString <<dataType>> #FAE5D3
+PhysicalDataSet ..> InternationalString : overview
 class "conformsTo" as conformsTo <<dataType>> #FAE5D3
 PhysicalDataSet ..> conformsTo : standard
 

@@ -11,71 +11,21 @@ skinparam class {
 }
 
 class "Dataset" as Dataset #FEFECE {
-  +measurementTechnique : DefinedTerm [0..*]
-  +identifier : Identifier [1]
-  +name : string [1]
-  +description : string [0..1]
-  +additionalType : DefinedTerm [0..*]
-  +sameAs : Identifier [0..*]
-  +version : string [0..1]
-  +inLanguage : XsdLanguage [0..1]
-  +dateModified : XsdDate [1]
-  +datePublished : XsdDate [0..1]
-  +url : XsdAnyUri [0..1]
-  +license : Reference [0..*]
-  +conditionsOfAccess : Reference [0..*]
-  +publishingPrinciples : Reference [0..*]
-  +keywords : DefinedTerm [0..*]
-  +relatedLink : Reference [0..*]
+  +identifier : XsdAnyUri [1]
 }
-abstract class "AbstractVariable" as AbstractVariable #EEEEEE
-Dataset --> "1..*" AbstractVariable : variableMeasured
-class "PrimaryKey" as PrimaryKey #EEEEEE
-Dataset --> "0..1" PrimaryKey : hasPrimaryKey
-class "Statistics" as Statistics #EEEEEE
-Dataset --> "0..*" Statistics : statistics
-class "StatisticsCollection" as StatisticsCollection #EEEEEE
-Dataset --> "0..*" StatisticsCollection : statisticsCollection
-class "SpatialExtent" as SpatialExtent #EEEEEE
-Dataset --> "0..*" SpatialExtent : spatialCoverage
-class "TemporalExtent" as TemporalExtent #EEEEEE
-Dataset --> "0..*" TemporalExtent : temporalCoverage
-class "QualityMeasurement" as QualityMeasurement #EEEEEE
-Dataset --> "0..*" QualityMeasurement : hasQualityMeasurement
-abstract class "Agent" as Agent #EEEEEE
-Dataset --> "0..*" Agent : provider
-abstract class "AbstractDistribution" as AbstractDistribution #EEEEEE
-Dataset --> "0..*" AbstractDistribution : distribution
-Dataset --> "0..*" Agent : creator
-class "Contributor" as Contributor #EEEEEE
-Dataset --> "0..*" Contributor : contributor
-Dataset --> "0..1" Agent : publisher
-class "MonetaryGrant" as MonetaryGrant #EEEEEE
-Dataset --> "0..*" MonetaryGrant : funding
-class "ProvActivity" as ProvActivity #EEEEEE
-Dataset --> "0..*" ProvActivity : wasGeneratedBy
-class "DerivedFrom" as DerivedFrom #EEEEEE
-Dataset --> "0..*" DerivedFrom : wasDerivedFrom
 class "CatalogRecord" as CatalogRecord #EEEEEE
-Dataset --> "1" CatalogRecord : subjectOf
-class "DefinedTerm" as DefinedTerm #EEEEEE
-Dataset --> "0..*" DefinedTerm : keywords
-class "Reference" as Reference #EEEEEE
-Dataset --> "0..*" Reference : license
-CatalogRecord --> "0..1" Dataset : about
-Dataset --> "0..*" DefinedTerm : measurementTechnique
-class "Identifier" as Identifier #EEEEEE
-Dataset --> "1" Identifier : identifier
-Dataset --> "0..*" DefinedTerm : additionalType
-Dataset --> "0..*" Identifier : sameAs
-class "XsdLanguage" as XsdLanguage <<dataType>> #FAE5D3
-Dataset ..> XsdLanguage : inLanguage
-class "XsdDate" as XsdDate <<dataType>> #FAE5D3
-Dataset ..> XsdDate : dateModified
+Dataset *-- "1" CatalogRecord : subjectOf
+class "InstanceVariable" as InstanceVariable #EEEEEE
+Dataset *-- "1..*" InstanceVariable : variableMeasured
+class "PrimaryKey" as PrimaryKey #EEEEEE
+Dataset *-- "0..1" PrimaryKey : hasPrimaryKey
+class "Statistics" as Statistics #EEEEEE
+Dataset *-- "0..*" Statistics : statistics
+class "DataDownload" as DataDownload #EEEEEE
+Dataset *-- "0..*" DataDownload : distribution
+class "WebAPI" as WebAPI #EEEEEE
+Dataset *-- "0..*" WebAPI : distribution
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
-Dataset ..> XsdAnyUri : url
-Dataset --> "0..*" Reference : conditionsOfAccess
-Dataset --> "0..*" Reference : publishingPrinciples
-Dataset --> "0..*" Reference : relatedLink
+Dataset ..> XsdAnyUri : identifier
 
 @enduml

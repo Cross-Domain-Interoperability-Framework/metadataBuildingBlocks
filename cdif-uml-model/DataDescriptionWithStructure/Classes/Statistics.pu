@@ -11,21 +11,11 @@ skinparam class {
 }
 
 class "Statistics" as Statistics #FEFECE {
-  +typeOfStatistic : Concept [0..1]
-  +statistic : Statistic [1..*]
+  +identifier : XsdAnyUri [0..1]
 }
-class "InstanceVariable" as InstanceVariable #EEEEEE
-Statistics --> "1..*" InstanceVariable : appliesTo
-Statistics --> "0..1" InstanceVariable : hasWeight
-class "CategoryStatistics" as CategoryStatistics #EEEEEE
-Statistics --> "0..*" CategoryStatistics : has
-class "StatisticsCollection" as StatisticsCollection #EEEEEE
-StatisticsCollection --> "1..*" Statistics : has
 class "Dataset" as Dataset #EEEEEE
-Dataset --> "0..*" Statistics : statistics
-class "Concept" as Concept #EEEEEE
-Statistics --> "0..1" Concept : typeOfStatistic
-class "Statistic" as Statistic #EEEEEE
-Statistics --> "1..*" Statistic : statistic
+Dataset *-- "0..*" Statistics : statistics
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+Statistics ..> XsdAnyUri : identifier
 
 @enduml

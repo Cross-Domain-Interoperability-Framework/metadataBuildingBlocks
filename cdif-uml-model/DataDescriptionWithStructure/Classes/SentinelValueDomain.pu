@@ -11,8 +11,7 @@ skinparam class {
 }
 
 class "SentinelValueDomain" as SentinelValueDomain #FEFECE {
-  +displayLabel : string [0..1]
-  +recommendedDataType : string [0..*]
+  +identifier : XsdAnyUri [0..1]
 }
 class "RepresentedVariable" as RepresentedVariable #EEEEEE
 RepresentedVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
@@ -20,7 +19,7 @@ class "InstanceVariable" as InstanceVariable #EEEEEE
 InstanceVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
 class "ValueAndConceptDescription" as ValueAndConceptDescription #EEEEEE
 SentinelValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
-class "EnumerationDomain" as EnumerationDomain #EEEEEE
-SentinelValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+SentinelValueDomain ..> XsdAnyUri : identifier
 
 @enduml

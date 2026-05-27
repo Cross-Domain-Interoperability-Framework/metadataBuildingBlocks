@@ -1,0 +1,28 @@
+@startuml
+title ControlledVocabularyEntry
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "ControlledVocabularyEntry" as ControlledVocabularyEntry <<dataType>> #FAE5D3 {
+  +entryReference : Reference [1..*]
+  +entryValue : string [1..*]
+  +name : string [1]
+  +valueForOther : string [1]
+  +vocabulary : Reference [1]
+}
+class "DescriptorValueDomain" as DescriptorValueDomain #EEEEEE
+DescriptorValueDomain ..> ControlledVocabularyEntry : recommendedDataType
+class "ValueAndConceptDescription" as ValueAndConceptDescription #EEEEEE
+ValueAndConceptDescription ..> ControlledVocabularyEntry : formatPattern
+ValueAndConceptDescription ..> ControlledVocabularyEntry : logicalExpression
+class "PhysicalDataSet" as PhysicalDataSet #EEEEEE
+PhysicalDataSet ..> ControlledVocabularyEntry : encoding
+
+@enduml

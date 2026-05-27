@@ -12,7 +12,8 @@ skinparam class {
 
 class "VariableDescriptorComponent" as VariableDescriptorComponent #FEFECE {
   +identifier : Identifier [1]
-  +semantic : Concept [1..*]
+  +semantic : PairedControlledVocabularyEntry [1..*]
+  +specialization : SpecializationRole [1]
 }
 class "LongDataStructure" as LongDataStructure #EEEEEE
 LongDataStructure --> "1..*" VariableDescriptorComponent : has
@@ -20,9 +21,11 @@ class "DescriptorVariable" as DescriptorVariable #EEEEEE
 VariableDescriptorComponent --> "1" DescriptorVariable : isDefinedBy
 class "VariableValueComponent" as VariableValueComponent #EEEEEE
 VariableDescriptorComponent --> "0..1" VariableValueComponent : refersTo
-class "Identifier" as Identifier #EEEEEE
-VariableDescriptorComponent --> "1" Identifier : identifier
-class "Concept" as Concept #EEEEEE
-VariableDescriptorComponent --> "1..*" Concept : semantic
+class "Identifier" as Identifier <<dataType>> #FAE5D3
+VariableDescriptorComponent ..> Identifier : identifier
+class "PairedControlledVocabularyEntry" as PairedControlledVocabularyEntry <<dataType>> #FAE5D3
+VariableDescriptorComponent ..> PairedControlledVocabularyEntry : semantic
+class "SpecializationRole" as SpecializationRole <<dataType>> #FAE5D3
+VariableDescriptorComponent ..> SpecializationRole : specialization
 
 @enduml
