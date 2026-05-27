@@ -13,19 +13,10 @@ skinparam class {
 class "TemporalExtent" as TemporalExtent #FEFECE {
   +startDate : XsdDate [0..1]
   +endDate : XsdDate [0..1]
-  +duration : string [0..1]
-  +description : string [0..1]
-  +intervalStartedBy : XsdAnyUri [0..1]
-  +intervalFinishedBy : XsdAnyUri [0..1]
 }
 class "Dataset" as Dataset #EEEEEE
-Dataset --> "0..*" TemporalExtent : temporalCoverage
-class "Instant" as Instant #EEEEEE
-TemporalExtent --> "0..1" Instant : hasBeginning
-TemporalExtent --> "0..1" Instant : hasEnd
+Dataset *-- "0..*" TemporalExtent : temporalCoverage
 class "XsdDate" as XsdDate <<dataType>> #FAE5D3
 TemporalExtent ..> XsdDate : startDate
-class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
-TemporalExtent ..> XsdAnyUri : intervalStartedBy
 
 @enduml

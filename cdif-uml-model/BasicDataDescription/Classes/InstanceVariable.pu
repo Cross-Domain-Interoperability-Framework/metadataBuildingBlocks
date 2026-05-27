@@ -1,0 +1,34 @@
+@startuml
+title InstanceVariable
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "InstanceVariable" as InstanceVariable #FEFECE {
+  +identifier : XsdAnyUri [1]
+  +physicalDataType : string [1]
+}
+class "Dataset" as Dataset #EEEEEE
+Dataset *-- "1..*" InstanceVariable : variableMeasured
+class "SubstantiveValueDomain" as SubstantiveValueDomain #EEEEEE
+InstanceVariable --> "0..1" SubstantiveValueDomain : takesSubstantiveValuesFrom
+class "SentinelValueDomain" as SentinelValueDomain #EEEEEE
+InstanceVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
+abstract class "AbstractMapping" as AbstractMapping #EEEEEE
+AbstractMapping --> "1" InstanceVariable : formats
+class "PhysicalMapping" as PhysicalMapping #EEEEEE
+PhysicalMapping --> "1" InstanceVariable : formats
+class "TextMapping" as TextMapping #EEEEEE
+TextMapping --> "1" InstanceVariable : formats
+class "LocatorMapping" as LocatorMapping #EEEEEE
+LocatorMapping --> "1" InstanceVariable : formats
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+InstanceVariable ..> XsdAnyUri : identifier
+
+@enduml

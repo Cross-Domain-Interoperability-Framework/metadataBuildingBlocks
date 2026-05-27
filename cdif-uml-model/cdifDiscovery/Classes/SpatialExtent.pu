@@ -10,6 +10,13 @@ skinparam class {
   FontSize 12
 }
 
-class "SpatialExtent" as SpatialExtent #FEFECE
+class "SpatialExtent" as SpatialExtent #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+  +name : string [0..1]
+}
+class "Dataset" as Dataset #EEEEEE
+Dataset *-- "0..*" SpatialExtent : spatialCoverage
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+SpatialExtent ..> XsdAnyUri : identifier
 
 @enduml

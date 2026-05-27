@@ -1,0 +1,101 @@
+@startuml
+title BasicDataDescription — overview
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+abstract class "CompositeProfile" as CompositeProfile #FEFECE
+class "Dataset" as Dataset #FEFECE
+abstract class "AbstractDistribution" as AbstractDistribution #D6EAF8
+class "DataDownload" as DataDownload #FEFECE
+class "WebAPI" as WebAPI #FCF3CF
+class "Action" as Action #D6EAF8
+class "EntryPoint" as EntryPoint #D6EAF8
+class "ActionResult" as ActionResult #FCF3CF
+class "PropertyValueSpecification" as PropertyValueSpecification #D6EAF8
+abstract class "Agent" as Agent #D6EAF8
+class "Person" as Person #D6EAF8
+class "ContactPoint" as ContactPoint #D6EAF8
+class "Organization" as Organization #D6EAF8
+class "Contributor" as Contributor #D6EAF8
+class "DefinedTerm" as DefinedTerm #D5F5E3
+class "Identifier" as Identifier #D6EAF8
+class "AdditionalProperty" as AdditionalProperty #D6EAF8
+class "Reference" as Reference #D6EAF8
+class "MonetaryGrant" as MonetaryGrant #D6EAF8
+class "ProvActivity" as ProvActivity #FEFECE
+class "DerivedFrom" as DerivedFrom #D6EAF8
+class "CatalogRecord" as CatalogRecord #FEFECE
+class "VariableMeasured" as VariableMeasured #D5F5E3
+class "SpatialExtent" as SpatialExtent #D5F5E3
+class "TemporalExtent" as TemporalExtent #D5F5E3
+class "QualityMeasure" as QualityMeasure #D5F5E3
+class "InstanceVariable" as InstanceVariable #FEFECE
+abstract class "AbstractMapping" as AbstractMapping #FCF3CF
+class "PhysicalMapping" as PhysicalMapping #FCF3CF
+class "TextMapping" as TextMapping #FCF3CF
+class "LocatorMapping" as LocatorMapping #FCF3CF
+abstract class "AbstractDataSet" as AbstractDataSet #FCF3CF
+class "TabularTextDataSet" as TabularTextDataSet #FEFECE
+class "StructuredDataSet" as StructuredDataSet #FEFECE
+class "DataFingerprint" as DataFingerprint #FCF3CF
+class "PrimaryKey" as PrimaryKey #FEFECE
+class "Statistics" as Statistics #FCF3CF
+class "SubstantiveValueDomain" as SubstantiveValueDomain #FEFECE
+class "SentinelValueDomain" as SentinelValueDomain #FEFECE
+AbstractDistribution <|-- DataDownload
+AbstractDistribution <|-- WebAPI
+Agent <|-- Person
+Agent <|-- Organization
+AbstractMapping <|-- PhysicalMapping
+AbstractMapping <|-- TextMapping
+AbstractMapping <|-- LocatorMapping
+AbstractDataSet <|-- TabularTextDataSet
+AbstractDataSet <|-- StructuredDataSet
+Dataset --> "0..*" Agent : provider
+Dataset --> "0..*" AbstractDistribution : distribution
+Dataset --> "0..*" Agent : creator
+Dataset --> "0..*" Contributor : contributor
+Dataset --> "0..1" Agent : publisher
+Dataset --> "0..*" MonetaryGrant : funding
+Dataset --> "0..*" ProvActivity : wasGeneratedBy
+Dataset --> "0..*" DerivedFrom : wasDerivedFrom
+Dataset --> "1" CatalogRecord : subjectOf
+Dataset --> "0..*" DefinedTerm : keywords
+Dataset --> "0..*" Reference : license
+Dataset --> "0..*" DefinedTerm : measurementTechnique
+Dataset *-- "0..*" VariableMeasured : variableMeasured
+Dataset *-- "0..*" SpatialExtent : spatialCoverage
+Dataset *-- "0..*" TemporalExtent : temporalCoverage
+Dataset *-- "0..*" QualityMeasure : hasQualityMeasurement
+Dataset *-- "1..*" InstanceVariable : variableMeasured
+Dataset *-- "0..1" PrimaryKey : hasPrimaryKey
+Dataset *-- "0..*" Statistics : statistics
+Dataset *-- "0..*" DataDownload : distribution
+Dataset *-- "0..*" WebAPI : distribution
+DataDownload --> "0..*" Agent : provider
+DataDownload *-- "0..*" AbstractMapping : hasPhysicalMapping
+DataDownload o-- "0..1" AbstractDataSet : alsoTypedAs
+DataDownload *-- "0..1" DataFingerprint : fingerprint
+WebAPI --> "0..*" Action : potentialAction
+WebAPI *-- "0..*" ActionResult : potentialActionResult
+Action --> "1" EntryPoint : target
+Action --> "0..1" ActionResult : result
+Action --> "0..*" PropertyValueSpecification : queryInput
+ActionResult *-- "0..*" AbstractMapping : hasPhysicalMapping
+Contributor --> "0..1" Agent : contributor
+MonetaryGrant --> "0..*" Agent : funder
+CatalogRecord --> "0..1" Dataset : about
+CatalogRecord --> "0..1" Agent : maintainer
+VariableMeasured --> "0..1" DefinedTerm : measurementTechnique
+InstanceVariable --> "0..1" SubstantiveValueDomain : takesSubstantiveValuesFrom
+InstanceVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
+AbstractMapping --> "1" InstanceVariable : formats
+
+@enduml

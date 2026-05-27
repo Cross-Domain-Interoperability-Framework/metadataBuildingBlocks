@@ -10,6 +10,17 @@ skinparam class {
   FontSize 12
 }
 
-class "VariableMeasured" as VariableMeasured #FEFECE
+class "VariableMeasured" as VariableMeasured #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+  +name : string [0..1]
+  +description : string [0..1]
+  +alternateName : string [0..*]
+}
+class "Dataset" as Dataset #EEEEEE
+Dataset *-- "0..*" VariableMeasured : variableMeasured
+class "DefinedTerm" as DefinedTerm #EEEEEE
+VariableMeasured --> "0..1" DefinedTerm : measurementTechnique
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+VariableMeasured ..> XsdAnyUri : identifier
 
 @enduml

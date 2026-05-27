@@ -1,5 +1,5 @@
 @startuml
-title cdifDiscovery — overview
+title CDIFDiscovery — overview
 hide circle
 hide empty members
 skinparam shadowing false
@@ -11,20 +11,18 @@ skinparam class {
 }
 
 class "Dataset" as Dataset #FEFECE
-
-class "DefinedTerm" as DefinedTerm #FEFECE
-
-class "VariableMeasured" as VariableMeasured #FEFECE
-
-class "SpatialExtent" as SpatialExtent #FEFECE
-
-class "TemporalExtent" as TemporalExtent #FEFECE
-
-class "QualityMeasure" as QualityMeasure #FEFECE
-
+class "CatalogRecord" as CatalogRecord #FEFECE
+class "DefinedTerm" as DefinedTerm #D5F5E3
+class "VariableMeasured" as VariableMeasured #D5F5E3
+class "SpatialExtent" as SpatialExtent #D5F5E3
+class "TemporalExtent" as TemporalExtent #D5F5E3
+class "QualityMeasure" as QualityMeasure #D5F5E3
+Dataset *-- "1" CatalogRecord : subjectOf
 Dataset --> "0..*" DefinedTerm : measurementTechnique
-Dataset --> "0..*" VariableMeasured : variableMeasured
-Dataset --> "0..*" SpatialExtent : spatialCoverage
-Dataset --> "0..*" TemporalExtent : temporalCoverage
-Dataset --> "0..*" QualityMeasure : hasQualityMeasurement
+Dataset *-- "0..*" VariableMeasured : variableMeasured
+Dataset *-- "0..*" SpatialExtent : spatialCoverage
+Dataset *-- "0..*" TemporalExtent : temporalCoverage
+Dataset *-- "0..*" QualityMeasure : hasQualityMeasurement
+VariableMeasured --> "0..1" DefinedTerm : measurementTechnique
+
 @enduml

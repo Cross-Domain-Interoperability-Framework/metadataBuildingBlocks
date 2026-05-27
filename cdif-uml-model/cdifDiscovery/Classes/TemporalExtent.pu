@@ -10,6 +10,13 @@ skinparam class {
   FontSize 12
 }
 
-class "TemporalExtent" as TemporalExtent #FEFECE
+class "TemporalExtent" as TemporalExtent #FEFECE {
+  +startDate : XsdDate [0..1]
+  +endDate : XsdDate [0..1]
+}
+class "Dataset" as Dataset #EEEEEE
+Dataset *-- "0..*" TemporalExtent : temporalCoverage
+class "XsdDate" as XsdDate <<dataType>> #FAE5D3
+TemporalExtent ..> XsdDate : startDate
 
 @enduml

@@ -1,0 +1,21 @@
+@startuml
+title Statistics
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "Statistics" as Statistics #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+}
+class "Dataset" as Dataset #EEEEEE
+Dataset *-- "0..*" Statistics : statistics
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+Statistics ..> XsdAnyUri : identifier
+
+@enduml

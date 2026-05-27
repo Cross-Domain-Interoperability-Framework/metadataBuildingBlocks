@@ -1,0 +1,38 @@
+@startuml
+title DataDownload
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "DataDownload" as DataDownload #FEFECE {
+  +contentUrl : XsdAnyUri [0..1]
+  +encodingFormat : DefinedTerm [0..*]
+  +contentSize : string [0..1]
+  +checksum : string [0..*]
+  +conformsTo : XsdAnyUri [0..*]
+  +characterSet : string [0..1]
+}
+abstract class "AbstractDistribution" as AbstractDistribution #D6EAF8
+AbstractDistribution <|-- DataDownload
+class "Dataset" as Dataset #EEEEEE
+Dataset *-- "0..*" DataDownload : distribution
+abstract class "Agent" as Agent #EEEEEE
+DataDownload --> "0..*" Agent : provider
+abstract class "AbstractMapping" as AbstractMapping #EEEEEE
+DataDownload *-- "0..*" AbstractMapping : hasPhysicalMapping
+abstract class "AbstractDataSet" as AbstractDataSet #EEEEEE
+DataDownload o-- "0..1" AbstractDataSet : alsoTypedAs
+class "DataFingerprint" as DataFingerprint #EEEEEE
+DataDownload *-- "0..1" DataFingerprint : fingerprint
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+DataDownload ..> XsdAnyUri : contentUrl
+class "DefinedTerm" as DefinedTerm #EEEEEE
+DataDownload --> "0..*" DefinedTerm : encodingFormat
+
+@enduml
