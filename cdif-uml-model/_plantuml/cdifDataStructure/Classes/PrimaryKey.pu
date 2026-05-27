@@ -13,8 +13,6 @@ skinparam class {
 class "PrimaryKey" as PrimaryKey #FEFECE {
   +identifier : XsdAnyUri [0..1]
 }
-abstract class "AbstractDataStructure" as AbstractDataStructure #EEEEEE
-AbstractDataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
 class "DataStructure" as DataStructure #EEEEEE
 DataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
 class "DimensionalDataStructure" as DimensionalDataStructure #EEEEEE
@@ -23,8 +21,10 @@ class "LongDataStructure" as LongDataStructure #EEEEEE
 LongDataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
 class "WideDataStructure" as WideDataStructure #EEEEEE
 WideDataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
-class "InstanceVariable" as InstanceVariable #EEEEEE
-PrimaryKey --> "1..*" InstanceVariable : isComposedOf
+class "RepresentedVariable" as RepresentedVariable #EEEEEE
+PrimaryKey --> "1..*" RepresentedVariable : isComposedOf
+class "ForeignKey" as ForeignKey #EEEEEE
+ForeignKey --> "0..1" PrimaryKey : references
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
 PrimaryKey ..> XsdAnyUri : identifier
 

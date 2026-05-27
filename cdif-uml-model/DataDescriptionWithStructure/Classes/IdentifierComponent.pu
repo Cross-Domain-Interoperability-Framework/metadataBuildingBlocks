@@ -13,7 +13,15 @@ skinparam class {
 class "IdentifierComponent" as IdentifierComponent #FEFECE {
   +type : string [1..*]
 }
-abstract class "AbstractDataStructureComponent" as AbstractDataStructureComponent #D6EAF8
-AbstractDataStructureComponent <|-- IdentifierComponent
+class "DataStructure" as DataStructure #EEEEEE
+DataStructure *-- "0..*" IdentifierComponent : hasComponent
+class "DimensionalDataStructure" as DimensionalDataStructure #EEEEEE
+DimensionalDataStructure *-- "0..*" IdentifierComponent : hasComponent
+class "LongDataStructure" as LongDataStructure #EEEEEE
+LongDataStructure *-- "1" IdentifierComponent : hasComponent
+class "WideDataStructure" as WideDataStructure #EEEEEE
+WideDataStructure *-- "0..*" IdentifierComponent : hasComponent
+class "DimensionGroup" as DimensionGroup #EEEEEE
+DimensionGroup *-- "0..*" IdentifierComponent : hasComponent
 
 @enduml

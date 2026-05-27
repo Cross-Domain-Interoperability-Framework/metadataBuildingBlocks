@@ -940,123 +940,7 @@
                         "items": {
                           "anyOf": [
                             {
-                              "type": "object",
-                              "description": "Role of a set of data structure components for content referencing purposes",
-                              "properties": {
-                                "@type": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  },
-                                  "contains": {
-                                    "const": "cdi:ForeignKey"
-                                  },
-                                  "minItems": 1
-                                },
-                                "@id": {
-                                  "type": "string",
-                                  "description": "Identifier for this ForeignKey node"
-                                },
-                                "cdi:identifier": {
-                                  "$ref": "#/$defs/Identifier",
-                                  "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-                                },
-                                "cdi:isComposedOf": {
-                                  "type": "array",
-                                  "items": {
-                                    "anyOf": [
-                                      {
-                                        "type": "object",
-                                        "description": "Role of a data structure component for content referencing purposes",
-                                        "properties": {
-                                          "@type": {
-                                            "type": "array",
-                                            "items": {
-                                              "type": "string"
-                                            },
-                                            "contains": {
-                                              "const": "cdi:ForeignKeyComponent"
-                                            },
-                                            "minItems": 1
-                                          },
-                                          "@id": {
-                                            "type": "string",
-                                            "description": "Identifier for this ForeignKeyComponent node"
-                                          },
-                                          "cdi:identifier": {
-                                            "$ref": "#/$defs/Identifier",
-                                            "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-                                          },
-                                          "cdi:references": {
-                                            "anyOf": [
-                                              {
-                                                "type": "object",
-                                                "description": "Role of a data structure component for content identification purposes",
-                                                "properties": {
-                                                  "@type": {
-                                                    "type": "array",
-                                                    "items": {
-                                                      "type": "string"
-                                                    },
-                                                    "contains": {
-                                                      "const": "cdi:PrimaryKeyComponent"
-                                                    },
-                                                    "minItems": 1
-                                                  },
-                                                  "@id": {
-                                                    "type": "string",
-                                                    "description": "Identifier for this PrimaryKeyComponent node"
-                                                  },
-                                                  "cdi:identifier": {
-                                                    "$ref": "#/$defs/Identifier",
-                                                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-                                                  },
-                                                  "cdi:correspondsTo": {
-                                                    "anyOf": [
-                                                      {
-                                                        "$ref": "#/$defs/CdifDataStructureComponent"
-                                                      },
-                                                      {
-                                                        "$ref": "#/$defs/id-reference"
-                                                      }
-                                                    ]
-                                                  }
-                                                },
-                                                "required": [
-                                                  "@type"
-                                                ]
-                                              },
-                                              {
-                                                "$ref": "#/$defs/id-reference"
-                                              }
-                                            ]
-                                          },
-                                          "cdi:correspondsTo": {
-                                            "anyOf": [
-                                              {
-                                                "$ref": "#/$defs/CdifDataStructureComponent"
-                                              },
-                                              {
-                                                "$ref": "#/$defs/id-reference"
-                                              }
-                                            ]
-                                          }
-                                        },
-                                        "required": [
-                                          "@type"
-                                        ]
-                                      },
-                                      {
-                                        "$ref": "#/$defs/id-reference"
-                                      }
-                                    ]
-                                  },
-                                  "minItems": 1
-                                }
-                              },
-                              "required": [
-                                "@type"
-                              ]
+                              "$ref": "#/$defs/ForeignKey"
                             },
                             {
                               "$ref": "#/$defs/id-reference"
@@ -1070,7 +954,59 @@
                         "items": {
                           "anyOf": [
                             {
-                              "$ref": "#/$defs/CdifDataStructureComponent"
+                              "title": "DDI-CDI Data Structure Component",
+                              "description": "Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.",
+                              "anyOf": [
+                                {
+                                  "$ref": "#/$defs/IdentifierComponent"
+                                },
+                                {
+                                  "$ref": "#/$defs/MeasureComponent"
+                                },
+                                {
+                                  "$ref": "#/$defs/AttributeComponent"
+                                },
+                                {
+                                  "type": "object",
+                                  "description": "Role given to a represented variable in the context of a dimensional data structure to identify the universes associated with data points. The variable acts as a field in the compound identifier (the key structure) to disambiguate the cells in the multi-dimensional \"cube\".  AG: references to the variables which are the components of a compound identifier, in which each variable is a single field - an axis - in a coordinate system addressing a location in a matrix. These variables are often categorical, but also commonly include time. Unlike other Components, they may be ordered using instances of cdi:ComponentPosition.",
+                                  "properties": {
+                                    "@type": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      },
+                                      "contains": {
+                                        "const": "cdi:DimensionComponent"
+                                      },
+                                      "minItems": 1
+                                    },
+                                    "@id": {
+                                      "type": "string",
+                                      "description": "Identifier for this DimensionComponent node"
+                                    },
+                                    "cdif:isDefinedBy_RepresentedVariable": {
+                                      "anyOf": [
+                                        {
+                                          "$ref": "#/$defs/CdifRepresentedVariable"
+                                        },
+                                        {
+                                          "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "@type",
+                                    "cdif:isDefinedBy_RepresentedVariable"
+                                  ]
+                                },
+                                {
+                                  "$ref": "#/$defs/VariableValueComponent"
+                                },
+                                {
+                                  "$ref": "#/$defs/VariableDescriptorComponent"
+                                }
+                              ]
                             },
                             {
                               "$ref": "#/$defs/id-reference"
@@ -1114,57 +1050,7 @@
                               "$ref": "#/$defs/IdentifierComponent"
                             },
                             {
-                              "type": "object",
-                              "description": "Role given to a represented variable in the context of a data structure to hold the observed/derived values.",
-                              "properties": {
-                                "@type": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  },
-                                  "contains": {
-                                    "const": "cdi:MeasureComponent"
-                                  },
-                                  "minItems": 1
-                                },
-                                "@id": {
-                                  "type": "string",
-                                  "description": "Identifier for this MeasureComponent node"
-                                },
-                                "cdif:name": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string"
-                                  },
-                                  "minItems": 1,
-                                  "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
-                                },
-                                "cdi:identifier": {
-                                  "$ref": "#/$defs/Identifier",
-                                  "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-                                },
-                                "cdif:isDefinedBy_RepresentedVariable": {
-                                  "anyOf": [
-                                    {
-                                      "$ref": "#/$defs/CdifRepresentedVariable"
-                                    },
-                                    {
-                                      "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
-                                    }
-                                  ]
-                                },
-                                "cdi:semantic": {
-                                  "type": "array",
-                                  "items": {
-                                    "$ref": "#/$defs/SkosConcept"
-                                  },
-                                  "minItems": 1,
-                                  "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
-                                }
-                              },
-                              "required": [
-                                "@type"
-                              ]
+                              "$ref": "#/$defs/MeasureComponent"
                             },
                             {
                               "$ref": "#/$defs/AttributeComponent"
@@ -1209,6 +1095,20 @@
                       },
                       "cdi:has_PrimaryKey": {
                         "$ref": "#/$defs/PrimaryKey"
+                      },
+                      "cdi:has_ForeignKey": {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/ForeignKey"
+                            },
+                            {
+                              "$ref": "#/$defs/id-reference"
+                            }
+                          ]
+                        },
+                        "minItems": 1
                       }
                     },
                     "required": [
@@ -1310,7 +1210,13 @@
                         "items": {
                           "anyOf": [
                             {
-                              "$ref": "#/$defs/CdifDataStructureComponent"
+                              "$ref": "#/$defs/IdentifierComponent"
+                            },
+                            {
+                              "$ref": "#/$defs/MeasureComponent"
+                            },
+                            {
+                              "$ref": "#/$defs/AttributeComponent"
                             },
                             {
                               "$ref": "#/$defs/id-reference"
@@ -1321,6 +1227,20 @@
                       },
                       "cdi:has_PrimaryKey": {
                         "$ref": "#/$defs/PrimaryKey"
+                      },
+                      "cdi:has_ForeignKey": {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "$ref": "#/$defs/ForeignKey"
+                            },
+                            {
+                              "$ref": "#/$defs/id-reference"
+                            }
+                          ]
+                        },
+                        "minItems": 1
                       }
                     },
                     "required": [
@@ -4471,111 +4391,6 @@
         }
       }
     },
-    "CdifDataStructureComponent": {
-      "title": "DDI-CDI Data Structure Component",
-      "description": "Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.",
-      "anyOf": [
-        {
-          "$ref": "#/$defs/IdentifierComponent"
-        },
-        {
-          "type": "object",
-          "description": "Role given to a represented variable in the context of a data structure to hold the observed/derived values.",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:MeasureComponent"
-              },
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string",
-              "description": "Identifier for this MeasureComponent node"
-            },
-            "cdif:name": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "minItems": 1,
-              "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
-            },
-            "cdi:identifier": {
-              "$ref": "#/$defs/Identifier",
-              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-            },
-            "cdif:isDefinedBy_RepresentedVariable": {
-              "anyOf": [
-                {
-                  "$ref": "#/$defs/CdifRepresentedVariable"
-                },
-                {
-                  "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
-                }
-              ]
-            },
-            "cdi:semantic": {
-              "type": "array",
-              "items": {
-                "$ref": "#/$defs/SkosConcept"
-              },
-              "minItems": 1,
-              "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
-            }
-          },
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "$ref": "#/$defs/AttributeComponent"
-        },
-        {
-          "type": "object",
-          "description": "Role given to a represented variable in the context of a dimensional data structure to identify the universes associated with data points. The variable acts as a field in the compound identifier (the key structure) to disambiguate the cells in the multi-dimensional \"cube\".  AG: references to the variables which are the components of a compound identifier, in which each variable is a single field - an axis - in a coordinate system addressing a location in a matrix. These variables are often categorical, but also commonly include time. Unlike other Components, they may be ordered using instances of cdi:ComponentPosition.",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:DimensionComponent"
-              },
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string",
-              "description": "Identifier for this DimensionComponent node"
-            },
-            "cdif:isDefinedBy_RepresentedVariable": {
-              "anyOf": [
-                {
-                  "$ref": "#/$defs/CdifRepresentedVariable"
-                },
-                {
-                  "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
-                }
-              ]
-            }
-          },
-          "required": [
-            "@type",
-            "cdif:isDefinedBy_RepresentedVariable"
-          ]
-        },
-        {
-          "$ref": "#/$defs/VariableValueComponent"
-        },
-        {
-          "$ref": "#/$defs/VariableDescriptorComponent"
-        }
-      ]
-    },
     "CdifRepresentedVariable": {
       "title": "DDI-CDI Represented Variable",
       "description": "Conceptual variable with a substantive value domain specified.",
@@ -5940,6 +5755,59 @@
         "cdif:isDefinedBy_RepresentedVariable"
       ]
     },
+    "MeasureComponent": {
+      "type": "object",
+      "description": "Role given to a represented variable in the context of a data structure to hold the observed/derived values.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:MeasureComponent"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this MeasureComponent node"
+        },
+        "cdif:name": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdif:isDefinedBy_RepresentedVariable": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CdifRepresentedVariable"
+            },
+            {
+              "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+            }
+          ]
+        },
+        "cdi:semantic": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SkosConcept"
+          },
+          "minItems": 1,
+          "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
+        }
+      },
+      "required": [
+        "@type"
+      ]
+    },
     "AttributeComponent": {
       "type": "object",
       "description": "Role given to a represented variable in the context of a data structure to qualify observations or provide other types of supplementary information.",
@@ -6341,9 +6209,79 @@
         "@type"
       ]
     },
+    "ForeignKey": {
+      "type": "object",
+      "description": "Role of a set of data structure components for content referencing purposes",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdi:ForeignKey"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this ForeignKey node"
+        },
+        "cdi:identifier": {
+          "$ref": "#/$defs/Identifier",
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+        },
+        "cdi:isComposedOf": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/CdifRepresentedVariable"
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "cdif:position": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "1-based position of this component in the key."
+                  }
+                },
+                "required": [
+                  "cdif:position"
+                ]
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "cdi:references": {
+          "description": "references a primary key in a different dataset",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PrimaryKey"
+            },
+            {
+              "$ref": "#/$defs/id-reference"
+            }
+          ]
+        }
+      },
+      "required": [
+        "@type",
+        "cdif:isComposedOf"
+      ]
+    },
     "PrimaryKey": {
       "type": "object",
-      "description": "Role of an ordered set of cdi:InstanceVariables that uniquely identify a data instance. Array order of cdif:isComposedOf items is the position; no intermediate ComponentPosition wrapper.",
+      "description": "set of Variables that uniquely identify a data instance. Array order of cdif:isComposedOf items is the position; no intermediate ComponentPosition wrapper.",
       "properties": {
         "@type": {
           "type": "array",
@@ -6361,17 +6299,34 @@
         },
         "cdif:isComposedOf": {
           "type": "array",
-          "description": "Ordered list of cdi:InstanceVariables (inline cdifInstanceVariable or @id-reference). Position is implicit in array order.",
+          "description": "List of variables or @id-reference. Array order of cdif:isComposedOf items is the position; no intermediate ComponentPosition wrapper.",
           "items": {
-            "anyOf": [
+            "allOf": [
               {
-                "$ref": "#/$defs/CdifInstanceVariable"
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/CdifRepresentedVariable"
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
               },
               {
-                "$ref": "#/$defs/id-reference"
+                "type": "object",
+                "properties": {
+                  "cdif:position": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "1-based position of this component in the key."
+                  }
+                }
               }
             ]
           },
+          "required": [
+            "cdif:position"
+          ],
           "minItems": 1
         }
       },

@@ -13,8 +13,22 @@ skinparam class {
 class "DataStructure" as DataStructure #FEFECE {
   +type : string [1..*]
 }
-abstract class "AbstractDataStructure" as AbstractDataStructure #D6EAF8
-AbstractDataStructure <|-- DataStructure
+class "DataDownload" as DataDownload #EEEEEE
+DataDownload --> "0..1" DataStructure : isStructuredBy
+class "IdentifierComponent" as IdentifierComponent #EEEEEE
+DataStructure *-- "0..*" IdentifierComponent : hasComponent
+class "MeasureComponent" as MeasureComponent #EEEEEE
+DataStructure *-- "0..*" MeasureComponent : hasComponent
+class "AttributeComponent" as AttributeComponent #EEEEEE
+DataStructure *-- "0..*" AttributeComponent : hasComponent
+class "DimensionComponent" as DimensionComponent #EEEEEE
+DataStructure *-- "0..*" DimensionComponent : hasComponent
+class "VariableDescriptorComponent" as VariableDescriptorComponent #EEEEEE
+DataStructure *-- "0..*" VariableDescriptorComponent : hasComponent
+class "VariableValueComponent" as VariableValueComponent #EEEEEE
+DataStructure *-- "0..*" VariableValueComponent : hasComponent
+class "PrimaryKey" as PrimaryKey #EEEEEE
+DataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
 class "ForeignKey" as ForeignKey #EEEEEE
 DataStructure *-- "0..*" ForeignKey : hasForeignKey
 

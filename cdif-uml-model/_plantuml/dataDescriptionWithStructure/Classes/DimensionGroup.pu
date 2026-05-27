@@ -14,8 +14,14 @@ class "DimensionGroup" as DimensionGroup #FEFECE {
   +identifier : XsdAnyUri [0..1]
   +name : string [1..*]
 }
-abstract class "AbstractDataStructureComponent" as AbstractDataStructureComponent #EEEEEE
-DimensionGroup *-- "1..*" AbstractDataStructureComponent : hasComponent
+class "IdentifierComponent" as IdentifierComponent #EEEEEE
+DimensionGroup *-- "0..*" IdentifierComponent : hasComponent
+class "MeasureComponent" as MeasureComponent #EEEEEE
+DimensionGroup *-- "0..*" MeasureComponent : hasComponent
+class "AttributeComponent" as AttributeComponent #EEEEEE
+DimensionGroup *-- "0..*" AttributeComponent : hasComponent
+class "DimensionComponent" as DimensionComponent #EEEEEE
+DimensionGroup *-- "0..*" DimensionComponent : hasComponent
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
 DimensionGroup ..> XsdAnyUri : identifier
 

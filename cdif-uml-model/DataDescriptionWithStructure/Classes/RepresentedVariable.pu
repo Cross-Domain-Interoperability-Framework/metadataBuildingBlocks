@@ -1,5 +1,5 @@
 @startuml
-title InstanceVariable
+title RepresentedVariable
 hide circle
 hide empty members
 skinparam shadowing false
@@ -10,12 +10,14 @@ skinparam class {
   FontSize 12
 }
 
-class "InstanceVariable" as InstanceVariable #FEFECE {
+class "RepresentedVariable" as RepresentedVariable #FEFECE {
   +identifier : XsdAnyUri [0..1]
 }
 class "PrimaryKey" as PrimaryKey #EEEEEE
-PrimaryKey --> "1..*" InstanceVariable : isComposedOf
+PrimaryKey --> "1..*" RepresentedVariable : isComposedOf
+class "ForeignKey" as ForeignKey #EEEEEE
+ForeignKey --> "1..*" RepresentedVariable : isComposedOf
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
-InstanceVariable ..> XsdAnyUri : identifier
+RepresentedVariable ..> XsdAnyUri : identifier
 
 @enduml

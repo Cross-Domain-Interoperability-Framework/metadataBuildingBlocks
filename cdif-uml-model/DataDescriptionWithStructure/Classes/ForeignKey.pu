@@ -15,8 +15,14 @@ class "ForeignKey" as ForeignKey #FEFECE {
 }
 class "DataStructure" as DataStructure #EEEEEE
 DataStructure *-- "0..*" ForeignKey : hasForeignKey
-class "ForeignKeyComponent" as ForeignKeyComponent #EEEEEE
-ForeignKey *-- "1..*" ForeignKeyComponent : isComposedOf
+class "DimensionalDataStructure" as DimensionalDataStructure #EEEEEE
+DimensionalDataStructure *-- "0..*" ForeignKey : hasForeignKey
+class "WideDataStructure" as WideDataStructure #EEEEEE
+WideDataStructure *-- "0..*" ForeignKey : hasForeignKey
+class "RepresentedVariable" as RepresentedVariable #EEEEEE
+ForeignKey --> "1..*" RepresentedVariable : isComposedOf
+class "PrimaryKey" as PrimaryKey #EEEEEE
+ForeignKey --> "0..1" PrimaryKey : references
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
 ForeignKey ..> XsdAnyUri : identifier
 

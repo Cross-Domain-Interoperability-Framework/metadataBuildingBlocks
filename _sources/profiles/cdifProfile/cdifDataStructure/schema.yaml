@@ -104,6 +104,13 @@ properties:
         minItems: 1
       'cdi:has_PrimaryKey':
         '$ref': '#/$defs/PrimaryKey'
+      'cdi:has_ForeignKey':
+        type: array
+        items:
+          anyOf:
+          - '$ref': '#/$defs/ForeignKey'
+          - '$ref': '#/$defs/id-reference'
+        minItems: 1
     required:
     - '@type'
     - 'cdi:has_DataStructureComponent'
@@ -174,11 +181,20 @@ properties:
         type: array
         items:
           anyOf:
-          - '$ref': ../../../cdifDataType/cdifDataStructureComponent/schema.yaml
+          - '$ref': '../../../cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/IdentifierComponent'
+          - '$ref': '../../../cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/MeasureComponent'
+          - '$ref': '../../../cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/AttributeComponent'
           - '$ref': '#/$defs/id-reference'
         minItems: 1
       'cdi:has_PrimaryKey':
         '$ref': '#/$defs/PrimaryKey'
+      'cdi:has_ForeignKey':
+        type: array
+        items:
+          anyOf:
+          - '$ref': '#/$defs/ForeignKey'
+          - '$ref': '#/$defs/id-reference'
+        minItems: 1
     required:
     - '@type'
     - 'cdi:has_DataStructureComponent'
@@ -239,44 +255,31 @@ properties:
       'cdi:isComposedOf':
         type: array
         items:
-          anyOf:
-          - '$ref': '#/$defs/ForeignKeyComponent'
-          - '$ref': '#/$defs/id-reference'
+          allOf:
+            - anyOf:
+                - $ref: '../../../cdifDataType/cdifRepresentedVariable/schema.yaml'
+                - $ref: '#/$defs/id-reference'
+            - type: object
+              properties:
+                'cdif:position':
+                  type: integer
+                  minimum: 1
+                  description: 1-based position of this component in the key.
+              required:
+                - 'cdif:position'
         minItems: 1
-    required:
-    - '@type'
-  ForeignKeyComponent:
-    type: object
-    description: Role of a data structure component for content referencing purposes
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: 'cdi:ForeignKeyComponent'
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this ForeignKeyComponent node
-      'cdi:identifier':
-        '$ref': '../../../schemaorgProperties/identifier/schema.yaml'
-        description: >-
-          Identifier for objects requiring short- or long-lasting referencing and management.
       'cdi:references':
+        description: references a primary key in a different dataset 
         anyOf:
-        - '$ref': '#/$defs/PrimaryKeyComponent'
-        - '$ref': '#/$defs/id-reference'
-      'cdi:correspondsTo':
-        anyOf:
-        - '$ref': ../../../cdifDataType/cdifDataStructureComponent/schema.yaml
+        - '$ref': '#/$defs/PrimaryKey'
         - '$ref': '#/$defs/id-reference'
     required:
     - '@type'
+    - 'cdif:isComposedOf'
   PrimaryKey:
     type: object
     description: >-
-      Role of an ordered set of cdi:InstanceVariables that uniquely identify a data
+      set of Variables that uniquely identify a data
       instance. Array order of cdif:isComposedOf items is the position;
       no intermediate ComponentPosition wrapper.
     properties:
@@ -293,38 +296,25 @@ properties:
       'cdif:isComposedOf':
         type: array
         description: >-
-          Ordered list of cdi:InstanceVariables (inline cdifInstanceVariable or @id-reference).
-          Position is implicit in array order.
+          List of variables or @id-reference.
+          Array order of cdif:isComposedOf items is the position;
+          no intermediate ComponentPosition wrapper.
         items:
-          anyOf:
-          - '$ref': '../../../cdifDataType/cdifInstanceVariable/schema.yaml'
-          - '$ref': '#/$defs/id-reference'
+          allOf:
+            - anyOf:
+                - $ref: '../../../cdifDataType/cdifRepresentedVariable/schema.yaml'
+                - $ref: '#/$defs/id-reference'
+            - type: object
+              properties:
+                'cdif:position':
+                  type: integer
+                  minimum: 1
+                  description: 1-based position of this component in the key.
+        required:
+          - 'cdif:position'
         minItems: 1
     required:
     - '@type'
     - 'cdif:isComposedOf'
-  PrimaryKeyComponent:
-    type: object
-    description: Role of a data structure component for content identification purposes
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          const: 'cdi:PrimaryKeyComponent'
-        minItems: 1
-      '@id':
-        type: string
-        description: Identifier for this PrimaryKeyComponent node
-      'cdi:identifier':
-        '$ref': '../../../schemaorgProperties/identifier/schema.yaml'
-        description: >-
-          Identifier for objects requiring short- or long-lasting referencing and management.
-      'cdi:correspondsTo':
-        anyOf:
-        - '$ref': ../../../cdifDataType/cdifDataStructureComponent/schema.yaml
-        - '$ref': '#/$defs/id-reference'
-    required:
-    - '@type'
+
 

@@ -13,7 +13,11 @@ skinparam class {
 class "DimensionComponent" as DimensionComponent #FEFECE {
   +type : string [1..*]
 }
-abstract class "AbstractDataStructureComponent" as AbstractDataStructureComponent #D6EAF8
-AbstractDataStructureComponent <|-- DimensionComponent
+class "DataStructure" as DataStructure #EEEEEE
+DataStructure *-- "0..*" DimensionComponent : hasComponent
+class "DimensionalDataStructure" as DimensionalDataStructure #EEEEEE
+DimensionalDataStructure *-- "1..*" DimensionComponent : hasComponent
+class "DimensionGroup" as DimensionGroup #EEEEEE
+DimensionGroup *-- "0..*" DimensionComponent : hasComponent
 
 @enduml
