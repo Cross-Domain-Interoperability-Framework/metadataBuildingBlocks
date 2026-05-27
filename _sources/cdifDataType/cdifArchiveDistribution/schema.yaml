@@ -29,12 +29,30 @@ properties:
               const: 'https://w3id.org/cdif/manifest/1.0'
   'schema:distribution':
     items:
-      properties:
-        'schema:hasPart':
-          $ref: '../../profiles/cdifProfile/cdifArchive/schema.yaml#/$defs/archivePartArray'
-          description: >-
-            For archive-style distributions (e.g. ZIP files containing
-            multiple component files), describes the component files.
-            Each component is typed as schema:MediaObject and may include
-            CDIF data description extensions (cdifTabularData,
-            cdifDataCube) to describe its internal structure.
+      allOf:
+      - properties:
+          'schema:hasPart':
+            $ref: '../../profiles/cdifProfile/cdifArchive/schema.yaml#/$defs/archivePartArray'
+            description: >-
+              For archive-style distributions (e.g. ZIP files containing
+              multiple component files), describes the component files.
+              Each component is typed as schema:MediaObject and may include
+              CDIF data description extensions (cdifTabularData,
+              cdifDataCube) to describe its internal structure.
+      # Per-distribution conditional: when a DataDownload's encodingFormat
+      # contains application/zip, schema:hasPart MUST be present (and must
+      # match archivePartArray, per the property declaration above).
+      # encodingFormat / hasPart are siblings of the same distribution
+      # item node, so if/then are scoped here at items level - NOT at the
+      # parent Dataset root, where they would be invisible to each other.
+      - if:
+          properties:
+            'schema:encodingFormat':
+              type: array
+              contains:
+                const: 'application/zip'
+          required:
+            - 'schema:encodingFormat'
+        then:
+          required:
+            - 'schema:hasPart'

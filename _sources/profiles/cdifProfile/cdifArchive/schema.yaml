@@ -25,28 +25,15 @@ allOf:
                     const: 'https://w3id.org/cdif/data_description/1.0'
       'schema:hasPart':
         description: >-
-          When this DataDownload is an archive (encodingFormat includes
-          application/zip), schema:hasPart MUST be present and list the
-          component files inside the archive (see the conditional below).
-          For non-archive distributions, schema:hasPart is optional.
+          Component files inside an archive distribution. Required when
+          schema:encodingFormat contains 'application/zip' - the
+          conditional that enforces this lives in the cdifArchiveDistribution
+          wrapper (cdifDataType/cdifArchiveDistribution/schema.yaml),
+          scoped to schema:distribution.items so that the encodingFormat
+          and hasPart checks happen on the same distribution node. This
+          building block only contributes the archivePartArray shape via
+          $defs.
         $ref: '#/$defs/archivePartArray'
-  # Conditional: encodingFormat application/zip => hasPart is required and
-  # must match archivePartArray. For non-archive distributions, no extra
-  # constraint is imposed.
-  - if:
-      properties:
-        'schema:encodingFormat':
-          type: array
-          contains:
-            const: 'application/zip'
-      required:
-        - 'schema:encodingFormat'
-    then:
-      properties:
-        'schema:hasPart':
-          $ref: '#/$defs/archivePartArray'
-      required:
-        - 'schema:hasPart'
 $defs:
   archivePartArray:
     type: array
