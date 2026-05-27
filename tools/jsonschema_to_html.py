@@ -364,6 +364,153 @@ def build_model(schema: dict, main_class_name: str) -> list[ModelClass]:
 
 
 # ---------------------------------------------------------------------------
+# PlantUML emission
+# ---------------------------------------------------------------------------
+
+# Match the colors used by the XMI-based pipeline so the two page sets look
+# visually consistent.
+_PUML_LOCAL_COLOR = "#FEFECE"   # classes owned by this module
+_PUML_CROSS_COLOR = "#D6EAF8"   # classes defined in other profiles
+_PUML_DATATYPE_COLOR = "#FAE5D3"  # datatypes / value objects
+
+_PUML_HEADER = (
+    "hide circle\n"
+    "hide empty members\n"
+    "skinparam shadowing false\n"
+    "skinparam ArrowThickness 1.2\n"
+    "skinparam class {\n"
+    "  ArrowColor #404040\n"
+    "  BorderColor #404040\n"
+    "  FontSize 12\n"
+    "}\n"
+)
+
+
+def _puml_class_decl(name: str, color: str, *, stereotype: str = "",
+                     attributes: Optional[list["Attribute"]] = None) -> str:
+    """Render a single PlantUML class block."""
+    head = f'class "{name}" as {name}'
+    if stereotype:
+        head += f" <<{stereotype}>>"
+    head += f" {color}"
+    if not attributes:
+        return head + "\n"
+    body_lines = []
+    for a in attributes:
+        mult = _mult_str(a.lower, a.upper)
+        body_lines.append(f"  +{a.name} : {a.type_label} {mult}")
+    return head + " {\n" + "\n".join(body_lines) + "\n}\n"
+
+
+def _puml_for_class(cls: "ModelClass", classes_by_name: dict[str, "ModelClass"],
+                    cross_registry: dict[str, str], profile_name: str) -> str:
+    """PlantUML source for a single-class detail diagram: the focal class
+    plus every class it references via association (and via attribute when
+    that attribute's type label happens to be another local class)."""
+    lines = [f"@startuml", f"title {cls.name}", _PUML_HEADER]
+
+    focal_color = _PUML_DATATYPE_COLOR if cls.kind == "datatype" else _PUML_LOCAL_COLOR
+    lines.append(_puml_class_decl(
+        cls.name, focal_color,
+        stereotype="dataType" if cls.kind == "datatype" else "",
+        attributes=cls.attributes,
+    ))
+
+    # Targets referenced by this class
+    seen = {cls.name}
+    edges = []
+    for a in cls.associations:
+        tgt = a.target_class
+        if tgt and tgt not in seen:
+            seen.add(tgt)
+            if tgt in classes_by_name:
+                tgt_cls = classes_by_name[tgt]
+                color = (_PUML_DATATYPE_COLOR if tgt_cls.kind == "datatype"
+                         else _PUML_LOCAL_COLOR)
+                stereo = "dataType" if tgt_cls.kind == "datatype" else ""
+            else:
+                color = _PUML_CROSS_COLOR
+                stereo = ""
+            lines.append(_puml_class_decl(tgt, color, stereotype=stereo))
+        upper = "*" if a.upper == -1 else str(a.upper)
+        mult = f'"{a.lower}..{upper}"' if a.lower != a.upper else f'"{a.lower}"'
+        arrow = "*--" if a.aggregation == "composite" else "-->"
+        edges.append(f"{cls.name} {arrow} {mult} {tgt} : {a.name}")
+    lines.extend(edges)
+    lines.append("@enduml\n")
+    return "\n".join(lines)
+
+
+def _puml_overview(profile_name: str, classes: list["ModelClass"]) -> str:
+    """PlantUML source for the module-level overview diagram."""
+    by_name = {c.name: c for c in classes}
+    lines = [f"@startuml", f"title {profile_name} — overview", _PUML_HEADER]
+
+    for c in classes:
+        color = _PUML_DATATYPE_COLOR if c.kind == "datatype" else _PUML_LOCAL_COLOR
+        stereo = "dataType" if c.kind == "datatype" else ""
+        lines.append(_puml_class_decl(c.name, color, stereotype=stereo))
+    # Cross-profile targets referenced by any association — declare so the
+    # arrow has a typed endpoint.
+    cross_seen = set()
+    for c in classes:
+        for a in c.associations:
+            tgt = a.target_class
+            if tgt and tgt not in by_name and tgt not in cross_seen:
+                cross_seen.add(tgt)
+                lines.append(_puml_class_decl(tgt, _PUML_CROSS_COLOR))
+    # Edges
+    for c in classes:
+        for a in c.associations:
+            tgt = a.target_class
+            if not tgt:
+                continue
+            upper = "*" if a.upper == -1 else str(a.upper)
+            mult = f'"{a.lower}..{upper}"' if a.lower != a.upper else f'"{a.lower}"'
+            arrow = "*--" if a.aggregation == "composite" else "-->"
+            lines.append(f"{c.name} {arrow} {mult} {tgt} : {a.name}")
+    lines.append("@enduml\n")
+    return "\n".join(lines)
+
+
+def _render_plantuml(pu_dir: Path, plantuml_jar: Path, java_exe: Path) -> int:
+    """Run PlantUML on every .pu file under `pu_dir`, producing .svg siblings.
+    Returns the number of SVGs produced. PlantUML occasionally exits non-zero
+    on warnings even when every .pu rendered successfully, so we use the
+    actual SVG count as the success signal and only log stderr if it's
+    non-empty."""
+    import subprocess
+    pu_files = list(pu_dir.rglob("*.pu"))
+    if not pu_files:
+        return 0
+    cmd = [str(java_exe), "-jar", str(plantuml_jar), "-tsvg",
+           "-charset", "UTF-8",
+           *[str(p) for p in pu_files]]
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    n_svgs = sum(1 for p in pu_dir.rglob("*.svg"))
+    if n_svgs < len(pu_files):
+        sys.stderr.write(
+            f"plantuml: rendered {n_svgs}/{len(pu_files)} .pu files; "
+            f"stderr:\n{result.stderr[:1000]}\n"
+        )
+    return n_svgs
+
+
+def _diagram_section(svg_filename: str) -> str:
+    """HTML for the embedded SVG class diagram. Matches the markup the XMI
+    pipeline emits so the same _static/diagram.js interactive behavior
+    applies (zoom / pan / copy)."""
+    return (
+        '<h2>Diagram</h2>'
+        f'<div class="diagram" data-diagram data-svg="{svg_filename}">'
+        '<div class="diagram-viewport">'
+        '<div class="diagram-stage">'
+        f'<object data="{svg_filename}" type="image/svg+xml"></object>'
+        '</div></div></div>'
+    )
+
+
+# ---------------------------------------------------------------------------
 # HTML emission
 # ---------------------------------------------------------------------------
 
@@ -458,7 +605,9 @@ def _assoc_table(assocs: list[Association], in_classes: set[str],
 
 def emit(out_root: Path, profile_name: str, classes: list[ModelClass],
          module_title: str, module_subtitle: str,
-         cross_registry: Optional[dict[str, str]] = None) -> None:
+         cross_registry: Optional[dict[str, str]] = None,
+         plantuml_jar: Optional[Path] = None,
+         java_exe: Optional[Path] = None) -> None:
     cross_registry = cross_registry or {}
     profile_dir = out_root / profile_name
     (profile_dir / "Classes").mkdir(parents=True, exist_ok=True)
@@ -479,6 +628,41 @@ def emit(out_root: Path, profile_name: str, classes: list[ModelClass],
     in_classes = {c.name for c in cls_by_kind["class"]}
     in_datatypes = {c.name for c in cls_by_kind["datatype"]
                     + cls_by_kind["enumeration"]}
+    classes_by_name = {c.name: c for c in classes}
+
+    # Sweep stale .pu/.svg in the per-class folders before regenerating, so
+    # diagrams for classes that have been removed don't linger.
+    for folder in ("Classes", "DataTypes"):
+        for stale in (profile_dir / folder).iterdir() if (profile_dir / folder).exists() else ():
+            if stale.is_file() and stale.suffix in {".pu", ".svg"}:
+                stale.unlink()
+
+    # Plant UML emission: write per-class .pu + overview.pu. If PlantUML jar +
+    # Java are available, render to .svg in place. Diagram section is added
+    # to HTML pages whenever the .svg exists on disk.
+    diagram_available = {}  # class_name -> svg_filename (e.g. "Foo.svg")
+    overview_svg = None
+    if classes:
+        for c in classes:
+            folder = "Classes" if c.kind == "class" else "DataTypes"
+            (profile_dir / folder / f"{c.name}.pu").write_text(
+                _puml_for_class(c, classes_by_name, cross_registry, profile_name),
+                encoding="utf-8",
+            )
+        (profile_dir / "index.pu").write_text(
+            _puml_overview(profile_name, classes),
+            encoding="utf-8",
+        )
+
+        if plantuml_jar and java_exe and plantuml_jar.exists() and java_exe.exists():
+            n = _render_plantuml(profile_dir, plantuml_jar, java_exe)
+            print(f"  Rendered {n} SVGs via {plantuml_jar.name}")
+            for c in classes:
+                folder = "Classes" if c.kind == "class" else "DataTypes"
+                if (profile_dir / folder / f"{c.name}.svg").exists():
+                    diagram_available[c.name] = f"{c.name}.svg"
+            if (profile_dir / "index.svg").exists():
+                overview_svg = "index.svg"
 
     # Per-class pages
     for c in classes:
@@ -486,11 +670,16 @@ def emit(out_root: Path, profile_name: str, classes: list[ModelClass],
         stereotype = "" if c.kind == "class" else (
             f'<span class="stereotype">&laquo;{c.kind}&raquo;</span>'
         )
+        diagram_html = (
+            _diagram_section(diagram_available[c.name])
+            if c.name in diagram_available else ""
+        )
         body = (
             f'<h1 class="classname">{_h(c.name)}{stereotype}</h1>'
             f'<p class="fqn">{_h(profile_name)}::{folder}::{_h(c.name)}</p>'
             f'<h2>Definition</h2>'
             f'<div class="definition">{_h(c.doc) or "<em>(no description)</em>"}</div>'
+            f'{diagram_html}'
             f'<h2>Attributes</h2>{_attr_table(c.attributes)}'
             f'<h2>Associations</h2>{_assoc_table(c.associations, in_classes, in_datatypes, cross_registry, profile_name)}'
         )
@@ -541,9 +730,18 @@ def emit(out_root: Path, profile_name: str, classes: list[ModelClass],
         for c in sorted(cls_by_kind["datatype"] + cls_by_kind["enumeration"],
                         key=lambda x: x.name)
     ) or '<li class="empty">(none)</li>'
+    overview_html = (
+        f'<h2>Model overview</h2>'
+        f'<div class="diagram" data-diagram data-svg="{overview_svg}">'
+        f'<div class="diagram-viewport">'
+        f'<div class="diagram-stage">'
+        f'<object data="{overview_svg}" type="image/svg+xml"></object>'
+        f'</div></div></div>'
+    ) if overview_svg else ''
     body = (
         f'<h1 class="classname">{_h(module_title)}</h1>'
         f'<p>{_h(module_subtitle)}</p>'
+        f'{overview_html}'
         f'<h2>Classes</h2><ul class="classlist">{cls_lis}</ul>'
         f'<h2>DataTypes &amp; Enumerations</h2><ul class="classlist">{dt_lis}</ul>'
     )
@@ -580,6 +778,16 @@ def main():
     ap.add_argument("--class-name", default=None,
                     help="Override the synthesized main class name. "
                          "Default: derived from @type.contains.const or title.")
+    ap.add_argument("--plantuml-jar", default=str(REPO / "tools" / "plantuml.jar"),
+                    help="Path to plantuml.jar (default: tools/plantuml.jar). "
+                         "If the jar or Java is missing, .pu files are still "
+                         "written but no SVGs are rendered and HTML omits the "
+                         "Diagram section.")
+    ap.add_argument("--java-exe",
+                    default=r"C:\Program Files\Eclipse Adoptium\jdk-21.0.11.10-hotspot\bin\java.exe",
+                    help="Java executable (default matches build-docs.ps1).")
+    ap.add_argument("--no-diagrams", action="store_true",
+                    help="Skip PlantUML emission entirely.")
     args = ap.parse_args()
 
     schema_path = _resolve_schema_path(args.module)
@@ -604,7 +812,12 @@ def main():
 
     title = schema.get("title") or profile_name
     subtitle = schema.get("description") or ""
-    emit(out_root, profile_name, classes, title, subtitle, cross_registry=cross)
+
+    pj = Path(args.plantuml_jar) if (args.plantuml_jar and not args.no_diagrams) else None
+    je = Path(args.java_exe) if (args.java_exe and not args.no_diagrams) else None
+
+    emit(out_root, profile_name, classes, title, subtitle,
+         cross_registry=cross, plantuml_jar=pj, java_exe=je)
     print(f"Wrote {profile_name}/ ({len(classes)} classes) under {out_root}")
 
 

@@ -1,0 +1,37 @@
+@startuml
+title Dataset
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "Dataset" as Dataset #FEFECE {
+  +subjectOf : any [0..1]
+  +variableMeasured : any [1..*]
+  +distribution : any [0..*]
+}
+
+class "CdifKey" as CdifKey #D6EAF8
+
+class "CdifStatistics" as CdifStatistics #D6EAF8
+
+class "DefinedTerm" as DefinedTerm #FEFECE
+
+class "SpatialExtent" as SpatialExtent #FEFECE
+
+class "TemporalExtent" as TemporalExtent #FEFECE
+
+class "QualityMeasure" as QualityMeasure #FEFECE
+
+Dataset --> "0..1" CdifKey : hasPrimaryKey
+Dataset --> "0..*" CdifStatistics : statistics
+Dataset --> "0..*" DefinedTerm : measurementTechnique
+Dataset --> "0..*" SpatialExtent : spatialCoverage
+Dataset --> "0..*" TemporalExtent : temporalCoverage
+Dataset --> "0..*" QualityMeasure : hasQualityMeasurement
+@enduml

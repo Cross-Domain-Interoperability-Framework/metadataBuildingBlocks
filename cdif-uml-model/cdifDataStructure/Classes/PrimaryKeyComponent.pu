@@ -1,0 +1,24 @@
+@startuml
+title PrimaryKeyComponent
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "PrimaryKeyComponent" as PrimaryKeyComponent #FEFECE {
+  +type : String [1..*]
+  +identifier : String [0..1]
+}
+
+class "Identifier" as Identifier #D6EAF8
+
+class "id-reference" as id-reference #FEFECE
+
+PrimaryKeyComponent --> "0..1" Identifier : identifier
+PrimaryKeyComponent --> "0..1" id-reference : correspondsTo
+@enduml

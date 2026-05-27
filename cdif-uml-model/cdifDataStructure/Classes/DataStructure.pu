@@ -1,0 +1,27 @@
+@startuml
+title DataStructure
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "DataStructure" as DataStructure #FEFECE {
+  +type : String [1..*]
+  +identifier : String [0..1]
+}
+
+class "ForeignKey" as ForeignKey #FEFECE
+
+class "id-reference" as id-reference #FEFECE
+
+class "PrimaryKey" as PrimaryKey #FEFECE
+
+DataStructure --> "1..*" ForeignKey : has_ForeignKey
+DataStructure --> "1..*" id-reference : has_DataStructureComponent
+DataStructure --> "0..1" PrimaryKey : has_PrimaryKey
+@enduml

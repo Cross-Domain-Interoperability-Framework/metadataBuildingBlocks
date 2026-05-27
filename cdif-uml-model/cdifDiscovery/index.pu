@@ -1,0 +1,30 @@
+@startuml
+title cdifDiscovery — overview
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "Dataset" as Dataset #FEFECE
+
+class "DefinedTerm" as DefinedTerm #FEFECE
+
+class "VariableMeasured" as VariableMeasured #FEFECE
+
+class "SpatialExtent" as SpatialExtent #FEFECE
+
+class "TemporalExtent" as TemporalExtent #FEFECE
+
+class "QualityMeasure" as QualityMeasure #FEFECE
+
+Dataset --> "0..*" DefinedTerm : measurementTechnique
+Dataset --> "0..*" VariableMeasured : variableMeasured
+Dataset --> "0..*" SpatialExtent : spatialCoverage
+Dataset --> "0..*" TemporalExtent : temporalCoverage
+Dataset --> "0..*" QualityMeasure : hasQualityMeasurement
+@enduml

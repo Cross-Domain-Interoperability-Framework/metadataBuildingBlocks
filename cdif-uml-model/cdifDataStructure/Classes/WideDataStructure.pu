@@ -1,0 +1,24 @@
+@startuml
+title WideDataStructure
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "WideDataStructure" as WideDataStructure #FEFECE {
+  +type : String [1..*]
+  +identifier : String [0..1]
+}
+
+class "id-reference" as id-reference #FEFECE
+
+class "PrimaryKey" as PrimaryKey #FEFECE
+
+WideDataStructure --> "1..*" id-reference : has_DataStructureComponent
+WideDataStructure --> "0..1" PrimaryKey : has_PrimaryKey
+@enduml

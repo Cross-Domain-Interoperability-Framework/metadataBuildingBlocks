@@ -1,0 +1,30 @@
+@startuml
+title ConceptScheme
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "ConceptScheme" as ConceptScheme #FEFECE {
+  +identifier : String [0..1]
+  +type : String [1..*]
+  +notation : String [0..*]
+  +version : String | Real [0..1]
+  +subjectOf : @id-ref [0..*]
+}
+
+class "LanguageTaggedValue" as LanguageTaggedValue <<dataType>> #FAE5D3
+
+class "Concept" as Concept #FEFECE
+
+ConceptScheme --> "1" LanguageTaggedValue : prefLabel
+ConceptScheme --> "0..1" LanguageTaggedValue : altLabel
+ConceptScheme --> "1" LanguageTaggedValue : definition
+ConceptScheme --> "0..1" LanguageTaggedValue : note
+ConceptScheme --> "1..*" Concept : hasTopConcept
+@enduml
