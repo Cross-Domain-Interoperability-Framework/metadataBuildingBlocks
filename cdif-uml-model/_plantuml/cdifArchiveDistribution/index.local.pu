@@ -1,0 +1,29 @@
+@startuml
+title CDIFArchiveDistribution — overview
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 12
+}
+
+class "ArchiveDistribution" as ArchiveDistribution #FEFECE
+class "ArchivePart" as ArchivePart #FEFECE
+class "QuantitativeValue" as QuantitativeValue #FEFECE
+class "Checksum" as Checksum #FEFECE
+class "Dataset" as Dataset #FEFECE
+class "DataDownload" as DataDownload #FEFECE
+class "DefinedTerm" as DefinedTerm #FEFECE
+class "Identifier" as Identifier #FEFECE
+class "ProvActivity" as ProvActivity #FEFECE
+ArchiveDistribution *-- "1..*" ArchivePart : hasPart
+ArchivePart --> "0..*" ArchivePart : about
+ArchivePart *-- "0..1" Checksum : checksum
+ArchivePart *-- "0..1" QuantitativeValue : size
+Dataset --> "0..*" ProvActivity : wasGeneratedBy
+Dataset --> "0..*" DefinedTerm : keywords
+
+@enduml
