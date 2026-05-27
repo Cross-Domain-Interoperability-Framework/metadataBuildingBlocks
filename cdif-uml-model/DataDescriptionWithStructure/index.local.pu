@@ -30,7 +30,13 @@ class "PrimaryKey" as PrimaryKey #FAE5D3
 class "Statistics" as Statistics #FCF3CF
 class "SubstantiveValueDomain" as SubstantiveValueDomain #FCF3CF
 class "SentinelValueDomain" as SentinelValueDomain #FCF3CF
-abstract class "DataStructureComponent" as DataStructureComponent #FAE5D3
+abstract class "AbstractDataStructureComponent" as AbstractDataStructureComponent #FAE5D3
+class "IdentifierComponent" as IdentifierComponent #FAE5D3
+class "MeasureComponent" as MeasureComponent #FAE5D3
+class "AttributeComponent" as AttributeComponent #FAE5D3
+class "DimensionComponent" as DimensionComponent #FAE5D3
+class "VariableDescriptorComponent" as VariableDescriptorComponent #FAE5D3
+class "VariableValueComponent" as VariableValueComponent #FAE5D3
 abstract class "AbstractDataStructure" as AbstractDataStructure #FAE5D3
 class "DataStructure" as DataStructure #FAE5D3
 class "DimensionalDataStructure" as DimensionalDataStructure #FAE5D3
@@ -45,6 +51,12 @@ AbstractMapping <|-- TextMapping
 AbstractMapping <|-- LocatorMapping
 AbstractDataSet <|-- TabularTextDataSet
 AbstractDataSet <|-- StructuredDataSet
+AbstractDataStructureComponent <|-- IdentifierComponent
+AbstractDataStructureComponent <|-- MeasureComponent
+AbstractDataStructureComponent <|-- AttributeComponent
+AbstractDataStructureComponent <|-- DimensionComponent
+AbstractDataStructureComponent <|-- VariableDescriptorComponent
+AbstractDataStructureComponent <|-- VariableValueComponent
 AbstractDataStructure <|-- DataStructure
 AbstractDataStructure <|-- DimensionalDataStructure
 AbstractDataStructure <|-- LongDataStructure
@@ -68,13 +80,13 @@ InstanceVariable --> "0..1" SubstantiveValueDomain : takesSubstantiveValuesFrom
 InstanceVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
 AbstractMapping --> "1" InstanceVariable : formats
 PrimaryKey --> "1..*" InstanceVariable : isComposedOf
-AbstractDataStructure *-- "1..*" DataStructureComponent : hasComponent
+AbstractDataStructure *-- "1..*" AbstractDataStructureComponent : hasComponent
 AbstractDataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
 DataStructure *-- "0..*" ForeignKey : hasForeignKey
-DimensionGroup *-- "1..*" DataStructureComponent : hasComponent
-PrimaryKeyComponent --> "0..1" DataStructureComponent : correspondsTo
+DimensionGroup *-- "1..*" AbstractDataStructureComponent : hasComponent
+PrimaryKeyComponent --> "0..1" AbstractDataStructureComponent : correspondsTo
 ForeignKey *-- "1..*" ForeignKeyComponent : isComposedOf
 ForeignKeyComponent --> "0..1" PrimaryKeyComponent : references
-ForeignKeyComponent --> "0..1" DataStructureComponent : correspondsTo
+ForeignKeyComponent --> "0..1" AbstractDataStructureComponent : correspondsTo
 
 @enduml
