@@ -13,16 +13,6 @@ allOf:
   - $ref: ../../../schemaorgProperties/dataDownload/schema.yaml
   - type: object
     properties:
-      'schema:subjectOf':
-        type: object
-        properties:
-          'dcterms:conformsTo':
-            allOf:
-            - contains:
-                type: object
-                properties:
-                  '@id':
-                    const: 'https://w3id.org/cdif/data_description/1.0'
       'schema:hasPart':
         description: >-
           Component files inside an archive distribution. Required when
@@ -34,6 +24,13 @@ allOf:
           building block only contributes the archivePartArray shape via
           $defs.
         $ref: '#/$defs/archivePartArray'
+# NOTE: The Dataset-level conformance constraint (schema:subjectOf >
+# dcterms:conformsTo contains 'cdif/manifest/1.0') lives in
+# cdifDataType/cdifArchiveDistribution/schema.yaml, where the schema
+# root represents a Dataset and 'schema:subjectOf' is a sibling of
+# 'schema:distribution'. Placing the same check here would attach it
+# to a DataDownload node (cdifArchive's root represents the distribution
+# itself, not its parent), where 'schema:subjectOf' isn't expected.
 $defs:
   archivePartArray:
     type: array
