@@ -608,8 +608,8 @@ x-defs:
           be typed as cdi:PhysicalDataSet or one of its subclasses (cdi:TabularTextDataSet,
           cdi:StructuredDataSet). schema:WebAPI distribution items do not require
           a cdi: dataset type. Not enforced at schema level (the merge with cdifCore
-          and cdifArchiveDistribution drops the @type constraint at profile resolution);
-          consider a SHACL rule if runtime enforcement is needed.'
+          and cdifManifest drops the @type constraint at profile resolution); consider
+          a SHACL rule if runtime enforcement is needed.'
         type: array
         items:
           allOf:
@@ -1043,8 +1043,8 @@ x-defs:
       cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.profiles.cdifProfile.cdifArchiveDistribution:
-    title: CDIF Archive Distribution
+  cdif.bbr.metadata.profiles.cdifProfile.cdifManifest:
+    title: CDIF Manifest
     description: "Profile module for archive distributions. Marks the catalog record
       as conformant to the CDIF manifest spec (https://w3id.org/cdif/manifest/1.0)
       and lets schema:distribution items carry schema:hasPart describing the component
@@ -1083,7 +1083,7 @@ x-defs:
                   extensions (cdifTabularData, cdifDataCube) to describe its internal
                   structure.
                 allOf:
-                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifArchiveDistribution/$defs/archivePartArray
+                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifManifest/$defs/archivePartArray
           - if:
               properties:
                 schema:encodingFormat:
@@ -1103,7 +1103,7 @@ x-defs:
           represents a component file that is part of the archive and is not independently
           accessible.
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifArchiveDistribution/$defs/archivePartItem
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifManifest/$defs/archivePartItem
       archivePartItem:
         allOf:
         - type: object
@@ -1194,7 +1194,7 @@ x-defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataCube
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifTabularData
           - {}
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifArchiveDistribution/schema.yaml
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifManifest/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.profiles.cdifProfile.cdifProvenance:
     title: CDIF Provenance
@@ -5845,7 +5845,7 @@ allOf:
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDiscovery
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataDescription
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure
-- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifArchiveDistribution
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifManifest
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifProvenance
 - type: object
   description: cdifComplete-specific additions. Measurement technique, spatial / temporal
