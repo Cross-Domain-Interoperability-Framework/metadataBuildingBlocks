@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.provProperties.provActivity` *v0.1*
 
-PROV-O native provenance activity for CDIF metadata. Uses W3C PROV-O vocabulary for provenance relationships (used, generated, wasAssociatedWith, wasInformedBy, temporal bounds, location) with schema.org fallbacks for properties without PROV equivalents (name, description, methodology, status). Instruments are nested within prov:used items via schema:instrument sub-key, referencing the generic instrument building block. Defines properties: @type, schema:name, schema:description, prov:generated, prov:wasAssociatedWith, prov:wasInformedBy, prov:startedAtTime, prov:endedAtTime, prov:atLocation, prov:wasStartedBy, prov:wasEndedBy, schema:actionStatus, schema:actionProcess, schema:error. Uses building blocks: generatedBy (provProperties), person (schemaorgProperties), organization (schemaorgProperties), agentInRole (schemaorgProperties), instrument (schemaorgProperties), definedTerm (schemaorgProperties), cdifReference (cdifProperties), spatialExtent (schemaorgProperties).
+PROV-O native provenance activity for CDIF metadata. Uses W3C PROV-O vocabulary for provenance relationships (used, generated, wasAssociatedWith, wasInformedBy, temporal bounds, location) with schema.org fallbacks for properties without PROV equivalents (name, description, methodology, status). Instruments are nested within prov:used items via schema:instrument sub-key, referencing the generic instrument building block. Defines properties: @type, schema:name, schema:description, prov:generated, prov:wasAssociatedWith, prov:wasInformedBy, prov:startedAtTime, prov:endedAtTime, prov:atLocation, prov:wasStartedBy, prov:wasEndedBy, schema:actionStatus, schema:actionProcess, schema:error. Uses building blocks: generatedBy (provProperties), person (schemaorgProperties), organization (schemaorgProperties), agentInRole (schemaorgProperties), instrument (schemaorgProperties), definedTerm (schemaorgProperties), cdifReference (cdifDataType), spatialExtent (schemaorgProperties).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -257,13 +257,13 @@ ex:activity-soil-chem-analysis a prov:Activity ;
             schema1:description "Combined XRF screening and ICP-MS confirmatory analysis for major and trace elements in soil matrices." ;
             schema1:name "EPA 6200 / ICP-MS Soil Geochemistry Protocol" ;
             schema1:step [ a schema1:HowToStep ;
-                    schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards." ;
-                    schema1:name "ICP-MS measurement and calibration" ;
-                    schema1:position 2 ],
-                [ a schema1:HowToStep ;
                     schema1:description "Homogenize dried samples, split 0.5 g aliquots, digest with HNO3-HCl-HF mixture at 190 C in closed vessels." ;
                     schema1:name "Sample preparation and acid digestion" ;
-                    schema1:position 1 ] ] ;
+                    schema1:position 1 ],
+                [ a schema1:HowToStep ;
+                    schema1:description "Analyze digested solutions by ICP-MS using external calibration with NIST SRM 2710a and 2711a as quality control standards." ;
+                    schema1:name "ICP-MS measurement and calibration" ;
+                    schema1:position 2 ] ] ;
     schema1:actionStatus "schema:CompletedActionStatus" ;
     schema1:description "Major and trace element analysis of soil samples collected along a 200 km transect across the Great Basin, using ICP-MS and XRF spectrometry with certified reference materials." ;
     schema1:name "Soil Chemistry Analysis - Great Basin Transect 2025" ;
@@ -448,7 +448,7 @@ $defs:
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
   Reference:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifReference/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifReference/schema.yaml
   SpatialExtent:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
   HowTo:

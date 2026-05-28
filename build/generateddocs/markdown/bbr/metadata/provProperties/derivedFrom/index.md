@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.provProperties.derivedFrom` *v0.1*
 
-Schema defining properties for documenting sources used for compiled or aggregated dataset. Defines properties: prov:wasDerivedFrom. Uses building blocks: cdifReference (cdifProperties).
+Schema defining properties for documenting sources used for compiled or aggregated dataset. Defines properties: prov:wasDerivedFrom. Uses building blocks: cdifReference (cdifDataType).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -113,7 +113,7 @@ anyOf:
       type: string
       description: a resolvable reference to a representation of the software or instrument
         used
-- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifReference/schema.yaml
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifReference/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
   prov: http://www.w3.org/ns/prov#

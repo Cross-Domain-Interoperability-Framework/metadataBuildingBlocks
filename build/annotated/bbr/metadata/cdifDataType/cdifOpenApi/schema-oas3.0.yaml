@@ -1,0 +1,739 @@
+x-defs:
+  cdif.bbr.metadata.cdifDataType.cdifReference:
+    type: object
+    description: Building block to implement relations to other resources using a
+      URL and some semantics.
+    allOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference/$defs/Relation
+    $defs:
+      Relation:
+        type: object
+        description: DCAT Relationship surface added on top of the schema.org labeled
+          link construct.
+        properties:
+          '@type':
+            type: array
+            items:
+              type: string
+            contains:
+              enum:
+              - dcat:Relationship
+            minItems: 1
+          dcat:hadRole:
+            description: Role of the related resource as a SKOS Concept (DCAT canonical
+              role slot).
+            x-jsonld-id: http://www.w3.org/ns/dcat#hadRole
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+          dcterms:relation:
+            type: string
+            format: uri
+            description: URI of the related resource (DCAT canonical pointer to what
+              is being related to; distinct from schema:url which is the presentation
+              URL inherited from labeledLink).
+            x-jsonld-id: http://purl.org/dc/terms/relation
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+      skos: http://www.w3.org/2004/02/skos/core#
+      cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+      cdif: https://cdif.org/0.1/
+      ex: https://example.org/
+      xsd: http://www.w3.org/2001/XMLSchema#
+      dcterms: http://purl.org/dc/terms/
+      dcat: http://www.w3.org/ns/dcat#
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifReference/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.definedTerm:
+    description: "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF
+      profile UML models an attribute typed as\nschema:DefinedTerm is represented
+      by a single attribute of that class type.\nThe JSON Schema implementation permits
+      the property value to be EITHER a\nplain string (interpreted as schema:name
+      or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm
+      object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet).
+      Consumers should accept either form.\n\nNote that this differs from the cdif
+      Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary
+      entry (object form or\n@id-reference) \u2014 plain strings are not permitted
+      for Concept-typed values\nbecause vocabulary identity cannot be recovered from
+      an unscoped label.\n"
+    type: object
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:DefinedTerm
+        minItems: 1
+      schema:name:
+        type: string
+        description: text label for the term that is useful to human user
+        x-jsonld-id: http://schema.org/name
+      schema:identifier:
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
+        x-jsonld-id: http://schema.org/identifier
+      schema:inDefinedTermSet:
+        type: string
+        description: Name for the controlled vocabulary responsible for this keyword.
+        x-jsonld-id: http://schema.org/inDefinedTermSet
+      schema:termCode:
+        type: string
+        description: A representative code for this keyword in the controlled vocabulary.
+          Analogous to skos:Notation
+        x-jsonld-id: http://schema.org/termCode
+    allOf:
+    - required:
+      - '@type'
+    - anyOf:
+      - required:
+        - schema:name
+      - required:
+        - schema:identifier
+      - required:
+        - schema:termCode
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.labeledLink:
+    description: schema for a labeled link, a profile of schema.org/CreativeWork
+    type: object
+    properties:
+      '@type':
+        default: schema:CreativeWork
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:CreativeWork
+        minItems: 1
+      schema:name:
+        type: string
+        x-jsonld-id: http://schema.org/name
+      schema:description:
+        type: string
+        x-jsonld-id: http://schema.org/description
+      schema:url:
+        type: string
+        format: uri
+        x-jsonld-id: http://schema.org/url
+    required:
+    - '@type'
+    - schema:url
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.skosProperties.skosConcept:
+    title: SKOS Concept
+    description: JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought
+      within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel),
+      notations, hierarchical relations (broader/narrower), associative relations
+      (related), cross-scheme mapping properties, scheme membership, and documentary
+      notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).
+    type: object
+    properties:
+      '@context':
+        description: JSON-LD context declaring the skos namespace prefix. May be a
+          single object or an array of strings and objects.
+        anyOf:
+        - type: object
+          properties:
+            skos:
+              enum:
+              - http://www.w3.org/2004/02/skos/core#
+          required:
+          - skos
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - type: object
+          contains:
+            type: object
+            properties:
+              skos:
+                enum:
+                - http://www.w3.org/2004/02/skos/core#
+            required:
+            - skos
+      '@id':
+        type: string
+        description: URI identifier for this concept.
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - skos:Concept
+        minItems: 1
+      skos:prefLabel:
+        description: Preferred lexical label for this concept. A single string, a
+          single language-tagged value, or an array of language-tagged values. Each
+          language should appear at most once.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#prefLabel
+      skos:notation:
+        description: Classification code for this concept within a scheme.
+        type: array
+        items:
+          type: string
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#notation
+      skos:definition:
+        description: Formal explanation of the meaning of this concept.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#definition
+      skos:scopeNote:
+        description: Note clarifying meaning and/or intended use.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#scopeNote
+      skos:note:
+        description: General note about this concept.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#note
+      skos:historyNote:
+        description: Note about past state or use.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#historyNote
+      skos:changeNote:
+        description: Note documenting a change.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#changeNote
+      skos:editorialNote:
+        description: Note for editors and maintainers.
+        anyOf:
+        - type: string
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        - type: array
+          items:
+            anyOf:
+            - type: string
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#editorialNote
+      skos:inScheme:
+        description: Concept scheme(s) this concept belongs to.
+        anyOf:
+        - type: object
+          properties:
+            '@id':
+              type: string
+          required:
+          - '@id'
+        - type: array
+          items:
+            type: object
+            properties:
+              '@id':
+                type: string
+            required:
+            - '@id'
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#inScheme
+      skos:topConceptOf:
+        description: Concept scheme(s) for which this is a top concept.
+        anyOf:
+        - type: object
+          properties:
+            '@id':
+              type: string
+          required:
+          - '@id'
+        - type: array
+          items:
+            type: object
+            properties:
+              '@id':
+                type: string
+            required:
+            - '@id'
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#topConceptOf
+      skos:broader:
+        description: Broader (parent) concepts in the hierarchy. Items are inline
+          concept objects or @id references.
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#broader
+      skos:narrower:
+        description: Narrower (child) concepts in the hierarchy. Items are inline
+          concept objects or @id references.
+        type: array
+        items:
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/ConceptRef
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept
+        x-jsonld-id: http://www.w3.org/2004/02/skos/core#narrower
+    required:
+    - '@type'
+    - skos:prefLabel
+    - skos:definition
+    - skos:inScheme
+    $defs:
+      ConceptRef:
+        type: object
+        description: A reference to a SKOS Concept by URI.
+        properties:
+          '@id':
+            type: string
+            description: URI of the referenced concept.
+        required:
+        - '@id'
+      LanguageTaggedValue:
+        type: object
+        description: An RDF literal value with a language tag, serialized as a JSON-LD
+          value object.
+        properties:
+          '@value':
+            type: string
+            description: The text content.
+          '@language':
+            type: string
+            description: BCP 47 language tag (e.g. en, fr, de).
+        required:
+        - '@value'
+        - '@language'
+    x-jsonld-prefixes:
+      skos: http://www.w3.org/2004/02/skos/core#
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.identifier:
+    description: 'Properties for a schema.org identifier (schema:PropertyValue pattern).
+
+
+      **Union-type policy:** In CDIF profile UML models an attribute typed as
+
+      schema:Identifier / schema:PropertyValue is represented by a single attribute
+
+      of that class type. The JSON Schema implementation permits the property value
+
+      to be EITHER a plain string (interpreted as the bare identifier value) OR a
+
+      full schema:PropertyValue object (with explicit @type, propertyID, value).
+
+      Consumers should accept either form.
+
+      '
+    type: object
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:PropertyValue
+        minItems: 1
+      schema:propertyID:
+        type: string
+        description: In this context for the schema:PropertyValue, this field is an
+          identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
+          for interoperability
+        x-jsonld-id: http://schema.org/propertyID
+      schema:value:
+        type: string
+        description: the identifier string. E.g. 10.5066/F7VX0DMQ
+        x-jsonld-id: http://schema.org/value
+      schema:url:
+        type: string
+        format: uri
+        description: 'web-resolveable string for the identifier; host name part is
+          location of a resolver that will return some representation for the given
+          identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ '
+        x-jsonld-id: http://schema.org/url
+    allOf:
+    - required:
+      - '@type'
+    - anyOf:
+      - required:
+        - schema:value
+      - required:
+        - schema:url
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+title: CDIF OpenAPI-aligned WebAPI distribution
+description: Documents a WebAPI distribution of a resource using property structure
+  aligned with OpenAPI Specification 3.1. Reuses CDIF schema.org-based WebAPI metadata
+  (serviceType, termsOfService, documentation) and adds OpenAPI-aligned Operation,
+  Parameter, RequestBody, and Response structure under an oas namespace. Use as an
+  alternative to schemaorgProperties/webAPI when the metadata record should inline
+  OpenAPI-style operation, parameter, and response detail.
+type: object
+properties:
+  '@type':
+    type: array
+    items:
+      type: string
+    contains:
+      enum:
+      - schema:WebAPI
+    minItems: 1
+  schema:name:
+    type: string
+    description: title of the API. Maps OpenAPI info.title.
+    x-jsonld-id: http://schema.org/name
+  schema:description:
+    type: string
+    description: description of the API. Maps OpenAPI info.description. May use CommonMark.
+    x-jsonld-id: http://schema.org/description
+  schema:serviceType:
+    description: identifier for the kind of service, expected to identify the service
+      type and version. For interoperability, ideally a resolvable identifier; otherwise
+      a string from a vocabulary shared between provider and consumer. Subsumes OpenAPI
+      info.version when the service-type identifier includes versioning.
+    anyOf:
+    - type: string
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/$defs/DefinedTerm
+    x-jsonld-id: http://schema.org/serviceType
+  schema:termsOfService:
+    description: Description of access privileges required to use the API (e.g. registration,
+      licensing, payments). Maps OpenAPI info.termsOfService. Note that access constraints
+      applying to all distributions of the resource should be specified at the resource
+      level.
+    oneOf:
+    - type: string
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/$defs/Reference
+    x-jsonld-id: http://schema.org/termsOfService
+  schema:documentation:
+    description: a document that provides a machine-actionable description of this
+      service instance, typically the canonical OpenAPI document. Even when this BB
+      inlines OAS detail, schema:documentation may still link to an authoritative
+      OAS source.
+    oneOf:
+    - type: string
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/$defs/Reference
+    x-jsonld-id: http://schema.org/documentation
+  spdx:license:
+    description: SPDX license identifier expression for the API itself, per OpenAPI
+      License Object. Use schema:license at the resource (parent) level for licensing
+      of the data. If only a URL identifier is available rather than an SPDX id, encode
+      as a cdif:Reference.
+    oneOf:
+    - type: string
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/$defs/Reference
+    x-jsonld-id: http://spdx.org/rdf/terms#license
+  schema:potentialAction:
+    type: array
+    description: operations exposed by the API. Each entry corresponds to an OpenAPI
+      Operation Object (one path + HTTP method).
+    minItems: 1
+    items:
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/$defs/Operation
+    x-jsonld-id: http://schema.org/potentialAction
+required:
+- '@type'
+- schema:serviceType
+- schema:termsOfService
+- schema:potentialAction
+$defs:
+  Operation:
+    type: object
+    description: an OpenAPI-aligned operation. Corresponds to one OpenAPI Operation
+      Object; the path component of OAS Path Item is folded into schema:target/schema:urlTemplate
+      together with the server URL.
+    properties:
+      '@id':
+        type: string
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:Action
+          - schema:AssessAction
+          - schema:ConsumeAction
+          - schema:ControlAction
+          - schema:CreateAction
+          - schema:DeleteAction
+          - schema:FindAction
+          - schema:InteractAction
+          - schema:MoveAction
+          - schema:PlayAction
+          - schema:SearchAction
+          - schema:TransferAction
+          - schema:UpdateAction
+        minItems: 1
+        default:
+        - schema:Action
+      schema:name:
+        type: string
+        description: identifier for the operation. Maps OpenAPI operationId.
+        x-jsonld-id: http://schema.org/name
+      schema:description:
+        type: string
+        description: description of the operation. Maps OpenAPI Operation.description.
+        x-jsonld-id: http://schema.org/description
+      schema:target:
+        x-jsonld-id: http://schema.org/target
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/$defs/EntryPoint
+    required:
+    - schema:name
+    - schema:target
+  EntryPoint:
+    type: object
+    description: endpoint URL template, HTTP method, and the OpenAPI-shaped parameters,
+      request body, and responses for the operation.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:EntryPoint
+        minItems: 1
+        default:
+        - schema:EntryPoint
+      schema:urlTemplate:
+        type: string
+        description: full URL template (RFC 6570) for invoking the operation; concatenation
+          of the OpenAPI server URL and the path. Parameters are enclosed in curly
+          braces {..} and MUST be documented in oas:parameters.
+        x-jsonld-id: http://schema.org/urlTemplate
+      schema:httpMethod:
+        type: array
+        description: HTTP method for the operation. Default GET.
+        items:
+          type: string
+          enum:
+          - GET
+          - PUT
+          - POST
+          - PATCH
+          - DELETE
+          - HEAD
+          - OPTIONS
+          - TRACE
+          - QUERY
+        default:
+        - GET
+        x-jsonld-id: http://schema.org/httpMethod
+      oas:parameters:
+        type: array
+        description: query, path, header, or cookie parameters accepted by the operation.
+          Maps OpenAPI Parameter Object.
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/$defs/Parameter
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#parameters
+      oas:requestBody:
+        description: request body for the operation (typically POST/PUT/PATCH). Maps
+          OpenAPI Request Body Object.
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#requestBody
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/$defs/RequestBody
+      oas:response:
+        type: array
+        description: possible responses returned by the operation. Maps OpenAPI Responses
+          Object; each item carries an explicit oas:code rather than using the HTTP
+          code as a map key.
+        minItems: 1
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/$defs/Response
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#response
+    required:
+    - schema:urlTemplate
+    - oas:response
+  Parameter:
+    type: object
+    description: an OpenAPI Parameter Object; describes a single parameter of an operation.
+    properties:
+      '@id':
+        type: string
+      oas:name:
+        type: string
+        description: name of the parameter (case-sensitive). For path parameters,
+          MUST match a {template} expression in schema:urlTemplate.
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#name
+      oas:in:
+        type: string
+        enum:
+        - query
+        - querystring
+        - path
+        - header
+        - cookie
+        description: location of the parameter.
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#in
+      oas:description:
+        type: string
+        description: description of the parameter, including serialization or semantic
+          notes.
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#description
+      oas:required:
+        type: boolean
+        default: false
+        description: whether the parameter is mandatory. MUST be true if oas:in is
+          "path".
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#required
+      oas:schema:
+        description: schema describing the parameter value type, format, and any pattern.
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#schema
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/$defs/Schema
+    required:
+    - oas:name
+    - oas:in
+  RequestBody:
+    type: object
+    description: an OpenAPI Request Body Object; describes the body of a write request.
+    properties:
+      schema:description:
+        type: string
+        x-jsonld-id: http://schema.org/description
+      oas:required:
+        type: boolean
+        default: false
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#required
+      oas:content:
+        type: array
+        description: representations the request body may take. Maps OpenAPI Request
+          Body content map; each item carries its own schema:encodingFormat instead
+          of using media type as a map key.
+        minItems: 1
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/$defs/MediaType
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#content
+    required:
+    - oas:content
+  Response:
+    type: object
+    description: an OpenAPI Response Object describing one response from an operation.
+    properties:
+      oas:code:
+        type: string
+        description: HTTP status code (e.g. "200", "404", "303") this response describes.
+          Default "200".
+        default: '200'
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#code
+      schema:description:
+        type: string
+        description: description of the response.
+        x-jsonld-id: http://schema.org/description
+      oas:content:
+        type: array
+        description: representations the response payload may take. Maps OpenAPI Response
+          content map; each item carries its own schema:encodingFormat instead of
+          using media type as a map key.
+        minItems: 1
+        items:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/$defs/MediaType
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#content
+    required:
+    - schema:description
+    - oas:content
+  MediaType:
+    type: object
+    description: an OpenAPI Media Type Object; describes the structure of one media-type
+      representation in a request body or response.
+    properties:
+      schema:encodingFormat:
+        type: string
+        description: registered MIME type for this representation (e.g. application/json,
+          text/csv). Replaces OpenAPI's media-type map key.
+        x-jsonld-id: http://schema.org/encodingFormat
+      oas:schema:
+        description: schema describing the structure of the payload. May reference
+          an external JSON Schema or XML Schema document via oas:$ref. For tabular
+          outputs, the referenced schema may align with InstanceVariable definitions
+          in cdifInstanceVariable.
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#schema
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/$defs/Schema
+    required:
+    - schema:encodingFormat
+  Schema:
+    type: object
+    description: a minimal OpenAPI Schema Object. The full OAS Schema Object is a
+      superset of JSON Schema 2020-12; this BB requires only a basic type/format/pattern/enum/$ref
+      shape sufficient to describe parameter and response payload types in CDIF metadata.
+      For richer schemas, use oas:$ref to point at an external schema document.
+    properties:
+      oas:type:
+        type: string
+        enum:
+        - string
+        - number
+        - integer
+        - boolean
+        - array
+        - object
+        default: string
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#type
+      oas:format:
+        type: string
+        description: optional format hint (e.g. "int32", "date-time", "uri", "decimal").
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#format
+      oas:pattern:
+        type: string
+        description: regular expression the value must match (string types).
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#pattern
+      oas:enum:
+        type: array
+        description: enumeration of permitted values.
+        items: {}
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#enum
+      oas:$ref:
+        ../../cdifDataType/cdifOpenApi/type: string
+        format: uri
+        description: reference to an external JSON Schema or XML Schema document describing
+          a complex payload structure.
+        x-jsonld-id: https://spec.openapis.org/oas/3.1#$ref
+  Reference:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference
+  DefinedTerm:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifOpenApi/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+x-jsonld-prefixes:
+  schema: http://schema.org/
+  oas: https://spec.openapis.org/oas/3.1#
+  spdx: http://spdx.org/rdf/terms#
+  dcterms: http://purl.org/dc/terms/
+x-schema-version: https://json-schema.org/draft/2020-12/schema

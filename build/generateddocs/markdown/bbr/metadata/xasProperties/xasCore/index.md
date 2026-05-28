@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.xasProperties.xasCore` *v0.1*
 
-Core XAS metadata extending CDIF mandatory with cdifProvActivity-based provenance. Requires dual @type (Dataset + Product), XAS instrument components (NXsource, NXmonochromator), XDI-conformant distribution, measurement technique DefinedTerms, and element/edge keywords. Defines properties: @type, schema:subjectOf, prov:wasGeneratedBy, schema:distribution, schema:measurementTechnique, schema:keywords. Uses building blocks: cdifCore (cdifProperties), cdifProvActivity (cdifProperties), definedTerm (schemaorgProperties), additionalProperty (schemaorgProperties), dataDownload (schemaorgProperties), xasSample (xasProperties), cdifCatalogRecord (cdifProperties).
+Core XAS metadata extending CDIF mandatory with cdifProvActivity-based provenance. Requires dual @type (Dataset + Product), XAS instrument components (NXsource, NXmonochromator), XDI-conformant distribution, measurement technique DefinedTerms, and element/edge keywords. Defines properties: @type, schema:subjectOf, prov:wasGeneratedBy, schema:distribution, schema:measurementTechnique, schema:keywords. Uses building blocks: cdifCore (cdifProfile), cdifProvActivity (cdifDataType), definedTerm (schemaorgProperties), additionalProperty (schemaorgProperties), dataDownload (schemaorgProperties), xasSample (xasProperties), cdifCatalogRecord (cdifDataType).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -149,7 +149,7 @@ XAS core properties: instrument components, XDI distribution, measurement techni
         "@id": "https://w3id.org/cdif/bbr/metadata/xasProperties/xasCore"
       },
       {
-        "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFxas"
+        "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifCompositeProfile/XASdata"
       }
     ],
     "schema:maintainer": {
@@ -484,7 +484,7 @@ XAS core properties: instrument components, XDI distribution, measurement techni
         "@id": "https://w3id.org/cdif/bbr/metadata/xasProperties/xasCore"
       },
       {
-        "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFxas"
+        "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifCompositeProfile/XASdata"
       }
     ],
     "schema:maintainer": {
@@ -746,14 +746,14 @@ ex:xas-dataset-001 a schema1:Dataset,
             schema1:termCode "Se" ] ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
+            schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01188" ;
+            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
+            schema1:name "Transmission" ],
+        [ a schema1:DefinedTerm ;
             schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01196" ;
             schema1:inDefinedTermSet "http://purl.org/pan-science/PaNET/PaNET.owl" ;
             schema1:name "X-Ray Absorption Spectroscopy" ;
-            schema1:termCode "XAS" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01188" ;
-            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
-            schema1:name "Transmission" ] ;
+            schema1:termCode "XAS" ] ;
     schema1:name "Se K-edge XANES of Na2SeO4 reference compound" ;
     schema1:subjectOf <urn:uuid:xas-required-catalog-record> ;
     schema1:url "http://example.com/resource?foo=bar#fragment" ;
@@ -792,24 +792,24 @@ ex:xas-dataset-001 a schema1:Dataset,
                                 [ a schema1:Product,
                                         schema1:Thing ;
                                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "reflection plane (hkl)" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
-                                            schema1:value "1,1,1" ],
+                                            schema1:name "crystal type" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
+                                            schema1:value "Si(111)" ],
                                         [ a schema1:PropertyValue ;
                                             schema1:name "d-spacing" ;
                                             schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
                                             schema1:unitText "Angstrom" ;
                                             schema1:value "3.13550" ],
                                         [ a schema1:PropertyValue ;
-                                            schema1:name "crystal type" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
-                                            schema1:value "Si(111)" ] ;
+                                            schema1:name "reflection plane (hkl)" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
+                                            schema1:value "1,1,1" ] ;
                                     schema1:additionalType "nxs:BaseClass/NXmonochromator" ;
                                     schema1:name "Si 111" ] ;
                             schema1:name "APS Sector 20-BM beamline instrument" ] ] ] .
 
 <urn:uuid:xas-required-catalog-record> a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/bbr/metadata/profiles/cdifProfiles/CDIFxas>,
+    dcterms:conformsTo <https://w3id.org/cdif/bbr/metadata/profiles/cdifCompositeProfile/XASdata>,
         <https://w3id.org/cdif/bbr/metadata/xasProperties/xasCore>,
         <https://w3id.org/cdif/core/1.0>,
         <https://w3id.org/cdif/discovery/1.0>,
@@ -1130,9 +1130,9 @@ allOf:
       x-jsonld-id: http://schema.org/keywords
 $defs:
   CdifMandatory:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifCore/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema.yaml
   CdifProvActivity:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifProvActivity/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifProvActivity/schema.yaml
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
   AdditionalProperty:

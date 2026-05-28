@@ -1,0 +1,45 @@
+
+
+{
+  "itemIdentifier": "cdif.bbr.metadata.cdifDataType.cdifTabularTextDataSet",
+  "$schema": "metaschema.yaml",
+  "name": "CDIF TabularTextDataSet building block",
+  "abstract": "Dataset-level physical layout of a delimited or fixed-width text dataset (CSV, TSV, fixed-width). A subclass of cdi:PhysicalDataSet carried on a schema:DataDownload distribution dual-typed cdi:TabularTextDataSet. Defines cdi:delimiter, cdi:hasHeader, cdi:headerRowCount, cdi:quoteCharacter, cdi:lineTerminator, cdi:isDelimited, cdi:isFixedWidth, cdi:skipRows, cdi:trim, cdi:tableDirection, cdi:textDirection (enumerations modeled as string+enum, matching the canonical ddicdiPhysicalDataSet), and the other DDI-CDI TabularTextDataSet attributes. Per-field mappings are cdifTextMapping.",
+  "status": "under-development",
+  "dateTimeAddition": "2026-05-24T00:00:00Z",
+  "itemClass": "schema",
+  "register": "cdif-building-block-register",
+  "version": "0.1",
+  "dateOfLastChange": "2026-05-28",
+  "link": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "maturity": "draft",
+  "scope": "unstable",
+  "isTypeLibrary": true,
+  "tags": [
+    "cdif",
+    "ddi-cdi",
+    "TabularTextDataSet",
+    "PhysicalDataSet"
+  ],
+  "sources": [
+    {
+      "title": "DDI-CDI 1.0 Specification",
+      "link": "https://ddialliance.org/Specification/DDI-CDI/1.0/"
+    }
+  ],
+  "shaclShapes": {},
+  "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifTabularTextDataSet/context.jsonld",
+  "schema": {
+    "application/yaml": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifTabularTextDataSet/schema.yaml",
+    "application/json": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifTabularTextDataSet/schema.json"
+  },
+  "sourceSchema": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifTabularTextDataSet/schema.yaml",
+  "sourceLdContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifTabularTextDataSet/context.jsonld",
+  "resolvedSchemaProperties": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifTabularTextDataSet/resolvedProperties.json",
+  "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifTabularTextDataSet/",
+  "validationPassed": true,
+  "description": "# CDIF TabularTextDataSet\n\nDataset-level physical layout of a delimited or fixed-width **text** dataset (CSV, TSV,\nfixed-width). A subclass of DDI-CDI `PhysicalDataSet`; in CDIF it is carried on a\n`schema:DataDownload` distribution dual-typed `cdi:TabularTextDataSet`.\n\nThis building block is an **attribute mixin** (no `@type` of its own) \u2014 the\n`cdi:TabularTextDataSet` token lives on the distribution. The CDIF Data Description\nprofile merges these attributes onto a distribution via an `if @type contains\ncdi:TabularTextDataSet then \u2026` branch.\n\nDefines the DDI-CDI `TabularTextDataSet` attributes (`cdi:delimiter`, `cdi:hasHeader`,\n`cdi:headerRowCount`, `cdi:quoteCharacter`, `cdi:lineTerminator`, `cdi:isDelimited`,\n`cdi:isFixedWidth`, `cdi:skipRows`, `cdi:trim`, etc.). Per-field physical mappings for a\ntabular text dataset are [`cdifTextMapping`](../cdifTextMapping/) values of\n`cdif:hasPhysicalMapping`.\n",
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: Tabular Text DataSet\ndescription: Dataset-level physical layout properties of a delimited or fixed-width\n  text dataset (CSV, TSV, fixed-width). A subclass of cdi:PhysicalDataSet, carried\n  on a schema:DataDownload distribution dual-typed cdi:TabularTextDataSet. DDI-CDI\n  TabularTextDataSet. This is an attribute mixin (no @type of its own); the @type\n  token is carried by the distribution. Per-field mappings are cdifTextMapping (on\n  cdif:hasPhysicalMapping).\ntype: object\nproperties:\n  cdi:arrayBase:\n    type: integer\n    default: 1\n    description: Index of the first element/column (TabularTextDataSet.arrayBase).\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/arrayBase\n  cdi:commentPrefix:\n    type: string\n    description: Character(s) that mark a line as a comment.\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/commentPrefix\n  cdi:delimiter:\n    type: string\n    description: Field delimiter (e.g., \",\" or tab).\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/delimiter\n  cdi:escapeCharacter:\n    type: string\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/escapeCharacter\n  cdi:hasHeader:\n    type: boolean\n    default: true\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasHeader\n  cdi:headerIsCaseSensitive:\n    type: boolean\n    default: false\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/headerIsCaseSensitive\n  cdi:headerRowCount:\n    type: integer\n    default: 1\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/headerRowCount\n  cdi:isDelimited:\n    type: boolean\n    default: true\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isDelimited\n  cdi:isFixedWidth:\n    type: boolean\n    default: false\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isFixedWidth\n  cdi:lineTerminator:\n    type: array\n    items:\n      type: string\n    description: Allowed line terminators, in order (default [CRLF, LF]).\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/lineTerminator\n  cdi:nullSequence:\n    type: string\n    description: Value interpreted as null at the dataset level.\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/nullSequence\n  cdi:quoteCharacter:\n    type: string\n    default: '\"'\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/quoteCharacter\n  cdi:skipBlankRows:\n    type: boolean\n    default: false\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/skipBlankRows\n  cdi:skipDataColumns:\n    type: integer\n    default: 0\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/skipDataColumns\n  cdi:skipInitialSpace:\n    type: boolean\n    default: true\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/skipInitialSpace\n  cdi:skipRows:\n    type: integer\n    default: 0\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/skipRows\n  cdi:tableDirection:\n    type: string\n    default: Auto\n    enum:\n    - Auto\n    - Ltr\n    - Rtl\n    description: Direction in which columns are arranged in each row (DDI-CDI TabularTextDataSet.tableDirection,\n      TableDirectionValues enumeration).\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/tableDirection\n  cdi:textDirection:\n    type: string\n    enum:\n    - Auto\n    - Inherit\n    - Ltr\n    - Rtl\n    description: Reading order of text within cells (DDI-CDI TabularTextDataSet.textDirection,\n      TextDirectionValues enumeration).\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/textDirection\n  cdi:treatConsecutiveDelimitersAsOne:\n    type: boolean\n    default: false\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/treatConsecutiveDelimitersAsOne\n  cdi:trim:\n    type: string\n    enum:\n    - Both\n    - End\n    - Neither\n    - Start\n    description: Which spaces to remove from a data value (DDI-CDI TabularTextDataSet.trim,\n      TrimValues enumeration).\n    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/trim\nx-jsonld-prefixes:\n  schema: http://schema.org/\n  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\n  cdif: https://cdif.org/0.1/\n",
+  "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "gitPath": "_sources/cdifDataType/cdifTabularTextDataSet"
+}

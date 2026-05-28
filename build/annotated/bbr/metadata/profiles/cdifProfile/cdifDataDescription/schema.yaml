@@ -1,0 +1,193 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: CDIF Data Description properties
+description: Additional constraints for CDIF data description level. Adds cdif:physicalDataType
+  requirement on variableMeasured items and distribution-level cdi properties for
+  file characterization (characterSet, fileSize, fileSizeUofM).
+type: object
+properties:
+  '@context':
+    type: object
+    description: Additional JSON-LD namespace prefixes for discovery and data description.
+    properties:
+      geosparql:
+        const: http://www.opengis.net/ont/geosparql#
+      dqv:
+        const: http://www.w3.org/ns/dqv#
+      cdi:
+        const: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+  cdif:hasPrimaryKey:
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifKey/schema.yaml
+    - type: object
+      description: object reference via URI or URI fragment to a cdif:Key defined
+        elsewhere in the same document
+      properties:
+        '@id':
+          type: string
+      required:
+      - '@id'
+    description: 'Primary key of the dataset: a cdif:Key whose cdif:isComposedOf is
+      an ordered list of cdi:InstanceVariables (from schema:variableMeasured) that
+      uniquely identify each data instance.'
+  cdif:statistics:
+    type: array
+    description: "Summary statistics describing the dataset's values. Each entry is
+      a cdi:Statistics bundle (one or more Statistic value objects, optionally weighted
+      by an InstanceVariable, optionally broken down by Category) or a cdi:StatisticsCollection
+      (groups multiple Statistics nodes and records which InstanceVariables they index).
+      Inline node or @id-reference to one declared elsewhere in the document. cdif:
+      namespaced \u2014 DDI-CDI has no `statistics` association from a dataset; this
+      is a CDIF attachment property."
+    items:
+      anyOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifStatistics/schema.yaml
+      - type: object
+        properties:
+          '@id':
+            type: string
+        required:
+        - '@id'
+  schema:subjectOf:
+    properties:
+      dcterms:conformsTo:
+        type: array
+        items:
+          type: object
+          properties:
+            '@id':
+              type: string
+              description: uri for specifications that this metadata record conforms
+                to
+        minItems: 1
+        contains:
+          type: object
+          properties:
+            '@id':
+              const: https://w3id.org/cdif/data_description/1.0
+  schema:variableMeasured:
+    type: array
+    items:
+      allOf:
+      - type: object
+        description: All variableMeasured items at data description level must have
+          an @id and cdif:physicalDataType so physical mappings can reference them.
+        properties:
+          '@id':
+            type: string
+            description: URI identifier for this variable, used as the target of cdif:formats_InstanceVariable
+              references in physical mappings.
+        required:
+        - '@id'
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
+      - type: object
+        description: At the Data Description profile level, InstanceVariables may
+          also carry substantive and sentinel value domains directly (in profiles
+          that introduce a RepresentedVariable - e.g., CDIFDataStructureProfile -
+          these properties live on the RepresentedVariable instead and are disallowed
+          here).
+        properties:
+          cdi:takesSentinelValuesFrom:
+            type: array
+            items:
+              anyOf:
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema.yaml#/$defs/SentinelValueDomain
+              - type: object
+                properties:
+                  '@id':
+                    type: string
+                required:
+                - '@id'
+            description: Sentinel (missing / not-applicable) value domain(s) for this
+              variable (RepresentedVariable.takesSentinelValuesFrom).
+          cdi:takesSubstantiveValuesFrom:
+            anyOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema.yaml#/$defs/SubstantiveValueDomain
+            - type: object
+              properties:
+                '@id':
+                  type: string
+              required:
+              - '@id'
+            description: The substantive value domain for this variable - the set
+              of valid, meaningful values (RepresentedVariable.takesSubstantiveValuesFrom).
+  schema:distribution:
+    description: 'Each schema:DataDownload distribution item SHOULD additionally be
+      typed as cdi:PhysicalDataSet or one of its subclasses (cdi:TabularTextDataSet,
+      cdi:StructuredDataSet). schema:WebAPI distribution items do not require a cdi:
+      dataset type. Not enforced at schema level (the merge with cdifCore and cdifArchiveDistribution
+      drops the @type constraint at profile resolution); consider a SHACL rule if
+      runtime enforcement is needed.'
+    type: array
+    items:
+      allOf:
+      - if:
+          properties:
+            '@type':
+              contains:
+                const: schema:DataDownload
+        then:
+          properties:
+            cdif:hasPhysicalMapping:
+              type: array
+              description: Per-field physical mappings linking the variables measured
+                by this DataDownload distribution to their physical representation
+                in the file - column index, format, physical data type, null sequence,
+                etc. Each item is a cdifPhysicalMapping or one of its specializations
+                (cdifTextMapping for tabular text, cdifLocatorMapping for structured
+                data); the dataset-type branches below tighten the item type.
+              items:
+                anyOf:
+                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifPhysicalMapping/schema.yaml
+                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifTextMapping/schema.yaml
+                - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifLocatorMapping/schema.yaml
+            cdi:characterSet:
+              type: string
+              description: The character set used in the distribution (e.g., UTF-8,
+                ASCII).
+            cdi:fingerprint:
+              description: Integrity fingerprint (checksum/hash) of this distribution's
+                bytes (DDI-CDI DataFingerprint).
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataFingerprint/schema.yaml
+      - if:
+          properties:
+            '@type':
+              contains:
+                const: cdi:TabularTextDataSet
+        then:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifTabularTextDataSet/schema.yaml
+      - if:
+          properties:
+            '@type':
+              contains:
+                const: cdi:StructuredDataSet
+        then:
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifStructuredDataSet/schema.yaml
+      - if:
+          properties:
+            '@type':
+              contains:
+                const: schema:WebAPI
+        then:
+          properties:
+            schema:potentialAction:
+              items:
+                properties:
+                  schema:result:
+                    properties:
+                      cdif:hasPhysicalMapping:
+                        type: array
+                        description: Per-field physical mappings for the API response
+                          - the response is another physical realization of the dataset's
+                          variables. Each item is a cdifPhysicalMapping or one of
+                          its specializations (cdifTextMapping / cdifLocatorMapping).
+                        items:
+                          anyOf:
+                          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifPhysicalMapping/schema.yaml
+                          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifTextMapping/schema.yaml
+                          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifLocatorMapping/schema.yaml
+                      cdi:characterSet:
+                        type: string
+                        description: The character set used in the API response (e.g.,
+                          UTF-8).
+required:
+- schema:variableMeasured

@@ -438,7 +438,7 @@ $defs:
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
   Reference:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifReference/schema.yaml
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifReference/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
 

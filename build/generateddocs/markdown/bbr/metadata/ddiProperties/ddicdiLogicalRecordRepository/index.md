@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.ddiProperties.ddicdiLogicalRecordRepository` *v0.1*
 
-A managed collection of logical records (delimited file, fixed-record-length file, relational database, etc.). Successor to the DDI-CDI 1.0 DataStore class, renamed and relocated to the FormatDescription package in the 2026-03 DDI-CDI model. Provides $defs for LogicalRecordRepositoryStructure (topology), LogicalRecordRelationship (cross-record linkage, successor to RecordRelation), and InstanceVariableMap. Composes building block: ddicdiLogicalRecord, ddicdiDataTypes (ddiProperties); cdifInstanceVariable (cdifProperties).
+A managed collection of logical records (delimited file, fixed-record-length file, relational database, etc.). Successor to the DDI-CDI 1.0 DataStore class, renamed and relocated to the FormatDescription package in the 2026-03 DDI-CDI model. Provides $defs for LogicalRecordRepositoryStructure (topology), LogicalRecordRelationship (cross-record linkage, successor to RecordRelation), and InstanceVariableMap. Composes building block: ddicdiLogicalRecord, ddicdiDataTypes (ddiProperties); cdifInstanceVariable (cdifDataType).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -388,7 +388,7 @@ $defs:
         type: array
         items:
           anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         description: The target instance variable(s) of the map.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasTarget
@@ -396,7 +396,7 @@ $defs:
         type: array
         items:
           anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         minItems: 1
         description: The source instance variable(s) of the map.

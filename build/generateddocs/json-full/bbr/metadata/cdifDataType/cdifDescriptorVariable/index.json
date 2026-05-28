@@ -1,0 +1,122 @@
+
+
+{
+  "itemIdentifier": "cdif.bbr.metadata.cdifDataType.cdifDescriptorVariable",
+  "$schema": "metaschema.yaml",
+  "name": "DDI-CDI Descriptor Variable",
+  "abstract": "Variable that records values of multiple variables in the context of a data structure.",
+  "status": "under-development",
+  "dateTimeAddition": "2026-05-08T00:00:00Z",
+  "itemClass": "schema",
+  "register": "cdif-building-block-register",
+  "version": "0.1",
+  "dateOfLastChange": "2026-05-28",
+  "link": "https://github.com/usgin/metadataBuildingBlocks",
+  "maturity": "draft",
+  "scope": "unstable",
+  "tags": [
+    "CDIF",
+    "DDI-CDI",
+    "ReferenceVariable",
+    "DescriptorVariable"
+  ],
+  "sources": [
+    {
+      "title": "DDI-CDI 1.0 Specification",
+      "link": "https://ddialliance.org/Specification/DDI-CDI/1.0/"
+    }
+  ],
+  "shaclShapes": {
+    "cdif.bbr.metadata.cdifDataType.cdifDescriptorVariable": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifDescriptorVariable/rules.shacl"
+    ],
+    "cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifRepresentedVariable/rules.shacl"
+    ],
+    "cdif.bbr.metadata.skosProperties.skosConcept": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
+    ],
+    "cdif.bbr.metadata.cdifDataType.cdifValueDomain": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifValueDomain/rules.shacl"
+    ],
+    "cdif.bbr.metadata.cdifDataType.cdifEnumerationDomain": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifEnumerationDomain/rules.shacl"
+    ]
+  },
+  "dependsOn": [
+    "cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable"
+  ],
+  "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDescriptorVariable/context.jsonld",
+  "schema": {
+    "application/yaml": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDescriptorVariable/schema.yaml",
+    "application/json": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDescriptorVariable/schema.json"
+  },
+  "sourceSchema": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifDescriptorVariable/schema.yaml",
+  "sourceLdContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifDescriptorVariable/context.jsonld",
+  "resolvedSchemaProperties": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDescriptorVariable/resolvedProperties.json",
+  "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifDescriptorVariable/",
+  "validationPassed": true,
+  "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/cdifDataType/cdifDescriptorVariable/",
+  "description": "# CDIF Descriptor Variable\n\nA **DDI-CDI Descriptor Variable** is a presentational variable found only in **Long Data Sets**. It records the codes that appear in the dataset's descriptor column \u2014 each code naming which logical variable the value in the corresponding Reference Variable column is a measure for.\n\nFor example, in a long-format vitals table:\n\n| patient_id | measure_name | measure_value |\n|---|---|---|\n| P001 | systolic_bp | 132 |\n| P001 | heart_rate | 78 |\n\n`measure_name` is the descriptor column; the values it takes (`systolic_bp`, `heart_rate`) are descriptor codes that name the conceptual RepresentedVariables they identify.\n\n## Structure\n\nA `cdi:DescriptorVariable` carries:\n\n| Property | Required | Notes |\n|---|---|---|\n| `@type` | required | Must include `cdi:DescriptorVariable`. |\n| `@id` | recommended | Identifier for the variable node. |\n| `cdif:hasValuesFrom` | **required** | A `cdi:DescriptorValueDomain` enumerating the descriptor codes (see below). |\n| `cdi:name` | optional | Array of `cdi:ObjectName` (formal naming per ISO 11179-5). |\n\nThe **`cdi:DescriptorValueDomain`** has a required `cdif:takesValuesFrom` array of descriptor entries. Each entry pairs:\n\n- `cdif:value` \u2014 the code as it appears in the descriptor column (e.g. `\"systolic_bp\"`).\n- `cdif:isDefinedBy` \u2014 an inline `cdifRepresentedVariable` or `@id`-reference to one declared elsewhere in the document, identifying the conceptual variable the code names.\n\nThis is the controlled-vocabulary descriptor pattern: strings in the descriptor column map to RepresentedVariables (the conceptual definitions of the variables those codes name). No SKOS Concept indirection.\n\n## Use in DataStructure\n\nA `cdi:VariableDescriptorComponent` (in [cdifDataStructureComponent](../cdifDataStructureComponent/)) holds a `cdi:isDefinedBy` pointer to a `cdifDescriptorVariable` instance, plus a `cdi:refersTo` pointer to the `cdi:VariableValueComponent` whose value-column contents the descriptor identifies.\n\n## Dependencies\n\n- [cdifRepresentedVariable](../cdifRepresentedVariable/) \u2014 target of `cdif:isDefinedBy` in each descriptor entry.\n",
+  "examples": [
+    {
+      "title": "Minimal CDIF Descriptor Variable",
+      "content": "A bare cdi:DescriptorVariable with a single-entry DescriptorValueDomain mapping\none descriptor code (\"temp\") to the InstanceVariable it names. Schema requires\nonly @type and cdif:hasValuesFrom (which itself requires a non-empty\ncdif:takesValuesFrom array).",
+      "prefixes": {
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "cdif": "https://cdif.org/0.1/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifDescriptorVariable/exampleCdifDescriptorVariableMinimal.json",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifDescriptorVariable/example_1_1.json",
+          "code": "{\n  \"@context\": {\n    \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n    \"cdif\": \"https://cdif.org/0.1/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@type\": [\"cdi:DescriptorVariable\"],\n  \"@id\": \"ex:dv/measureName\",\n  \"cdif:hasValuesFrom\": {\n    \"@type\": [\"cdi:DescriptorValueDomain\"],\n    \"cdif:takesValuesFrom\": [\n      {\n        \"cdif:value\": \"temp\",\n        \"cdif:isDefinedBy\": { \"@id\": \"ex:rv/temperature\" }\n      }\n    ]\n  }\n}\n"
+        },
+        {
+          "language": "jsonld",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifDescriptorVariable/example_1_1.jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n      \"cdif\": \"https://cdif.org/0.1/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDescriptorVariable/context.jsonld\",\n    {\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n      \"cdif\": \"https://cdif.org/0.1/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@type\": [\n    \"cdi:DescriptorVariable\"\n  ],\n  \"@id\": \"ex:dv/measureName\",\n  \"cdif:hasValuesFrom\": {\n    \"@type\": [\n      \"cdi:DescriptorValueDomain\"\n    ],\n    \"cdif:takesValuesFrom\": [\n      {\n        \"cdif:value\": \"temp\",\n        \"cdif:isDefinedBy\": {\n          \"@id\": \"ex:rv/temperature\"\n        }\n      }\n    ]\n  }\n}"
+        },
+        {
+          "language": "ttl",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifDescriptorVariable/example_1_1.ttl",
+          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix cdif: <https://cdif.org/0.1/> .\n\n<https://example.org/dv/measureName> a cdi:DescriptorVariable ;\n    cdif:hasValuesFrom [ a cdi:DescriptorValueDomain ;\n            cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/temperature> ;\n                    cdif:value \"temp\" ] ] .\n\n"
+        }
+      ]
+    },
+    {
+      "title": "Complete CDIF Descriptor Variable",
+      "content": "A measure_name descriptor variable with a 4-entry DescriptorValueDomain\nenumerating the codes that can appear in the descriptor column of a\nlong-format vitals table \u2014 each code paired (via cdif:isDefinedBy) with the\n@id of the InstanceVariable it names. Demonstrates cdi:name (ObjectName\nwrapper) and a non-trivial code \u2192 variable mapping.",
+      "prefixes": {
+        "schema": "http://schema.org/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "cdif": "https://cdif.org/0.1/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifDescriptorVariable/exampleCdifDescriptorVariableComplete.json",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifDescriptorVariable/example_2_1.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"xsd\": \"http://www.w3.org/2001/XMLSchema#\",\n    \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n    \"cdif\": \"https://cdif.org/0.1/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@type\": [\n    \"cdi:DescriptorVariable\"\n  ],\n  \"@id\": \"ex:dv/measureName\",\n  \"cdif:name\": [\n    \"measure_name\"\n  ],\n  \"cdif:hasValuesFrom\": {\n    \"@type\": [\n      \"cdi:DescriptorValueDomain\"\n    ],\n    \"@id\": \"ex:vd/measureName\",\n    \"cdif:takesValuesFrom\": [\n      {\n        \"cdif:value\": \"systolic_bp\",\n        \"cdif:isDefinedBy\": {\n          \"@type\": [\n            \"cdi:RepresentedVariable\"\n          ],\n          \"@id\": \"ex:rv/systolicBP\",\n          \"cdif:name\": [\n            \"systolic_blood_pressure\"\n          ],\n          \"cdi:simpleUnitOfMeasure\": \"mmHg\",\n          \"cdi:hasIntendedDataType\": {\n            \"@type\": [\n              \"cdi:ControlledVocabularyEntry\"\n            ],\n            \"cdi:entryValue\": [\n              \"xsd:decimal\"\n            ]\n          }\n        }\n      },\n      {\n        \"cdif:value\": \"diastolic_bp\",\n        \"cdif:isDefinedBy\": {\n          \"@type\": [\n            \"cdi:RepresentedVariable\"\n          ],\n          \"@id\": \"ex:rv/diastolicBP\",\n          \"cdif:name\": [\n            \"diastolic_blood_pressure\"\n          ],\n          \"cdi:simpleUnitOfMeasure\": \"mmHg\",\n          \"cdi:hasIntendedDataType\": {\n            \"@type\": [\n              \"cdi:ControlledVocabularyEntry\"\n            ],\n            \"cdi:entryValue\": [\n              \"xsd:decimal\"\n            ]\n          }\n        }\n      },\n      {\n        \"cdif:value\": \"heart_rate\",\n        \"cdif:isDefinedBy\": {\n          \"@id\": \"ex:rv/heartRate\"\n        }\n      },\n      {\n        \"cdif:value\": \"temp_c\",\n        \"cdif:isDefinedBy\": {\n          \"@id\": \"ex:rv/temperatureC\"\n        }\n      }\n    ]\n  }\n}\n"
+        },
+        {
+          "language": "jsonld",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifDescriptorVariable/example_2_1.jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\",\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n      \"cdif\": \"https://cdif.org/0.1/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDescriptorVariable/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"xsd\": \"http://www.w3.org/2001/XMLSchema#\",\n      \"cdi\": \"http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\",\n      \"cdif\": \"https://cdif.org/0.1/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@type\": [\n    \"cdi:DescriptorVariable\"\n  ],\n  \"@id\": \"ex:dv/measureName\",\n  \"cdif:name\": [\n    \"measure_name\"\n  ],\n  \"cdif:hasValuesFrom\": {\n    \"@type\": [\n      \"cdi:DescriptorValueDomain\"\n    ],\n    \"@id\": \"ex:vd/measureName\",\n    \"cdif:takesValuesFrom\": [\n      {\n        \"cdif:value\": \"systolic_bp\",\n        \"cdif:isDefinedBy\": {\n          \"@type\": [\n            \"cdi:RepresentedVariable\"\n          ],\n          \"@id\": \"ex:rv/systolicBP\",\n          \"cdif:name\": [\n            \"systolic_blood_pressure\"\n          ],\n          \"cdi:simpleUnitOfMeasure\": \"mmHg\",\n          \"cdi:hasIntendedDataType\": {\n            \"@type\": [\n              \"cdi:ControlledVocabularyEntry\"\n            ],\n            \"cdi:entryValue\": [\n              \"xsd:decimal\"\n            ]\n          }\n        }\n      },\n      {\n        \"cdif:value\": \"diastolic_bp\",\n        \"cdif:isDefinedBy\": {\n          \"@type\": [\n            \"cdi:RepresentedVariable\"\n          ],\n          \"@id\": \"ex:rv/diastolicBP\",\n          \"cdif:name\": [\n            \"diastolic_blood_pressure\"\n          ],\n          \"cdi:simpleUnitOfMeasure\": \"mmHg\",\n          \"cdi:hasIntendedDataType\": {\n            \"@type\": [\n              \"cdi:ControlledVocabularyEntry\"\n            ],\n            \"cdi:entryValue\": [\n              \"xsd:decimal\"\n            ]\n          }\n        }\n      },\n      {\n        \"cdif:value\": \"heart_rate\",\n        \"cdif:isDefinedBy\": {\n          \"@id\": \"ex:rv/heartRate\"\n        }\n      },\n      {\n        \"cdif:value\": \"temp_c\",\n        \"cdif:isDefinedBy\": {\n          \"@id\": \"ex:rv/temperatureC\"\n        }\n      }\n    ]\n  }\n}"
+        },
+        {
+          "language": "ttl",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifDescriptorVariable/example_2_1.ttl",
+          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix cdif: <https://cdif.org/0.1/> .\n\n<https://example.org/dv/measureName> a cdi:DescriptorVariable ;\n    cdif:hasValuesFrom <https://example.org/vd/measureName> ;\n    cdif:name \"measure_name\" .\n\n<https://example.org/rv/diastolicBP> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;\n            cdi:entryValue \"xsd:decimal\" ] ;\n    cdi:simpleUnitOfMeasure \"mmHg\" ;\n    cdif:name \"diastolic_blood_pressure\" .\n\n<https://example.org/rv/systolicBP> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;\n            cdi:entryValue \"xsd:decimal\" ] ;\n    cdi:simpleUnitOfMeasure \"mmHg\" ;\n    cdif:name \"systolic_blood_pressure\" .\n\n<https://example.org/vd/measureName> a cdi:DescriptorValueDomain ;\n    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;\n            cdif:value \"diastolic_bp\" ],\n        [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;\n            cdif:value \"temp_c\" ],\n        [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;\n            cdif:value \"systolic_bp\" ],\n        [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;\n            cdif:value \"heart_rate\" ] .\n\n"
+        }
+      ]
+    }
+  ],
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: DDI-CDI Descriptor Variable\ntype: object\ndescription: Variable that provides codes for variable identification in the context\n  of a data structure. Descriptor Variables hold values which reference the logical\n  variables in the data set, indicating which one the associated value in the corresponding\n  Reference Variable is a measure/value for. Descriptor Variables are presentational\n  variables found only in Long Data Sets.\nproperties:\n  '@type':\n    type: array\n    items:\n      type: string\n    contains:\n      const: cdi:DescriptorVariable\n    minItems: 1\n  '@id':\n    type: string\n    description: Identifier for this DescriptorVariable node\n  cdif:hasValuesFrom:\n    description: A cdi:DescriptorValueDomain enumerating the codes that can appear\n      in the descriptor column, each paired (via cdif:isDefinedBy) with the RepresentedVariable\n      that the code names.\n    $ref: '#/$defs/DescriptorValueDomain'\n    x-jsonld-id: https://cdif.org/0.1/hasValuesFrom\n  cdif:name:\n    type: array\n    items:\n      type: string\n    minItems: 1\n    description: Human understandable name (linguistic signifier, word, phrase, or\n      mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided\n      to specify usage.\n    x-jsonld-id: https://cdif.org/0.1/name\nrequired:\n- '@type'\n- cdif:hasValuesFrom\n$defs:\n  DescriptorValueDomain:\n    type: object\n    description: Set of permissible values for a variable playing the role of a variable\n      descriptor component. Each entry pairs a code (cdif:value) with the RepresentedVariable\n      that the code identifies (cdif:isDefinedBy).\n    properties:\n      '@type':\n        type: array\n        items:\n          type: string\n        contains:\n          const: cdi:DescriptorValueDomain\n        minItems: 1\n      '@id':\n        type: string\n        description: Identifier for this DescriptorValueDomain node\n      cdif:takesValuesFrom:\n        type: array\n        description: Ordered list of descriptor entries. Each entry has a cdif:value\n          (the code as it appears in the descriptor column) and a cdif:isDefinedBy\n          pointer to the RepresentedVariable that the code names.\n        items:\n          type: object\n          properties:\n            cdif:value:\n              type: string\n              description: The code value as it appears in the descriptor column.\n              x-jsonld-id: https://cdif.org/0.1/value\n            cdif:isDefinedBy:\n              anyOf:\n              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml\n              - type: object\n                description: object reference via URI or URI fragment to a RepresentedVariable\n                  defined elsewhere in the document\n                properties:\n                  '@id':\n                    type: string\n                required:\n                - '@id'\n              x-jsonld-id: https://cdif.org/0.1/isDefinedBy\n          required:\n          - cdif:value\n          - cdif:isDefinedBy\n        minItems: 1\n        x-jsonld-id: https://cdif.org/0.1/takesValuesFrom\n    required:\n    - '@type'\n    - cdif:takesValuesFrom\nx-jsonld-prefixes:\n  schema: http://schema.org/\n  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\n  cdif: https://cdif.org/0.1/\n",
+  "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "gitPath": "_sources/cdifDataType/cdifDescriptorVariable"
+}

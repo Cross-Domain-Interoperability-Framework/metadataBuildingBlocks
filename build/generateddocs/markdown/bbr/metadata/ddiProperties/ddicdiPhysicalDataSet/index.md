@@ -86,7 +86,7 @@ $defs:
         type: array
         items:
           anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifKey/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifKey/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_Key
       cdi:isStructuredBy:
@@ -154,7 +154,7 @@ $defs:
         type: array
         items:
           anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifKey/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifKey/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_Key
       cdi:isStructuredBy:
@@ -229,7 +229,7 @@ $defs:
         type: array
         items:
           anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifKey/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifKey/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_Key
       cdi:isStructuredBy:
@@ -1042,7 +1042,7 @@ $defs:
         type: array
         items:
           anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifKey/schema.yaml
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifKey/schema.yaml
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_Key
       cdi:isStructuredBy:

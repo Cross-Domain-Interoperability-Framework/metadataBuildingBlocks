@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.ddiProperties.ddicdiPhysicalMapping` *v0.1*
 
-Describes how an InstanceVariable's values are physically represented in a dataset - format, length, decimal handling, null sequences, W3C tabular-data-model parameters. Successor to the DDI-CDI 1.0 ValueMapping class (renamed PhysicalMapping in the 2026-03 model, with the variable relationship reversed: PhysicalMapping formats InstanceVariable). Root validates any of PhysicalMapping, TextMapping (text-dialect detail), or LocatorMapping (locator string for non-tabular layouts); provides a $def for PhysicalMappingPosition. Composes building block: ddicdiDataTypes (ddiProperties); cdifInstanceVariable (cdifProperties).
+Describes how an InstanceVariable's values are physically represented in a dataset - format, length, decimal handling, null sequences, W3C tabular-data-model parameters. Successor to the DDI-CDI 1.0 ValueMapping class (renamed PhysicalMapping in the 2026-03 model, with the variable relationship reversed: PhysicalMapping formats InstanceVariable). Root validates any of PhysicalMapping, TextMapping (text-dialect detail), or LocatorMapping (locator string for non-tabular layouts); provides a $def for PhysicalMappingPosition. Composes building block: ddicdiDataTypes (ddiProperties); cdifInstanceVariable (cdifDataType).
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -274,7 +274,7 @@ $defs:
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/position
       cdi:formats:
         anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         description: The InstanceVariable whose values this mapping physically represents.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/formats
@@ -371,7 +371,7 @@ $defs:
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/mappingLabel
       cdi:formats:
         anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         description: The InstanceVariable whose values this mapping physically represents.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/formats
@@ -456,7 +456,7 @@ $defs:
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/position
       cdi:formats:
         anyOf:
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifProperties/cdifInstanceVariable/schema.yaml
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiDataTypes/schema.yaml#/$defs/id-reference
         description: The InstanceVariable whose values this mapping physically represents.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/formats
