@@ -127,7 +127,7 @@ cdif:displayLabel, and cdif:recommendedDataType (two xsd: types).
     "@type": ["cdif:EnumerationDomain"],
     "@id": "ex:enum-domain/iso3166",
     "schema:name": "ISO 3166-1 alpha-2 country codes",
-    "schema:inDefinedTermSet": {
+    "cdif:references": {
       "@id": "https://www.iso.org/obp/ui/#iso:pub:PUB500001"
     }
   },
@@ -168,7 +168,7 @@ cdif:displayLabel, and cdif:recommendedDataType (two xsd: types).
     ],
     "@id": "ex:enum-domain/iso3166",
     "schema:name": "ISO 3166-1 alpha-2 country codes",
-    "schema:inDefinedTermSet": {
+    "cdif:references": {
       "@id": "https://www.iso.org/obp/ui/#iso:pub:PUB500001"
     }
   },
@@ -191,8 +191,8 @@ cdif:displayLabel, and cdif:recommendedDataType (two xsd: types).
     cdif:takesValuesFrom <https://example.org/enum-domain/iso3166> .
 
 <https://example.org/enum-domain/iso3166> a cdif:EnumerationDomain ;
-    schema1:inDefinedTermSet <https://www.iso.org/obp/ui/#iso:pub:PUB500001> ;
-    schema1:name "ISO 3166-1 alpha-2 country codes" .
+    schema1:name "ISO 3166-1 alpha-2 country codes" ;
+    cdif:references <https://www.iso.org/obp/ui/#iso:pub:PUB500001> .
 
 
 ```

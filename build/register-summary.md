@@ -170,12 +170,6 @@ Generic container that supports different types of groupings, from unordered set
 
 Allows for unstructured content which may be an entry from an externally maintained controlled vocabulary.If the content is from a controlled vocabulary provide the code value of the entry, as well as a reference to the controlled vocabulary from which the value is taken. Provide as many of the identifying attributes as needed to adequately identify the controlled vocabulary. Note that DDI has published a number of controlled vocabularies applicable to several locations using the external controlled vocabulary entry structure. If the code portion of the controlled vocabulary entry is language specific (i.e. a list of keywords or subject headings) use language to specify that language. In most cases the code portion of an entry is not language specific although the description and usage may be managed in one or more languages. Use of shared controlled vocabularies helps support interoperability and machine actionability.
 
-### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructureComponent` — DDI-CDI Data Structure Component
-
-**Type:** schema
-
-Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.
-
 ### `cdif.bbr.metadata.ddiProperties.ddicdiIndividual` — DDI-CDI Individual
 
 **Type:** schema
@@ -193,6 +187,12 @@ DDI-CDI Machine agent (software/hardware) with access location, function, and in
 **Type:** schema
 
 DDI-CDI Organization agent (group/institution) with structured name, contact information, and identification. Uses DDI Cross-Domain Integration vocabulary.
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiPresentationalVariable` — DDI-CDI Presentational Variable
+
+**Type:** schema
+
+Variable that records values of multiple variables in the context of a data structure. Variable playing the role of a variable value component.
 
 ### `cdif.bbr.metadata.ddiProperties.ddicdiProcessingAgent` — DDI-CDI ProcessingAgent
 
@@ -272,11 +272,11 @@ Schema defining properties for documenting sources used for compiled or aggregat
 
 Schema defining propertis for schema.org varialbleMeasured as defined for CDIF discovery. Implemented as schema.org/PropertyValue. Defines properties: @type, @id, schema:name, schema:description, schema:alternateName, schema:propertyID, schema:measurementTechnique, schema:unitText, schema:unitCode, schema:minValue, schema:maxValue, schema:url. Uses building blocks: definedTerm (schemaorgProperties).
 
-### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructure` — DDI-CDI Data Structure
+### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructureComponent` — DDI-CDI Data Structure Component
 
 **Type:** schema
 
-Data organization based on reusable data structure components.
+Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.
 
 ### `cdif.bbr.metadata.ddiProperties.ddicdiAgent` — DDI-CDI Agent
 
@@ -325,6 +325,12 @@ Profile of cdi:InstanceVariable / schema:PropertyValue used as a member of a sch
 **Type:** schema
 
 Profile module for discovery metadata. Currently a thin wrapper that composes cdifCore; reserved for discovery-specific extensions (measurement technique, spatial/temporal coverage, quality measurements) that are not part of the cdifCore foundation. INTERPROFILE DEPENDENCY: cdifCore (cdifProfile).
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructure` — DDI-CDI Data Structure
+
+**Type:** schema
+
+Data organization based on reusable data structure components.
 
 ### `cdif.bbr.metadata.ddiProperties.ddicdiCodeList` — DDI-CDI Code List
 
@@ -433,12 +439,6 @@ Use of a represented variable within a data set.
 **Type:** schema
 
 Collection of instance variables.
-
-### `cdif.bbr.metadata.ddiProperties.ddicdiPresentationalVariable` — DDI-CDI Presentational Variable
-
-**Type:** schema
-
-Variable that records values of multiple variables in the context of a data structure. Variable playing the role of a variable value component.
 
 ### `cdif.bbr.metadata.ddiProperties.ddicdiRepresentedVariable` — DDI-CDI Represented Variable
 
