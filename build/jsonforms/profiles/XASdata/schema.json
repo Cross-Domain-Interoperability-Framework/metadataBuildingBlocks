@@ -9019,93 +9019,6 @@
     }
   },
   "$defs": {
-    "StatisticsCollection": {
-      "title": "StatisticsCollection",
-      "description": "Groups one or more Statistics nodes for an instance variable. A typical use is a dataset-level collection holding row-count / mean / stddev Statistics for each measured variable.",
-      "type": "object",
-      "properties": {
-        "@id": {
-          "type": "string",
-          "description": "Identifier for this StatisticsCollection node."
-        },
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": [
-              "cdi:StatisticsCollection"
-            ]
-          }
-        },
-        "cdi:hasWeight": {
-          "description": "The InstanceVariable whose values were used as weights (inline cdifInstanceVariable node or an @id-reference).",
-          "anyOf": [
-            {
-              "$ref": "#/$defs/CdifInstanceVariable"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
-            }
-          ]
-        },
-        "cdif:has_Statistics": {
-          "type": "array",
-          "description": "Statistics nodes carried by this collection (inline or @id-ref). cdif: namespaced and target-suffixed because the DDI-CDI cdi:has association is polymorphic.",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/Statistics"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              }
-            ]
-          }
-        },
-        "cdif:indexedBy": {
-          "type": "array",
-          "description": "CDIF addition (not in canonical DDI-CDI): the InstanceVariable(s) the contained Statistics index — the collection-level coordinate space.",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/CdifInstanceVariable"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              }
-            ]
-          }
-        }
-      },
-      "required": [
-        "@type",
-        "cdif:has_Statistics"
-      ]
-    },
     "CdifInstanceVariable": {
       "title": "CDIF Instance Variable",
       "type": "object",
@@ -14863,6 +14776,89 @@
         "cdi:statistic"
       ]
     },
+    "CdifCodelistConcept": {
+      "description": "A SKOS Concept constrained for CDIF codelist use. Must have a resolvable @id, skos:inScheme, skos:notation, and skos:prefLabel. Becasue JSON-LD is an open-world implementation, any other skos properties may be included.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "Globally unique, resolvable URI for this concept."
+        },
+        "skos:inScheme": {
+          "description": "The concept scheme this concept belongs to. Required for CDIF codelist concepts.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "@id"
+            ]
+          }
+        },
+        "skos:prefLabel": {
+          "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
+          "type": "string"
+        },
+        "skos:notation": {
+          "description": "Classification code for this concept within a scheme.",
+          "type": "string"
+        },
+        "skos:definition": {
+          "description": "Formal definition of this concept. Optional for CDIF codelist concepts. A plain string.",
+          "type": "string"
+        },
+        "skos:narrower": {
+          "description": "Narrower (child) concepts. If present, each inline concept must also declare skos:broader pointing back to the parent concept. Both skos:narrower and skos:broader must be explicit in CDIF codelists.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              },
+              {
+                "$ref": "#/$defs/CdifCodelistConcept",
+                "required": [
+                  "skos:broader"
+                ]
+              }
+            ]
+          }
+        },
+        "skos:broader": {
+          "description": "Broader (parent) concepts. Required on any concept that appears as a skos:narrower value of another concept. CDIF requires both directions to be explicit for hierarchy traversal.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "@id"
+            ]
+          }
+        }
+      },
+      "required": [
+        "@id",
+        "skos:inScheme",
+        "skos:prefLabel",
+        "skos:notation"
+      ]
+    },
     "Statistics": {
       "title": "Statistics",
       "description": "A named bundle of one or more Statistic value objects for an instance variable, optionally weighted, optionally broken down by Category.",
@@ -15561,46 +15557,51 @@
         "cdi:statistic"
       ]
     },
-    "CdifCodelistConcept": {
-      "description": "A SKOS Concept constrained for CDIF codelist use. Must have a resolvable @id, skos:inScheme, skos:notation, and skos:prefLabel. Becasue JSON-LD is an open-world implementation, any other skos properties may be included.",
+    "StatisticsCollection": {
+      "title": "StatisticsCollection",
+      "description": "Groups one or more Statistics nodes for an instance variable. A typical use is a dataset-level collection holding row-count / mean / stddev Statistics for each measured variable.",
       "type": "object",
       "properties": {
         "@id": {
           "type": "string",
-          "description": "Globally unique, resolvable URI for this concept."
+          "description": "Identifier for this StatisticsCollection node."
         },
-        "skos:inScheme": {
-          "description": "The concept scheme this concept belongs to. Required for CDIF codelist concepts.",
+        "@type": {
           "type": "array",
           "items": {
-            "type": "object",
-            "properties": {
-              "@id": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "@id"
+            "type": "string",
+            "enum": [
+              "cdi:StatisticsCollection"
             ]
           }
         },
-        "skos:prefLabel": {
-          "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
-          "type": "string"
+        "cdi:hasWeight": {
+          "description": "The InstanceVariable whose values were used as weights (inline cdifInstanceVariable node or an @id-reference).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CdifInstanceVariable"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            }
+          ]
         },
-        "skos:notation": {
-          "description": "Classification code for this concept within a scheme.",
-          "type": "string"
-        },
-        "skos:definition": {
-          "description": "Formal definition of this concept. Optional for CDIF codelist concepts. A plain string.",
-          "type": "string"
-        },
-        "skos:narrower": {
-          "description": "Narrower (child) concepts. If present, each inline concept must also declare skos:broader pointing back to the parent concept. Both skos:narrower and skos:broader must be explicit in CDIF codelists.",
+        "cdif:has_Statistics": {
           "type": "array",
+          "description": "Statistics nodes carried by this collection (inline or @id-ref). cdif: namespaced and target-suffixed because the DDI-CDI cdi:has association is polymorphic.",
           "items": {
             "anyOf": [
+              {
+                "$ref": "#/$defs/Statistics"
+              },
               {
                 "type": "object",
                 "properties": {
@@ -15611,37 +15612,36 @@
                 "required": [
                   "@id"
                 ]
-              },
-              {
-                "$ref": "#/$defs/CdifCodelistConcept",
-                "required": [
-                  "skos:broader"
-                ]
               }
             ]
           }
         },
-        "skos:broader": {
-          "description": "Broader (parent) concepts. Required on any concept that appears as a skos:narrower value of another concept. CDIF requires both directions to be explicit for hierarchy traversal.",
+        "cdif:indexedBy": {
           "type": "array",
+          "description": "CDIF addition (not in canonical DDI-CDI): the InstanceVariable(s) the contained Statistics index — the collection-level coordinate space.",
           "items": {
-            "type": "object",
-            "properties": {
-              "@id": {
-                "type": "string"
+            "anyOf": [
+              {
+                "$ref": "#/$defs/CdifInstanceVariable"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
               }
-            },
-            "required": [
-              "@id"
             ]
           }
         }
       },
       "required": [
-        "@id",
-        "skos:inScheme",
-        "skos:prefLabel",
-        "skos:notation"
+        "@type",
+        "cdif:has_Statistics"
       ]
     }
   },
