@@ -1,21 +1,52 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "DDI-CDI Data Structure",
-    "description": "Data organization based on reusable data structure components.",
-    "anyOf": [
-        {
-            "$ref": "#/$defs/DataStructure"
+    "description": "Adds data-structure description to a CDIF metadata record. Defines the cdi:DataStructure family of types ($defs DataStructure / DimensionalDataStructure / LongDataStructure / WideDataStructure, plus the supporting Component / Key / RepresentedVariable types). A distribution attaches a structure via cdi:isStructuredBy on its schema:DataDownload item; the structure value is any of the four DataStructure variants. Metadata records must declare conformance to cdif/data_structure/1.0.",
+    "type": "object",
+    "properties": {
+        "schema:subjectOf": {
+            "properties": {
+                "dcterms:conformsTo": {
+                    "contains": {
+                        "type": "object",
+                        "properties": {
+                            "@id": {
+                                "const": "https://w3id.org/cdif/data_structure/1.0"
+                            }
+                        }
+                    }
+                }
+            }
         },
-        {
-            "$ref": "#/$defs/DimensionalDataStructure"
-        },
-        {
-            "$ref": "#/$defs/LongDataStructure"
-        },
-        {
-            "$ref": "#/$defs/WideDataStructure"
+        "schema:distribution": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "cdi:isStructuredBy": {
+                        "description": "Reusable data-structure description for this distribution. One of the four DataStructure variants (DataStructure, Dimensional, Long, Wide), or an @id reference to one declared elsewhere in the document.",
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/DataStructure"
+                            },
+                            {
+                                "$ref": "#/$defs/DimensionalDataStructure"
+                            },
+                            {
+                                "$ref": "#/$defs/LongDataStructure"
+                            },
+                            {
+                                "$ref": "#/$defs/WideDataStructure"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
+                        ]
+                    }
+                }
+            }
         }
-    ],
+    },
     "$defs": {
         "id-reference": {
             "type": "object",
@@ -124,6 +155,20 @@
                 },
                 "cdi:has_PrimaryKey": {
                     "$ref": "#/$defs/PrimaryKey"
+                },
+                "cdi:has_ForeignKey": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/ForeignKey"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
+                        ]
+                    },
+                    "minItems": 1
                 }
             },
             "required": [
@@ -225,7 +270,13 @@
                     "items": {
                         "anyOf": [
                             {
-                                "$ref": "../../../cdifDataType/cdifDataStructureComponent/cdifDataStructureComponentSchema.json"
+                                "$ref": "../../../cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/IdentifierComponent"
+                            },
+                            {
+                                "$ref": "../../../cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/MeasureComponent"
+                            },
+                            {
+                                "$ref": "../../../cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/AttributeComponent"
                             },
                             {
                                 "$ref": "#/$defs/id-reference"
@@ -236,6 +287,20 @@
                 },
                 "cdi:has_PrimaryKey": {
                     "$ref": "#/$defs/PrimaryKey"
+                },
+                "cdi:has_ForeignKey": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/ForeignKey"
+                            },
+                            {
+                                "$ref": "#/$defs/id-reference"
+                            }
+                        ]
+                    },
+                    "minItems": 1
                 }
             },
             "required": [
@@ -317,58 +382,39 @@
                 "cdi:isComposedOf": {
                     "type": "array",
                     "items": {
-                        "anyOf": [
+                        "allOf": [
                             {
-                                "$ref": "#/$defs/ForeignKeyComponent"
+                                "anyOf": [
+                                    {
+                                        "$ref": "../../../cdifDataType/cdifRepresentedVariable/cdifRepresentedVariableSchema.json"
+                                    },
+                                    {
+                                        "$ref": "#/$defs/id-reference"
+                                    }
+                                ]
                             },
                             {
-                                "$ref": "#/$defs/id-reference"
+                                "type": "object",
+                                "properties": {
+                                    "cdif:position": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "description": "1-based position of this component in the key."
+                                    }
+                                },
+                                "required": [
+                                    "cdif:position"
+                                ]
                             }
                         ]
                     },
                     "minItems": 1
-                }
-            },
-            "required": [
-                "@type"
-            ]
-        },
-        "ForeignKeyComponent": {
-            "type": "object",
-            "description": "Role of a data structure component for content referencing purposes",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "cdi:ForeignKeyComponent"
-                    },
-                    "minItems": 1
-                },
-                "@id": {
-                    "type": "string",
-                    "description": "Identifier for this ForeignKeyComponent node"
-                },
-                "cdi:identifier": {
-                    "$ref": "../../../schemaorgProperties/identifier/identifierSchema.json",
-                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                 },
                 "cdi:references": {
+                    "description": "references a primary key in a different dataset",
                     "anyOf": [
                         {
-                            "$ref": "#/$defs/PrimaryKeyComponent"
-                        },
-                        {
-                            "$ref": "#/$defs/id-reference"
-                        }
-                    ]
-                },
-                "cdi:correspondsTo": {
-                    "anyOf": [
-                        {
-                            "$ref": "../../../cdifDataType/cdifDataStructureComponent/cdifDataStructureComponentSchema.json"
+                            "$ref": "#/$defs/PrimaryKey"
                         },
                         {
                             "$ref": "#/$defs/id-reference"
@@ -377,12 +423,13 @@
                 }
             },
             "required": [
-                "@type"
+                "@type",
+                "cdif:isComposedOf"
             ]
         },
         "PrimaryKey": {
             "type": "object",
-            "description": "Role of an ordered set of cdi:InstanceVariables that uniquely identify a data instance. Array order of cdif:isComposedOf items is the position; no intermediate ComponentPosition wrapper.",
+            "description": "set of Variables that uniquely identify a data instance. Array order of cdif:isComposedOf items is the position; no intermediate ComponentPosition wrapper.",
             "properties": {
                 "@type": {
                     "type": "array",
@@ -400,60 +447,40 @@
                 },
                 "cdif:isComposedOf": {
                     "type": "array",
-                    "description": "Ordered list of cdi:InstanceVariables (inline cdifInstanceVariable or @id-reference). Position is implicit in array order.",
+                    "description": "List of variables or @id-reference. Array order of cdif:isComposedOf items is the position; no intermediate ComponentPosition wrapper.",
                     "items": {
-                        "anyOf": [
+                        "allOf": [
                             {
-                                "$ref": "../../../cdifDataType/cdifInstanceVariable/cdifInstanceVariableSchema.json"
+                                "anyOf": [
+                                    {
+                                        "$ref": "../../../cdifDataType/cdifRepresentedVariable/cdifRepresentedVariableSchema.json"
+                                    },
+                                    {
+                                        "$ref": "#/$defs/id-reference"
+                                    }
+                                ]
                             },
                             {
-                                "$ref": "#/$defs/id-reference"
+                                "type": "object",
+                                "properties": {
+                                    "cdif:position": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "description": "1-based position of this component in the key."
+                                    }
+                                }
                             }
                         ]
                     },
+                    "required": [
+                        "cdif:position"
+                    ],
                     "minItems": 1
                 }
             },
             "required": [
                 "@type",
                 "cdif:isComposedOf"
-            ]
-        },
-        "PrimaryKeyComponent": {
-            "type": "object",
-            "description": "Role of a data structure component for content identification purposes",
-            "properties": {
-                "@type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "contains": {
-                        "const": "cdi:PrimaryKeyComponent"
-                    },
-                    "minItems": 1
-                },
-                "@id": {
-                    "type": "string",
-                    "description": "Identifier for this PrimaryKeyComponent node"
-                },
-                "cdi:identifier": {
-                    "$ref": "../../../schemaorgProperties/identifier/identifierSchema.json",
-                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-                },
-                "cdi:correspondsTo": {
-                    "anyOf": [
-                        {
-                            "$ref": "../../../cdifDataType/cdifDataStructureComponent/cdifDataStructureComponentSchema.json"
-                        },
-                        {
-                            "$ref": "#/$defs/id-reference"
-                        }
-                    ]
-                }
-            },
-            "required": [
-                "@type"
             ]
         }
     }

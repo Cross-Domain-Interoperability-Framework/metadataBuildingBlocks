@@ -4,6 +4,21 @@
     "description": "Additional constraints for CDIF data description level. Adds cdif:physicalDataType requirement on variableMeasured items and distribution-level cdi properties for file characterization (characterSet, fileSize, fileSizeUofM).",
     "type": "object",
     "properties": {
+        "@context": {
+            "type": "object",
+            "description": "Additional JSON-LD namespace prefixes for discovery and data description.",
+            "properties": {
+                "geosparql": {
+                    "const": "http://www.opengis.net/ont/geosparql#"
+                },
+                "dqv": {
+                    "const": "http://www.w3.org/ns/dqv#"
+                },
+                "cdi": {
+                    "const": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+                }
+            }
+        },
         "cdif:hasPrimaryKey": {
             "anyOf": [
                 {
@@ -142,7 +157,8 @@
             }
         },
         "schema:distribution": {
-            "description": "Each schema:DataDownload distribution item SHOULD additionally be typed as cdi:PhysicalDataSet or one of its subclasses (cdi:TabularTextDataSet, cdi:StructuredDataSet). schema:WebAPI distribution items do not require a cdi: dataset type. Not enforced at schema level (the merge with cdifCore and cdifArchiveDistribution drops the @type constraint at profile resolution); consider a SHACL rule if runtime enforcement is needed.",
+            "description": "Each schema:DataDownload distribution item SHOULD additionally be typed as cdi:PhysicalDataSet or one of its subclasses (cdi:TabularTextDataSet, cdi:StructuredDataSet). schema:WebAPI distribution items do not require a cdi: dataset type. Not enforced at schema level (the merge with cdifCore and cdifManifest drops the @type constraint at profile resolution); consider a SHACL rule if runtime enforcement is needed.",
+            "type": "array",
             "items": {
                 "allOf": [
                     {

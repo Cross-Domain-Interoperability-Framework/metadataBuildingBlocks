@@ -104,14 +104,14 @@ metadataBuildingBlocks/
 │       │   ├── cdifDiscovery/       # Discovery extensions: measurementTechnique, variableMeasured, spatialCoverage, temporalCoverage, hasQualityMeasurement
 │       │   ├── cdifDataDescription/ # Per-variable physicalDataType, primaryKey, statistics, distribution-level cdif:hasPhysicalMapping (PhysicalMapping / TextMapping / LocatorMapping), cdi:characterSet, cdi:fingerprint
 │       │   ├── cdifDataStructure/   # cdi:isStructuredBy on each distribution → DataStructure / Dimensional / Long / Wide variants; six component subtypes; PrimaryKey + ForeignKey over RepresentedVariables (each membership wrapped with required cdif:position integer)
-│       │   ├── cdifArchiveDistribution/  # schema:hasPart on a DataDownload (ZIP etc.); required when encodingFormat contains application/zip; conformsTo cdif/manifest/1.0. Merged from the previous cdifArchive BB; archivePart $defs are local
+│       │   ├── cdifManifest/  # schema:hasPart on a DataDownload (ZIP etc.); required when encodingFormat contains application/zip; conformsTo cdif/manifest/1.0. Merged from the previous cdifArchive BB; archivePart $defs are local
 │       │   ├── cdifProvenance/      # prov:wasGeneratedBy → cdifProvActivity[] (instruments, agents, methodology, temporal bounds, action chaining)
 │       │   ├── cdifCodelist/        # CDIF Codelist — skos:ConceptScheme constrained for CDIF use
 │       │   └── cdifConceptScheme/   # SKOS ConceptScheme wrapper (thin)
 │       ├── cdifCompositeProfile/    # COMPOSITE profiles — thin allOf chains; what instance docs validate against
-│       │   ├── BasicDiscovery/                  # composes cdifCore + cdifDiscovery
-│       │   ├── BasicDataDescription/            # composes cdifCore + cdifDiscovery + cdifDataDescription
-│       │   ├── DataDescriptionWithStructure/    # + cdifDataStructure
+│       │   ├── CoreDiscovery/                  # composes cdifCore + cdifDiscovery
+│       │   ├── DiscoveryDataDescription/            # composes cdifCore + cdifDiscovery + cdifDataDescription
+│       │   ├── DiscoveryDataDescriptionStructure/    # + cdifDataStructure
 │       │   ├── XASdata/                         # cdifCore + cdifDiscovery + cdifDataDescription + xasOptional + xasCore
 │       │   └── cdifComplete/                    # Everything (incl. ArchiveDistribution + Provenance)
 │       └── archive/                 # Deprecated / not-promoted-to-composite (e.g. CDIFCodelistProfile)
@@ -155,7 +155,7 @@ Some building blocks define **item-level schemas** (e.g., a provenance activity 
 | Wrapper BB | Root Property | Wraps |
 |------------|--------------|-------|
 | `cdifProvenance` | `prov:wasGeneratedBy` (array) | `cdifProvActivity` |
-| `cdifArchiveDistribution` | `schema:distribution` (adds archive option) | `cdifArchive` |
+| `cdifManifest` | `schema:distribution` (adds archive option) | `cdifArchive` |
 
 ## BB Root Convention: Node-only schemas, no `@graph` wrapper
 
@@ -343,7 +343,7 @@ Building blocks that represent CDIF specification components declare required `d
 | `cdifCore` | `https://w3id.org/cdif/core/1.0` | `sh:hasValue` on existing `metadataProfileProperty` |
 | `CDIFDiscoveryProfile` | `https://w3id.org/cdif/discovery/1.0` | `CDIFDiscoveryProfileConformsToShape` |
 | `cdifDataDescription` | `https://w3id.org/cdif/data_description/1.0` | `CDIFDataDescriptionProfileConformsToShape` |
-| `cdifArchiveDistribution` | `https://w3id.org/cdif/manifest/1.0` | *(no rules.shacl — JSON Schema only)* |
+| `cdifManifest` | `https://w3id.org/cdif/manifest/1.0` | *(no rules.shacl — JSON Schema only)* |
 | `cdifProvenance` | `https://w3id.org/cdif/provenance/1.0` | *(no rules.shacl — JSON Schema only)* |
 | `xasOptional` | `https://w3id.org/cdif/xasDiscovery/1.0` | `XasDiscoveryConformsToShape` |
 | `xasCore` | `https://w3id.org/cdif/xasCore/1.0` | `XasCoreConformsToShape` |
@@ -404,7 +404,7 @@ Each building block directory contains:
 | `*Schema.json` | `regenerate_schema_json.py` | JSON copy of `schema.yaml` with `$ref` paths rewritten to `.json` extensions |
 | `resolvedSchema.json` | `resolve_schema.py --all` | Standalone JSON Schema in structured form (`$defs` + internal `$ref`); single resolved-form artifact |
 
-For profiles, generated files use the full profile directory name (e.g., `CDIFDiscoveryProfileSchema.json`).
+For profiles, generated files use the full profile directory name (e.g., `CoreDiscoverySchema.json`).
 
 ### `bblock.json` Required Fields
 
@@ -787,7 +787,7 @@ Generates an Excel workbook (`<bbName>_properties.xlsx`) listing all properties 
 python generate_property_table.py path/to/_sources/profiles/cdifProfile/cdifCore/schema.yaml
 
 # Generate property table for a profile
-python generate_property_table.py path/to/_sources/profiles/cdifCompositeProfile/BasicDiscovery/schema.yaml
+python generate_property_table.py path/to/_sources/profiles/cdifCompositeProfile/CoreDiscovery/schema.yaml
 ```
 
 **Location:** `C:\Users\smrTu\OneDrive\Documents\GithubC\CDIF\Discovery\generate_property_table.py`
@@ -829,7 +829,7 @@ python tools/validate_shacl.py CDIFDataStructureProfile
 python tools/validate_shacl.py CDIFDataStructureProfile --verbose
 
 # Fail the run on any sh:Violation
-python tools/validate_shacl.py _sources/profiles/cdifCompositeProfile/DataDescriptionWithStructure --strict
+python tools/validate_shacl.py _sources/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure --strict
 ```
 
 **CLI options:** `--verbose`/`-v` (list every result, not just violations), `--strict` (exit non-zero on violations).
@@ -959,9 +959,25 @@ Looks for sibling repos relative to this repo's parent directory. **Note:** this
 
 ## Release profile repos & sync (downstream)
 
-Four **published profile-spec repos** consume this one (GitHub org `Cross-Domain-Interoperability-Framework`): **core**, **discovery**, **datadescription**, **codelist**. Each holds `*StructuredSchema.json`, `*Rules.shacl`, `*ImplementationGuide.md` (+`.docx`), `*-frame.jsonld`, `examples/`, and a `FrameAndValidate.py`. The sync from this repo is **manual** (there is no automation for it):
+The **published release repos** (GitHub org `Cross-Domain-Interoperability-Framework`) consume this one. As of the 2026-05 reorg they split into **profile (module) repos** (`profile-*`) and **composite-profile repos** (`doc-*`), each sourced from a profile under `_sources/profiles/`:
 
-- **StructuredSchema** ← `python tools/resolve_schema.py <Profile> --structured -o <release>/<file>StructuredSchema.json`. Profiles by name (`CDIFDiscoveryProfile`, `CDIFDataDescriptionProfile`, `CDIFCodelistProfile`); **Core via** `--file _sources/profiles/cdifProfile/cdifCore/schema.yaml`. The `-o` is required (otherwise it prints to stdout).
+| release repo | mbb source profile |
+|---|---|
+| `profile-core` | `cdifProfile/cdifCore` |
+| `profile-discovery` | `cdifProfile/cdifDiscovery` |
+| `profile-datadescription` | `cdifProfile/cdifDataDescription` |
+| `profile-datastructure` | `cdifProfile/cdifDataStructure` |
+| `profile-provenance` | `cdifProfile/cdifProvenance` |
+| `profile-manifest` | `cdifProfile/cdifManifest` |
+| `profile-codelist` | `cdifProfile/cdifCodelist` |
+| `profile-conceptscheme` | `cdifProfile/cdifConceptScheme` |
+| `doc-corediscovery` | `cdifCompositeProfile/CoreDiscovery` |
+| `doc-discoverydatadescription` | `cdifCompositeProfile/DiscoveryDataDescription` |
+| `doc-discoverydatadescriptionstructure` | `cdifCompositeProfile/DiscoveryDataDescriptionStructure` |
+
+(Pre-2026-05 there were only 4 repos — `core`/`discovery`/`datadescription`/`codelist` — renamed + expanded in the reorg. `profile-discovery`, `profile-datadescription`, and `doc-discoverydatadescriptionstructure` are newly created and not yet populated.) Each holds `*StructuredSchema.json`, `*Rules.shacl`, `*ImplementationGuide.md` (+`.docx`), `*-frame.jsonld`, `examples/`, and a `FrameAndValidate.py`. The sync from this repo is **manual** (there is no automation for it):
+
+- **StructuredSchema** ← `python tools/resolve_schema.py <Profile> --structured -o <release>/<file>StructuredSchema.json`. The `<Profile>` is the source dir name from the table above (e.g. `CoreDiscovery`, `DiscoveryDataDescription`, `cdifCore`, `cdifManifest`); for a bare module schema use `--file _sources/profiles/cdifProfile/<module>/schema.yaml`. The `-o` is required (otherwise it prints to stdout).
 - **SHACL** — `coreRules.shacl` is a byte-copy of `cdifCore/rules.shacl`; the profile `*Rules.shacl` are **merged** from the ~15 composing BB `rules.shacl` (no merge script lives in those repos). Only re-sync when a `rules.shacl` actually changed.
 - **Implementation guides** — hand-maintained `.md`; regenerate `.docx` with `pandoc <md> --reference-doc=<copy of prior .docx> -o <docx>`.
 - **Examples** — validate with `python FrameAndValidate.py <ex> --validate --schema <S> --frame <F>` (frames the JSON-LD, array-wraps its `ARRAY_PROPERTIES`, then validates). Open-world, so unknown props pass.
