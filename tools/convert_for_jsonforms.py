@@ -108,22 +108,71 @@ def save_json(data: dict, path: Path) -> None:
 # Inline $ref and merge allOf
 # ---------------------------------------------------------------------------
 
+def _direct_def_refs(node: Any, acc: set) -> set:
+    """Collect the set of #/$defs/NAME targets referenced anywhere in node."""
+    if isinstance(node, dict):
+        ref = node.get("$ref")
+        if isinstance(ref, str) and ref.startswith("#/$defs/"):
+            acc.add(ref[len("#/$defs/"):])
+        for v in node.values():
+            _direct_def_refs(v, acc)
+    elif isinstance(node, list):
+        for v in node:
+            _direct_def_refs(v, acc)
+    return acc
+
+
+def _recursive_def_names(defs: dict) -> set:
+    """Names of $defs that reference themselves directly or transitively.
+
+    Such defs encode recursive types (e.g. CdifCodelistConcept whose
+    skos:narrower items are concepts, or the CdifInstanceVariable <->
+    StatisticsCollection cycle).  They MUST NOT be inlined — expanding them
+    never terminates — so they are kept as named $refs.
+    """
+    direct = {name: _direct_def_refs(body, set()) for name, body in defs.items()}
+    recursive = set()
+    for start in defs:
+        seen, stack = set(), list(direct.get(start, ()))
+        while stack:
+            n = stack.pop()
+            if n == start:
+                recursive.add(start)
+                break
+            if n in seen:
+                continue
+            seen.add(n)
+            stack.extend(direct.get(n, ()))
+    return recursive
+
+
 def inline_refs_and_merge_allof(schema: dict) -> dict:
     """
     Resolve all $ref pointers (to local $defs) and merge top-level allOf
     entries into a single flat schema.  This produces a structure identical
     to the old fully-inlined resolved schemas, so downstream simplification
     passes work correctly without allOf/enum conflicts.
+
+    Recursive $defs (self- or mutually-referential) are NOT inlined — that
+    never terminates — so they are kept as named $refs with their definitions
+    retained under $defs.
     """
     defs = schema.get("$defs", {})
+    recursive = _recursive_def_names(defs)
 
     def _resolve(node: Any) -> Any:
-        """Recursively inline $ref → $defs pointers."""
+        """Recursively inline $ref → $defs pointers (except recursive defs)."""
         if isinstance(node, dict):
             if "$ref" in node:
                 ref = node["$ref"]
                 if ref.startswith("#/$defs/"):
                     def_name = ref[len("#/$defs/"):]
+                    # Recursive defs stay as named $refs (kept in $defs below).
+                    if def_name in recursive:
+                        if len(node) == 1:
+                            return {"$ref": ref}
+                        extra = {k: _resolve(v) for k, v in node.items() if k != "$ref"}
+                        return {"$ref": ref, **extra}
                     if def_name in defs:
                         resolved_def = _resolve(copy.deepcopy(defs[def_name]))
                         if len(node) == 1:
@@ -141,7 +190,15 @@ def inline_refs_and_merge_allof(schema: dict) -> dict:
         return node
 
     resolved = _resolve(schema)
-    resolved.pop("$defs", None)
+
+    # Keep only the recursive $defs (the rest were inlined). Resolve each kept
+    # def so its non-recursive refs inline while its recursive refs stay $refs.
+    if recursive:
+        resolved["$defs"] = {
+            name: _resolve(copy.deepcopy(defs[name])) for name in recursive
+        }
+    else:
+        resolved.pop("$defs", None)
 
     # Merge top-level allOf entries into a single flat object
     if "allOf" in resolved:
