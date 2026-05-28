@@ -33,11 +33,14 @@ W3ID_BASE = "https://w3id.org/cdif"
 # Each key is a category/family name that appears in .htaccess patterns.
 SAMPLE_CAPTURE_VALUES = {
     # Two-segment BB: bbr/metadata/{category}/{name}
-    "cdifProperties": ["cdifOptional", "cdifCore"],
-    "xasProperties": ["xasRequired", "xasOptional"],
+    # (2026-05 reorg: cdifProperties -> cdifDataType; module/composite profiles
+    #  moved under profiles/cdifProfile and profiles/cdifCompositeProfile)
+    "cdifDataType": ["cdifInstanceVariable", "cdifCatalogRecord"],
+    "xasProperties": ["xasCore", "xasOptional"],
     "schemaorgProperties": ["definedTerm"],
     # Three-segment profiles: bbr/metadata/profiles/{family}/{name}
-    "cdifProfiles": ["CDIFDiscoveryProfile", "CDIFcompleteProfile"],
+    "cdifProfile": ["cdifCore", "cdifDiscovery"],
+    "cdifCompositeProfile": ["BasicDiscovery", "BasicDataDescription"],
     # Domain-specific (matched by dedicated rules, not generic patterns)
     "adaProfiles": ["adaICPMS"],
     "DDEProfiles": ["DDEDiscovery"],
@@ -207,8 +210,8 @@ def instantiate_pattern(pattern: str) -> list[str]:
                         path = re.sub(r'\([^)]+\)', name, path, count=1)
                         results.append(path)
         else:
-            # Generic two-segment: use cdifProperties and xasProperties samples
-            for cat in ("cdifProperties", "xasProperties"):
+            # Generic two-segment: use cdifDataType and xasProperties samples
+            for cat in ("cdifDataType", "xasProperties"):
                 for name in SAMPLE_CAPTURE_VALUES.get(cat, [])[:1]:
                     path = clean
                     path = re.sub(r'\([^)]+\)', cat, path, count=1)
