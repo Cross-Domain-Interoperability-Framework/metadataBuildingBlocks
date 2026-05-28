@@ -101,25 +101,23 @@ def gather_rule_files(schema_files) -> list:
     return rules
 
 
-def load_shapes_graph(rule_files):
-    import rdflib
-    g = rdflib.Graph()
-    for rf in rule_files:
-        g.parse(str(rf), format="turtle")
-    return g
-
-
 def merge_shapes_dedup(rule_files, profile_name):
     """Merge the rule files into one shapes graph, deduping shapes that are
-    defined in more than one source (a naive union would yield e.g. a
-    PropertyShape with two sh:path, which pyshacl rejects).
+    defined in more than one source. A naive union yields e.g. a PropertyShape
+    with two sh:path (shared named shapes such as cdifd:rightsProperty use a
+    blank-node `sh:path [ sh:alternativePath (...) ]`, and each parse mints a
+    distinct blank node), which pyshacl rejects with a ShapeLoadError.
 
-    Precedence for a duplicated *named* shape: the profile's own rules.shacl
-    wins (it intentionally overrides base shapes like CDIFCatalogRecordShape /
+    For each *named* shape defined in more than one file, one definition wins
+    and the losers' concise bounded descriptions are removed before union.
+    Blank-node-rooted (anonymous) shapes and all references TO a shape are
+    preserved (only the losing named shape's own subgraph is dropped).
+
+    Precedence for a duplicated named shape: the profile's own rules.shacl wins
+    (it intentionally overrides base shapes like CDIFCatalogRecordShape /
     CDIFDatasetMandatoryShape); otherwise the BB whose directory name appears in
     the shape's local name wins (e.g. definedTerm owns CDIFDefinedTermShape);
-    else fall back to sorted directory name. The winner's full subgraph
-    (concise bounded description) is emitted; losers are dropped.
+    else fall back to sorted directory name.
     """
     import rdflib
     from rdflib import RDF
@@ -147,12 +145,24 @@ def merge_shapes_dedup(rule_files, profile_name):
                     continue
                 shape_defs.setdefault(s, []).append((rf, g))
 
-    out = rdflib.Graph()
+    # pick the single winning file for each duplicated named shape
+    winner = {}
     for s, cands in shape_defs.items():
         local = str(s).split("#")[-1].split("/")[-1]
-        rf, g = min(cands, key=lambda c: priority(c[0], local))
-        for tr in g.cbd(s):
-            out.add(tr)
+        rf, _g = min(cands, key=lambda c: priority(c[0], local))
+        winner[s] = rf
+
+    out = rdflib.Graph()
+    for rf, g in parsed:
+        # Remove the concise bounded description of every named shape this file
+        # does NOT win, so only the winner contributes that shape's definition
+        # (and its blank-node path). Anonymous shapes and references survive.
+        for s, w in winner.items():
+            if w is not rf and (s, None, None) in g:
+                for tr in list(g.cbd(s)):
+                    g.remove(tr)
+        out += g
+
     for prefix, ns in (
         ("rdf", rdflib.RDF), ("rdfs", rdflib.RDFS), ("sh", SH), ("xsd", rdflib.XSD),
         ("schema", "http://schema.org/"), ("dcterms", "http://purl.org/dc/terms/"),
@@ -244,7 +254,7 @@ def main():
         print("No example*.json found in target directory.")
         return 0
 
-    shapes_graph = load_shapes_graph(rule_files)
+    shapes_graph = merge_shapes_dedup(rule_files, target_dir.name)
 
     total = {"Violation": 0, "Warning": 0, "Info": 0}
     any_violation = False
