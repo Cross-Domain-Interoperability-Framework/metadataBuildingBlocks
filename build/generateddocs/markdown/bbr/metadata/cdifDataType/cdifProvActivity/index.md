@@ -60,7 +60,12 @@ the BB allows.
   },
   "@type": ["schema:Action", "prov:Activity"],
   "@id": "ex:activity/sample-prep",
-  "schema:name": "Sample preparation"
+  "schema:name": "Sample preparation",
+  "prov:used": [
+    {
+      "@id": "ex:sample-001"
+    }
+  ]
 }
 
 ```
@@ -85,18 +90,25 @@ the BB allows.
     "prov:Activity"
   ],
   "@id": "ex:activity/sample-prep",
-  "schema:name": "Sample preparation"
+  "schema:name": "Sample preparation",
+  "prov:used": [
+    {
+      "@id": "ex:sample-001"
+    }
+  ]
 }
 ```
 
 #### ttl
 ```ttl
+@prefix ex: <https://example.org/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://example.org/activity/sample-prep> a schema1:Action,
         prov:Activity ;
-    schema1:name "Sample preparation" .
+    schema1:name "Sample preparation" ;
+    prov:used ex:sample-001 .
 
 
 ```
@@ -400,10 +412,7 @@ ex:activity-soil-chem-analysis a schema1:Action,
     schema1:object "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect" ;
     schema1:result ex:dataset-soil-chem-gb-2025 ;
     schema1:startTime "2025-07-15T08:00:00Z" ;
-    prov:used [ a schema1:CreativeWork ;
-            schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
-            schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
-        [ schema1:instrument [ a schema1:DefinedTerm,
+    prov:used [ schema1:instrument [ a schema1:DefinedTerm,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
                             schema1:name "Typical Detection Limit" ;
@@ -417,6 +426,9 @@ ex:activity-soil-chem-analysis a schema1:Action,
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
                     schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
                     schema1:termCode "ICP-MS" ] ],
+        [ a schema1:CreativeWork ;
+            schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
+            schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
         "Soil core samples collected June 2025, sites GB-001 through GB-045",
         "https://vocab.nerc.ac.uk/collection/L05/current/LAB02" .
 
