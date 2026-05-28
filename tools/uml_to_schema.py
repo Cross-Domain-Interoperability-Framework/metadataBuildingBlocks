@@ -3016,11 +3016,17 @@ def _puml_header(title: str) -> list[str]:
         # counts. Without these the overviews stretch to 6-7:1 wide.
         "skinparam ranksep 250",
         "skinparam nodesep 20",
-        "skinparam linetype ortho",
+        # Lines are left as the PlantUML default (splined / curved). ortho
+        # Manhattan routing was tried and judged too angular.
+        # Bigger fonts so class boxes (and the title / association labels) fill
+        # more of the bounding box -- diagrams looked too sparse at the
+        # default size. ~3x the original 12pt; boxes auto-scale to the text.
+        "skinparam defaultFontSize 36",
         "skinparam class {",
         "  ArrowColor #404040",
         "  BorderColor #404040",
-        "  FontSize 12",
+        "  FontSize 36",
+        "  AttributeFontSize 30",
         "}",
         "",
     ]

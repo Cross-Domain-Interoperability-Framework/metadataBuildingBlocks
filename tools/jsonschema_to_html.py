@@ -378,15 +378,21 @@ _PUML_HEADER = (
     "hide empty members\n"
     "skinparam shadowing false\n"
     "skinparam ArrowThickness 1.2\n"
-    # Layout: ortho edges + large ranksep + small nodesep keeps the bounding
-    # box closer to square (~1:1) instead of the default very-wide layout.
+    # Layout: large ranksep + small nodesep keeps the bounding box closer to
+    # square (~1:1) instead of the default very-wide layout. Lines are left as
+    # the PlantUML default (splined / curved) -- ortho Manhattan routing was
+    # tried and judged too angular.
     "skinparam ranksep 250\n"
     "skinparam nodesep 20\n"
-    "skinparam linetype ortho\n"
+    # Bigger fonts so class boxes (and the title / association labels) fill more
+    # of the bounding box -- diagrams looked too sparse at the default size.
+    # ~3x the original 12pt; boxes auto-scale to the text.
+    "skinparam defaultFontSize 36\n"
     "skinparam class {\n"
     "  ArrowColor #404040\n"
     "  BorderColor #404040\n"
-    "  FontSize 12\n"
+    "  FontSize 36\n"
+    "  AttributeFontSize 30\n"
     "}\n"
 )
 
