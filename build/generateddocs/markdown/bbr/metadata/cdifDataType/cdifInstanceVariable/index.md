@@ -185,14 +185,7 @@ them via schema:variableMeasured.
   ],
   "cdif:definition": "Incident photon energy selected by the monochromator during the XAS scan.",
   "cdif:physicalDataType": [
-    {
-      "@type": [
-        "cdi:ControlledVocabularyEntry"
-      ],
-      "cdi:entryValue": [
-        "xsd:decimal"
-      ]
-    }
+    "xsd:decimal"
   ],
   "cdi:takesSubstantiveValuesFrom": {
     "@id": "ex:value-domain/decimal-eV"
@@ -258,14 +251,7 @@ them via schema:variableMeasured.
   ],
   "cdif:definition": "Incident photon energy selected by the monochromator during the XAS scan.",
   "cdif:physicalDataType": [
-    {
-      "@type": [
-        "cdi:ControlledVocabularyEntry"
-      ],
-      "cdi:entryValue": [
-        "xsd:decimal"
-      ]
-    }
+    "xsd:decimal"
   ],
   "cdi:takesSubstantiveValuesFrom": {
     "@id": "ex:value-domain/decimal-eV"
@@ -303,8 +289,7 @@ xas:monochromatorEnergy a cdi:InstanceVariable,
     cdif:definition "Incident photon energy selected by the monochromator during the XAS scan." ;
     cdif:displayLabel "Monochromator energy" ;
     cdif:name "energy" ;
-    cdif:physicalDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:decimal" ] ;
+    cdif:physicalDataType "xsd:decimal" ;
     cdif:role "Attribute" ;
     cdif:simpleUnitOfMeasure "eV" ;
     cdif:uses "xas:monochromatorEnergyConcept" .
