@@ -1,0 +1,50 @@
+@startuml
+title XsdAnyUri
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+abstract class "CompositeProfile" as CompositeProfile #EEEEEE
+CompositeProfile ..> XsdAnyUri : identifier
+class "Dataset" as Dataset #EEEEEE
+Dataset ..> XsdAnyUri : url
+class "DataDownload" as DataDownload #EEEEEE
+DataDownload ..> XsdAnyUri : contentUrl
+DataDownload ..> XsdAnyUri : conformsTo
+class "ActionResult" as ActionResult #EEEEEE
+ActionResult ..> XsdAnyUri : conformsTo
+class "DefinedTerm" as DefinedTerm #EEEEEE
+DefinedTerm ..> XsdAnyUri : inDefinedTermSet
+class "Identifier" as Identifier #EEEEEE
+Identifier ..> XsdAnyUri : url
+class "AdditionalProperty" as AdditionalProperty #EEEEEE
+AdditionalProperty ..> XsdAnyUri : unitCode
+class "Reference" as Reference #EEEEEE
+Reference ..> XsdAnyUri : url
+Reference ..> XsdAnyUri : relation
+class "ProvActivity" as ProvActivity #EEEEEE
+ProvActivity ..> XsdAnyUri : used
+class "DerivedFrom" as DerivedFrom #EEEEEE
+DerivedFrom ..> XsdAnyUri : url
+DerivedFrom ..> XsdAnyUri : relation
+class "CatalogRecord" as CatalogRecord #EEEEEE
+CatalogRecord ..> XsdAnyUri : conformsTo
+class "VariableMeasured" as VariableMeasured #EEEEEE
+VariableMeasured ..> XsdAnyUri : identifier
+class "SpatialExtent" as SpatialExtent #EEEEEE
+SpatialExtent ..> XsdAnyUri : identifier
+class "QualityMeasure" as QualityMeasure #EEEEEE
+QualityMeasure ..> XsdAnyUri : metric
+
+@enduml

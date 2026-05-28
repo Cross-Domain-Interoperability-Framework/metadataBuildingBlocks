@@ -1,0 +1,34 @@
+@startuml
+title WebAPI
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "WebAPI" as WebAPI #FEFECE {
+  +documentation : Reference [0..1]
+  +termsOfService : Reference [0..1]
+  +serviceType : string [0..1]
+}
+abstract class "AbstractDistribution" as AbstractDistribution #D6EAF8
+AbstractDistribution <|-- WebAPI
+class "Dataset" as Dataset #EEEEEE
+Dataset *-- "0..*" WebAPI : distribution
+class "Action" as Action #EEEEEE
+WebAPI --> "0..*" Action : potentialAction
+class "ActionResult" as ActionResult #EEEEEE
+WebAPI *-- "0..*" ActionResult : potentialActionResult
+class "Reference" as Reference #EEEEEE
+WebAPI --> "0..1" Reference : documentation
+WebAPI --> "0..1" Reference : termsOfService
+
+@enduml

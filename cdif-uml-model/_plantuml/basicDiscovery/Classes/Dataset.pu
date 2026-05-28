@@ -1,0 +1,78 @@
+@startuml
+title Dataset
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "Dataset" as Dataset #FEFECE {
+  +identifier : Identifier [1]
+  +name : string [1]
+  +description : string [0..1]
+  +additionalType : DefinedTerm [0..*]
+  +sameAs : Identifier [0..*]
+  +version : string [0..1]
+  +inLanguage : XsdLanguage [0..1]
+  +dateModified : XsdDate [1]
+  +datePublished : XsdDate [0..1]
+  +url : XsdAnyUri [0..1]
+  +license : Reference [0..*]
+  +conditionsOfAccess : Reference [0..*]
+  +publishingPrinciples : Reference [0..*]
+  +keywords : DefinedTerm [0..*]
+  +relatedLink : Reference [0..*]
+}
+abstract class "Agent" as Agent #EEEEEE
+Dataset --> "0..*" Agent : provider
+abstract class "AbstractDistribution" as AbstractDistribution #EEEEEE
+Dataset --> "0..*" AbstractDistribution : distribution
+Dataset --> "0..*" Agent : creator
+class "Contributor" as Contributor #EEEEEE
+Dataset --> "0..*" Contributor : contributor
+Dataset --> "0..1" Agent : publisher
+class "MonetaryGrant" as MonetaryGrant #EEEEEE
+Dataset --> "0..*" MonetaryGrant : funding
+class "ProvActivity" as ProvActivity #EEEEEE
+Dataset --> "0..*" ProvActivity : wasGeneratedBy
+class "DerivedFrom" as DerivedFrom #EEEEEE
+Dataset --> "0..*" DerivedFrom : wasDerivedFrom
+class "CatalogRecord" as CatalogRecord #EEEEEE
+Dataset --> "1" CatalogRecord : subjectOf
+class "DefinedTerm" as DefinedTerm #EEEEEE
+Dataset --> "0..*" DefinedTerm : keywords
+class "Reference" as Reference #EEEEEE
+Dataset --> "0..*" Reference : license
+Dataset --> "0..*" DefinedTerm : measurementTechnique
+class "VariableMeasured" as VariableMeasured #EEEEEE
+Dataset *-- "0..*" VariableMeasured : variableMeasured
+class "SpatialExtent" as SpatialExtent #EEEEEE
+Dataset *-- "0..*" SpatialExtent : spatialCoverage
+class "TemporalExtent" as TemporalExtent #EEEEEE
+Dataset *-- "0..*" TemporalExtent : temporalCoverage
+class "QualityMeasure" as QualityMeasure #EEEEEE
+Dataset *-- "0..*" QualityMeasure : hasQualityMeasurement
+CatalogRecord --> "0..1" Dataset : about
+class "Identifier" as Identifier #EEEEEE
+Dataset --> "1" Identifier : identifier
+Dataset --> "0..*" DefinedTerm : additionalType
+Dataset --> "0..*" Identifier : sameAs
+class "XsdLanguage" as XsdLanguage <<dataType>> #FAE5D3
+Dataset ..> XsdLanguage : inLanguage
+class "XsdDate" as XsdDate <<dataType>> #FAE5D3
+Dataset ..> XsdDate : dateModified
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+Dataset ..> XsdAnyUri : url
+Dataset --> "0..*" Reference : conditionsOfAccess
+Dataset --> "0..*" Reference : publishingPrinciples
+Dataset --> "0..*" Reference : relatedLink
+
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+title Instrument
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "Instrument" as Instrument #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+  +name : string [0..1]
+  +description : string [0..1]
+  +version : string [0..1]
+}
+class "ProvActivity" as ProvActivity #EEEEEE
+ProvActivity --> "0..*" Instrument : uses
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+Instrument ..> XsdAnyUri : identifier
+
+@enduml

@@ -4,43 +4,36 @@ hide circle
 hide empty members
 skinparam shadowing false
 skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
 skinparam class {
   ArrowColor #404040
   BorderColor #404040
-  FontSize 12
+  FontSize 36
+  AttributeFontSize 30
 }
 
 class "ConceptScheme" as ConceptScheme #FEFECE {
-  +prefLabel : string [1..*]
-  +altLabel : string [0..*]
-  +hiddenLabel : string [0..*]
-  +definition : string [0..*]
-  +notation : string [0..*]
-  +note : string [0..*]
-  +scopeNote : string [0..*]
-  +historyNote : string [0..*]
-  +changeNote : string [0..*]
-  +editorialNote : string [0..*]
-  +example : string [0..*]
-  +identifier : Identifier [1]
+  +identifier : XsdAnyUri [1]
+  +prefLabel : string [1]
+  +definition : string [0..1]
+  +note : string [0..1]
   +dateModified : XsdDate [1]
-  +datePublished : XsdDate [0..1]
   +url : XsdAnyUri [0..1]
-  +license : Reference [0..*]
-  +conditionsOfAccess : Reference [0..*]
-  +version : string [0..1]
+  +license : string [0..*]
+  +conditionsOfAccess : string [0..*]
 }
-class "Concept" as Concept #EEEEEE
-ConceptScheme --> "1..*" Concept : hasTopConcept
-Concept --> "1..*" ConceptScheme : inScheme
+class "CatalogRecord" as CatalogRecord #EEEEEE
+ConceptScheme *-- "1" CatalogRecord : subjectOf
 class "Identifier" as Identifier #EEEEEE
-ConceptScheme --> "1" Identifier : identifier
+ConceptScheme *-- "0..1" Identifier : identifier
+class "Concept" as Concept #EEEEEE
+ConceptScheme *-- "1..*" Concept : hasTopConcept
+Concept --> "1..*" ConceptScheme : inScheme
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+ConceptScheme ..> XsdAnyUri : identifier
 class "XsdDate" as XsdDate <<dataType>> #FAE5D3
 ConceptScheme ..> XsdDate : dateModified
-class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
-ConceptScheme ..> XsdAnyUri : url
-class "Reference" as Reference #EEEEEE
-ConceptScheme --> "0..*" Reference : license
-ConceptScheme --> "0..*" Reference : conditionsOfAccess
 
 @enduml

@@ -4,16 +4,21 @@ hide circle
 hide empty members
 skinparam shadowing false
 skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
 skinparam class {
   ArrowColor #404040
   BorderColor #404040
-  FontSize 12
+  FontSize 36
+  AttributeFontSize 30
 }
 
 class "ConceptScheme" as ConceptScheme #E8DAEF
-class "Concept" as Concept #FCF3CF
-class "Identifier" as Identifier #FCF3CF
-ConceptScheme --> "1..*" Concept : hasTopConcept
+class "Concept" as Concept #E8DAEF
+class "CatalogRecord" as CatalogRecord #FEFECE
+ConceptScheme *-- "1" CatalogRecord : subjectOf
+ConceptScheme *-- "1..*" Concept : hasTopConcept
 Concept --> "1..*" ConceptScheme : inScheme
 Concept --> "0..*" Concept : broader
 Concept --> "0..*" Concept : narrower

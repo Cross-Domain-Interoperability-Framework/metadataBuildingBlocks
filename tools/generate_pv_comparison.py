@@ -341,7 +341,7 @@ def main():
         ('identifier', '_sources/schemaorgProperties/identifier/schema.yaml'),
         ('variableMeasured', '_sources/schemaorgProperties/variableMeasured/schema.yaml'),
         ('additionalProperty', '_sources/schemaorgProperties/additionalProperty/schema.yaml'),
-        ('cdifInstanceVariable', '_sources/cdifProperties/cdifInstanceVariable/schema.yaml'),
+        ('cdifInstanceVariable', '_sources/cdifDataType/cdifInstanceVariable/schema.yaml'),
         ('bioschemas ParameterValue', '_sources/bioschemasProperties/cdifBioschemasProperties/schema.yaml (ParameterValue $def)'),
     ]
     for name, path in sources:

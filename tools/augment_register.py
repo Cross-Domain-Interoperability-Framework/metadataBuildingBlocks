@@ -7,9 +7,9 @@ REGISTER = REPO_ROOT / "build" / "register.json"
 SOURCES = REPO_ROOT / "_sources"
 
 # Prefix to strip from itemIdentifier to get the relative source path.
-# e.g. cdif.bbr.metadata.profiles.adaProfiles.adaProduct -> profiles/adaProfiles/adaProduct
-#      cdif.bbr.metadata.profiles.cdifProfiles.CDIFDiscoveryProfile -> profiles/cdifProfiles/CDIFDiscoveryProfile
-#      cdif.bbr.metadata.adaProperties.files -> adaProperties/files
+# e.g. cdif.bbr.metadata.profiles.cdifCompositeProfile.BasicDiscovery -> profiles/cdifCompositeProfile/BasicDiscovery
+#      cdif.bbr.metadata.profiles.cdifProfile.cdifCore -> profiles/cdifProfile/cdifCore
+#      cdif.bbr.metadata.cdifDataType.cdifReference -> cdifDataType/cdifReference
 ID_PREFIX = "cdif.bbr.metadata."
 
 

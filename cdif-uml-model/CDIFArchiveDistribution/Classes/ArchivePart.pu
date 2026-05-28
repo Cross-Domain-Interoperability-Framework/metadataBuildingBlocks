@@ -1,0 +1,33 @@
+@startuml
+title ArchivePart
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "ArchivePart" as ArchivePart #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+  +name : string [1]
+  +description : string [0..1]
+  +encodingFormat : string [1..*]
+}
+class "DataDownload" as DataDownload #EEEEEE
+DataDownload *-- "0..*" ArchivePart : hasPart
+ArchivePart --> "0..*" ArchivePart : about
+class "QuantitativeValue" as QuantitativeValue #EEEEEE
+ArchivePart *-- "0..1" QuantitativeValue : size
+class "Checksum" as Checksum #EEEEEE
+ArchivePart *-- "0..1" Checksum : checksum
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+ArchivePart ..> XsdAnyUri : identifier
+
+@enduml

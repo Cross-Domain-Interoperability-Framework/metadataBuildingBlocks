@@ -3009,10 +3009,24 @@ def _puml_header(title: str) -> list[str]:
         "hide empty members",
         "skinparam shadowing false",
         "skinparam ArrowThickness 1.2",
+        # Layout: ortho edges + large ranksep + small nodesep pushes Graphviz
+        # toward a roughly square bounding box. Empirically with these values
+        # the overview diagrams land near 1:1 aspect ratio across small (1-3
+        # classes ~ 0.97), medium (16 ~ 0.98), and large (50+ ~ 1.16) class
+        # counts. Without these the overviews stretch to 6-7:1 wide.
+        "skinparam ranksep 250",
+        "skinparam nodesep 20",
+        # Lines are left as the PlantUML default (splined / curved). ortho
+        # Manhattan routing was tried and judged too angular.
+        # Bigger fonts so class boxes (and the title / association labels) fill
+        # more of the bounding box -- diagrams looked too sparse at the
+        # default size. ~3x the original 12pt; boxes auto-scale to the text.
+        "skinparam defaultFontSize 36",
         "skinparam class {",
         "  ArrowColor #404040",
         "  BorderColor #404040",
-        "  FontSize 12",
+        "  FontSize 36",
+        "  AttributeFontSize 30",
         "}",
         "",
     ]
@@ -4268,15 +4282,44 @@ def _html_profile_index(profile_name: str, closure: UmlClosure,
 
 
 def _html_root_index(out_dir: Path, profiles: list[tuple[str, int, int]]) -> None:
-    """Top-level index listing all profiles. `profiles` items are (name, n_classes, n_datatypes)."""
-    lis = "".join(
-        f'<li><a href="{name}/index.html"><strong>{_html_escape(name)}</strong></a>'
-        f' &mdash; {nc} classes, {nd} datatypes</li>'
-        for name, nc, nd in sorted(profiles)
+    """Top-level index listing all profiles, split into 'Composite Profiles' and
+    'Profiles' (modules) sections. `profiles` items are (name, n_classes, n_datatypes).
+
+    Categorization is read from `<out_dir>/_categories.json`, a {umlName: kind}
+    map written by the build orchestrator (build-docs.ps1) where kind is one of
+    'composite' or 'module'. Unknown / missing entries default to 'module'.
+    """
+    import json as _json
+    cat_path = out_dir / "_categories.json"
+    categories = {}
+    if cat_path.exists():
+        try:
+            categories = _json.loads(cat_path.read_text(encoding="utf-8"))
+        except Exception:
+            categories = {}
+
+    def _li(name: str, nc: int, nd: int) -> str:
+        return (f'<li><a href="{name}/index.html"><strong>{_html_escape(name)}</strong></a>'
+                f' &mdash; {nc} classes, {nd} datatypes</li>')
+
+    composite = sorted([p for p in profiles if categories.get(p[0]) == "composite"])
+    modules   = sorted([p for p in profiles if categories.get(p[0]) != "composite"])
+
+    composite_html = ("".join(_li(*p) for p in composite)
+                      if composite else '<li class="empty">(none)</li>')
+    module_html    = ("".join(_li(*p) for p in modules)
+                      if modules else '<li class="empty">(none)</li>')
+
+    body = (
+        '<h1 class="classname">CDIF profile model browser</h1>'
+        '<p>Generated from the CDIF profile UML models.</p>'
+        '<h2>Composite Profiles</h2>'
+        '<p>Profiles that compose one or more profile modules plus supporting building blocks.</p>'
+        f'<ul class="classlist">{composite_html}</ul>'
+        '<h2>Profiles</h2>'
+        '<p>Profile modules (each describes a specific set of functionality; composed by one or more composite profiles).</p>'
+        f'<ul class="classlist">{module_html}</ul>'
     )
-    body = ('<h1 class="classname">CDIF profile model browser</h1>'
-            '<p>Generated from the CDIF profile UML models.</p>'
-            f'<ul class="classlist">{lis}</ul>')
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>

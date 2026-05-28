@@ -31,30 +31,28 @@ metadataBuildingBlocks/
 │   │   ├── action/                  # schema:Action
 │   │   ├── agentInRole/             # schema:Role wrapping Person/Org
 │   │   └── instrument/              # schema:Thing/Product instrument
-│   ├── cdifProperties/              # CDIF-specific property types
+│   ├── cdifDataType/                # CDIF data-type / value-object BBs (renamed 2026-05 from cdifProperties; profile-level BBs that used to live here moved to profiles/cdifProfile/)
 │   │   ├── cdifCatalogRecord/       # dcat:CatalogRecord metadata-about-metadata
-│   │   ├── cdifCore/           # CDIF core property group
-│   │   ├── cdifDataDescription/      # CDIF data description constraints
 │   │   ├── cdifProvActivity/         # CDIF provenance activity (extends generatedBy)
-│   │   ├── cdifProvenance/          # CDIF provenance (prov:wasGeneratedBy wrapper)
 │   │   ├── cdifTabularData/         # CDIF tabular data description
 │   │   ├── cdifDataCube/            # CDIF data cube description
 │   │   ├── cdifLongData/            # CDIF long data description
-│   │   ├── cdifArchive/              # CDIF archive item (DataDownload with hasPart)
-│   │   ├── cdifArchiveDistribution/ # CDIF archive distribution (schema:distribution wrapper)
 │   │   ├── cdifInstanceVariable/    # CDIF Instance Variable: profile of cdi:InstanceVariable / schema:PropertyValue for schema:variableMeasured items (with cdi:role / cdi:qualifies). Renamed 2026-05 from cdifVariableMeasured.
-│   │   ├── cdifPhysicalMapping/     # CDIF physical mapping — per-field physical representation of a variable in a distribution (cdif:index, cdif:format, cdif:physicalDataType, cdi:nullSequence, cdif:formats_InstanceVariable)
-│   │   ├── cdifStatistics/          # CDIF Statistics / CategoryStatistics / StatisticsCollection — summary values for a dataset/variable; cdif:appliesTo links the variable, cdif:has_* are target-suffixed (cdi:has is polymorphic in DDI-CDI)
+│   │   ├── cdifPhysicalMapping/     # CDIF physical mapping — per-field physical representation of a variable in a distribution
+│   │   ├── cdifTextMapping/         # CDIF TextMapping — per-field text-format mapping (specialization of PhysicalMapping)
+│   │   ├── cdifLocatorMapping/      # CDIF LocatorMapping — per-field locator for structured data
+│   │   ├── cdifTabularTextDataSet/  # CDIF TabularTextDataSet co-type on a DataDownload
+│   │   ├── cdifStructuredDataSet/   # CDIF StructuredDataSet co-type on a DataDownload
+│   │   ├── cdifDataFingerprint/     # CDIF DataFingerprint (checksum/hash on a distribution)
+│   │   ├── cdifStatistics/          # CDIF Statistics / CategoryStatistics / StatisticsCollection
 │   │   ├── cdifOpenApi/             # OpenAPI-aligned WebAPI distribution (alternative to schemaorgProperties/webAPI)
-│   │   ├── cdifKey/                 # CDIF Key — ordered set of cdi:InstanceVariables (referenced via cdifInstanceVariable) that uniquely identify a data instance; CDIF profile of ddi-cdi Key/PrimaryKey
-│   │   ├── cdifCodelist/            # CDIF Codelist — a skos:ConceptScheme constrained for CDIF use (resolvable @id; CdifCodelistConcept members require @id, skos:inScheme, skos:prefLabel, skos:notation; paired skos:narrower/skos:broader for hierarchy). Referenced by CDIFCodelistProfile and by cdifEnumerationDomain (cdif:references)
-│   │   ├── cdifEnumerationDomain/   # CDIF Enumeration Domain — extension point that documents a codification as a cdif:EnumerationDomain; cdif:references accepts a cdifCodelist, a schema:DefinedTermSet, or an @id-only reference
-│   │   ├── cdifValueDomain/         # CDIF Value Domain — cdi:SubstantiveValueDomain + cdi:SentinelValueDomain, with bounds, regex, takesValuesFrom (cdifEnumerationDomain), takesConceptsFrom (skos:Concept)
-│   │   ├── cdifRepresentedVariable/ # CDIF RepresentedVariable — conceptual variable definition referenced by Data Structure components; carries name, definition, intended data type, unit-of-measure, takesSubstantiveValuesFrom / takesSentinelValuesFrom
-│   │   ├── cdifDataStructure/       # CDIF DataStructure — root `anyOf` over cdi:DataStructure / cdi:DimensionalDataStructure / cdi:LongDataStructure / cdi:WideDataStructure; carries components, primary key, foreign keys, dimension groups. LongDataStructure enforces 1× IdentifierComponent / 1× VariableDescriptorComponent / 1× VariableValueComponent (+ 0..* Attribute) via Draft 2020-12 `contains` + `minContains`/`maxContains`.
-│   │   ├── cdifDataStructureComponent/  # CDIF DataStructureComponent — component subclasses (cdi:IdentifierComponent, cdi:MeasureComponent, cdi:AttributeComponent, cdi:DimensionComponent, cdi:VariableValueComponent, cdi:VariableDescriptorComponent); `cdi:isDefinedBy` refs cdifRepresentedVariable (or cdifDescriptorVariable for the descriptor variant); `AttributeComponent.cdi:qualifies` carries the attribute-qualifies-measure relationship at component level.
-│   │   ├── cdifDescriptorVariable/  # CDIF DescriptorVariable + DescriptorValueDomain — long-format pattern where a descriptor-column code maps to the RepresentedVariable it names; `cdif:takesValuesFrom` entries pair `cdif:value` (the code) with `cdif:isDefinedBy → cdi:RepresentedVariable`
-│   │   └── cdifReference/           # CDIF Reference — typed external reference combining schema.org labeled-link surface (name, description, url) with DDI-CDI dt-Reference semantics and an optional `cdif:semantic` SKOS Concept role
+│   │   ├── cdifKey/                 # CDIF Key — ordered set of cdi:InstanceVariables that uniquely identify a data instance
+│   │   ├── cdifEnumerationDomain/   # CDIF Enumeration Domain — extension point that documents a codification as a cdif:EnumerationDomain
+│   │   ├── cdifValueDomain/         # CDIF Value Domain — cdi:SubstantiveValueDomain + cdi:SentinelValueDomain
+│   │   ├── cdifRepresentedVariable/ # CDIF RepresentedVariable — conceptual variable definition referenced by Data Structure components
+│   │   ├── cdifDataStructureComponent/  # CDIF DataStructureComponent — component subclasses (Identifier / Measure / Attribute / Dimension / VariableValue / VariableDescriptor)
+│   │   ├── cdifDescriptorVariable/  # CDIF DescriptorVariable + DescriptorValueDomain — long-format pattern
+│   │   └── cdifReference/           # CDIF Reference — typed external reference
 │   ├── provProperties/              # W3C PROV provenance types
 │   │   ├── generatedBy/             # prov:wasGeneratedBy (Activity)
 │   │   ├── provActivity/            # PROV-O native activity (extends generatedBy)
@@ -100,14 +98,23 @@ metadataBuildingBlocks/
 │   │   ├── xasXdiTabularTextDataset/ # XDI tabular text dataset
 │   │   ├── xasCore/             # XAS mandatory property group
 │   │   └── xasOptional/             # XAS optional property group
-│   └── profiles/                    # Top-level profiles that compose BBs
-│       └── cdifProfiles/
-│           ├── CDIFCodelistProfile/        # CDIF Codelist profile (thin allOf wrapper over the cdifCodelist BB)
-│           ├── CDIFDiscoveryProfile/       # CDIF Discovery profile
-│           ├── CDIFcompleteProfile/        # CDIF Complete profile (discovery + data description + provenance + archive)
-│           ├── CDIFDataDescriptionProfile/ # CDIF Data Description profile (flat: InstanceVariables with cdif:role / cdi:qualifies; no component classes)
-│           ├── CDIFDataStructureProfile/   # CDIF Data Structure profile (full DDI-CDI: cdifDataStructure + cdifDataStructureComponent + cdifRepresentedVariable + cdifValueDomain; distributions must carry cdi:isStructuredBy)
-│           └── CDIFxasProfile/             # CDIF XAS profile
+│   └── profiles/                    # Profile modules + composite profiles (split 2026-05)
+│       ├── cdifProfile/             # Profile MODULE BBs (tight; each adds one slice; NO composes of cdifCore)
+│       │   ├── cdifCore/            # Foundational schema:Dataset shape (identifiers, distribution, agents, license, subjectOf → CatalogRecord, etc.)
+│       │   ├── cdifDiscovery/       # Discovery extensions: measurementTechnique, variableMeasured, spatialCoverage, temporalCoverage, hasQualityMeasurement
+│       │   ├── cdifDataDescription/ # Per-variable physicalDataType, primaryKey, statistics, distribution-level cdif:hasPhysicalMapping (PhysicalMapping / TextMapping / LocatorMapping), cdi:characterSet, cdi:fingerprint
+│       │   ├── cdifDataStructure/   # cdi:isStructuredBy on each distribution → DataStructure / Dimensional / Long / Wide variants; six component subtypes; PrimaryKey + ForeignKey over RepresentedVariables (each membership wrapped with required cdif:position integer)
+│       │   ├── cdifArchiveDistribution/  # schema:hasPart on a DataDownload (ZIP etc.); required when encodingFormat contains application/zip; conformsTo cdif/manifest/1.0. Merged from the previous cdifArchive BB; archivePart $defs are local
+│       │   ├── cdifProvenance/      # prov:wasGeneratedBy → cdifProvActivity[] (instruments, agents, methodology, temporal bounds, action chaining)
+│       │   ├── cdifCodelist/        # CDIF Codelist — skos:ConceptScheme constrained for CDIF use
+│       │   └── cdifConceptScheme/   # SKOS ConceptScheme wrapper (thin)
+│       ├── cdifCompositeProfile/    # COMPOSITE profiles — thin allOf chains; what instance docs validate against
+│       │   ├── BasicDiscovery/                  # composes cdifCore + cdifDiscovery
+│       │   ├── BasicDataDescription/            # composes cdifCore + cdifDiscovery + cdifDataDescription
+│       │   ├── DataDescriptionWithStructure/    # + cdifDataStructure
+│       │   ├── XASdata/                         # cdifCore + cdifDiscovery + cdifDataDescription + xasOptional + xasCore
+│       │   └── cdifComplete/                    # Everything (incl. ArchiveDistribution + Provenance)
+│       └── archive/                 # Deprecated / not-promoted-to-composite (e.g. CDIFCodelistProfile)
 ├── tools/
 │   ├── resolve_schema.py            # Schema resolver (see below)
 │   ├── uml_to_schema.py             # Generate a BB schema.yaml from a DDI-CDI XMI (canonical 2.5.1 or EA-native 1.1, auto-detected; see below)
@@ -777,10 +784,10 @@ Generates an Excel workbook (`<bbName>_properties.xlsx`) listing all properties 
 **Usage:**
 ```bash
 # Generate property table for a building block
-python generate_property_table.py path/to/_sources/cdifProperties/cdifCore/schema.yaml
+python generate_property_table.py path/to/_sources/profiles/cdifProfile/cdifCore/schema.yaml
 
 # Generate property table for a profile
-python generate_property_table.py path/to/_sources/profiles/cdifProfiles/CDIFDiscoveryProfile/schema.yaml
+python generate_property_table.py path/to/_sources/profiles/cdifCompositeProfile/BasicDiscovery/schema.yaml
 ```
 
 **Location:** `C:\Users\smrTu\OneDrive\Documents\GithubC\CDIF\Discovery\generate_property_table.py`
@@ -822,7 +829,7 @@ python tools/validate_shacl.py CDIFDataStructureProfile
 python tools/validate_shacl.py CDIFDataStructureProfile --verbose
 
 # Fail the run on any sh:Violation
-python tools/validate_shacl.py _sources/profiles/cdifProfiles/CDIFDataStructureProfile --strict
+python tools/validate_shacl.py _sources/profiles/cdifCompositeProfile/DataDescriptionWithStructure --strict
 ```
 
 **CLI options:** `--verbose`/`-v` (list every result, not just violations), `--strict` (exit non-zero on violations).
@@ -954,7 +961,7 @@ Looks for sibling repos relative to this repo's parent directory. **Note:** this
 
 Four **published profile-spec repos** consume this one (GitHub org `Cross-Domain-Interoperability-Framework`): **core**, **discovery**, **datadescription**, **codelist**. Each holds `*StructuredSchema.json`, `*Rules.shacl`, `*ImplementationGuide.md` (+`.docx`), `*-frame.jsonld`, `examples/`, and a `FrameAndValidate.py`. The sync from this repo is **manual** (there is no automation for it):
 
-- **StructuredSchema** ← `python tools/resolve_schema.py <Profile> --structured -o <release>/<file>StructuredSchema.json`. Profiles by name (`CDIFDiscoveryProfile`, `CDIFDataDescriptionProfile`, `CDIFCodelistProfile`); **Core via** `--file _sources/cdifProperties/cdifCore/schema.yaml`. The `-o` is required (otherwise it prints to stdout).
+- **StructuredSchema** ← `python tools/resolve_schema.py <Profile> --structured -o <release>/<file>StructuredSchema.json`. Profiles by name (`CDIFDiscoveryProfile`, `CDIFDataDescriptionProfile`, `CDIFCodelistProfile`); **Core via** `--file _sources/profiles/cdifProfile/cdifCore/schema.yaml`. The `-o` is required (otherwise it prints to stdout).
 - **SHACL** — `coreRules.shacl` is a byte-copy of `cdifCore/rules.shacl`; the profile `*Rules.shacl` are **merged** from the ~15 composing BB `rules.shacl` (no merge script lives in those repos). Only re-sync when a `rules.shacl` actually changed.
 - **Implementation guides** — hand-maintained `.md`; regenerate `.docx` with `pandoc <md> --reference-doc=<copy of prior .docx> -o <docx>`.
 - **Examples** — validate with `python FrameAndValidate.py <ex> --validate --schema <S> --frame <F>` (frames the JSON-LD, array-wraps its `ARRAY_PROPERTIES`, then validates). Open-world, so unknown props pass.

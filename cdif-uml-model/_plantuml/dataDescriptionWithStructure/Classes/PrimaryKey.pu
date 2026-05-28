@@ -1,0 +1,37 @@
+@startuml
+title PrimaryKey
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "PrimaryKey" as PrimaryKey #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+}
+class "Dataset" as Dataset #EEEEEE
+Dataset *-- "0..1" PrimaryKey : hasPrimaryKey
+class "RepresentedVariable" as RepresentedVariable #EEEEEE
+PrimaryKey --> "1..*" RepresentedVariable : isComposedOf
+class "DataStructure" as DataStructure #EEEEEE
+DataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
+class "DimensionalDataStructure" as DimensionalDataStructure #EEEEEE
+DimensionalDataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
+class "LongDataStructure" as LongDataStructure #EEEEEE
+LongDataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
+class "WideDataStructure" as WideDataStructure #EEEEEE
+WideDataStructure *-- "0..1" PrimaryKey : hasPrimaryKey
+class "ForeignKey" as ForeignKey #EEEEEE
+ForeignKey --> "0..1" PrimaryKey : references
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+PrimaryKey ..> XsdAnyUri : identifier
+
+@enduml

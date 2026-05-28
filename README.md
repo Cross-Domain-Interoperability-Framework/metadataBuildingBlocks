@@ -27,8 +27,9 @@ schema.yaml → resolve_schema.py → resolvedSchema.json → convert_for_jsonfo
 Resolves all external `$ref` references from modular YAML/JSON source schemas into a single standalone JSON Schema and writes it to `resolvedSchema.json` next to each `schema.yaml`. Output is in **structured form**: composing BBs are deep-merged into `properties` + `allOf`, frequently-used type schemas (Person, Identifier, Organization, etc.) appear as named `$defs` with internal `$ref`s, and recursive types stay as `$ref` cycles. Types used ≤2 times are inlined at usage sites. The structured output is recursion-safe and typically 88–90% smaller than the older fully-inlined form. Handles relative paths, fragment-only refs (`#/$defs/X`), cross-file fragments, URL refs (including transitive relative refs within fetched files), and both YAML/JSON extensions.
 
 ```bash
-# Resolve a profile by name (searches cdifProfiles/ subdirectories)
-python tools/resolve_schema.py CDIFDiscoveryProfile
+# Resolve a profile by name (searches profiles/cdifProfile/ and
+# profiles/cdifCompositeProfile/ for modules and composites respectively)
+python tools/resolve_schema.py BasicDiscovery
 
 # Resolve all building blocks with external $refs (writes each BB's resolvedSchema.json)
 python tools/resolve_schema.py --all
@@ -54,7 +55,7 @@ Reads `resolvedSchema.json` and converts to JSON Forms-compatible Draft 7:
 python tools/convert_for_jsonforms.py --all -v
 
 # Convert a single profile
-python tools/convert_for_jsonforms.py CDIFDiscoveryProfile -v
+python tools/convert_for_jsonforms.py BasicDiscovery -v
 ```
 
 ### Step 3: Augment register.json (`augment_register.py`)
@@ -81,6 +82,17 @@ python tools/generate_custom_report.py
 
 The `deploy-viewer` workflow runs this automatically after `augment_register.py`.
 
+## UML Model Browser (`cdif-uml-model/`)
+
+A static HTML browser rendering each profile module / composite as a UML class diagram + per-class pages. Two emitters feed the same browser:
+
+1. **XMI-driven pipeline** (`tools/uml_to_schema.py` + the ucmism2m mapping configs at `../ucmism2m/configuration/`) — drives most pages. Each `ddi-cdi2<slug>_mapping.json` config controls one profile's class set, with `composes:` chaining for composites. Run via `../ucmism2m/script/build-docs.ps1` (needs Java + `tools/plantuml.jar`; the Docker bblocks-postprocess step is optional, skip with `-SkipBblocks`).
+2. **JSON-schema-direct tool** (`tools/jsonschema_to_html.py`) — generates HTML + PlantUML SVGs straight from a profile module's `schema.yaml`. No XMI / mapping config needed; useful for tight modules where the schema is the single source of truth. Run via `python tools/jsonschema_to_html.py cdifConceptScheme`.
+
+Both emitters share the same `_static/style.css` + `diagram.js` for visual consistency and click-to-zoom / pan / copy on the SVGs. The root `cdif-uml-model/index.html` splits profiles into **Composite Profiles** and **Profiles** sections, driven by `cdif-uml-model/_categories.json` (a `umlName → 'composite' | 'module'` map written by `build-docs.ps1`).
+
+Diagram layout uses three skinparams (`ranksep 250`, `nodesep 20`, `linetype ortho`) to push the bounding box toward ~1:1 aspect ratio instead of the default very-wide Graphviz dot layout.
+
 ## Other Tools
 
 ### UML → Schema Generator (`uml_to_schema.py`)
@@ -104,7 +116,7 @@ See `agents.md` for full CLI options and convention details.
 ### DDI-CDI Consistency Audits
 
 - **`audit_ddi_xmi_consistency.py`** — checks the `_sources/ddiProperties` BBs against a DDI-CDI EA XMI export: flags classes a BB references that are no longer in the model, attributes/associations added or dropped, and (with `--dump-class`) prints a class's full member set. `python tools/audit_ddi_xmi_consistency.py --xmi <xmi> [--bb NAME] [--dump-class A,B]`
-- **`audit_cdif_vs_ddi.py`** — checks that every `cdi:`-prefixed property in `_sources/cdifProperties` has a value-type shape consistent with the corresponding `_sources/ddiProperties` definition; classifies MATCH / SOFT / STRUCTURAL / CDIF-ONLY.
+- **`audit_cdif_vs_ddi.py`** — checks that every `cdi:`-prefixed property in `_sources/cdifDataType` (and `_sources/profiles/cdifProfile/`) has a value-type shape consistent with the corresponding `_sources/ddiProperties` definition; classifies MATCH / SOFT / STRUCTURAL / CDIF-ONLY.
 
 ### Validate Examples (`validate_examples.py`)
 
@@ -122,9 +134,9 @@ python tools/validate_examples.py --filter person
 Optional, standalone SHACL validation for one building block or profile (the JSON-Schema `validate_examples.py` stays the default gate). Gathers the target's `rules.shacl` plus every transitively-composed BB's rules, expands the target's examples from JSON-LD to RDF, and runs `pyshacl`. Report-only by default; `--strict` fails on `sh:Violation`. Catches cross-reference constraints JSON Schema can't (e.g. "every RepresentedVariable used by a component must be instantiated by an InstanceVariable").
 
 ```bash
-python tools/validate_shacl.py CDIFDataStructureProfile
-python tools/validate_shacl.py CDIFDataStructureProfile --verbose
-python tools/validate_shacl.py CDIFDataStructureProfile --strict
+python tools/validate_shacl.py DataDescriptionWithStructure
+python tools/validate_shacl.py DataDescriptionWithStructure --verbose
+python tools/validate_shacl.py DataDescriptionWithStructure --strict
 ```
 
 **Requirements:** `pyshacl` (pulls in `rdflib`) — `pip install --user pyshacl`
@@ -166,16 +178,34 @@ python tools/validate_examples.py --filter CDIFDiscovery --verbose
 
 ## Profiles
 
-CDIF profiles are in `_sources/profiles/cdifProfiles/`:
+Profile content is split across two trees (2026-05 reorg):
 
-| Profile | Description |
+- **`_sources/profiles/cdifProfile/`** — *profile modules*. Tight, self-contained building blocks that each add one slice of metadata (discovery properties, data-description extensions, archive distribution, provenance, …). Modules do NOT compose cdifCore; they're composed by composite profiles.
+- **`_sources/profiles/cdifCompositeProfile/`** — *composite profiles*. Thin `allOf` chains over modules; these are what an instance document validates against.
+- **`_sources/profiles/archive/`** — deprecated / not-promoted-to-composite (e.g. `CDIFCodelistProfile`).
+
+### Composite profiles
+
+| Composite | Composes (allOf) | Notes |
+|---|---|---|
+| `BasicDiscovery` | cdifCore + cdifDiscovery | Smallest valid CDIF dataset metadata record |
+| `BasicDataDescription` | cdifCore + cdifDiscovery + cdifDataDescription | Adds per-variable physical types, primary key, statistics, per-distribution physical mappings, file fingerprint |
+| `DataDescriptionWithStructure` | + cdifDataStructure | Full DDI-CDI structural complexity (DataStructure variants Dimensional / Long / Wide, six component subtypes, PrimaryKey / ForeignKey over RepresentedVariables with `cdif:position`) |
+| `XASdata` | cdifCore + cdifDiscovery + cdifDataDescription + xasProperties (xasCore, xasOptional) | X-ray Absorption Spectroscopy profile |
+| `cdifComplete` | cdifCore + cdifDiscovery + cdifDataDescription + cdifDataStructure + cdifArchiveDistribution + cdifProvenance | Everything |
+
+### Profile modules
+
+| Module | Adds (on a CDIFCore Dataset) |
 |---|---|
-| `CDIFCodelistProfile` | CDIF Codelist profile (allOf: cdifCodelist) — thin wrapper over the `cdifCodelist` building block (a `skos:ConceptScheme` constrained for CDIF codelist use) |
-| `CDIFDiscoveryProfile` | CDIF Discovery profile (allOf: cdifCore + discovery properties) |
-| `CDIFDataDescriptionProfile` | CDIF Data Description profile (allOf: cdifCore + cdifDataDescription + discovery properties). Flat: InstanceVariables with `cdif:role`, `cdi:qualifies`, value-domain links (`cdi:takesSentinelValuesFrom` → `cdif:SentinelValueDomain`, `cdi:takesSubstantiveValuesFrom` → `cdif:SubstantiveValueDomain`; value domains carry `cdi:isDescribedBy` → `ValueAndConceptDescription`), and `cdif:isDescribedBy_StatisticsCollection`. Dataset-level extensions: `cdif:hasPrimaryKey` (ordered `cdi:ComponentPosition` wrappers around InstanceVariables), `cdif:statistics`. WebAPI distributions: the action result (`schema:potentialAction.schema:result`, the `actionResult` BB — no `contentUrl`/`contentSize`) carries the per-profile physical-realization properties (`cdif:hasPhysicalMapping`, `cdi:characterSet`) added via an `if @type contains schema:WebAPI` branch; a sibling `DataDownload` gets the same props at top level. No component classes. |
-| `CDIFDataStructureProfile` | CDIF Data Structure profile (allOf: cdifCore + cdifDataDescription + cdifDataStructure + cdifDataStructureComponent + cdifRepresentedVariable + cdifValueDomain). Adds full DDI-CDI structural complexity: component subclasses (Identifier / Measure / Attribute / Dimension / VariableValue / VariableDescriptor), DataStructure variants (Dimensional / Long / Wide), RepresentedVariables, value domains, and DescriptorVariable for long-format data. Distributions carry `cdi:isStructuredBy` (conditionally required: at distribution level when `@type` contains `cdi:PhysicalDataSet`; on each `schema:potentialAction.schema:result` when `@type` contains `schema:WebAPI` — the WebAPI distribution describes the service, the result describes the bytes, and its `cdi:isStructuredBy` MAY differ from sibling distributions). InstanceVariables in this profile MUST NOT duplicate represented-variable-level properties (`cdi:hasIntendedDataType`, `cdi:describedUnitOfMeasure`, `cdif:simpleUnitOfMeasure`, `cdi:takesSentinelValuesFrom`, `cdi:takesSubstantiveValuesFrom`, `cdi:qualifies`) when the RepresentedVariable they `cdif:uses` already specifies them — enforced by conditional SHACL rules in `CDIFDataStructureProfile/rules.shacl` (the JSON-Schema-can't-express-subset simplification: any duplication is forbidden). |
-| `CDIFcompleteProfile` | CDIF Complete profile (allOf: cdifCore + cdifDataDescription + cdifArchiveDistribution + cdifProvenance + discovery properties) |
-| `CDIFxasProfile` | CDIF XAS profile (allOf: cdifCore + xasOptional + xasCore + discovery properties) |
+| `cdifCore` | Foundational schema:Dataset shape — identifiers, name/description, distribution, license, agents, dateModified, subjectOf → CatalogRecord |
+| `cdifDiscovery` | `schema:measurementTechnique`, `schema:variableMeasured` (PropertyValue), `schema:spatialCoverage`, `schema:temporalCoverage`, `dqv:hasQualityMeasurement` |
+| `cdifDataDescription` | `cdif:hasPrimaryKey`, `cdif:statistics`, InstanceVariable with `cdif:physicalDataType`, `cdif:hasPhysicalMapping` (PhysicalMapping / TextMapping / LocatorMapping), `cdi:characterSet`, `cdi:fingerprint`, DataDownload co-typing as `cdi:TabularTextDataSet` / `cdi:StructuredDataSet` |
+| `cdifDataStructure` | Distribution-level `cdi:isStructuredBy` → DataStructure / Dimensional / Long / Wide; six component subtypes; `cdi:has_PrimaryKey` + `cdi:has_ForeignKey` over RepresentedVariables (membership wrapped with required `cdif:position` integer) |
+| `cdifArchiveDistribution` | `schema:hasPart` on a DataDownload listing schema:MediaObject component files. Conditional: when `schema:encodingFormat` contains `application/zip`, `schema:hasPart` is required. Requires `cdif:manifest/1.0` conformsTo. (Merged from the previous `cdifArchive` BB.) |
+| `cdifProvenance` | `prov:wasGeneratedBy` → ProvActivity array (instruments, agents, temporal bounds, methodology, action chaining) |
+| `cdifCodelist` | `skos:ConceptScheme` shape constrained for CDIF codelist use |
+| `cdifConceptScheme` | SKOS concept scheme wrapper (thin) |
 
 See [agents.md](agents.md) for the full building block structure, authoring rules, and composition hierarchy.
 
@@ -201,14 +231,16 @@ For example, `cdifProvActivity` defines the schema for a single provenance Activ
 | Category | Directory | Description |
 |----------|-----------|-------------|
 | schemaorgProperties | `_sources/schemaorgProperties/` | schema.org vocabulary building blocks (person, organization, identifier, definedTerm, instrument, etc.) |
-| cdifProperties | `_sources/cdifProperties/` | CDIF-specific properties (core, provenance, tabular/long data, OpenAPI-aligned WebAPI, plus the DDI-CDI structural family: `cdifInstanceVariable`, `cdifKey`, `cdifCodelist`, `cdifEnumerationDomain`, `cdifValueDomain`, `cdifRepresentedVariable`, `cdifDataStructure`, `cdifDataStructureComponent`, `cdifDescriptorVariable`, `cdifPhysicalMapping`, `cdifTextMapping`, `cdifLocatorMapping`, `cdifTabularTextDataSet`, `cdifStructuredDataSet`, `cdifDataFingerprint`, `cdifStatistics`) |
+| cdifDataType | `_sources/cdifDataType/` | CDIF data-type / value-object building blocks: `cdifInstanceVariable`, `cdifKey`, `cdifEnumerationDomain`, `cdifValueDomain`, `cdifRepresentedVariable`, `cdifDataStructureComponent`, `cdifDescriptorVariable`, `cdifPhysicalMapping`, `cdifTextMapping`, `cdifLocatorMapping`, `cdifTabularTextDataSet`, `cdifStructuredDataSet`, `cdifDataFingerprint`, `cdifStatistics`, `cdifCatalogRecord`, `cdifReference`, `cdifProvActivity`, `cdifOpenApi`, `cdifTabularData`, `cdifDataCube`, `cdifLongData`. (Renamed from `cdifProperties` in the 2026-05 reorg; profile-level BBs that compose these moved to `_sources/profiles/cdifProfile/`.) |
 | ddiProperties | `_sources/ddiProperties/` | DDI-CDI vocabulary building blocks |
 | provProperties | `_sources/provProperties/` | PROV-O provenance (generatedBy, derivedFrom, provActivity) |
 | skosProperties | `_sources/skosProperties/` | W3C SKOS vocabulary building blocks (ConceptScheme, Concept, Collection) |
 | qualityProperties | `_sources/qualityProperties/` | DQV data quality measures |
 | xasProperties | `_sources/xasProperties/` | X-ray Absorption Spectroscopy domain properties |
 | bioschemasProperties | `_sources/bioschemasProperties/` | Bioschemas vocabulary building blocks (lab protocols, samples, computational workflows) |
-| profiles | `_sources/profiles/cdifProfiles/` | CDIF profiles |
+| cdifProfile (modules) | `_sources/profiles/cdifProfile/` | Profile-module building blocks: cdifCore, cdifDiscovery, cdifDataDescription, cdifDataStructure, cdifArchiveDistribution, cdifProvenance, cdifCodelist, cdifConceptScheme |
+| cdifCompositeProfile | `_sources/profiles/cdifCompositeProfile/` | Composite profiles assembled via `composes` from the modules above: BasicDiscovery, BasicDataDescription, DataDescriptionWithStructure, XASdata, cdifComplete |
+| archive | `_sources/profiles/archive/` | Deprecated profiles retained for reference (e.g. CDIFCodelistProfile) |
 
 ### ddiProperties
 
@@ -249,7 +281,7 @@ W3C SKOS vocabulary building blocks for controlled vocabulary and codelist repre
 
 | Building Block | Description |
 |----------------|-------------|
-| `skosConceptScheme` | SKOS ConceptScheme with `skos:hasTopConcept`, prefLabel, and nested concepts. Base for `CDIFCodelistProfile`. |
+| `skosConceptScheme` | SKOS ConceptScheme with `skos:hasTopConcept`, prefLabel, and nested concepts. Composed by `cdifConceptScheme` (cdifProfile) and the archived `CDIFCodelistProfile`. |
 | `skosConcept` | SKOS Concept with prefLabel, notations, broader/narrower/related hierarchical relations, cross-scheme mapping properties, and documentary notes. Defines `$defs`: ConceptRef, LanguageTaggedValue. |
 | `skosCollection` | SKOS Collection and OrderedCollection. Collection groups concepts via `skos:member`; OrderedCollection preserves ordering via JSON-LD `@list`. References `skosConcept` for concept items. |
 
@@ -280,7 +312,7 @@ The repository implements a three-tier provenance architecture:
 | Tier | Building Block | Introduced At | Description |
 |------|---------------|---------------|-------------|
 | 1 (simple) | `generatedBy` (provProperties) | `cdifCore` | Minimal `prov:Activity` — `prov:used` accepts only string names or `@id` references |
-| 2 (extended) | `cdifProvActivity` (cdifProperties) | `CDIFcompleteProfile` (via `cdifProvenance`) | Extends `generatedBy` with schema.org Action properties (`schema:agent`, `schema:actionProcess`, `schema:object`, `schema:result`, temporal bounds, location). Requires `@type: ["schema:Action", "prov:Activity"]`. Instruments nested in `prov:used` via `schema:instrument` sub-key. The `cdifProvenance` building block wraps `cdifProvActivity` items in the `prov:wasGeneratedBy` root property. |
+| 2 (extended) | `cdifProvActivity` (cdifDataType) | `cdifComplete` (via `cdifProvenance`, both in `cdifProfile/`) | Extends `generatedBy` with schema.org Action properties (`schema:agent`, `schema:actionProcess`, `schema:object`, `schema:result`, temporal bounds, location). Requires `@type: ["schema:Action", "prov:Activity"]`. Instruments nested in `prov:used` via `schema:instrument` sub-key. The `cdifProvenance` building block wraps `cdifProvActivity` items in the `prov:wasGeneratedBy` root property. |
 | 3 (domain) | `xasGeneratedBy`, etc. | Domain-specific profiles | Extend `cdifProvActivity` with domain-specific instrument types, agents, and additional properties (see [ddeBuildingBlocks](https://github.com/usgin/ddeBuildingBlocks), [geochemBuildingBlocks](https://github.com/usgin/geochemBuildingBlocks)) |
 
 ### xasProperties
@@ -309,11 +341,11 @@ Each building block has a persistent HTTP URI under `https://w3id.org/cdif/bbr/m
 https://w3id.org/cdif/bbr/metadata/{category}/{name}
 ```
 
-where `{category}` is one of `schemaorgProperties`, `cdifProperties`, `provProperties`, `qualityProperties`, `ddiProperties`, `xasProperties` and `{name}` is the building block directory name (e.g., `person`, `cdifProvActivity`, `xasGeneratedBy`).
+where `{category}` is one of `schemaorgProperties`, `cdifDataType`, `provProperties`, `qualityProperties`, `ddiProperties`, `xasProperties`, `skosProperties`, `bioschemasProperties`, or `profiles/cdifProfile` / `profiles/cdifCompositeProfile`, and `{name}` is the building block directory name (e.g., `person`, `cdifProvActivity`, `xasGeneratedBy`, `cdifCore`, `BasicDiscovery`).
 
 Examples:
 - `https://w3id.org/cdif/bbr/metadata/schemaorgProperties/person`
-- `https://w3id.org/cdif/bbr/metadata/cdifProperties/cdifProvActivity`
+- `https://w3id.org/cdif/bbr/metadata/cdifDataType/cdifProvActivity`
 - `https://w3id.org/cdif/bbr/metadata/xasProperties/xasGeneratedBy`
 
 The register root `https://w3id.org/cdif/bbr/metadata` resolves to the building blocks viewer home page.

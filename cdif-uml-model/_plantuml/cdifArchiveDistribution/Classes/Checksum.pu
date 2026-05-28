@@ -1,0 +1,24 @@
+@startuml
+title Checksum
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "Checksum" as Checksum #FEFECE {
+  +algorithm : string [1]
+  +checksumValue : string [1]
+}
+class "ArchivePart" as ArchivePart #EEEEEE
+ArchivePart *-- "0..1" Checksum : checksum
+
+@enduml

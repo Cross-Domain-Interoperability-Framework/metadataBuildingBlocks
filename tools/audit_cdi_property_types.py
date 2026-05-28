@@ -213,8 +213,9 @@ def main():
     xmi_attrs = parse_xmi()
     print(f'  {len(xmi_attrs)} distinct attribute names in XMI', file=sys.stderr)
 
-    # Find every cdi:X usage in cdifProperties schemas
-    schemas = sorted(ROOT.glob('_sources/cdifProperties/*/schema.yaml'))
+    # Find every cdi:X usage in CDIF schemas (data types + profile modules)
+    schemas = sorted(ROOT.glob('_sources/cdifDataType/*/schema.yaml'))
+    schemas += sorted(ROOT.glob('_sources/profiles/cdifProfile/*/schema.yaml'))
     findings = defaultdict(list)  # property_name -> list of (bb_name, value_desc)
     cdi_re = re.compile(r"^cdi:([A-Za-z_]+)$")
 

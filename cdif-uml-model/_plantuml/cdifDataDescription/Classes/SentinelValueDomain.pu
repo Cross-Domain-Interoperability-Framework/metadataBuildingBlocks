@@ -4,21 +4,22 @@ hide circle
 hide empty members
 skinparam shadowing false
 skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
 skinparam class {
   ArrowColor #404040
   BorderColor #404040
-  FontSize 12
+  FontSize 36
+  AttributeFontSize 30
 }
 
 class "SentinelValueDomain" as SentinelValueDomain #FEFECE {
-  +displayLabel : string [0..1]
-  +recommendedDataType : string [0..*]
+  +identifier : XsdAnyUri [0..1]
 }
 class "InstanceVariable" as InstanceVariable #EEEEEE
 InstanceVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
-class "EnumerationDomain" as EnumerationDomain #EEEEEE
-SentinelValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
-class "ValueAndConceptDescription" as ValueAndConceptDescription #EEEEEE
-SentinelValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+SentinelValueDomain ..> XsdAnyUri : identifier
 
 @enduml

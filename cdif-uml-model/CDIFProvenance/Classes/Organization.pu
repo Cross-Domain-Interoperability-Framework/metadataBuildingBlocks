@@ -1,0 +1,32 @@
+@startuml
+title Organization
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "Organization" as Organization #FEFECE {
+  +additionalType : DefinedTerm [0..*]
+  +alternateName : string [0..*]
+  +description : string [0..1]
+  +sameAs : Identifier [0..*]
+}
+abstract class "Agent" as Agent #D6EAF8
+Agent <|-- Organization
+class "ProvActivity" as ProvActivity #EEEEEE
+ProvActivity --> "0..1" Organization : agent
+class "DefinedTerm" as DefinedTerm #EEEEEE
+Organization --> "0..*" DefinedTerm : additionalType
+class "Identifier" as Identifier #EEEEEE
+Organization --> "0..*" Identifier : sameAs
+
+@enduml

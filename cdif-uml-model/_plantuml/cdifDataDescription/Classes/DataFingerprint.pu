@@ -4,17 +4,21 @@ hide circle
 hide empty members
 skinparam shadowing false
 skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
 skinparam class {
   ArrowColor #404040
   BorderColor #404040
-  FontSize 12
+  FontSize 36
+  AttributeFontSize 30
 }
 
 class "DataFingerprint" as DataFingerprint #FEFECE {
+  +algorithm : string [1]
   +value : string [1]
-  +algorithmSpecification : string [0..1]
-  +algorithmVersion : string [0..1]
-  +typeOfFingerprint : string [0..1]
 }
+class "DataDownload" as DataDownload #EEEEEE
+DataDownload *-- "0..1" DataFingerprint : fingerprint
 
 @enduml
