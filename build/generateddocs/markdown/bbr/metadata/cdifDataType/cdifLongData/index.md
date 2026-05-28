@@ -26,9 +26,32 @@ that const.
 ```json
 {
   "@context": {
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/",
+    "schema": "http://schema.org/",
+    "ex": "https://example.org/"
   },
-  "@type": ["cdi:LongStructureDataSet"]
+  "@type": ["cdi:LongStructureDataSet"],
+  "cdif:hasPhysicalMapping": [
+    {
+      "cdif:index": 0,
+      "cdif:formats_InstanceVariable": {
+        "@id": "ex:var-descriptor",
+        "@type": ["cdi:InstanceVariable", "schema:PropertyValue"],
+        "schema:name": "measured_variable",
+        "cdif:role": "Descriptor"
+      }
+    },
+    {
+      "cdif:index": 1,
+      "cdif:formats_InstanceVariable": {
+        "@id": "ex:var-value",
+        "@type": ["cdi:InstanceVariable", "schema:PropertyValue"],
+        "schema:name": "value",
+        "cdif:role": "ReferenceVariable"
+      }
+    }
+  ]
 }
 
 ```
@@ -42,11 +65,40 @@ that const.
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifLongData/context.jsonld",
     {
-      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+      "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://cdif.org/0.1/",
+      "schema": "http://schema.org/",
+      "ex": "https://example.org/"
     }
   ],
   "@type": [
     "cdi:LongStructureDataSet"
+  ],
+  "cdif:hasPhysicalMapping": [
+    {
+      "cdif:index": 0,
+      "cdif:formats_InstanceVariable": {
+        "@id": "ex:var-descriptor",
+        "@type": [
+          "cdi:InstanceVariable",
+          "schema:PropertyValue"
+        ],
+        "schema:name": "measured_variable",
+        "cdif:role": "Descriptor"
+      }
+    },
+    {
+      "cdif:index": 1,
+      "cdif:formats_InstanceVariable": {
+        "@id": "ex:var-value",
+        "@type": [
+          "cdi:InstanceVariable",
+          "schema:PropertyValue"
+        ],
+        "schema:name": "value",
+        "cdif:role": "ReferenceVariable"
+      }
+    }
   ]
 }
 ```
@@ -54,8 +106,26 @@ that const.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-[] a cdi:LongStructureDataSet .
+ex:var-descriptor a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    schema1:name "measured_variable" ;
+    cdif:role "Descriptor" .
+
+ex:var-value a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    schema1:name "value" ;
+    cdif:role "ReferenceVariable" .
+
+[] a cdi:LongStructureDataSet ;
+    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-descriptor ;
+            cdif:index 0 ],
+        [ cdif:formats_InstanceVariable ex:var-value ;
+            cdif:index 1 ] .
 
 
 ```
@@ -71,6 +141,7 @@ to their InstanceVariables.
     "@context": {
         "schema": "http://schema.org/",
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "cdif": "https://cdif.org/0.1/",
         "csvw": "http://www.w3.org/ns/csvw#",
         "ex": "https://example.org/"
     },
@@ -80,14 +151,20 @@ to their InstanceVariables.
             "cdif:index": 0,
             "cdif:physicalDataType": "String",
             "cdif:formats_InstanceVariable": {
-                "@id": "ex:var-descriptor"
+                "@id": "ex:var-descriptor",
+                "@type": ["cdi:InstanceVariable", "schema:PropertyValue"],
+                "schema:name": "measured_variable",
+                "cdif:role": "Descriptor"
             }
         },
         {
             "cdif:index": 1,
             "cdif:physicalDataType": "Numeric",
             "cdif:formats_InstanceVariable": {
-                "@id": "ex:var-value"
+                "@id": "ex:var-value",
+                "@type": ["cdi:InstanceVariable", "schema:PropertyValue"],
+                "schema:name": "value",
+                "cdif:role": "ReferenceVariable"
             }
         }
     ],
@@ -111,6 +188,7 @@ to their InstanceVariables.
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://cdif.org/0.1/",
       "csvw": "http://www.w3.org/ns/csvw#",
       "ex": "https://example.org/"
     }
@@ -123,14 +201,26 @@ to their InstanceVariables.
       "cdif:index": 0,
       "cdif:physicalDataType": "String",
       "cdif:formats_InstanceVariable": {
-        "@id": "ex:var-descriptor"
+        "@id": "ex:var-descriptor",
+        "@type": [
+          "cdi:InstanceVariable",
+          "schema:PropertyValue"
+        ],
+        "schema:name": "measured_variable",
+        "cdif:role": "Descriptor"
       }
     },
     {
       "cdif:index": 1,
       "cdif:physicalDataType": "Numeric",
       "cdif:formats_InstanceVariable": {
-        "@id": "ex:var-value"
+        "@id": "ex:var-value",
+        "@type": [
+          "cdi:InstanceVariable",
+          "schema:PropertyValue"
+        ],
+        "schema:name": "value",
+        "cdif:role": "ReferenceVariable"
       }
     }
   ],
@@ -147,19 +237,30 @@ to their InstanceVariables.
 @prefix cdif: <https://cdif.org/0.1/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:var-descriptor a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    schema1:name "measured_variable" ;
+    cdif:role "Descriptor" .
+
+ex:var-value a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    schema1:name "value" ;
+    cdif:role "ReferenceVariable" .
 
 [] a cdi:LongStructureDataSet ;
     cdi:isDelimited true ;
     csvw:delimiter "," ;
     csvw:header true ;
     csvw:headerRowCount 1 ;
-    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-descriptor ;
-            cdif:index 0 ;
-            cdif:physicalDataType "String" ],
-        [ cdif:formats_InstanceVariable ex:var-value ;
+    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-value ;
             cdif:index 1 ;
-            cdif:physicalDataType "Numeric" ] .
+            cdif:physicalDataType "Numeric" ],
+        [ cdif:formats_InstanceVariable ex:var-descriptor ;
+            cdif:index 0 ;
+            cdif:physicalDataType "String" ] .
 
 
 ```

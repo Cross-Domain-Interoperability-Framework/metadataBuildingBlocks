@@ -23,6 +23,7 @@ isRequired flag, and a single formats_InstanceVariable reference.
 {
     "@context": {
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "cdif": "https://cdif.org/0.1/",
         "ex": "https://example.org/"
     },
     "cdif:index": 0,
@@ -47,6 +48,7 @@ isRequired flag, and a single formats_InstanceVariable reference.
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifPhysicalMapping/context.jsonld",
     {
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://cdif.org/0.1/",
       "ex": "https://example.org/"
     }
   ],
@@ -64,16 +66,16 @@ isRequired flag, and a single formats_InstanceVariable reference.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
 @prefix ex: <https://example.org/> .
-@prefix ns1: <cdif:> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-[] ns1:format "YYYY-MM-DD" ;
-    ns1:formats_InstanceVariable ex:var-collection-date ;
-    ns1:index 0 ;
-    ns1:physicalDataType "Date" ;
-    cdi:isRequired true ;
-    cdi:nullSequence "NA" .
+[] cdi:isRequired true ;
+    cdi:nullSequence "NA" ;
+    cdif:format "YYYY-MM-DD" ;
+    cdif:formats_InstanceVariable ex:var-collection-date ;
+    cdif:index 0 ;
+    cdif:physicalDataType "Date" .
 
 
 ```
@@ -88,6 +90,7 @@ nullSequence, defaultValue, isRequired, and formats_InstanceVariable.
 {
   "@context": {
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://cdif.org/0.1/",
     "ex": "https://example.org/"
   },
   "cdif:index": 3,
@@ -118,6 +121,7 @@ nullSequence, defaultValue, isRequired, and formats_InstanceVariable.
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifPhysicalMapping/context.jsonld",
     {
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://cdif.org/0.1/",
       "ex": "https://example.org/"
     }
   ],
@@ -141,22 +145,22 @@ nullSequence, defaultValue, isRequired, and formats_InstanceVariable.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
 @prefix ex: <https://example.org/> .
-@prefix ns1: <cdif:> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-[] ns1:format "#,##0.00" ;
-    ns1:formats_InstanceVariable ex:var-temperature ;
-    ns1:index 3 ;
-    ns1:physicalDataType "Numeric" ;
-    cdi:decimalPositions 2 ;
+[] cdi:decimalPositions 2 ;
     cdi:defaultValue "" ;
     cdi:isRequired true ;
     cdi:length 12 ;
     cdi:maximumLength 12 ;
     cdi:minimumLength 1 ;
     cdi:nullSequence "NA" ;
-    cdi:scale 1 .
+    cdi:scale 1 ;
+    cdif:format "#,##0.00" ;
+    cdif:formats_InstanceVariable ex:var-temperature ;
+    cdif:index 3 ;
+    cdif:physicalDataType "Numeric" .
 
 
 ```

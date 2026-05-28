@@ -2,17 +2,28 @@
 @prefix cdif: <https://cdif.org/0.1/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:var-descriptor a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    schema1:name "measured_variable" ;
+    cdif:role "Descriptor" .
+
+ex:var-value a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    schema1:name "value" ;
+    cdif:role "ReferenceVariable" .
 
 [] a cdi:LongStructureDataSet ;
     cdi:isDelimited true ;
     csvw:delimiter "," ;
     csvw:header true ;
     csvw:headerRowCount 1 ;
-    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-descriptor ;
-            cdif:index 0 ;
-            cdif:physicalDataType "String" ],
-        [ cdif:formats_InstanceVariable ex:var-value ;
+    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-value ;
             cdif:index 1 ;
-            cdif:physicalDataType "Numeric" ] .
+            cdif:physicalDataType "Numeric" ],
+        [ cdif:formats_InstanceVariable ex:var-descriptor ;
+            cdif:index 0 ;
+            cdif:physicalDataType "String" ] .
 

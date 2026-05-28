@@ -1,4 +1,22 @@
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
+@prefix ex: <https://example.org/> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-[] a cdi:LongStructureDataSet .
+ex:var-descriptor a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    schema1:name "measured_variable" ;
+    cdif:role "Descriptor" .
+
+ex:var-value a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    schema1:name "value" ;
+    cdif:role "ReferenceVariable" .
+
+[] a cdi:LongStructureDataSet ;
+    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-descriptor ;
+            cdif:index 0 ],
+        [ cdif:formats_InstanceVariable ex:var-value ;
+            cdif:index 1 ] .
 

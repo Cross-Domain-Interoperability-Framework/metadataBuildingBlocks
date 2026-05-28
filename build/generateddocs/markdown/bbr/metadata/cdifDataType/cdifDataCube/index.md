@@ -66,6 +66,7 @@ use cdi:locator HDF5-style paths for each variable.
     "@context": {
         "schema": "http://schema.org/",
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "cdif": "https://cdif.org/0.1/",
         "ex": "https://example.org/"
     },
     "@type": ["cdi:StructuredDataSet"],
@@ -105,6 +106,7 @@ use cdi:locator HDF5-style paths for each variable.
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://cdif.org/0.1/",
       "ex": "https://example.org/"
     }
   ],
@@ -137,21 +139,21 @@ use cdi:locator HDF5-style paths for each variable.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://cdif.org/0.1/> .
 @prefix ex: <https://example.org/> .
-@prefix ns1: <cdif:> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 [] a cdi:StructuredDataSet ;
-    ns1:hasPhysicalMapping [ ns1:format "float64" ;
-            ns1:formats_InstanceVariable ex:var-pressure ;
-            ns1:index 1 ;
-            ns1:physicalDataType "Numeric" ;
-            cdi:locator "/pressure[*][*]" ],
-        [ ns1:format "float64" ;
-            ns1:formats_InstanceVariable ex:var-temperature ;
-            ns1:index 0 ;
-            ns1:physicalDataType "Numeric" ;
-            cdi:locator "/temperature[*][*]" ] .
+    cdif:hasPhysicalMapping [ cdi:locator "/temperature[*][*]" ;
+            cdif:format "float64" ;
+            cdif:formats_InstanceVariable ex:var-temperature ;
+            cdif:index 0 ;
+            cdif:physicalDataType "Numeric" ],
+        [ cdi:locator "/pressure[*][*]" ;
+            cdif:format "float64" ;
+            cdif:formats_InstanceVariable ex:var-pressure ;
+            cdif:index 1 ;
+            cdif:physicalDataType "Numeric" ] .
 
 
 ```
