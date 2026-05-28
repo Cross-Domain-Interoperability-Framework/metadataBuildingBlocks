@@ -32,8 +32,17 @@
     "cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfile/cdifDataStructure/rules.shacl"
     ],
+    "cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifDataStructureComponent/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
+    ],
     "cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifRepresentedVariable/rules.shacl"
+    ],
+    "cdif.bbr.metadata.skosProperties.skosConcept": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
     ],
     "cdif.bbr.metadata.cdifDataType.cdifValueDomain": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifValueDomain/rules.shacl"
@@ -41,23 +50,14 @@
     "cdif.bbr.metadata.cdifDataType.cdifEnumerationDomain": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifEnumerationDomain/rules.shacl"
     ],
-    "cdif.bbr.metadata.schemaorgProperties.identifier": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
-    ],
-    "cdif.bbr.metadata.skosProperties.skosConcept": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
-    ],
-    "cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifDataStructureComponent/rules.shacl"
-    ],
     "cdif.bbr.metadata.cdifDataType.cdifDescriptorVariable": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifDescriptorVariable/rules.shacl"
     ]
   },
   "dependsOn": [
-    "cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable",
+    "cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent",
     "cdif.bbr.metadata.schemaorgProperties.identifier",
-    "cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent"
+    "cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable"
   ],
   "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/context.jsonld",
   "schema": {
@@ -119,7 +119,7 @@
         {
           "language": "ttl",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/profiles/cdifProfile/cdifDataStructure/example_2_1.ttl",
-          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix cdif: <https://cdif.org/0.1/> .\n\n<https://example.org/struct/vitalsLong> a cdi:LongDataStructure ;\n    cdi:has_DataStructureComponent <https://example.org/struct/vitalsLong/comp/measureName>,\n        <https://example.org/struct/vitalsLong/comp/measureValue>,\n        <https://example.org/struct/vitalsLong/comp/observedAt>,\n        <https://example.org/struct/vitalsLong/comp/patientId> ;\n    cdi:has_PrimaryKey <https://example.org/struct/vitalsLong/pk> .\n\n<https://example.org/struct/vitalsLong/comp/measureName> a cdi:VariableDescriptorComponent ;\n    cdi:refersTo <https://example.org/struct/vitalsLong/comp/measureValue> ;\n    cdif:isDefinedBy_DescriptorVariable <https://example.org/struct/vitalsLong/dv/measureName> .\n\n<https://example.org/struct/vitalsLong/comp/observedAt> a cdi:AttributeComponent ;\n    cdi:qualifies <https://example.org/struct/vitalsLong/comp/measureValue> ;\n    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/observedAt> .\n\n<https://example.org/struct/vitalsLong/comp/patientId> a cdi:IdentifierComponent ;\n    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/patientId> .\n\n<https://example.org/struct/vitalsLong/dv/measureName> a cdi:DescriptorVariable ;\n    cdif:hasValuesFrom <https://example.org/struct/vitalsLong/vd/measureName> ;\n    cdif:name \"measure_name\" .\n\n<https://example.org/struct/vitalsLong/pk> a cdif:PrimaryKey ;\n    cdif:isComposedOf <https://example.org/var/measureName>,\n        <https://example.org/var/observedAt>,\n        <https://example.org/var/patientId> .\n\n<https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;\n            cdi:entryValue \"xsd:decimal\" ] ;\n    cdif:name \"measure_value\" .\n\n<https://example.org/struct/vitalsLong/rv/observedAt> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;\n            cdi:entryValue \"xsd:dateTime\" ] ;\n    cdif:name \"observed_at\" .\n\n<https://example.org/struct/vitalsLong/rv/patientId> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;\n            cdi:entryValue \"xsd:string\" ] ;\n    cdif:name \"patient_id\" .\n\n<https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;\n    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;\n            cdif:value \"systolic_bp\" ],\n        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;\n            cdif:value \"heart_rate\" ] .\n\n<https://example.org/struct/vitalsLong/comp/measureValue> a cdi:VariableValueComponent ;\n    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/measureValue> .\n\n"
+          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix cdif: <https://cdif.org/0.1/> .\n\n<https://example.org/struct/vitalsLong> a cdi:LongDataStructure ;\n    cdi:has_DataStructureComponent <https://example.org/struct/vitalsLong/comp/measureName>,\n        <https://example.org/struct/vitalsLong/comp/measureValue>,\n        <https://example.org/struct/vitalsLong/comp/observedAt>,\n        <https://example.org/struct/vitalsLong/comp/patientId> ;\n    cdi:has_PrimaryKey <https://example.org/struct/vitalsLong/pk> .\n\n<https://example.org/struct/vitalsLong/comp/measureName> a cdi:VariableDescriptorComponent ;\n    cdi:refersTo <https://example.org/struct/vitalsLong/comp/measureValue> ;\n    cdif:isDefinedBy_DescriptorVariable <https://example.org/struct/vitalsLong/dv/measureName> .\n\n<https://example.org/struct/vitalsLong/comp/observedAt> a cdi:AttributeComponent ;\n    cdi:qualifies <https://example.org/struct/vitalsLong/comp/measureValue> ;\n    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/observedAt> .\n\n<https://example.org/struct/vitalsLong/comp/patientId> a cdi:IdentifierComponent ;\n    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/patientId> .\n\n<https://example.org/struct/vitalsLong/dv/measureName> a cdi:DescriptorVariable ;\n    cdif:hasValuesFrom <https://example.org/struct/vitalsLong/vd/measureName> ;\n    cdif:name \"measure_name\" .\n\n<https://example.org/struct/vitalsLong/pk> a cdif:PrimaryKey ;\n    cdif:isComposedOf <https://example.org/var/measureName>,\n        <https://example.org/var/observedAt>,\n        <https://example.org/var/patientId> .\n\n<https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;\n            cdi:entryValue \"xsd:decimal\" ] ;\n    cdif:name \"measure_value\" .\n\n<https://example.org/struct/vitalsLong/rv/observedAt> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;\n            cdi:entryValue \"xsd:dateTime\" ] ;\n    cdif:name \"observed_at\" .\n\n<https://example.org/struct/vitalsLong/rv/patientId> a cdi:RepresentedVariable ;\n    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;\n            cdi:entryValue \"xsd:string\" ] ;\n    cdif:name \"patient_id\" .\n\n<https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;\n    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;\n            cdif:value \"heart_rate\" ],\n        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;\n            cdif:value \"systolic_bp\" ] .\n\n<https://example.org/struct/vitalsLong/comp/measureValue> a cdi:VariableValueComponent ;\n    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/measureValue> .\n\n"
         }
       ]
     },
