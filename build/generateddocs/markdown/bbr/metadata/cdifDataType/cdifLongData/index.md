@@ -122,10 +122,10 @@ ex:var-value a cdi:InstanceVariable,
     cdif:role "ReferenceVariable" .
 
 [] a cdi:LongStructureDataSet ;
-    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-descriptor ;
-            cdif:index 0 ],
-        [ cdif:formats_InstanceVariable ex:var-value ;
-            cdif:index 1 ] .
+    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-value ;
+            cdif:index 1 ],
+        [ cdif:formats_InstanceVariable ex:var-descriptor ;
+            cdif:index 0 ] .
 
 
 ```
@@ -255,12 +255,12 @@ ex:var-value a cdi:InstanceVariable,
     csvw:delimiter "," ;
     csvw:header true ;
     csvw:headerRowCount 1 ;
-    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-value ;
-            cdif:index 1 ;
-            cdif:physicalDataType "Numeric" ],
-        [ cdif:formats_InstanceVariable ex:var-descriptor ;
+    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-descriptor ;
             cdif:index 0 ;
-            cdif:physicalDataType "String" ] .
+            cdif:physicalDataType "String" ],
+        [ cdif:formats_InstanceVariable ex:var-value ;
+            cdif:index 1 ;
+            cdif:physicalDataType "Numeric" ] .
 
 
 ```
@@ -291,6 +291,7 @@ properties:
     description: Links variables to their physical representation in this dataset.
     items:
       $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifPhysicalMapping/schema.yaml
+    x-jsonld-id: https://cdif.org/0.1/hasPhysicalMapping
   cdif:isStructuredBy:
     description: Reference to the LongDataStructure node (cdifDataStructure $def)
       that describes how this distribution's bytes are organized.
@@ -302,6 +303,7 @@ properties:
           type: string
       required:
       - '@id'
+    x-jsonld-id: https://cdif.org/0.1/isStructuredBy
   cdi:arrayBase:
     type: integer
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/arrayBase
@@ -365,6 +367,7 @@ properties:
 required:
 - '@type'
 x-jsonld-prefixes:
+  cdif: https://cdif.org/0.1/
   schema: http://schema.org/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
 
@@ -381,11 +384,11 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
+    "cdif": "https://cdif.org/0.1/",
     "schema": "http://schema.org/",
     "ada": "https://ada.astromat.org/metadata/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "cdif": "https://cdif.org/0.1/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
     "@version": 1.1

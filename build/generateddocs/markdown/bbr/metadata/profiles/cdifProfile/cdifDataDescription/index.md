@@ -885,10 +885,18 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
             csvw:trim "true" ;
             cdif:fileSize 1.2e+00 ;
             cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+            cdif:hasPhysicalMapping [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "Integer" ],
+                [ cdi:isRequired true ;
                     cdi:length 20 ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
                     cdif:index 0 ;
+                    cdif:physicalDataType "String" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
+                    cdif:index 4 ;
                     cdif:physicalDataType "String" ],
                 [ cdi:decimalPositions 2 ;
                     cdi:defaultValue "NaN" ;
@@ -908,15 +916,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:format "0.0" ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
                     cdif:index 1 ;
-                    cdif:physicalDataType "Numeric" ],
-                [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "Integer" ],
-                [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "String" ] ],
+                    cdif:physicalDataType "Numeric" ] ],
         [ a cdi:PhysicalDataSet,
                 cdi:StructuredDataSet,
                 schema1:DataDownload ;
@@ -1259,6 +1259,7 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
+    "cdif": "https://cdif.org/0.1/",
     "schema": "http://schema.org/",
     "spdx": "http://spdx.org/rdf/terms#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
@@ -1266,7 +1267,6 @@ Links to the schema:
     "xas": "https://xas.org/dictionary/",
     "nxs": "http://purl.org/nexusformat/definitions/",
     "prov": "http://www.w3.org/ns/prov#",
-    "cdif": "https://cdif.org/0.1/",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",

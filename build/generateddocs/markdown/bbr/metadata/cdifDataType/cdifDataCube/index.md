@@ -144,15 +144,15 @@ use cdi:locator HDF5-style paths for each variable.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 [] a cdi:StructuredDataSet ;
-    cdif:hasPhysicalMapping [ cdi:locator "/temperature[*][*]" ;
-            cdif:format "float64" ;
-            cdif:formats_InstanceVariable ex:var-temperature ;
-            cdif:index 0 ;
-            cdif:physicalDataType "Numeric" ],
-        [ cdi:locator "/pressure[*][*]" ;
+    cdif:hasPhysicalMapping [ cdi:locator "/pressure[*][*]" ;
             cdif:format "float64" ;
             cdif:formats_InstanceVariable ex:var-pressure ;
             cdif:index 1 ;
+            cdif:physicalDataType "Numeric" ],
+        [ cdi:locator "/temperature[*][*]" ;
+            cdif:format "float64" ;
+            cdif:formats_InstanceVariable ex:var-temperature ;
+            cdif:index 0 ;
             cdif:physicalDataType "Numeric" ] .
 
 
@@ -187,7 +187,9 @@ properties:
             description: String that can be used by software to locate values of the
               variable in this physical dataset (DDI-CDI LocatorMapping.locator).
             x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/locator
+    x-jsonld-id: https://cdif.org/0.1/hasPhysicalMapping
 x-jsonld-prefixes:
+  cdif: https://cdif.org/0.1/
   schema: http://schema.org/
   ada: https://ada.astromat.org/metadata/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
@@ -205,6 +207,7 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
+    "cdif": "https://cdif.org/0.1/",
     "schema": "http://schema.org/",
     "ada": "https://ada.astromat.org/metadata/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",

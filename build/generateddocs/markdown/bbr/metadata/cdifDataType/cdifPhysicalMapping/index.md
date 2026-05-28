@@ -180,12 +180,15 @@ properties:
     minimum: 0
     description: Non-negative integer that orders the fields in the data structure
       (column number).
+    x-jsonld-id: https://cdif.org/0.1/index
   cdif:format:
     type: string
     description: A format for number expressed as a string, or date format like YYYY/MM
       or MM-DD-YY.
+    x-jsonld-id: https://cdif.org/0.1/format
   cdif:physicalDataType:
     type: string
+    x-jsonld-id: https://cdif.org/0.1/physicalDataType
   cdi:numberPattern:
     type: string
     description: Number format pattern for the field (PhysicalMapping.numberPattern).
@@ -226,7 +229,9 @@ properties:
         type: string
         description: This should be a reference to a variable defined in the schema:variableMeasured
           section.
+    x-jsonld-id: https://cdif.org/0.1/formats_InstanceVariable
 x-jsonld-prefixes:
+  cdif: https://cdif.org/0.1/
   schema: http://schema.org/
   ada: https://ada.astromat.org/metadata/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
@@ -244,6 +249,7 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
+    "cdif": "https://cdif.org/0.1/",
     "schema": "http://schema.org/",
     "ada": "https://ada.astromat.org/metadata/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",

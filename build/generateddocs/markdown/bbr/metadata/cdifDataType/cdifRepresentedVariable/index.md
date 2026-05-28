@@ -64,6 +64,7 @@ properties:
   cdif:descriptiveText:
     type: string
     description: A short natural language account of the characteristics of the object.
+    x-jsonld-id: https://cdif.org/0.1/descriptiveText
   cdi:measures:
     anyOf:
     - $ref: '#/$defs/UnitType'
@@ -82,6 +83,7 @@ properties:
     description: Natural language statement conveying the meaning of a concept, differentiating
       it from other concepts. Supports the use of multiple languages and structured
       text. 'externalDefinition' can't be used if 'definition' is used.
+    x-jsonld-id: https://cdif.org/0.1/definition
   cdif:displayLabel:
     type: array
     items:
@@ -90,6 +92,7 @@ properties:
     description: A human-readable display label for the object. Supports the use of
       multiple languages. Repeat for labels with different content, for example, labels
       with differing length limitations.
+    x-jsonld-id: https://cdif.org/0.1/displayLabel
   cdi:externalDefinition:
     $ref: '#/$defs/Reference'
     description: A reference to an external definition of a concept (that is, a concept
@@ -111,6 +114,7 @@ properties:
     description: Human understandable name (linguistic signifier, word, phrase, or
       mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided
       to specify usage.
+    x-jsonld-id: https://cdif.org/0.1/name
   cdif:uses_Concept:
     type: array
     items:
@@ -118,6 +122,7 @@ properties:
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
       - $ref: '#/$defs/id-reference'
     minItems: 1
+    x-jsonld-id: https://cdif.org/0.1/uses_Concept
 required:
 - '@type'
 $defs:
@@ -195,6 +200,7 @@ $defs:
         description: Human understandable name (liguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
+        x-jsonld-id: https://cdif.org/0.1/name
       cdif:isDefinedBy_Concept:
         type: array
         items:
@@ -202,6 +208,7 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
           - $ref: '#/$defs/id-reference'
         minItems: 1
+        x-jsonld-id: https://cdif.org/0.1/isDefinedBy_Concept
       cdif:has_Concept:
         type: array
         items:
@@ -209,6 +216,7 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
           - $ref: '#/$defs/id-reference'
         minItems: 1
+        x-jsonld-id: https://cdif.org/0.1/has_Concept
       cdi:purpose:
         type: string
         description: Intent or reason for the object/the description of the object.
@@ -233,12 +241,14 @@ $defs:
         type: string
         description: A short natural language account of the characteristics of the
           object.
+        x-jsonld-id: https://cdif.org/0.1/descriptiveText
       cdif:definition:
         type: string
         description: Natural language statement conveying the meaning of a concept,
           differentiating it from other concepts. Supports the use of multiple languages
           and structured text. 'externalDefinition' can't be used if 'definition'
           is used.
+        x-jsonld-id: https://cdif.org/0.1/definition
       cdif:displayLabel:
         type: array
         items:
@@ -247,6 +257,7 @@ $defs:
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
+        x-jsonld-id: https://cdif.org/0.1/displayLabel
       cdi:externalDefinition:
         $ref: '#/$defs/Reference'
         description: A reference to an external definition of a concept (that is,
@@ -268,6 +279,7 @@ $defs:
         description: Human understandable name (linguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
+        x-jsonld-id: https://cdif.org/0.1/name
       cdif:uses_Concept:
         type: array
         items:
@@ -275,9 +287,11 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
           - $ref: '#/$defs/id-reference'
         minItems: 1
+        x-jsonld-id: https://cdif.org/0.1/uses_Concept
     required:
     - '@type'
 x-jsonld-prefixes:
+  cdif: https://cdif.org/0.1/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
 
 ```
@@ -294,9 +308,9 @@ Links to the schema:
 {
   "@context": {
     "skos": "http://www.w3.org/2004/02/skos/core#",
+    "cdif": "https://cdif.org/0.1/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "schema": "http://schema.org/",
-    "cdif": "https://cdif.org/0.1/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
     "@version": 1.1

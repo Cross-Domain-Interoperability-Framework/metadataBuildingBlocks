@@ -642,18 +642,18 @@ ex:op_searchAnalyses a schema1:SearchAction ;
                 ex:param_end,
                 ex:param_format,
                 ex:param_start ;
-            oas:response [ schema1:description "Invalid query parameter (e.g. malformed bbox)." ;
-                    oas:code "400" ;
-                    oas:content [ schema1:encodingFormat "application/json" ;
-                            oas:schema [ oas:type "object" ] ] ],
-                [ schema1:description "Tabular geochemical analysis results matching the query." ;
+            oas:response [ schema1:description "Tabular geochemical analysis results matching the query." ;
                     oas:code "200" ;
                     oas:content [ schema1:encodingFormat "text/csv" ;
                             oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.csv-frictionless.json" ;
                                     oas:type "string" ] ],
                         [ schema1:encodingFormat "application/json" ;
                             oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.json" ;
-                                    oas:type "object" ] ] ] ] .
+                                    oas:type "object" ] ] ],
+                [ schema1:description "Invalid query parameter (e.g. malformed bbox)." ;
+                    oas:code "400" ;
+                    oas:content [ schema1:encodingFormat "application/json" ;
+                            oas:schema [ oas:type "object" ] ] ] ] .
 
 ex:op_submitAnalysis a schema1:CreateAction ;
     schema1:description "Submit a new geochemical analysis record. Requires authentication." ;
@@ -1046,6 +1046,7 @@ $defs:
   DefinedTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
 x-jsonld-prefixes:
+  cdif: https://cdif.org/0.1/
   schema: http://schema.org/
   oas: https://spec.openapis.org/oas/3.1#
   spdx: http://spdx.org/rdf/terms#
@@ -1064,13 +1065,13 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
+    "cdif": "https://cdif.org/0.1/",
     "schema": "http://schema.org/",
     "oas": "https://spec.openapis.org/oas/3.1#",
     "spdx": "http://spdx.org/rdf/terms#",
     "dcterms": "http://purl.org/dc/terms/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcat": "http://www.w3.org/ns/dcat#",

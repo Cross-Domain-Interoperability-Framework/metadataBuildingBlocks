@@ -324,6 +324,7 @@ properties:
             description: reference to a skos concept for the data type
       - $ref: '#/$defs/DefinedTerm'
     description: identifier or name for the data type concept.
+    x-jsonld-id: https://cdif.org/0.1/physicalDataType
   cdif:role:
     type: string
     enum:
@@ -338,6 +339,7 @@ properties:
       qualifies an observation; Dimension addresses a cell in a multi-dimensional
       cube; Descriptor names the variable that a Reference column records values for
       (long format); ReferenceVariable holds those recorded values.
+    x-jsonld-id: https://cdif.org/0.1/role
   cdif:simpleUnitOfMeasure:
     anyOf:
     - type: string
@@ -347,6 +349,7 @@ properties:
           type: string
           description: reference to a skos concept for the data type
     - $ref: '#/$defs/DefinedTerm'
+    x-jsonld-id: https://cdif.org/0.1/simpleUnitOfMeasure
   cdif:uses:
     type: array
     items:
@@ -363,6 +366,7 @@ properties:
       cdi:isStructuredBy (CDIF Data Structure profile), cdif:uses references the RepresentedVariable
       that supplies the represented-variable-level properties below, which are then
       NOT duplicated on the InstanceVariable.
+    x-jsonld-id: https://cdif.org/0.1/uses
   cdi:function:
     type: array
     items:
@@ -410,6 +414,7 @@ properties:
           type: string
       required:
       - '@id'
+    x-jsonld-id: https://cdif.org/0.1/isDescribedBy_StatisticsCollection
   cdi:hasIntendedDataType:
     anyOf:
     - type: string
@@ -450,6 +455,7 @@ $defs:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
 x-jsonld-prefixes:
+  cdif: https://cdif.org/0.1/
   schema: http://schema.org/
   spdx: http://spdx.org/rdf/terms#
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
@@ -471,6 +477,7 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
+    "cdif": "https://cdif.org/0.1/",
     "schema": "http://schema.org/",
     "spdx": "http://spdx.org/rdf/terms#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
@@ -478,7 +485,6 @@ Links to the schema:
     "xas": "https://xas.org/dictionary/",
     "nxs": "http://purl.org/nexusformat/definitions/",
     "prov": "http://www.w3.org/ns/prov#",
-    "cdif": "https://cdif.org/0.1/",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",

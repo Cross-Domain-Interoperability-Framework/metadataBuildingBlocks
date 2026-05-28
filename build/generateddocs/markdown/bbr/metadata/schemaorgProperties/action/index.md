@@ -720,6 +720,7 @@ Links to the schema:
   "@context": {
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
+    "cdif": "https://cdif.org/0.1/",
     "@version": 1.1
   }
 }

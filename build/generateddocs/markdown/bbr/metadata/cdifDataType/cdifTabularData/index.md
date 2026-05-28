@@ -128,13 +128,13 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
     csvw:headerRowCount 1 ;
     csvw:skipBlankRows false ;
     csvw:skipInitialSpace true ;
-    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-station-id ;
-            cdif:index 0 ;
-            cdif:physicalDataType "String" ],
-        [ cdif:format "float64" ;
+    cdif:hasPhysicalMapping [ cdif:format "float64" ;
             cdif:formats_InstanceVariable ex:var-temperature ;
             cdif:index 1 ;
-            cdif:physicalDataType "Numeric" ] .
+            cdif:physicalDataType "Numeric" ],
+        [ cdif:formats_InstanceVariable ex:var-station-id ;
+            cdif:index 0 ;
+            cdif:physicalDataType "String" ] .
 
 
 ```
@@ -461,6 +461,7 @@ properties:
     description: Links variables to their physical representation in this dataset.
     items:
       $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifPhysicalMapping/schema.yaml
+    x-jsonld-id: https://cdif.org/0.1/hasPhysicalMapping
   countRows:
     type: integer
   countColumns:
@@ -488,6 +489,7 @@ required:
 - '@type'
 - cdif:hasPhysicalMapping
 x-jsonld-prefixes:
+  cdif: https://cdif.org/0.1/
   schema: http://schema.org/
   ada: https://ada.astromat.org/metadata/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
@@ -505,6 +507,7 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
+    "cdif": "https://cdif.org/0.1/",
     "schema": "http://schema.org/",
     "ada": "https://ada.astromat.org/metadata/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
