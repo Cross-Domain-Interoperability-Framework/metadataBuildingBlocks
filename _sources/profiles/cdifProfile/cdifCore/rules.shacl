@@ -16,13 +16,26 @@ cdifd:CDIFDatasetMandatoryShape a sh:NodeShape ;
     sh:select """
        PREFIX schema: <http://schema.org/>
        PREFIX ex: <https://example.org/>
+       PREFIX prov: <http://www.w3.org/ns/prov#>
+       PREFIX dcterms: <http://purl.org/dc/terms/>
             SELECT ?this
             WHERE {
               ?this a schema:Dataset .
+              # Exclude catalog-record nodes (they describe a record, not a dataset).
               MINUS {
                 ?this schema:about ?x .
                 ?this schema:additionalType "dcat:CatalogRecord" .
               }
+              # Exclude datasets that are only *referenced* as provenance / source /
+              # derived-from / based-on resources rather than the resource being
+              # documented by this record. Such references carry an @id (and maybe a
+              # name/url for readability) but are not held to the full CDIF core
+              # requirements - the documented resource is the SUBJECT of provenance,
+              # never the object, so this never excludes the documented dataset.
+              FILTER NOT EXISTS { ?dpd prov:wasDerivedFrom ?this . }
+              FILTER NOT EXISTS { ?dpu prov:used ?this . }
+              FILTER NOT EXISTS { ?dib schema:isBasedOn ?this . }
+              FILTER NOT EXISTS { ?dsrc dcterms:source ?this . }
             }
           """ ;
 	] ;
