@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme` *v0.1*
 
-Profile module for SKOS concept schemes used as controlled vocabularies in CDIF metadata. Currently a thin wrapper around skosConceptScheme (skosProperties); reserved for concept-scheme-specific extensions and conformance rules.
+Profile module for SKOS concept schemes used as controlled vocabularies in CDIF metadata. A self-contained SKOS concept scheme schema (inlines the SKOS Concept and language-tagged-value definitions); reserved for concept-scheme-specific extensions and conformance rules.
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
