@@ -3001,7 +3001,19 @@ def _puml_attr_type(prop: Property, model: Model) -> str:
     return "String"
 
 
-def _puml_header(title: str) -> list[str]:
+# Default overview layout. Individual overview diagrams are auto-fitted after
+# rendering (see _fit_overview_aspect): the box font / ranksep / nodesep are
+# adjusted per diagram so wide graphs (which curved-edge Graphviz stretches to
+# 4-7:1) are pulled back toward a readable aspect ratio. Detail and datatype
+# diagrams keep these defaults.
+_PUML_RANKSEP_DEFAULT = 250
+_PUML_NODESEP_DEFAULT = 20
+_PUML_FONT_DEFAULT = 36
+
+
+def _puml_header(title: str, *, ranksep: int = _PUML_RANKSEP_DEFAULT,
+                 nodesep: int = _PUML_NODESEP_DEFAULT,
+                 font: int = _PUML_FONT_DEFAULT) -> list[str]:
     return [
         "@startuml",
         f"title {title}",
@@ -3009,24 +3021,20 @@ def _puml_header(title: str) -> list[str]:
         "hide empty members",
         "skinparam shadowing false",
         "skinparam ArrowThickness 1.2",
-        # Layout: ortho edges + large ranksep + small nodesep pushes Graphviz
-        # toward a roughly square bounding box. Empirically with these values
-        # the overview diagrams land near 1:1 aspect ratio across small (1-3
-        # classes ~ 0.97), medium (16 ~ 0.98), and large (50+ ~ 1.16) class
-        # counts. Without these the overviews stretch to 6-7:1 wide.
-        "skinparam ranksep 250",
-        "skinparam nodesep 20",
-        # Lines are left as the PlantUML default (splined / curved). ortho
-        # Manhattan routing was tried and judged too angular.
+        # Layout: large ranksep + small nodesep pushes Graphviz toward a roughly
+        # square bounding box (lines are left as the PlantUML default spline /
+        # curved -- ortho Manhattan routing was tried and judged too angular).
+        f"skinparam ranksep {ranksep}",
+        f"skinparam nodesep {nodesep}",
         # Bigger fonts so class boxes (and the title / association labels) fill
         # more of the bounding box -- diagrams looked too sparse at the
         # default size. ~3x the original 12pt; boxes auto-scale to the text.
-        "skinparam defaultFontSize 36",
+        f"skinparam defaultFontSize {font}",
         "skinparam class {",
         "  ArrowColor #404040",
         "  BorderColor #404040",
-        "  FontSize 36",
-        "  AttributeFontSize 30",
+        f"  FontSize {font}",
+        f"  AttributeFontSize {max(font - 6, 8)}",
         "}",
         "",
     ]
@@ -3314,6 +3322,100 @@ def _emit_overview_diagram(closure: UmlClosure, model: Model,
             encoding="utf-8")
 
 
+# Overview aspect-ratio auto-fit -----------------------------------------------
+#
+# Graphviz with curved (spline) edges stretches wider as a class graph grows;
+# the stretch is driven by graph *topology*, not class count (a 16-class graph
+# can render 4.5:1 while a 39-class one renders 0.8:1). So rather than guess
+# layout from the class count, we render each overview at the default settings,
+# measure the actual width:height, and -- only if it falls outside a readable
+# band -- step the box font / ranksep / nodesep along a ladder and re-render
+# until it lands in band (or as close as the ladder reaches). In-band diagrams
+# are left byte-identical (no re-render, no diff).
+_ASPECT_LOW = 0.55
+_ASPECT_HIGH = 2.0
+# Each rung is (ranksep, nodesep, font). Wide graphs: shrink font + nodesep,
+# grow ranksep to trade width for height. Tall graphs: the reverse.
+_FIT_LADDER_WIDE = [(320, 16, 30), (360, 14, 26), (400, 12, 22),
+                    (450, 10, 18), (550, 8, 16)]
+_FIT_LADDER_TALL = [(200, 30, 36), (160, 40, 36), (120, 55, 36), (90, 75, 36)]
+
+
+def _svg_aspect(svg_path: Path) -> Optional[float]:
+    """Return width/height of a rendered PlantUML SVG, or None."""
+    try:
+        head = svg_path.read_text(encoding="utf-8")[:2000]
+    except OSError:
+        return None
+    m = re.search(r'style="width:(\d+)px;height:(\d+)px', head)
+    if not m:
+        m = re.search(r'width="(\d+)px"\s+height="(\d+)px"', head)
+    if not m:
+        return None
+    w, h = int(m.group(1)), int(m.group(2))
+    return (w / h) if h else None
+
+
+def _apply_puml_layout(pu_text: str, ranksep: int, nodesep: int, font: int) -> str:
+    """Rewrite the ranksep / nodesep / font skinparam lines in a .pu."""
+    t = re.sub(r'(?m)^skinparam ranksep \d+', f'skinparam ranksep {ranksep}', pu_text)
+    t = re.sub(r'(?m)^skinparam nodesep \d+', f'skinparam nodesep {nodesep}', t)
+    t = re.sub(r'(?m)^skinparam defaultFontSize \d+',
+               f'skinparam defaultFontSize {font}', t)
+    t = re.sub(r'(?m)^(\s*)FontSize \d+', rf'\g<1>FontSize {font}', t)
+    t = re.sub(r'(?m)^(\s*)AttributeFontSize \d+',
+               rf'\g<1>AttributeFontSize {max(font - 6, 8)}', t)
+    return t
+
+
+def _fit_overview_aspect(pu_path: Path, plantuml_jar: Path, java_exe: str) -> bool:
+    """If the rendered overview is too wide/tall, step its layout along a ladder
+    and re-render in place until the aspect ratio is in [_ASPECT_LOW,
+    _ASPECT_HIGH] (or as close as the ladder reaches). Returns True if the .pu
+    was rewritten."""
+    import subprocess
+
+    def render() -> Optional[float]:
+        r = subprocess.run([java_exe, "-jar", str(plantuml_jar), "-tsvg", str(pu_path)],
+                           capture_output=True, text=True)
+        if r.returncode != 0:
+            return None
+        return _svg_aspect(pu_path.with_suffix(".svg"))
+
+    svg = pu_path.with_suffix(".svg")
+    aspect = _svg_aspect(svg) if svg.exists() else render()
+    if aspect is None or _ASPECT_LOW <= aspect <= _ASPECT_HIGH:
+        return False
+
+    original = pu_path.read_text(encoding="utf-8")
+    ladder = _FIT_LADDER_WIDE if aspect > _ASPECT_HIGH else _FIT_LADDER_TALL
+
+    def dist(a: float) -> float:
+        if a < _ASPECT_LOW:
+            return _ASPECT_LOW - a
+        if a > _ASPECT_HIGH:
+            return a - _ASPECT_HIGH
+        return 0.0
+
+    best = (dist(aspect), original)  # (distance-to-band, pu_text)
+    for ranksep, nodesep, font in ladder:
+        pu_path.write_text(_apply_puml_layout(original, ranksep, nodesep, font),
+                           encoding="utf-8")
+        a = render()
+        if a is None:
+            continue
+        if _ASPECT_LOW <= a <= _ASPECT_HIGH:
+            return True  # in band; current .pu/.svg on disk are the keepers
+        d = dist(a)
+        if d < best[0]:
+            best = (d, pu_path.read_text(encoding="utf-8"))
+
+    # No rung landed in band -> write the closest one and render it.
+    pu_path.write_text(best[1], encoding="utf-8")
+    render()
+    return best[1] != original
+
+
 def render_puml_to_svg(puml_dir: Path, plantuml_jar: Path,
                         java_exe: str = "java") -> int:
     """Render each .pu in puml_dir to .svg via plantuml.jar.
@@ -3367,6 +3469,18 @@ def render_puml_to_svg(puml_dir: Path, plantuml_jar: Path,
             for f in files:
                 if f.with_suffix(".svg").exists():
                     rendered.append(f)
+
+    # Auto-fit overview aspect ratios. Only index.pu / index.local.pu are
+    # fitted (the pages a reader lands on); detail/datatype diagrams are small
+    # and keep the defaults. A fit rewrites the .pu, so refresh its hash so the
+    # cache reflects the fitted content.
+    for pu in pu_files:
+        if pu.name in ("index.pu", "index.local.pu"):
+            if _fit_overview_aspect(pu, plantuml_jar, java_exe):
+                rel = pu.relative_to(puml_dir).as_posix()
+                cur_hash[rel] = hashlib.sha256(pu.read_bytes()).hexdigest()
+                if pu not in rendered:
+                    rendered.append(pu)
 
     # Record the hash of each successfully rendered .pu; prune entries for .pu
     # files that no longer exist. Skipped (up-to-date) entries are preserved.
@@ -4311,13 +4425,13 @@ def _html_root_index(out_dir: Path, profiles: list[tuple[str, int, int]]) -> Non
                       if modules else '<li class="empty">(none)</li>')
 
     body = (
-        '<h1 class="classname">CDIF profile model browser</h1>'
+        '<h1 class="classname">CDIF JSON schema diagrams</h1>'
         '<p>Generated from the CDIF profile UML models.</p>'
-        '<h2>Composite Profiles</h2>'
-        '<p>Profiles that compose one or more profile modules plus supporting building blocks.</p>'
+        '<h2>Metadata document schema</h2>'
+        '<p>Schema for instance documents, composed from profile modules.</p>'
         f'<ul class="classlist">{composite_html}</ul>'
         '<h2>Profiles</h2>'
-        '<p>Profile modules (each describes a specific set of functionality; composed by one or more composite profiles).</p>'
+        '<p>Each profile supports specific functionality. Profiles are assembled to create the Instance document schema.</p>'
         f'<ul class="classlist">{module_html}</ul>'
     )
     html = f"""<!DOCTYPE html>
@@ -4325,12 +4439,12 @@ def _html_root_index(out_dir: Path, profiles: list[tuple[str, int, int]]) -> Non
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CDIF profile model browser</title>
+  <title>CDIF JSON schema diagrams</title>
   <link rel="stylesheet" href="_static/style.css">
 </head>
 <body>
 <header>
-  <h1>CDIF profile model browser</h1>
+  <h1>CDIF JSON schema diagrams</h1>
 </header>
 <main>{body}</main>
 </body>
