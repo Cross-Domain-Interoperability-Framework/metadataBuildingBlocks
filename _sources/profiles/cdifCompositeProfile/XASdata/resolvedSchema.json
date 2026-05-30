@@ -3714,7 +3714,7 @@
                       "anyOf": [
                         {
                           "type": "object",
-                          "description": "Value domain for a sentinel conceptual domain.",
+                          "description": "Specification of possible sentinel values used by a variable. Sentinel values are special values used to indicate various invalid conditions for a variable, e.g. below detection, missing value.",
                           "properties": {
                             "@type": {
                               "type": "array",
@@ -4042,10 +4042,6 @@
                                       "type": "string",
                                       "description": "A pattern for a number as described in Unicode Locale Data Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html) Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns) and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns) . Examples would be #,##0.### to describe the pattern for a decimal number, or yyyy.MM.dd G 'at' HH:mm:ss zzz for a datetime pattern."
                                     },
-                                    "cdi:identifier": {
-                                      "$ref": "#/$defs/Identifier",
-                                      "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-                                    },
                                     "cdi:logicalExpression": {
                                       "type": "string",
                                       "description": "A logical expression where the values of \"x\" making the expression true are the members of the set of valid values. For example, \"(all reals x such that x > 0)\" describes the real numbers greater than 0."
@@ -4367,7 +4363,7 @@
                           },
                           "cdif:displayLabel": {
                             "type": "string",
-                            "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+                            "description": "A human-readable display label for the object. "
                           },
                           "cdif:recommendedDataType": {
                             "type": "array",
@@ -4453,10 +4449,6 @@
                                   "cdi:formatPattern": {
                                     "type": "string",
                                     "description": "A pattern for a number as described in Unicode Locale Data Markup Language (LDML) (http://www.unicode.org/reports/tr35/tr35.html) Part 3: Numbers (http://www.unicode.org/reports/tr35/tr35-numbers.html#Number_Format_Patterns) and Part 4. Dates (http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns) . Examples would be #,##0.### to describe the pattern for a decimal number, or yyyy.MM.dd G 'at' HH:mm:ss zzz for a datetime pattern."
-                                  },
-                                  "cdi:identifier": {
-                                    "$ref": "#/$defs/Identifier",
-                                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
                                   },
                                   "cdi:logicalExpression": {
                                     "type": "string",
@@ -7837,14 +7829,8 @@
           "description": "Specifies the role this variable plays in a data structure. UnitIdentifier names the unit a row describes; Measure holds observed/derived values; Attribute qualifies an observation; Dimension addresses a cell in a multi-dimensional cube; Descriptor names the variable that a Reference column records values for (long format); ReferenceVariable holds those recorded values."
         },
         "cdif:simpleUnitOfMeasure": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/CdifInstanceVariable_cdifConceptOrTerm"
-            }
-          ]
+          "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a simple string, in cases where no additional information is available (in the legacy system) or needed (as in the case of broad agreement within the community of use [i.e., ISO country codes, currencies, etc. in SDMX])",
+          "type": "string"
         },
         "cdif:uses": {
           "type": "array",
@@ -7921,14 +7907,7 @@
           ]
         },
         "cdi:describedUnitOfMeasure": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/CdifInstanceVariable_cdifConceptOrTerm"
-            }
-          ],
+          "$ref": "#/$defs/CdifInstanceVariable_cdifConceptOrTerm",
           "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead."
         },
         "cdi:qualifies": {
