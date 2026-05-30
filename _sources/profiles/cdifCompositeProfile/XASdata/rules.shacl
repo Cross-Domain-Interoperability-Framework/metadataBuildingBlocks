@@ -24,4 +24,25 @@ cdifd:metadataProfileProperty
     sh:hasValue <https://w3id.org/cdif/xasDiscovery/1.0> ;
     sh:message "a CDIF XASdata metadata record must declare conformance to core/1.0, discovery/1.0, data_description/1.0, xasCore/1.0 and xasDiscovery/1.0 (all under https://w3id.org/cdif/)"
     .
-    
+
+# Conformance declaration for the XASdata profile in the catalog record.
+cdifd:CDIFXASdataConformsToShape a sh:NodeShape ;
+    sh:target [
+      a sh:SPARQLTarget ;
+        sh:select  """
+            PREFIX schema: <http://schema.org/>
+            SELECT ?this
+            WHERE {
+            ?this a schema:Dataset ;
+             schema:about ?parent ;
+             schema:additionalType "dcat:CatalogRecord" .
+            }
+        """;
+    ] ;
+    sh:property [
+        a sh:PropertyShape ;
+        sh:path dcterms:conformsTo ;
+        sh:hasValue <https://w3id.org/cdif/bbr/metadata/profiles/cdifCompositeProfile/XASdata> ;
+        sh:severity sh:Warning ;
+        sh:message "Metadata record for XASdata profile should declare conformance to https://w3id.org/cdif/bbr/metadata/profiles/cdifCompositeProfile/XASdata" ;
+    ] .

@@ -22,4 +22,25 @@ cdifd:metadataProfileProperty
     sh:hasValue <https://w3id.org/cdif/data_description/1.0> ;
     sh:message "a CDIF DiscoveryDataDescription metadata record must declare conformance to https://w3id.org/cdif/core/1.0, https://w3id.org/cdif/discovery/1.0 and https://w3id.org/cdif/data_description/1.0"
     .
-    
+
+# Conformance declaration for the DiscoveryDataDescription profile in the catalog record.
+cdifd:CDIFDiscoveryDataDescriptionConformsToShape a sh:NodeShape ;
+    sh:target [
+      a sh:SPARQLTarget ;
+        sh:select  """
+            PREFIX schema: <http://schema.org/>
+            SELECT ?this
+            WHERE {
+            ?this a schema:Dataset ;
+             schema:about ?parent ;
+             schema:additionalType "dcat:CatalogRecord" .
+            }
+        """;
+    ] ;
+    sh:property [
+        a sh:PropertyShape ;
+        sh:path dcterms:conformsTo ;
+        sh:hasValue <https://w3id.org/cdif/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription> ;
+        sh:severity sh:Warning ;
+        sh:message "Metadata record for DiscoveryDataDescription profile should declare conformance to https://w3id.org/cdif/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription" ;
+    ] .
