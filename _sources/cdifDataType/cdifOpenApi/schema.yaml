@@ -29,7 +29,7 @@ properties:
       service-type identifier includes versioning.
     anyOf:
     - type: string
-    - $ref: '#/$defs/DefinedTerm'
+    - $ref: '#/$defs/cdifConceptOrTerm'
   'schema:termsOfService':
     description: Description of access privileges required to use the API (e.g. registration,
       licensing, payments). Maps OpenAPI info.termsOfService. Note that access constraints
@@ -286,5 +286,12 @@ $defs:
           a complex payload structure.
   Reference:
     $ref: ../../cdifDataType/cdifReference/schema.yaml
-  DefinedTerm:
-    $ref: ../../schemaorgProperties/definedTerm/schema.yaml
+  cdifConceptOrTerm:
+    anyOf:
+      - type: object
+        properties:
+          '@id':
+            type: string
+            description: reference to a skos concept for the data type
+      - $ref: ../../schemaorgProperties/definedTerm/schema.yaml
+      - $ref: ../../profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept

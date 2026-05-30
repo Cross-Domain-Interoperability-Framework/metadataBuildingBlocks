@@ -19,6 +19,15 @@ anyOf:
 - $ref: '#/$defs/CategoryStatistics'
 - $ref: '#/$defs/StatisticsCollection'
 $defs:
+  cdifConceptOrTerm:
+    anyOf:
+      - type: object
+        properties:
+          '@id':
+            type: string
+            description: reference to a skos concept for the data type
+      - $ref: ../../schemaorgProperties/definedTerm/schema.yaml
+      - $ref: ../../profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept
   Statistic:
     title: Statistic
     description: >-
@@ -70,7 +79,9 @@ $defs:
         description: >-
           Controlled-vocabulary entry naming the kind of statistic — e.g. mean,
           median, count, sum, stdDev.
-        $ref: '#/$defs/SkosConcept'
+        anyOf:
+        - type: string
+        - $ref: '#/$defs/cdifConceptOrTerm'
       'cdi:statistic':
         type: array
         description: >-
@@ -150,7 +161,9 @@ $defs:
       'cdi:typeOfStatistic':
         description: >-
           Controlled-vocabulary entry naming the kind of statistic.
-        $ref: '#/$defs/SkosConcept'
+        anyOf:
+        - type: string
+        - $ref: '#/$defs/cdifConceptOrTerm'
       'cdi:statistic':
         type: array
         description: Per-category Statistic value objects.

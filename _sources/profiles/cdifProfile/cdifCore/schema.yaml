@@ -80,7 +80,7 @@ properties:
     items:
       anyOf:
       - type: string
-      - $ref: '#/$defs/DefinedTerm'
+      - $ref: '#/$defs/cdifConceptOrTerm'
   'schema:sameAs':
     description: Other identifiers for the dataset, as IRI references, literal strings,
       or structured identifiers using schema:PropertyValue.
@@ -172,7 +172,7 @@ properties:
           minItems: 1
         'schema:linkRelationship':
           anyOf:
-          - $ref: '#/$defs/DefinedTerm'
+          - $ref: '#/$defs/cdifConceptOrTerm'
           - type: string
         'schema:target':
           type: object
@@ -217,7 +217,7 @@ properties:
     type: array
     items:
       anyOf:
-      - $ref: '#/$defs/DefinedTerm'
+      - $ref: '#/$defs/cdifConceptOrTerm'
       - type: string
   'schema:creator':
     description: author or orginator of intellectual content of dataset. Uset the JSON-LD @list construct
@@ -330,8 +330,15 @@ $defs:
     $ref: ../../../cdifDataType/cdifReference/schema.yaml
   Identifier:
     $ref: ../../../schemaorgProperties/identifier/schema.yaml
-  DefinedTerm:
-    $ref: ../../../schemaorgProperties/definedTerm/schema.yaml
+  cdifConceptOrTerm:
+    anyOf:
+      - type: object
+        properties:
+          '@id':
+            type: string
+            description: reference to a skos concept for the data type
+      - $ref: ../../../schemaorgProperties/definedTerm/schema.yaml
+      - $ref: ../cdifConceptScheme/schema.yaml#/$defs/cdifConcept
   DataDownload:
     $ref: ../../../schemaorgProperties/dataDownload/schema.yaml
   WebAPI:

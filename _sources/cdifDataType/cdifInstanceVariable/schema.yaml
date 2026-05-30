@@ -12,16 +12,9 @@ properties:
     contains:
       const: cdi:InstanceVariable
   'cdif:physicalDataType':
-    type: array
-    items:
-      anyOf:
-      - type: string
-      - type: object
-        properties:
-          '@id':
-            type: string
-            description: reference to a skos concept for the data type
-      - $ref: '#/$defs/DefinedTerm'
+    anyOf:
+    - type: string
+    - $ref: '#/$defs/cdifConceptOrTerm'
     description: identifier or name for the data type concept.
   'cdif:role':
     type: string
@@ -36,23 +29,13 @@ properties:
   'cdif:simpleUnitOfMeasure':
     anyOf:
     - type: string
-    - type: object
-      properties:
-        '@id':
-          type: string
-          description: reference to a skos concept for the data type
-    - $ref: '#/$defs/DefinedTerm'
+    - $ref: '#/$defs/cdifConceptOrTerm'
   'cdif:uses':
     type: array
     items:
       anyOf:
       - type: string
-      - type: object
-        properties:
-          '@id':
-            type: string
-            description: reference to a skos concept for the property
-      - $ref: '#/$defs/DefinedTerm'
+      - $ref: '#/$defs/cdifConceptOrTerm'
     description: Essentially the same as schema:propertyID. References to concepts that this
       variable measures or represents. When the dataset's distribution carries cdi:isStructuredBy
       (CDIF Data Structure profile), cdif:uses references the RepresentedVariable that supplies
@@ -63,22 +46,14 @@ properties:
     items:
       anyOf:
       - type: string
-      - type: object
-        properties:
-          '@id':
-            type: string
-      - $ref: '#/$defs/DefinedTerm'
+      - $ref: '#/$defs/cdifConceptOrTerm'
     description: >-
       Immutable characteristic of the variable such as geographic designator, weight,
       temporal designation, etc. (InstanceVariable.function).
   'cdi:platformType':
     anyOf:
     - type: string
-    - type: object
-      properties:
-        '@id':
-          type: string
-    - $ref: '#/$defs/DefinedTerm'
+    - $ref: '#/$defs/cdifConceptOrTerm'
     description: >-
       The application or technical system context in which the variable has been realized -
       typically a statistical processing package or processing environment
@@ -105,25 +80,10 @@ properties:
         '@id':
           type: string
       required: ['@id']
-  'cdi:hasIntendedDataType':
-    anyOf:
-    - type: string
-    - type: object
-      properties:
-        '@id':
-          type: string
-    - $ref: '#/$defs/DefinedTerm'
-    description: >-
-      The data type intended to be used by this variable, independent of its physical
-      representation (RepresentedVariable.hasIntendedDataType).
   'cdi:describedUnitOfMeasure':
     anyOf:
     - type: string
-    - type: object
-      properties:
-        '@id':
-          type: string
-    - $ref: '#/$defs/DefinedTerm'
+    - $ref: '#/$defs/cdifConceptOrTerm'
     description: >-
       The unit in which the data values are measured, expressed as a controlled-vocabulary
       entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use
@@ -139,8 +99,13 @@ allOf:
   - '@type'
 - $ref: ../../schemaorgProperties/variableMeasured/schema.yaml
 $defs:
-  DefinedTerm:
+  cdifConceptOrTerm:
     anyOf:
+      - type: object
+        properties:
+          '@id':
+            type: string
+            description: reference to a skos concept for the data type
       - $ref: ../../schemaorgProperties/definedTerm/schema.yaml
-      - $ref: ../../skosProperties/skosConcept/schema.yaml
+      - $ref: ../../profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept
 
