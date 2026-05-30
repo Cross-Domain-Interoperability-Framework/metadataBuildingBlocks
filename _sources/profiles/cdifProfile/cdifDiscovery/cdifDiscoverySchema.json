@@ -28,7 +28,7 @@
                         "type": "string"
                     },
                     {
-                        "$ref": "#/$defs/DefinedTerm"
+                        "$ref": "#/$defs/cdifConceptOrTerm"
                     }
                 ]
             }
@@ -77,8 +77,24 @@
         }
     },
     "$defs": {
-        "DefinedTerm": {
-            "$ref": "../../../schemaorgProperties/definedTerm/definedTermSchema.json"
+        "cdifConceptOrTerm": {
+            "anyOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "type": "string",
+                            "description": "reference to a skos concept for the data type"
+                        }
+                    }
+                },
+                {
+                    "$ref": "../../../schemaorgProperties/definedTerm/definedTermSchema.json"
+                },
+                {
+                    "$ref": "../cdifConceptScheme/schema.yaml#/$defs/cdifConcept"
+                }
+            ]
         },
         "VariableMeasured": {
             "$ref": "../../../schemaorgProperties/variableMeasured/variableMeasuredSchema.json"

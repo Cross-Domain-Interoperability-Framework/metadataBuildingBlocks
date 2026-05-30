@@ -11,6 +11,25 @@
         }
     ],
     "$defs": {
+        "cdifConceptOrTerm": {
+            "anyOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "type": "string",
+                            "description": "reference to a skos concept for the data type"
+                        }
+                    }
+                },
+                {
+                    "$ref": "../../schemaorgProperties/definedTerm/definedTermSchema.json"
+                },
+                {
+                    "$ref": "../../profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept"
+                }
+            ]
+        },
         "Relation": {
             "type": "object",
             "description": "DCAT Relationship surface added on top of the schema.org labeled link construct.",
@@ -27,7 +46,14 @@
                 },
                 "dcat:hadRole": {
                     "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot).",
-                    "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/cdifConceptOrTerm"
+                        }
+                    ]
                 },
                 "dcterms:relation": {
                     "type": "string",

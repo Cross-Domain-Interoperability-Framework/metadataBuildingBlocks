@@ -23,6 +23,25 @@
         }
     ],
     "$defs": {
+        "cdifConceptOrTerm": {
+            "anyOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "type": "string",
+                            "description": "reference to a skos concept for the data type"
+                        }
+                    }
+                },
+                {
+                    "$ref": "../../schemaorgProperties/definedTerm/definedTermSchema.json"
+                },
+                {
+                    "$ref": "../../profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept"
+                }
+            ]
+        },
         "id-reference": {
             "type": "object",
             "description": "Reference to a node defined elsewhere in the document via its @id.",
@@ -112,7 +131,14 @@
                 "cdi:semantic": {
                     "type": "array",
                     "items": {
-                        "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/cdifConceptOrTerm"
+                            }
+                        ]
                     },
                     "minItems": 1,
                     "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
@@ -171,7 +197,14 @@
                 "cdi:semantic": {
                     "type": "array",
                     "items": {
-                        "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/cdifConceptOrTerm"
+                            }
+                        ]
                     },
                     "minItems": 1,
                     "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
@@ -250,7 +283,14 @@
                 "cdi:semantic": {
                     "type": "array",
                     "items": {
-                        "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/cdifConceptOrTerm"
+                            }
+                        ]
                     },
                     "minItems": 1,
                     "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
@@ -291,7 +331,14 @@
                 "cdi:semantic": {
                     "type": "array",
                     "items": {
-                        "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/cdifConceptOrTerm"
+                            }
+                        ]
                     },
                     "minItems": 1,
                     "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."
@@ -337,7 +384,14 @@
                 "cdi:semantic": {
                     "type": "array",
                     "items": {
-                        "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json"
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "#/$defs/cdifConceptOrTerm"
+                            }
+                        ]
                     },
                     "minItems": 1,
                     "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary."

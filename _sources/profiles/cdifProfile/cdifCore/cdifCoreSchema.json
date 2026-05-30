@@ -90,7 +90,7 @@
                         "type": "string"
                     },
                     {
-                        "$ref": "#/$defs/DefinedTerm"
+                        "$ref": "#/$defs/cdifConceptOrTerm"
                     }
                 ]
             }
@@ -224,7 +224,7 @@
                     "schema:linkRelationship": {
                         "anyOf": [
                             {
-                                "$ref": "#/$defs/DefinedTerm"
+                                "$ref": "#/$defs/cdifConceptOrTerm"
                             },
                             {
                                 "type": "string"
@@ -290,7 +290,7 @@
             "items": {
                 "anyOf": [
                     {
-                        "$ref": "#/$defs/DefinedTerm"
+                        "$ref": "#/$defs/cdifConceptOrTerm"
                     },
                     {
                         "type": "string"
@@ -497,8 +497,24 @@
         "Identifier": {
             "$ref": "../../../schemaorgProperties/identifier/identifierSchema.json"
         },
-        "DefinedTerm": {
-            "$ref": "../../../schemaorgProperties/definedTerm/definedTermSchema.json"
+        "cdifConceptOrTerm": {
+            "anyOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "type": "string",
+                            "description": "reference to a skos concept for the data type"
+                        }
+                    }
+                },
+                {
+                    "$ref": "../../../schemaorgProperties/definedTerm/definedTermSchema.json"
+                },
+                {
+                    "$ref": "../cdifConceptScheme/schema.yaml#/$defs/cdifConcept"
+                }
+            ]
         },
         "DataDownload": {
             "$ref": "../../../schemaorgProperties/dataDownload/dataDownloadSchema.json"

@@ -15,6 +15,25 @@
         }
     ],
     "$defs": {
+        "cdifConceptOrTerm": {
+            "anyOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "type": "string",
+                            "description": "reference to a skos concept for the data type"
+                        }
+                    }
+                },
+                {
+                    "$ref": "../../schemaorgProperties/definedTerm/definedTermSchema.json"
+                },
+                {
+                    "$ref": "../../profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept"
+                }
+            ]
+        },
         "Statistic": {
             "title": "Statistic",
             "description": "DDI-CDI Statistic dataType — a single computed value (mean, count, median, etc.). A value object with no identity; appears inline inside a cdi:statistic array.",
@@ -65,7 +84,14 @@
                 },
                 "cdi:typeOfStatistic": {
                     "description": "Controlled-vocabulary entry naming the kind of statistic — e.g. mean, median, count, sum, stdDev.",
-                    "$ref": "#/$defs/SkosConcept"
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/cdifConceptOrTerm"
+                        }
+                    ]
                 },
                 "cdi:statistic": {
                     "type": "array",
@@ -170,7 +196,14 @@
                 },
                 "cdi:typeOfStatistic": {
                     "description": "Controlled-vocabulary entry naming the kind of statistic.",
-                    "$ref": "#/$defs/SkosConcept"
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "$ref": "#/$defs/cdifConceptOrTerm"
+                        }
+                    ]
                 },
                 "cdi:statistic": {
                     "type": "array",

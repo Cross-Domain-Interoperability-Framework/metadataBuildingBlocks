@@ -19,11 +19,25 @@
             "description": "Identifier for this RepresentedVariable node"
         },
         "cdi:describedUnitOfMeasure": {
-            "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json",
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "$ref": "#/$defs/cdifConceptOrTerm"
+                }
+            ],
             "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary."
         },
         "cdi:hasIntendedDataType": {
-            "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json",
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "$ref": "#/$defs/cdifConceptOrTerm"
+                }
+            ],
             "description": "The data type intended to be used by this variable. Supports the optional use of an external controlled vocabulary."
         },
         "cdi:takesSentinelValuesFrom": {
@@ -71,7 +85,14 @@
             ]
         },
         "cdi:unitOfMeasureKind": {
-            "$ref": "../../skosProperties/skosConcept/skosConceptSchema.json",
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "$ref": "#/$defs/cdifConceptOrTerm"
+                }
+            ],
             "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete."
         },
         "cdif:definition": {
@@ -121,6 +142,25 @@
         "@type"
     ],
     "$defs": {
+        "cdifConceptOrTerm": {
+            "anyOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "type": "string",
+                            "description": "reference to a skos concept for the data type"
+                        }
+                    }
+                },
+                {
+                    "$ref": "../../schemaorgProperties/definedTerm/definedTermSchema.json"
+                },
+                {
+                    "$ref": "../../profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept"
+                }
+            ]
+        },
         "id-reference": {
             "type": "object",
             "description": "Reference to a node defined elsewhere in the document via its @id.",

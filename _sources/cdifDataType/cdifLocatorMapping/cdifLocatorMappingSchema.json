@@ -4,6 +4,17 @@
     "description": "Locates a variable's value(s) within a structured (hierarchical) dataset such as XML or JSON, via a locator expression (e.g., XPath or JSONPath). DDI-CDI LocatorMapping. Used in place of column-index/text mappings for cdi:StructuredDataSet distributions.",
     "type": "object",
     "properties": {
+        "@type": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "contains": {
+                "const": "cdif:LocatorMapping"
+            },
+            "minItems": 1,
+            "description": "A cdifLocatorMapping instance must be typed cdif:LocatorMapping (not cdif:PhysicalMapping)."
+        },
         "cdi:locator": {
             "type": "string",
             "description": "Expression locating the variable's value(s) in the structured document (XPath, JSONPath, pointer, etc.). LocatorMapping.locator."

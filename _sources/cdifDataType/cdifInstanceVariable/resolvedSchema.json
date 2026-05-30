@@ -14,26 +14,14 @@
       }
     },
     "cdif:physicalDataType": {
-      "type": "array",
-      "items": {
-        "anyOf": [
-          {
-            "type": "string"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "reference to a skos concept for the data type"
-              }
-            }
-          },
-          {
-            "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
-          }
-        ]
-      },
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/$defs/cdifConceptOrTerm"
+        }
+      ],
       "description": "identifier or name for the data type concept."
     },
     "cdif:role": {
@@ -54,16 +42,7 @@
           "type": "string"
         },
         {
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "reference to a skos concept for the data type"
-            }
-          }
-        },
-        {
-          "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+          "$ref": "#/$defs/cdifConceptOrTerm"
         }
       ]
     },
@@ -75,16 +54,7 @@
             "type": "string"
           },
           {
-            "type": "object",
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "reference to a skos concept for the property"
-              }
-            }
-          },
-          {
-            "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+            "$ref": "#/$defs/cdifConceptOrTerm"
           }
         ]
       },
@@ -98,15 +68,7 @@
             "type": "string"
           },
           {
-            "type": "object",
-            "properties": {
-              "@id": {
-                "type": "string"
-              }
-            }
-          },
-          {
-            "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+            "$ref": "#/$defs/cdifConceptOrTerm"
           }
         ]
       },
@@ -118,15 +80,7 @@
           "type": "string"
         },
         {
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string"
-            }
-          }
-        },
-        {
-          "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+          "$ref": "#/$defs/cdifConceptOrTerm"
         }
       ],
       "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType)."
@@ -166,40 +120,13 @@
         }
       ]
     },
-    "cdi:hasIntendedDataType": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string"
-            }
-          }
-        },
-        {
-          "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
-        }
-      ],
-      "description": "The data type intended to be used by this variable, independent of its physical representation (RepresentedVariable.hasIntendedDataType)."
-    },
     "cdi:describedUnitOfMeasure": {
       "anyOf": [
         {
           "type": "string"
         },
         {
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string"
-            }
-          }
-        },
-        {
-          "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+          "$ref": "#/$defs/cdifConceptOrTerm"
         }
       ],
       "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead."
@@ -506,8 +433,31 @@
               "minItems": 1
             },
             "dcat:hadRole": {
-              "$ref": "#/$defs/SkosConcept",
-              "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot)."
+              "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot).",
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "@id": {
+                          "type": "string",
+                          "description": "reference to a skos concept for the data type"
+                        }
+                      }
+                    },
+                    {
+                      "$ref": "#/$defs/DefinedTerm"
+                    },
+                    {
+                      "$ref": "#/$defs/cdifConcept"
+                    }
+                  ]
+                }
+              ]
             },
             "dcterms:relation": {
               "type": "string",
@@ -518,356 +468,22 @@
         }
       ]
     },
-    "SkosConcept": {
-      "title": "SKOS Concept",
-      "description": "JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel), notations, hierarchical relations (broader/narrower), associative relations (related), cross-scheme mapping properties, scheme membership, and documentary notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).",
-      "type": "object",
-      "properties": {
-        "@context": {
-          "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "skos": {
-                  "const": "http://www.w3.org/2004/02/skos/core#"
-                }
-              },
-              "required": [
-                "skos"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "object"
-                  }
-                ]
-              },
-              "contains": {
-                "type": "object",
-                "properties": {
-                  "skos": {
-                    "const": "http://www.w3.org/2004/02/skos/core#"
-                  }
-                },
-                "required": [
-                  "skos"
-                ]
-              }
-            }
-          ]
-        },
-        "@id": {
-          "type": "string",
-          "description": "URI identifier for this concept."
-        },
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "skos:Concept"
-          },
-          "minItems": 1
-        },
-        "skos:prefLabel": {
-          "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "$ref": "#/$defs/LanguageTaggedValue"
-              }
-            }
-          ]
-        },
-        "skos:notation": {
-          "description": "Classification code for this concept within a scheme.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "skos:definition": {
-          "description": "Formal explanation of the meaning of this concept.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:scopeNote": {
-          "description": "Note clarifying meaning and/or intended use.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:note": {
-          "description": "General note about this concept.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:historyNote": {
-          "description": "Note about past state or use.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:changeNote": {
-          "description": "Note documenting a change.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:editorialNote": {
-          "description": "Note for editors and maintainers.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:inScheme": {
-          "description": "Concept scheme(s) this concept belongs to.",
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              }
-            }
-          ]
-        },
-        "skos:topConceptOf": {
-          "description": "Concept scheme(s) for which this is a top concept.",
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
-            },
-            {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              }
-            }
-          ]
-        },
-        "skos:broader": {
-          "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "object",
-                "description": "A reference to a SKOS Concept by URI.",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "URI of the referenced concept."
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              },
-              {
-                "$comment": "circular-ref"
-              }
-            ]
-          }
-        },
-        "skos:narrower": {
-          "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "object",
-                "description": "A reference to a SKOS Concept by URI.",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "URI of the referenced concept."
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              },
-              {
-                "$comment": "circular-ref"
-              }
-            ]
-          }
-        }
-      },
-      "required": [
-        "@type",
-        "skos:prefLabel",
-        "skos:definition",
-        "skos:inScheme"
-      ]
-    },
-    "CdifInstanceVariable_DefinedTerm": {
+    "cdifConceptOrTerm": {
       "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "reference to a skos concept for the data type"
+            }
+          }
+        },
         {
           "$ref": "#/$defs/DefinedTerm"
         },
         {
-          "$ref": "#/$defs/SkosConcept"
+          "$ref": "#/$defs/cdifConcept"
         }
       ]
     },
@@ -908,26 +524,14 @@
                   }
                 },
                 "cdif:physicalDataType": {
-                  "type": "array",
-                  "items": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "type": "string",
-                            "description": "reference to a skos concept for the data type"
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
-                      }
-                    ]
-                  },
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/$defs/cdifConceptOrTerm"
+                    }
+                  ],
                   "description": "identifier or name for the data type concept."
                 },
                 "cdif:role": {
@@ -948,16 +552,7 @@
                       "type": "string"
                     },
                     {
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "type": "string",
-                          "description": "reference to a skos concept for the data type"
-                        }
-                      }
-                    },
-                    {
-                      "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                      "$ref": "#/$defs/cdifConceptOrTerm"
                     }
                   ]
                 },
@@ -969,16 +564,7 @@
                         "type": "string"
                       },
                       {
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "type": "string",
-                            "description": "reference to a skos concept for the property"
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                        "$ref": "#/$defs/cdifConceptOrTerm"
                       }
                     ]
                   },
@@ -992,15 +578,7 @@
                         "type": "string"
                       },
                       {
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                        "$ref": "#/$defs/cdifConceptOrTerm"
                       }
                     ]
                   },
@@ -1012,15 +590,7 @@
                       "type": "string"
                     },
                     {
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    {
-                      "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                      "$ref": "#/$defs/cdifConceptOrTerm"
                     }
                   ],
                   "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType)."
@@ -1060,40 +630,13 @@
                     }
                   ]
                 },
-                "cdi:hasIntendedDataType": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    {
-                      "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
-                    }
-                  ],
-                  "description": "The data type intended to be used by this variable, independent of its physical representation (RepresentedVariable.hasIntendedDataType)."
-                },
                 "cdi:describedUnitOfMeasure": {
                   "anyOf": [
                     {
                       "type": "string"
                     },
                     {
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    {
-                      "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                      "$ref": "#/$defs/cdifConceptOrTerm"
                     }
                   ],
                   "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead."
@@ -1295,26 +838,14 @@
                     }
                   },
                   "cdif:physicalDataType": {
-                    "type": "array",
-                    "items": {
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "@id": {
-                              "type": "string",
-                              "description": "reference to a skos concept for the data type"
-                            }
-                          }
-                        },
-                        {
-                          "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
-                        }
-                      ]
-                    },
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/cdifConceptOrTerm"
+                      }
+                    ],
                     "description": "identifier or name for the data type concept."
                   },
                   "cdif:role": {
@@ -1335,16 +866,7 @@
                         "type": "string"
                       },
                       {
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "type": "string",
-                            "description": "reference to a skos concept for the data type"
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                        "$ref": "#/$defs/cdifConceptOrTerm"
                       }
                     ]
                   },
@@ -1356,16 +878,7 @@
                           "type": "string"
                         },
                         {
-                          "type": "object",
-                          "properties": {
-                            "@id": {
-                              "type": "string",
-                              "description": "reference to a skos concept for the property"
-                            }
-                          }
-                        },
-                        {
-                          "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                          "$ref": "#/$defs/cdifConceptOrTerm"
                         }
                       ]
                     },
@@ -1379,15 +892,7 @@
                           "type": "string"
                         },
                         {
-                          "type": "object",
-                          "properties": {
-                            "@id": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        {
-                          "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                          "$ref": "#/$defs/cdifConceptOrTerm"
                         }
                       ]
                     },
@@ -1399,15 +904,7 @@
                         "type": "string"
                       },
                       {
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                        "$ref": "#/$defs/cdifConceptOrTerm"
                       }
                     ],
                     "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType)."
@@ -1447,40 +944,13 @@
                       }
                     ]
                   },
-                  "cdi:hasIntendedDataType": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
-                      }
-                    ],
-                    "description": "The data type intended to be used by this variable, independent of its physical representation (RepresentedVariable.hasIntendedDataType)."
-                  },
                   "cdi:describedUnitOfMeasure": {
                     "anyOf": [
                       {
                         "type": "string"
                       },
                       {
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                        "$ref": "#/$defs/cdifConceptOrTerm"
                       }
                     ],
                     "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead."
@@ -1649,7 +1119,7 @@
     },
     "LanguageTaggedValue": {
       "type": "object",
-      "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
+      "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
       "properties": {
         "@value": {
           "type": "string",
@@ -1661,8 +1131,193 @@
         }
       },
       "required": [
-        "@value",
-        "@language"
+        "@value"
+      ]
+    },
+    "cdifConcept": {
+      "type": "object",
+      "properties": {
+        "@context": {
+          "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
+          "type": "object",
+          "properties": {
+            "skos": {
+              "const": "http://www.w3.org/2004/02/skos/core#"
+            }
+          },
+          "required": [
+            "skos"
+          ]
+        },
+        "@id": {
+          "type": "string",
+          "description": "URI identifier for this concept."
+        },
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "skos:Concept"
+          },
+          "minItems": 1
+        },
+        "skos:prefLabel": {
+          "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/LanguageTaggedValue"
+              }
+            }
+          ]
+        },
+        "skos:notation": {
+          "description": "Classification code for this concept within a scheme.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "skos:definition": {
+          "description": "Formal explanation of the meaning of this concept.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:note": {
+          "description": "General note about this concept.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LanguageTaggedValue"
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/LanguageTaggedValue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "skos:inScheme": {
+          "description": "Concept scheme(s) this concept belongs to.",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              }
+            }
+          ]
+        },
+        "skos:broader": {
+          "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "URI of the referenced concept."
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              },
+              {
+                "$comment": "circular-ref"
+              }
+            ]
+          }
+        },
+        "skos:narrower": {
+          "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "URI of the referenced concept."
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              },
+              {
+                "$comment": "circular-ref"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "@type",
+        "skos:prefLabel",
+        "skos:notation"
       ]
     },
     "Statistics": {
@@ -1685,25 +1340,29 @@
           "minItems": 1
         },
         "cdi:typeOfStatistic": {
-          "title": "SKOS Concept (CDIF vocabulary-bound term reference)",
           "description": "Controlled-vocabulary entry naming the kind of statistic — e.g. mean, median, count, sum, stdDev.",
           "anyOf": [
             {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
+              "type": "string"
+            },
+            {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "reference to a skos concept for the data type"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/$defs/DefinedTerm"
+                },
+                {
+                  "$ref": "#/$defs/cdifConcept"
                 }
-              },
-              "required": [
-                "@id"
               ]
-            },
-            {
-              "$ref": "#/$defs/DefinedTerm"
-            },
-            {
-              "$ref": "#/$defs/SkosConcept"
             }
           ]
         },
@@ -1759,26 +1418,14 @@
                   }
                 },
                 "cdif:physicalDataType": {
-                  "type": "array",
-                  "items": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "type": "string",
-                            "description": "reference to a skos concept for the data type"
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
-                      }
-                    ]
-                  },
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/$defs/cdifConceptOrTerm"
+                    }
+                  ],
                   "description": "identifier or name for the data type concept."
                 },
                 "cdif:role": {
@@ -1799,16 +1446,7 @@
                       "type": "string"
                     },
                     {
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "type": "string",
-                          "description": "reference to a skos concept for the data type"
-                        }
-                      }
-                    },
-                    {
-                      "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                      "$ref": "#/$defs/cdifConceptOrTerm"
                     }
                   ]
                 },
@@ -1820,16 +1458,7 @@
                         "type": "string"
                       },
                       {
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "type": "string",
-                            "description": "reference to a skos concept for the property"
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                        "$ref": "#/$defs/cdifConceptOrTerm"
                       }
                     ]
                   },
@@ -1843,15 +1472,7 @@
                         "type": "string"
                       },
                       {
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                        "$ref": "#/$defs/cdifConceptOrTerm"
                       }
                     ]
                   },
@@ -1863,15 +1484,7 @@
                       "type": "string"
                     },
                     {
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    {
-                      "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                      "$ref": "#/$defs/cdifConceptOrTerm"
                     }
                   ],
                   "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType)."
@@ -1911,40 +1524,13 @@
                     }
                   ]
                 },
-                "cdi:hasIntendedDataType": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    {
-                      "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
-                    }
-                  ],
-                  "description": "The data type intended to be used by this variable, independent of its physical representation (RepresentedVariable.hasIntendedDataType)."
-                },
                 "cdi:describedUnitOfMeasure": {
                   "anyOf": [
                     {
                       "type": "string"
                     },
                     {
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    {
-                      "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                      "$ref": "#/$defs/cdifConceptOrTerm"
                     }
                   ],
                   "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead."
@@ -2123,26 +1709,14 @@
                     }
                   },
                   "cdif:physicalDataType": {
-                    "type": "array",
-                    "items": {
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "@id": {
-                              "type": "string",
-                              "description": "reference to a skos concept for the data type"
-                            }
-                          }
-                        },
-                        {
-                          "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
-                        }
-                      ]
-                    },
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/$defs/cdifConceptOrTerm"
+                      }
+                    ],
                     "description": "identifier or name for the data type concept."
                   },
                   "cdif:role": {
@@ -2163,16 +1737,7 @@
                         "type": "string"
                       },
                       {
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "type": "string",
-                            "description": "reference to a skos concept for the data type"
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                        "$ref": "#/$defs/cdifConceptOrTerm"
                       }
                     ]
                   },
@@ -2184,16 +1749,7 @@
                           "type": "string"
                         },
                         {
-                          "type": "object",
-                          "properties": {
-                            "@id": {
-                              "type": "string",
-                              "description": "reference to a skos concept for the property"
-                            }
-                          }
-                        },
-                        {
-                          "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                          "$ref": "#/$defs/cdifConceptOrTerm"
                         }
                       ]
                     },
@@ -2207,15 +1763,7 @@
                           "type": "string"
                         },
                         {
-                          "type": "object",
-                          "properties": {
-                            "@id": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        {
-                          "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                          "$ref": "#/$defs/cdifConceptOrTerm"
                         }
                       ]
                     },
@@ -2227,15 +1775,7 @@
                         "type": "string"
                       },
                       {
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                        "$ref": "#/$defs/cdifConceptOrTerm"
                       }
                     ],
                     "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType)."
@@ -2275,40 +1815,13 @@
                       }
                     ]
                   },
-                  "cdi:hasIntendedDataType": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
-                      }
-                    ],
-                    "description": "The data type intended to be used by this variable, independent of its physical representation (RepresentedVariable.hasIntendedDataType)."
-                  },
                   "cdi:describedUnitOfMeasure": {
                     "anyOf": [
                       {
                         "type": "string"
                       },
                       {
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                        "$ref": "#/$defs/cdifConceptOrTerm"
                       }
                     ],
                     "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead."
@@ -2560,25 +2073,29 @@
           ]
         },
         "cdi:typeOfStatistic": {
-          "title": "SKOS Concept (CDIF vocabulary-bound term reference)",
           "description": "Controlled-vocabulary entry naming the kind of statistic.",
           "anyOf": [
             {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
+              "type": "string"
+            },
+            {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "reference to a skos concept for the data type"
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/$defs/DefinedTerm"
+                },
+                {
+                  "$ref": "#/$defs/cdifConcept"
                 }
-              },
-              "required": [
-                "@id"
               ]
-            },
-            {
-              "$ref": "#/$defs/DefinedTerm"
-            },
-            {
-              "$ref": "#/$defs/SkosConcept"
             }
           ]
         },
@@ -2634,26 +2151,14 @@
                   }
                 },
                 "cdif:physicalDataType": {
-                  "type": "array",
-                  "items": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "type": "string",
-                            "description": "reference to a skos concept for the data type"
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
-                      }
-                    ]
-                  },
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/$defs/cdifConceptOrTerm"
+                    }
+                  ],
                   "description": "identifier or name for the data type concept."
                 },
                 "cdif:role": {
@@ -2674,16 +2179,7 @@
                       "type": "string"
                     },
                     {
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "type": "string",
-                          "description": "reference to a skos concept for the data type"
-                        }
-                      }
-                    },
-                    {
-                      "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                      "$ref": "#/$defs/cdifConceptOrTerm"
                     }
                   ]
                 },
@@ -2695,16 +2191,7 @@
                         "type": "string"
                       },
                       {
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "type": "string",
-                            "description": "reference to a skos concept for the property"
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                        "$ref": "#/$defs/cdifConceptOrTerm"
                       }
                     ]
                   },
@@ -2718,15 +2205,7 @@
                         "type": "string"
                       },
                       {
-                        "type": "object",
-                        "properties": {
-                          "@id": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      {
-                        "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                        "$ref": "#/$defs/cdifConceptOrTerm"
                       }
                     ]
                   },
@@ -2738,15 +2217,7 @@
                       "type": "string"
                     },
                     {
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    {
-                      "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                      "$ref": "#/$defs/cdifConceptOrTerm"
                     }
                   ],
                   "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType)."
@@ -2786,40 +2257,13 @@
                     }
                   ]
                 },
-                "cdi:hasIntendedDataType": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    {
-                      "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
-                    }
-                  ],
-                  "description": "The data type intended to be used by this variable, independent of its physical representation (RepresentedVariable.hasIntendedDataType)."
-                },
                 "cdi:describedUnitOfMeasure": {
                   "anyOf": [
                     {
                       "type": "string"
                     },
                     {
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    {
-                      "$ref": "#/$defs/CdifInstanceVariable_DefinedTerm"
+                      "$ref": "#/$defs/cdifConceptOrTerm"
                     }
                   ],
                   "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead."

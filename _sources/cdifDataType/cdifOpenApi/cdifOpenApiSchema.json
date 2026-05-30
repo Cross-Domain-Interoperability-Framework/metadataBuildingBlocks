@@ -29,7 +29,7 @@
                     "type": "string"
                 },
                 {
-                    "$ref": "#/$defs/DefinedTerm"
+                    "$ref": "#/$defs/cdifConceptOrTerm"
                 }
             ]
         },
@@ -348,8 +348,24 @@
         "Reference": {
             "$ref": "../../cdifDataType/cdifReference/cdifReferenceSchema.json"
         },
-        "DefinedTerm": {
-            "$ref": "../../schemaorgProperties/definedTerm/definedTermSchema.json"
+        "cdifConceptOrTerm": {
+            "anyOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "@id": {
+                            "type": "string",
+                            "description": "reference to a skos concept for the data type"
+                        }
+                    }
+                },
+                {
+                    "$ref": "../../schemaorgProperties/definedTerm/definedTermSchema.json"
+                },
+                {
+                    "$ref": "../../profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept"
+                }
+            ]
         }
     }
 }
