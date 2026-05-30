@@ -168,12 +168,15 @@ def tighten_body(body_lines, max_blank=1):
 
 
 def emit_block(block):
+    """Render a block. Drops pandoc-style {#anchor} suffixes from headings —
+    GitHub markdown does not honor them (renders as literal text and produces
+    a slug from the literal text). The body has already been link-rewritten
+    by rewrite_links so internal references resolve to GitHub auto-slugs."""
     if block["level"] == 0:
         return "".join(tighten_body(block["body"])) + "\n"
     hashes = "#" * block["level"]
-    anchor = f" {{#{block['anchor']}}}" if block.get("anchor") else ""
     body = tighten_body(block["body"])
-    text = f"{hashes} {block['title']}{anchor}\n"
+    text = f"{hashes} {block['title']}\n"
     if body:
         text += "\n" + "".join(body)
         if not text.endswith("\n"):
@@ -247,8 +250,9 @@ def sort_classes(blocks):
 
 
 def generate_toc(blocks):
-    """Generate TOC of # and ## headings. Skips the document title (first #),
-    the TOC heading itself, and any existing top-level 'Table of contents'."""
+    """Generate TOC of # and ## headings. Always uses GitHub auto-slug
+    (slugified heading text) for link targets — ignores pandoc {#anchor}
+    suffixes since GitHub does not honor them."""
     seen_title = False
     items = []
     for b in blocks:
@@ -260,11 +264,42 @@ def generate_toc(blocks):
             seen_title = True
             continue
         indent = "" if b["level"] == 1 else "  "
-        anchor = b.get("anchor") or slugify(b["title"])
+        anchor = slugify(b["title"])
         items.append(f"{indent}- [{b['title']}](#{anchor})")
     if not items:
         return ""
     return "# Table of contents\n\n" + "\n".join(items) + "\n\n"
+
+
+def build_anchor_map(blocks):
+    """Map each pandoc-style {#xxx} anchor id to the GitHub auto-slug for
+    that heading. Used to rewrite (#xxx) link targets."""
+    m = {}
+    for b in blocks:
+        if b.get("anchor"):
+            m[b["anchor"]] = slugify(b["title"])
+    return m
+
+
+def rewrite_links(blocks, anchor_map):
+    """In every block's body, replace markdown link targets of the form
+    (#old-anchor) with (#new-slug) when old-anchor is a known custom
+    anchor on a heading in this file."""
+    if not anchor_map:
+        return blocks
+    link_re = re.compile(r"\]\(#([^)\s]+)\)")
+    def rewrite_text(text):
+        def repl(m):
+            old = m.group(1)
+            new = anchor_map.get(old, old)
+            return f"](#{new})"
+        return link_re.sub(repl, text)
+    for b in blocks:
+        body_text = "".join(b["body"])
+        new_text = rewrite_text(body_text)
+        if new_text != body_text:
+            b["body"] = new_text.splitlines(keepends=True)
+    return blocks
 
 
 def clean(text):
@@ -274,6 +309,10 @@ def clean(text):
               if not (b["level"] == 1 and b["title"] and b["title"].strip().lower() == "table of contents")]
     blocks = normalize_levels(blocks)
     blocks = sort_classes(blocks)
+    # Rewrite (#xxx) link targets to GitHub auto-slugs BEFORE emission so
+    # internal cross-references survive the strip of {#xxx} from headings.
+    anchor_map = build_anchor_map(blocks)
+    blocks = rewrite_links(blocks, anchor_map)
     toc = generate_toc(blocks)
 
     # Emit. TOC goes immediately after the document title (first level-1 heading).
