@@ -330,9 +330,11 @@ properties:
       (long format); ReferenceVariable holds those recorded values.
     x-jsonld-id: https://cdif.org/0.1/role
   cdif:simpleUnitOfMeasure:
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/cdifConceptOrTerm'
+    description: The unit in which the data values are measured (kg, pound, euro),
+      expressed as a simple string, in cases where no additional information is available
+      (in the legacy system) or needed (as in the case of broad agreement within the
+      community of use [i.e., ISO country codes, currencies, etc. in SDMX])
+    type: string
     x-jsonld-id: https://cdif.org/0.1/simpleUnitOfMeasure
   cdif:uses:
     type: array

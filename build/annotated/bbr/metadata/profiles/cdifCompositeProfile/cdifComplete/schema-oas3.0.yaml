@@ -3128,9 +3128,12 @@ x-defs:
           for (long format); ReferenceVariable holds those recorded values.
         x-jsonld-id: https://cdif.org/0.1/role
       cdif:simpleUnitOfMeasure:
-        anyOf:
-        - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTerm
+        description: The unit in which the data values are measured (kg, pound, euro),
+          expressed as a simple string, in cases where no additional information is
+          available (in the legacy system) or needed (as in the case of broad agreement
+          within the community of use [i.e., ISO country codes, currencies, etc. in
+          SDMX])
+        type: string
         x-jsonld-id: https://cdif.org/0.1/simpleUnitOfMeasure
       cdif:uses:
         type: array
@@ -3265,9 +3268,7 @@ x-defs:
             x-jsonld-id: https://cdif.org/0.1/takesValuesFrom
           cdif:displayLabel:
             type: string
-            description: A human-readable display label for the object. Supports the
-              use of multiple languages. Repeat for labels with different content,
-              for example, labels with differing length limitations.
+            description: 'A human-readable display label for the object. '
             x-jsonld-id: https://cdif.org/0.1/displayLabel
           cdif:recommendedDataType:
             type: array
@@ -3301,7 +3302,9 @@ x-defs:
           - cdif:recommendedDataType
       SentinelValueDomain:
         type: object
-        description: Value domain for a sentinel conceptual domain.
+        description: Specification of possible sentinel values used by a variable.
+          Sentinel values are special values used to indicate various invalid conditions
+          for a variable, e.g. below detection, missing value.
         properties:
           '@type':
             type: array
@@ -3403,12 +3406,6 @@ x-defs:
               . Examples would be #,##0.### to describe the pattern for a decimal
               number, or yyyy.MM.dd G ''at'' HH:mm:ss zzz for a datetime pattern.'
             x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/formatPattern
-          cdi:identifier:
-            description: Identifier for objects requiring short- or long-lasting referencing
-              and management.
-            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
-            allOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
           cdi:logicalExpression:
             type: string
             description: A logical expression where the values of "x" making the expression
