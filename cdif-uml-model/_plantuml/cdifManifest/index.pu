@@ -20,10 +20,25 @@ class "DataDownload" as DataDownload #FEFECE
 class "ArchivePart" as ArchivePart #FEFECE
 class "QuantitativeValue" as QuantitativeValue #FEFECE
 class "Checksum" as Checksum #FEFECE
+class "DefinedTerm" as DefinedTerm #FEFECE
+abstract class "AbstractMapping" as AbstractMapping #FEFECE
+class "PhysicalMapping" as PhysicalMapping #FEFECE
+class "TextMapping" as TextMapping #FEFECE
+class "LocatorMapping" as LocatorMapping #FEFECE
+abstract class "AbstractDataSet" as AbstractDataSet #FEFECE
+class "TabularTextDataSet" as TabularTextDataSet #FEFECE
+class "StructuredDataSet" as StructuredDataSet #FEFECE
+AbstractMapping <|-- PhysicalMapping
+AbstractMapping <|-- TextMapping
+AbstractMapping <|-- LocatorMapping
+AbstractDataSet <|-- TabularTextDataSet
+AbstractDataSet <|-- StructuredDataSet
 Dataset *-- "1" CatalogRecord : subjectOf
 DataDownload *-- "0..*" ArchivePart : hasPart
 ArchivePart --> "0..*" ArchivePart : about
 ArchivePart *-- "0..1" QuantitativeValue : size
 ArchivePart *-- "0..1" Checksum : checksum
+ArchivePart *-- "0..*" AbstractMapping : hasPhysicalMapping
+ArchivePart o-- "0..1" AbstractDataSet : alsoTypedAs
 
 @enduml

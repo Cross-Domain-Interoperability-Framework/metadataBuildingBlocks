@@ -17,6 +17,12 @@ skinparam class {
 class "CdifConceptOrTerm" as CdifConceptOrTerm #FEFECE {
   +identifier : XsdAnyUri [0..1]
 }
+class "InstanceVariable" as InstanceVariable #EEEEEE
+InstanceVariable --> "0..*" CdifConceptOrTerm : uses
+InstanceVariable --> "0..1" CdifConceptOrTerm : describedUnitOfMeasure
+InstanceVariable --> "0..*" CdifConceptOrTerm : function
+class "EnumerationDomain" as EnumerationDomain #EEEEEE
+EnumerationDomain --> "0..*" CdifConceptOrTerm : references
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
 CdifConceptOrTerm ..> XsdAnyUri : identifier
 

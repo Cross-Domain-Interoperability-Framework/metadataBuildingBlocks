@@ -19,6 +19,8 @@ class "ArchivePart" as ArchivePart #FEFECE {
   +name : string [1]
   +description : string [0..1]
   +encodingFormat : string [1..*]
+  +countColumns : integer [0..1]
+  +countRows : integer [0..1]
 }
 class "DataDownload" as DataDownload #EEEEEE
 DataDownload *-- "0..*" ArchivePart : hasPart
@@ -27,6 +29,10 @@ class "QuantitativeValue" as QuantitativeValue #EEEEEE
 ArchivePart *-- "0..1" QuantitativeValue : size
 class "Checksum" as Checksum #EEEEEE
 ArchivePart *-- "0..1" Checksum : checksum
+abstract class "AbstractMapping" as AbstractMapping #EEEEEE
+ArchivePart *-- "0..*" AbstractMapping : hasPhysicalMapping
+abstract class "AbstractDataSet" as AbstractDataSet #EEEEEE
+ArchivePart o-- "0..1" AbstractDataSet : alsoTypedAs
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
 ArchivePart ..> XsdAnyUri : identifier
 

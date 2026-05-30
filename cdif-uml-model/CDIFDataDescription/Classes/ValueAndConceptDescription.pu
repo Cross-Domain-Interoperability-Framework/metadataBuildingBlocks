@@ -1,0 +1,43 @@
+@startuml
+title ValueAndConceptDescription
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "ValueAndConceptDescription" as ValueAndConceptDescription #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+  +logicalExpression : string [0..1]
+  +regularExpression : string [0..1]
+  +classificationLevel : string [0..1]
+  +formatPattern : string [0..1]
+  +maximumValueInclusive : string [0..1]
+  +maximumValueExclusive : string [0..1]
+  +minimumValueInclusive : string [0..1]
+  +minimumValueExclusive : string [0..1]
+  +isRequired : boolean [0..1]
+  +defaultValue : string [0..1]
+  +externalDefinition : XsdAnyUri [0..1]
+  +recommendedDataType : string [0..1]
+  +definition : string [0..1]
+  +descriptiveText : string [0..1]
+  +displayLabel : string [0..1]
+  +purpose : string [0..1]
+}
+class "SubstantiveValueDomain" as SubstantiveValueDomain #EEEEEE
+SubstantiveValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
+class "SentinelValueDomain" as SentinelValueDomain #EEEEEE
+SentinelValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+ValueAndConceptDescription ..> XsdAnyUri : identifier
+
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+title ComponentPosition
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "ComponentPosition" as ComponentPosition #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+  +position : integer [1]
+}
+class "PrimaryKey" as PrimaryKey #EEEEEE
+PrimaryKey *-- "1..*" ComponentPosition : isComposedOf
+class "InstanceVariable" as InstanceVariable #EEEEEE
+ComponentPosition --> "1" InstanceVariable : indexes
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+ComponentPosition ..> XsdAnyUri : identifier
+
+@enduml

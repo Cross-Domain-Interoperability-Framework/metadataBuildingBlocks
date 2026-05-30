@@ -4,14 +4,14 @@ hide circle
 hide empty members
 skinparam shadowing false
 skinparam ArrowThickness 1.2
-skinparam ranksep 360
-skinparam nodesep 14
-skinparam defaultFontSize 26
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
 skinparam class {
   ArrowColor #404040
   BorderColor #404040
-  FontSize 26
-  AttributeFontSize 20
+  FontSize 36
+  AttributeFontSize 30
 }
 
 abstract class "CompositeProfile" as CompositeProfile #FEFECE
@@ -19,23 +19,29 @@ class "Dataset" as Dataset #FEFECE
 class "DataDownload" as DataDownload #FEFECE
 class "WebAPI" as WebAPI #FCF3CF
 class "ActionResult" as ActionResult #FCF3CF
-class "DefinedTerm" as DefinedTerm #FAE5D3
+class "DefinedTerm" as DefinedTerm #FEFECE
 class "ProvActivity" as ProvActivity #FEFECE
 class "CatalogRecord" as CatalogRecord #FEFECE
 class "CdifConceptOrTerm" as CdifConceptOrTerm #FAE5D3
 class "InstanceVariable" as InstanceVariable #FCF3CF
-abstract class "AbstractMapping" as AbstractMapping #FCF3CF
-class "PhysicalMapping" as PhysicalMapping #FCF3CF
-class "TextMapping" as TextMapping #FCF3CF
-class "LocatorMapping" as LocatorMapping #FCF3CF
-abstract class "AbstractDataSet" as AbstractDataSet #FCF3CF
-class "TabularTextDataSet" as TabularTextDataSet #FCF3CF
-class "StructuredDataSet" as StructuredDataSet #FCF3CF
-class "DataFingerprint" as DataFingerprint #FCF3CF
-class "PrimaryKey" as PrimaryKey #FAE5D3
-class "Statistics" as Statistics #FCF3CF
 class "SubstantiveValueDomain" as SubstantiveValueDomain #FAE5D3
 class "SentinelValueDomain" as SentinelValueDomain #FAE5D3
+class "EnumerationDomain" as EnumerationDomain #FAE5D3
+class "ValueAndConceptDescription" as ValueAndConceptDescription #FAE5D3
+abstract class "AbstractMapping" as AbstractMapping #FEFECE
+class "PhysicalMapping" as PhysicalMapping #FEFECE
+class "TextMapping" as TextMapping #FEFECE
+class "LocatorMapping" as LocatorMapping #FEFECE
+abstract class "AbstractDataSet" as AbstractDataSet #FEFECE
+class "TabularTextDataSet" as TabularTextDataSet #FEFECE
+class "StructuredDataSet" as StructuredDataSet #FEFECE
+class "DataFingerprint" as DataFingerprint #FCF3CF
+class "PrimaryKey" as PrimaryKey #FAE5D3
+class "ComponentPosition" as ComponentPosition #FCF3CF
+class "Statistics" as Statistics #FCF3CF
+class "CategoryStatistics" as CategoryStatistics #FCF3CF
+class "StatisticsCollection" as StatisticsCollection #FCF3CF
+class "Category" as Category #FCF3CF
 class "DataStructure" as DataStructure #FAE5D3
 class "DimensionalDataStructure" as DimensionalDataStructure #FAE5D3
 class "LongDataStructure" as LongDataStructure #FAE5D3
@@ -52,8 +58,6 @@ class "ForeignKey" as ForeignKey #FAE5D3
 class "RepresentedVariable" as RepresentedVariable #FAE5D3
 class "DescriptorVariable" as DescriptorVariable #FAE5D3
 class "DescriptorValueDomain" as DescriptorValueDomain #FAE5D3
-class "EnumerationDomain" as EnumerationDomain #FAE5D3
-class "ValueAndConceptDescription" as ValueAndConceptDescription #FAE5D3
 class "UnitType" as UnitType #FAE5D3
 AbstractMapping <|-- PhysicalMapping
 AbstractMapping <|-- TextMapping
@@ -87,12 +91,31 @@ ActionResult *-- "0..*" AbstractMapping : hasPhysicalMapping
 CatalogRecord --> "0..1" Dataset : about
 InstanceVariable --> "0..1" SubstantiveValueDomain : takesSubstantiveValuesFrom
 InstanceVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
-AbstractMapping --> "1" InstanceVariable : formats
-PrimaryKey --> "1..*" RepresentedVariable : isComposedOf
-SubstantiveValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
+InstanceVariable --> "0..*" CdifConceptOrTerm : uses
+InstanceVariable --> "0..1" DefinedTerm : hasIntendedDataType
+InstanceVariable --> "0..1" CdifConceptOrTerm : describedUnitOfMeasure
+InstanceVariable --> "0..*" CdifConceptOrTerm : function
+InstanceVariable --> "0..*" InstanceVariable : qualifies
+InstanceVariable --> "0..*" StatisticsCollection : isDescribedBy
+InstanceVariable --> "0..*" DefinedTerm : source
+InstanceVariable --> "0..*" DefinedTerm : measurementTechnique
 SubstantiveValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
-SentinelValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
+SubstantiveValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
 SentinelValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
+SentinelValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
+EnumerationDomain --> "0..*" CdifConceptOrTerm : references
+AbstractMapping --> "1" InstanceVariable : formats
+PrimaryKey *-- "1..*" ComponentPosition : isComposedOf
+PrimaryKey --> "1..*" RepresentedVariable : isComposedOf
+ComponentPosition --> "1" InstanceVariable : indexes
+Statistics --> "0..*" InstanceVariable : appliesTo
+Statistics --> "0..1" InstanceVariable : hasWeight
+Statistics *-- "0..*" CategoryStatistics : has
+Statistics *-- "0..*" Statistics : has
+CategoryStatistics *-- "1..*" Statistics : isComposedOf
+CategoryStatistics --> "1" Category : for
+StatisticsCollection *-- "1..*" Statistics : isComposedOf
+StatisticsCollection --> "0..*" InstanceVariable : indexedBy
 DataStructure *-- "1..*" DataStructureComponent : has
 DataStructure *-- "0..*" IdentifierComponent : hasComponent
 DataStructure *-- "0..*" MeasureComponent : hasComponent

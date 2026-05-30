@@ -1,0 +1,28 @@
+@startuml
+title CategoryStatistics
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "CategoryStatistics" as CategoryStatistics #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+}
+class "Statistics" as Statistics #EEEEEE
+Statistics *-- "0..*" CategoryStatistics : has
+CategoryStatistics *-- "1..*" Statistics : isComposedOf
+class "Category" as Category #EEEEEE
+CategoryStatistics --> "1" Category : for
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+CategoryStatistics ..> XsdAnyUri : identifier
+
+@enduml

@@ -15,16 +15,23 @@ skinparam class {
 }
 
 class "ValueAndConceptDescription" as ValueAndConceptDescription #FEFECE {
-  +classificationLevel : CategoryRelationCode [1]
-  +description : string [1]
-  +formatPattern : ControlledVocabularyEntry [1]
-  +identifier : Identifier [1]
-  +logicalExpression : ControlledVocabularyEntry [1]
-  +maximumValueExclusive : string [1]
-  +maximumValueInclusive : string [1]
-  +minimumValueExclusive : string [1]
-  +minimumValueInclusive : string [1]
-  +regularExpression : TypedString [1]
+  +identifier : XsdAnyUri [0..1]
+  +logicalExpression : string [0..1]
+  +regularExpression : string [0..1]
+  +classificationLevel : string [0..1]
+  +formatPattern : string [0..1]
+  +maximumValueInclusive : string [0..1]
+  +maximumValueExclusive : string [0..1]
+  +minimumValueInclusive : string [0..1]
+  +minimumValueExclusive : string [0..1]
+  +isRequired : boolean [0..1]
+  +defaultValue : string [0..1]
+  +externalDefinition : XsdAnyUri [0..1]
+  +recommendedDataType : string [0..1]
+  +definition : string [0..1]
+  +descriptiveText : string [0..1]
+  +displayLabel : string [0..1]
+  +purpose : string [0..1]
 }
 class "SubstantiveValueDomain" as SubstantiveValueDomain #EEEEEE
 SubstantiveValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
@@ -32,20 +39,7 @@ class "SentinelValueDomain" as SentinelValueDomain #EEEEEE
 SentinelValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
 class "DescriptorValueDomain" as DescriptorValueDomain #EEEEEE
 DescriptorValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
-enum "CategoryRelationCode" as CategoryRelationCode <<enumeration>> #F9E79F
-{
-  Continuous
-  Interval
-  Nominal
-  Ordinal
-  Ratio
-}
-ValueAndConceptDescription ..> CategoryRelationCode : classificationLevel
-class "ControlledVocabularyEntry" as ControlledVocabularyEntry <<dataType>> #FAE5D3
-ValueAndConceptDescription ..> ControlledVocabularyEntry : formatPattern
-class "Identifier" as Identifier #EEEEEE
-ValueAndConceptDescription --> "1" Identifier : identifier
-class "TypedString" as TypedString <<dataType>> #FAE5D3
-ValueAndConceptDescription ..> TypedString : regularExpression
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+ValueAndConceptDescription ..> XsdAnyUri : identifier
 
 @enduml

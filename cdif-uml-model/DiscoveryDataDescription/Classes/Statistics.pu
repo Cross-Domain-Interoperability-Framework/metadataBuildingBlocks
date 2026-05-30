@@ -16,9 +16,24 @@ skinparam class {
 
 class "Statistics" as Statistics #FEFECE {
   +identifier : XsdAnyUri [0..1]
+  +typeOfStatistic : string [0..1]
+  +scale : string [0..1]
+  +typeOfNumericValue : string [0..1]
+  +content : string [0..1]
+  +isWeighted : boolean [0..1]
+  +computationBase : string [0..1]
 }
 class "Dataset" as Dataset #EEEEEE
 Dataset *-- "0..*" Statistics : statistics
+class "InstanceVariable" as InstanceVariable #EEEEEE
+Statistics --> "0..*" InstanceVariable : appliesTo
+Statistics --> "0..1" InstanceVariable : hasWeight
+class "CategoryStatistics" as CategoryStatistics #EEEEEE
+Statistics *-- "0..*" CategoryStatistics : has
+Statistics *-- "0..*" Statistics : has
+CategoryStatistics *-- "1..*" Statistics : isComposedOf
+class "StatisticsCollection" as StatisticsCollection #EEEEEE
+StatisticsCollection *-- "1..*" Statistics : isComposedOf
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
 Statistics ..> XsdAnyUri : identifier
 

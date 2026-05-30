@@ -1,0 +1,31 @@
+@startuml
+title AbstractMapping
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+abstract class "AbstractMapping" as AbstractMapping #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+}
+class "PhysicalMapping" as PhysicalMapping #D5F5E3
+AbstractMapping <|-- PhysicalMapping
+class "TextMapping" as TextMapping #D5F5E3
+AbstractMapping <|-- TextMapping
+class "LocatorMapping" as LocatorMapping #D5F5E3
+AbstractMapping <|-- LocatorMapping
+class "ArchivePart" as ArchivePart #EEEEEE
+ArchivePart *-- "0..*" AbstractMapping : hasPhysicalMapping
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+AbstractMapping ..> XsdAnyUri : identifier
+
+@enduml

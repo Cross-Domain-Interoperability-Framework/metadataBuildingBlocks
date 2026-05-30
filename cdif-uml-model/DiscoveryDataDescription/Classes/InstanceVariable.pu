@@ -16,7 +16,17 @@ skinparam class {
 
 class "InstanceVariable" as InstanceVariable #FEFECE {
   +identifier : XsdAnyUri [1]
+  +name : string [0..1]
+  +description : string [0..1]
+  +alternateName : string [0..*]
   +physicalDataType : string [1]
+  +minValue : string [0..1]
+  +maxValue : string [0..1]
+  +unitCode : string [0..1]
+  +unitText : string [0..1]
+  +platformType : string [0..*]
+  +simpleUnitOfMeasure : string [0..1]
+  +measurementTechnique : string [0..*]
 }
 class "Dataset" as Dataset #EEEEEE
 Dataset *-- "1..*" InstanceVariable : variableMeasured
@@ -24,6 +34,17 @@ class "SubstantiveValueDomain" as SubstantiveValueDomain #EEEEEE
 InstanceVariable --> "0..1" SubstantiveValueDomain : takesSubstantiveValuesFrom
 class "SentinelValueDomain" as SentinelValueDomain #EEEEEE
 InstanceVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
+class "CdifConceptOrTerm" as CdifConceptOrTerm #EEEEEE
+InstanceVariable --> "0..*" CdifConceptOrTerm : uses
+class "DefinedTerm" as DefinedTerm #EEEEEE
+InstanceVariable --> "0..1" DefinedTerm : hasIntendedDataType
+InstanceVariable --> "0..1" CdifConceptOrTerm : describedUnitOfMeasure
+InstanceVariable --> "0..*" CdifConceptOrTerm : function
+InstanceVariable --> "0..*" InstanceVariable : qualifies
+class "StatisticsCollection" as StatisticsCollection #EEEEEE
+InstanceVariable --> "0..*" StatisticsCollection : isDescribedBy
+InstanceVariable --> "0..*" DefinedTerm : source
+InstanceVariable --> "0..*" DefinedTerm : measurementTechnique
 abstract class "AbstractMapping" as AbstractMapping #EEEEEE
 AbstractMapping --> "1" InstanceVariable : formats
 class "PhysicalMapping" as PhysicalMapping #EEEEEE
@@ -32,6 +53,12 @@ class "TextMapping" as TextMapping #EEEEEE
 TextMapping --> "1" InstanceVariable : formats
 class "LocatorMapping" as LocatorMapping #EEEEEE
 LocatorMapping --> "1" InstanceVariable : formats
+class "ComponentPosition" as ComponentPosition #EEEEEE
+ComponentPosition --> "1" InstanceVariable : indexes
+class "Statistics" as Statistics #EEEEEE
+Statistics --> "0..*" InstanceVariable : appliesTo
+Statistics --> "0..1" InstanceVariable : hasWeight
+StatisticsCollection --> "0..*" InstanceVariable : indexedBy
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
 InstanceVariable ..> XsdAnyUri : identifier
 

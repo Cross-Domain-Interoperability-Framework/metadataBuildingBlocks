@@ -1,0 +1,28 @@
+@startuml
+title StatisticsCollection
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "StatisticsCollection" as StatisticsCollection #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+}
+class "InstanceVariable" as InstanceVariable #EEEEEE
+InstanceVariable --> "0..*" StatisticsCollection : isDescribedBy
+class "Statistics" as Statistics #EEEEEE
+StatisticsCollection *-- "1..*" Statistics : isComposedOf
+StatisticsCollection --> "0..*" InstanceVariable : indexedBy
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+StatisticsCollection ..> XsdAnyUri : identifier
+
+@enduml
