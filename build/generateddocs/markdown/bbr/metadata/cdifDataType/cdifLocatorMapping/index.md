@@ -30,33 +30,26 @@ description: Locates a variable's value(s) within a structured (hierarchical) da
   such as XML or JSON, via a locator expression (e.g., XPath or JSONPath). DDI-CDI
   LocatorMapping. Used in place of column-index/text mappings for cdi:StructuredDataSet
   distributions.
-type: object
-properties:
-  '@type':
-    type: array
-    items:
-      type: string
-    contains:
-      const: cdif:LocatorMapping
-    minItems: 1
-    description: A cdifLocatorMapping instance must be typed cdif:LocatorMapping (not
-      cdif:PhysicalMapping).
-  cdi:locator:
-    type: string
-    description: Expression locating the variable's value(s) in the structured document
-      (XPath, JSONPath, pointer, etc.). LocatorMapping.locator.
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/locator
-  cdif:formats_InstanceVariable:
-    type: object
-    description: Reference to a variable defined in schema:variableMeasured.
-    properties:
-      '@id':
+allOf:
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifPhysicalMapping/schema.yaml
+- type: object
+  properties:
+    '@type':
+      type: array
+      items:
         type: string
-        description: This should be a reference to a variable defined in the schema:variableMeasured
-          section.
-    x-jsonld-id: https://cdif.org/0.1/formats_InstanceVariable
-required:
-- cdi:locator
+      contains:
+        const: cdif:LocatorMapping
+      minItems: 1
+      description: A cdifLocatorMapping instance must be typed cdif:LocatorMapping
+        (not cdif:PhysicalMapping).
+    cdi:locator:
+      type: string
+      description: Expression locating the variable's value(s) in the structured document
+        (XPath, JSONPath, pointer, etc.). LocatorMapping.locator.
+      x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/locator
+  required:
+  - cdi:locator
 x-jsonld-prefixes:
   schema: http://schema.org/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
@@ -75,9 +68,10 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
-    "schema": "http://schema.org/",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "cdif": "https://cdif.org/0.1/",
+    "schema": "http://schema.org/",
+    "ada": "https://ada.astromat.org/metadata/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "@version": 1.1
   }
 }

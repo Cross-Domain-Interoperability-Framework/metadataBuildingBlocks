@@ -387,9 +387,7 @@ properties:
       - '@id'
     x-jsonld-id: https://cdif.org/0.1/isDescribedBy_StatisticsCollection
   cdi:describedUnitOfMeasure:
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/cdifConceptOrTerm'
+    $ref: '#/$defs/cdifConceptOrTerm'
     description: The unit in which the data values are measured, expressed as a controlled-vocabulary
       entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit,
       use cdif:simpleUnitOfMeasure instead.
