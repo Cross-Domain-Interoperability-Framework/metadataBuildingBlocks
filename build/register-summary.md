@@ -404,12 +404,6 @@ Core properties for CDIF metadata, applicable to any resource type. Required pro
 
 Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.
 
-### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructureComponent` — DDI-CDI Data Structure Component
-
-**Type:** schema
-
-Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.
-
 ### `cdif.bbr.metadata.ddiProperties.ddicdiInstanceVariable` — DDI-CDI Instance Variable
 
 **Type:** schema
@@ -464,17 +458,17 @@ CDIF Discovery profile composing cdifCore with discovery-oriented properties: me
 
 Data organization based on reusable data structure components.
 
-### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructure` — DDI-CDI Data Structure
-
-**Type:** schema
-
-Data organization based on reusable data structure components.
-
 ### `cdif.bbr.metadata.ddiProperties.ddicdiStatistics` — DDI-CDI Statistics
 
 **Type:** schema
 
 Statistics related to an instance variable within a data set.
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructureComponent` — DDI-CDI Data Structure Component
+
+**Type:** schema
+
+Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.
 
 ### `cdif.bbr.metadata.profiles.cdifCompositeProfile.DiscoveryDataDescription` — CDIF discovery and data description metadata
 
@@ -518,17 +512,11 @@ metadata to document long (narrow) data structure where each row is a single obs
 
 Extends the CDIF Data Description profile with full DDI-CDI structural complexity: data structures (DataStructure / Dimensional / Long / Wide), component subclasses (Identifier / Measure / Attribute / Dimension / VariableValue / VariableDescriptor), represented variables, and value domains. Distribution items are expected to carry cdi:isStructuredBy pointing at a Data Structure node.
 
-### `cdif.bbr.metadata.ddiProperties.ddicdiKeyValueStructure` — DDI-CDI Key Value Structure
+### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructure` — DDI-CDI Data Structure
 
 **Type:** schema
 
-Structure of a key-value datastore (organized collection of key-value data). It is described by identifier, contextual, synthetic id, dimension, variable descriptor and variable value components.
-
-### `cdif.bbr.metadata.ddiProperties.ddicdiLogicalRecord` — DDI-CDI Logical Record
-
-**Type:** schema
-
-Collection of instance variables.
+Data organization based on reusable data structure components.
 
 ### `cdif.bbr.metadata.profiles.cdifCompositeProfile.cdifComplete` — CDIF complete metadata
 
@@ -541,6 +529,18 @@ Profile combining CDIF discovery metadata with extended provenance (cdifProvActi
 **Type:** schema
 
 Gather building blocks to generate CDIF schema for XAS data 
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiKeyValueStructure` — DDI-CDI Key Value Structure
+
+**Type:** schema
+
+Structure of a key-value datastore (organized collection of key-value data). It is described by identifier, contextual, synthetic id, dimension, variable descriptor and variable value components.
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiLogicalRecord` — DDI-CDI Logical Record
+
+**Type:** schema
+
+Collection of instance variables.
 
 ### `cdif.bbr.metadata.ddiProperties.ddicdiLogicalRecordRepository` — DDI-CDI Logical Record Repository
 
