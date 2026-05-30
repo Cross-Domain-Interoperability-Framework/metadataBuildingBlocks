@@ -375,13 +375,13 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
 
 <https://example.org/stats/temperature-mean> a cdi:Statistics ;
     cdi:hasWeight ex:var-sample-weight ;
-    cdi:statistic [ cdi:computationBase "Total" ;
-            cdi:content 1.21e+01 ;
-            cdi:isWeighted false ;
-            cdi:typeOfNumericValue "double" ],
-        [ cdi:computationBase "ValidOnly" ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
             cdi:content 1.243e+01 ;
             cdi:isWeighted true ;
+            cdi:typeOfNumericValue "double" ],
+        [ cdi:computationBase "Total" ;
+            cdi:content 1.21e+01 ;
+            cdi:isWeighted false ;
             cdi:typeOfNumericValue "double" ] ;
     cdi:typeOfStatistic [ a schema1:DefinedTerm ;
             schema1:identifier "https://example.org/vocab/stat-types/mean" ;
@@ -389,18 +389,18 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
             schema1:name "arithmetic mean" ] ;
     cdif:appliesTo ex:var-temperature ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/category/surface> ;
+            cdi:for <https://example.org/category/deep> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 1.581e+01 ;
+                    cdi:content 1.007e+01 ;
                     cdi:isWeighted true ] ;
             cdi:typeOfStatistic [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
                     schema1:name "Mean" ;
                     schema1:termCode "mean" ] ],
         [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/category/deep> ;
+            cdi:for <https://example.org/category/surface> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 1.007e+01 ;
+                    cdi:content 1.581e+01 ;
                     cdi:isWeighted true ] ;
             cdi:typeOfStatistic [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
@@ -583,6 +583,15 @@ anyOf:
 - $ref: '#/$defs/CategoryStatistics'
 - $ref: '#/$defs/StatisticsCollection'
 $defs:
+  cdifConceptOrTerm:
+    anyOf:
+    - type: object
+      properties:
+        '@id':
+          type: string
+          description: reference to a skos concept for the data type
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept
   Statistic:
     title: Statistic
     description: "DDI-CDI Statistic dataType \u2014 a single computed value (mean,
@@ -633,7 +642,9 @@ $defs:
       cdi:typeOfStatistic:
         description: "Controlled-vocabulary entry naming the kind of statistic \u2014
           e.g. mean, median, count, sum, stdDev."
-        $ref: '#/$defs/SkosConcept'
+        anyOf:
+        - type: string
+        - $ref: '#/$defs/cdifConceptOrTerm'
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic
       cdi:statistic:
         type: array
@@ -714,7 +725,9 @@ $defs:
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/for
       cdi:typeOfStatistic:
         description: Controlled-vocabulary entry naming the kind of statistic.
-        $ref: '#/$defs/SkosConcept'
+        anyOf:
+        - type: string
+        - $ref: '#/$defs/cdifConceptOrTerm'
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic
       cdi:statistic:
         type: array
@@ -882,8 +895,8 @@ Links to the schema:
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "cdif": "https://cdif.org/0.1/",
-    "skos": "http://www.w3.org/2004/02/skos/core#",
     "spdx": "http://spdx.org/rdf/terms#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
     "xas": "https://xas.org/dictionary/",
     "nxs": "http://purl.org/nexusformat/definitions/",
     "prov": "http://www.w3.org/ns/prov#",

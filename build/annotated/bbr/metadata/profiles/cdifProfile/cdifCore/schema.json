@@ -93,7 +93,7 @@
             "type": "string"
           },
           {
-            "$ref": "#/$defs/DefinedTerm"
+            "$ref": "#/$defs/cdifConceptOrTerm"
           }
         ]
       },
@@ -237,7 +237,7 @@
           "schema:linkRelationship": {
             "anyOf": [
               {
-                "$ref": "#/$defs/DefinedTerm"
+                "$ref": "#/$defs/cdifConceptOrTerm"
               },
               {
                 "type": "string"
@@ -310,7 +310,7 @@
       "items": {
         "anyOf": [
           {
-            "$ref": "#/$defs/DefinedTerm"
+            "$ref": "#/$defs/cdifConceptOrTerm"
           },
           {
             "type": "string"
@@ -525,8 +525,24 @@
     "Identifier": {
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.json"
     },
-    "DefinedTerm": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.json"
+    "cdifConceptOrTerm": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "reference to a skos concept for the data type"
+            }
+          }
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.json"
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.json#/$defs/cdifConcept"
+        }
+      ]
     },
     "DataDownload": {
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.json"

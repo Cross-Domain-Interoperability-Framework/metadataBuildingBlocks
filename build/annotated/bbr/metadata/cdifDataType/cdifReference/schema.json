@@ -11,6 +11,25 @@
     }
   ],
   "$defs": {
+    "cdifConceptOrTerm": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "reference to a skos concept for the data type"
+            }
+          }
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.json"
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.json#/$defs/cdifConcept"
+        }
+      ]
+    },
     "Relation": {
       "type": "object",
       "description": "DCAT Relationship surface added on top of the schema.org labeled link construct.",
@@ -27,7 +46,14 @@
         },
         "dcat:hadRole": {
           "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot).",
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.json",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/cdifConceptOrTerm"
+            }
+          ],
           "x-jsonld-id": "http://www.w3.org/ns/dcat#hadRole"
         },
         "dcterms:relation": {

@@ -22,7 +22,7 @@ properties:
     items:
       anyOf:
       - type: string
-      - $ref: '#/$defs/DefinedTerm'
+      - $ref: '#/$defs/cdifConceptOrTerm'
   schema:variableMeasured:
     description: What does the dataset measure? (e.g., temperature, pressure)
     type: array
@@ -52,8 +52,15 @@ properties:
             '@id':
               const: https://w3id.org/cdif/discovery/1.0
 $defs:
-  DefinedTerm:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+  cdifConceptOrTerm:
+    anyOf:
+    - type: object
+      properties:
+        '@id':
+          type: string
+          description: reference to a skos concept for the data type
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept
   VariableMeasured:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml
   SpatialExtent:

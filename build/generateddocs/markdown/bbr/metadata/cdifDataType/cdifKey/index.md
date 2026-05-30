@@ -141,9 +141,7 @@ every property the schema permits including @id on the Key itself.
         ],
         "schema:unitText": "year",
         "cdi:identifier": "ex:var/year",
-        "cdif:physicalDataType": [
-          "xsd:gYear"
-        ],
+        "cdif:physicalDataType": "xsd:gYear",
         "cdi:simpleUnitOfMeasure": "year",
         "cdif:name": [
           "year"
@@ -214,9 +212,7 @@ every property the schema permits including @id on the Key itself.
         ],
         "schema:unitText": "year",
         "cdi:identifier": "ex:var/year",
-        "cdif:physicalDataType": [
-          "xsd:gYear"
-        ],
+        "cdif:physicalDataType": "xsd:gYear",
         "cdi:simpleUnitOfMeasure": "year",
         "cdif:name": [
           "year"

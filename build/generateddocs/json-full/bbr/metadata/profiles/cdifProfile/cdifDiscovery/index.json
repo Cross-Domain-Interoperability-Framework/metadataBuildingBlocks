@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-05-29",
+  "dateOfLastChange": "2026-05-30",
   "link": "https://github.com/usgin/metadataBuildingBlocks",
   "maturity": "draft",
   "scope": "unstable",
@@ -19,20 +19,20 @@
     "discovery"
   ],
   "shaclShapes": {
+    "cdif.bbr.metadata.schemaorgProperties.temporalExtent": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/temporalExtent/rules.shacl"
+    ],
     "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
     ],
     "cdif.bbr.metadata.schemaorgProperties.identifier": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
     ],
-    "cdif.bbr.metadata.qualityProperties.qualityMeasure": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/qualityProperties/qualityMeasure/rules.shacl"
-    ],
     "cdif.bbr.metadata.schemaorgProperties.spatialExtent": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/spatialExtent/rules.shacl"
     ],
-    "cdif.bbr.metadata.schemaorgProperties.temporalExtent": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/temporalExtent/rules.shacl"
+    "cdif.bbr.metadata.qualityProperties.qualityMeasure": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/qualityProperties/qualityMeasure/rules.shacl"
     ],
     "cdif.bbr.metadata.schemaorgProperties.variableMeasured": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/variableMeasured/rules.shacl"
@@ -40,18 +40,16 @@
     "cdif.bbr.metadata.cdifDataType.cdifReference": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifReference/rules.shacl"
     ],
-    "cdif.bbr.metadata.skosProperties.skosConcept": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
-    ],
     "cdif.bbr.metadata.schemaorgProperties.labeledLink": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/labeledLink/rules.shacl"
     ]
   },
   "dependsOn": [
-    "cdif.bbr.metadata.schemaorgProperties.definedTerm",
-    "cdif.bbr.metadata.qualityProperties.qualityMeasure",
-    "cdif.bbr.metadata.schemaorgProperties.spatialExtent",
     "cdif.bbr.metadata.schemaorgProperties.temporalExtent",
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm",
+    "cdif.bbr.metadata.schemaorgProperties.spatialExtent",
+    "cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme",
+    "cdif.bbr.metadata.qualityProperties.qualityMeasure",
     "cdif.bbr.metadata.schemaorgProperties.variableMeasured"
   ],
   "schema": {
@@ -64,7 +62,7 @@
   "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfile/cdifDiscovery/",
   "validationPassed": true,
   "description": "# CDIF Discovery\n\nProfile module for discovery metadata.\n\n## Status\n\nPlaceholder. Currently composes cdifCore via `allOf`; reserved for future\ndiscovery-specific extensions that are not part of the cdifCore foundation\n(e.g. measurement technique, spatial/temporal coverage, quality measurements\nwhen those are split out of cdifCore).\n\n## Interprofile dependencies\n\n- `cdifCore` (cdifProfile) \u2014 composed via `allOf`\n",
-  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: CDIF Discovery\ndescription: Profile module for discovery metadata. Currently a thin wrapper that\n  composes cdifCore; reserved for discovery-specific extensions that are not part\n  of the cdifCore foundation.\ntype: object\nproperties:\n  '@context':\n    type: object\n    description: Additional JSON-LD namespace prefixes for discovery properties.\n    properties:\n      geosparql:\n        const: http://www.opengis.net/ont/geosparql#\n      dqv:\n        const: http://www.w3.org/ns/dqv#\n      cdi:\n        const: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\n  schema:measurementTechnique:\n    description: The technique, technology, or methodology used for measurement or\n      determination of the dataset values.\n    type: array\n    items:\n      anyOf:\n      - type: string\n      - $ref: '#/$defs/DefinedTerm'\n  schema:variableMeasured:\n    description: What does the dataset measure? (e.g., temperature, pressure)\n    type: array\n    items:\n      $ref: '#/$defs/VariableMeasured'\n  schema:spatialCoverage:\n    description: Geographic extent of resource content.\n    type: array\n    items:\n      $ref: '#/$defs/SpatialExtent'\n  schema:temporalCoverage:\n    description: Temporal extent of resource content.\n    type: array\n    items:\n      $ref: '#/$defs/TemporalExtent'\n  dqv:hasQualityMeasurement:\n    description: Quality measurements reported to assess the resource.\n    type: array\n    items:\n      $ref: '#/$defs/QualityMeasure'\n  schema:subjectOf:\n    properties:\n      dcterms:conformsTo:\n        contains:\n          type: object\n          properties:\n            '@id':\n              const: https://w3id.org/cdif/discovery/1.0\n$defs:\n  DefinedTerm:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\n  VariableMeasured:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml\n  SpatialExtent:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml\n  TemporalExtent:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/temporalExtent/schema.yaml\n  QualityMeasure:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityMeasure/schema.yaml\n",
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: CDIF Discovery\ndescription: Profile module for discovery metadata. Currently a thin wrapper that\n  composes cdifCore; reserved for discovery-specific extensions that are not part\n  of the cdifCore foundation.\ntype: object\nproperties:\n  '@context':\n    type: object\n    description: Additional JSON-LD namespace prefixes for discovery properties.\n    properties:\n      geosparql:\n        const: http://www.opengis.net/ont/geosparql#\n      dqv:\n        const: http://www.w3.org/ns/dqv#\n      cdi:\n        const: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\n  schema:measurementTechnique:\n    description: The technique, technology, or methodology used for measurement or\n      determination of the dataset values.\n    type: array\n    items:\n      anyOf:\n      - type: string\n      - $ref: '#/$defs/cdifConceptOrTerm'\n  schema:variableMeasured:\n    description: What does the dataset measure? (e.g., temperature, pressure)\n    type: array\n    items:\n      $ref: '#/$defs/VariableMeasured'\n  schema:spatialCoverage:\n    description: Geographic extent of resource content.\n    type: array\n    items:\n      $ref: '#/$defs/SpatialExtent'\n  schema:temporalCoverage:\n    description: Temporal extent of resource content.\n    type: array\n    items:\n      $ref: '#/$defs/TemporalExtent'\n  dqv:hasQualityMeasurement:\n    description: Quality measurements reported to assess the resource.\n    type: array\n    items:\n      $ref: '#/$defs/QualityMeasure'\n  schema:subjectOf:\n    properties:\n      dcterms:conformsTo:\n        contains:\n          type: object\n          properties:\n            '@id':\n              const: https://w3id.org/cdif/discovery/1.0\n$defs:\n  cdifConceptOrTerm:\n    anyOf:\n    - type: object\n      properties:\n        '@id':\n          type: string\n          description: reference to a skos concept for the data type\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept\n  VariableMeasured:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml\n  SpatialExtent:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml\n  TemporalExtent:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/temporalExtent/schema.yaml\n  QualityMeasure:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityMeasure/schema.yaml\n",
   "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
   "gitPath": "_sources/profiles/cdifProfile/cdifDiscovery"
 }

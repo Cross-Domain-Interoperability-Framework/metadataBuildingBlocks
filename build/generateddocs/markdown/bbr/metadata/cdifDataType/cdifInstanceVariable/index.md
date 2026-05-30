@@ -184,9 +184,7 @@ them via schema:variableMeasured.
     "Monochromator energy"
   ],
   "cdif:definition": "Incident photon energy selected by the monochromator during the XAS scan.",
-  "cdif:physicalDataType": [
-    "xsd:decimal"
-  ],
+  "cdif:physicalDataType": "xsd:decimal",
   "cdi:takesSubstantiveValuesFrom": {
     "@id": "ex:value-domain/decimal-eV"
   },
@@ -250,9 +248,7 @@ them via schema:variableMeasured.
     "Monochromator energy"
   ],
   "cdif:definition": "Incident photon energy selected by the monochromator during the XAS scan.",
-  "cdif:physicalDataType": [
-    "xsd:decimal"
-  ],
+  "cdif:physicalDataType": "xsd:decimal",
   "cdi:takesSubstantiveValuesFrom": {
     "@id": "ex:value-domain/decimal-eV"
   },
@@ -313,16 +309,9 @@ properties:
     contains:
       const: cdi:InstanceVariable
   cdif:physicalDataType:
-    type: array
-    items:
-      anyOf:
-      - type: string
-      - type: object
-        properties:
-          '@id':
-            type: string
-            description: reference to a skos concept for the data type
-      - $ref: '#/$defs/DefinedTerm'
+    anyOf:
+    - type: string
+    - $ref: '#/$defs/cdifConceptOrTerm'
     description: identifier or name for the data type concept.
     x-jsonld-id: https://cdif.org/0.1/physicalDataType
   cdif:role:
@@ -343,24 +332,14 @@ properties:
   cdif:simpleUnitOfMeasure:
     anyOf:
     - type: string
-    - type: object
-      properties:
-        '@id':
-          type: string
-          description: reference to a skos concept for the data type
-    - $ref: '#/$defs/DefinedTerm'
+    - $ref: '#/$defs/cdifConceptOrTerm'
     x-jsonld-id: https://cdif.org/0.1/simpleUnitOfMeasure
   cdif:uses:
     type: array
     items:
       anyOf:
       - type: string
-      - type: object
-        properties:
-          '@id':
-            type: string
-            description: reference to a skos concept for the property
-      - $ref: '#/$defs/DefinedTerm'
+      - $ref: '#/$defs/cdifConceptOrTerm'
     description: Essentially the same as schema:propertyID. References to concepts
       that this variable measures or represents. When the dataset's distribution carries
       cdi:isStructuredBy (CDIF Data Structure profile), cdif:uses references the RepresentedVariable
@@ -372,22 +351,14 @@ properties:
     items:
       anyOf:
       - type: string
-      - type: object
-        properties:
-          '@id':
-            type: string
-      - $ref: '#/$defs/DefinedTerm'
+      - $ref: '#/$defs/cdifConceptOrTerm'
     description: Immutable characteristic of the variable such as geographic designator,
       weight, temporal designation, etc. (InstanceVariable.function).
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/function
   cdi:platformType:
     anyOf:
     - type: string
-    - type: object
-      properties:
-        '@id':
-          type: string
-    - $ref: '#/$defs/DefinedTerm'
+    - $ref: '#/$defs/cdifConceptOrTerm'
     description: The application or technical system context in which the variable
       has been realized - typically a statistical processing package or processing
       environment (InstanceVariable.platformType).
@@ -415,25 +386,10 @@ properties:
       required:
       - '@id'
     x-jsonld-id: https://cdif.org/0.1/isDescribedBy_StatisticsCollection
-  cdi:hasIntendedDataType:
-    anyOf:
-    - type: string
-    - type: object
-      properties:
-        '@id':
-          type: string
-    - $ref: '#/$defs/DefinedTerm'
-    description: The data type intended to be used by this variable, independent of
-      its physical representation (RepresentedVariable.hasIntendedDataType).
-    x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType
   cdi:describedUnitOfMeasure:
     anyOf:
     - type: string
-    - type: object
-      properties:
-        '@id':
-          type: string
-    - $ref: '#/$defs/DefinedTerm'
+    - $ref: '#/$defs/cdifConceptOrTerm'
     description: The unit in which the data values are measured, expressed as a controlled-vocabulary
       entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit,
       use cdif:simpleUnitOfMeasure instead.
@@ -450,10 +406,15 @@ allOf:
   - '@type'
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml
 $defs:
-  DefinedTerm:
+  cdifConceptOrTerm:
     anyOf:
+    - type: object
+      properties:
+        '@id':
+          type: string
+          description: reference to a skos concept for the data type
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept
 x-jsonld-prefixes:
   cdif: https://cdif.org/0.1/
   schema: http://schema.org/

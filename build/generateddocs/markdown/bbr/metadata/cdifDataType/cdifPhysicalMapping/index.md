@@ -175,6 +175,21 @@ description: Defines implementation-specific properties for the representation o
   mapping structure.
 type: object
 properties:
+  '@type':
+    type: array
+    items:
+      type: string
+    contains:
+      enum:
+      - cdif:PhysicalMapping
+      - cdif:TextMapping
+      - cdif:LocatorMapping
+    minItems: 1
+    description: Must include a physical-mapping family type. A plain physical mapping
+      uses cdif:PhysicalMapping; the cdifTextMapping / cdifLocatorMapping specializations
+      narrow this to cdif:TextMapping / cdif:LocatorMapping respectively (they compose
+      this schema via allOf, so the base accepts any of the family rather than requiring
+      the cdif:PhysicalMapping token).
   cdif:index:
     type: integer
     minimum: 0
@@ -187,7 +202,15 @@ properties:
       or MM-DD-YY.
     x-jsonld-id: https://cdif.org/0.1/format
   cdif:physicalDataType:
-    type: string
+    anyOf:
+    - type: string
+    - type: object
+      properties:
+        '@id':
+          type: string
+          description: reference to a skos concept for the data type
+    - $ref: '#/$defs/cdifConceptOrTerm'
+    description: identifier or name for the data type concept.
     x-jsonld-id: https://cdif.org/0.1/physicalDataType
   cdi:numberPattern:
     type: string
@@ -230,6 +253,16 @@ properties:
         description: This should be a reference to a variable defined in the schema:variableMeasured
           section.
     x-jsonld-id: https://cdif.org/0.1/formats_InstanceVariable
+$defs:
+  cdifConceptOrTerm:
+    anyOf:
+    - type: object
+      properties:
+        '@id':
+          type: string
+          description: reference to a skos concept for the data type
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept
 x-jsonld-prefixes:
   cdif: https://cdif.org/0.1/
   schema: http://schema.org/

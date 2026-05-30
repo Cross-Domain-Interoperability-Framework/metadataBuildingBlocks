@@ -106,7 +106,7 @@ properties:
     minItems: 1
     items:
       anyOf:
-      - $ref: '#/$defs/Concept'
+      - $ref: '#/$defs/cdifConcept'
       - type: object
         properties:
           '@id':
@@ -135,7 +135,7 @@ required:
 - skos:definition
 - skos:hasTopConcept
 $defs:
-  Concept:
+  cdifConcept:
     type: object
     properties:
       '@context':

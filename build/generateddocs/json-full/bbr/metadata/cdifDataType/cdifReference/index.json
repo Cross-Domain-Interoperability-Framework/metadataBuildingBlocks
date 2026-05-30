@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.2",
-  "dateOfLastChange": "2026-05-29",
+  "dateOfLastChange": "2026-05-30",
   "link": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
   "sources": [
     {
@@ -45,16 +45,20 @@
     "cdif.bbr.metadata.cdifDataType.cdifReference": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifReference/rules.shacl"
     ],
-    "cdif.bbr.metadata.skosProperties.skosConcept": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
-    ],
     "cdif.bbr.metadata.schemaorgProperties.labeledLink": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/labeledLink/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
     ]
   },
   "dependsOn": [
-    "cdif.bbr.metadata.skosProperties.skosConcept",
-    "cdif.bbr.metadata.schemaorgProperties.labeledLink"
+    "cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme",
+    "cdif.bbr.metadata.schemaorgProperties.labeledLink",
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm"
   ],
   "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifReference/context.jsonld",
   "schema": {
@@ -125,7 +129,7 @@
       ]
     }
   ],
-  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntype: object\ndescription: Building block to implement relations to other resources using a URL\n  and some semantics.\nallOf:\n- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml\n- $ref: '#/$defs/Relation'\n$defs:\n  Relation:\n    type: object\n    description: DCAT Relationship surface added on top of the schema.org labeled\n      link construct.\n    properties:\n      '@type':\n        type: array\n        items:\n          type: string\n        contains:\n          const: dcat:Relationship\n        minItems: 1\n      dcat:hadRole:\n        description: Role of the related resource as a SKOS Concept (DCAT canonical\n          role slot).\n        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml\n        x-jsonld-id: http://www.w3.org/ns/dcat#hadRole\n      dcterms:relation:\n        type: string\n        format: uri\n        description: URI of the related resource (DCAT canonical pointer to what is\n          being related to; distinct from schema:url which is the presentation URL\n          inherited from labeledLink).\n        x-jsonld-id: http://purl.org/dc/terms/relation\nx-jsonld-prefixes:\n  schema: http://schema.org/\n  skos: http://www.w3.org/2004/02/skos/core#\n  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\n  cdif: https://cdif.org/0.1/\n  ex: https://example.org/\n  xsd: http://www.w3.org/2001/XMLSchema#\n  dcterms: http://purl.org/dc/terms/\n  dcat: http://www.w3.org/ns/dcat#\n",
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntype: object\ndescription: Building block to implement relations to other resources using a URL\n  and some semantics.\nallOf:\n- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml\n- $ref: '#/$defs/Relation'\n$defs:\n  cdifConceptOrTerm:\n    anyOf:\n    - type: object\n      properties:\n        '@id':\n          type: string\n          description: reference to a skos concept for the data type\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\n    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept\n  Relation:\n    type: object\n    description: DCAT Relationship surface added on top of the schema.org labeled\n      link construct.\n    properties:\n      '@type':\n        type: array\n        items:\n          type: string\n        contains:\n          const: dcat:Relationship\n        minItems: 1\n      dcat:hadRole:\n        description: Role of the related resource as a SKOS Concept (DCAT canonical\n          role slot).\n        anyOf:\n        - type: string\n        - $ref: '#/$defs/cdifConceptOrTerm'\n        x-jsonld-id: http://www.w3.org/ns/dcat#hadRole\n      dcterms:relation:\n        type: string\n        format: uri\n        description: URI of the related resource (DCAT canonical pointer to what is\n          being related to; distinct from schema:url which is the presentation URL\n          inherited from labeledLink).\n        x-jsonld-id: http://purl.org/dc/terms/relation\nx-jsonld-prefixes:\n  schema: http://schema.org/\n  skos: http://www.w3.org/2004/02/skos/core#\n  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/\n  cdif: https://cdif.org/0.1/\n  ex: https://example.org/\n  xsd: http://www.w3.org/2001/XMLSchema#\n  dcterms: http://purl.org/dc/terms/\n  dcat: http://www.w3.org/ns/dcat#\n",
   "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
   "gitPath": "_sources/cdifDataType/cdifReference"
 }

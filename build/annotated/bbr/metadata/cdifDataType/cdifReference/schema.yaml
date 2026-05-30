@@ -6,6 +6,15 @@ allOf:
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
 - $ref: '#/$defs/Relation'
 $defs:
+  cdifConceptOrTerm:
+    anyOf:
+    - type: object
+      properties:
+        '@id':
+          type: string
+          description: reference to a skos concept for the data type
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept
   Relation:
     type: object
     description: DCAT Relationship surface added on top of the schema.org labeled
@@ -21,7 +30,9 @@ $defs:
       dcat:hadRole:
         description: Role of the related resource as a SKOS Concept (DCAT canonical
           role slot).
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+        anyOf:
+        - type: string
+        - $ref: '#/$defs/cdifConceptOrTerm'
         x-jsonld-id: http://www.w3.org/ns/dcat#hadRole
       dcterms:relation:
         type: string

@@ -648,12 +648,12 @@ ex:op_searchAnalyses a schema1:SearchAction ;
                             oas:schema [ oas:type "object" ] ] ],
                 [ schema1:description "Tabular geochemical analysis results matching the query." ;
                     oas:code "200" ;
-                    oas:content [ schema1:encodingFormat "text/csv" ;
-                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.csv-frictionless.json" ;
-                                    oas:type "string" ] ],
-                        [ schema1:encodingFormat "application/json" ;
+                    oas:content [ schema1:encodingFormat "application/json" ;
                             oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.json" ;
-                                    oas:type "object" ] ] ] ] .
+                                    oas:type "object" ] ],
+                        [ schema1:encodingFormat "text/csv" ;
+                            oas:schema [ ns1:ref "https://geochem.example.org/api/v2/schemas/analysisResult.csv-frictionless.json" ;
+                                    oas:type "string" ] ] ] ] .
 
 ex:op_submitAnalysis a schema1:CreateAction ;
     schema1:description "Submit a new geochemical analysis record. Requires authentication." ;
@@ -749,7 +749,7 @@ properties:
       info.version when the service-type identifier includes versioning.
     anyOf:
     - type: string
-    - $ref: '#/$defs/DefinedTerm'
+    - $ref: '#/$defs/cdifConceptOrTerm'
     x-jsonld-id: http://schema.org/serviceType
   schema:termsOfService:
     description: Description of access privileges required to use the API (e.g. registration,
@@ -1043,8 +1043,15 @@ $defs:
         x-jsonld-id: https://spec.openapis.org/oas/3.1#$ref
   Reference:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifReference/schema.yaml
-  DefinedTerm:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+  cdifConceptOrTerm:
+    anyOf:
+    - type: object
+      properties:
+        '@id':
+          type: string
+          description: reference to a skos concept for the data type
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept
 x-jsonld-prefixes:
   cdif: https://cdif.org/0.1/
   schema: http://schema.org/

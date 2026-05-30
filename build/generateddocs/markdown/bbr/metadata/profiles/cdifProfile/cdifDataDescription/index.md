@@ -228,19 +228,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       },
       "schema:url": "https://example.org/datasets/ocean-temp-2025/variables/sea_water_temperature",
       "cdi:identifier": "ex:dataset/oceanTemp2025/var/seaWaterTemp",
-      "cdif:physicalDataType": [
-        "xsd:decimal",
-        {
-          "@id": "http://www.w3.org/2001/XMLSchema#decimal"
-        },
-        {
-          "@type": [
-            "schema:DefinedTerm"
-          ],
-          "schema:name": "decimal",
-          "schema:identifier": "http://www.w3.org/2001/XMLSchema#decimal"
-        }
-      ],
+      "cdif:physicalDataType": "xsd:decimal",
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
       "cdif:role": "Measure",
       "cdif:name": [
@@ -293,9 +281,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:unitCode": "MTR",
       "schema:minValue": 0,
       "schema:maxValue": 5000,
-      "cdif:physicalDataType": [
-        "xsd:decimal"
-      ],
+      "cdif:physicalDataType": "xsd:decimal",
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
       "cdif:role": "Dimension",
       "cdif:name": [
@@ -317,9 +303,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:propertyID": [
         "station_id"
       ],
-      "cdif:physicalDataType": [
-        "xsd:string"
-      ],
+      "cdif:physicalDataType": "xsd:string",
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#string",
       "cdif:role": "Descriptor",
       "cdif:name": [
@@ -338,9 +322,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:propertyID": [
         "qc_flag"
       ],
-      "cdif:physicalDataType": [
-        "xsd:integer"
-      ],
+      "cdif:physicalDataType": "xsd:integer",
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#integer",
       "cdif:role": "Attribute",
       "cdif:name": [
@@ -364,9 +346,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:propertyID": [
         "source_cruise"
       ],
-      "cdif:physicalDataType": [
-        "xsd:string"
-      ],
+      "cdif:physicalDataType": "xsd:string",
       "cdif:role": "ReferenceVariable",
       "cdif:name": [
         "source_cruise"
@@ -591,19 +571,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       },
       "schema:url": "https://example.org/datasets/ocean-temp-2025/variables/sea_water_temperature",
       "cdi:identifier": "ex:dataset/oceanTemp2025/var/seaWaterTemp",
-      "cdif:physicalDataType": [
-        "xsd:decimal",
-        {
-          "@id": "http://www.w3.org/2001/XMLSchema#decimal"
-        },
-        {
-          "@type": [
-            "schema:DefinedTerm"
-          ],
-          "schema:name": "decimal",
-          "schema:identifier": "http://www.w3.org/2001/XMLSchema#decimal"
-        }
-      ],
+      "cdif:physicalDataType": "xsd:decimal",
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
       "cdif:role": "Measure",
       "cdif:name": [
@@ -656,9 +624,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:unitCode": "MTR",
       "schema:minValue": 0,
       "schema:maxValue": 5000,
-      "cdif:physicalDataType": [
-        "xsd:decimal"
-      ],
+      "cdif:physicalDataType": "xsd:decimal",
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
       "cdif:role": "Dimension",
       "cdif:name": [
@@ -680,9 +646,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:propertyID": [
         "station_id"
       ],
-      "cdif:physicalDataType": [
-        "xsd:string"
-      ],
+      "cdif:physicalDataType": "xsd:string",
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#string",
       "cdif:role": "Descriptor",
       "cdif:name": [
@@ -701,9 +665,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:propertyID": [
         "qc_flag"
       ],
-      "cdif:physicalDataType": [
-        "xsd:integer"
-      ],
+      "cdif:physicalDataType": "xsd:integer",
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#integer",
       "cdif:role": "Attribute",
       "cdif:name": [
@@ -727,9 +689,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:propertyID": [
         "source_cruise"
       ],
-      "cdif:physicalDataType": [
-        "xsd:string"
-      ],
+      "cdif:physicalDataType": "xsd:string",
       "cdif:role": "ReferenceVariable",
       "cdif:name": [
         "source_cruise"
@@ -903,26 +863,15 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
             csvw:trim "true" ;
             cdif:fileSize 1.2e+00 ;
             cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "String" ],
-                [ cdi:isRequired true ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
                     cdi:length 20 ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
                     cdif:index 0 ;
                     cdif:physicalDataType "String" ],
-                [ cdi:decimalPositions 2 ;
-                    cdi:defaultValue "NaN" ;
-                    cdi:isRequired false ;
-                    cdi:maximumLength 10 ;
-                    cdi:minimumLength 1 ;
-                    cdi:nullSequence "-999.99" ;
-                    cdi:scale 2 ;
-                    cdif:format "0.00" ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
-                    cdif:index 2 ;
-                    cdif:physicalDataType "Numeric" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "String" ],
                 [ cdi:isRequired false ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
                     cdif:index 3 ;
@@ -934,6 +883,17 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:format "0.0" ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
                     cdif:index 1 ;
+                    cdif:physicalDataType "Numeric" ],
+                [ cdi:decimalPositions 2 ;
+                    cdi:defaultValue "NaN" ;
+                    cdi:isRequired false ;
+                    cdi:maximumLength 10 ;
+                    cdi:minimumLength 1 ;
+                    cdi:nullSequence "-999.99" ;
+                    cdi:scale 2 ;
+                    cdif:format "0.00" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
+                    cdif:index 2 ;
                     cdif:physicalDataType "Numeric" ] ] ;
     schema1:identifier "https://doi.org/10.1234/ocean-temp-2025" ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
@@ -1034,11 +994,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
     schema1:url "https://example.org/datasets/ocean-temp-2025/variables/sea_water_temperature" ;
     cdif:displayLabel "Sea Water Temperature" ;
     cdif:name "sea_water_temperature" ;
-    cdif:physicalDataType [ a schema1:DefinedTerm ;
-            schema1:identifier "http://www.w3.org/2001/XMLSchema#decimal" ;
-            schema1:name "decimal" ],
-        xsd:decimal,
-        "xsd:decimal" ;
+    cdif:physicalDataType "xsd:decimal" ;
     cdif:role "Measure" ;
     cdif:uses [ a schema1:DefinedTerm ;
             schema1:identifier "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/" ;

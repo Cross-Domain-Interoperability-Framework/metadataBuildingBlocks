@@ -15,6 +15,25 @@
     }
   ],
   "$defs": {
+    "cdifConceptOrTerm": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "reference to a skos concept for the data type"
+            }
+          }
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.json"
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.json#/$defs/cdifConcept"
+        }
+      ]
+    },
     "Statistic": {
       "title": "Statistic",
       "description": "DDI-CDI Statistic dataType \u2014 a single computed value (mean, count, median, etc.). A value object with no identity; appears inline inside a cdi:statistic array.",
@@ -69,7 +88,14 @@
         },
         "cdi:typeOfStatistic": {
           "description": "Controlled-vocabulary entry naming the kind of statistic \u2014 e.g. mean, median, count, sum, stdDev.",
-          "$ref": "#/$defs/SkosConcept",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/cdifConceptOrTerm"
+            }
+          ],
           "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic"
         },
         "cdi:statistic": {
@@ -180,7 +206,14 @@
         },
         "cdi:typeOfStatistic": {
           "description": "Controlled-vocabulary entry naming the kind of statistic.",
-          "$ref": "#/$defs/SkosConcept",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/cdifConceptOrTerm"
+            }
+          ],
           "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic"
         },
         "cdi:statistic": {

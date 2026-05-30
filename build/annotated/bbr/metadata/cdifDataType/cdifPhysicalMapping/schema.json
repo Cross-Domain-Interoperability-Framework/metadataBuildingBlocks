@@ -4,6 +4,21 @@
   "description": "Defines implementation-specific properties for the representation of a variable in a dataset. Aligned with CDIF 2026 schema using DDI-CDI flat per-column mapping structure.",
   "type": "object",
   "properties": {
+    "@type": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "contains": {
+        "enum": [
+          "cdif:PhysicalMapping",
+          "cdif:TextMapping",
+          "cdif:LocatorMapping"
+        ]
+      },
+      "minItems": 1,
+      "description": "Must include a physical-mapping family type. A plain physical mapping uses cdif:PhysicalMapping; the cdifTextMapping / cdifLocatorMapping specializations narrow this to cdif:TextMapping / cdif:LocatorMapping respectively (they compose this schema via allOf, so the base accepts any of the family rather than requiring the cdif:PhysicalMapping token)."
+    },
     "cdif:index": {
       "type": "integer",
       "minimum": 0,
@@ -16,7 +31,24 @@
       "x-jsonld-id": "https://cdif.org/0.1/format"
     },
     "cdif:physicalDataType": {
-      "type": "string",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "reference to a skos concept for the data type"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/cdifConceptOrTerm"
+        }
+      ],
+      "description": "identifier or name for the data type concept.",
       "x-jsonld-id": "https://cdif.org/0.1/physicalDataType"
     },
     "cdi:numberPattern": {
@@ -65,6 +97,27 @@
         }
       },
       "x-jsonld-id": "https://cdif.org/0.1/formats_InstanceVariable"
+    }
+  },
+  "$defs": {
+    "cdifConceptOrTerm": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "reference to a skos concept for the data type"
+            }
+          }
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.json"
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.json#/$defs/cdifConcept"
+        }
+      ]
     }
   },
   "x-jsonld-prefixes": {

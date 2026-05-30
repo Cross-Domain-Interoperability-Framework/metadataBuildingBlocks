@@ -16,6 +16,15 @@ anyOf:
 - $ref: '#/$defs/CategoryStatistics'
 - $ref: '#/$defs/StatisticsCollection'
 $defs:
+  cdifConceptOrTerm:
+    anyOf:
+    - type: object
+      properties:
+        '@id':
+          type: string
+          description: reference to a skos concept for the data type
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept
   Statistic:
     title: Statistic
     description: "DDI-CDI Statistic dataType \u2014 a single computed value (mean,
@@ -66,7 +75,9 @@ $defs:
       cdi:typeOfStatistic:
         description: "Controlled-vocabulary entry naming the kind of statistic \u2014
           e.g. mean, median, count, sum, stdDev."
-        $ref: '#/$defs/SkosConcept'
+        anyOf:
+        - type: string
+        - $ref: '#/$defs/cdifConceptOrTerm'
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic
       cdi:statistic:
         type: array
@@ -147,7 +158,9 @@ $defs:
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/for
       cdi:typeOfStatistic:
         description: Controlled-vocabulary entry naming the kind of statistic.
-        $ref: '#/$defs/SkosConcept'
+        anyOf:
+        - type: string
+        - $ref: '#/$defs/cdifConceptOrTerm'
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic
       cdi:statistic:
         type: array

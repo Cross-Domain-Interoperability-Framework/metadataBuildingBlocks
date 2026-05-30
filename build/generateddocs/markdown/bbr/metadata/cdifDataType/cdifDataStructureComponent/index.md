@@ -23,6 +23,15 @@ anyOf:
 - $ref: '#/$defs/VariableValueComponent'
 - $ref: '#/$defs/VariableDescriptorComponent'
 $defs:
+  cdifConceptOrTerm:
+    anyOf:
+    - type: object
+      properties:
+        '@id':
+          type: string
+          description: reference to a skos concept for the data type
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept
   id-reference:
     type: object
     description: Reference to a node defined elsewhere in the document via its @id.
@@ -93,7 +102,9 @@ $defs:
       cdi:semantic:
         type: array
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+          anyOf:
+          - type: string
+          - $ref: '#/$defs/cdifConceptOrTerm'
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
@@ -136,7 +147,9 @@ $defs:
       cdi:semantic:
         type: array
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+          anyOf:
+          - type: string
+          - $ref: '#/$defs/cdifConceptOrTerm'
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
@@ -200,7 +213,9 @@ $defs:
       cdi:semantic:
         type: array
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+          anyOf:
+          - type: string
+          - $ref: '#/$defs/cdifConceptOrTerm'
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
@@ -236,7 +251,9 @@ $defs:
       cdi:semantic:
         type: array
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+          anyOf:
+          - type: string
+          - $ref: '#/$defs/cdifConceptOrTerm'
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
@@ -271,7 +288,9 @@ $defs:
       cdi:semantic:
         type: array
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
+          anyOf:
+          - type: string
+          - $ref: '#/$defs/cdifConceptOrTerm'
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
@@ -295,10 +314,10 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
-    "skos": "http://www.w3.org/2004/02/skos/core#",
     "cdif": "https://cdif.org/0.1/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "schema": "http://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
     "@version": 1.1
