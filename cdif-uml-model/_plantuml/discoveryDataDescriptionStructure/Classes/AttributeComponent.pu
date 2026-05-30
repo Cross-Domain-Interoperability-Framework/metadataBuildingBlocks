@@ -14,9 +14,9 @@ skinparam class {
   AttributeFontSize 30
 }
 
-class "AttributeComponent" as AttributeComponent #FEFECE {
-  +type : string [1..*]
-}
+class "AttributeComponent" as AttributeComponent #FEFECE
+abstract class "DataStructureComponent" as DataStructureComponent #D6EAF8
+DataStructureComponent <|-- AttributeComponent
 class "DataStructure" as DataStructure #EEEEEE
 DataStructure *-- "0..*" AttributeComponent : hasComponent
 class "DimensionalDataStructure" as DimensionalDataStructure #EEEEEE
@@ -27,5 +27,7 @@ class "WideDataStructure" as WideDataStructure #EEEEEE
 WideDataStructure *-- "0..*" AttributeComponent : hasComponent
 class "DimensionGroup" as DimensionGroup #EEEEEE
 DimensionGroup *-- "0..*" AttributeComponent : hasComponent
+class "MeasureComponent" as MeasureComponent #EEEEEE
+AttributeComponent --> "0..*" MeasureComponent : qualifies
 
 @enduml

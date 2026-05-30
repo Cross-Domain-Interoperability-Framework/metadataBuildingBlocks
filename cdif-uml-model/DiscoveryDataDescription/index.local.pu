@@ -19,6 +19,7 @@ class "Dataset" as Dataset #FEFECE
 class "DataDownload" as DataDownload #FEFECE
 class "WebAPI" as WebAPI #FCF3CF
 class "ActionResult" as ActionResult #FCF3CF
+class "DefinedTerm" as DefinedTerm #FAE5D3
 class "ProvActivity" as ProvActivity #FEFECE
 class "CatalogRecord" as CatalogRecord #FEFECE
 class "InstanceVariable" as InstanceVariable #FCF3CF
@@ -32,8 +33,8 @@ class "StructuredDataSet" as StructuredDataSet #FCF3CF
 class "DataFingerprint" as DataFingerprint #FCF3CF
 class "PrimaryKey" as PrimaryKey #FAE5D3
 class "Statistics" as Statistics #FCF3CF
-class "SubstantiveValueDomain" as SubstantiveValueDomain #FCF3CF
-class "SentinelValueDomain" as SentinelValueDomain #FCF3CF
+class "SubstantiveValueDomain" as SubstantiveValueDomain #FAE5D3
+class "SentinelValueDomain" as SentinelValueDomain #FAE5D3
 AbstractMapping <|-- PhysicalMapping
 AbstractMapping <|-- TextMapping
 AbstractMapping <|-- LocatorMapping
@@ -41,6 +42,8 @@ AbstractDataSet <|-- TabularTextDataSet
 AbstractDataSet <|-- StructuredDataSet
 Dataset --> "0..*" ProvActivity : wasGeneratedBy
 Dataset --> "1" CatalogRecord : subjectOf
+Dataset --> "0..*" DefinedTerm : keywords
+Dataset --> "0..*" DefinedTerm : measurementTechnique
 Dataset *-- "1..*" InstanceVariable : variableMeasured
 Dataset *-- "0..1" PrimaryKey : hasPrimaryKey
 Dataset *-- "0..*" Statistics : statistics

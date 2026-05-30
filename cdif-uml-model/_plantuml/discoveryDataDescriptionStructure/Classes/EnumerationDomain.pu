@@ -1,0 +1,31 @@
+@startuml
+title EnumerationDomain
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "EnumerationDomain" as EnumerationDomain #FEFECE {
+  +identifier : Identifier [1]
+  +name : string [1..*]
+  +purpose : string [1]
+}
+class "SubstantiveValueDomain" as SubstantiveValueDomain #EEEEEE
+SubstantiveValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
+class "SentinelValueDomain" as SentinelValueDomain #EEEEEE
+SentinelValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
+class "DescriptorValueDomain" as DescriptorValueDomain #EEEEEE
+DescriptorValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
+class "Identifier" as Identifier #EEEEEE
+EnumerationDomain --> "1" Identifier : identifier
+
+@enduml

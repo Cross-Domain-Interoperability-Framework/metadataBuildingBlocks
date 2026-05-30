@@ -1,0 +1,47 @@
+@startuml
+title ControlledVocabularyEntry
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "ControlledVocabularyEntry" as ControlledVocabularyEntry <<dataType>> #FAE5D3 {
+  +entryReference : Reference [1..*]
+  +entryValue : string [1..*]
+  +name : string [1]
+  +valueForOther : string [1]
+  +vocabulary : Reference [1]
+}
+class "RepresentedVariable" as RepresentedVariable #EEEEEE
+RepresentedVariable ..> ControlledVocabularyEntry : describedUnitOfMeasure
+RepresentedVariable ..> ControlledVocabularyEntry : hasIntendedDataType
+RepresentedVariable ..> ControlledVocabularyEntry : unitOfMeasureKind
+class "DescriptorVariable" as DescriptorVariable #EEEEEE
+DescriptorVariable ..> ControlledVocabularyEntry : function
+DescriptorVariable ..> ControlledVocabularyEntry : physicalDataType
+DescriptorVariable ..> ControlledVocabularyEntry : platformType
+DescriptorVariable ..> ControlledVocabularyEntry : role
+DescriptorVariable ..> ControlledVocabularyEntry : describedUnitOfMeasure
+DescriptorVariable ..> ControlledVocabularyEntry : hasIntendedDataType
+DescriptorVariable ..> ControlledVocabularyEntry : unitOfMeasureKind
+class "SubstantiveValueDomain" as SubstantiveValueDomain #EEEEEE
+SubstantiveValueDomain ..> ControlledVocabularyEntry : recommendedDataType
+class "SentinelValueDomain" as SentinelValueDomain #EEEEEE
+SentinelValueDomain ..> ControlledVocabularyEntry : platformType
+SentinelValueDomain ..> ControlledVocabularyEntry : recommendedDataType
+class "DescriptorValueDomain" as DescriptorValueDomain #EEEEEE
+DescriptorValueDomain ..> ControlledVocabularyEntry : recommendedDataType
+class "ValueAndConceptDescription" as ValueAndConceptDescription #EEEEEE
+ValueAndConceptDescription ..> ControlledVocabularyEntry : formatPattern
+ValueAndConceptDescription ..> ControlledVocabularyEntry : logicalExpression
+
+@enduml

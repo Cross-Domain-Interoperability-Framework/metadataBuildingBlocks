@@ -4,14 +4,14 @@ hide circle
 hide empty members
 skinparam shadowing false
 skinparam ArrowThickness 1.2
-skinparam ranksep 320
-skinparam nodesep 16
-skinparam defaultFontSize 30
+skinparam ranksep 400
+skinparam nodesep 12
+skinparam defaultFontSize 22
 skinparam class {
   ArrowColor #404040
   BorderColor #404040
-  FontSize 30
-  AttributeFontSize 24
+  FontSize 22
+  AttributeFontSize 16
 }
 
 abstract class "CompositeProfile" as CompositeProfile #FEFECE
@@ -19,10 +19,13 @@ class "Dataset" as Dataset #FEFECE
 class "DataDownload" as DataDownload #FEFECE
 class "WebAPI" as WebAPI #FCF3CF
 class "ActionResult" as ActionResult #FCF3CF
+class "DefinedTerm" as DefinedTerm #FAE5D3
 class "ProvActivity" as ProvActivity #FEFECE
 class "CatalogRecord" as CatalogRecord #FEFECE
 Dataset --> "0..*" ProvActivity : wasGeneratedBy
 Dataset --> "1" CatalogRecord : subjectOf
+Dataset --> "0..*" DefinedTerm : keywords
+Dataset --> "0..*" DefinedTerm : measurementTechnique
 CatalogRecord --> "0..1" Dataset : about
 
 @enduml

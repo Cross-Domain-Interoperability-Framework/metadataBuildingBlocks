@@ -1,0 +1,46 @@
+@startuml
+title DescriptorVariable
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "DescriptorVariable" as DescriptorVariable #FEFECE {
+  +function : ControlledVocabularyEntry [1..*]
+  +physicalDataType : ControlledVocabularyEntry [1]
+  +platformType : ControlledVocabularyEntry [1]
+  +role : ControlledVocabularyEntry [1..*]
+  +source : Reference [1]
+  +describedUnitOfMeasure : ControlledVocabularyEntry [1]
+  +hasIntendedDataType : ControlledVocabularyEntry [1]
+  +simpleUnitOfMeasure : string [1]
+  +descriptiveText : string [1]
+  +unitOfMeasureKind : ControlledVocabularyEntry [1]
+  +definition : string [1]
+  +displayLabel : string [1..*]
+  +externalDefinition : Reference [1]
+  +identifier : Identifier [1]
+  +name : string [1..*]
+}
+class "VariableDescriptorComponent" as VariableDescriptorComponent #EEEEEE
+VariableDescriptorComponent --> "1" DescriptorVariable : isDefinedBy
+class "DescriptorValueDomain" as DescriptorValueDomain #EEEEEE
+DescriptorVariable --> "0..1" DescriptorValueDomain : hasValuesFrom
+class "ControlledVocabularyEntry" as ControlledVocabularyEntry <<dataType>> #FAE5D3
+DescriptorVariable ..> ControlledVocabularyEntry : function
+class "Reference" as Reference #EEEEEE
+DescriptorVariable --> "1" Reference : source
+DescriptorVariable --> "1" Reference : externalDefinition
+class "Identifier" as Identifier #EEEEEE
+DescriptorVariable --> "1" Identifier : identifier
+
+@enduml

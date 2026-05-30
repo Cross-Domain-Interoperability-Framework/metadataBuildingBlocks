@@ -4,14 +4,14 @@ hide circle
 hide empty members
 skinparam shadowing false
 skinparam ArrowThickness 1.2
-skinparam ranksep 450
-skinparam nodesep 10
-skinparam defaultFontSize 18
+skinparam ranksep 360
+skinparam nodesep 14
+skinparam defaultFontSize 26
 skinparam class {
   ArrowColor #404040
   BorderColor #404040
-  FontSize 18
-  AttributeFontSize 12
+  FontSize 26
+  AttributeFontSize 20
 }
 
 abstract class "CompositeProfile" as CompositeProfile #FEFECE
@@ -19,6 +19,7 @@ class "Dataset" as Dataset #FEFECE
 class "DataDownload" as DataDownload #FEFECE
 class "WebAPI" as WebAPI #FCF3CF
 class "ActionResult" as ActionResult #FCF3CF
+class "DefinedTerm" as DefinedTerm #FAE5D3
 class "ProvActivity" as ProvActivity #FEFECE
 class "CatalogRecord" as CatalogRecord #FEFECE
 class "InstanceVariable" as InstanceVariable #FCF3CF
@@ -32,28 +33,42 @@ class "StructuredDataSet" as StructuredDataSet #FCF3CF
 class "DataFingerprint" as DataFingerprint #FCF3CF
 class "PrimaryKey" as PrimaryKey #FAE5D3
 class "Statistics" as Statistics #FCF3CF
-class "SubstantiveValueDomain" as SubstantiveValueDomain #FCF3CF
-class "SentinelValueDomain" as SentinelValueDomain #FCF3CF
-class "RepresentedVariable" as RepresentedVariable #FAE5D3
+class "SubstantiveValueDomain" as SubstantiveValueDomain #FAE5D3
+class "SentinelValueDomain" as SentinelValueDomain #FAE5D3
 class "DataStructure" as DataStructure #FAE5D3
 class "DimensionalDataStructure" as DimensionalDataStructure #FAE5D3
 class "LongDataStructure" as LongDataStructure #FAE5D3
 class "WideDataStructure" as WideDataStructure #FAE5D3
 class "DimensionGroup" as DimensionGroup #FAE5D3
+abstract class "DataStructureComponent" as DataStructureComponent #FAE5D3
 class "IdentifierComponent" as IdentifierComponent #FAE5D3
 class "MeasureComponent" as MeasureComponent #FAE5D3
 class "AttributeComponent" as AttributeComponent #FAE5D3
 class "DimensionComponent" as DimensionComponent #FAE5D3
-class "VariableDescriptorComponent" as VariableDescriptorComponent #FAE5D3
 class "VariableValueComponent" as VariableValueComponent #FAE5D3
+class "VariableDescriptorComponent" as VariableDescriptorComponent #FAE5D3
 class "ForeignKey" as ForeignKey #FAE5D3
+class "RepresentedVariable" as RepresentedVariable #FAE5D3
+class "DescriptorVariable" as DescriptorVariable #FAE5D3
+class "DescriptorValueDomain" as DescriptorValueDomain #FAE5D3
+class "EnumerationDomain" as EnumerationDomain #FAE5D3
+class "ValueAndConceptDescription" as ValueAndConceptDescription #FAE5D3
+class "UnitType" as UnitType #FAE5D3
+class "CdifConceptOrTerm" as CdifConceptOrTerm #FAE5D3
 AbstractMapping <|-- PhysicalMapping
 AbstractMapping <|-- TextMapping
 AbstractMapping <|-- LocatorMapping
 AbstractDataSet <|-- TabularTextDataSet
 AbstractDataSet <|-- StructuredDataSet
+DataStructureComponent <|-- IdentifierComponent
+DataStructureComponent <|-- MeasureComponent
+DataStructureComponent <|-- AttributeComponent
+DataStructureComponent <|-- DimensionComponent
+DataStructureComponent <|-- VariableValueComponent
 Dataset --> "0..*" ProvActivity : wasGeneratedBy
 Dataset --> "1" CatalogRecord : subjectOf
+Dataset --> "0..*" DefinedTerm : keywords
+Dataset --> "0..*" DefinedTerm : measurementTechnique
 Dataset *-- "1..*" InstanceVariable : variableMeasured
 Dataset *-- "0..1" PrimaryKey : hasPrimaryKey
 Dataset *-- "0..*" Statistics : statistics
@@ -74,6 +89,11 @@ InstanceVariable --> "0..1" SubstantiveValueDomain : takesSubstantiveValuesFrom
 InstanceVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
 AbstractMapping --> "1" InstanceVariable : formats
 PrimaryKey --> "1..*" RepresentedVariable : isComposedOf
+SubstantiveValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
+SubstantiveValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
+SentinelValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
+SentinelValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
+DataStructure *-- "1..*" DataStructureComponent : has
 DataStructure *-- "0..*" IdentifierComponent : hasComponent
 DataStructure *-- "0..*" MeasureComponent : hasComponent
 DataStructure *-- "0..*" AttributeComponent : hasComponent
@@ -102,7 +122,18 @@ DimensionGroup *-- "0..*" IdentifierComponent : hasComponent
 DimensionGroup *-- "0..*" MeasureComponent : hasComponent
 DimensionGroup *-- "0..*" AttributeComponent : hasComponent
 DimensionGroup *-- "0..*" DimensionComponent : hasComponent
+DataStructureComponent --> "1" RepresentedVariable : isDefinedBy
+AttributeComponent --> "0..*" MeasureComponent : qualifies
+VariableDescriptorComponent --> "1" DescriptorVariable : isDefinedBy
+VariableDescriptorComponent --> "1" VariableValueComponent : refersTo
 ForeignKey --> "1..*" RepresentedVariable : isComposedOf
 ForeignKey --> "0..1" PrimaryKey : references
+RepresentedVariable --> "0..1" SubstantiveValueDomain : takesSubstantiveValuesFrom
+RepresentedVariable --> "0..1" SentinelValueDomain : takesSentinelValuesFrom
+RepresentedVariable --> "0..1" UnitType : measures
+RepresentedVariable --> "0..*" CdifConceptOrTerm : uses
+DescriptorVariable --> "0..1" DescriptorValueDomain : hasValuesFrom
+DescriptorValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
+DescriptorValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
 
 @enduml

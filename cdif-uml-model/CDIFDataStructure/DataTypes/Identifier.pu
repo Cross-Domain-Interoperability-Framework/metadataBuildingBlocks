@@ -1,0 +1,44 @@
+@startuml
+title Identifier
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "Identifier" as Identifier <<dataType>> #FAE5D3 {
+  +ddiIdentifier : InternationalRegistrationDataIdentifier [1]
+  +isDdiIdentifierPersistent : boolean [1]
+  +isDdiIdentifierUniversallyUnique : boolean [1]
+  +nonDdiIdentifier : NonDdiIdentifier [1..*]
+  +uri : XsdAnyUri [1]
+  +versionDate : XsdDate [1]
+  +versionRationale : RationaleDefinition [1]
+  +versionResponsibility : AgentInRole [1]
+}
+class "RepresentedVariable" as RepresentedVariable #EEEEEE
+RepresentedVariable ..> Identifier : identifier
+class "DescriptorVariable" as DescriptorVariable #EEEEEE
+DescriptorVariable ..> Identifier : identifier
+class "SubstantiveValueDomain" as SubstantiveValueDomain #EEEEEE
+SubstantiveValueDomain ..> Identifier : identifier
+class "SentinelValueDomain" as SentinelValueDomain #EEEEEE
+SentinelValueDomain ..> Identifier : identifier
+class "DescriptorValueDomain" as DescriptorValueDomain #EEEEEE
+DescriptorValueDomain ..> Identifier : identifier
+class "EnumerationDomain" as EnumerationDomain #EEEEEE
+EnumerationDomain ..> Identifier : identifier
+class "ValueAndConceptDescription" as ValueAndConceptDescription #EEEEEE
+ValueAndConceptDescription ..> Identifier : identifier
+class "UnitType" as UnitType #EEEEEE
+UnitType ..> Identifier : identifier
+
+@enduml

@@ -1,0 +1,38 @@
+@startuml
+title SubstantiveValueDomain
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "SubstantiveValueDomain" as SubstantiveValueDomain #FEFECE {
+  +catalogDetails : CatalogDetails [1]
+  +displayLabel : LabelForDisplay [1..*]
+  +identifier : Identifier [1]
+  +recommendedDataType : ControlledVocabularyEntry [1..*]
+}
+class "RepresentedVariable" as RepresentedVariable #EEEEEE
+RepresentedVariable --> "0..1" SubstantiveValueDomain : takesSubstantiveValuesFrom
+class "ValueAndConceptDescription" as ValueAndConceptDescription #EEEEEE
+SubstantiveValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
+class "EnumerationDomain" as EnumerationDomain #EEEEEE
+SubstantiveValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
+class "CatalogDetails" as CatalogDetails <<dataType>> #FAE5D3
+SubstantiveValueDomain ..> CatalogDetails : catalogDetails
+class "LabelForDisplay" as LabelForDisplay <<dataType>> #FAE5D3
+SubstantiveValueDomain ..> LabelForDisplay : displayLabel
+class "Identifier" as Identifier <<dataType>> #FAE5D3
+SubstantiveValueDomain ..> Identifier : identifier
+class "ControlledVocabularyEntry" as ControlledVocabularyEntry <<dataType>> #FAE5D3
+SubstantiveValueDomain ..> ControlledVocabularyEntry : recommendedDataType
+
+@enduml

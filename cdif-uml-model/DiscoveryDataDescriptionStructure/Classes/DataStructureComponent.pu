@@ -1,0 +1,35 @@
+@startuml
+title DataStructureComponent
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+abstract class "DataStructureComponent" as DataStructureComponent #FEFECE {
+  +type : string [1..*]
+}
+class "IdentifierComponent" as IdentifierComponent #D5F5E3
+DataStructureComponent <|-- IdentifierComponent
+class "MeasureComponent" as MeasureComponent #D5F5E3
+DataStructureComponent <|-- MeasureComponent
+class "AttributeComponent" as AttributeComponent #D5F5E3
+DataStructureComponent <|-- AttributeComponent
+class "DimensionComponent" as DimensionComponent #D5F5E3
+DataStructureComponent <|-- DimensionComponent
+class "VariableValueComponent" as VariableValueComponent #D5F5E3
+DataStructureComponent <|-- VariableValueComponent
+class "DataStructure" as DataStructure #EEEEEE
+DataStructure *-- "1..*" DataStructureComponent : has
+class "RepresentedVariable" as RepresentedVariable #EEEEEE
+DataStructureComponent --> "1" RepresentedVariable : isDefinedBy
+
+@enduml

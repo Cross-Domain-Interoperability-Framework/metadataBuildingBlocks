@@ -1,0 +1,34 @@
+@startuml
+title InternationalString
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "InternationalString" as InternationalString <<dataType>> #FAE5D3 {
+  +languageSpecificString : LanguageString [1..*]
+}
+class "RepresentedVariable" as RepresentedVariable #EEEEEE
+RepresentedVariable ..> InternationalString : descriptiveText
+RepresentedVariable ..> InternationalString : definition
+class "DescriptorVariable" as DescriptorVariable #EEEEEE
+DescriptorVariable ..> InternationalString : descriptiveText
+DescriptorVariable ..> InternationalString : definition
+class "EnumerationDomain" as EnumerationDomain #EEEEEE
+EnumerationDomain ..> InternationalString : purpose
+class "ValueAndConceptDescription" as ValueAndConceptDescription #EEEEEE
+ValueAndConceptDescription ..> InternationalString : description
+class "UnitType" as UnitType #EEEEEE
+UnitType ..> InternationalString : descriptiveText
+UnitType ..> InternationalString : definition
+
+@enduml

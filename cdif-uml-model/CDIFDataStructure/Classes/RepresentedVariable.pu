@@ -15,13 +15,55 @@ skinparam class {
 }
 
 class "RepresentedVariable" as RepresentedVariable #FEFECE {
-  +identifier : XsdAnyUri [0..1]
+  +describedUnitOfMeasure : ControlledVocabularyEntry [1]
+  +hasIntendedDataType : ControlledVocabularyEntry [1]
+  +simpleUnitOfMeasure : string [1]
+  +descriptiveText : InternationalString [1]
+  +unitOfMeasureKind : ControlledVocabularyEntry [1]
+  +catalogDetails : CatalogDetails [1]
+  +definition : InternationalString [1]
+  +displayLabel : LabelForDisplay [1..*]
+  +externalDefinition : Reference [1]
+  +identifier : Identifier [1]
+  +name : ObjectName [1..*]
 }
+abstract class "DataStructureComponent" as DataStructureComponent #EEEEEE
+DataStructureComponent --> "1" RepresentedVariable : isDefinedBy
+class "IdentifierComponent" as IdentifierComponent #EEEEEE
+IdentifierComponent --> "1" RepresentedVariable : isDefinedBy
+class "MeasureComponent" as MeasureComponent #EEEEEE
+MeasureComponent --> "1" RepresentedVariable : isDefinedBy
+class "AttributeComponent" as AttributeComponent #EEEEEE
+AttributeComponent --> "1" RepresentedVariable : isDefinedBy
+class "DimensionComponent" as DimensionComponent #EEEEEE
+DimensionComponent --> "1" RepresentedVariable : isDefinedBy
+class "VariableValueComponent" as VariableValueComponent #EEEEEE
+VariableValueComponent --> "1" RepresentedVariable : isDefinedBy
 class "PrimaryKey" as PrimaryKey #EEEEEE
 PrimaryKey --> "1..*" RepresentedVariable : isComposedOf
 class "ForeignKey" as ForeignKey #EEEEEE
 ForeignKey --> "1..*" RepresentedVariable : isComposedOf
-class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
-RepresentedVariable ..> XsdAnyUri : identifier
+class "SubstantiveValueDomain" as SubstantiveValueDomain #EEEEEE
+RepresentedVariable --> "0..1" SubstantiveValueDomain : takesSubstantiveValuesFrom
+class "SentinelValueDomain" as SentinelValueDomain #EEEEEE
+RepresentedVariable --> "0..1" SentinelValueDomain : takesSentinelValuesFrom
+class "UnitType" as UnitType #EEEEEE
+RepresentedVariable --> "0..1" UnitType : measures
+class "CdifConceptOrTerm" as CdifConceptOrTerm #EEEEEE
+RepresentedVariable --> "0..*" CdifConceptOrTerm : uses
+class "ControlledVocabularyEntry" as ControlledVocabularyEntry <<dataType>> #FAE5D3
+RepresentedVariable ..> ControlledVocabularyEntry : describedUnitOfMeasure
+class "InternationalString" as InternationalString <<dataType>> #FAE5D3
+RepresentedVariable ..> InternationalString : descriptiveText
+class "CatalogDetails" as CatalogDetails <<dataType>> #FAE5D3
+RepresentedVariable ..> CatalogDetails : catalogDetails
+class "LabelForDisplay" as LabelForDisplay <<dataType>> #FAE5D3
+RepresentedVariable ..> LabelForDisplay : displayLabel
+class "Reference" as Reference <<dataType>> #FAE5D3
+RepresentedVariable ..> Reference : externalDefinition
+class "Identifier" as Identifier <<dataType>> #FAE5D3
+RepresentedVariable ..> Identifier : identifier
+class "ObjectName" as ObjectName <<dataType>> #FAE5D3
+RepresentedVariable ..> ObjectName : name
 
 @enduml

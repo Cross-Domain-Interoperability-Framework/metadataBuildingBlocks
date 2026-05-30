@@ -1,0 +1,33 @@
+@startuml
+title DescriptorValueDomain
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "DescriptorValueDomain" as DescriptorValueDomain #FEFECE {
+  +displayLabel : string [1..*]
+  +identifier : Identifier [1]
+  +recommendedDataType : ControlledVocabularyEntry [1..*]
+}
+class "DescriptorVariable" as DescriptorVariable #EEEEEE
+DescriptorVariable --> "0..1" DescriptorValueDomain : hasValuesFrom
+class "ValueAndConceptDescription" as ValueAndConceptDescription #EEEEEE
+DescriptorValueDomain --> "0..1" ValueAndConceptDescription : isDescribedBy
+class "EnumerationDomain" as EnumerationDomain #EEEEEE
+DescriptorValueDomain --> "0..1" EnumerationDomain : takesValuesFrom
+class "Identifier" as Identifier #EEEEEE
+DescriptorValueDomain --> "1" Identifier : identifier
+class "ControlledVocabularyEntry" as ControlledVocabularyEntry <<dataType>> #FAE5D3
+DescriptorValueDomain ..> ControlledVocabularyEntry : recommendedDataType
+
+@enduml
