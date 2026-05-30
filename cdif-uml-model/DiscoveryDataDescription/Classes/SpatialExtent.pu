@@ -20,6 +20,10 @@ class "SpatialExtent" as SpatialExtent #FEFECE {
 }
 class "Dataset" as Dataset #EEEEEE
 Dataset *-- "0..*" SpatialExtent : spatialCoverage
+abstract class "AbstractGeometry" as AbstractGeometry #EEEEEE
+SpatialExtent *-- "0..1" AbstractGeometry : geo
+class "Geometry" as Geometry #EEEEEE
+SpatialExtent *-- "0..1" Geometry : hasGeometry
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
 SpatialExtent ..> XsdAnyUri : identifier
 

@@ -15,12 +15,12 @@ skinparam class {
 }
 
 class "QualityMeasure" as QualityMeasure #FEFECE {
-  +metric : XsdAnyUri [1]
-  +value : string [1]
+  +identifier : XsdAnyUri [1]
+  +name : string [0..1]
 }
-class "Dataset" as Dataset #EEEEEE
-Dataset *-- "0..*" QualityMeasure : hasQualityMeasurement
+class "QualityMeasurement" as QualityMeasurement #EEEEEE
+QualityMeasurement --> "1" QualityMeasure : isMeasurementOf
 class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
-QualityMeasure ..> XsdAnyUri : metric
+QualityMeasure ..> XsdAnyUri : identifier
 
 @enduml

@@ -1,0 +1,28 @@
+@startuml
+title QualityMeasurement
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "QualityMeasurement" as QualityMeasurement #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+  +value : string [1]
+}
+class "Dataset" as Dataset #EEEEEE
+Dataset *-- "0..*" QualityMeasurement : hasQualityMeasurement
+class "QualityMeasure" as QualityMeasure #EEEEEE
+QualityMeasurement --> "1" QualityMeasure : isMeasurementOf
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+QualityMeasurement ..> XsdAnyUri : identifier
+
+@enduml

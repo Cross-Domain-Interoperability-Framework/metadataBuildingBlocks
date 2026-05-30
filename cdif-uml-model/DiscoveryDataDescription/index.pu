@@ -36,10 +36,18 @@ class "MonetaryGrant" as MonetaryGrant #D6EAF8
 class "ProvActivity" as ProvActivity #FEFECE
 class "DerivedFrom" as DerivedFrom #D6EAF8
 class "CatalogRecord" as CatalogRecord #FEFECE
+class "CdifConceptOrTerm" as CdifConceptOrTerm #FAE5D3
 class "VariableMeasured" as VariableMeasured #D5F5E3
 class "SpatialExtent" as SpatialExtent #D5F5E3
 class "TemporalExtent" as TemporalExtent #D5F5E3
 class "QualityMeasure" as QualityMeasure #D5F5E3
+class "QualityMeasurement" as QualityMeasurement #D5F5E3
+abstract class "AbstractGeometry" as AbstractGeometry #D5F5E3
+class "GeoCoordinates" as GeoCoordinates #D5F5E3
+class "GeoShape" as GeoShape #D5F5E3
+class "Geometry" as Geometry #D5F5E3
+class "Instant" as Instant #D5F5E3
+class "TimePosition" as TimePosition #D5F5E3
 class "InstanceVariable" as InstanceVariable #FCF3CF
 abstract class "AbstractMapping" as AbstractMapping #FCF3CF
 class "PhysicalMapping" as PhysicalMapping #FCF3CF
@@ -57,6 +65,8 @@ AbstractDistribution <|-- DataDownload
 AbstractDistribution <|-- WebAPI
 Agent <|-- Person
 Agent <|-- Organization
+AbstractGeometry <|-- GeoCoordinates
+AbstractGeometry <|-- GeoShape
 AbstractMapping <|-- PhysicalMapping
 AbstractMapping <|-- TextMapping
 AbstractMapping <|-- LocatorMapping
@@ -77,7 +87,7 @@ Dataset --> "0..*" DefinedTerm : measurementTechnique
 Dataset *-- "0..*" VariableMeasured : variableMeasured
 Dataset *-- "0..*" SpatialExtent : spatialCoverage
 Dataset *-- "0..*" TemporalExtent : temporalCoverage
-Dataset *-- "0..*" QualityMeasure : hasQualityMeasurement
+Dataset *-- "0..*" QualityMeasurement : hasQualityMeasurement
 Dataset *-- "1..*" InstanceVariable : variableMeasured
 Dataset *-- "0..1" PrimaryKey : hasPrimaryKey
 Dataset *-- "0..*" Statistics : statistics
@@ -98,6 +108,14 @@ MonetaryGrant --> "0..*" Agent : funder
 CatalogRecord --> "0..1" Dataset : about
 CatalogRecord --> "0..1" Agent : maintainer
 VariableMeasured --> "0..1" DefinedTerm : measurementTechnique
+SpatialExtent *-- "0..1" AbstractGeometry : geo
+SpatialExtent *-- "0..1" Geometry : hasGeometry
+TemporalExtent *-- "0..1" Instant : hasBeginning
+TemporalExtent *-- "0..1" Instant : hasEnd
+TemporalExtent --> "0..*" TemporalExtent : intervalStartedBy
+TemporalExtent --> "0..*" TemporalExtent : intervalFinishedBy
+QualityMeasurement --> "1" QualityMeasure : isMeasurementOf
+Instant *-- "0..1" TimePosition : inTimePosition
 InstanceVariable --> "0..1" SubstantiveValueDomain : takesSubstantiveValuesFrom
 InstanceVariable --> "0..*" SentinelValueDomain : takesSentinelValuesFrom
 AbstractMapping --> "1" InstanceVariable : formats

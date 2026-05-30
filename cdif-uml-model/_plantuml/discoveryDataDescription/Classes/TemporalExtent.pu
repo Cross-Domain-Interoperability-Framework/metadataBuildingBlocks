@@ -20,6 +20,11 @@ class "TemporalExtent" as TemporalExtent #FEFECE {
 }
 class "Dataset" as Dataset #EEEEEE
 Dataset *-- "0..*" TemporalExtent : temporalCoverage
+class "Instant" as Instant #EEEEEE
+TemporalExtent *-- "0..1" Instant : hasBeginning
+TemporalExtent *-- "0..1" Instant : hasEnd
+TemporalExtent --> "0..*" TemporalExtent : intervalStartedBy
+TemporalExtent --> "0..*" TemporalExtent : intervalFinishedBy
 class "XsdDate" as XsdDate <<dataType>> #FAE5D3
 TemporalExtent ..> XsdDate : startDate
 
