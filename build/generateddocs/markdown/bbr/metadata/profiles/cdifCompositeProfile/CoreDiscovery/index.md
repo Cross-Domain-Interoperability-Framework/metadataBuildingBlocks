@@ -1327,25 +1327,16 @@ ex:YOPx123 a schema1:Dataset ;
         "jNv",
         "tfmbDGeiuEnuhfKBvk" ;
     schema1:contributor [ a schema1:Role ;
-            schema1:contributor ex:NyMWPlRtQizAFE ;
-            schema1:roleName "data steward" ],
-        [ a schema1:Role ;
             schema1:contributor ex:PersonExample_zZc_asContributor ;
-            schema1:roleName "editor" ] ;
+            schema1:roleName "editor" ],
+        [ a schema1:Role ;
+            schema1:contributor ex:NyMWPlRtQizAFE ;
+            schema1:roleName "data steward" ] ;
     schema1:creator ( ex:mxxInaV ex:jP ) ;
     schema1:dateModified "2020-10-15" ;
     schema1:datePublished "2021-09-05" ;
     schema1:description "Auto generated from JSON schema, values are gobbledegoop. For testing" ;
     schema1:distribution [ a schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "VwuIdrCrJSsrGATePg" ;
-            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "MD5" ;
-                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ],
-        [ a schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
             schema1:encodingFormat "kpZDvhyVo",
@@ -1356,13 +1347,22 @@ ex:YOPx123 a schema1:Dataset ;
                 ex:sr68lgy ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "j" ;
-                    spdx:checksumValue "h" ] ] ;
+                    spdx:checksumValue "h" ] ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "VwuIdrCrJSsrGATePg" ;
+            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "MD5" ;
+                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/fnjrj68> ;
+            schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
-                    schema1:value "fMuiBjneudpV" ] ;
-            schema1:name "MWoPQAqRYHobey" ],
+                    schema1:value "lieopgXuumP" ] ;
+            schema1:name "fhhbzh" ],
         [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/sejer4w6u8> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -1370,11 +1370,11 @@ ex:YOPx123 a schema1:Dataset ;
                     schema1:value "LZpo" ] ;
             schema1:name "ekckpBtI" ],
         [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/3572wjht> ;
+            schema1:funder <https://ror.org/fnjrj68> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
-                    schema1:value "lieopgXuumP" ] ;
-            schema1:name "fhhbzh" ] ;
+                    schema1:value "fMuiBjneudpV" ] ;
+            schema1:name "MWoPQAqRYHobey" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
@@ -3154,19 +3154,19 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
         ex:varTemperature ;
     schema1:version "2.1" ;
     dqv:hasQualityMeasurement [ a dqv:QualityMeasurement ;
-            dqv:isMeasurementOf [ a schema1:DefinedTerm ;
-                    schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPACCR/" ;
-                    schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
-                    schema1:name "Temperature sensor accuracy" ;
-                    schema1:termCode "TEMPACCR" ] ;
-            dqv:value "±0.001°C (ITS-90)" ],
-        [ a dqv:QualityMeasurement ;
             dqv:isMeasurementOf "Completeness" ;
             dqv:value [ a schema1:DefinedTerm ;
                     schema1:identifier "https://example.org/completeness-vocab/COMPLETE" ;
                     schema1:inDefinedTermSet "https://example.org/completeness-vocab" ;
                     schema1:name "Complete" ;
-                    schema1:termCode "COMPLETE" ] ] ;
+                    schema1:termCode "COMPLETE" ] ],
+        [ a dqv:QualityMeasurement ;
+            dqv:isMeasurementOf [ a schema1:DefinedTerm ;
+                    schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPACCR/" ;
+                    schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
+                    schema1:name "Temperature sensor accuracy" ;
+                    schema1:termCode "TEMPACCR" ] ;
+            dqv:value "±0.001°C (ITS-90)" ] ;
     prov:wasDerivedFrom ex:rawCTDCasts ;
     prov:wasGeneratedBy [ a prov:Activity ;
             prov:used ex:ar7wCruiseProgram,
