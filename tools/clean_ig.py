@@ -302,18 +302,75 @@ def rewrite_links(blocks, anchor_map):
     return blocks
 
 
-def clean(text):
+BACK_TO_TOC = "[↑ Back to TOC](#table-of-contents)"
+
+
+def inject_back_to_toc(blocks):
+    """Inject a 'Back to TOC' link as the first body line of every # and ##
+    heading. Skips the document title (first level-1 heading) and the TOC
+    section itself. Idempotent: strips any existing BACK_TO_TOC line (plus
+    its trailing blank) from each body before re-injecting."""
+    bttc_line = BACK_TO_TOC + "\n"
+    blank_line = "\n"
+    seen_title = False
+    for b in blocks:
+        # Strip existing BTTC lines (and a trailing blank) wherever they appear
+        new_body = []
+        i = 0
+        while i < len(b["body"]):
+            ln = b["body"][i]
+            if ln.rstrip() == BACK_TO_TOC:
+                i += 1
+                # also swallow a trailing blank
+                if i < len(b["body"]) and b["body"][i].strip() == "":
+                    i += 1
+                continue
+            new_body.append(ln)
+            i += 1
+        b["body"] = new_body
+
+        if b["level"] not in (1, 2):
+            continue
+        if b["title"] and b["title"].strip().lower() == "table of contents":
+            continue
+        if b["level"] == 1 and not seen_title:
+            seen_title = True  # document title — skip
+            continue
+        # Inject at the start of the body. emit_block will put a blank line
+        # between heading and body, so we just need the link line + a blank
+        # line before the rest of the body.
+        b["body"] = [bttc_line, blank_line] + b["body"]
+    return blocks
+
+
+def clean(text, sort=False, regen_toc=False, back_to_toc=True):
     blocks = parse_blocks(text)
-    # Strip any pre-existing top-level "Table of contents" sections
-    blocks = [b for b in blocks
-              if not (b["level"] == 1 and b["title"] and b["title"].strip().lower() == "table of contents")]
+    # Pull out any pre-existing top-level "Table of contents" section so we
+    # can optionally preserve it verbatim (rather than clobber a hand-edited
+    # TOC).
+    existing_toc = None
+    kept = []
+    for b in blocks:
+        if (b["level"] == 1 and b["title"]
+                and b["title"].strip().lower() == "table of contents"):
+            existing_toc = b
+        else:
+            kept.append(b)
+    blocks = kept
     blocks = normalize_levels(blocks)
-    blocks = sort_classes(blocks)
+    if sort:
+        blocks = sort_classes(blocks)
     # Rewrite (#xxx) link targets to GitHub auto-slugs BEFORE emission so
     # internal cross-references survive the strip of {#xxx} from headings.
     anchor_map = build_anchor_map(blocks)
     blocks = rewrite_links(blocks, anchor_map)
-    toc = generate_toc(blocks)
+    if back_to_toc:
+        blocks = inject_back_to_toc(blocks)
+
+    if existing_toc is not None and not regen_toc:
+        toc = emit_block(existing_toc)
+    else:
+        toc = generate_toc(blocks)
 
     # Emit. TOC goes immediately after the document title (first level-1 heading).
     parts = []
@@ -340,11 +397,23 @@ def main():
     ap.add_argument("-o", "--output", help="Output path (default: in-place)")
     ap.add_argument("--dry-run", action="store_true",
                     help="Print cleaned markdown to stdout instead of writing")
+    ap.add_argument("--sort", action="store_true",
+                    help="Alphabetically sort class blocks within their parent "
+                         "section (default: preserve current order)")
+    ap.add_argument("--regen-toc", action="store_true",
+                    help="Regenerate the Table of contents from current "
+                         "headings (default: preserve an existing TOC verbatim)")
+    ap.add_argument("--no-back-to-toc", action="store_true",
+                    help="Skip injection of 'Back to TOC' links under # and "
+                         "## headings")
     args = ap.parse_args()
 
     p = Path(args.input)
     text = p.read_text(encoding="utf-8")
-    cleaned = clean(text)
+    cleaned = clean(text,
+                    sort=args.sort,
+                    regen_toc=args.regen_toc,
+                    back_to_toc=not args.no_back_to_toc)
 
     if args.dry_run:
         sys.stdout.write(cleaned)
