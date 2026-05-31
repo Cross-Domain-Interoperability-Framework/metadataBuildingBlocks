@@ -429,10 +429,10 @@ ComponentPosition wrapper.
     cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
-            cdif:value "heart_rate" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
-            cdif:value "systolic_bp" ] .
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
+            cdif:value "systolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
+            cdif:value "heart_rate" ] .
 
 <https://example.org/struct/vitalsLong/comp/measureValue> a cdi:VariableValueComponent ;
     cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/measureValue> .
@@ -1509,11 +1509,6 @@ $defs:
       '@id':
         type: string
         description: Identifier for this ForeignKey node
-      cdi:identifier:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
-        description: Identifier for objects requiring short- or long-lasting referencing
-          and management.
-        x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier
       cdi:isComposedOf:
         type: array
         items:
@@ -1534,9 +1529,7 @@ $defs:
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isComposedOf
       cdi:references:
         description: references a primary key in a different dataset
-        anyOf:
-        - $ref: '#/$defs/PrimaryKey'
-        - $ref: '#/$defs/id-reference'
+        $ref: '#/$defs/id-reference'
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/references
     required:
     - '@type'
@@ -1559,13 +1552,12 @@ $defs:
         description: Identifier for this PrimaryKey node
       cdif:isComposedOf:
         type: array
-        description: List of variables or @id-reference. Array order of cdif:isComposedOf
-          items is the position; no intermediate ComponentPosition wrapper.
+        description: List @id-references to representedVariables in this dataStructure.
+          Array order of cdif:isComposedOf items is the position; no intermediate
+          ComponentPosition wrapper.
         items:
           allOf:
-          - anyOf:
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
-            - $ref: '#/$defs/id-reference'
+          - $ref: '#/$defs/id-reference'
           - type: object
             properties:
               cdif:position:
