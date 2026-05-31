@@ -3503,15 +3503,6 @@
           "type": "string",
           "description": "Identifier for this ForeignKey node"
         },
-        "cdi:identifier": {
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management.",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier",
-          "allOf": [
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
-            }
-          ]
-        },
         "cdi:isComposedOf": {
           "type": "array",
           "items": {
@@ -3547,15 +3538,12 @@
         },
         "cdi:references": {
           "description": "references a primary key in a different dataset",
-          "anyOf": [
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/$defs/PrimaryKey"
-            },
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/references",
+          "allOf": [
             {
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/$defs/id-reference"
             }
-          ],
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/references"
+          ]
         }
       },
       "required": [
@@ -3585,18 +3573,11 @@
         },
         "cdif:isComposedOf": {
           "type": "array",
-          "description": "List of variables or @id-reference. Array order of cdif:isComposedOf items is the position; no intermediate ComponentPosition wrapper.",
+          "description": "List @id-references to representedVariables in this dataStructure. Array order of cdif:isComposedOf items is the position; no intermediate ComponentPosition wrapper.",
           "items": {
             "allOf": [
               {
-                "anyOf": [
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/$defs/id-reference"
-                  }
-                ]
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema-oas3.0.json#/$defs/id-reference"
               },
               {
                 "type": "object",
