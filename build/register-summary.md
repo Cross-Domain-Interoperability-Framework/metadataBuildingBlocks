@@ -176,6 +176,12 @@ Base physical mapping: metadata to document the physical serialization of a vari
 
 A typed relation describing a link to another resource, combining the schema.org labeled-link surface (name, description, url) from labeledLink with the DCAT qualifiedRelation pattern. Carries a third @type (dcat:Relationship), a SKOS-typed role (dcat:hadRole), and the DCAT-canonical pointer to the related resource (dcterms:relation). Use as the target of a dcat:qualifiedRelation property, or wherever a typed link with an explicit role is needed. Defines properties: @type (must include 'schema:CreativeWork' and 'dcat:Relationship'), schema:name, schema:description, schema:url (required), dcat:hadRole (skos:Concept), dcterms:relation.
 
+### `cdif.bbr.metadata.cdifDataType.cdifStatistics` — CDIF Statistics
+
+**Type:** schema
+
+Profile of DDI-CDI Statistics, StatisticsCollection, Statistic, CategoryStatistics, and Category. A Statistics node bundles one or more Statistic value objects (mean, count, median, etc.) optionally weighted by an InstanceVariable and optionally broken down by Category via CategoryStatistics. A StatisticsCollection groups multiple Statistics nodes and records the InstanceVariables they index. Composes building block: cdifInstanceVariable (cdifDataType).
+
 ### `cdif.bbr.metadata.qualityProperties.qualityMeasure` — Simple quality measurement properties
 
 **Type:** schema
@@ -374,12 +380,6 @@ DDI-CDI ValueDomain building block for CDIF metadata, covering both SubstantiveV
 
 Profile of ddi-cdi Key/PrimaryKey: a CDIF Key is the role of an ordered set of cdi:InstanceVariables (referenced via cdifInstanceVariable) that uniquely identify a data instance. Defines properties: @type, cdif:isComposedOf. Each cdif:ComponentPosition entry carries cdif:indexes (the InstanceVariable) and cdif:value (the integer position). Composes building block: cdifInstanceVariable (cdifDataType).
 
-### `cdif.bbr.metadata.cdifDataType.cdifStatistics` — CDIF Statistics
-
-**Type:** schema
-
-Profile of DDI-CDI Statistics, StatisticsCollection, Statistic, CategoryStatistics, and Category. A Statistics node bundles one or more Statistic value objects (mean, count, median, etc.) optionally weighted by an InstanceVariable and optionally broken down by Category via CategoryStatistics. A StatisticsCollection groups multiple Statistics nodes and records the InstanceVariables they index. Composes building block: cdifInstanceVariable (cdifDataType).
-
 ### `cdif.bbr.metadata.ddiProperties.ddicdiPhysicalMapping` — DDI-CDI Physical Mapping
 
 **Type:** schema
@@ -399,6 +399,12 @@ Schema for describing laboratory instruments and instrument systems. Supports ow
 Core properties for CDIF metadata, applicable to any resource type. Required properties: @id, @type, schema:name, schema:identifier, schema:dateModified, schema:conditionsOfAccess or schema:license, schema:url or schema:distribution, schema:subjectOf. Optional core properties: schema:description, schema:additionalType, schema:sameAs, schema:version, schema:inLanguage, schema:datePublished, schema:relatedLink, schema:publishingPrinciples, schema:keywords, schema:creator, schema:contributor, schema:publisher, schema:provider, schema:funding, prov:wasGeneratedBy, prov:wasDerivedFrom. Uses building blocks: cdifReference, identifier, definedTerm, dataDownload, webAPI, person, organization, agentInRole, funder, generatedBy, derivedFrom, cdifCatalogRecord.
 
 ### `cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent` — CDIF Data Structure Component
+
+**Type:** schema
+
+Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructureComponent` — DDI-CDI Data Structure Component
 
 **Type:** schema
 
@@ -458,17 +464,17 @@ CDIF Discovery profile composing cdifCore with discovery-oriented properties: me
 
 Data organization based on reusable data structure components.
 
+### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructure` — DDI-CDI Data Structure
+
+**Type:** schema
+
+Data organization based on reusable data structure components.
+
 ### `cdif.bbr.metadata.ddiProperties.ddicdiStatistics` — DDI-CDI Statistics
 
 **Type:** schema
 
 Statistics related to an instance variable within a data set.
-
-### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructureComponent` — DDI-CDI Data Structure Component
-
-**Type:** schema
-
-Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.
 
 ### `cdif.bbr.metadata.profiles.cdifCompositeProfile.DiscoveryDataDescription` — CDIF discovery and data description metadata
 
@@ -512,11 +518,17 @@ metadata to document long (narrow) data structure where each row is a single obs
 
 Extends the CDIF Data Description profile with full DDI-CDI structural complexity: data structures (DataStructure / Dimensional / Long / Wide), component subclasses (Identifier / Measure / Attribute / Dimension / VariableValue / VariableDescriptor), represented variables, and value domains. Distribution items are expected to carry cdi:isStructuredBy pointing at a Data Structure node.
 
-### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructure` — DDI-CDI Data Structure
+### `cdif.bbr.metadata.ddiProperties.ddicdiKeyValueStructure` — DDI-CDI Key Value Structure
 
 **Type:** schema
 
-Data organization based on reusable data structure components.
+Structure of a key-value datastore (organized collection of key-value data). It is described by identifier, contextual, synthetic id, dimension, variable descriptor and variable value components.
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiLogicalRecord` — DDI-CDI Logical Record
+
+**Type:** schema
+
+Collection of instance variables.
 
 ### `cdif.bbr.metadata.profiles.cdifCompositeProfile.cdifComplete` — CDIF complete metadata
 
@@ -529,18 +541,6 @@ Profile combining CDIF discovery metadata with extended provenance (cdifProvActi
 **Type:** schema
 
 Gather building blocks to generate CDIF schema for XAS data 
-
-### `cdif.bbr.metadata.ddiProperties.ddicdiKeyValueStructure` — DDI-CDI Key Value Structure
-
-**Type:** schema
-
-Structure of a key-value datastore (organized collection of key-value data). It is described by identifier, contextual, synthetic id, dimension, variable descriptor and variable value components.
-
-### `cdif.bbr.metadata.ddiProperties.ddicdiLogicalRecord` — DDI-CDI Logical Record
-
-**Type:** schema
-
-Collection of instance variables.
 
 ### `cdif.bbr.metadata.ddiProperties.ddicdiLogicalRecordRepository` — DDI-CDI Logical Record Repository
 
