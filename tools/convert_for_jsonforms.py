@@ -84,7 +84,7 @@ def _find_sources_dir(name: str) -> Path:
     # Legacy flat layout fallback
     return SOURCES_DIR / name
 
-CDIF_PROFILES = ["BasicDiscovery", "XASdata"]
+CDIF_PROFILES = ["cdifDiscovery", "XASdata"]
 ALL_PROFILES = CDIF_PROFILES
 
 
