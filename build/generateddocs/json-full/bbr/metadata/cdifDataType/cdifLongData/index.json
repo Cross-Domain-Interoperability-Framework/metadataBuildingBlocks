@@ -29,17 +29,11 @@
     "cdif.bbr.metadata.cdifDataType.cdifLongData": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifLongData/rules.shacl"
     ],
-    "cdif.bbr.metadata.cdifDataType.cdifPhysicalMapping": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifPhysicalMapping/rules.shacl"
-    ],
-    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
+    "cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfile/cdifDataStructure/rules.shacl"
     ],
     "cdif.bbr.metadata.schemaorgProperties.identifier": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
-    ],
-    "cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfile/cdifDataStructure/rules.shacl"
     ],
     "cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifDataStructureComponent/rules.shacl"
@@ -50,6 +44,12 @@
     "cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifRepresentedVariable/rules.shacl"
     ],
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
+    ],
+    "cdif.bbr.metadata.skosProperties.skosConcept": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
+    ],
     "cdif.bbr.metadata.cdifDataType.cdifValueDomain": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifValueDomain/rules.shacl"
     ],
@@ -59,13 +59,13 @@
     "cdif.bbr.metadata.profiles.cdifProfile.cdifCodelist": [
       "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/profiles/cdifProfile/cdifCodelist/rules.shacl"
     ],
-    "cdif.bbr.metadata.skosProperties.skosConcept": [
-      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/skosProperties/skosConcept/rules.shacl"
+    "cdif.bbr.metadata.cdifDataType.cdifPhysicalMapping": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifPhysicalMapping/rules.shacl"
     ]
   },
   "dependsOn": [
-    "cdif.bbr.metadata.cdifDataType.cdifPhysicalMapping",
-    "cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure"
+    "cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure",
+    "cdif.bbr.metadata.cdifDataType.cdifPhysicalMapping"
   ],
   "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifLongData/context.jsonld",
   "schema": {
@@ -101,7 +101,7 @@
         {
           "language": "ttl",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifLongData/example_1_1.ttl",
-          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix cdif: <https://cdif.org/0.1/> .\n@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\nex:var-descriptor a cdi:InstanceVariable,\n        schema1:PropertyValue ;\n    schema1:name \"measured_variable\" ;\n    cdif:role \"Descriptor\" .\n\nex:var-value a cdi:InstanceVariable,\n        schema1:PropertyValue ;\n    schema1:name \"value\" ;\n    cdif:role \"ReferenceVariable\" .\n\n[] a cdi:LongStructureDataSet ;\n    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-value ;\n            cdif:index 1 ],\n        [ cdif:formats_InstanceVariable ex:var-descriptor ;\n            cdif:index 0 ] .\n\n"
+          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix cdif: <https://cdif.org/0.1/> .\n@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\nex:var-descriptor a cdi:InstanceVariable,\n        schema1:PropertyValue ;\n    schema1:name \"measured_variable\" ;\n    cdif:role \"Descriptor\" .\n\nex:var-value a cdi:InstanceVariable,\n        schema1:PropertyValue ;\n    schema1:name \"value\" ;\n    cdif:role \"ReferenceVariable\" .\n\n[] a cdi:LongStructureDataSet ;\n    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-descriptor ;\n            cdif:index 0 ],\n        [ cdif:formats_InstanceVariable ex:var-value ;\n            cdif:index 1 ] .\n\n"
         }
       ]
     },
@@ -127,7 +127,7 @@
         {
           "language": "ttl",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifLongData/example_2_1.ttl",
-          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix cdif: <https://cdif.org/0.1/> .\n@prefix csvw: <http://www.w3.org/ns/csvw#> .\n@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\nex:var-descriptor a cdi:InstanceVariable,\n        schema1:PropertyValue ;\n    schema1:name \"measured_variable\" ;\n    cdif:role \"Descriptor\" .\n\nex:var-value a cdi:InstanceVariable,\n        schema1:PropertyValue ;\n    schema1:name \"value\" ;\n    cdif:role \"ReferenceVariable\" .\n\n[] a cdi:LongStructureDataSet ;\n    cdi:isDelimited true ;\n    csvw:delimiter \",\" ;\n    csvw:header true ;\n    csvw:headerRowCount 1 ;\n    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-descriptor ;\n            cdif:index 0 ;\n            cdif:physicalDataType \"String\" ],\n        [ cdif:formats_InstanceVariable ex:var-value ;\n            cdif:index 1 ;\n            cdif:physicalDataType \"Numeric\" ] .\n\n"
+          "code": "@prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .\n@prefix cdif: <https://cdif.org/0.1/> .\n@prefix csvw: <http://www.w3.org/ns/csvw#> .\n@prefix ex: <https://example.org/> .\n@prefix schema1: <http://schema.org/> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\nex:var-descriptor a cdi:InstanceVariable,\n        schema1:PropertyValue ;\n    schema1:name \"measured_variable\" ;\n    cdif:role \"Descriptor\" .\n\nex:var-value a cdi:InstanceVariable,\n        schema1:PropertyValue ;\n    schema1:name \"value\" ;\n    cdif:role \"ReferenceVariable\" .\n\n[] a cdi:LongStructureDataSet ;\n    cdi:isDelimited true ;\n    csvw:delimiter \",\" ;\n    csvw:header true ;\n    csvw:headerRowCount 1 ;\n    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-value ;\n            cdif:index 1 ;\n            cdif:physicalDataType \"Numeric\" ],\n        [ cdif:formats_InstanceVariable ex:var-descriptor ;\n            cdif:index 0 ;\n            cdif:physicalDataType \"String\" ] .\n\n"
         }
       ]
     }
