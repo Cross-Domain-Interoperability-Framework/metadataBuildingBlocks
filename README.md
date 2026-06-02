@@ -402,4 +402,8 @@ curl -L https://w3id.org/cdif/bbr/metadata/schemaorgProperties/person/context
 
 ## License
 
+This work is licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](LICENSE).
+
+## Acknowledgments
+
 This material is based upon work supported by the National Science Foundation (NSF) under awards 2012893, 2012748, and 2012593.
