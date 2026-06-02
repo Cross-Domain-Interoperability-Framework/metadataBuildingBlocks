@@ -27,9 +27,9 @@ The bare-`cdi:PhysicalDataSet` case is the "structure reuse" pattern: a dataset 
 
 This profile composes [cdifCore](../../../cdifProperties/cdifCore/) and [cdifDataDescription](../../../cdifProperties/cdifDataDescription/), so a conforming record must carry `dcterms:conformsTo` URIs for all three:
 
-- `https://w3id.org/cdif/core/1.0`
-- `https://w3id.org/cdif/data_description/1.0`
-- `https://w3id.org/cdif/data_structure/1.0`
+- `https://w3id.org/cdif/core/1.1`
+- `https://w3id.org/cdif/data_description/1.1`
+- `https://w3id.org/cdif/data_structure/1.1`
 
 ## When to use which profile
 

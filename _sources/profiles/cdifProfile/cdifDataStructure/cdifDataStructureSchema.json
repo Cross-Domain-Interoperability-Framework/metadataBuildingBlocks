@@ -11,7 +11,7 @@
                         "type": "object",
                         "properties": {
                             "@id": {
-                                "const": "https://w3id.org/cdif/data_structure/1.0"
+                                "const": "https://w3id.org/cdif/data_structure/1.1"
                             }
                         }
                     }
@@ -375,10 +375,6 @@
                     "type": "string",
                     "description": "Identifier for this ForeignKey node"
                 },
-                "cdi:identifier": {
-                    "$ref": "../../../schemaorgProperties/identifier/identifierSchema.json",
-                    "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-                },
                 "cdi:isComposedOf": {
                     "type": "array",
                     "items": {
@@ -412,14 +408,7 @@
                 },
                 "cdi:references": {
                     "description": "references a primary key in a different dataset",
-                    "anyOf": [
-                        {
-                            "$ref": "#/$defs/PrimaryKey"
-                        },
-                        {
-                            "$ref": "#/$defs/id-reference"
-                        }
-                    ]
+                    "$ref": "#/$defs/id-reference"
                 }
             },
             "required": [
@@ -447,18 +436,11 @@
                 },
                 "cdif:isComposedOf": {
                     "type": "array",
-                    "description": "List of variables or @id-reference. Array order of cdif:isComposedOf items is the position; no intermediate ComponentPosition wrapper.",
+                    "description": "List @id-references to representedVariables in this dataStructure. Array order of cdif:isComposedOf items is the position; no intermediate ComponentPosition wrapper.",
                     "items": {
                         "allOf": [
                             {
-                                "anyOf": [
-                                    {
-                                        "$ref": "../../../cdifDataType/cdifRepresentedVariable/cdifRepresentedVariableSchema.json"
-                                    },
-                                    {
-                                        "$ref": "#/$defs/id-reference"
-                                    }
-                                ]
+                                "$ref": "#/$defs/id-reference"
                             },
                             {
                                 "type": "object",

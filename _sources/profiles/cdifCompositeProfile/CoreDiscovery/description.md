@@ -15,7 +15,7 @@ Profile for the schema.org implementation of the [Cross Domain Interoperability 
 
 ### Conformance
 
-Metadata conforming to this profile declares conformance to both `https://w3id.org/cdif/core/1.0` and `https://w3id.org/cdif/discovery/1.0` via `dcterms:conformsTo` in the `schema:subjectOf` catalog record.
+Metadata conforming to this profile declares conformance to both `https://w3id.org/cdif/core/1.1` and `https://w3id.org/cdif/discovery/1.1` via `dcterms:conformsTo` in the `schema:subjectOf` catalog record.
 
 ### SHACL validation
 
