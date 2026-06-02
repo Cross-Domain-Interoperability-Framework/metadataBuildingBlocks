@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.profiles.cdifProfile.cdifManifest` *v0.1*
 
-Profile module for archive distributions. Adds schema:hasPart support to schema:distribution items that wrap a single download (e.g. a ZIP), describing each component file inside. Requires that the metadata record declare conformance to https://w3id.org/cdif/manifest/1.0; requires schema:hasPart on any DataDownload whose schema:encodingFormat includes application/zip. Defines the archivePartArray and archivePartItem shapes used by component-file metadata. (Merged from the previous cdifArchive building block, which only published these $defs.)
+Profile module for archive distributions. Adds schema:hasPart support to schema:distribution items that wrap a single download (e.g. a ZIP), describing each component file inside. Requires that the metadata record declare conformance to https://w3id.org/cdif/manifest/1.1; requires schema:hasPart on any DataDownload whose schema:encodingFormat includes application/zip. Defines the archivePartArray and archivePartItem shapes used by component-file metadata. (Merged from the previous cdifArchive building block, which only published these $defs.)
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -35,7 +35,7 @@ cdifArchive at the smallest valid shape.
   "schema:name": "Minimal archived dataset",
   "schema:subjectOf": {
     "dcterms:conformsTo": [
-      { "@id": "https://w3id.org/cdif/manifest/1.0" }
+      { "@id": "https://w3id.org/cdif/manifest/1.1" }
     ]
   },
   "schema:distribution": [
@@ -81,7 +81,7 @@ cdifArchive at the smallest valid shape.
   "schema:subjectOf": {
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/manifest/1.0"
+        "@id": "https://w3id.org/cdif/manifest/1.1"
       }
     ]
   },
@@ -124,7 +124,7 @@ cdifArchive at the smallest valid shape.
             schema1:hasPart <file:///github/workspace/#part-1> ;
             schema1:name "Bundle" ] ;
     schema1:name "Minimal archived dataset" ;
-    schema1:subjectOf [ dcterms:conformsTo <https://w3id.org/cdif/manifest/1.0> ] .
+    schema1:subjectOf [ dcterms:conformsTo <https://w3id.org/cdif/manifest/1.1> ] .
 
 <file:///github/workspace/#part-1> a schema1:MediaObject ;
     schema1:encodingFormat "text/csv" ;
@@ -171,7 +171,7 @@ SPDX checksum on the archive distribution, and a full hasPart manifest.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/manifest/1.0"
+        "@id": "https://w3id.org/cdif/manifest/1.1"
       }
     ]
   },
@@ -187,7 +187,7 @@ SPDX checksum on the archive distribution, and a full hasPart manifest.
       ],
       "dcterms:conformsTo": [
         {
-          "@id": "https://w3id.org/cdif/manifest/1.0"
+          "@id": "https://w3id.org/cdif/manifest/1.1"
         }
       ],
       "schema:hasPart": [
@@ -282,7 +282,7 @@ SPDX checksum on the archive distribution, and a full hasPart manifest.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/manifest/1.0"
+        "@id": "https://w3id.org/cdif/manifest/1.1"
       }
     ]
   },
@@ -298,7 +298,7 @@ SPDX checksum on the archive distribution, and a full hasPart manifest.
       ],
       "dcterms:conformsTo": [
         {
-          "@id": "https://w3id.org/cdif/manifest/1.0"
+          "@id": "https://w3id.org/cdif/manifest/1.1"
         }
       ],
       "schema:hasPart": [
@@ -366,7 +366,7 @@ SPDX checksum on the archive distribution, and a full hasPart manifest.
 ex:dataset_archive_001 a schema1:Dataset ;
     schema1:dateModified "2025-08-01" ;
     schema1:distribution [ a schema1:DataDownload ;
-            dcterms:conformsTo <https://w3id.org/cdif/manifest/1.0> ;
+            dcterms:conformsTo <https://w3id.org/cdif/manifest/1.1> ;
             schema1:contentUrl "https://example.org/downloads/geochem-results-2025.zip" ;
             schema1:encodingFormat "application/zip" ;
             schema1:hasPart <file:///github/workspace/#data-csv>,
@@ -379,7 +379,7 @@ ex:dataset_archive_001 a schema1:Dataset ;
     schema1:url "https://example.org/datasets/geochem-archive-2025" .
 
 ex:metadata_archive_001 a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/manifest/1.0> ;
+    dcterms:conformsTo <https://w3id.org/cdif/manifest/1.1> ;
     schema1:about ex:dataset_archive_001 ;
     schema1:additionalType "dcat:CatalogRecord" .
 
@@ -403,7 +403,7 @@ ex:metadata_archive_001 a schema1:Dataset ;
 $schema: https://json-schema.org/draft/2020-12/schema
 title: CDIF Manifest
 description: "Profile module for archive distributions. Marks the catalog record as
-  conformant to the CDIF manifest spec (https://w3id.org/cdif/manifest/1.0) and lets
+  conformant to the CDIF manifest spec (https://w3id.org/cdif/manifest/1.1) and lets
   schema:distribution items carry schema:hasPart describing the component files inside
   an archive (ZIP, etc.). The base schema:distribution anyOf [DataDownload, WebAPI]
   contributed by cdifCore is preserved \u2014 this BB only adds property constraints,
@@ -427,7 +427,7 @@ properties:
           type: object
           properties:
             '@id':
-              const: https://w3id.org/cdif/manifest/1.0
+              const: https://w3id.org/cdif/manifest/1.1
   schema:distribution:
     items:
       allOf:

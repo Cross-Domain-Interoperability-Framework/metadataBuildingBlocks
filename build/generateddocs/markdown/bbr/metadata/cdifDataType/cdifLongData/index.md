@@ -122,10 +122,10 @@ ex:var-value a cdi:InstanceVariable,
     cdif:role "ReferenceVariable" .
 
 [] a cdi:LongStructureDataSet ;
-    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-descriptor ;
-            cdif:index 0 ],
-        [ cdif:formats_InstanceVariable ex:var-value ;
-            cdif:index 1 ] .
+    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-value ;
+            cdif:index 1 ],
+        [ cdif:formats_InstanceVariable ex:var-descriptor ;
+            cdif:index 0 ] .
 
 
 ```
@@ -255,12 +255,12 @@ ex:var-value a cdi:InstanceVariable,
     csvw:delimiter "," ;
     csvw:header true ;
     csvw:headerRowCount 1 ;
-    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-value ;
-            cdif:index 1 ;
-            cdif:physicalDataType "Numeric" ],
-        [ cdif:formats_InstanceVariable ex:var-descriptor ;
+    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-descriptor ;
             cdif:index 0 ;
-            cdif:physicalDataType "String" ] .
+            cdif:physicalDataType "String" ],
+        [ cdif:formats_InstanceVariable ex:var-value ;
+            cdif:index 1 ;
+            cdif:physicalDataType "Numeric" ] .
 
 
 ```

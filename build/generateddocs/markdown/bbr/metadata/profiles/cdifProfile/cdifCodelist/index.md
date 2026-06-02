@@ -166,7 +166,7 @@ properties:
           type: object
           properties:
             '@id':
-              const: https://w3id.org/cdif/codelist/1.0
+              const: https://w3id.org/cdif/codelist/1.1
         minItems: 1
         x-jsonld-id: http://purl.org/dc/terms/conformsTo
       '@id':

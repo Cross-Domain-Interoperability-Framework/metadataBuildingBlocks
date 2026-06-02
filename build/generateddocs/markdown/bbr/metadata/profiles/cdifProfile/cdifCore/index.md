@@ -85,7 +85,7 @@ Example CDIF discovery instance with mandatory properties only.
         "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfile/cdifCore"
       },
       {
-        "@id": "https://w3id.org/cdif/core/1.0"
+        "@id": "https://w3id.org/cdif/core/1.1"
       }
     ],
     "schema:maintainer": {
@@ -173,7 +173,7 @@ Example CDIF discovery instance with mandatory properties only.
         "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfile/cdifCore"
       },
       {
-        "@id": "https://w3id.org/cdif/core/1.0"
+        "@id": "https://w3id.org/cdif/core/1.1"
       }
     ],
     "schema:maintainer": {
@@ -220,7 +220,7 @@ Example CDIF discovery instance with mandatory properties only.
 
 ex:URIforMetadata3575 a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/bbr/metadata/profiles/cdifProfile/cdifCore>,
-        <https://w3id.org/cdif/core/1.0> ;
+        <https://w3id.org/cdif/core/1.1> ;
     schema1:about ex:baseDiscovery23578 ;
     schema1:additionalType "dcat:CatalogRecord" ;
     schema1:includedInDataCatalog <https://ror.org/04sfkyrt24> ;
@@ -296,7 +296,7 @@ Simplest valid CDIF core instance with only required properties.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.0"
+        "@id": "https://w3id.org/cdif/core/1.1"
       }
     ]
   }
@@ -348,7 +348,7 @@ Simplest valid CDIF core instance with only required properties.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.0"
+        "@id": "https://w3id.org/cdif/core/1.1"
       }
     ]
   }
@@ -362,7 +362,7 @@ Simplest valid CDIF core instance with only required properties.
 @prefix schema1: <http://schema.org/> .
 
 ex:URIforMetadata3575 a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/core/1.0> ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/1.1> ;
     schema1:about ex:coreMin23578 ;
     schema1:additionalType "dcat:CatalogRecord" .
 
@@ -736,7 +736,7 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
         "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfile/cdifCore"
       },
       {
-        "@id": "https://w3id.org/cdif/core/1.0"
+        "@id": "https://w3id.org/cdif/core/1.1"
       }
     ],
     "schema:maintainer": {
@@ -1138,7 +1138,7 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
         "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfile/cdifCore"
       },
       {
-        "@id": "https://w3id.org/cdif/core/1.0"
+        "@id": "https://w3id.org/cdif/core/1.1"
       }
     ],
     "schema:maintainer": {
@@ -1296,7 +1296,7 @@ ex:marchandOrcid a schema1:PropertyValue ;
 
 ex:metadataRecord99001 a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/bbr/metadata/profiles/cdifProfile/cdifCore>,
-        <https://w3id.org/cdif/core/1.0> ;
+        <https://w3id.org/cdif/core/1.1> ;
     schema1:about ex:completeCoreDataset99001 ;
     schema1:additionalType "dcat:CatalogRecord" ;
     schema1:includedInDataCatalog <https://example.org/catalog/ocean-data> ;
@@ -1708,7 +1708,7 @@ allOf:
             type: object
             properties:
               '@id':
-                const: https://w3id.org/cdif/core/1.0
+                const: https://w3id.org/cdif/core/1.1
       x-jsonld-id: http://schema.org/subjectOf
 - required:
   - '@id'

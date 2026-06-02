@@ -96,10 +96,10 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.0"
+        "@id": "https://w3id.org/cdif/core/1.1"
       },
       {
-        "@id": "https://w3id.org/cdif/discovery/1.0"
+        "@id": "https://w3id.org/cdif/discovery/1.1"
       },
       {
         "@id": "https://w3id.org/cdif/xasDiscovery/1.0"
@@ -108,7 +108,7 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
         "@id": "https://w3id.org/cdif/bbr/metadata/xasProperties/xasOptional"
       },
       {
-        "@id": "https://w3id.org/cdif/data_description/1.0"
+        "@id": "https://w3id.org/cdif/data_description/1.1"
       },
       {
         "@id": "https://w3id.org/cdif/xasCore/1.0"
@@ -409,10 +409,10 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/core/1.0"
+        "@id": "https://w3id.org/cdif/core/1.1"
       },
       {
-        "@id": "https://w3id.org/cdif/discovery/1.0"
+        "@id": "https://w3id.org/cdif/discovery/1.1"
       },
       {
         "@id": "https://w3id.org/cdif/xasDiscovery/1.0"
@@ -421,7 +421,7 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
         "@id": "https://w3id.org/cdif/bbr/metadata/xasProperties/xasOptional"
       },
       {
-        "@id": "https://w3id.org/cdif/data_description/1.0"
+        "@id": "https://w3id.org/cdif/data_description/1.1"
       },
       {
         "@id": "https://w3id.org/cdif/xasCore/1.0"
@@ -661,9 +661,9 @@ ex:dist_xdi_001 a cdi:PhysicalDataset,
 
 ex:meta_xasOpt_001 a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/bbr/metadata/xasProperties/xasOptional>,
-        <https://w3id.org/cdif/core/1.0>,
-        <https://w3id.org/cdif/data_description/1.0>,
-        <https://w3id.org/cdif/discovery/1.0>,
+        <https://w3id.org/cdif/core/1.1>,
+        <https://w3id.org/cdif/data_description/1.1>,
+        <https://w3id.org/cdif/discovery/1.1>,
         <https://w3id.org/cdif/xasCore/1.0>,
         <https://w3id.org/cdif/xasDiscovery/1.0> ;
     schema1:about ex:xasOptionalExample_001 ;
@@ -685,25 +685,25 @@ ex:xasOptionalExample_001 a schema1:Dataset,
             schema1:url "https://doi.org/10.12345/xas-optional-test" ;
             schema1:value "10.12345/xas-optional-test" ] ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "http://sweetontology.net/matrElement/Iron" ;
-            schema1:inDefinedTermSet "http://sweetontology.net/matrElement" ;
-            schema1:name "Iron" ;
-            schema1:termCode "Fe" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "xas:K-edge" ;
             schema1:inDefinedTermSet "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md" ;
             schema1:name "K-edge" ;
-            schema1:termCode "K" ] ;
+            schema1:termCode "K" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "http://sweetontology.net/matrElement/Iron" ;
+            schema1:inDefinedTermSet "http://sweetontology.net/matrElement" ;
+            schema1:name "Iron" ;
+            schema1:termCode "Fe" ] ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
+            schema1:identifier "xas:transmissionMode" ;
+            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
+            schema1:name "Transmission" ],
+        [ a schema1:DefinedTerm ;
             schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01196" ;
             schema1:inDefinedTermSet "http://purl.org/pan-science/PaNET/PaNET.owl" ;
             schema1:name "X-Ray Absorption Spectroscopy" ;
-            schema1:termCode "XAS" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "xas:transmissionMode" ;
-            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
-            schema1:name "Transmission" ] ;
+            schema1:termCode "XAS" ] ;
     schema1:name "XAS measurement of Fe K-edge in magnetite sample" ;
     schema1:subjectOf ex:meta_xasOpt_001 ;
     schema1:variableMeasured xas:monochromatorEnergy ;
@@ -734,14 +734,14 @@ ex:xasOptionalExample_001 a schema1:Dataset,
                                             schema1:propertyID "nxs:Field/NXcrystal/type" ;
                                             schema1:value "channel-cut" ],
                                         [ a schema1:PropertyValue ;
+                                            schema1:name "reflection plane (hkl)" ;
+                                            schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
+                                            schema1:value "3,1,1" ],
+                                        [ a schema1:PropertyValue ;
                                             schema1:name "d-spacing" ;
                                             schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
                                             schema1:unitText "Angstrom" ;
-                                            schema1:value "1.63747" ],
-                                        [ a schema1:PropertyValue ;
-                                            schema1:name "reflection plane (hkl)" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
-                                            schema1:value "3,1,1" ] ;
+                                            schema1:value "1.63747" ] ;
                                     schema1:additionalType "nxs:BaseClass/NXmonochromator" ;
                                     schema1:name "Si 311" ],
                                 [ a schema1:Product,

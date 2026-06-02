@@ -38,7 +38,7 @@ minimum required CdifInstanceVariableNode shape.
   "schema:subjectOf": {
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/data_description/1.0"
+        "@id": "https://w3id.org/cdif/data_description/1.1"
       }
     ]
   },
@@ -90,7 +90,7 @@ minimum required CdifInstanceVariableNode shape.
   "schema:subjectOf": {
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/data_description/1.0"
+        "@id": "https://w3id.org/cdif/data_description/1.1"
       }
     ]
   },
@@ -123,7 +123,7 @@ minimum required CdifInstanceVariableNode shape.
 
 <https://example.org/dataset/minimal-dd> a schema1:Dataset ;
     schema1:name "Minimal data-description example" ;
-    schema1:subjectOf [ dcterms:conformsTo <https://w3id.org/cdif/data_description/1.0> ] ;
+    schema1:subjectOf [ dcterms:conformsTo <https://w3id.org/cdif/data_description/1.1> ] ;
     schema1:variableMeasured <https://example.org/var/temperature> .
 
 <https://example.org/var/temperature> a cdi:InstanceVariable,
@@ -177,7 +177,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/data_description/1.0"
+        "@id": "https://w3id.org/cdif/data_description/1.1"
       }
     ]
   },
@@ -520,7 +520,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/data_description/1.0"
+        "@id": "https://w3id.org/cdif/data_description/1.1"
       }
     ]
   },
@@ -845,16 +845,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
             csvw:trim "true" ;
             cdif:fileSize 1.2e+00 ;
             cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:length 20 ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "String" ],
-                [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "Integer" ],
-                [ cdi:decimalPositions 1 ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 1 ;
                     cdi:isRequired true ;
                     cdi:nullSequence "-999.9" ;
                     cdi:scale 1 ;
@@ -862,6 +853,10 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
                     cdif:index 1 ;
                     cdif:physicalDataType "Numeric" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "Integer" ],
                 [ cdi:decimalPositions 2 ;
                     cdi:defaultValue "NaN" ;
                     cdi:isRequired false ;
@@ -873,6 +868,11 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
                     cdif:index 2 ;
                     cdif:physicalDataType "Numeric" ],
+                [ cdi:isRequired true ;
+                    cdi:length 20 ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "String" ],
                 [ cdi:isRequired false ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
                     cdif:index 4 ;
@@ -907,7 +907,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
         <https://example.org/dataset/oceanTemp2025/var/stationId> .
 
 <https://example.org/dataset/oceanTemp2025/metadata> a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/data_description/1.0> ;
+    dcterms:conformsTo <https://w3id.org/cdif/data_description/1.1> ;
     schema1:about <https://example.org/dataset/oceanTemp2025> ;
     schema1:additionalType "dcat:CatalogRecord" .
 
@@ -1073,7 +1073,7 @@ properties:
           type: object
           properties:
             '@id':
-              const: https://w3id.org/cdif/data_description/1.0
+              const: https://w3id.org/cdif/data_description/1.1
   schema:variableMeasured:
     type: array
     items:

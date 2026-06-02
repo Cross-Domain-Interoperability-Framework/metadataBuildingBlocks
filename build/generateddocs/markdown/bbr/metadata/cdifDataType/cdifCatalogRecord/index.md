@@ -33,7 +33,7 @@ dcterms:conformsTo (pointing at the CDIF core specification).
   "schema:additionalType": ["dcat:CatalogRecord"],
   "schema:about": { "@id": "ex:dataset/0001" },
   "dcterms:conformsTo": [
-    { "@id": "https://w3id.org/cdif/core/1.0" }
+    { "@id": "https://w3id.org/cdif/core/1.1" }
   ]
 }
 
@@ -68,7 +68,7 @@ dcterms:conformsTo (pointing at the CDIF core specification).
   },
   "dcterms:conformsTo": [
     {
-      "@id": "https://w3id.org/cdif/core/1.0"
+      "@id": "https://w3id.org/cdif/core/1.1"
     }
   ]
 }
@@ -80,7 +80,7 @@ dcterms:conformsTo (pointing at the CDIF core specification).
 @prefix schema1: <http://schema.org/> .
 
 <https://example.org/metadata-record/0001> a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/core/1.0> ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/1.1> ;
     schema1:about <https://example.org/dataset/0001> ;
     schema1:additionalType "dcat:CatalogRecord" .
 
@@ -113,7 +113,7 @@ and full metadata-about-metadata structure.
   },
   "dcterms:conformsTo": [
     {
-      "@id": "https://w3id.org/cdif/core/1.0"
+      "@id": "https://w3id.org/cdif/core/1.1"
     }
   ],
   "schema:maintainer": {
@@ -211,7 +211,7 @@ and full metadata-about-metadata structure.
   },
   "dcterms:conformsTo": [
     {
-      "@id": "https://w3id.org/cdif/core/1.0"
+      "@id": "https://w3id.org/cdif/core/1.1"
     }
   ],
   "schema:maintainer": {
@@ -285,7 +285,7 @@ and full metadata-about-metadata structure.
 @prefix schema1: <http://schema.org/> .
 
 ex:URIforMetadata3575 a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/core/1.0> ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/1.1> ;
     schema1:about ex:URIforNode2246 ;
     schema1:additionalType "dcat:CatalogRecord" ;
     schema1:includedInDataCatalog <https://ror.org/04sfkyrt24> ;
