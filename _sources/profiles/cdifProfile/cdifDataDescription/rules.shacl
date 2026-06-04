@@ -20,9 +20,13 @@ cdifd:dataDescriptionDatasetShape
 	  a sh:SPARQLTarget ;
 	  sh:select """
 	       PREFIX schema: <http://schema.org/>
+	       PREFIX dcterms: <http://purl.org/dc/terms/>
 	            SELECT ?this
 	            WHERE {
 	              ?this a schema:Dataset .
+	              ?this schema:subjectOf ?cr .
+	              ?cr dcterms:conformsTo ?prof .
+	              FILTER( STRSTARTS( STR(?prof), "https://w3id.org/cdif/data_description/" ) )
 	              MINUS {
 	                ?this schema:about ?x .
 	                ?this schema:additionalType "dcat:CatalogRecord" .
@@ -34,7 +38,7 @@ cdifd:dataDescriptionDatasetShape
 		sh:path schema:variableMeasured ;
 		sh:minCount 1 ;
 		sh:severity sh:Violation ;
-		sh:message "A data-description-level Dataset must carry at least one schema:variableMeasured." ;
+		sh:message "A Dataset declaring conformance to the data_description profile must carry at least one schema:variableMeasured." ;
 	] .
 
 # At the data description level, variableMeasured items typed as
