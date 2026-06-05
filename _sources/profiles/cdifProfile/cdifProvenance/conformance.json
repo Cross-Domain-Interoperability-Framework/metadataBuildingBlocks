@@ -1,0 +1,8 @@
+{
+  "$schema": "https://w3id.org/cdif/schema/conformance-declaration/0.1",
+  "conformsTo": "https://w3id.org/cdif/provenance/1.1",
+  "title": "CDIF Provenance profile",
+  "description": "NOT merely prov:wasGeneratedBy present — a minimal prov:Activity with prov:used is already declared in cdifCore. The cdifProv class is marked by a dual-typed prov:Activity + schema:Action carrying properties beyond prov:used (agent, object, result, startTime, location, actionProcess, ...). The validity gate is the cdifProvActivity content shapes.",
+  "presence": "ASK {\n  ?d prov:wasGeneratedBy ?a .\n  ?a a prov:Activity, schema:Action ; ?p ?o .\n  FILTER (?p NOT IN (rdf:type, prov:used))\n}",
+  "validityShapes": "cdifDataType/cdifProvActivity/rules.shacl"
+}
