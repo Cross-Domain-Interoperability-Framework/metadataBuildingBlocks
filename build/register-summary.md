@@ -20,17 +20,17 @@ Bioschemas classes and properties for describing laboratory workflow provenance 
 
 schema.org properties for an identifier implemented as schema.org/PropertyValue. Defines properties: @type, schema:propertyID, schema:value, schema:url.
 
-### `cdif.bbr.metadata.cdifDataType.cdifDataFingerprint` — CDIF DataFingerprint building block
-
-**Type:** datatype
-
-A fingerprint (checksum/hash) of a physical dataset, for integrity verification. DDI-CDI DataFingerprint datatype carried on a cdi:PhysicalDataSet (schema:DataDownload) via cdi:fingerprint. Defines cdi:value, cdi:algorithmSpecification, cdi:algorithmVersion, cdi:typeOfFingerprint.
-
 ### `cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme` — CDIF Concept Scheme
 
 **Type:** schema
 
 Profile module for SKOS concept schemes used as controlled vocabularies in CDIF metadata. A self-contained SKOS concept scheme schema (inlines the SKOS Concept and language-tagged-value definitions); reserved for concept-scheme-specific extensions and conformance rules.
+
+### `cdif.bbr.metadata.cdifDataType.cdifDataFingerprint` — CDIF DataFingerprint building block
+
+**Type:** datatype
+
+A fingerprint (checksum/hash) of a physical dataset, for integrity verification. DDI-CDI DataFingerprint datatype carried on a cdi:PhysicalDataSet (schema:DataDownload) via cdi:fingerprint. Defines cdi:value, cdi:algorithmSpecification, cdi:algorithmVersion, cdi:typeOfFingerprint.
 
 ### `cdif.bbr.metadata.profiles.cdifProfile.cdifCodelist` — CDIF Codelist
 
@@ -152,12 +152,6 @@ DDI-CDI Machine agent (software/hardware) with access location, function, and in
 
 DDI-CDI Organization agent (group/institution) with structured name, contact information, and identification. Uses DDI Cross-Domain Integration vocabulary.
 
-### `cdif.bbr.metadata.ddiProperties.ddicdiPresentationalVariable` — DDI-CDI Presentational Variable
-
-**Type:** schema
-
-Variable that records values of multiple variables in the context of a data structure. Variable playing the role of a variable value component.
-
 ### `cdif.bbr.metadata.ddiProperties.ddicdiProcessingAgent` — DDI-CDI ProcessingAgent
 
 **Type:** schema
@@ -170,17 +164,11 @@ DDI-CDI ProcessingAgent that orchestrates production activities, linking agents 
 
 Schema defining properties to implement description of an action, a profile of schema.org/Action. Defines properties: @type, schema:name, schema:target, schema:result, schema:object, schema:query-input. Uses building blocks: variableMeasured (schemaorgProperties).
 
-### `cdif.bbr.metadata.cdifDataType.cdifPhysicalMapping` — CDIF PhysicalMapping bulding block
+### `cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm` — CDIF Concept or Term
 
 **Type:** schema
 
-Base physical mapping: metadata to document the physical serialization of a variable in a data structure. Defines properties: cdif:index, cdif:format, cdif:physicalDataType, cdi:numberPattern, cdi:nullSequence, cdi:defaultValue, cdi:scale, cdi:decimalPositions, cdi:minimumLength, cdi:maximumLength, cdi:isRequired, cdif:formats_InstanceVariable. Text-format specifics (cdi:length and number separators) are in cdifTextMapping; structured-document location is in cdifLocatorMapping.
-
-### `cdif.bbr.metadata.cdifDataType.cdifReference` — CDIF Relation
-
-**Type:** schema
-
-A typed relation describing a link to another resource, combining the schema.org labeled-link surface (name, description, url) from labeledLink with the DCAT qualifiedRelation pattern. Carries a third @type (dcat:Relationship), a SKOS-typed role (dcat:hadRole), and the DCAT-canonical pointer to the related resource (dcterms:relation). Use as the target of a dcat:qualifiedRelation property, or wherever a typed link with an explicit role is needed. Defines properties: @type (must include 'schema:CreativeWork' and 'dcat:Relationship'), schema:name, schema:description, schema:url (required), dcat:hadRole (skos:Concept), dcterms:relation.
+Shared union shape for a controlled-vocabulary value: a SKOS concept referenced by '@id', a schema:DefinedTerm node, or an inline cdif:Concept. Replaces the duplicate 'cdifConceptOrTerm' $defs that previously appeared in cdifInstanceVariable, cdifRepresentedVariable, cdifDataStructureComponent, cdifReference, cdifPhysicalMapping, cdifStatistics, cdifOpenApi, cdifCore, and cdifDiscovery.
 
 ### `cdif.bbr.metadata.qualityProperties.qualityMeasure` — Simple quality measurement properties
 
@@ -218,23 +206,89 @@ Schema defining properties for documenting the spatial extent of a resource; bas
 
 Schema defining properties for schema.org/StatisticalVariable. Defines a variable that represents a statistical measure. Properties: @type, @id, schema:name, schema:description, schema:alternateName, schema:measurementTechnique, schema:statType, schema:measuredProperty. Uses building blocks: definedTerm (schemaorgProperties).
 
+### `cdif.bbr.metadata.schemaorgProperties.variableMeasured` — VariableMeasured
+
+**Type:** schema
+
+Schema defining propertis for schema.org varialbleMeasured as defined for CDIF discovery. Implemented as schema.org/PropertyValue. Defines properties: @type, @id, schema:name, schema:description, schema:alternateName, schema:propertyID, schema:measurementTechnique, schema:unitText, schema:unitCode, schema:minValue, schema:maxValue, schema:url. Uses building blocks: definedTerm (schemaorgProperties).
+
 ### `cdif.bbr.metadata.cdifDataType.cdifValueDomain` — CDIF Value Domain
 
 **Type:** schema
 
 CDIF profile of the DDI-CDI ValueDomain. A single node is either a cdif:SubstantiveValueDomain (subject-matter values) or a cdif:SentinelValueDomain (processing/missing-value codes). Each carries cdif:takesValuesFrom (refs cdifEnumerationDomain), cdif:displayLabel, and an array cdif:recommendedDataType of xsd: type tokens; at least one of takesValuesFrom or recommendedDataType is required.
 
-### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructureComponent` — DDI-CDI Data Structure Component
-
-**Type:** schema
-
-Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.
-
 ### `cdif.bbr.metadata.ddiProperties.ddicdiAgent` — DDI-CDI Agent
 
 **Type:** schema
 
 DDI-CDI Agent class hierarchy for CDIF metadata. Covers Agent (abstract base) and its subclasses: Individual (person), Machine (software/hardware), Organization (group/institution), and ProcessingAgent (orchestrates production). Defines properties for identification, contact information, naming, and agent-activity relationships.
+
+### `cdif.bbr.metadata.cdifDataType.cdifPhysicalMapping` — CDIF PhysicalMapping bulding block
+
+**Type:** schema
+
+Base physical mapping: metadata to document the physical serialization of a variable in a data structure. Defines properties: cdif:index, cdif:format, cdif:physicalDataType, cdi:numberPattern, cdi:nullSequence, cdi:defaultValue, cdi:scale, cdi:decimalPositions, cdi:minimumLength, cdi:maximumLength, cdi:isRequired, cdif:formats_InstanceVariable. Text-format specifics (cdi:length and number separators) are in cdifTextMapping; structured-document location is in cdifLocatorMapping.
+
+### `cdif.bbr.metadata.cdifDataType.cdifReference` — CDIF Relation
+
+**Type:** schema
+
+A typed relation describing a link to another resource, combining the schema.org labeled-link surface (name, description, url) from labeledLink with the DCAT qualifiedRelation pattern. Carries a third @type (dcat:Relationship), a SKOS-typed role (dcat:hadRole), and the DCAT-canonical pointer to the related resource (dcterms:relation). Use as the target of a dcat:qualifiedRelation property, or wherever a typed link with an explicit role is needed. Defines properties: @type (must include 'schema:CreativeWork' and 'dcat:Relationship'), schema:name, schema:description, schema:url (required), dcat:hadRole (skos:Concept), dcterms:relation.
+
+### `cdif.bbr.metadata.xasProperties.xasFacility` — WebAPI properties
+
+**Type:** schema
+
+Schema defining properties for documenting a WebAPI used as a resource distribution option. Defines properties: @id, @type, schema:additionalType, schema:identifier, schema:name, schema:additionalProperty. Uses building blocks: additionalProperty (schemaorgProperties), identifier (schemaorgProperties).
+
+### `cdif.bbr.metadata.xasProperties.xasSample` — Material Sample for x-ray absorption study
+
+**Type:** schema
+
+Schema defining properties for documenting a material sample that is the mainEntity (target) of an XAS analysis. Defines properties: @type, schema:additionalType, schema:name, schema:identifier, schema:description, schema:additionalProperty. Uses building blocks: identifier (schemaorgProperties), additionalProperty (schemaorgProperties).
+
+### `cdif.bbr.metadata.schemaorgProperties.person` — Person
+
+**Type:** schema
+
+Schema defining propertis of a person, a profile of schema.org/Person. Defines properties: @id, @type, schema:name, schema:description, schema:identifier, schema:alternateName, schema:affiliation, schema:contactPoint, schema:sameAs. Uses building blocks: identifier (schemaorgProperties), organization (schemaorgProperties).
+
+### `cdif.bbr.metadata.cdifDataType.cdifInstanceVariable` — CDIF Instance Variable
+
+**Type:** schema
+
+Profile of cdi:InstanceVariable / schema:PropertyValue used as a member of a schema:variableMeasured array. Adds DDI-CDI properties (cdif:physicalDataType, cdif:role, cdif:simpleUnitOfMeasure, cdif:uses, cdi:qualifies) on top of schemaorgProperties/variableMeasured and ddiProperties/ddicdiInstanceVariable. Accepts a single node, an unwrapped @graph array of nodes (OGC pipeline), or a JSON-LD document with @context and @graph.
+
+### `cdif.bbr.metadata.profiles.cdifProfile.cdifDiscovery` — CDIF Discovery
+
+**Type:** schema
+
+Profile module for discovery metadata. Currently a thin wrapper that composes cdifCore; reserved for discovery-specific extensions (measurement technique, spatial/temporal coverage, quality measurements) that are not part of the cdifCore foundation. INTERPROFILE DEPENDENCY: cdifCore (cdifProfile).
+
+### `cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable` — DDI-CDI Represented Variable
+
+**Type:** schema
+
+Conceptual variable with a substantive value domain specified.
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiCodeList` — DDI-CDI Code List
+
+**Type:** schema
+
+List of codes and associated categories.
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiEnumerationDomain` — DDI-CDI Enumeration Domain
+
+**Type:** schema
+
+A base class acting as an extension point to allow all codifications (codelist, statistical classification, etc.) to be understood as enumerated value domains.
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiStatisticalClassification` — DDI-CDI Statistical Classification
+
+**Type:** schema
+
+Set of categories represented by classification items where the subset of immediate children categories for any given parent category are mutually exclusive and jointly exhaustive with respect to that parent.
 
 ### `cdif.bbr.metadata.cdifDataType.cdifDataCube` — CDIF Data Cube structure
 
@@ -272,83 +326,11 @@ Schema for documenting a WebAPI distribution of a resource using property struct
 
 Schema defining properties for documenting sources used for compiled or aggregated dataset. Defines properties: prov:wasDerivedFrom. Uses building blocks: cdifReference (cdifDataType).
 
-### `cdif.bbr.metadata.schemaorgProperties.variableMeasured` — VariableMeasured
-
-**Type:** schema
-
-Schema defining propertis for schema.org varialbleMeasured as defined for CDIF discovery. Implemented as schema.org/PropertyValue. Defines properties: @type, @id, schema:name, schema:description, schema:alternateName, schema:propertyID, schema:measurementTechnique, schema:unitText, schema:unitCode, schema:minValue, schema:maxValue, schema:url. Uses building blocks: definedTerm (schemaorgProperties).
-
 ### `cdif.bbr.metadata.schemaorgProperties.webAPI` — WebAPI properties
 
 **Type:** schema
 
 Schema defining properties for documenting a WebAPI used as a resource distribution option. Defines properties: @type, schema:serviceType, schema:termsOfService, schema:documentation, schema:potentialAction. Uses building blocks: cdifReference (cdifDataType), definedTerm (schemaorgProperties), action (schemaorgProperties).
-
-### `cdif.bbr.metadata.xasProperties.xasFacility` — WebAPI properties
-
-**Type:** schema
-
-Schema defining properties for documenting a WebAPI used as a resource distribution option. Defines properties: @id, @type, schema:additionalType, schema:identifier, schema:name, schema:additionalProperty. Uses building blocks: additionalProperty (schemaorgProperties), identifier (schemaorgProperties).
-
-### `cdif.bbr.metadata.xasProperties.xasSample` — Material Sample for x-ray absorption study
-
-**Type:** schema
-
-Schema defining properties for documenting a material sample that is the mainEntity (target) of an XAS analysis. Defines properties: @type, schema:additionalType, schema:name, schema:identifier, schema:description, schema:additionalProperty. Uses building blocks: identifier (schemaorgProperties), additionalProperty (schemaorgProperties).
-
-### `cdif.bbr.metadata.schemaorgProperties.person` — Person
-
-**Type:** schema
-
-Schema defining propertis of a person, a profile of schema.org/Person. Defines properties: @id, @type, schema:name, schema:description, schema:identifier, schema:alternateName, schema:affiliation, schema:contactPoint, schema:sameAs. Uses building blocks: identifier (schemaorgProperties), organization (schemaorgProperties).
-
-### `cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable` — DDI-CDI Represented Variable
-
-**Type:** schema
-
-Conceptual variable with a substantive value domain specified.
-
-### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructure` — DDI-CDI Data Structure
-
-**Type:** schema
-
-Data organization based on reusable data structure components.
-
-### `cdif.bbr.metadata.ddiProperties.ddicdiCodeList` — DDI-CDI Code List
-
-**Type:** schema
-
-List of codes and associated categories.
-
-### `cdif.bbr.metadata.ddiProperties.ddicdiEnumerationDomain` — DDI-CDI Enumeration Domain
-
-**Type:** schema
-
-A base class acting as an extension point to allow all codifications (codelist, statistical classification, etc.) to be understood as enumerated value domains.
-
-### `cdif.bbr.metadata.ddiProperties.ddicdiStatisticalClassification` — DDI-CDI Statistical Classification
-
-**Type:** schema
-
-Set of categories represented by classification items where the subset of immediate children categories for any given parent category are mutually exclusive and jointly exhaustive with respect to that parent.
-
-### `cdif.bbr.metadata.profiles.cdifProfile.cdifManifest` — CDIF Manifest
-
-**Type:** schema
-
-Profile module for archive distributions. Adds schema:hasPart support to schema:distribution items that wrap a single download (e.g. a ZIP), describing each component file inside. Requires that the metadata record declare conformance to https://w3id.org/cdif/manifest/1.1; requires schema:hasPart on any DataDownload whose schema:encodingFormat includes application/zip. Defines the archivePartArray and archivePartItem shapes used by component-file metadata. (Merged from the previous cdifArchive building block, which only published these $defs.)
-
-### `cdif.bbr.metadata.cdifDataType.cdifInstanceVariable` — CDIF Instance Variable
-
-**Type:** schema
-
-Profile of cdi:InstanceVariable / schema:PropertyValue used as a member of a schema:variableMeasured array. Adds DDI-CDI properties (cdif:physicalDataType, cdif:role, cdif:simpleUnitOfMeasure, cdif:uses, cdi:qualifies) on top of schemaorgProperties/variableMeasured and ddiProperties/ddicdiInstanceVariable. Accepts a single node, an unwrapped @graph array of nodes (OGC pipeline), or a JSON-LD document with @context and @graph.
-
-### `cdif.bbr.metadata.profiles.cdifProfile.cdifDiscovery` — CDIF Discovery
-
-**Type:** schema
-
-Profile module for discovery metadata. Currently a thin wrapper that composes cdifCore; reserved for discovery-specific extensions (measurement technique, spatial/temporal coverage, quality measurements) that are not part of the cdifCore foundation. INTERPROFILE DEPENDENCY: cdifCore (cdifProfile).
 
 ### `cdif.bbr.metadata.cdifDataType.cdifCatalogRecord` — CDIF Catalog Record
 
@@ -374,18 +356,6 @@ Schema defining properties of a DataDownload. Used as value to describe a distri
 
 properties for acknowledging funding, CDIF profile of schema.org/MonetaryGrant. Defines properties: @type, schema:identifier, schema:description, schema:name, schema:funder. Uses building blocks: person (schemaorgProperties), organization (schemaorgProperties), identifier (schemaorgProperties).
 
-### `cdif.bbr.metadata.cdifDataType.cdifDescriptorVariable` — DDI-CDI Descriptor Variable
-
-**Type:** schema
-
-Variable that records values of multiple variables in the context of a data structure.
-
-### `cdif.bbr.metadata.ddiProperties.ddicdiValueDomain` — DDI-CDI Value Domain
-
-**Type:** schema
-
-DDI-CDI ValueDomain building block for CDIF metadata, covering both SubstantiveValueDomain (subject-matter values) and SentinelValueDomain (processing/missing-value codes). Inherits from ValueDomain. Defines properties: @type, @id, cdi:catalogDetails, cdi:displayLabel, cdi:identifier, cdi:recommendedDataType, cdi:isDescribedBy, cdi:takesValuesFrom, cdi:takesConceptsFrom, cdi:platformType (sentinel only).
-
 ### `cdif.bbr.metadata.cdifDataType.cdifKey` — CDIF Key
 
 **Type:** schema
@@ -404,6 +374,24 @@ Profile of DDI-CDI Statistics, StatisticsCollection, Statistic, CategoryStatisti
 
 Describes how an InstanceVariable's values are physically represented in a dataset - format, length, decimal handling, null sequences, W3C tabular-data-model parameters. Successor to the DDI-CDI 1.0 ValueMapping class (renamed PhysicalMapping in the 2026-03 model, with the variable relationship reversed: PhysicalMapping formats InstanceVariable). Root validates any of PhysicalMapping, TextMapping (text-dialect detail), or LocatorMapping (locator string for non-tabular layouts); provides a $def for PhysicalMappingPosition. Composes building block: ddicdiDataTypes (ddiProperties); cdifInstanceVariable (cdifDataType).
 
+### `cdif.bbr.metadata.cdifDataType.cdifDescriptorVariable` — DDI-CDI Descriptor Variable
+
+**Type:** schema
+
+Variable that records values of multiple variables in the context of a data structure.
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiValueDomain` — DDI-CDI Value Domain
+
+**Type:** schema
+
+DDI-CDI ValueDomain building block for CDIF metadata, covering both SubstantiveValueDomain (subject-matter values) and SentinelValueDomain (processing/missing-value codes). Inherits from ValueDomain. Defines properties: @type, @id, cdi:catalogDetails, cdi:displayLabel, cdi:identifier, cdi:recommendedDataType, cdi:isDescribedBy, cdi:takesValuesFrom, cdi:takesConceptsFrom, cdi:platformType (sentinel only).
+
+### `cdif.bbr.metadata.profiles.cdifProfile.cdifManifest` — CDIF Manifest
+
+**Type:** schema
+
+Profile module for archive distributions. Adds schema:hasPart support to schema:distribution items that wrap a single download (e.g. a ZIP), describing each component file inside. Requires that the metadata record declare conformance to https://w3id.org/cdif/manifest/1.1; requires schema:hasPart on any DataDownload whose schema:encodingFormat includes application/zip. Defines the archivePartArray and archivePartItem shapes used by component-file metadata. (Merged from the previous cdifArchive building block, which only published these $defs.)
+
 ### `cdif.bbr.metadata.schemaorgProperties.instrument` — Instrument Description
 
 **Type:** schema
@@ -416,7 +404,19 @@ Schema for describing laboratory instruments and instrument systems. Supports ow
 
 Core properties for CDIF metadata, applicable to any resource type. Required properties: @id, @type, schema:name, schema:identifier, schema:dateModified, schema:conditionsOfAccess or schema:license, schema:url or schema:distribution, schema:subjectOf. Optional core properties: schema:description, schema:additionalType, schema:sameAs, schema:version, schema:inLanguage, schema:datePublished, schema:relatedLink, schema:publishingPrinciples, schema:keywords, schema:creator, schema:contributor, schema:publisher, schema:provider, schema:funding, prov:wasGeneratedBy, prov:wasDerivedFrom. Uses building blocks: cdifReference, identifier, definedTerm, dataDownload, webAPI, person, organization, agentInRole, funder, generatedBy, derivedFrom, cdifCatalogRecord.
 
+### `cdif.bbr.metadata.profiles.cdifProfile.cdifDataDescription` — CDIF Data Description
+
+**Type:** schema
+
+Additional constraints for CDIF data description level. Adds cdif:physicalDataType requirement on variableMeasured items and distribution-level cdi properties for file characterization (characterSet, fileSize, fileSizeUofM). Used by CDIFDataDescriptionProfile and CDIFcompleteProfile profiles.
+
 ### `cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent` — CDIF Data Structure Component
+
+**Type:** schema
+
+Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructureComponent` — DDI-CDI Data Structure Component
 
 **Type:** schema
 
@@ -428,23 +428,17 @@ Role given to a represented variable in the context of a long or wide data struc
 
 Use of a represented variable within a data set.
 
-### `cdif.bbr.metadata.ddiProperties.ddicdiLogicalRecord` — DDI-CDI Logical Record
+### `cdif.bbr.metadata.ddiProperties.ddicdiPresentationalVariable` — DDI-CDI Presentational Variable
 
 **Type:** schema
 
-Collection of instance variables.
+Variable that records values of multiple variables in the context of a data structure. Variable playing the role of a variable value component.
 
 ### `cdif.bbr.metadata.ddiProperties.ddicdiRepresentedVariable` — DDI-CDI Represented Variable
 
 **Type:** schema
 
 Conceptual variable with a substantive value domain specified.
-
-### `cdif.bbr.metadata.profiles.cdifProfile.cdifDataDescription` — CDIF Data Description
-
-**Type:** schema
-
-Additional constraints for CDIF data description level. Adds cdif:physicalDataType requirement on variableMeasured items and distribution-level cdi properties for file characterization (characterSet, fileSize, fileSizeUofM). Used by CDIFDataDescriptionProfile and CDIFcompleteProfile profiles.
 
 ### `cdif.bbr.metadata.cdifDataType.cdifProvActivity` — CDIF Provenance Activity
 
@@ -470,7 +464,19 @@ XAS-specific instrument building block. Extends the instrument description build
 
 CDIF Discovery profile composing cdifCore with discovery-oriented properties: measurement technique, variables measured, spatial and temporal coverage, quality measurements. Declares conformance to cdif/core/1.0/ and cdif/discovery/1.0/.
 
+### `cdif.bbr.metadata.profiles.cdifCompositeProfile.DiscoveryDataDescription` — CDIF discovery and data description metadata
+
+**Type:** schema
+
+Schema extends data discovery with properties to desribe data structures for tabular and structured (grid, datacube, hierarchialc) datasets
+
 ### `cdif.bbr.metadata.profiles.cdifProfile.cdifDataStructure` — CDIF Data Structure
+
+**Type:** schema
+
+Data organization based on reusable data structure components.
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructure` — DDI-CDI Data Structure
 
 **Type:** schema
 
@@ -481,30 +487,6 @@ Data organization based on reusable data structure components.
 **Type:** schema
 
 Statistics related to an instance variable within a data set.
-
-### `cdif.bbr.metadata.ddiProperties.ddicdiLogicalRecordRepository` — DDI-CDI Logical Record Repository
-
-**Type:** schema
-
-A managed collection of logical records (delimited file, fixed-record-length file, relational database, etc.). Successor to the DDI-CDI 1.0 DataStore class, renamed and relocated to the FormatDescription package in the 2026-03 DDI-CDI model. Provides $defs for LogicalRecordRepositoryStructure (topology), LogicalRecordRelationship (cross-record linkage, successor to RecordRelation), and InstanceVariableMap. Composes building block: ddicdiLogicalRecord, ddicdiDataTypes (ddiProperties); cdifInstanceVariable (cdifDataType).
-
-### `cdif.bbr.metadata.ddiProperties.ddicdiKeyValueStructure` — DDI-CDI Key Value Structure
-
-**Type:** schema
-
-Structure of a key-value datastore (organized collection of key-value data). It is described by identifier, contextual, synthetic id, dimension, variable descriptor and variable value components.
-
-### `cdif.bbr.metadata.ddiProperties.ddicdiPhysicalDataSet` — DDI-CDI Physical Data Set
-
-**Type:** schema
-
-Organized collection of wide data. It is structured by a wide data structure.
-
-### `cdif.bbr.metadata.profiles.cdifCompositeProfile.DiscoveryDataDescription` — CDIF discovery and data description metadata
-
-**Type:** schema
-
-Schema extends data discovery with properties to desribe data structures for tabular and structured (grid, datacube, hierarchialc) datasets
 
 ### `cdif.bbr.metadata.profiles.cdifProfile.cdifProvenance` — CDIF Provenance
 
@@ -542,6 +524,18 @@ metadata to document long (narrow) data structure where each row is a single obs
 
 Extends the CDIF Data Description profile with full DDI-CDI structural complexity: data structures (DataStructure / Dimensional / Long / Wide), component subclasses (Identifier / Measure / Attribute / Dimension / VariableValue / VariableDescriptor), represented variables, and value domains. Distribution items are expected to carry cdi:isStructuredBy pointing at a Data Structure node.
 
+### `cdif.bbr.metadata.ddiProperties.ddicdiKeyValueStructure` — DDI-CDI Key Value Structure
+
+**Type:** schema
+
+Structure of a key-value datastore (organized collection of key-value data). It is described by identifier, contextual, synthetic id, dimension, variable descriptor and variable value components.
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiLogicalRecord` — DDI-CDI Logical Record
+
+**Type:** schema
+
+Collection of instance variables.
+
 ### `cdif.bbr.metadata.profiles.cdifCompositeProfile.cdifComplete` — CDIF complete metadata
 
 **Type:** schema
@@ -553,4 +547,16 @@ Profile combining CDIF discovery metadata with extended provenance (cdifProvActi
 **Type:** schema
 
 Gather building blocks to generate CDIF schema for XAS data 
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiLogicalRecordRepository` — DDI-CDI Logical Record Repository
+
+**Type:** schema
+
+A managed collection of logical records (delimited file, fixed-record-length file, relational database, etc.). Successor to the DDI-CDI 1.0 DataStore class, renamed and relocated to the FormatDescription package in the 2026-03 DDI-CDI model. Provides $defs for LogicalRecordRepositoryStructure (topology), LogicalRecordRelationship (cross-record linkage, successor to RecordRelation), and InstanceVariableMap. Composes building block: ddicdiLogicalRecord, ddicdiDataTypes (ddiProperties); cdifInstanceVariable (cdifDataType).
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiPhysicalDataSet` — DDI-CDI Physical Data Set
+
+**Type:** schema
+
+Organized collection of wide data. It is structured by a wide data structure.
 

@@ -1,0 +1,141 @@
+
+
+{
+  "itemIdentifier": "cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm",
+  "$schema": "metaschema.yaml",
+  "name": "CDIF Concept or Term",
+  "abstract": "Shared union shape for a controlled-vocabulary value: a SKOS concept referenced by '@id', a schema:DefinedTerm node, or an inline cdif:Concept. Replaces the duplicate 'cdifConceptOrTerm' $defs that previously appeared in cdifInstanceVariable, cdifRepresentedVariable, cdifDataStructureComponent, cdifReference, cdifPhysicalMapping, cdifStatistics, cdifOpenApi, cdifCore, and cdifDiscovery.",
+  "status": "under-development",
+  "dateTimeAddition": "2026-06-05T00:00:00Z",
+  "itemClass": "schema",
+  "register": "cdif-building-block-register",
+  "version": "0.1",
+  "dateOfLastChange": "2026-06-05",
+  "link": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "sources": [
+    {
+      "title": "SKOS Concept",
+      "link": "https://www.w3.org/TR/skos-reference/"
+    },
+    {
+      "title": "schema.org DefinedTerm",
+      "link": "https://schema.org/DefinedTerm"
+    },
+    {
+      "title": "CDIF ConceptScheme profile (cdif:Concept)",
+      "link": "https://github.com/Cross-Domain-Interoperability-Framework/profile-conceptscheme"
+    }
+  ],
+  "maturity": "draft",
+  "scope": "unstable",
+  "tags": [
+    "datatype",
+    "concept",
+    "term",
+    "skos"
+  ],
+  "shaclShapes": {
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
+    ]
+  },
+  "dependsOn": [
+    "cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme",
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm"
+  ],
+  "schema": {
+    "application/yaml": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml",
+    "application/json": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.json"
+  },
+  "sourceSchema": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifConceptOrTerm/schema.yaml",
+  "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/context.jsonld",
+  "resolvedSchemaProperties": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/resolvedProperties.json",
+  "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifConceptOrTerm/",
+  "validationPassed": false,
+  "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/cdifDataType/cdifConceptOrTerm/",
+  "description": "## CDIF Concept or Term\n\nA shared union shape used wherever a CDIF property accepts a controlled-vocabulary value. The property's value can be:\n\n1. **A SKOS concept referenced by URI** \u2014 an object carrying just an `@id` pointing at a `skos:Concept` in some published vocabulary.\n2. **A `schema:DefinedTerm`** \u2014 the schema.org DefinedTerm shape inherited from the `schemaorgProperties/definedTerm` building block, used to inline name/identifier/termCode alongside a `inDefinedTermSet` pointer.\n3. **An inline `cdif:Concept`** \u2014 the `cdifConcept` shape from the CDIF ConceptScheme profile, used to inline a complete concept definition (preferred label, alternate labels, definition, broader/narrower, etc.) directly in the metadata record.\n\n### When to use\n\n`$ref` this building block from any property that previously accepted the inlined `cdifConceptOrTerm` `anyOf` union. The intent is to consolidate that duplicated shape \u2014 every CDIF building block that needs a concept-or-term value should reference this single definition rather than redefining it locally.\n\n### Migration note\n\nPrior to 2026-06-05, this union appeared as a local `$defs.cdifConceptOrTerm` entry inside nine separate building-block schemas (`cdifInstanceVariable`, `cdifRepresentedVariable`, `cdifDataStructureComponent`, `cdifReference`, `cdifPhysicalMapping`, `cdifStatistics`, `cdifOpenApi`, `cdifCore`, `cdifDiscovery`). Each of those local `$defs` is now a single-line `$ref` delegation to this BB, so existing in-document `#/$defs/cdifConceptOrTerm` references continue to resolve unchanged.\n",
+  "examples": [
+    {
+      "title": "SKOS concept by URI reference",
+      "content": "Minimal form: a single '@id' pointing at a SKOS concept in a published\nvocabulary (here, a NERC P01 parameter).",
+      "prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifConceptOrTerm/exampleCdifConceptOrTerm.json",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifConceptOrTerm/example_1_1.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\"\n  },\n  \"@id\": \"http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/\"\n}\n"
+        },
+        {
+          "language": "jsonld",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifConceptOrTerm/example_1_1.jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\"\n    }\n  ],\n  \"@id\": \"http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/\"\n}"
+        },
+        {
+          "language": "ttl",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifConceptOrTerm/example_1_1.ttl",
+          "code": "\n"
+        }
+      ]
+    },
+    {
+      "title": "schema:DefinedTerm node",
+      "content": "A schema:DefinedTerm with a name, an identifier URI, and a pointer to the\nenclosing DefinedTermSet. Inline form used when the consumer should be\nable to render a label without dereferencing the URI.",
+      "prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifConceptOrTerm/exampleCdifConceptOrTermDefinedTerm.json",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifConceptOrTerm/example_2_1.json",
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\"\n  },\n  \"@type\": [\n    \"schema:DefinedTerm\"\n  ],\n  \"schema:name\": \"Sea Water Temperature\",\n  \"schema:identifier\": \"http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/\",\n  \"schema:inDefinedTermSet\": \"http://vocab.nerc.ac.uk/collection/P01/\"\n}\n"
+        },
+        {
+          "language": "jsonld",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifConceptOrTerm/example_2_1.jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\"\n    }\n  ],\n  \"@type\": [\n    \"schema:DefinedTerm\"\n  ],\n  \"schema:name\": \"Sea Water Temperature\",\n  \"schema:identifier\": \"http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/\",\n  \"schema:inDefinedTermSet\": \"http://vocab.nerc.ac.uk/collection/P01/\"\n}"
+        },
+        {
+          "language": "ttl",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifConceptOrTerm/example_2_1.ttl",
+          "code": "@prefix schema1: <http://schema.org/> .\n\n[] a schema1:DefinedTerm ;\n    schema1:identifier \"http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/\" ;\n    schema1:inDefinedTermSet \"http://vocab.nerc.ac.uk/collection/P01/\" ;\n    schema1:name \"Sea Water Temperature\" .\n\n"
+        }
+      ]
+    },
+    {
+      "title": "Inline cdif:Concept",
+      "content": "Fully inline concept: prefLabel + definition embedded directly in the\nmetadata record. Use when the concept is not (yet) published in an\nexternal vocabulary.",
+      "prefixes": {
+        "skos": "http://www.w3.org/2004/02/skos/core#",
+        "cdif": "https://w3id.org/cdif/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/cdifDataType/cdifConceptOrTerm/exampleCdifConceptOrTermInlineConcept.json",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifConceptOrTerm/example_3_1.json",
+          "code": "{\n  \"@context\": {\n    \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n    \"cdif\": \"https://w3id.org/cdif/\"\n  },\n  \"@type\": [\n    \"skos:Concept\"\n  ],\n  \"@id\": \"https://example.org/concepts/sea-water-temperature\",\n  \"skos:prefLabel\": \"Sea water temperature\",\n  \"skos:definition\": \"The temperature of a water sample collected from the ocean.\"\n}\n"
+        },
+        {
+          "language": "jsonld",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifConceptOrTerm/example_3_1.jsonld",
+          "code": "{\n  \"@context\": [\n    {\n      \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n      \"cdif\": \"https://w3id.org/cdif/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/context.jsonld\",\n    {\n      \"skos\": \"http://www.w3.org/2004/02/skos/core#\",\n      \"cdif\": \"https://w3id.org/cdif/\"\n    }\n  ],\n  \"@type\": [\n    \"skos:Concept\"\n  ],\n  \"@id\": \"https://example.org/concepts/sea-water-temperature\",\n  \"skos:prefLabel\": \"Sea water temperature\",\n  \"skos:definition\": \"The temperature of a water sample collected from the ocean.\"\n}"
+        },
+        {
+          "language": "ttl",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/cdifDataType/cdifConceptOrTerm/example_3_1.ttl",
+          "code": "@prefix skos: <http://www.w3.org/2004/02/skos/core#> .\n\n<https://example.org/concepts/sea-water-temperature> a skos:Concept ;\n    skos:definition \"The temperature of a water sample collected from the ocean.\" ;\n    skos:prefLabel \"Sea water temperature\" .\n\n"
+        }
+      ]
+    }
+  ],
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: A SKOS concept identified by URI, a schema:DefinedTerm, or an inline\n  cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary\n  reference or an inline concept definition.\nanyOf:\n- type: object\n  properties:\n    '@id':\n      type: string\n      description: reference to a skos concept for the data type\n- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\n- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept\n",
+  "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "gitPath": "_sources/cdifDataType/cdifConceptOrTerm"
+}

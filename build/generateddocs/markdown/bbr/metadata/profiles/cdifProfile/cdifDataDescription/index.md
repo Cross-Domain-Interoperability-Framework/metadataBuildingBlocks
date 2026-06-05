@@ -25,7 +25,6 @@ minimum required CdifInstanceVariableNode shape.
   "@context": {
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "csvw": "http://www.w3.org/ns/csvw#",
     "dcterms": "http://purl.org/dc/terms/",
     "ex": "https://example.org/",
     "cdif": "https://w3id.org/cdif/"
@@ -45,18 +44,19 @@ minimum required CdifInstanceVariableNode shape.
   "schema:variableMeasured": [
     {
       "@type": [
-        "cdi:InstanceVariable",
-        "schema:PropertyValue"
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
       ],
       "@id": "ex:var/temperature",
       "schema:name": "temperature",
-      "cdif:name": [
-        "temperature"
+      "schema:description": "Air temperature measurement.",
+      "schema:propertyID": [
+        "air_temperature"
       ],
-      "cdif:definition": "Air temperature measurement.",
-      "cdi:takesSubstantiveValuesFrom": {
-        "@id": "ex:value-domain/decimal"
-      }
+      "schema:unitText": "degrees Celsius",
+      "schema:unitCode": "Cel",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdif:role": "Measure"
     }
   ]
 }
@@ -76,7 +76,6 @@ minimum required CdifInstanceVariableNode shape.
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "csvw": "http://www.w3.org/ns/csvw#",
       "dcterms": "http://purl.org/dc/terms/",
       "ex": "https://example.org/",
       "cdif": "https://w3id.org/cdif/"
@@ -97,18 +96,19 @@ minimum required CdifInstanceVariableNode shape.
   "schema:variableMeasured": [
     {
       "@type": [
-        "cdi:InstanceVariable",
-        "schema:PropertyValue"
+        "schema:PropertyValue",
+        "cdi:InstanceVariable"
       ],
       "@id": "ex:var/temperature",
       "schema:name": "temperature",
-      "cdif:name": [
-        "temperature"
+      "schema:description": "Air temperature measurement.",
+      "schema:propertyID": [
+        "air_temperature"
       ],
-      "cdif:definition": "Air temperature measurement.",
-      "cdi:takesSubstantiveValuesFrom": {
-        "@id": "ex:value-domain/decimal"
-      }
+      "schema:unitText": "degrees Celsius",
+      "schema:unitCode": "Cel",
+      "cdif:physicalDataType": "xsd:decimal",
+      "cdif:role": "Measure"
     }
   ]
 }
@@ -128,10 +128,13 @@ minimum required CdifInstanceVariableNode shape.
 
 <https://example.org/var/temperature> a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:takesSubstantiveValuesFrom <https://example.org/value-domain/decimal> ;
+    schema1:description "Air temperature measurement." ;
     schema1:name "temperature" ;
-    cdif:definition "Air temperature measurement." ;
-    cdif:name "temperature" .
+    schema1:propertyID "air_temperature" ;
+    schema1:unitCode "Cel" ;
+    schema1:unitText "degrees Celsius" ;
+    cdif:physicalDataType "xsd:decimal" ;
+    cdif:role "Measure" .
 
 
 ```
@@ -147,7 +150,6 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
   "@context": {
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "csvw": "http://www.w3.org/ns/csvw#",
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
     "ex": "https://example.org/",
@@ -369,17 +371,8 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
         "text/csv"
       ],
       "cdi:characterSet": "UTF-8",
-      "cdif:fileSize": 1.2,
-      "cdif:fileSizeUofM": "MB",
+      "schema:contentSize": "1.2 Mb",
       "cdi:isDelimited": true,
-      "csvw:delimiter": ",",
-      "csvw:header": true,
-      "csvw:headerRowCount": 1,
-      "csvw:skipRows": 0,
-      "csvw:skipBlankRows": true,
-      "csvw:commentPrefix": "#",
-      "csvw:quoteChar": "\"",
-      "csvw:trim": "true",
       "cdif:hasPhysicalMapping": [
         {
           "cdif:index": 0,
@@ -481,7 +474,6 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "csvw": "http://www.w3.org/ns/csvw#",
       "dcterms": "http://purl.org/dc/terms/",
       "dcat": "http://www.w3.org/ns/dcat#"
     },
@@ -489,7 +481,6 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "csvw": "http://www.w3.org/ns/csvw#",
       "dcterms": "http://purl.org/dc/terms/",
       "dcat": "http://www.w3.org/ns/dcat#",
       "ex": "https://example.org/",
@@ -712,17 +703,8 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
         "text/csv"
       ],
       "cdi:characterSet": "UTF-8",
-      "cdif:fileSize": 1.2,
-      "cdif:fileSizeUofM": "MB",
+      "schema:contentSize": "1.2 Mb",
       "cdi:isDelimited": true,
-      "csvw:delimiter": ",",
-      "csvw:header": true,
-      "csvw:headerRowCount": 1,
-      "csvw:skipRows": 0,
-      "csvw:skipBlankRows": true,
-      "csvw:commentPrefix": "#",
-      "csvw:quoteChar": "\"",
-      "csvw:trim": "true",
       "cdif:hasPhysicalMapping": [
         {
           "cdif:index": 0,
@@ -820,7 +802,6 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
-@prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -828,36 +809,33 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
 <https://example.org/dataset/oceanTemp2025> a schema1:Dataset ;
     schema1:dateModified "2025-09-01" ;
     schema1:distribution [ a cdi:PhysicalDataSet,
+                cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            cdi:characterSet "UTF-8" ;
+            schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Ocean temperature NetCDF cube" ;
+            cdif:fileSize 2.4e+02 ;
+            cdif:fileSizeUofM "MB" ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdi:locator "/measurements/seaWaterTemperature" ;
+                    cdi:nullSequence "NaN" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:isRequired true ;
+                    cdi:locator "/coordinates/depth" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
+                    cdif:physicalDataType "float32" ] ],
+        [ a cdi:PhysicalDataSet,
                 cdi:TabularTextDataSet,
                 schema1:DataDownload ;
             cdi:characterSet "UTF-8" ;
             cdi:isDelimited true ;
+            schema1:contentSize "1.2 Mb" ;
             schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.csv" ;
             schema1:encodingFormat "text/csv" ;
             schema1:name "Ocean temperature CSV" ;
-            csvw:commentPrefix "#" ;
-            csvw:delimiter "," ;
-            csvw:header true ;
-            csvw:headerRowCount 1 ;
-            csvw:quoteChar "\"" ;
-            csvw:skipBlankRows true ;
-            csvw:skipRows 0 ;
-            csvw:trim "true" ;
-            cdif:fileSize 1.2e+00 ;
-            cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "String" ],
-                [ cdi:decimalPositions 1 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "-999.9" ;
-                    cdi:scale 1 ;
-                    cdif:format "0.0" ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "Numeric" ],
-                [ cdi:decimalPositions 2 ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 2 ;
                     cdi:defaultValue "NaN" ;
                     cdi:isRequired false ;
                     cdi:maximumLength 10 ;
@@ -872,29 +850,23 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
                     cdif:index 3 ;
                     cdif:physicalDataType "Integer" ],
+                [ cdi:decimalPositions 1 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "-999.9" ;
+                    cdi:scale 1 ;
+                    cdif:format "0.0" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "Numeric" ],
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "String" ],
                 [ cdi:isRequired true ;
                     cdi:length 20 ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
                     cdif:index 0 ;
-                    cdif:physicalDataType "String" ] ],
-        [ a cdi:PhysicalDataSet,
-                cdi:StructuredDataSet,
-                schema1:DataDownload ;
-            cdi:characterSet "UTF-8" ;
-            schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.nc" ;
-            schema1:encodingFormat "application/x-netcdf" ;
-            schema1:name "Ocean temperature NetCDF cube" ;
-            cdif:fileSize 2.4e+02 ;
-            cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:locator "/coordinates/depth" ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:isRequired true ;
-                    cdi:locator "/measurements/seaWaterTemperature" ;
-                    cdi:nullSequence "NaN" ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
-                    cdif:physicalDataType "float32" ] ] ;
+                    cdif:physicalDataType "String" ] ] ;
     schema1:identifier "https://doi.org/10.1234/ocean-temp-2025" ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:name "Ocean Temperature Monitoring Data" ;
@@ -1088,6 +1060,7 @@ properties:
               references in physical mappings.
         required:
         - '@id'
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
       - type: object
         description: At the Data Description profile level, InstanceVariables may
@@ -1223,10 +1196,8 @@ Links to the schema:
     "xas": "https://xas.org/dictionary/",
     "nxs": "http://purl.org/nexusformat/definitions/",
     "prov": "http://www.w3.org/ns/prov#",
-    "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",
-    "dcat": "http://www.w3.org/ns/dcat#",
     "ada": "https://ada.astromat.org/metadata/",
     "@version": 1.1
   }

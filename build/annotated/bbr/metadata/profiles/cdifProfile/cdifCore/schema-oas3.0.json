@@ -13,23 +13,7 @@
       ],
       "$defs": {
         "cdifConceptOrTerm": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string",
-                  "description": "reference to a skos concept for the data type"
-                }
-              }
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm_1"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/cdifConcept"
-            }
-          ]
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm_1"
         },
         "Relation": {
           "type": "object",
@@ -82,7 +66,7 @@
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.schemaorgProperties.identifier": {
-      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
+      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
       "type": "object",
       "properties": {
         "@type": {
@@ -139,6 +123,934 @@
         "schema": "http://schema.org/"
       },
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm": {
+      "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "reference to a skos concept for the data type"
+            }
+          }
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme/$defs/cdifConcept"
+        }
+      ],
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.dataDownload": {
+      "description": "schema to document file-based access to a resoruce via URL, based on schema.org/DataDownload",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string"
+        },
+        "@type": {
+          "type": "array",
+          "description": "implement as array because extensions might need to add additional types",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "schema:DataDownload"
+            ]
+          },
+          "minItems": 1
+        },
+        "schema:name": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/name"
+        },
+        "schema:description": {
+          "type": "string",
+          "description": "Description of this distribution, e.g. what format, access constraints, etc.",
+          "x-jsonld-id": "http://schema.org/description"
+        },
+        "schema:contentUrl": {
+          "type": "string",
+          "format": "uri",
+          "x-jsonld-id": "http://schema.org/contentUrl"
+        },
+        "schema:encodingFormat": {
+          "type": "array",
+          "description": "MIME type with extension; should indicate the serialization scheme in sufficient detail that machine can know how to parse.",
+          "items": {
+            "type": "string"
+          },
+          "x-jsonld-id": "http://schema.org/encodingFormat"
+        },
+        "schema:contentSize": {
+          "type": "string",
+          "description": "File size of this distribution, e.g. '2.5 MB' or a byte count. Per schema.org/contentSize.",
+          "x-jsonld-id": "http://schema.org/contentSize"
+        },
+        "spdx:checksum": {
+          "type": "object",
+          "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "spdx:Checksum"
+                ]
+              },
+              "minItems": 1
+            },
+            "spdx:algorithm": {
+              "type": "string"
+            },
+            "spdx:checksumValue": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        },
+        "dcterms:conformsTo": {
+          "description": "An identifier for a standard or specification that the distribution conforms to. Recommended to enable machine-actionable data access.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string",
+                "description": "uri for specification that this distribution conforms to"
+              }
+            }
+          }
+        },
+        "schema:provider": {
+          "type": "array",
+          "description": "Party who maintains this particular distribution option for the dataset. Use this property if there are multiple distributions from different providers",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.person_1"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization_1"
+              }
+            ]
+          },
+          "x-jsonld-id": "http://schema.org/provider"
+        }
+      },
+      "required": [
+        "schema:contentUrl",
+        "@type"
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.webAPI": {
+      "title": "Direct data access to a resource via web servcie",
+      "description": "use schema.org Action to document url or url template and parameters to request data through a web accessible location. At this point, schema is set up for one action-- an HTTP Get that requests data. The url template parameters (in curly brackets '{}') specify query paramters to filter the source data, request particular output formats or other aspects of data.",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "schema:WebAPI"
+            ]
+          },
+          "minItems": 1
+        },
+        "schema:serviceType": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.webAPI/$defs/DefinedTerm"
+            }
+          ],
+          "description": "specify the kind of service. Ideally this should be a resolvable identifier. Currently there is no widely adopted registry for serviceType identifiers, in large part because services might be defined at different levels of granularity, and classifications might focus on function, data formats, thematic content, security, or other aspects of the service definition. For interoperability, there must be an external arrangement between data providers and consumers on the strings that will be used to specify service types.",
+          "x-jsonld-id": "http://schema.org/serviceType"
+        },
+        "schema:termsOfService": {
+          "description": "Description of access privileges required to use the API, e.g. registration, licensing, payments. Note that access constraints applying to all distributions of the resource should be specified in the access constraints for the resource description as a whole.",
+          "oneOf": [
+            {
+              "type": "string",
+              "default": "not specified"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.webAPI/$defs/Reference"
+            }
+          ],
+          "x-jsonld-id": "http://schema.org/termsOfService"
+        },
+        "schema:documentation": {
+          "description": "a document that provides a machine-actionable description of a service instance. Examples include OpenAPI documents, OGC Capabilities documents. Software designed to utilise a particular service type will typically include functionality to parse such a description document and engage with the service endpoint. If such a document is available for the service instance providing the resource distribution, it should be included in the distribution metadata.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.webAPI/$defs/Reference"
+            }
+          ],
+          "x-jsonld-id": "http://schema.org/documentation"
+        },
+        "schema:potentialAction": {
+          "type": "array",
+          "description": "actions that can be invoked via the API",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.webAPI/$defs/Action"
+          },
+          "x-jsonld-id": "http://schema.org/potentialAction"
+        }
+      },
+      "required": [
+        "schema:serviceType",
+        "schema:potentialAction",
+        "schema:termsOfService"
+      ],
+      "$defs": {
+        "Reference": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference_1"
+        },
+        "DefinedTerm": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
+        },
+        "Action": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.action"
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.person": {
+      "description": "schema for cdif profile of schema.org/Person",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string"
+        },
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "schema:Person"
+            ]
+          },
+          "minItems": 1
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format.",
+          "x-jsonld-id": "http://schema.org/name"
+        },
+        "schema:description": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/description"
+        },
+        "schema:identifier": {
+          "description": "identifier for person, recommend ORCID",
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "x-jsonld-id": "http://schema.org/identifier"
+        },
+        "schema:alternateName": {
+          "type": "string",
+          "description": "other labels by which the person might be known",
+          "x-jsonld-id": "http://schema.org/alternateName"
+        },
+        "schema:affiliation": {
+          "description": "if affiliation is present, value must be a schema:Organization.",
+          "x-jsonld-id": "http://schema.org/affiliation",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization_1"
+            }
+          ]
+        },
+        "schema:contactPoint": {
+          "type": "object",
+          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
+          "properties": {
+            "@type": {
+              "default": "schema:ContactPoint",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "schema:ContactPoint"
+                ]
+              },
+              "minItems": 1
+            },
+            "schema:email": {
+              "type": "string",
+              "x-jsonld-id": "http://schema.org/email"
+            }
+          },
+          "required": [
+            "schema:email"
+          ],
+          "x-jsonld-id": "http://schema.org/contactPoint"
+        },
+        "schema:sameAs": {
+          "type": "array",
+          "description": "other identifiers for the person",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "x-jsonld-id": "http://schema.org/sameAs"
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:identifier"
+              ]
+            }
+          ]
+        }
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.organization": {
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string"
+        },
+        "@type": {
+          "default": "schema:Organization",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "schema:Organization",
+                  "schema:FundingAgency",
+                  "schema:Consortium",
+                  "schema:Corporation",
+                  "schema:EducationalOrganization",
+                  "schema:FundingScheme",
+                  "schema:GovernmentOrganization",
+                  "schema:NGO",
+                  "schema:Project",
+                  "schema:ResearchOrganization"
+                ]
+              }
+            ]
+          },
+          "contains": {
+            "enum": [
+              "schema:Organization"
+            ]
+          },
+          "minItems": 1
+        },
+        "schema:additionalType": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "x-jsonld-id": "http://schema.org/additionalType"
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "string label for organization that is meaningful for human users",
+          "x-jsonld-id": "http://schema.org/name"
+        },
+        "schema:alternateName": {
+          "type": "string",
+          "description": "other labels by which the organization might be known",
+          "x-jsonld-id": "http://schema.org/alternateName"
+        },
+        "schema:description": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/description"
+        },
+        "schema:identifier": {
+          "description": "identifier for organization",
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "x-jsonld-id": "http://schema.org/identifier"
+        },
+        "schema:sameAs": {
+          "type": "array",
+          "description": "other identifiers for the organization",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "x-jsonld-id": "http://schema.org/sameAs"
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:name"
+              ]
+            },
+            {
+              "required": [
+                "schema:identifier"
+              ]
+            }
+          ]
+        }
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.agentInRole": {
+      "description": "For more granularity on how a person contributed to a Dataset, use schema:Role. The schema.org documentation does not state that the Role type is an expected data type of author, creator and contributor, but that is addressed in this blog post (http://blog.schema.org/2014/06/introducing-role.html). see https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#roles-of-people",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "default": "schema:Role",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "schema:Role"
+            ]
+          },
+          "minItems": 1
+        },
+        "schema:roleName": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
+            }
+          ],
+          "x-jsonld-id": "http://schema.org/roleName"
+        },
+        "schema:contributor": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "IRI reference to a Person or Organization defined elsewhere"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.person_1"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization_1"
+            }
+          ],
+          "x-jsonld-id": "http://schema.org/contributor"
+        }
+      },
+      "required": [
+        "@type",
+        "schema:roleName",
+        "schema:contributor"
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/agentInRole/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.monetaryGrant": {
+      "description": "Funding acknowledgement properties, profile of schema.org/MonetaryGrant",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "URI identifier for this funding record"
+        },
+        "@type": {
+          "default": "schema:MonetaryGrant",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "schema:MonetaryGrant"
+            ]
+          },
+          "minItems": 1
+        },
+        "schema:identifier": {
+          "description": "identifier for a particular grant",
+          "x-jsonld-id": "http://schema.org/identifier",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.monetaryGrant/$defs/Identifier"
+            }
+          ]
+        },
+        "schema:description": {
+          "type": "string",
+          "description": "description of the funding or grant",
+          "x-jsonld-id": "http://schema.org/description"
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "title of the grant",
+          "x-jsonld-id": "http://schema.org/name"
+        },
+        "schema:funder": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.monetaryGrant/$defs/Person"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.monetaryGrant/$defs/Organization"
+            }
+          ],
+          "x-jsonld-id": "http://schema.org/funder"
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "schema:funder"
+          ]
+        },
+        {
+          "required": [
+            "schema:identifier"
+          ]
+        },
+        {
+          "required": [
+            "schema:name"
+          ]
+        }
+      ],
+      "$defs": {
+        "Person": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.person_1"
+        },
+        "Organization": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization_1"
+        },
+        "Identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.provProperties.generatedBy": {
+      "title": "very simple links or names of software or instruments used to generate a resource.",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "contains": {
+            "enum": [
+              "prov:Activity"
+            ]
+          }
+        },
+        "prov:used": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "type": "string",
+                    "description": "a resolvable reference to a representation of the software or instrument used"
+                  }
+                }
+              }
+            ]
+          },
+          "x-jsonld-id": "http://www.w3.org/ns/prov#used"
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/generatedBy/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.provProperties.derivedFrom": {
+      "title": "very simple links or names of data sources used to generate the described resource.",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "a resolvable reference to a representation of the software or instrument used"
+            }
+          }
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference_1"
+        }
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/derivedFrom/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifDataType.cdifCatalogRecord": {
+      "type": "object",
+      "description": "see https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13 for discussion on how to make assertion about the sample registration and metadata distinct from statements about the physical object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "schema:Dataset"
+            ]
+          },
+          "minItems": 1
+        },
+        "schema:additionalType": {
+          "type": "array",
+          "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "dcat:CatalogRecord"
+            ]
+          },
+          "minItems": 1,
+          "x-jsonld-id": "http://schema.org/additionalType"
+        },
+        "@id": {
+          "type": "string",
+          "description": "identifier for the metadata record"
+        },
+        "schema:about": {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "this must be the @id value of the node containing the resource description metadata"
+            }
+          },
+          "x-jsonld-id": "http://schema.org/about"
+        },
+        "dcterms:conformsTo": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "@id": {
+                "type": "string",
+                "description": "uri for specifications that this metadata record conforms to"
+              }
+            }
+          },
+          "minItems": 1,
+          "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile.",
+          "x-jsonld-id": "http://purl.org/dc/terms/conformsTo"
+        },
+        "schema:maintainer": {
+          "description": "Identification of the agent that maintains the metadata, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifCatalogRecord/$defs/Person"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifCatalogRecord/$defs/Organization"
+            }
+          ],
+          "x-jsonld-id": "http://schema.org/maintainer"
+        },
+        "schema:sdDatePublished": {
+          "description": "date of most recent update to the metadata content",
+          "type": "string",
+          "format": "date",
+          "x-jsonld-id": "http://schema.org/sdDatePublished"
+        },
+        "schema:includedInDataCatalog": {
+          "type": "object",
+          "description": "identify the source for the origin the metadata record.",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "identifier for the graph node."
+            },
+            "@type": {
+              "default": "schema:DataCatalog",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "schema:DataCatalog"
+                ]
+              },
+              "minItems": 1
+            },
+            "schema:name": {
+              "type": "string",
+              "x-jsonld-id": "http://schema.org/name"
+            },
+            "schema:url": {
+              "type": "string",
+              "format": "uri",
+              "description": "locator to access a landing page for the collection or catalog",
+              "x-jsonld-id": "http://schema.org/url"
+            },
+            "schema:identifier": {
+              "description": "identifier for the collection or catalog; use identifier_type to provide information on identifier scheme and context for identifier",
+              "x-jsonld-id": "http://schema.org/identifier",
+              "allOf": [
+                {
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifCatalogRecord/$defs/Identifier"
+                }
+              ]
+            }
+          },
+          "x-jsonld-id": "http://schema.org/includedInDataCatalog"
+        }
+      },
+      "required": [
+        "schema:about",
+        "dcterms:conformsTo",
+        "schema:additionalType",
+        "@type",
+        "@id"
+      ],
+      "$defs": {
+        "Identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
+        },
+        "Person": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.person_1"
+        },
+        "Organization": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization_1"
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "ex": "https://example.org/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "dcterms": "http://purl.org/dc/terms/",
+        "dcat": "http://www.w3.org/ns/dcat#"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifCatalogRecord/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.labeledLink": {
+      "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "default": "schema:CreativeWork",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "schema:CreativeWork"
+            ]
+          },
+          "minItems": 1
+        },
+        "schema:name": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/name"
+        },
+        "schema:description": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/description"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "x-jsonld-id": "http://schema.org/url"
+        }
+      },
+      "required": [
+        "@type",
+        "schema:url"
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm_1": {
+      "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "reference to a skos concept for the data type"
+            }
+          }
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme/$defs/cdifConcept"
+        }
+      ],
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.schemaorgProperties.definedTerm": {
@@ -213,7 +1125,7 @@
       "x-jsonld-prefixes": {
         "schema": "http://schema.org/"
       },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.json",
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme": {
@@ -666,1479 +1578,7 @@
           ]
         }
       },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.dataDownload": {
-      "description": "schema to document file-based access to a resoruce via URL, based on schema.org/DataDownload",
-      "type": "object",
-      "properties": {
-        "@id": {
-          "type": "string"
-        },
-        "@type": {
-          "type": "array",
-          "description": "implement as array because extensions might need to add additional types",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:DataDownload"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:name": {
-          "type": "string",
-          "x-jsonld-id": "http://schema.org/name"
-        },
-        "schema:description": {
-          "type": "string",
-          "description": "Description of this distribution, e.g. what format, access constraints, etc.",
-          "x-jsonld-id": "http://schema.org/description"
-        },
-        "schema:contentUrl": {
-          "type": "string",
-          "format": "uri",
-          "x-jsonld-id": "http://schema.org/contentUrl"
-        },
-        "schema:encodingFormat": {
-          "type": "array",
-          "description": "MIME type with extension; should indicate the serialization scheme in sufficient detail that machine can know how to parse.",
-          "items": {
-            "type": "string"
-          },
-          "x-jsonld-id": "http://schema.org/encodingFormat"
-        },
-        "schema:contentSize": {
-          "type": "string",
-          "description": "File size of this distribution, e.g. '2.5 MB' or a byte count. Per schema.org/contentSize.",
-          "x-jsonld-id": "http://schema.org/contentSize"
-        },
-        "spdx:checksum": {
-          "type": "object",
-          "description": "A string value calculated from the content of the resource representation, used to test if content has been modified. The checksum is a property of a particular distribution/DataDownload.",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "spdx:Checksum"
-                ]
-              },
-              "minItems": 1
-            },
-            "spdx:algorithm": {
-              "type": "string"
-            },
-            "spdx:checksumValue": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "@type"
-          ]
-        },
-        "dcterms:conformsTo": {
-          "description": "An identifier for a standard or specification that the distribution conforms to. Recommended to enable machine-actionable data access.",
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "type": "object",
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "uri for specification that this distribution conforms to"
-              }
-            }
-          }
-        },
-        "schema:provider": {
-          "type": "array",
-          "description": "Party who maintains this particular distribution option for the dataset. Use this property if there are multiple distributions from different providers",
-          "items": {
-            "anyOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.person_1"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization_1"
-              }
-            ]
-          },
-          "x-jsonld-id": "http://schema.org/provider"
-        }
-      },
-      "required": [
-        "schema:contentUrl",
-        "@type"
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.webAPI": {
-      "title": "Direct data access to a resource via web servcie",
-      "description": "use schema.org Action to document url or url template and parameters to request data through a web accessible location. At this point, schema is set up for one action-- an HTTP Get that requests data. The url template parameters (in curly brackets '{}') specify query paramters to filter the source data, request particular output formats or other aspects of data.",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:WebAPI"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:serviceType": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.webAPI/$defs/DefinedTerm"
-            }
-          ],
-          "description": "specify the kind of service. Ideally this should be a resolvable identifier. Currently there is no widely adopted registry for serviceType identifiers, in large part because services might be defined at different levels of granularity, and classifications might focus on function, data formats, thematic content, security, or other aspects of the service definition. For interoperability, there must be an external arrangement between data providers and consumers on the strings that will be used to specify service types.",
-          "x-jsonld-id": "http://schema.org/serviceType"
-        },
-        "schema:termsOfService": {
-          "description": "Description of access privileges required to use the API, e.g. registration, licensing, payments. Note that access constraints applying to all distributions of the resource should be specified in the access constraints for the resource description as a whole.",
-          "oneOf": [
-            {
-              "type": "string",
-              "default": "not specified"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.webAPI/$defs/Reference"
-            }
-          ],
-          "x-jsonld-id": "http://schema.org/termsOfService"
-        },
-        "schema:documentation": {
-          "description": "a document that provides a machine-actionable description of a service instance. Examples include OpenAPI documents, OGC Capabilities documents. Software designed to utilise a particular service type will typically include functionality to parse such a description document and engage with the service endpoint. If such a document is available for the service instance providing the resource distribution, it should be included in the distribution metadata.",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.webAPI/$defs/Reference"
-            }
-          ],
-          "x-jsonld-id": "http://schema.org/documentation"
-        },
-        "schema:potentialAction": {
-          "type": "array",
-          "description": "actions that can be invoked via the API",
-          "items": {
-            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.webAPI/$defs/Action"
-          },
-          "x-jsonld-id": "http://schema.org/potentialAction"
-        }
-      },
-      "required": [
-        "schema:serviceType",
-        "schema:potentialAction",
-        "schema:termsOfService"
-      ],
-      "$defs": {
-        "Reference": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference_1"
-        },
-        "DefinedTerm": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm_1"
-        },
-        "Action": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.action"
-        }
-      },
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/webAPI/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.person": {
-      "description": "schema for cdif profile of schema.org/Person",
-      "type": "object",
-      "properties": {
-        "@id": {
-          "type": "string"
-        },
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:Person"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:name": {
-          "type": "string",
-          "description": "string label for person that is meaningful for human users, should format consistently. Recommend 'Family Name, Given name' format.",
-          "x-jsonld-id": "http://schema.org/name"
-        },
-        "schema:description": {
-          "type": "string",
-          "x-jsonld-id": "http://schema.org/description"
-        },
-        "schema:identifier": {
-          "description": "identifier for person, recommend ORCID",
-          "anyOf": [
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "x-jsonld-id": "http://schema.org/identifier"
-        },
-        "schema:alternateName": {
-          "type": "string",
-          "description": "other labels by which the person might be known",
-          "x-jsonld-id": "http://schema.org/alternateName"
-        },
-        "schema:affiliation": {
-          "description": "if affiliation is present, value must be a schema:Organization.",
-          "x-jsonld-id": "http://schema.org/affiliation",
-          "allOf": [
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization_1"
-            }
-          ]
-        },
-        "schema:contactPoint": {
-          "type": "object",
-          "description": "restrict to email only. Schema.org allows telephone and postal contacts as well",
-          "properties": {
-            "@type": {
-              "default": "schema:ContactPoint",
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "schema:ContactPoint"
-                ]
-              },
-              "minItems": 1
-            },
-            "schema:email": {
-              "type": "string",
-              "x-jsonld-id": "http://schema.org/email"
-            }
-          },
-          "required": [
-            "schema:email"
-          ],
-          "x-jsonld-id": "http://schema.org/contactPoint"
-        },
-        "schema:sameAs": {
-          "type": "array",
-          "description": "other identifiers for the person",
-          "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                }
-              }
-            ]
-          },
-          "x-jsonld-id": "http://schema.org/sameAs"
-        }
-      },
-      "allOf": [
-        {
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "anyOf": [
-            {
-              "required": [
-                "schema:name"
-              ]
-            },
-            {
-              "required": [
-                "schema:identifier"
-              ]
-            }
-          ]
-        }
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.organization": {
-      "type": "object",
-      "properties": {
-        "@id": {
-          "type": "string"
-        },
-        "@type": {
-          "default": "schema:Organization",
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "string",
-                "enum": [
-                  "schema:Organization",
-                  "schema:FundingAgency",
-                  "schema:Consortium",
-                  "schema:Corporation",
-                  "schema:EducationalOrganization",
-                  "schema:FundingScheme",
-                  "schema:GovernmentOrganization",
-                  "schema:NGO",
-                  "schema:Project",
-                  "schema:ResearchOrganization"
-                ]
-              }
-            ]
-          },
-          "contains": {
-            "enum": [
-              "schema:Organization"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:additionalType": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm_1"
-              },
-              {
-                "type": "string"
-              }
-            ]
-          },
-          "x-jsonld-id": "http://schema.org/additionalType"
-        },
-        "schema:name": {
-          "type": "string",
-          "description": "string label for organization that is meaningful for human users",
-          "x-jsonld-id": "http://schema.org/name"
-        },
-        "schema:alternateName": {
-          "type": "string",
-          "description": "other labels by which the organization might be known",
-          "x-jsonld-id": "http://schema.org/alternateName"
-        },
-        "schema:description": {
-          "type": "string",
-          "x-jsonld-id": "http://schema.org/description"
-        },
-        "schema:identifier": {
-          "description": "identifier for organization",
-          "anyOf": [
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "x-jsonld-id": "http://schema.org/identifier"
-        },
-        "schema:sameAs": {
-          "type": "array",
-          "description": "other identifiers for the organization",
-          "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                }
-              }
-            ]
-          },
-          "x-jsonld-id": "http://schema.org/sameAs"
-        }
-      },
-      "allOf": [
-        {
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "anyOf": [
-            {
-              "required": [
-                "schema:name"
-              ]
-            },
-            {
-              "required": [
-                "schema:identifier"
-              ]
-            }
-          ]
-        }
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.agentInRole": {
-      "description": "For more granularity on how a person contributed to a Dataset, use schema:Role. The schema.org documentation does not state that the Role type is an expected data type of author, creator and contributor, but that is addressed in this blog post (http://blog.schema.org/2014/06/introducing-role.html). see https://github.com/ESIPFed/science-on-schema.org/blob/develop/guides/Dataset.md#roles-of-people",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "default": "schema:Role",
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:Role"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:roleName": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm_1"
-            }
-          ],
-          "x-jsonld-id": "http://schema.org/roleName"
-        },
-        "schema:contributor": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string",
-                  "description": "IRI reference to a Person or Organization defined elsewhere"
-                }
-              },
-              "required": [
-                "@id"
-              ]
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.person_1"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization_1"
-            }
-          ],
-          "x-jsonld-id": "http://schema.org/contributor"
-        }
-      },
-      "required": [
-        "@type",
-        "schema:roleName",
-        "schema:contributor"
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/agentInRole/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.monetaryGrant": {
-      "description": "Funding acknowledgement properties, profile of schema.org/MonetaryGrant",
-      "type": "object",
-      "properties": {
-        "@id": {
-          "type": "string",
-          "description": "URI identifier for this funding record"
-        },
-        "@type": {
-          "default": "schema:MonetaryGrant",
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:MonetaryGrant"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:identifier": {
-          "description": "identifier for a particular grant",
-          "x-jsonld-id": "http://schema.org/identifier",
-          "allOf": [
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.monetaryGrant/$defs/Identifier"
-            }
-          ]
-        },
-        "schema:description": {
-          "type": "string",
-          "description": "description of the funding or grant",
-          "x-jsonld-id": "http://schema.org/description"
-        },
-        "schema:name": {
-          "type": "string",
-          "description": "title of the grant",
-          "x-jsonld-id": "http://schema.org/name"
-        },
-        "schema:funder": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string",
-                  "description": "a identifier for an agent defined in this metadata, or externally; must be dereferenceable"
-                }
-              },
-              "required": [
-                "@id"
-              ]
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.monetaryGrant/$defs/Person"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.monetaryGrant/$defs/Organization"
-            }
-          ],
-          "x-jsonld-id": "http://schema.org/funder"
-        }
-      },
-      "anyOf": [
-        {
-          "required": [
-            "schema:funder"
-          ]
-        },
-        {
-          "required": [
-            "schema:identifier"
-          ]
-        },
-        {
-          "required": [
-            "schema:name"
-          ]
-        }
-      ],
-      "$defs": {
-        "Person": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.person_1"
-        },
-        "Organization": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization_1"
-        },
-        "Identifier": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
-        }
-      },
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/monetaryGrant/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.provProperties.generatedBy": {
-      "title": "very simple links or names of software or instruments used to generate a resource.",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 1,
-          "contains": {
-            "enum": [
-              "prov:Activity"
-            ]
-          }
-        },
-        "prov:used": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "a resolvable reference to a representation of the software or instrument used"
-                  }
-                }
-              }
-            ]
-          },
-          "x-jsonld-id": "http://www.w3.org/ns/prov#used"
-        }
-      },
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/",
-        "prov": "http://www.w3.org/ns/prov#"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/generatedBy/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.provProperties.derivedFrom": {
-      "title": "very simple links or names of data sources used to generate the described resource.",
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "a resolvable reference to a representation of the software or instrument used"
-            }
-          }
-        },
-        {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference_1"
-        }
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/",
-        "prov": "http://www.w3.org/ns/prov#"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/derivedFrom/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.cdifDataType.cdifCatalogRecord": {
-      "type": "object",
-      "description": "see https://github.com/Cross-Domain-Interoperability-Framework/Discovery/issues/13 for discussion on how to make assertion about the sample registration and metadata distinct from statements about the physical object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:Dataset"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:additionalType": {
-          "type": "array",
-          "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "dcat:CatalogRecord"
-            ]
-          },
-          "minItems": 1,
-          "x-jsonld-id": "http://schema.org/additionalType"
-        },
-        "@id": {
-          "type": "string",
-          "description": "identifier for the metadata record"
-        },
-        "schema:about": {
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "this must be the @id value of the node containing the resource description metadata"
-            }
-          },
-          "x-jsonld-id": "http://schema.org/about"
-        },
-        "dcterms:conformsTo": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "@id": {
-                "type": "string",
-                "description": "uri for specifications that this metadata record conforms to"
-              }
-            }
-          },
-          "minItems": 1,
-          "description": "uri for specifications that this metadata record conforms to. Minimimally should specify uri for CDIF discovery profile.",
-          "x-jsonld-id": "http://purl.org/dc/terms/conformsTo"
-        },
-        "schema:maintainer": {
-          "description": "Identification of the agent that maintains the metadata, with contact information. Should include person name and affiliation, or position name and affiliation, or just organization name. e-mail address is preferred contact information.",
-          "anyOf": [
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifCatalogRecord/$defs/Person"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifCatalogRecord/$defs/Organization"
-            }
-          ],
-          "x-jsonld-id": "http://schema.org/maintainer"
-        },
-        "schema:sdDatePublished": {
-          "description": "date of most recent update to the metadata content",
-          "type": "string",
-          "format": "date",
-          "x-jsonld-id": "http://schema.org/sdDatePublished"
-        },
-        "schema:includedInDataCatalog": {
-          "type": "object",
-          "description": "identify the source for the origin the metadata record.",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "identifier for the graph node."
-            },
-            "@type": {
-              "default": "schema:DataCatalog",
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "schema:DataCatalog"
-                ]
-              },
-              "minItems": 1
-            },
-            "schema:name": {
-              "type": "string",
-              "x-jsonld-id": "http://schema.org/name"
-            },
-            "schema:url": {
-              "type": "string",
-              "format": "uri",
-              "description": "locator to access a landing page for the collection or catalog",
-              "x-jsonld-id": "http://schema.org/url"
-            },
-            "schema:identifier": {
-              "description": "identifier for the collection or catalog; use identifier_type to provide information on identifier scheme and context for identifier",
-              "x-jsonld-id": "http://schema.org/identifier",
-              "allOf": [
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifCatalogRecord/$defs/Identifier"
-                }
-              ]
-            }
-          },
-          "x-jsonld-id": "http://schema.org/includedInDataCatalog"
-        }
-      },
-      "required": [
-        "schema:about",
-        "dcterms:conformsTo",
-        "schema:additionalType",
-        "@type",
-        "@id"
-      ],
-      "$defs": {
-        "Identifier": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
-        },
-        "Person": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.person_1"
-        },
-        "Organization": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization_1"
-        }
-      },
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/",
-        "ex": "https://example.org/",
-        "xsd": "http://www.w3.org/2001/XMLSchema#",
-        "dcterms": "http://purl.org/dc/terms/",
-        "dcat": "http://www.w3.org/ns/dcat#"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifCatalogRecord/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.labeledLink": {
-      "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "default": "schema:CreativeWork",
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:CreativeWork"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:name": {
-          "type": "string",
-          "x-jsonld-id": "http://schema.org/name"
-        },
-        "schema:description": {
-          "type": "string",
-          "x-jsonld-id": "http://schema.org/description"
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri",
-          "x-jsonld-id": "http://schema.org/url"
-        }
-      },
-      "required": [
-        "@type",
-        "schema:url"
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.definedTerm_1": {
-      "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) \u2014 plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:DefinedTerm"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:name": {
-          "type": "string",
-          "description": "text label for the term that is useful to human user",
-          "x-jsonld-id": "http://schema.org/name"
-        },
-        "schema:identifier": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
-            }
-          ],
-          "x-jsonld-id": "http://schema.org/identifier"
-        },
-        "schema:inDefinedTermSet": {
-          "type": "string",
-          "description": "Name for the controlled vocabulary responsible for this keyword.",
-          "x-jsonld-id": "http://schema.org/inDefinedTermSet"
-        },
-        "schema:termCode": {
-          "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation",
-          "x-jsonld-id": "http://schema.org/termCode"
-        }
-      },
-      "allOf": [
-        {
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "anyOf": [
-            {
-              "required": [
-                "schema:name"
-              ]
-            },
-            {
-              "required": [
-                "schema:identifier"
-              ]
-            },
-            {
-              "required": [
-                "schema:termCode"
-              ]
-            }
-          ]
-        }
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1": {
-      "title": "CDIF Concept Scheme",
-      "description": "Profile module for SKOS concept schemes used as controlled vocabularies in CDIF metadata. Thin wrapper around skosConceptScheme.",
-      "type": "object",
-      "properties": {
-        "@context": {
-          "description": "JSON-LD context declaring the skos namespace prefix and any additional prefixes used in concept URIs. May be a single object or an array of strings and objects.",
-          "type": "object",
-          "properties": {
-            "skos": {
-              "enum": [
-                "http://www.w3.org/2004/02/skos/core#"
-              ]
-            }
-          },
-          "required": [
-            "skos"
-          ]
-        },
-        "@id": {
-          "type": "string",
-          "description": "URI identifier for this concept scheme."
-        },
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "skos:ConceptScheme"
-            ]
-          },
-          "minItems": 1
-        },
-        "skos:prefLabel": {
-          "description": "Preferred lexical label for the concept scheme. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-              }
-            }
-          ]
-        },
-        "skos:altLabel": {
-          "description": "Alternative lexical labels (acronyms, abbreviations, spelling variants).",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:definition": {
-          "description": "Formal explanation of the meaning or purpose of this concept scheme.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:notation": {
-          "description": "Classification code or notation for this concept scheme.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "skos:note": {
-          "description": "General note about the concept scheme.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:hasTopConcept": {
-          "description": "Top-level concepts in this scheme. Each item is a skos:Concept (inline or @id reference).",
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/cdifConcept"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "URI reference to a concept defined elsewhere"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              }
-            ]
-          }
-        },
-        "schema:version": {
-          "description": "Version identifier for the concept scheme.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "number"
-            }
-          ]
-        },
-        "schema:subjectOf": {
-          "description": "Catalog record describing this concept scheme as CDIF-conformant metadata. Must declare conformance to the cdifConceptScheme profile via dcterms:conformsTo and be typed as schema:Dataset with schema:additionalType including dcat:CatalogRecord.",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "schema:Dataset"
-                ]
-              },
-              "minItems": 1
-            },
-            "schema:additionalType": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "dcat:CatalogRecord"
-                ]
-              },
-              "minItems": 1
-            },
-            "dcterms:conformsTo": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              },
-              "contains": {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "enum": [
-                      "https://w3id.org/cdif/conceptscheme/1.1"
-                    ]
-                  }
-                }
-              },
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string",
-              "description": "Identifier for the catalog record."
-            },
-            "schema:about": {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
-            }
-          },
-          "required": [
-            "@type",
-            "schema:additionalType",
-            "dcterms:conformsTo"
-          ]
-        }
-      },
-      "required": [
-        "@type",
-        "skos:prefLabel",
-        "skos:definition",
-        "skos:hasTopConcept"
-      ],
-      "$defs": {
-        "cdifConcept": {
-          "type": "object",
-          "properties": {
-            "@context": {
-              "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
-              "type": "object",
-              "properties": {
-                "skos": {
-                  "enum": [
-                    "http://www.w3.org/2004/02/skos/core#"
-                  ]
-                }
-              },
-              "required": [
-                "skos"
-              ]
-            },
-            "@id": {
-              "type": "string",
-              "description": "URI identifier for this concept."
-            },
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "skos:Concept"
-                ]
-              },
-              "minItems": 1
-            },
-            "skos:prefLabel": {
-              "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                  }
-                }
-              ]
-            },
-            "skos:notation": {
-              "description": "Classification code for this concept within a scheme.",
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "skos:definition": {
-              "description": "Formal explanation of the meaning of this concept.",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                      }
-                    ]
-                  }
-                }
-              ]
-            },
-            "skos:note": {
-              "description": "General note about this concept.",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                      }
-                    ]
-                  }
-                }
-              ]
-            },
-            "skos:inScheme": {
-              "description": "Concept scheme(s) this concept belongs to.",
-              "anyOf": [
-                {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "@id"
-                  ]
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "@id": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "@id"
-                    ]
-                  }
-                }
-              ]
-            },
-            "skos:broader": {
-              "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/ConceptRef"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1"
-                  }
-                ]
-              }
-            },
-            "skos:narrower": {
-              "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/ConceptRef"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1"
-                  }
-                ]
-              }
-            }
-          },
-          "required": [
-            "@type",
-            "skos:prefLabel",
-            "skos:notation"
-          ]
-        },
-        "ConceptRef": {
-          "type": "object",
-          "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "URI of the referenced concept."
-            }
-          },
-          "required": [
-            "@id"
-          ]
-        },
-        "LanguageTaggedValue": {
-          "type": "object",
-          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-          "properties": {
-            "@value": {
-              "type": "string",
-              "description": "The text content."
-            },
-            "@language": {
-              "type": "string",
-              "description": "BCP 47 language tag (e.g. en, fr, de)."
-            }
-          },
-          "required": [
-            "@value"
-          ]
-        }
-      },
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.identifier_1": {
-      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:PropertyValue"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:propertyID": {
-          "type": "string",
-          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability",
-          "x-jsonld-id": "http://schema.org/propertyID"
-        },
-        "schema:value": {
-          "type": "string",
-          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ",
-          "x-jsonld-id": "http://schema.org/value"
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri",
-          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ ",
-          "x-jsonld-id": "http://schema.org/url"
-        }
-      },
-      "allOf": [
-        {
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "anyOf": [
-            {
-              "required": [
-                "schema:value"
-              ]
-            },
-            {
-              "required": [
-                "schema:url"
-              ]
-            }
-          ]
-        }
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.schemaorgProperties.person_1": {
@@ -2310,7 +1750,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm_1"
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
               },
               {
                 "type": "string"
@@ -2406,23 +1846,7 @@
       ],
       "$defs": {
         "cdifConceptOrTerm": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string",
-                  "description": "reference to a skos concept for the data type"
-                }
-              }
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm_1"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/cdifConcept"
-            }
-          ]
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm_1"
         },
         "Relation": {
           "type": "object",
@@ -2656,6 +2080,66 @@
         "schema": "http://schema.org/"
       },
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/action/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.identifier_1": {
+      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "schema:PropertyValue"
+            ]
+          },
+          "minItems": 1
+        },
+        "schema:propertyID": {
+          "type": "string",
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability",
+          "x-jsonld-id": "http://schema.org/propertyID"
+        },
+        "schema:value": {
+          "type": "string",
+          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ",
+          "x-jsonld-id": "http://schema.org/value"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ ",
+          "x-jsonld-id": "http://schema.org/url"
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:value"
+              ]
+            },
+            {
+              "required": [
+                "schema:url"
+              ]
+            }
+          ]
+        }
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.schemaorgProperties.actionResult": {
@@ -3269,23 +2753,7 @@
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier"
     },
     "cdifConceptOrTerm": {
-      "anyOf": [
-        {
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "reference to a skos concept for the data type"
-            }
-          }
-        },
-        {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
-        },
-        {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme/$defs/cdifConcept"
-        }
-      ]
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm"
     },
     "DataDownload": {
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.dataDownload"

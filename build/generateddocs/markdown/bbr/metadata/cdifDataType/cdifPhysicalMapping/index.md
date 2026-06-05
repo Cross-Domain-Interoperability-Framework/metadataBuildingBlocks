@@ -255,14 +255,7 @@ properties:
     x-jsonld-id: https://w3id.org/cdif/formats_InstanceVariable
 $defs:
   cdifConceptOrTerm:
-    anyOf:
-    - type: object
-      properties:
-        '@id':
-          type: string
-          description: reference to a skos concept for the data type
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
 x-jsonld-prefixes:
   cdif: https://w3id.org/cdif/
   schema: http://schema.org/

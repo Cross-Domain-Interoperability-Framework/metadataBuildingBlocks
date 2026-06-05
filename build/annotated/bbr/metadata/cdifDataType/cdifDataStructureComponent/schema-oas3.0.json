@@ -1,5 +1,609 @@
 {
   "x-defs": {
+    "cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm": {
+      "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "reference to a skos concept for the data type"
+            }
+          }
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme/$defs/cdifConcept"
+        }
+      ],
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable": {
+      "title": "DDI-CDI Represented Variable",
+      "description": "Conceptual variable with a substantive value domain specified.",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "cdi:RepresentedVariable"
+            ]
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this RepresentedVariable node"
+        },
+        "cdi:describedUnitOfMeasure": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTerm"
+            }
+          ],
+          "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure"
+        },
+        "cdi:hasIntendedDataType": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTerm"
+            }
+          ],
+          "description": "The data type intended to be used by this variable. Supports the optional use of an external controlled vocabulary.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType"
+        },
+        "cdi:takesSentinelValuesFrom": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifValueDomain/$defs/SentinelValueDomain"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1,
+          "description": "Sentinel (missing / not-applicable) value domain(s) for this RepresentedVariable (RepresentedVariable.takesSentinelValuesFrom).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSentinelValuesFrom"
+        },
+        "cdi:takesSubstantiveValuesFrom": {
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifValueDomain/$defs/SubstantiveValueDomain"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/id-reference"
+            }
+          ],
+          "description": "The substantive value domain for this RepresentedVariable - the set of valid, meaningful values (RepresentedVariable.takesSubstantiveValuesFrom).",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSubstantiveValuesFrom"
+        },
+        "cdi:simpleUnitOfMeasure": {
+          "type": "string",
+          "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a simple string, in cases where no additional information is available (in the legacy system) or needed (as in the case of broad agreement within the community of use [i.e., ISO country codes, currencies, etc. in SDMX])",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/simpleUnitOfMeasure"
+        },
+        "cdif:descriptiveText": {
+          "type": "string",
+          "description": "A short natural language account of the characteristics of the object.",
+          "x-jsonld-id": "https://w3id.org/cdif/descriptiveText"
+        },
+        "cdi:measures": {
+          "anyOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/UnitType"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/id-reference"
+            }
+          ],
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/measures"
+        },
+        "cdi:unitOfMeasureKind": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTerm"
+            }
+          ],
+          "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind"
+        },
+        "cdif:definition": {
+          "type": "string",
+          "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used.",
+          "x-jsonld-id": "https://w3id.org/cdif/definition"
+        },
+        "cdif:displayLabel": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations.",
+          "x-jsonld-id": "https://w3id.org/cdif/displayLabel"
+        },
+        "cdi:externalDefinition": {
+          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/Reference"
+            }
+          ]
+        },
+        "cdi:identifier": {
+          "description": "Identifier for objects requiring short- or long-lasting referencing and management.",
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
+            }
+          ]
+        },
+        "cdif:name": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage.",
+          "x-jsonld-id": "https://w3id.org/cdif/name"
+        },
+        "cdif:uses_Concept": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
+              },
+              {
+                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/id-reference"
+              }
+            ]
+          },
+          "minItems": 1,
+          "x-jsonld-id": "https://w3id.org/cdif/uses_Concept"
+        }
+      },
+      "required": [
+        "@type"
+      ],
+      "$defs": {
+        "cdifConceptOrTerm": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm_1"
+        },
+        "id-reference": {
+          "type": "object",
+          "description": "Reference to a node defined elsewhere in the document via its @id.",
+          "properties": {
+            "@id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "@id"
+          ]
+        },
+        "Reference": {
+          "type": "object",
+          "description": "CDIF reference to an external resource by URL, with optional name and description.",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "cdif:Reference"
+                ]
+              },
+              "minItems": 1
+            },
+            "schema:url": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL of the referenced resource."
+            },
+            "schema:name": {
+              "type": "string",
+              "description": "Human-readable name of the referenced resource."
+            },
+            "schema:description": {
+              "type": "string",
+              "description": "Human-readable description of the reference."
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        },
+        "ConceptSystem": {
+          "type": "object",
+          "description": "Set of concepts structured by the relations among them [GSIM 1.1].",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "cdi:ConceptSystem"
+                ]
+              },
+              "minItems": 1
+            },
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this ConceptSystem node"
+            },
+            "cdi:allowsDuplicates": {
+              "type": "boolean",
+              "description": "If value is False, the members are unique within the collection - if True, there may be duplicates. (Note that a mathematical \u201cbag\u201d permits duplicates and is unordered - a \u201cset\u201d does not have duplicates and may be ordered.)",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/allowsDuplicates"
+            },
+            "cdi:externalDefinition": {
+              "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition",
+              "allOf": [
+                {
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/Reference"
+                }
+              ]
+            },
+            "cdi:identifier": {
+              "description": "Identifier for objects requiring short- or long-lasting referencing and management.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier",
+              "allOf": [
+                {
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
+                }
+              ]
+            },
+            "cdif:name": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage.",
+              "x-jsonld-id": "https://w3id.org/cdif/name"
+            },
+            "cdif:isDefinedBy_Concept": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
+                  },
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/id-reference"
+                  }
+                ]
+              },
+              "minItems": 1,
+              "x-jsonld-id": "https://w3id.org/cdif/isDefinedBy_Concept"
+            },
+            "cdif:has_Concept": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
+                  },
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/id-reference"
+                  }
+                ]
+              },
+              "minItems": 1,
+              "x-jsonld-id": "https://w3id.org/cdif/has_Concept"
+            },
+            "cdi:purpose": {
+              "type": "string",
+              "description": "Intent or reason for the object/the description of the object.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/purpose"
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        },
+        "UnitType": {
+          "type": "object",
+          "description": "Unit type is a type or class of objects of interest (units).",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "cdi:UnitType"
+                ]
+              },
+              "minItems": 1
+            },
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this UnitType node"
+            },
+            "cdif:descriptiveText": {
+              "type": "string",
+              "description": "A short natural language account of the characteristics of the object.",
+              "x-jsonld-id": "https://w3id.org/cdif/descriptiveText"
+            },
+            "cdif:definition": {
+              "type": "string",
+              "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used.",
+              "x-jsonld-id": "https://w3id.org/cdif/definition"
+            },
+            "cdif:displayLabel": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations.",
+              "x-jsonld-id": "https://w3id.org/cdif/displayLabel"
+            },
+            "cdi:externalDefinition": {
+              "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition",
+              "allOf": [
+                {
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/Reference"
+                }
+              ]
+            },
+            "cdi:identifier": {
+              "description": "Identifier for objects requiring short- or long-lasting referencing and management.",
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier",
+              "allOf": [
+                {
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
+                }
+              ]
+            },
+            "cdif:name": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage.",
+              "x-jsonld-id": "https://w3id.org/cdif/name"
+            },
+            "cdif:uses_Concept": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
+                  },
+                  {
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/id-reference"
+                  }
+                ]
+              },
+              "minItems": 1,
+              "x-jsonld-id": "https://w3id.org/cdif/uses_Concept"
+            }
+          },
+          "required": [
+            "@type"
+          ]
+        }
+      },
+      "x-jsonld-prefixes": {
+        "cdif": "https://w3id.org/cdif/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.identifier": {
+      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "schema:PropertyValue"
+            ]
+          },
+          "minItems": 1
+        },
+        "schema:propertyID": {
+          "type": "string",
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability",
+          "x-jsonld-id": "http://schema.org/propertyID"
+        },
+        "schema:value": {
+          "type": "string",
+          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ",
+          "x-jsonld-id": "http://schema.org/value"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ ",
+          "x-jsonld-id": "http://schema.org/url"
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:value"
+              ]
+            },
+            {
+              "required": [
+                "schema:url"
+              ]
+            }
+          ]
+        }
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifDataType.cdifDescriptorVariable": {
+      "title": "DDI-CDI Descriptor Variable",
+      "type": "object",
+      "description": "Variable that provides codes for variable identification in the context of a data structure. Descriptor Variables hold values which reference the logical variables in the data set, indicating which one the associated value in the corresponding Reference Variable is a measure/value for. Descriptor Variables are presentational variables found only in Long Data Sets.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "cdi:DescriptorVariable"
+            ]
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this DescriptorVariable node"
+        },
+        "cdif:hasValuesFrom": {
+          "description": "A cdi:DescriptorValueDomain enumerating the codes that can appear in the descriptor column, each paired (via cdif:isDefinedBy) with the RepresentedVariable that the code names.",
+          "x-jsonld-id": "https://w3id.org/cdif/hasValuesFrom",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDescriptorVariable/$defs/DescriptorValueDomain"
+            }
+          ]
+        },
+        "cdif:name": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage.",
+          "x-jsonld-id": "https://w3id.org/cdif/name"
+        }
+      },
+      "required": [
+        "@type",
+        "cdif:hasValuesFrom"
+      ],
+      "$defs": {
+        "DescriptorValueDomain": {
+          "type": "object",
+          "description": "Set of permissible values for a variable playing the role of a variable descriptor component. Each entry pairs a code (cdif:value) with the RepresentedVariable that the code identifies (cdif:isDefinedBy).",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "enum": [
+                  "cdi:DescriptorValueDomain"
+                ]
+              },
+              "minItems": 1
+            },
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this DescriptorValueDomain node"
+            },
+            "cdif:takesValuesFrom": {
+              "type": "array",
+              "description": "Ordered list of descriptor entries. Each entry has a cdif:value (the code as it appears in the descriptor column) and a cdif:isDefinedBy pointer to the RepresentedVariable that the code names.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "cdif:value": {
+                    "type": "string",
+                    "description": "The code value as it appears in the descriptor column.",
+                    "x-jsonld-id": "https://w3id.org/cdif/value"
+                  },
+                  "cdif:isDefinedBy": {
+                    "anyOf": [
+                      {
+                        "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable_1"
+                      },
+                      {
+                        "type": "object",
+                        "description": "object reference via URI or URI fragment to a RepresentedVariable defined elsewhere in the document",
+                        "properties": {
+                          "@id": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "@id"
+                        ]
+                      }
+                    ],
+                    "x-jsonld-id": "https://w3id.org/cdif/isDefinedBy"
+                  }
+                },
+                "required": [
+                  "cdif:value",
+                  "cdif:isDefinedBy"
+                ]
+              },
+              "minItems": 1,
+              "x-jsonld-id": "https://w3id.org/cdif/takesValuesFrom"
+            }
+          },
+          "required": [
+            "@type",
+            "cdif:takesValuesFrom"
+          ]
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+        "cdif": "https://w3id.org/cdif/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDescriptorVariable/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
     "cdif.bbr.metadata.schemaorgProperties.definedTerm": {
       "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) \u2014 plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
       "type": "object",
@@ -72,7 +676,7 @@
       "x-jsonld-prefixes": {
         "schema": "http://schema.org/"
       },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.json",
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme": {
@@ -525,665 +1129,7 @@
           ]
         }
       },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable": {
-      "title": "DDI-CDI Represented Variable",
-      "description": "Conceptual variable with a substantive value domain specified.",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "cdi:RepresentedVariable"
-            ]
-          },
-          "minItems": 1
-        },
-        "@id": {
-          "type": "string",
-          "description": "Identifier for this RepresentedVariable node"
-        },
-        "cdi:describedUnitOfMeasure": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTerm"
-            }
-          ],
-          "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary.",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure"
-        },
-        "cdi:hasIntendedDataType": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTerm"
-            }
-          ],
-          "description": "The data type intended to be used by this variable. Supports the optional use of an external controlled vocabulary.",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType"
-        },
-        "cdi:takesSentinelValuesFrom": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifValueDomain/$defs/SentinelValueDomain"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/id-reference"
-              }
-            ]
-          },
-          "minItems": 1,
-          "description": "Sentinel (missing / not-applicable) value domain(s) for this RepresentedVariable (RepresentedVariable.takesSentinelValuesFrom).",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSentinelValuesFrom"
-        },
-        "cdi:takesSubstantiveValuesFrom": {
-          "anyOf": [
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifValueDomain/$defs/SubstantiveValueDomain"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/id-reference"
-            }
-          ],
-          "description": "The substantive value domain for this RepresentedVariable - the set of valid, meaningful values (RepresentedVariable.takesSubstantiveValuesFrom).",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSubstantiveValuesFrom"
-        },
-        "cdi:simpleUnitOfMeasure": {
-          "type": "string",
-          "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a simple string, in cases where no additional information is available (in the legacy system) or needed (as in the case of broad agreement within the community of use [i.e., ISO country codes, currencies, etc. in SDMX])",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/simpleUnitOfMeasure"
-        },
-        "cdif:descriptiveText": {
-          "type": "string",
-          "description": "A short natural language account of the characteristics of the object.",
-          "x-jsonld-id": "https://w3id.org/cdif/descriptiveText"
-        },
-        "cdi:measures": {
-          "anyOf": [
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/UnitType"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/id-reference"
-            }
-          ],
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/measures"
-        },
-        "cdi:unitOfMeasureKind": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTerm"
-            }
-          ],
-          "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete.",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind"
-        },
-        "cdif:definition": {
-          "type": "string",
-          "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used.",
-          "x-jsonld-id": "https://w3id.org/cdif/definition"
-        },
-        "cdif:displayLabel": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 1,
-          "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations.",
-          "x-jsonld-id": "https://w3id.org/cdif/displayLabel"
-        },
-        "cdi:externalDefinition": {
-          "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used.",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition",
-          "allOf": [
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/Reference"
-            }
-          ]
-        },
-        "cdi:identifier": {
-          "description": "Identifier for objects requiring short- or long-lasting referencing and management.",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier",
-          "allOf": [
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
-            }
-          ]
-        },
-        "cdif:name": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 1,
-          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage.",
-          "x-jsonld-id": "https://w3id.org/cdif/name"
-        },
-        "cdif:uses_Concept": {
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/id-reference"
-              }
-            ]
-          },
-          "minItems": 1,
-          "x-jsonld-id": "https://w3id.org/cdif/uses_Concept"
-        }
-      },
-      "required": [
-        "@type"
-      ],
-      "$defs": {
-        "cdifConceptOrTerm": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string",
-                  "description": "reference to a skos concept for the data type"
-                }
-              }
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm_1"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/cdifConcept"
-            }
-          ]
-        },
-        "id-reference": {
-          "type": "object",
-          "description": "Reference to a node defined elsewhere in the document via its @id.",
-          "properties": {
-            "@id": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "@id"
-          ]
-        },
-        "Reference": {
-          "type": "object",
-          "description": "CDIF reference to an external resource by URL, with optional name and description.",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "cdif:Reference"
-                ]
-              },
-              "minItems": 1
-            },
-            "schema:url": {
-              "type": "string",
-              "format": "uri",
-              "description": "URL of the referenced resource."
-            },
-            "schema:name": {
-              "type": "string",
-              "description": "Human-readable name of the referenced resource."
-            },
-            "schema:description": {
-              "type": "string",
-              "description": "Human-readable description of the reference."
-            }
-          },
-          "required": [
-            "@type"
-          ]
-        },
-        "ConceptSystem": {
-          "type": "object",
-          "description": "Set of concepts structured by the relations among them [GSIM 1.1].",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "cdi:ConceptSystem"
-                ]
-              },
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string",
-              "description": "Identifier for this ConceptSystem node"
-            },
-            "cdi:allowsDuplicates": {
-              "type": "boolean",
-              "description": "If value is False, the members are unique within the collection - if True, there may be duplicates. (Note that a mathematical \u201cbag\u201d permits duplicates and is unordered - a \u201cset\u201d does not have duplicates and may be ordered.)",
-              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/allowsDuplicates"
-            },
-            "cdi:externalDefinition": {
-              "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used.",
-              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition",
-              "allOf": [
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/Reference"
-                }
-              ]
-            },
-            "cdi:identifier": {
-              "description": "Identifier for objects requiring short- or long-lasting referencing and management.",
-              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier",
-              "allOf": [
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
-                }
-              ]
-            },
-            "cdif:name": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "minItems": 1,
-              "description": "Human understandable name (liguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage.",
-              "x-jsonld-id": "https://w3id.org/cdif/name"
-            },
-            "cdif:isDefinedBy_Concept": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/id-reference"
-                  }
-                ]
-              },
-              "minItems": 1,
-              "x-jsonld-id": "https://w3id.org/cdif/isDefinedBy_Concept"
-            },
-            "cdif:has_Concept": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/id-reference"
-                  }
-                ]
-              },
-              "minItems": 1,
-              "x-jsonld-id": "https://w3id.org/cdif/has_Concept"
-            },
-            "cdi:purpose": {
-              "type": "string",
-              "description": "Intent or reason for the object/the description of the object.",
-              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/purpose"
-            }
-          },
-          "required": [
-            "@type"
-          ]
-        },
-        "UnitType": {
-          "type": "object",
-          "description": "Unit type is a type or class of objects of interest (units).",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "cdi:UnitType"
-                ]
-              },
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string",
-              "description": "Identifier for this UnitType node"
-            },
-            "cdif:descriptiveText": {
-              "type": "string",
-              "description": "A short natural language account of the characteristics of the object.",
-              "x-jsonld-id": "https://w3id.org/cdif/descriptiveText"
-            },
-            "cdif:definition": {
-              "type": "string",
-              "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used.",
-              "x-jsonld-id": "https://w3id.org/cdif/definition"
-            },
-            "cdif:displayLabel": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "minItems": 1,
-              "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations.",
-              "x-jsonld-id": "https://w3id.org/cdif/displayLabel"
-            },
-            "cdi:externalDefinition": {
-              "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used.",
-              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/externalDefinition",
-              "allOf": [
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/Reference"
-                }
-              ]
-            },
-            "cdi:identifier": {
-              "description": "Identifier for objects requiring short- or long-lasting referencing and management.",
-              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/identifier",
-              "allOf": [
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
-                }
-              ]
-            },
-            "cdif:name": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "minItems": 1,
-              "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage.",
-              "x-jsonld-id": "https://w3id.org/cdif/name"
-            },
-            "cdif:uses_Concept": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/id-reference"
-                  }
-                ]
-              },
-              "minItems": 1,
-              "x-jsonld-id": "https://w3id.org/cdif/uses_Concept"
-            }
-          },
-          "required": [
-            "@type"
-          ]
-        }
-      },
-      "x-jsonld-prefixes": {
-        "cdif": "https://w3id.org/cdif/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.identifier": {
-      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:PropertyValue"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:propertyID": {
-          "type": "string",
-          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability",
-          "x-jsonld-id": "http://schema.org/propertyID"
-        },
-        "schema:value": {
-          "type": "string",
-          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ",
-          "x-jsonld-id": "http://schema.org/value"
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri",
-          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ ",
-          "x-jsonld-id": "http://schema.org/url"
-        }
-      },
-      "allOf": [
-        {
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "anyOf": [
-            {
-              "required": [
-                "schema:value"
-              ]
-            },
-            {
-              "required": [
-                "schema:url"
-              ]
-            }
-          ]
-        }
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.cdifDataType.cdifDescriptorVariable": {
-      "title": "DDI-CDI Descriptor Variable",
-      "type": "object",
-      "description": "Variable that provides codes for variable identification in the context of a data structure. Descriptor Variables hold values which reference the logical variables in the data set, indicating which one the associated value in the corresponding Reference Variable is a measure/value for. Descriptor Variables are presentational variables found only in Long Data Sets.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "cdi:DescriptorVariable"
-            ]
-          },
-          "minItems": 1
-        },
-        "@id": {
-          "type": "string",
-          "description": "Identifier for this DescriptorVariable node"
-        },
-        "cdif:hasValuesFrom": {
-          "description": "A cdi:DescriptorValueDomain enumerating the codes that can appear in the descriptor column, each paired (via cdif:isDefinedBy) with the RepresentedVariable that the code names.",
-          "x-jsonld-id": "https://w3id.org/cdif/hasValuesFrom",
-          "allOf": [
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDescriptorVariable/$defs/DescriptorValueDomain"
-            }
-          ]
-        },
-        "cdif:name": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 1,
-          "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage.",
-          "x-jsonld-id": "https://w3id.org/cdif/name"
-        }
-      },
-      "required": [
-        "@type",
-        "cdif:hasValuesFrom"
-      ],
-      "$defs": {
-        "DescriptorValueDomain": {
-          "type": "object",
-          "description": "Set of permissible values for a variable playing the role of a variable descriptor component. Each entry pairs a code (cdif:value) with the RepresentedVariable that the code identifies (cdif:isDefinedBy).",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "cdi:DescriptorValueDomain"
-                ]
-              },
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string",
-              "description": "Identifier for this DescriptorValueDomain node"
-            },
-            "cdif:takesValuesFrom": {
-              "type": "array",
-              "description": "Ordered list of descriptor entries. Each entry has a cdif:value (the code as it appears in the descriptor column) and a cdif:isDefinedBy pointer to the RepresentedVariable that the code names.",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "cdif:value": {
-                    "type": "string",
-                    "description": "The code value as it appears in the descriptor column.",
-                    "x-jsonld-id": "https://w3id.org/cdif/value"
-                  },
-                  "cdif:isDefinedBy": {
-                    "anyOf": [
-                      {
-                        "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable_1"
-                      },
-                      {
-                        "type": "object",
-                        "description": "object reference via URI or URI fragment to a RepresentedVariable defined elsewhere in the document",
-                        "properties": {
-                          "@id": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "@id"
-                        ]
-                      }
-                    ],
-                    "x-jsonld-id": "https://w3id.org/cdif/isDefinedBy"
-                  }
-                },
-                "required": [
-                  "cdif:value",
-                  "cdif:isDefinedBy"
-                ]
-              },
-              "minItems": 1,
-              "x-jsonld-id": "https://w3id.org/cdif/takesValuesFrom"
-            }
-          },
-          "required": [
-            "@type",
-            "cdif:takesValuesFrom"
-          ]
-        }
-      },
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/",
-        "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "cdif": "https://w3id.org/cdif/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDescriptorVariable/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.identifier_1": {
-      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:PropertyValue"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:propertyID": {
-          "type": "string",
-          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability",
-          "x-jsonld-id": "http://schema.org/propertyID"
-        },
-        "schema:value": {
-          "type": "string",
-          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ",
-          "x-jsonld-id": "http://schema.org/value"
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri",
-          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ ",
-          "x-jsonld-id": "http://schema.org/url"
-        }
-      },
-      "allOf": [
-        {
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "anyOf": [
-            {
-              "required": [
-                "schema:value"
-              ]
-            },
-            {
-              "required": [
-                "schema:url"
-              ]
-            }
-          ]
-        }
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml",
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.cdifDataType.cdifValueDomain": {
@@ -1512,6 +1458,66 @@
         "xsd": "http://www.w3.org/2001/XMLSchema#"
       },
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.schemaorgProperties.identifier_1": {
+      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "schema:PropertyValue"
+            ]
+          },
+          "minItems": 1
+        },
+        "schema:propertyID": {
+          "type": "string",
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability",
+          "x-jsonld-id": "http://schema.org/propertyID"
+        },
+        "schema:value": {
+          "type": "string",
+          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ",
+          "x-jsonld-id": "http://schema.org/value"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ ",
+          "x-jsonld-id": "http://schema.org/url"
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:value"
+              ]
+            },
+            {
+              "required": [
+                "schema:url"
+              ]
+            }
+          ]
+        }
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.skosProperties.skosConcept": {
@@ -1893,532 +1899,26 @@
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
-    "cdif.bbr.metadata.schemaorgProperties.definedTerm_1": {
-      "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) \u2014 plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:DefinedTerm"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:name": {
-          "type": "string",
-          "description": "text label for the term that is useful to human user",
-          "x-jsonld-id": "http://schema.org/name"
-        },
-        "schema:identifier": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
-            }
-          ],
-          "x-jsonld-id": "http://schema.org/identifier"
-        },
-        "schema:inDefinedTermSet": {
-          "type": "string",
-          "description": "Name for the controlled vocabulary responsible for this keyword.",
-          "x-jsonld-id": "http://schema.org/inDefinedTermSet"
-        },
-        "schema:termCode": {
-          "type": "string",
-          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation",
-          "x-jsonld-id": "http://schema.org/termCode"
-        }
-      },
-      "allOf": [
+    "cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm_1": {
+      "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+      "anyOf": [
         {
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "anyOf": [
-            {
-              "required": [
-                "schema:name"
-              ]
-            },
-            {
-              "required": [
-                "schema:identifier"
-              ]
-            },
-            {
-              "required": [
-                "schema:termCode"
-              ]
-            }
-          ]
-        }
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1": {
-      "title": "CDIF Concept Scheme",
-      "description": "Profile module for SKOS concept schemes used as controlled vocabularies in CDIF metadata. Thin wrapper around skosConceptScheme.",
-      "type": "object",
-      "properties": {
-        "@context": {
-          "description": "JSON-LD context declaring the skos namespace prefix and any additional prefixes used in concept URIs. May be a single object or an array of strings and objects.",
           "type": "object",
           "properties": {
-            "skos": {
-              "enum": [
-                "http://www.w3.org/2004/02/skos/core#"
-              ]
+            "@id": {
+              "type": "string",
+              "description": "reference to a skos concept for the data type"
             }
-          },
-          "required": [
-            "skos"
-          ]
-        },
-        "@id": {
-          "type": "string",
-          "description": "URI identifier for this concept scheme."
-        },
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "skos:ConceptScheme"
-            ]
-          },
-          "minItems": 1
-        },
-        "skos:prefLabel": {
-          "description": "Preferred lexical label for the concept scheme. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-              }
-            }
-          ]
-        },
-        "skos:altLabel": {
-          "description": "Alternative lexical labels (acronyms, abbreviations, spelling variants).",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:definition": {
-          "description": "Formal explanation of the meaning or purpose of this concept scheme.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        "skos:notation": {
-          "description": "Classification code or notation for this concept scheme.",
-          "type": "array",
-          "items": {
-            "type": "string"
           }
         },
-        "skos:note": {
-          "description": "General note about the concept scheme.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-            },
-            {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                  }
-                ]
-              }
-            }
-          ]
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
         },
-        "skos:hasTopConcept": {
-          "description": "Top-level concepts in this scheme. Each item is a skos:Concept (inline or @id reference).",
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/cdifConcept"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "URI reference to a concept defined elsewhere"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              }
-            ]
-          }
-        },
-        "schema:version": {
-          "description": "Version identifier for the concept scheme.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "number"
-            }
-          ]
-        },
-        "schema:subjectOf": {
-          "description": "Catalog record describing this concept scheme as CDIF-conformant metadata. Must declare conformance to the cdifConceptScheme profile via dcterms:conformsTo and be typed as schema:Dataset with schema:additionalType including dcat:CatalogRecord.",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "schema:Dataset"
-                ]
-              },
-              "minItems": 1
-            },
-            "schema:additionalType": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "dcat:CatalogRecord"
-                ]
-              },
-              "minItems": 1
-            },
-            "dcterms:conformsTo": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              },
-              "contains": {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "enum": [
-                      "https://w3id.org/cdif/conceptscheme/1.1"
-                    ]
-                  }
-                }
-              },
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string",
-              "description": "Identifier for the catalog record."
-            },
-            "schema:about": {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
-            }
-          },
-          "required": [
-            "@type",
-            "schema:additionalType",
-            "dcterms:conformsTo"
-          ]
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme/$defs/cdifConcept"
         }
-      },
-      "required": [
-        "@type",
-        "skos:prefLabel",
-        "skos:definition",
-        "skos:hasTopConcept"
       ],
-      "$defs": {
-        "cdifConcept": {
-          "type": "object",
-          "properties": {
-            "@context": {
-              "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
-              "type": "object",
-              "properties": {
-                "skos": {
-                  "enum": [
-                    "http://www.w3.org/2004/02/skos/core#"
-                  ]
-                }
-              },
-              "required": [
-                "skos"
-              ]
-            },
-            "@id": {
-              "type": "string",
-              "description": "URI identifier for this concept."
-            },
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "enum": [
-                  "skos:Concept"
-                ]
-              },
-              "minItems": 1
-            },
-            "skos:prefLabel": {
-              "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                  }
-                }
-              ]
-            },
-            "skos:notation": {
-              "description": "Classification code for this concept within a scheme.",
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "skos:definition": {
-              "description": "Formal explanation of the meaning of this concept.",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                      }
-                    ]
-                  }
-                }
-              ]
-            },
-            "skos:note": {
-              "description": "General note about this concept.",
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/LanguageTaggedValue"
-                      }
-                    ]
-                  }
-                }
-              ]
-            },
-            "skos:inScheme": {
-              "description": "Concept scheme(s) this concept belongs to.",
-              "anyOf": [
-                {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "@id"
-                  ]
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "@id": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "@id"
-                    ]
-                  }
-                }
-              ]
-            },
-            "skos:broader": {
-              "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/ConceptRef"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1"
-                  }
-                ]
-              }
-            },
-            "skos:narrower": {
-              "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/ConceptRef"
-                  },
-                  {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1"
-                  }
-                ]
-              }
-            }
-          },
-          "required": [
-            "@type",
-            "skos:prefLabel",
-            "skos:notation"
-          ]
-        },
-        "ConceptRef": {
-          "type": "object",
-          "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "URI of the referenced concept."
-            }
-          },
-          "required": [
-            "@id"
-          ]
-        },
-        "LanguageTaggedValue": {
-          "type": "object",
-          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-          "properties": {
-            "@value": {
-              "type": "string",
-              "description": "The text content."
-            },
-            "@language": {
-              "type": "string",
-              "description": "BCP 47 language tag (e.g. en, fr, de)."
-            }
-          },
-          "required": [
-            "@value"
-          ]
-        }
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml",
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable_1": {
@@ -2589,23 +2089,7 @@
       ],
       "$defs": {
         "cdifConceptOrTerm": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string",
-                  "description": "reference to a skos concept for the data type"
-                }
-              }
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm_1"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme_1/$defs/cdifConcept"
-            }
-          ]
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm_1"
         },
         "id-reference": {
           "type": "object",
@@ -3276,23 +2760,7 @@
   ],
   "$defs": {
     "cdifConceptOrTerm": {
-      "anyOf": [
-        {
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "reference to a skos concept for the data type"
-            }
-          }
-        },
-        {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
-        },
-        {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme/$defs/cdifConcept"
-        }
-      ]
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm"
     },
     "id-reference": {
       "type": "object",

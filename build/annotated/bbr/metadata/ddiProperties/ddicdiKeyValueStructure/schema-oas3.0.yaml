@@ -4693,14 +4693,7 @@ x-defs:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured
     $defs:
       cdifConceptOrTerm:
-        anyOf:
-        - type: object
-          properties:
-            '@id':
-              type: string
-              description: reference to a skos concept for the data type
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme/$defs/cdifConcept
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
     x-jsonld-prefixes:
       cdif: https://w3id.org/cdif/
       schema: http://schema.org/
@@ -5335,14 +5328,7 @@ x-defs:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/StatisticsCollection
     $defs:
       cdifConceptOrTerm:
-        anyOf:
-        - type: object
-          properties:
-            '@id':
-              type: string
-              description: reference to a skos concept for the data type
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme/$defs/cdifConcept
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
       Statistic:
         title: Statistic
         description: "DDI-CDI Statistic dataType \u2014 a single computed value (mean,
@@ -5727,10 +5713,39 @@ x-defs:
       DefinedTerm:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
       Reference:
-        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm:
+    description: A SKOS concept identified by URI, a schema:DefinedTerm, or an inline
+      cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary
+      reference or an inline concept definition.
+    anyOf:
+    - type: object
+      properties:
+        '@id':
+          type: string
+          description: reference to a skos concept for the data type
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme/$defs/cdifConcept
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.ddiProperties.ddicdiAgent:
+    title: DDI-CDI Agent
+    description: DDI-CDI Agent class hierarchy. Covers Individual (person), Machine
+      (software/hardware), Organization (group/institution), and ProcessingAgent (orchestrates
+      production activities) using DDI Cross-Domain Integration vocabulary. Each agent
+      subtype is defined in its own building block; this schema composes them.
+    anyOf:
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiIndividual
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiMachine
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiOrganization
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiProcessingAgent
+    x-jsonld-prefixes:
+      cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.definedTerm:
     description: "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF
@@ -5785,6 +5800,36 @@ x-defs:
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.schemaorgProperties.labeledLink:
+    description: schema for a labeled link, a profile of schema.org/CreativeWork
+    type: object
+    properties:
+      '@type':
+        default: schema:CreativeWork
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:CreativeWork
+        minItems: 1
+      schema:name:
+        type: string
+        x-jsonld-id: http://schema.org/name
+      schema:description:
+        type: string
+        x-jsonld-id: http://schema.org/description
+      schema:url:
+        type: string
+        format: uri
+        x-jsonld-id: http://schema.org/url
+    required:
+    - '@type'
+    - schema:url
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme:
     title: CDIF Concept Scheme
@@ -6063,132 +6108,6 @@ x-defs:
         - '@value'
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.ddiProperties.ddicdiAgent:
-    title: DDI-CDI Agent
-    description: DDI-CDI Agent class hierarchy. Covers Individual (person), Machine
-      (software/hardware), Organization (group/institution), and ProcessingAgent (orchestrates
-      production activities) using DDI Cross-Domain Integration vocabulary. Each agent
-      subtype is defined in its own building block; this schema composes them.
-    anyOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiIndividual
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiMachine
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiOrganization
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.ddiProperties.ddicdiProcessingAgent
-    x-jsonld-prefixes:
-      cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiAgent/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.cdifDataType.cdifReference:
-    type: object
-    description: Building block to implement relations to other resources using a
-      URL and some semantics.
-    allOf:
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference/$defs/Relation
-    $defs:
-      cdifConceptOrTerm:
-        anyOf:
-        - type: object
-          properties:
-            '@id':
-              type: string
-              description: reference to a skos concept for the data type
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme/$defs/cdifConcept
-      Relation:
-        type: object
-        description: DCAT Relationship surface added on top of the schema.org labeled
-          link construct.
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            contains:
-              enum:
-              - dcat:Relationship
-            minItems: 1
-          dcat:hadRole:
-            description: Role of the related resource as a SKOS Concept (DCAT canonical
-              role slot).
-            anyOf:
-            - type: string
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiKeyValueStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference/$defs/cdifConceptOrTerm
-            x-jsonld-id: http://www.w3.org/ns/dcat#hadRole
-          dcterms:relation:
-            type: string
-            format: uri
-            description: URI of the related resource (DCAT canonical pointer to what
-              is being related to; distinct from schema:url which is the presentation
-              URL inherited from labeledLink).
-            x-jsonld-id: http://purl.org/dc/terms/relation
-    x-jsonld-prefixes:
-      schema: http://schema.org/
-      skos: http://www.w3.org/2004/02/skos/core#
-      cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-      cdif: https://w3id.org/cdif/
-      ex: https://example.org/
-      xsd: http://www.w3.org/2001/XMLSchema#
-      dcterms: http://purl.org/dc/terms/
-      dcat: http://www.w3.org/ns/dcat#
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifReference/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.identifier:
-    description: 'Properties for a schema.org identifier (schema:PropertyValue pattern).
-
-
-      **Union-type policy:** In CDIF profile UML models an attribute typed as
-
-      schema:Identifier / schema:PropertyValue is represented by a single attribute
-
-      of that class type. The JSON Schema implementation permits the property value
-
-      to be EITHER a plain string (interpreted as the bare identifier value) OR a
-
-      full schema:PropertyValue object (with explicit @type, propertyID, value).
-
-      Consumers should accept either form.
-
-      '
-    type: object
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          enum:
-          - schema:PropertyValue
-        minItems: 1
-      schema:propertyID:
-        type: string
-        description: In this context for the schema:PropertyValue, this field is an
-          identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
-          for interoperability
-        x-jsonld-id: http://schema.org/propertyID
-      schema:value:
-        type: string
-        description: the identifier string. E.g. 10.5066/F7VX0DMQ
-        x-jsonld-id: http://schema.org/value
-      schema:url:
-        type: string
-        format: uri
-        description: 'web-resolveable string for the identifier; host name part is
-          location of a resolver that will return some representation for the given
-          identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ '
-        x-jsonld-id: http://schema.org/url
-    allOf:
-    - required:
-      - '@type'
-    - anyOf:
-      - required:
-        - schema:value
-      - required:
-        - schema:url
-    x-jsonld-prefixes:
-      schema: http://schema.org/
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.ddiProperties.ddicdiIndividual:
     title: DDI-CDI Individual
     description: DDI-CDI Individual agent (cls-Individual, extends Agent). Represents
@@ -6420,35 +6339,60 @@ x-defs:
       cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/ddiProperties/ddicdiProcessingAgent/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.labeledLink:
-    description: schema for a labeled link, a profile of schema.org/CreativeWork
+  cdif.bbr.metadata.schemaorgProperties.identifier:
+    description: 'Properties for a schema.org identifier (schema:PropertyValue pattern).
+
+      **Union-type policy:** In CDIF profile UML models an attribute typed as
+
+      schema:Identifier / schema:PropertyValue is represented by a single attribute
+
+      of that class type. The JSON Schema implementation permits the property value
+
+      to be EITHER a plain string (interpreted as the bare identifier value) OR a
+
+      full schema:PropertyValue object (with explicit @type, propertyID, value).
+
+      Consumers should accept either form.
+
+      '
     type: object
     properties:
       '@type':
-        default: schema:CreativeWork
         type: array
         items:
           type: string
         contains:
           enum:
-          - schema:CreativeWork
+          - schema:PropertyValue
         minItems: 1
-      schema:name:
+      schema:propertyID:
         type: string
-        x-jsonld-id: http://schema.org/name
-      schema:description:
+        description: In this context for the schema:PropertyValue, this field is an
+          identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
+          for interoperability
+        x-jsonld-id: http://schema.org/propertyID
+      schema:value:
         type: string
-        x-jsonld-id: http://schema.org/description
+        description: the identifier string. E.g. 10.5066/F7VX0DMQ
+        x-jsonld-id: http://schema.org/value
       schema:url:
         type: string
         format: uri
+        description: 'web-resolveable string for the identifier; host name part is
+          location of a resolver that will return some representation for the given
+          identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ '
         x-jsonld-id: http://schema.org/url
-    required:
-    - '@type'
-    - schema:url
+    allOf:
+    - required:
+      - '@type'
+    - anyOf:
+      - required:
+        - schema:value
+      - required:
+        - schema:url
     x-jsonld-prefixes:
       schema: http://schema.org/
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
 title: DDI-CDI Key Value Structure
 description: Structure of a key-value datastore (organized collection of key-value
