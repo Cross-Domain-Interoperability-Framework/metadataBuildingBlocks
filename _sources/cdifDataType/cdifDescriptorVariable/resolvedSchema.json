@@ -262,20 +262,73 @@
                                                   }
                                                 },
                                                 "schema:subjectOf": {
-                                                  "type": "array",
-                                                  "items": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "@id": {
+                                                  "description": "Catalog record describing this codelist as CDIF-conformant metadata. Must declare conformance to the cdifCodelist profile via dcterms:conformsTo and be typed as schema:Dataset with schema:additionalType including dcat:CatalogRecord.",
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "@type": {
+                                                      "type": "array",
+                                                      "items": {
+                                                        "type": "string"
+                                                      },
+                                                      "contains": {
+                                                        "const": "schema:Dataset"
+                                                      },
+                                                      "minItems": 1
+                                                    },
+                                                    "schema:additionalType": {
+                                                      "type": "array",
+                                                      "items": {
+                                                        "type": "string"
+                                                      },
+                                                      "contains": {
+                                                        "const": "dcat:CatalogRecord"
+                                                      },
+                                                      "minItems": 1
+                                                    },
+                                                    "dcterms:conformsTo": {
+                                                      "type": "array",
+                                                      "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "@id": {
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "required": [
+                                                          "@id"
+                                                        ]
+                                                      },
+                                                      "contains": {
                                                         "type": "object",
                                                         "properties": {
                                                           "@id": {
                                                             "const": "https://w3id.org/cdif/codelist/1.1"
                                                           }
                                                         }
-                                                      }
+                                                      },
+                                                      "minItems": 1
+                                                    },
+                                                    "@id": {
+                                                      "type": "string",
+                                                      "description": "Identifier for the catalog record."
+                                                    },
+                                                    "schema:about": {
+                                                      "type": "object",
+                                                      "properties": {
+                                                        "@id": {
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "required": [
+                                                        "@id"
+                                                      ]
                                                     }
-                                                  }
+                                                  },
+                                                  "required": [
+                                                    "@type",
+                                                    "schema:additionalType",
+                                                    "dcterms:conformsTo"
+                                                  ]
                                                 }
                                               },
                                               "anyOf": [
@@ -663,20 +716,73 @@
                                                 }
                                               },
                                               "schema:subjectOf": {
-                                                "type": "array",
-                                                "items": {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "@id": {
+                                                "description": "Catalog record describing this codelist as CDIF-conformant metadata. Must declare conformance to the cdifCodelist profile via dcterms:conformsTo and be typed as schema:Dataset with schema:additionalType including dcat:CatalogRecord.",
+                                                "type": "object",
+                                                "properties": {
+                                                  "@type": {
+                                                    "type": "array",
+                                                    "items": {
+                                                      "type": "string"
+                                                    },
+                                                    "contains": {
+                                                      "const": "schema:Dataset"
+                                                    },
+                                                    "minItems": 1
+                                                  },
+                                                  "schema:additionalType": {
+                                                    "type": "array",
+                                                    "items": {
+                                                      "type": "string"
+                                                    },
+                                                    "contains": {
+                                                      "const": "dcat:CatalogRecord"
+                                                    },
+                                                    "minItems": 1
+                                                  },
+                                                  "dcterms:conformsTo": {
+                                                    "type": "array",
+                                                    "items": {
+                                                      "type": "object",
+                                                      "properties": {
+                                                        "@id": {
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "required": [
+                                                        "@id"
+                                                      ]
+                                                    },
+                                                    "contains": {
                                                       "type": "object",
                                                       "properties": {
                                                         "@id": {
                                                           "const": "https://w3id.org/cdif/codelist/1.1"
                                                         }
                                                       }
-                                                    }
+                                                    },
+                                                    "minItems": 1
+                                                  },
+                                                  "@id": {
+                                                    "type": "string",
+                                                    "description": "Identifier for the catalog record."
+                                                  },
+                                                  "schema:about": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "@id": {
+                                                        "type": "string"
+                                                      }
+                                                    },
+                                                    "required": [
+                                                      "@id"
+                                                    ]
                                                   }
-                                                }
+                                                },
+                                                "required": [
+                                                  "@type",
+                                                  "schema:additionalType",
+                                                  "dcterms:conformsTo"
+                                                ]
                                               }
                                             },
                                             "anyOf": [
@@ -1049,12 +1155,12 @@
                                               "type": "string"
                                             },
                                             {
-                                              "$ref": "#/$defs/LanguageTaggedValue"
+                                              "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                             },
                                             {
                                               "type": "array",
                                               "items": {
-                                                "$ref": "#/$defs/LanguageTaggedValue"
+                                                "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                               }
                                             }
                                           ]
@@ -1073,7 +1179,7 @@
                                               "type": "string"
                                             },
                                             {
-                                              "$ref": "#/$defs/LanguageTaggedValue"
+                                              "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                             },
                                             {
                                               "type": "array",
@@ -1083,7 +1189,7 @@
                                                     "type": "string"
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/LanguageTaggedValue"
+                                                    "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                                   }
                                                 ]
                                               }
@@ -1097,7 +1203,7 @@
                                               "type": "string"
                                             },
                                             {
-                                              "$ref": "#/$defs/LanguageTaggedValue"
+                                              "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                             },
                                             {
                                               "type": "array",
@@ -1107,7 +1213,7 @@
                                                     "type": "string"
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/LanguageTaggedValue"
+                                                    "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                                   }
                                                 ]
                                               }
@@ -1121,7 +1227,7 @@
                                               "type": "string"
                                             },
                                             {
-                                              "$ref": "#/$defs/LanguageTaggedValue"
+                                              "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                             },
                                             {
                                               "type": "array",
@@ -1131,7 +1237,7 @@
                                                     "type": "string"
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/LanguageTaggedValue"
+                                                    "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                                   }
                                                 ]
                                               }
@@ -1145,7 +1251,7 @@
                                               "type": "string"
                                             },
                                             {
-                                              "$ref": "#/$defs/LanguageTaggedValue"
+                                              "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                             },
                                             {
                                               "type": "array",
@@ -1155,7 +1261,7 @@
                                                     "type": "string"
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/LanguageTaggedValue"
+                                                    "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                                   }
                                                 ]
                                               }
@@ -1169,7 +1275,7 @@
                                               "type": "string"
                                             },
                                             {
-                                              "$ref": "#/$defs/LanguageTaggedValue"
+                                              "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                             },
                                             {
                                               "type": "array",
@@ -1179,7 +1285,7 @@
                                                     "type": "string"
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/LanguageTaggedValue"
+                                                    "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                                   }
                                                 ]
                                               }
@@ -1193,7 +1299,7 @@
                                               "type": "string"
                                             },
                                             {
-                                              "$ref": "#/$defs/LanguageTaggedValue"
+                                              "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                             },
                                             {
                                               "type": "array",
@@ -1203,7 +1309,7 @@
                                                     "type": "string"
                                                   },
                                                   {
-                                                    "$ref": "#/$defs/LanguageTaggedValue"
+                                                    "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                                   }
                                                 ]
                                               }
@@ -1460,12 +1566,12 @@
                                       "type": "string"
                                     },
                                     {
-                                      "$ref": "#/$defs/LanguageTaggedValue"
+                                      "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                     },
                                     {
                                       "type": "array",
                                       "items": {
-                                        "$ref": "#/$defs/LanguageTaggedValue"
+                                        "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                       }
                                     }
                                   ]
@@ -1484,7 +1590,7 @@
                                       "type": "string"
                                     },
                                     {
-                                      "$ref": "#/$defs/LanguageTaggedValue"
+                                      "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                     },
                                     {
                                       "type": "array",
@@ -1494,7 +1600,7 @@
                                             "type": "string"
                                           },
                                           {
-                                            "$ref": "#/$defs/LanguageTaggedValue"
+                                            "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                           }
                                         ]
                                       }
@@ -1508,7 +1614,7 @@
                                       "type": "string"
                                     },
                                     {
-                                      "$ref": "#/$defs/LanguageTaggedValue"
+                                      "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                     },
                                     {
                                       "type": "array",
@@ -1518,7 +1624,7 @@
                                             "type": "string"
                                           },
                                           {
-                                            "$ref": "#/$defs/LanguageTaggedValue"
+                                            "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                           }
                                         ]
                                       }
@@ -1532,7 +1638,7 @@
                                       "type": "string"
                                     },
                                     {
-                                      "$ref": "#/$defs/LanguageTaggedValue"
+                                      "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                     },
                                     {
                                       "type": "array",
@@ -1542,7 +1648,7 @@
                                             "type": "string"
                                           },
                                           {
-                                            "$ref": "#/$defs/LanguageTaggedValue"
+                                            "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                           }
                                         ]
                                       }
@@ -1556,7 +1662,7 @@
                                       "type": "string"
                                     },
                                     {
-                                      "$ref": "#/$defs/LanguageTaggedValue"
+                                      "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                     },
                                     {
                                       "type": "array",
@@ -1566,7 +1672,7 @@
                                             "type": "string"
                                           },
                                           {
-                                            "$ref": "#/$defs/LanguageTaggedValue"
+                                            "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                           }
                                         ]
                                       }
@@ -1580,7 +1686,7 @@
                                       "type": "string"
                                     },
                                     {
-                                      "$ref": "#/$defs/LanguageTaggedValue"
+                                      "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                     },
                                     {
                                       "type": "array",
@@ -1590,7 +1696,7 @@
                                             "type": "string"
                                           },
                                           {
-                                            "$ref": "#/$defs/LanguageTaggedValue"
+                                            "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                           }
                                         ]
                                       }
@@ -1604,7 +1710,7 @@
                                       "type": "string"
                                     },
                                     {
-                                      "$ref": "#/$defs/LanguageTaggedValue"
+                                      "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                     },
                                     {
                                       "type": "array",
@@ -1614,7 +1720,7 @@
                                             "type": "string"
                                           },
                                           {
-                                            "$ref": "#/$defs/LanguageTaggedValue"
+                                            "$ref": "#/$defs/SkosConcept_LanguageTaggedValue"
                                           }
                                         ]
                                       }
@@ -1771,57 +1877,8 @@
     "cdif:hasValuesFrom"
   ],
   "$defs": {
-    "Identifier": {
-      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "schema:PropertyValue"
-          },
-          "minItems": 1
-        },
-        "schema:propertyID": {
-          "type": "string",
-          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
-        },
-        "schema:value": {
-          "type": "string",
-          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri",
-          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
-        }
-      },
-      "allOf": [
-        {
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "anyOf": [
-            {
-              "required": [
-                "schema:value"
-              ]
-            },
-            {
-              "required": [
-                "schema:url"
-              ]
-            }
-          ]
-        }
-      ]
-    },
     "cdifConceptOrTerm": {
+      "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
       "anyOf": [
         {
           "type": "object",
@@ -1932,12 +1989,12 @@
                   "type": "string"
                 },
                 {
-                  "$ref": "#/$defs/CdifConceptScheme_LanguageTaggedValue"
+                  "$ref": "#/$defs/LanguageTaggedValue"
                 },
                 {
                   "type": "array",
                   "items": {
-                    "$ref": "#/$defs/CdifConceptScheme_LanguageTaggedValue"
+                    "$ref": "#/$defs/LanguageTaggedValue"
                   }
                 }
               ]
@@ -1956,7 +2013,7 @@
                   "type": "string"
                 },
                 {
-                  "$ref": "#/$defs/CdifConceptScheme_LanguageTaggedValue"
+                  "$ref": "#/$defs/LanguageTaggedValue"
                 },
                 {
                   "type": "array",
@@ -1966,7 +2023,7 @@
                         "type": "string"
                       },
                       {
-                        "$ref": "#/$defs/CdifConceptScheme_LanguageTaggedValue"
+                        "$ref": "#/$defs/LanguageTaggedValue"
                       }
                     ]
                   }
@@ -1980,7 +2037,7 @@
                   "type": "string"
                 },
                 {
-                  "$ref": "#/$defs/CdifConceptScheme_LanguageTaggedValue"
+                  "$ref": "#/$defs/LanguageTaggedValue"
                 },
                 {
                   "type": "array",
@@ -1990,7 +2047,7 @@
                         "type": "string"
                       },
                       {
-                        "$ref": "#/$defs/CdifConceptScheme_LanguageTaggedValue"
+                        "$ref": "#/$defs/LanguageTaggedValue"
                       }
                     ]
                   }
@@ -2084,6 +2141,56 @@
         }
       ]
     },
+    "Identifier": {
+      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:PropertyValue"
+          },
+          "minItems": 1
+        },
+        "schema:propertyID": {
+          "type": "string",
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+        },
+        "schema:value": {
+          "type": "string",
+          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:value"
+              ]
+            },
+            {
+              "required": [
+                "schema:url"
+              ]
+            }
+          ]
+        }
+      ]
+    },
     "id-reference": {
       "type": "object",
       "description": "Reference to a node defined elsewhere in the document via its @id.",
@@ -2094,6 +2201,23 @@
       },
       "required": [
         "@id"
+      ]
+    },
+    "LanguageTaggedValue": {
+      "type": "object",
+      "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
+      "properties": {
+        "@value": {
+          "type": "string",
+          "description": "The text content."
+        },
+        "@language": {
+          "type": "string",
+          "description": "BCP 47 language tag (e.g. en, fr, de)."
+        }
+      },
+      "required": [
+        "@value"
       ]
     },
     "CdifCodelistConcept": {
@@ -2185,7 +2309,7 @@
         "skos:notation"
       ]
     },
-    "LanguageTaggedValue": {
+    "SkosConcept_LanguageTaggedValue": {
       "type": "object",
       "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object.",
       "properties": {
@@ -2214,23 +2338,6 @@
       },
       "required": [
         "@id"
-      ]
-    },
-    "CdifConceptScheme_LanguageTaggedValue": {
-      "type": "object",
-      "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-      "properties": {
-        "@value": {
-          "type": "string",
-          "description": "The text content."
-        },
-        "@language": {
-          "type": "string",
-          "description": "BCP 47 language tag (e.g. en, fr, de)."
-        }
-      },
-      "required": [
-        "@value"
       ]
     }
   }
