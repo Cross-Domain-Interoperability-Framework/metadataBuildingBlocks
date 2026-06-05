@@ -82,7 +82,7 @@ ComponentPosition wrapper.
   "@context": {
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "ex": "https://example.org/"
   },
@@ -232,13 +232,13 @@ ComponentPosition wrapper.
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/"
+      "cdif": "https://w3id.org/cdif/"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/context.jsonld",
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "xsd": "http://www.w3.org/2001/XMLSchema#",
       "ex": "https://example.org/"
     }
@@ -384,7 +384,7 @@ ComponentPosition wrapper.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 
 <https://example.org/struct/vitalsLong> a cdi:LongDataStructure ;
     cdi:has_DataStructureComponent <https://example.org/struct/vitalsLong/comp/measureName>,
@@ -429,10 +429,10 @@ ComponentPosition wrapper.
     cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
-            cdif:value "heart_rate" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
-            cdif:value "systolic_bp" ] .
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
+            cdif:value "systolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
+            cdif:value "heart_rate" ] .
 
 <https://example.org/struct/vitalsLong/comp/measureValue> a cdi:VariableValueComponent ;
     cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/measureValue> .
@@ -454,7 +454,7 @@ each cell in the cube.
   "@context": {
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "ex": "https://example.org/",
     "skos": "http://www.w3.org/2004/02/skos/core#"
@@ -629,13 +629,13 @@ each cell in the cube.
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/"
+      "cdif": "https://w3id.org/cdif/"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/context.jsonld",
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "xsd": "http://www.w3.org/2001/XMLSchema#",
       "ex": "https://example.org/",
       "skos": "http://www.w3.org/2004/02/skos/core#"
@@ -806,7 +806,7 @@ each cell in the cube.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 <https://example.org/struct/salesCube> a cdi:DimensionalDataStructure ;
@@ -886,7 +886,7 @@ array — wide-format rows are uniquely identified by patientId alone.
   "@context": {
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "ex": "https://example.org/"
   },
@@ -1036,13 +1036,13 @@ array — wide-format rows are uniquely identified by patientId alone.
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/"
+      "cdif": "https://w3id.org/cdif/"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/context.jsonld",
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "xsd": "http://www.w3.org/2001/XMLSchema#",
       "ex": "https://example.org/"
     }
@@ -1188,7 +1188,7 @@ array — wide-format rows are uniquely identified by patientId alone.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 
 <https://example.org/struct/vitalsWide> a cdi:WideDataStructure ;
     cdi:has_DataStructureComponent <https://example.org/struct/vitalsWide/comp/diastolicBP>,
@@ -1483,7 +1483,7 @@ $defs:
         description: Human understandable name (liguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
-        x-jsonld-id: https://cdif.org/0.1/name
+        x-jsonld-id: https://w3id.org/cdif/name
       cdif:has_DataStructureComponent:
         type: array
         items:
@@ -1491,7 +1491,7 @@ $defs:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema.yaml
           - $ref: '#/$defs/id-reference'
         minItems: 1
-        x-jsonld-id: https://cdif.org/0.1/has_DataStructureComponent
+        x-jsonld-id: https://w3id.org/cdif/has_DataStructureComponent
     required:
     - '@type'
   ForeignKey:
@@ -1522,7 +1522,7 @@ $defs:
                 type: integer
                 minimum: 1
                 description: 1-based position of this component in the key.
-                x-jsonld-id: https://cdif.org/0.1/position
+                x-jsonld-id: https://w3id.org/cdif/position
             required:
             - cdif:position
         minItems: 1
@@ -1564,16 +1564,16 @@ $defs:
                 type: integer
                 minimum: 1
                 description: 1-based position of this component in the key.
-                x-jsonld-id: https://cdif.org/0.1/position
+                x-jsonld-id: https://w3id.org/cdif/position
         required:
         - cdif:position
         minItems: 1
-        x-jsonld-id: https://cdif.org/0.1/isComposedOf
+        x-jsonld-id: https://w3id.org/cdif/isComposedOf
     required:
     - '@type'
     - cdif:isComposedOf
 x-jsonld-prefixes:
-  cdif: https://cdif.org/0.1/
+  cdif: https://w3id.org/cdif/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
 
 ```
@@ -1589,7 +1589,7 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "schema": "http://schema.org/",
     "skos": "http://www.w3.org/2004/02/skos/core#",

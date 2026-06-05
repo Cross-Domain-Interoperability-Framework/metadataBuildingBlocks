@@ -27,7 +27,7 @@ that const.
 {
   "@context": {
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "schema": "http://schema.org/",
     "ex": "https://example.org/"
   },
@@ -66,7 +66,7 @@ that const.
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifLongData/context.jsonld",
     {
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "schema": "http://schema.org/",
       "ex": "https://example.org/"
     }
@@ -106,7 +106,7 @@ that const.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -122,10 +122,10 @@ ex:var-value a cdi:InstanceVariable,
     cdif:role "ReferenceVariable" .
 
 [] a cdi:LongStructureDataSet ;
-    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-value ;
-            cdif:index 1 ],
-        [ cdif:formats_InstanceVariable ex:var-descriptor ;
-            cdif:index 0 ] .
+    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-descriptor ;
+            cdif:index 0 ],
+        [ cdif:formats_InstanceVariable ex:var-value ;
+            cdif:index 1 ] .
 
 
 ```
@@ -141,7 +141,7 @@ to their InstanceVariables.
     "@context": {
         "schema": "http://schema.org/",
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "cdif": "https://cdif.org/0.1/",
+        "cdif": "https://w3id.org/cdif/",
         "csvw": "http://www.w3.org/ns/csvw#",
         "ex": "https://example.org/"
     },
@@ -188,7 +188,7 @@ to their InstanceVariables.
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "csvw": "http://www.w3.org/ns/csvw#",
       "ex": "https://example.org/"
     }
@@ -234,7 +234,7 @@ to their InstanceVariables.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
@@ -291,7 +291,7 @@ properties:
     description: Links variables to their physical representation in this dataset.
     items:
       $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifPhysicalMapping/schema.yaml
-    x-jsonld-id: https://cdif.org/0.1/hasPhysicalMapping
+    x-jsonld-id: https://w3id.org/cdif/hasPhysicalMapping
   cdif:isStructuredBy:
     description: Reference to the LongDataStructure node (cdifDataStructure $def)
       that describes how this distribution's bytes are organized.
@@ -303,7 +303,7 @@ properties:
           type: string
       required:
       - '@id'
-    x-jsonld-id: https://cdif.org/0.1/isStructuredBy
+    x-jsonld-id: https://w3id.org/cdif/isStructuredBy
   cdi:arrayBase:
     type: integer
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/arrayBase
@@ -367,7 +367,7 @@ properties:
 required:
 - '@type'
 x-jsonld-prefixes:
-  cdif: https://cdif.org/0.1/
+  cdif: https://w3id.org/cdif/
   schema: http://schema.org/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
 
@@ -384,7 +384,7 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "schema": "http://schema.org/",
     "ada": "https://ada.astromat.org/metadata/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",

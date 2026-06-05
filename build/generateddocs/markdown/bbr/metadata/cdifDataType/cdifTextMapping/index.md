@@ -68,11 +68,11 @@ allOf:
         string) of DDI-CDI TextMapping.displayLabel, whose model type is LabelForDisplay.
         Per the cdi/cdif namespace policy a structured-string type simplified to a
         plain string is in the cdif namespace.
-      x-jsonld-id: https://cdif.org/0.1/displayLabel
+      x-jsonld-id: https://w3id.org/cdif/displayLabel
 x-jsonld-prefixes:
   schema: http://schema.org/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-  cdif: https://cdif.org/0.1/
+  cdif: https://w3id.org/cdif/
 
 ```
 
@@ -87,7 +87,7 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "schema": "http://schema.org/",
     "ada": "https://ada.astromat.org/metadata/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",

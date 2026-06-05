@@ -166,7 +166,7 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
   "@context": {
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "ex": "https://example.org/"
   },
   "@id": "ex:stats/temperature-mean",
@@ -266,13 +266,13 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/"
+      "cdif": "https://w3id.org/cdif/"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifStatistics/context.jsonld",
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "ex": "https://example.org/"
     }
   ],
@@ -368,7 +368,7 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -389,18 +389,18 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
             schema1:name "arithmetic mean" ] ;
     cdif:appliesTo ex:var-temperature ;
     cdif:has_CategoryStatistics [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/category/deep> ;
+            cdi:for <https://example.org/category/surface> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 1.007e+01 ;
+                    cdi:content 1.581e+01 ;
                     cdi:isWeighted true ] ;
             cdi:typeOfStatistic [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
                     schema1:name "Mean" ;
                     schema1:termCode "mean" ] ],
         [ a cdi:CategoryStatistics ;
-            cdi:for <https://example.org/category/surface> ;
+            cdi:for <https://example.org/category/deep> ;
             cdi:statistic [ cdi:computationBase "ValidOnly" ;
-                    cdi:content 1.581e+01 ;
+                    cdi:content 1.007e+01 ;
                     cdi:isWeighted true ] ;
             cdi:typeOfStatistic [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://ddialliance.org/vocab/statistic-types" ;
@@ -423,7 +423,7 @@ cdif:has_Statistics carries the member Statistics nodes.
 {
   "@context": {
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "ex": "https://example.org/"
   },
   "@id": "ex:stats/dataset-summary",
@@ -472,12 +472,12 @@ cdif:has_Statistics carries the member Statistics nodes.
   "@context": [
     {
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/"
+      "cdif": "https://w3id.org/cdif/"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifStatistics/context.jsonld",
     {
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "ex": "https://example.org/"
     }
   ],
@@ -537,7 +537,7 @@ cdif:has_Statistics carries the member Statistics nodes.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix ex: <https://example.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -683,7 +683,7 @@ $defs:
             required:
             - '@id'
         minItems: 1
-        x-jsonld-id: https://cdif.org/0.1/appliesTo
+        x-jsonld-id: https://w3id.org/cdif/appliesTo
       cdif:has_CategoryStatistics:
         type: array
         description: 'CategoryStatistics entries breaking this Statistics bundle down
@@ -691,7 +691,7 @@ $defs:
           association is polymorphic.'
         items:
           $ref: '#/$defs/CategoryStatistics'
-        x-jsonld-id: https://cdif.org/0.1/has_CategoryStatistics
+        x-jsonld-id: https://w3id.org/cdif/has_CategoryStatistics
     required:
     - '@type'
     - cdi:statistic
@@ -796,7 +796,7 @@ $defs:
             required:
             - '@id'
         minItems: 1
-        x-jsonld-id: https://cdif.org/0.1/has_Statistics
+        x-jsonld-id: https://w3id.org/cdif/has_Statistics
       cdif:indexedBy:
         type: array
         description: "CDIF addition (not in canonical DDI-CDI): the InstanceVariable(s)
@@ -811,7 +811,7 @@ $defs:
             required:
             - '@id'
         minItems: 1
-        x-jsonld-id: https://cdif.org/0.1/indexedBy
+        x-jsonld-id: https://w3id.org/cdif/indexedBy
     required:
     - '@type'
     - cdif:has_Statistics
@@ -838,24 +838,24 @@ $defs:
           type: string
         description: Human-understandable name(s). CDIF-simplified from DDI-CDI Category.name
           (ObjectName) to plain strings.
-        x-jsonld-id: https://cdif.org/0.1/name
+        x-jsonld-id: https://w3id.org/cdif/name
       cdif:descriptiveText:
         type: string
         description: Short natural-language account of the category. CDIF-simplified
           from DDI-CDI Category.descriptiveText (InternationalString).
-        x-jsonld-id: https://cdif.org/0.1/descriptiveText
+        x-jsonld-id: https://w3id.org/cdif/descriptiveText
       cdif:definition:
         type: string
         description: Natural-language definition of the category. CDIF-simplified
           from DDI-CDI Category.definition (InternationalString).
-        x-jsonld-id: https://cdif.org/0.1/definition
+        x-jsonld-id: https://w3id.org/cdif/definition
       cdif:displayLabel:
         type: array
         items:
           type: string
         description: Human-readable display label(s). CDIF-simplified from DDI-CDI
           Category.displayLabel (LabelForDisplay).
-        x-jsonld-id: https://cdif.org/0.1/displayLabel
+        x-jsonld-id: https://w3id.org/cdif/displayLabel
   SkosConcept:
     title: SKOS Concept (CDIF vocabulary-bound term reference)
     description: "Vocabulary-bound term reference. CDIF policy implements the DDI-CDI
@@ -877,7 +877,7 @@ $defs:
 x-jsonld-prefixes:
   schema: http://schema.org/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-  cdif: https://cdif.org/0.1/
+  cdif: https://w3id.org/cdif/
 
 ```
 
@@ -894,7 +894,7 @@ Links to the schema:
   "@context": {
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "spdx": "http://spdx.org/rdf/terms#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "xas": "https://xas.org/dictionary/",

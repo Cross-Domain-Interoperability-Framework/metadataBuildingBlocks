@@ -1424,7 +1424,7 @@ Links to the schema:
   "@context": {
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "schema": "http://schema.org/",
     "spdx": "http://spdx.org/rdf/terms#",
     "xas": "https://xas.org/dictionary/",

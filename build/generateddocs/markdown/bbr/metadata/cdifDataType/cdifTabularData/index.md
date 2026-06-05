@@ -24,7 +24,7 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
     "@context": {
         "schema": "http://schema.org/",
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "cdif": "https://cdif.org/0.1/",
+        "cdif": "https://w3id.org/cdif/",
         "csvw": "http://www.w3.org/ns/csvw#",
         "ex": "https://example.org/"
     },
@@ -72,7 +72,7 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "csvw": "http://www.w3.org/ns/csvw#",
       "ex": "https://example.org/"
     }
@@ -113,7 +113,7 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
@@ -152,7 +152,7 @@ and three physical-mapping entries.
   "@context": {
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "csvw": "http://www.w3.org/ns/csvw#",
     "ex": "https://example.org/"
   },
@@ -220,7 +220,7 @@ and three physical-mapping entries.
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "csvw": "http://www.w3.org/ns/csvw#",
       "ex": "https://example.org/"
     }
@@ -287,7 +287,7 @@ and three physical-mapping entries.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
@@ -314,7 +314,14 @@ and three physical-mapping entries.
     csvw:tableDirection "Ltr" ;
     csvw:textDirection "Inherit" ;
     csvw:trim "true" ;
-    cdif:hasPhysicalMapping [ cdi:isRequired true ;
+    cdif:hasPhysicalMapping [ cdi:decimalPositions 2 ;
+            cdi:length 12 ;
+            cdi:scale 1 ;
+            cdif:format "#,##0.00" ;
+            cdif:formats_InstanceVariable ex:var-temperature ;
+            cdif:index 2 ;
+            cdif:physicalDataType "Numeric" ],
+        [ cdi:isRequired true ;
             cdi:length 16 ;
             cdif:formats_InstanceVariable ex:var-station-id ;
             cdif:index 0 ;
@@ -323,14 +330,7 @@ and three physical-mapping entries.
             cdif:format "YYYY-MM-DD" ;
             cdif:formats_InstanceVariable ex:var-date ;
             cdif:index 1 ;
-            cdif:physicalDataType "Date" ],
-        [ cdi:decimalPositions 2 ;
-            cdi:length 12 ;
-            cdi:scale 1 ;
-            cdif:format "#,##0.00" ;
-            cdif:formats_InstanceVariable ex:var-temperature ;
-            cdif:index 2 ;
-            cdif:physicalDataType "Numeric" ] .
+            cdif:physicalDataType "Date" ] .
 
 
 ```
@@ -461,7 +461,7 @@ properties:
     description: Links variables to their physical representation in this dataset.
     items:
       $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifPhysicalMapping/schema.yaml
-    x-jsonld-id: https://cdif.org/0.1/hasPhysicalMapping
+    x-jsonld-id: https://w3id.org/cdif/hasPhysicalMapping
   countRows:
     type: integer
   countColumns:
@@ -489,7 +489,7 @@ required:
 - '@type'
 - cdif:hasPhysicalMapping
 x-jsonld-prefixes:
-  cdif: https://cdif.org/0.1/
+  cdif: https://w3id.org/cdif/
   schema: http://schema.org/
   ada: https://ada.astromat.org/metadata/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
@@ -507,7 +507,7 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "schema": "http://schema.org/",
     "ada": "https://ada.astromat.org/metadata/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",

@@ -56,7 +56,7 @@ cdif:takesValuesFrom or cdif:recommendedDataType; this example satisfies the lat
 {
   "@context": {
     "schema": "http://schema.org/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "ex": "https://example.org/"
   },
@@ -73,13 +73,13 @@ cdif:takesValuesFrom or cdif:recommendedDataType; this example satisfies the lat
   "@context": [
     {
       "schema": "http://schema.org/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "xsd": "http://www.w3.org/2001/XMLSchema#"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/context.jsonld",
     {
       "schema": "http://schema.org/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "xsd": "http://www.w3.org/2001/XMLSchema#",
       "ex": "https://example.org/"
     }
@@ -96,7 +96,7 @@ cdif:takesValuesFrom or cdif:recommendedDataType; this example satisfies the lat
 
 #### ttl
 ```ttl
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 
 <https://example.org/vd/age-years> a cdif:SubstantiveValueDomain ;
     cdif:recommendedDataType "xsd:nonNegativeInteger" .
@@ -115,7 +115,7 @@ cdif:displayLabel, and cdif:recommendedDataType (two xsd: types).
   "@context": {
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "ex": "https://example.org/"
@@ -143,7 +143,7 @@ cdif:displayLabel, and cdif:recommendedDataType (two xsd: types).
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "skos": "http://www.w3.org/2004/02/skos/core#",
       "xsd": "http://www.w3.org/2001/XMLSchema#"
     },
@@ -151,7 +151,7 @@ cdif:displayLabel, and cdif:recommendedDataType (two xsd: types).
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "skos": "http://www.w3.org/2004/02/skos/core#",
       "xsd": "http://www.w3.org/2001/XMLSchema#",
       "ex": "https://example.org/"
@@ -181,7 +181,7 @@ cdif:displayLabel, and cdif:recommendedDataType (two xsd: types).
 
 #### ttl
 ```ttl
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix schema1: <http://schema.org/> .
 
 <https://example.org/vd/country-iso3166> a cdif:SubstantiveValueDomain ;
@@ -237,18 +237,18 @@ $defs:
               description: IRI or blank node identifier of the referenced node
           required:
           - '@id'
-        x-jsonld-id: https://cdif.org/0.1/takesValuesFrom
+        x-jsonld-id: https://w3id.org/cdif/takesValuesFrom
       cdif:displayLabel:
         type: string
         description: 'A human-readable display label for the object. '
-        x-jsonld-id: https://cdif.org/0.1/displayLabel
+        x-jsonld-id: https://w3id.org/cdif/displayLabel
       cdif:recommendedDataType:
         type: array
         description: The data types that are recommended for use with this domain.
         items:
           $ref: '#/$defs/xsdDataType'
         minItems: 1
-        x-jsonld-id: https://cdif.org/0.1/recommendedDataType
+        x-jsonld-id: https://w3id.org/cdif/recommendedDataType
       cdi:isDescribedBy:
         description: A ValueAndConceptDescription giving the formal description (ranges,
           patterns, classification level, expressions) of the values this domain admits.
@@ -297,20 +297,20 @@ $defs:
               description: IRI or blank node identifier of the referenced node
           required:
           - '@id'
-        x-jsonld-id: https://cdif.org/0.1/takesValuesFrom
+        x-jsonld-id: https://w3id.org/cdif/takesValuesFrom
       cdif:displayLabel:
         type: string
         description: A human-readable display label for the object. Supports the use
           of multiple languages. Repeat for labels with different content, for example,
           labels with differing length limitations.
-        x-jsonld-id: https://cdif.org/0.1/displayLabel
+        x-jsonld-id: https://w3id.org/cdif/displayLabel
       cdif:recommendedDataType:
         type: array
         description: The data types that are recommended for use with this domain.
         items:
           $ref: '#/$defs/xsdDataType'
         minItems: 1
-        x-jsonld-id: https://cdif.org/0.1/recommendedDataType
+        x-jsonld-id: https://w3id.org/cdif/recommendedDataType
       cdi:isDescribedBy:
         description: A ValueAndConceptDescription giving the formal description (ranges,
           patterns, classification level, expressions) of the values this domain admits.
@@ -462,7 +462,7 @@ $defs:
 x-jsonld-prefixes:
   schema: http://schema.org/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-  cdif: https://cdif.org/0.1/
+  cdif: https://w3id.org/cdif/
   skos: http://www.w3.org/2004/02/skos/core#
   xsd: http://www.w3.org/2001/XMLSchema#
 
@@ -481,7 +481,7 @@ Links to the schema:
   "@context": {
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",

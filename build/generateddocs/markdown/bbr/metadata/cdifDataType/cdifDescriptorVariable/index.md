@@ -60,7 +60,7 @@ cdif:takesValuesFrom array).
 {
   "@context": {
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "ex": "https://example.org/"
   },
   "@type": ["cdi:DescriptorVariable"],
@@ -84,12 +84,12 @@ cdif:takesValuesFrom array).
   "@context": [
     {
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/"
+      "cdif": "https://w3id.org/cdif/"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDescriptorVariable/context.jsonld",
     {
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "ex": "https://example.org/"
     }
   ],
@@ -116,7 +116,7 @@ cdif:takesValuesFrom array).
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 
 <https://example.org/dv/measureName> a cdi:DescriptorVariable ;
     cdif:hasValuesFrom [ a cdi:DescriptorValueDomain ;
@@ -140,7 +140,7 @@ wrapper) and a non-trivial code → variable mapping.
     "schema": "http://schema.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "ex": "https://example.org/"
   },
   "@type": [
@@ -223,14 +223,14 @@ wrapper) and a non-trivial code → variable mapping.
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/"
+      "cdif": "https://w3id.org/cdif/"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDescriptorVariable/context.jsonld",
     {
       "schema": "http://schema.org/",
       "xsd": "http://www.w3.org/2001/XMLSchema#",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "ex": "https://example.org/"
     }
   ],
@@ -309,7 +309,7 @@ wrapper) and a non-trivial code → variable mapping.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 
 <https://example.org/dv/measureName> a cdi:DescriptorVariable ;
     cdif:hasValuesFrom <https://example.org/vd/measureName> ;
@@ -328,14 +328,14 @@ wrapper) and a non-trivial code → variable mapping.
     cdif:name "systolic_blood_pressure" .
 
 <https://example.org/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;
-            cdif:value "temp_c" ],
-        [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
-            cdif:value "systolic_bp" ],
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
+            cdif:value "heart_rate" ],
         [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
             cdif:value "diastolic_bp" ],
-        [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
-            cdif:value "heart_rate" ] .
+        [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;
+            cdif:value "temp_c" ],
+        [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
+            cdif:value "systolic_bp" ] .
 
 
 ```
@@ -367,7 +367,7 @@ properties:
       in the descriptor column, each paired (via cdif:isDefinedBy) with the RepresentedVariable
       that the code names.
     $ref: '#/$defs/DescriptorValueDomain'
-    x-jsonld-id: https://cdif.org/0.1/hasValuesFrom
+    x-jsonld-id: https://w3id.org/cdif/hasValuesFrom
   cdif:name:
     type: array
     items:
@@ -376,7 +376,7 @@ properties:
     description: Human understandable name (linguistic signifier, word, phrase, or
       mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided
       to specify usage.
-    x-jsonld-id: https://cdif.org/0.1/name
+    x-jsonld-id: https://w3id.org/cdif/name
 required:
 - '@type'
 - cdif:hasValuesFrom
@@ -408,7 +408,7 @@ $defs:
             cdif:value:
               type: string
               description: The code value as it appears in the descriptor column.
-              x-jsonld-id: https://cdif.org/0.1/value
+              x-jsonld-id: https://w3id.org/cdif/value
             cdif:isDefinedBy:
               anyOf:
               - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
@@ -420,19 +420,19 @@ $defs:
                     type: string
                 required:
                 - '@id'
-              x-jsonld-id: https://cdif.org/0.1/isDefinedBy
+              x-jsonld-id: https://w3id.org/cdif/isDefinedBy
           required:
           - cdif:value
           - cdif:isDefinedBy
         minItems: 1
-        x-jsonld-id: https://cdif.org/0.1/takesValuesFrom
+        x-jsonld-id: https://w3id.org/cdif/takesValuesFrom
     required:
     - '@type'
     - cdif:takesValuesFrom
 x-jsonld-prefixes:
   schema: http://schema.org/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-  cdif: https://cdif.org/0.1/
+  cdif: https://w3id.org/cdif/
 
 ```
 
@@ -449,7 +449,7 @@ Links to the schema:
   "@context": {
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",

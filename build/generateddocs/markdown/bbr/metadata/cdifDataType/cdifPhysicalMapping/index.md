@@ -23,7 +23,7 @@ isRequired flag, and a single formats_InstanceVariable reference.
 {
     "@context": {
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "cdif": "https://cdif.org/0.1/",
+        "cdif": "https://w3id.org/cdif/",
         "ex": "https://example.org/"
     },
     "cdif:index": 0,
@@ -48,7 +48,7 @@ isRequired flag, and a single formats_InstanceVariable reference.
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifPhysicalMapping/context.jsonld",
     {
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "ex": "https://example.org/"
     }
   ],
@@ -66,7 +66,7 @@ isRequired flag, and a single formats_InstanceVariable reference.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix ex: <https://example.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -90,7 +90,7 @@ nullSequence, defaultValue, isRequired, and formats_InstanceVariable.
 {
   "@context": {
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "ex": "https://example.org/"
   },
   "cdif:index": 3,
@@ -121,7 +121,7 @@ nullSequence, defaultValue, isRequired, and formats_InstanceVariable.
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifPhysicalMapping/context.jsonld",
     {
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "ex": "https://example.org/"
     }
   ],
@@ -145,7 +145,7 @@ nullSequence, defaultValue, isRequired, and formats_InstanceVariable.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix ex: <https://example.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -195,12 +195,12 @@ properties:
     minimum: 0
     description: Non-negative integer that orders the fields in the data structure
       (column number).
-    x-jsonld-id: https://cdif.org/0.1/index
+    x-jsonld-id: https://w3id.org/cdif/index
   cdif:format:
     type: string
     description: A format for number expressed as a string, or date format like YYYY/MM
       or MM-DD-YY.
-    x-jsonld-id: https://cdif.org/0.1/format
+    x-jsonld-id: https://w3id.org/cdif/format
   cdif:physicalDataType:
     anyOf:
     - type: string
@@ -211,7 +211,7 @@ properties:
           description: reference to a skos concept for the data type
     - $ref: '#/$defs/cdifConceptOrTerm'
     description: identifier or name for the data type concept.
-    x-jsonld-id: https://cdif.org/0.1/physicalDataType
+    x-jsonld-id: https://w3id.org/cdif/physicalDataType
   cdi:numberPattern:
     type: string
     description: Number format pattern for the field (PhysicalMapping.numberPattern).
@@ -252,7 +252,7 @@ properties:
         type: string
         description: This should be a reference to a variable defined in the schema:variableMeasured
           section.
-    x-jsonld-id: https://cdif.org/0.1/formats_InstanceVariable
+    x-jsonld-id: https://w3id.org/cdif/formats_InstanceVariable
 $defs:
   cdifConceptOrTerm:
     anyOf:
@@ -264,7 +264,7 @@ $defs:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept
 x-jsonld-prefixes:
-  cdif: https://cdif.org/0.1/
+  cdif: https://w3id.org/cdif/
   schema: http://schema.org/
   ada: https://ada.astromat.org/metadata/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
@@ -282,7 +282,7 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "schema": "http://schema.org/",
     "ada": "https://ada.astromat.org/metadata/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",

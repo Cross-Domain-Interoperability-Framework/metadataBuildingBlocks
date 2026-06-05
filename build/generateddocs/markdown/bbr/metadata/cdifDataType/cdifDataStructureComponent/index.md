@@ -61,7 +61,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
         - $ref: '#/$defs/id-reference'
-        x-jsonld-id: https://cdif.org/0.1/isDefinedBy_RepresentedVariable
+        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
     required:
     - '@type'
     - cdif:isDefinedBy_RepresentedVariable
@@ -88,7 +88,7 @@ $defs:
         description: Human understandable name (liguistic signifier, word, phrase,
           or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context
           provided to specify usage.
-        x-jsonld-id: https://cdif.org/0.1/name
+        x-jsonld-id: https://w3id.org/cdif/name
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
         description: Identifier for objects requiring short- or long-lasting referencing
@@ -98,7 +98,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
         - $ref: '#/$defs/id-reference'
-        x-jsonld-id: https://cdif.org/0.1/isDefinedBy_RepresentedVariable
+        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
       cdi:semantic:
         type: array
         items:
@@ -143,7 +143,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
         - $ref: '#/$defs/id-reference'
-        x-jsonld-id: https://cdif.org/0.1/isDefinedBy_RepresentedVariable
+        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
       cdi:semantic:
         type: array
         items:
@@ -181,7 +181,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
         - $ref: '#/$defs/id-reference'
-        x-jsonld-id: https://cdif.org/0.1/isDefinedBy_RepresentedVariable
+        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
     required:
     - '@type'
     - cdif:isDefinedBy_RepresentedVariable
@@ -209,7 +209,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
         - $ref: '#/$defs/id-reference'
-        x-jsonld-id: https://cdif.org/0.1/isDefinedBy_RepresentedVariable
+        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
       cdi:semantic:
         type: array
         items:
@@ -239,7 +239,7 @@ $defs:
         description: Identifier for this VariableDescriptorComponent node
       cdif:isDefinedBy_DescriptorVariable:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDescriptorVariable/schema.yaml
-        x-jsonld-id: https://cdif.org/0.1/isDefinedBy_DescriptorVariable
+        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_DescriptorVariable
       cdi:refersTo:
         $ref: '#/$defs/id-reference'
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/refersTo
@@ -284,7 +284,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
         - $ref: '#/$defs/id-reference'
-        x-jsonld-id: https://cdif.org/0.1/isDefinedBy_RepresentedVariable
+        x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
       cdi:semantic:
         type: array
         items:
@@ -298,7 +298,7 @@ $defs:
     required:
     - '@type'
 x-jsonld-prefixes:
-  cdif: https://cdif.org/0.1/
+  cdif: https://w3id.org/cdif/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
 
 ```
@@ -314,7 +314,7 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "schema": "http://schema.org/",
     "skos": "http://www.w3.org/2004/02/skos/core#",

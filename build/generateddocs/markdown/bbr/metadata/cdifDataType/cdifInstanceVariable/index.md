@@ -71,7 +71,7 @@ cdi:definition, cdi:takesSubstantiveValuesFrom.
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "ex": "https://example.org/",
-    "cdif": "https://cdif.org/0.1/"
+    "cdif": "https://w3id.org/cdif/"
   },
   "@type": [
     "cdi:InstanceVariable",
@@ -103,7 +103,7 @@ cdi:definition, cdi:takesSubstantiveValuesFrom.
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
       "ex": "https://example.org/",
-      "cdif": "https://cdif.org/0.1/"
+      "cdif": "https://w3id.org/cdif/"
     }
   ],
   "@type": [
@@ -125,7 +125,7 @@ cdi:definition, cdi:takesSubstantiveValuesFrom.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix schema1: <http://schema.org/> .
 
 <https://example.org/var/temperature> a cdi:InstanceVariable,
@@ -153,7 +153,7 @@ them via schema:variableMeasured.
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "xas": "https://xas.org/dictionary/"
   },
@@ -216,7 +216,7 @@ them via schema:variableMeasured.
       "ex": "https://example.org/",
       "xsd": "http://www.w3.org/2001/XMLSchema#",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "skos": "http://www.w3.org/2004/02/skos/core#",
       "xas": "https://xas.org/dictionary/"
     }
@@ -266,7 +266,7 @@ them via schema:variableMeasured.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
 @prefix xas: <https://xas.org/dictionary/> .
@@ -313,7 +313,7 @@ properties:
     - type: string
     - $ref: '#/$defs/cdifConceptOrTerm'
     description: identifier or name for the data type concept.
-    x-jsonld-id: https://cdif.org/0.1/physicalDataType
+    x-jsonld-id: https://w3id.org/cdif/physicalDataType
   cdif:role:
     type: string
     enum:
@@ -328,14 +328,14 @@ properties:
       qualifies an observation; Dimension addresses a cell in a multi-dimensional
       cube; Descriptor names the variable that a Reference column records values for
       (long format); ReferenceVariable holds those recorded values.
-    x-jsonld-id: https://cdif.org/0.1/role
+    x-jsonld-id: https://w3id.org/cdif/role
   cdif:simpleUnitOfMeasure:
     description: The unit in which the data values are measured (kg, pound, euro),
       expressed as a simple string, in cases where no additional information is available
       (in the legacy system) or needed (as in the case of broad agreement within the
       community of use [i.e., ISO country codes, currencies, etc. in SDMX])
     type: string
-    x-jsonld-id: https://cdif.org/0.1/simpleUnitOfMeasure
+    x-jsonld-id: https://w3id.org/cdif/simpleUnitOfMeasure
   cdif:uses:
     type: array
     items:
@@ -347,7 +347,7 @@ properties:
       cdi:isStructuredBy (CDIF Data Structure profile), cdif:uses references the RepresentedVariable
       that supplies the represented-variable-level properties below, which are then
       NOT duplicated on the InstanceVariable.
-    x-jsonld-id: https://cdif.org/0.1/uses
+    x-jsonld-id: https://w3id.org/cdif/uses
   cdi:function:
     type: array
     items:
@@ -387,7 +387,7 @@ properties:
           type: string
       required:
       - '@id'
-    x-jsonld-id: https://cdif.org/0.1/isDescribedBy_StatisticsCollection
+    x-jsonld-id: https://w3id.org/cdif/isDescribedBy_StatisticsCollection
   cdi:describedUnitOfMeasure:
     $ref: '#/$defs/cdifConceptOrTerm'
     description: The unit in which the data values are measured, expressed as a controlled-vocabulary
@@ -416,7 +416,7 @@ $defs:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifConceptScheme/schema.yaml#/$defs/cdifConcept
 x-jsonld-prefixes:
-  cdif: https://cdif.org/0.1/
+  cdif: https://w3id.org/cdif/
   schema: http://schema.org/
   spdx: http://spdx.org/rdf/terms#
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
@@ -438,7 +438,7 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "schema": "http://schema.org/",
     "spdx": "http://spdx.org/rdf/terms#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",

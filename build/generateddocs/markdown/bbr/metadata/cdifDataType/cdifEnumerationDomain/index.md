@@ -39,7 +39,7 @@ schema:inDefinedTermSet here meet the SHACL Warning-level recommendations.
 {
   "@context": {
     "schema": "http://schema.org/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "ex": "https://example.org/"
   },
@@ -59,13 +59,13 @@ schema:inDefinedTermSet here meet the SHACL Warning-level recommendations.
   "@context": [
     {
       "schema": "http://schema.org/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "skos": "http://www.w3.org/2004/02/skos/core#"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifEnumerationDomain/context.jsonld",
     {
       "schema": "http://schema.org/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "skos": "http://www.w3.org/2004/02/skos/core#",
       "ex": "https://example.org/"
     }
@@ -83,7 +83,7 @@ schema:inDefinedTermSet here meet the SHACL Warning-level recommendations.
 
 #### ttl
 ```ttl
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix schema1: <http://schema.org/> .
 
 <https://example.org/enum-domain/iso3166> a cdif:EnumerationDomain ;
@@ -105,7 +105,7 @@ cdi:purpose (multilingual InternationalString).
   "@context": {
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "ex": "https://example.org/"
   },
@@ -142,14 +142,14 @@ cdi:purpose (multilingual InternationalString).
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "skos": "http://www.w3.org/2004/02/skos/core#"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifEnumerationDomain/context.jsonld",
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "skos": "http://www.w3.org/2004/02/skos/core#",
       "ex": "https://example.org/"
     }
@@ -197,7 +197,7 @@ cdi:purpose (multilingual InternationalString).
 
 #### ttl
 ```ttl
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix schema1: <http://schema.org/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
@@ -241,7 +241,7 @@ properties:
   cdif:identifier:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
     description: Identifier for this enumerated (categorical) domain.
-    x-jsonld-id: https://cdif.org/0.1/identifier
+    x-jsonld-id: https://w3id.org/cdif/identifier
   schema:name:
     type: string
     description: Human understandable name (liguistic signifier, word, phrase, or
@@ -258,18 +258,18 @@ properties:
       properties:
         '@id':
           type: string
-    x-jsonld-id: https://cdif.org/0.1/references
+    x-jsonld-id: https://w3id.org/cdif/references
   cdif:purpose:
     type: string
     description: Intent or reason for the object/the description of the object.
-    x-jsonld-id: https://cdif.org/0.1/purpose
+    x-jsonld-id: https://w3id.org/cdif/purpose
 required:
 - '@type'
 - cdif:references
 x-jsonld-prefixes:
   schema: http://schema.org/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
-  cdif: https://cdif.org/0.1/
+  cdif: https://w3id.org/cdif/
   skos: http://www.w3.org/2004/02/skos/core#
 
 ```
@@ -287,7 +287,7 @@ Links to the schema:
   "@context": {
     "schema": "http://schema.org/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "dcterms": "http://purl.org/dc/terms/",
     "@version": 1.1

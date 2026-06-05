@@ -69,7 +69,7 @@ elsewhere. The conformsTo array carries the three required URIs
     "dcterms": "http://purl.org/dc/terms/",
     "dcat": "http://www.w3.org/ns/dcat#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "ex": "https://example.org/",
     "prov": "http://www.w3.org/ns/prov#"
   },
@@ -164,7 +164,7 @@ elsewhere. The conformsTo array carries the three required URIs
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "dcterms": "http://purl.org/dc/terms/",
       "dcat": "http://www.w3.org/ns/dcat#"
     },
@@ -174,7 +174,7 @@ elsewhere. The conformsTo array carries the three required URIs
       "dcterms": "http://purl.org/dc/terms/",
       "dcat": "http://www.w3.org/ns/dcat#",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "ex": "https://example.org/",
       "prov": "http://www.w3.org/ns/prov#"
     }
@@ -265,7 +265,7 @@ elsewhere. The conformsTo array carries the three required URIs
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix schema1: <http://schema.org/> .
 
@@ -328,7 +328,7 @@ optional Attribute) and its own cdif:PrimaryKey.
     "dcat": "http://www.w3.org/ns/dcat#",
     "prov": "http://www.w3.org/ns/prov#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "csvw": "http://www.w3.org/ns/csvw#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "ex": "https://example.org/"
@@ -1090,7 +1090,7 @@ optional Attribute) and its own cdif:PrimaryKey.
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "csvw": "http://www.w3.org/ns/csvw#",
       "dcterms": "http://purl.org/dc/terms/",
       "dcat": "http://www.w3.org/ns/dcat#",
@@ -1103,7 +1103,7 @@ optional Attribute) and its own cdif:PrimaryKey.
       "dcat": "http://www.w3.org/ns/dcat#",
       "prov": "http://www.w3.org/ns/prov#",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "csvw": "http://www.w3.org/ns/csvw#",
       "xsd": "http://www.w3.org/2001/XMLSchema#",
       "ex": "https://example.org/"
@@ -1861,7 +1861,7 @@ optional Attribute) and its own cdif:PrimaryKey.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
@@ -1899,17 +1899,17 @@ optional Attribute) and its own cdif:PrimaryKey.
             schema1:potentialAction [ a schema1:Action ;
                     schema1:name "Query vitals as long-format CSV" ;
                     schema1:query-input [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of observations to return (default 100)." ;
-                            schema1:valueName "limit" ;
+                            schema1:description "Response format token (csv only for this example)." ;
+                            schema1:valueName "format" ;
+                            schema1:valuePattern "csv" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
                             schema1:description "Starting index for pagination." ;
                             schema1:valueName "offset" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Response format token (csv only for this example)." ;
-                            schema1:valueName "format" ;
-                            schema1:valuePattern "csv" ;
+                            schema1:description "Maximum number of observations to return (default 100)." ;
+                            schema1:valueName "limit" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a cdi:PhysicalDataSet,
                                 cdi:TabularTextDataSet,
@@ -1929,14 +1929,14 @@ optional Attribute) and its own cdif:PrimaryKey.
                                     cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
                                     cdif:index 2 ;
                                     cdif:physicalDataType "decimal" ],
-                                [ cdif:format "string" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
-                                    cdif:index 0 ;
-                                    cdif:physicalDataType "string" ],
                                 [ cdif:format "ISO8601" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
                                     cdif:index 3 ;
                                     cdif:physicalDataType "dateTime" ],
+                                [ cdif:format "string" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
+                                    cdif:index 0 ;
+                                    cdif:physicalDataType "string" ],
                                 [ cdif:format "string" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
                                     cdif:index 1 ;
@@ -1969,10 +1969,6 @@ optional Attribute) and its own cdif:PrimaryKey.
                     cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
                     cdif:index 3 ;
                     cdif:physicalDataType "dateTime" ],
-                [ cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
-                    cdif:index 2 ;
-                    cdif:physicalDataType "decimal" ],
                 [ cdif:format "string" ;
                     cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
                     cdif:index 0 ;
@@ -1980,7 +1976,11 @@ optional Attribute) and its own cdif:PrimaryKey.
                 [ cdif:format "string" ;
                     cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
                     cdif:index 1 ;
-                    cdif:physicalDataType "string" ] ] ;
+                    cdif:physicalDataType "string" ],
+                [ cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
+                    cdif:index 2 ;
+                    cdif:physicalDataType "decimal" ] ] ;
     schema1:funding <https://example.org/grant/nih-R01-XXXX> ;
     schema1:identifier "https://doi.org/10.1234/vitals-long-2025" ;
     schema1:inLanguage "en" ;
@@ -2100,12 +2100,12 @@ optional Attribute) and its own cdif:PrimaryKey.
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
     cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/diastolicBP> ;
             cdif:value "diastolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/temperatureC> ;
+            cdif:value "temp_c" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
             cdif:value "heart_rate" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
-            cdif:value "systolic_bp" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/temperatureC> ;
-            cdif:value "temp_c" ] .
+            cdif:value "systolic_bp" ] .
 
 <https://orcid.org/0000-0001-8898-3457> a schema1:Person ;
     schema1:identifier [ a schema1:PropertyValue ;
@@ -2233,7 +2233,7 @@ Links to the schema:
     "schema": "http://schema.org/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",

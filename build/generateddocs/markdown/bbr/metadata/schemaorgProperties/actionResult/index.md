@@ -76,7 +76,7 @@ properties:
 x-jsonld-prefixes:
   schema: http://schema.org/
   dcterms: http://purl.org/dc/terms/
-  cdif: https://cdif.org/0.1/
+  cdif: https://w3id.org/cdif/
 
 ```
 
@@ -93,7 +93,7 @@ Links to the schema:
   "@context": {
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "@version": 1.1
   }
 }

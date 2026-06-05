@@ -66,7 +66,7 @@ use cdi:locator HDF5-style paths for each variable.
     "@context": {
         "schema": "http://schema.org/",
         "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-        "cdif": "https://cdif.org/0.1/",
+        "cdif": "https://w3id.org/cdif/",
         "ex": "https://example.org/"
     },
     "@type": ["cdi:StructuredDataSet"],
@@ -106,7 +106,7 @@ use cdi:locator HDF5-style paths for each variable.
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "cdif": "https://cdif.org/0.1/",
+      "cdif": "https://w3id.org/cdif/",
       "ex": "https://example.org/"
     }
   ],
@@ -139,7 +139,7 @@ use cdi:locator HDF5-style paths for each variable.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix cdif: <https://cdif.org/0.1/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 @prefix ex: <https://example.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -187,9 +187,9 @@ properties:
             description: String that can be used by software to locate values of the
               variable in this physical dataset (DDI-CDI LocatorMapping.locator).
             x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/locator
-    x-jsonld-id: https://cdif.org/0.1/hasPhysicalMapping
+    x-jsonld-id: https://w3id.org/cdif/hasPhysicalMapping
 x-jsonld-prefixes:
-  cdif: https://cdif.org/0.1/
+  cdif: https://w3id.org/cdif/
   schema: http://schema.org/
   ada: https://ada.astromat.org/metadata/
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
@@ -207,7 +207,7 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
-    "cdif": "https://cdif.org/0.1/",
+    "cdif": "https://w3id.org/cdif/",
     "schema": "http://schema.org/",
     "ada": "https://ada.astromat.org/metadata/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
