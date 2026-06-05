@@ -858,7 +858,7 @@
                                 "type": "string"
                               },
                               {
-                                "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
+                                "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
                                 "type": "object",
                                 "properties": {
                                   "@type": {
@@ -1853,6 +1853,7 @@
                                     "type": "string"
                                   },
                                   {
+                                    "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
                                     "anyOf": [
                                       {
                                         "type": "object",
@@ -4077,6 +4078,7 @@
                     "type": "string"
                   },
                   {
+                    "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
                     "anyOf": [
                       {
                         "type": "object",
@@ -4683,8 +4685,8 @@
                 "description": "link to a web page useful for interpreting the variable"
               },
               {
+                "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
                 "type": "object",
-                "description": "Building block to implement relations to other resources using a URL and some semantics.",
                 "properties": {
                   "@type": {
                     "default": "schema:CreativeWork",
@@ -4692,7 +4694,7 @@
                     "items": {
                       "type": "string",
                       "enum": [
-                        "dcat:Relationship"
+                        "schema:CreativeWork"
                       ]
                     }
                   },
@@ -4705,336 +4707,6 @@
                   "schema:url": {
                     "type": "string",
                     "format": "uri"
-                  },
-                  "dcat:hadRole": {
-                    "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot).",
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "anyOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "@id": {
-                                "type": "string",
-                                "description": "reference to a skos concept for the data type"
-                              }
-                            }
-                          },
-                          {
-                            "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
-                            "type": "object",
-                            "properties": {
-                              "@type": {
-                                "type": "array",
-                                "items": {
-                                  "type": "string",
-                                  "enum": [
-                                    "schema:DefinedTerm"
-                                  ]
-                                }
-                              },
-                              "schema:name": {
-                                "type": "string",
-                                "description": "text label for the term that is useful to human user"
-                              },
-                              "schema:identifier": {
-                                "type": "string",
-                                "description": "Identifier"
-                              },
-                              "schema:inDefinedTermSet": {
-                                "type": "string",
-                                "description": "Name for the controlled vocabulary responsible for this keyword."
-                              },
-                              "schema:termCode": {
-                                "type": "string",
-                                "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
-                              }
-                            },
-                            "required": [
-                              "@type"
-                            ]
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "@context": {
-                                "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
-                                "type": "object",
-                                "properties": {
-                                  "skos": {
-                                    "default": "http://www.w3.org/2004/02/skos/core#",
-                                    "type": "string"
-                                  }
-                                },
-                                "required": [
-                                  "skos"
-                                ]
-                              },
-                              "@id": {
-                                "type": "string",
-                                "description": "URI identifier for this concept."
-                              },
-                              "@type": {
-                                "type": "array",
-                                "items": {
-                                  "type": "string",
-                                  "enum": [
-                                    "skos:Concept"
-                                  ]
-                                }
-                              },
-                              "skos:prefLabel": {
-                                "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
-                                "anyOf": [
-                                  {
-                                    "type": "string"
-                                  },
-                                  {
-                                    "type": "object",
-                                    "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                                    "properties": {
-                                      "@value": {
-                                        "type": "string",
-                                        "description": "The text content."
-                                      },
-                                      "@language": {
-                                        "type": "string",
-                                        "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                      }
-                                    },
-                                    "required": [
-                                      "@value"
-                                    ]
-                                  },
-                                  {
-                                    "type": "array",
-                                    "items": {
-                                      "type": "object",
-                                      "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                                      "properties": {
-                                        "@value": {
-                                          "type": "string",
-                                          "description": "The text content."
-                                        },
-                                        "@language": {
-                                          "type": "string",
-                                          "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                        }
-                                      },
-                                      "required": [
-                                        "@value"
-                                      ]
-                                    }
-                                  }
-                                ]
-                              },
-                              "skos:notation": {
-                                "description": "Classification code for this concept within a scheme.",
-                                "type": "array",
-                                "items": {
-                                  "type": "string"
-                                }
-                              },
-                              "skos:definition": {
-                                "description": "Formal explanation of the meaning of this concept.",
-                                "anyOf": [
-                                  {
-                                    "type": "string"
-                                  },
-                                  {
-                                    "type": "object",
-                                    "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                                    "properties": {
-                                      "@value": {
-                                        "type": "string",
-                                        "description": "The text content."
-                                      },
-                                      "@language": {
-                                        "type": "string",
-                                        "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                      }
-                                    },
-                                    "required": [
-                                      "@value"
-                                    ]
-                                  },
-                                  {
-                                    "type": "array",
-                                    "items": {
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "object",
-                                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                                          "properties": {
-                                            "@value": {
-                                              "type": "string",
-                                              "description": "The text content."
-                                            },
-                                            "@language": {
-                                              "type": "string",
-                                              "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                            }
-                                          },
-                                          "required": [
-                                            "@value"
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  }
-                                ]
-                              },
-                              "skos:note": {
-                                "description": "General note about this concept.",
-                                "anyOf": [
-                                  {
-                                    "type": "string"
-                                  },
-                                  {
-                                    "type": "object",
-                                    "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                                    "properties": {
-                                      "@value": {
-                                        "type": "string",
-                                        "description": "The text content."
-                                      },
-                                      "@language": {
-                                        "type": "string",
-                                        "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                      }
-                                    },
-                                    "required": [
-                                      "@value"
-                                    ]
-                                  },
-                                  {
-                                    "type": "array",
-                                    "items": {
-                                      "anyOf": [
-                                        {
-                                          "type": "string"
-                                        },
-                                        {
-                                          "type": "object",
-                                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                                          "properties": {
-                                            "@value": {
-                                              "type": "string",
-                                              "description": "The text content."
-                                            },
-                                            "@language": {
-                                              "type": "string",
-                                              "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                            }
-                                          },
-                                          "required": [
-                                            "@value"
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  }
-                                ]
-                              },
-                              "skos:inScheme": {
-                                "description": "Concept scheme(s) this concept belongs to.",
-                                "anyOf": [
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "@id": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "required": [
-                                      "@id"
-                                    ]
-                                  },
-                                  {
-                                    "type": "array",
-                                    "items": {
-                                      "type": "object",
-                                      "properties": {
-                                        "@id": {
-                                          "type": "string"
-                                        }
-                                      },
-                                      "required": [
-                                        "@id"
-                                      ]
-                                    }
-                                  }
-                                ]
-                              },
-                              "skos:broader": {
-                                "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
-                                "type": "array",
-                                "items": {
-                                  "anyOf": [
-                                    {
-                                      "type": "object",
-                                      "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
-                                      "properties": {
-                                        "@id": {
-                                          "type": "string",
-                                          "description": "URI of the referenced concept."
-                                        }
-                                      },
-                                      "required": [
-                                        "@id"
-                                      ]
-                                    },
-                                    {
-                                      "$comment": "circular-ref"
-                                    }
-                                  ]
-                                }
-                              },
-                              "skos:narrower": {
-                                "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
-                                "type": "array",
-                                "items": {
-                                  "anyOf": [
-                                    {
-                                      "type": "object",
-                                      "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
-                                      "properties": {
-                                        "@id": {
-                                          "type": "string",
-                                          "description": "URI of the referenced concept."
-                                        }
-                                      },
-                                      "required": [
-                                        "@id"
-                                      ]
-                                    },
-                                    {
-                                      "$comment": "circular-ref"
-                                    }
-                                  ]
-                                }
-                              }
-                            },
-                            "required": [
-                              "@type",
-                              "skos:prefLabel",
-                              "skos:notation"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "dcterms:relation": {
-                    "type": "string",
-                    "format": "uri",
-                    "description": "URI of the related resource (DCAT canonical pointer to what is being related to; distinct from schema:url which is the presentation URL inherited from labeledLink)."
                   }
                 },
                 "required": [
@@ -5217,21 +4889,62 @@
                                       }
                                     },
                                     "schema:subjectOf": {
-                                      "type": "array",
-                                      "items": {
-                                        "type": "object",
-                                        "properties": {
-                                          "@id": {
+                                      "description": "Catalog record describing this codelist as CDIF-conformant metadata. Must declare conformance to the cdifCodelist profile via dcterms:conformsTo and be typed as schema:Dataset with schema:additionalType including dcat:CatalogRecord.",
+                                      "type": "object",
+                                      "properties": {
+                                        "@type": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "string",
+                                            "enum": [
+                                              "schema:Dataset"
+                                            ]
+                                          }
+                                        },
+                                        "schema:additionalType": {
+                                          "type": "string",
+                                          "oneOf": [
+                                            {
+                                              "const": "dcat:CatalogRecord",
+                                              "title": "Catalog Record"
+                                            }
+                                          ]
+                                        },
+                                        "dcterms:conformsTo": {
+                                          "type": "array",
+                                          "items": {
                                             "type": "object",
                                             "properties": {
                                               "@id": {
-                                                "default": "https://w3id.org/cdif/codelist/1.1",
                                                 "type": "string"
                                               }
-                                            }
+                                            },
+                                            "required": [
+                                              "@id"
+                                            ]
                                           }
+                                        },
+                                        "@id": {
+                                          "type": "string",
+                                          "description": "Identifier for the catalog record."
+                                        },
+                                        "schema:about": {
+                                          "type": "object",
+                                          "properties": {
+                                            "@id": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "@id"
+                                          ]
                                         }
-                                      }
+                                      },
+                                      "required": [
+                                        "@type",
+                                        "schema:additionalType",
+                                        "dcterms:conformsTo"
+                                      ]
                                     }
                                   },
                                   "anyOf": [
@@ -5624,21 +5337,62 @@
                                     }
                                   },
                                   "schema:subjectOf": {
-                                    "type": "array",
-                                    "items": {
-                                      "type": "object",
-                                      "properties": {
-                                        "@id": {
+                                    "description": "Catalog record describing this codelist as CDIF-conformant metadata. Must declare conformance to the cdifCodelist profile via dcterms:conformsTo and be typed as schema:Dataset with schema:additionalType including dcat:CatalogRecord.",
+                                    "type": "object",
+                                    "properties": {
+                                      "@type": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string",
+                                          "enum": [
+                                            "schema:Dataset"
+                                          ]
+                                        }
+                                      },
+                                      "schema:additionalType": {
+                                        "type": "string",
+                                        "oneOf": [
+                                          {
+                                            "const": "dcat:CatalogRecord",
+                                            "title": "Catalog Record"
+                                          }
+                                        ]
+                                      },
+                                      "dcterms:conformsTo": {
+                                        "type": "array",
+                                        "items": {
                                           "type": "object",
                                           "properties": {
                                             "@id": {
-                                              "default": "https://w3id.org/cdif/codelist/1.1",
                                               "type": "string"
                                             }
-                                          }
+                                          },
+                                          "required": [
+                                            "@id"
+                                          ]
                                         }
+                                      },
+                                      "@id": {
+                                        "type": "string",
+                                        "description": "Identifier for the catalog record."
+                                      },
+                                      "schema:about": {
+                                        "type": "object",
+                                        "properties": {
+                                          "@id": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "@id"
+                                        ]
                                       }
-                                    }
+                                    },
+                                    "required": [
+                                      "@type",
+                                      "schema:additionalType",
+                                      "dcterms:conformsTo"
+                                    ]
                                   }
                                 },
                                 "anyOf": [
@@ -6174,6 +5928,7 @@
               "type": "string"
             },
             {
+              "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
               "anyOf": [
                 {
                   "type": "object",
@@ -6517,6 +6272,7 @@
                 "type": "string"
               },
               {
+                "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
                 "anyOf": [
                   {
                     "type": "object",
@@ -6845,6 +6601,7 @@
                 "type": "string"
               },
               {
+                "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
                 "anyOf": [
                   {
                     "type": "object",
@@ -7171,6 +6928,7 @@
               "type": "string"
             },
             {
+              "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
               "anyOf": [
                 {
                   "type": "object",
@@ -7526,6 +7284,7 @@
           ]
         },
         "cdi:describedUnitOfMeasure": {
+          "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead.",
           "anyOf": [
             {
               "type": "object",
@@ -7840,8 +7599,7 @@
                 "skos:notation"
               ]
             }
-          ],
-          "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead."
+          ]
         },
         "cdi:qualifies": {
           "type": "object",
@@ -8044,8 +7802,8 @@
               "description": "link to a web page useful for interpreting the variable"
             },
             {
+              "description": "schema for a labeled link, a profile of schema.org/CreativeWork",
               "type": "object",
-              "description": "Building block to implement relations to other resources using a URL and some semantics.",
               "properties": {
                 "@type": {
                   "default": "schema:CreativeWork",
@@ -8053,7 +7811,7 @@
                   "items": {
                     "type": "string",
                     "enum": [
-                      "dcat:Relationship"
+                      "schema:CreativeWork"
                     ]
                   }
                 },
@@ -8066,336 +7824,6 @@
                 "schema:url": {
                   "type": "string",
                   "format": "uri"
-                },
-                "dcat:hadRole": {
-                  "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot).",
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "anyOf": [
-                        {
-                          "type": "object",
-                          "properties": {
-                            "@id": {
-                              "type": "string",
-                              "description": "reference to a skos concept for the data type"
-                            }
-                          }
-                        },
-                        {
-                          "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
-                          "type": "object",
-                          "properties": {
-                            "@type": {
-                              "type": "array",
-                              "items": {
-                                "type": "string",
-                                "enum": [
-                                  "schema:DefinedTerm"
-                                ]
-                              }
-                            },
-                            "schema:name": {
-                              "type": "string",
-                              "description": "text label for the term that is useful to human user"
-                            },
-                            "schema:identifier": {
-                              "type": "string",
-                              "description": "Identifier"
-                            },
-                            "schema:inDefinedTermSet": {
-                              "type": "string",
-                              "description": "Name for the controlled vocabulary responsible for this keyword."
-                            },
-                            "schema:termCode": {
-                              "type": "string",
-                              "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
-                            }
-                          },
-                          "required": [
-                            "@type"
-                          ]
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "@context": {
-                              "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
-                              "type": "object",
-                              "properties": {
-                                "skos": {
-                                  "default": "http://www.w3.org/2004/02/skos/core#",
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "skos"
-                              ]
-                            },
-                            "@id": {
-                              "type": "string",
-                              "description": "URI identifier for this concept."
-                            },
-                            "@type": {
-                              "type": "array",
-                              "items": {
-                                "type": "string",
-                                "enum": [
-                                  "skos:Concept"
-                                ]
-                              }
-                            },
-                            "skos:prefLabel": {
-                              "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "object",
-                                  "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                                  "properties": {
-                                    "@value": {
-                                      "type": "string",
-                                      "description": "The text content."
-                                    },
-                                    "@language": {
-                                      "type": "string",
-                                      "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                    }
-                                  },
-                                  "required": [
-                                    "@value"
-                                  ]
-                                },
-                                {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                                    "properties": {
-                                      "@value": {
-                                        "type": "string",
-                                        "description": "The text content."
-                                      },
-                                      "@language": {
-                                        "type": "string",
-                                        "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                      }
-                                    },
-                                    "required": [
-                                      "@value"
-                                    ]
-                                  }
-                                }
-                              ]
-                            },
-                            "skos:notation": {
-                              "description": "Classification code for this concept within a scheme.",
-                              "type": "array",
-                              "items": {
-                                "type": "string"
-                              }
-                            },
-                            "skos:definition": {
-                              "description": "Formal explanation of the meaning of this concept.",
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "object",
-                                  "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                                  "properties": {
-                                    "@value": {
-                                      "type": "string",
-                                      "description": "The text content."
-                                    },
-                                    "@language": {
-                                      "type": "string",
-                                      "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                    }
-                                  },
-                                  "required": [
-                                    "@value"
-                                  ]
-                                },
-                                {
-                                  "type": "array",
-                                  "items": {
-                                    "anyOf": [
-                                      {
-                                        "type": "string"
-                                      },
-                                      {
-                                        "type": "object",
-                                        "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                                        "properties": {
-                                          "@value": {
-                                            "type": "string",
-                                            "description": "The text content."
-                                          },
-                                          "@language": {
-                                            "type": "string",
-                                            "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                          }
-                                        },
-                                        "required": [
-                                          "@value"
-                                        ]
-                                      }
-                                    ]
-                                  }
-                                }
-                              ]
-                            },
-                            "skos:note": {
-                              "description": "General note about this concept.",
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "object",
-                                  "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                                  "properties": {
-                                    "@value": {
-                                      "type": "string",
-                                      "description": "The text content."
-                                    },
-                                    "@language": {
-                                      "type": "string",
-                                      "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                    }
-                                  },
-                                  "required": [
-                                    "@value"
-                                  ]
-                                },
-                                {
-                                  "type": "array",
-                                  "items": {
-                                    "anyOf": [
-                                      {
-                                        "type": "string"
-                                      },
-                                      {
-                                        "type": "object",
-                                        "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                                        "properties": {
-                                          "@value": {
-                                            "type": "string",
-                                            "description": "The text content."
-                                          },
-                                          "@language": {
-                                            "type": "string",
-                                            "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                          }
-                                        },
-                                        "required": [
-                                          "@value"
-                                        ]
-                                      }
-                                    ]
-                                  }
-                                }
-                              ]
-                            },
-                            "skos:inScheme": {
-                              "description": "Concept scheme(s) this concept belongs to.",
-                              "anyOf": [
-                                {
-                                  "type": "object",
-                                  "properties": {
-                                    "@id": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "required": [
-                                    "@id"
-                                  ]
-                                },
-                                {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "properties": {
-                                      "@id": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "required": [
-                                      "@id"
-                                    ]
-                                  }
-                                }
-                              ]
-                            },
-                            "skos:broader": {
-                              "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
-                              "type": "array",
-                              "items": {
-                                "anyOf": [
-                                  {
-                                    "type": "object",
-                                    "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
-                                    "properties": {
-                                      "@id": {
-                                        "type": "string",
-                                        "description": "URI of the referenced concept."
-                                      }
-                                    },
-                                    "required": [
-                                      "@id"
-                                    ]
-                                  },
-                                  {
-                                    "$comment": "circular-ref"
-                                  }
-                                ]
-                              }
-                            },
-                            "skos:narrower": {
-                              "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
-                              "type": "array",
-                              "items": {
-                                "anyOf": [
-                                  {
-                                    "type": "object",
-                                    "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
-                                    "properties": {
-                                      "@id": {
-                                        "type": "string",
-                                        "description": "URI of the referenced concept."
-                                      }
-                                    },
-                                    "required": [
-                                      "@id"
-                                    ]
-                                  },
-                                  {
-                                    "$comment": "circular-ref"
-                                  }
-                                ]
-                              }
-                            }
-                          },
-                          "required": [
-                            "@type",
-                            "skos:prefLabel",
-                            "skos:notation"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                "dcterms:relation": {
-                  "type": "string",
-                  "format": "uri",
-                  "description": "URI of the related resource (DCAT canonical pointer to what is being related to; distinct from schema:url which is the presentation URL inherited from labeledLink)."
                 }
               },
               "required": [
@@ -8582,6 +8010,466 @@
         "cdif:has_Statistics"
       ]
     },
+    "CategoryStatistics": {
+      "title": "CategoryStatistics",
+      "description": "Statistics for a specific Category of an instance variable within a data set.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this CategoryStatistics node."
+        },
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "cdi:CategoryStatistics"
+            ]
+          }
+        },
+        "cdi:for": {
+          "description": "The Category this CategoryStatistics is for (inline Category node or an @id-reference).",
+          "anyOf": [
+            {
+              "title": "Category",
+              "description": "Minimal Category shape used as a CategoryStatistics target. CDIF simplifies the DDI-CDI InternationalString / LabelForDisplay / ObjectName valued properties to plain strings carried under the cdif: namespace. A full CDIF treatment of categories lives in cdifEnumerationDomain / SKOS Concept.",
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string"
+                },
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "cdi:Category"
+                    ]
+                  }
+                },
+                "cdif:name": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Human-understandable name(s). CDIF-simplified from DDI-CDI Category.name (ObjectName) to plain strings."
+                },
+                "cdif:descriptiveText": {
+                  "type": "string",
+                  "description": "Short natural-language account of the category. CDIF-simplified from DDI-CDI Category.descriptiveText (InternationalString)."
+                },
+                "cdif:definition": {
+                  "type": "string",
+                  "description": "Natural-language definition of the category. CDIF-simplified from DDI-CDI Category.definition (InternationalString)."
+                },
+                "cdif:displayLabel": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Human-readable display label(s). CDIF-simplified from DDI-CDI Category.displayLabel (LabelForDisplay)."
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            }
+          ]
+        },
+        "cdi:typeOfStatistic": {
+          "description": "Controlled-vocabulary entry naming the kind of statistic.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "@id": {
+                      "type": "string",
+                      "description": "reference to a skos concept for the data type"
+                    }
+                  }
+                },
+                {
+                  "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
+                  "type": "object",
+                  "properties": {
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "schema:DefinedTerm"
+                        ]
+                      }
+                    },
+                    "schema:name": {
+                      "type": "string",
+                      "description": "text label for the term that is useful to human user"
+                    },
+                    "schema:identifier": {
+                      "type": "string",
+                      "description": "Identifier"
+                    },
+                    "schema:inDefinedTermSet": {
+                      "type": "string",
+                      "description": "Name for the controlled vocabulary responsible for this keyword."
+                    },
+                    "schema:termCode": {
+                      "type": "string",
+                      "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                    }
+                  },
+                  "required": [
+                    "@type"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "@context": {
+                      "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
+                      "type": "object",
+                      "properties": {
+                        "skos": {
+                          "default": "http://www.w3.org/2004/02/skos/core#",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "skos"
+                      ]
+                    },
+                    "@id": {
+                      "type": "string",
+                      "description": "URI identifier for this concept."
+                    },
+                    "@type": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "skos:Concept"
+                        ]
+                      }
+                    },
+                    "skos:prefLabel": {
+                      "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "object",
+                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
+                          "properties": {
+                            "@value": {
+                              "type": "string",
+                              "description": "The text content."
+                            },
+                            "@language": {
+                              "type": "string",
+                              "description": "BCP 47 language tag (e.g. en, fr, de)."
+                            }
+                          },
+                          "required": [
+                            "@value"
+                          ]
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
+                            "properties": {
+                              "@value": {
+                                "type": "string",
+                                "description": "The text content."
+                              },
+                              "@language": {
+                                "type": "string",
+                                "description": "BCP 47 language tag (e.g. en, fr, de)."
+                              }
+                            },
+                            "required": [
+                              "@value"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:notation": {
+                      "description": "Classification code for this concept within a scheme.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "skos:definition": {
+                      "description": "Formal explanation of the meaning of this concept.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "object",
+                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
+                          "properties": {
+                            "@value": {
+                              "type": "string",
+                              "description": "The text content."
+                            },
+                            "@language": {
+                              "type": "string",
+                              "description": "BCP 47 language tag (e.g. en, fr, de)."
+                            }
+                          },
+                          "required": [
+                            "@value"
+                          ]
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "object",
+                                "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
+                                "properties": {
+                                  "@value": {
+                                    "type": "string",
+                                    "description": "The text content."
+                                  },
+                                  "@language": {
+                                    "type": "string",
+                                    "description": "BCP 47 language tag (e.g. en, fr, de)."
+                                  }
+                                },
+                                "required": [
+                                  "@value"
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:note": {
+                      "description": "General note about this concept.",
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "object",
+                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
+                          "properties": {
+                            "@value": {
+                              "type": "string",
+                              "description": "The text content."
+                            },
+                            "@language": {
+                              "type": "string",
+                              "description": "BCP 47 language tag (e.g. en, fr, de)."
+                            }
+                          },
+                          "required": [
+                            "@value"
+                          ]
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "object",
+                                "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
+                                "properties": {
+                                  "@value": {
+                                    "type": "string",
+                                    "description": "The text content."
+                                  },
+                                  "@language": {
+                                    "type": "string",
+                                    "description": "BCP 47 language tag (e.g. en, fr, de)."
+                                  }
+                                },
+                                "required": [
+                                  "@value"
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:inScheme": {
+                      "description": "Concept scheme(s) this concept belongs to.",
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "@id"
+                          ]
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "@id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "@id"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "skos:broader": {
+                      "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
+                            "properties": {
+                              "@id": {
+                                "type": "string",
+                                "description": "URI of the referenced concept."
+                              }
+                            },
+                            "required": [
+                              "@id"
+                            ]
+                          },
+                          {
+                            "$comment": "circular-ref"
+                          }
+                        ]
+                      }
+                    },
+                    "skos:narrower": {
+                      "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
+                            "properties": {
+                              "@id": {
+                                "type": "string",
+                                "description": "URI of the referenced concept."
+                              }
+                            },
+                            "required": [
+                              "@id"
+                            ]
+                          },
+                          {
+                            "$comment": "circular-ref"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "@type",
+                    "skos:prefLabel",
+                    "skos:notation"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "cdi:statistic": {
+          "type": "array",
+          "description": "Per-category Statistic value objects.",
+          "items": {
+            "title": "Statistic",
+            "description": "DDI-CDI Statistic dataType — a single computed value (mean, count, median, etc.). A value object with no identity; appears inline inside a cdi:statistic array.",
+            "type": "object",
+            "properties": {
+              "cdi:computationBase": {
+                "type": "string",
+                "enum": [
+                  "MissingOnly",
+                  "Total",
+                  "ValidOnly"
+                ],
+                "description": "The cases included in determining the statistic — Total (all cases, valid and missing), ValidOnly (valid values only), MissingOnly (invalid cases only)."
+              },
+              "cdi:content": {
+                "type": "number",
+                "description": "The value of the statistic expressed as a real number."
+              },
+              "cdi:isWeighted": {
+                "type": "boolean",
+                "default": false,
+                "description": "True if the statistic was computed using a weighting variable."
+              },
+              "cdi:typeOfNumericValue": {
+                "type": "string",
+                "description": "The type of numeric value carried in cdi:content — decimal, float, or double."
+              }
+            }
+          }
+        },
+        "cdi:hasWeight": {
+          "description": "The InstanceVariable whose values were used as weights (inline cdifInstanceVariable node or an @id-reference).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CdifInstanceVariable"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "@type",
+        "cdi:for",
+        "cdi:statistic"
+      ]
+    },
     "Statistics": {
       "title": "Statistics",
       "description": "A named bundle of one or more Statistic value objects for an instance variable, optionally weighted, optionally broken down by Category.",
@@ -8607,6 +8495,7 @@
               "type": "string"
             },
             {
+              "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
               "anyOf": [
                 {
                   "type": "object",
@@ -9009,465 +8898,6 @@
       },
       "required": [
         "@type",
-        "cdi:statistic"
-      ]
-    },
-    "CategoryStatistics": {
-      "title": "CategoryStatistics",
-      "description": "Statistics for a specific Category of an instance variable within a data set.",
-      "type": "object",
-      "properties": {
-        "@id": {
-          "type": "string",
-          "description": "Identifier for this CategoryStatistics node."
-        },
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": [
-              "cdi:CategoryStatistics"
-            ]
-          }
-        },
-        "cdi:for": {
-          "description": "The Category this CategoryStatistics is for (inline Category node or an @id-reference).",
-          "anyOf": [
-            {
-              "title": "Category",
-              "description": "Minimal Category shape used as a CategoryStatistics target. CDIF simplifies the DDI-CDI InternationalString / LabelForDisplay / ObjectName valued properties to plain strings carried under the cdif: namespace. A full CDIF treatment of categories lives in cdifEnumerationDomain / SKOS Concept.",
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                },
-                "@type": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "enum": [
-                      "cdi:Category"
-                    ]
-                  }
-                },
-                "cdif:name": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": "Human-understandable name(s). CDIF-simplified from DDI-CDI Category.name (ObjectName) to plain strings."
-                },
-                "cdif:descriptiveText": {
-                  "type": "string",
-                  "description": "Short natural-language account of the category. CDIF-simplified from DDI-CDI Category.descriptiveText (InternationalString)."
-                },
-                "cdif:definition": {
-                  "type": "string",
-                  "description": "Natural-language definition of the category. CDIF-simplified from DDI-CDI Category.definition (InternationalString)."
-                },
-                "cdif:displayLabel": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": "Human-readable display label(s). CDIF-simplified from DDI-CDI Category.displayLabel (LabelForDisplay)."
-                }
-              }
-            },
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
-            }
-          ]
-        },
-        "cdi:typeOfStatistic": {
-          "description": "Controlled-vocabulary entry naming the kind of statistic.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "anyOf": [
-                {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "type": "string",
-                      "description": "reference to a skos concept for the data type"
-                    }
-                  }
-                },
-                {
-                  "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
-                  "type": "object",
-                  "properties": {
-                    "@type": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "enum": [
-                          "schema:DefinedTerm"
-                        ]
-                      }
-                    },
-                    "schema:name": {
-                      "type": "string",
-                      "description": "text label for the term that is useful to human user"
-                    },
-                    "schema:identifier": {
-                      "type": "string",
-                      "description": "Identifier"
-                    },
-                    "schema:inDefinedTermSet": {
-                      "type": "string",
-                      "description": "Name for the controlled vocabulary responsible for this keyword."
-                    },
-                    "schema:termCode": {
-                      "type": "string",
-                      "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
-                    }
-                  },
-                  "required": [
-                    "@type"
-                  ]
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "@context": {
-                      "description": "JSON-LD context declaring the skos namespace prefix. May be a single object or an array of strings and objects.",
-                      "type": "object",
-                      "properties": {
-                        "skos": {
-                          "default": "http://www.w3.org/2004/02/skos/core#",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "skos"
-                      ]
-                    },
-                    "@id": {
-                      "type": "string",
-                      "description": "URI identifier for this concept."
-                    },
-                    "@type": {
-                      "type": "array",
-                      "items": {
-                        "type": "string",
-                        "enum": [
-                          "skos:Concept"
-                        ]
-                      }
-                    },
-                    "skos:prefLabel": {
-                      "description": "Preferred lexical label for this concept. A single string, a single language-tagged value, or an array of language-tagged values. Each language should appear at most once.",
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "object",
-                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                          "properties": {
-                            "@value": {
-                              "type": "string",
-                              "description": "The text content."
-                            },
-                            "@language": {
-                              "type": "string",
-                              "description": "BCP 47 language tag (e.g. en, fr, de)."
-                            }
-                          },
-                          "required": [
-                            "@value"
-                          ]
-                        },
-                        {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                            "properties": {
-                              "@value": {
-                                "type": "string",
-                                "description": "The text content."
-                              },
-                              "@language": {
-                                "type": "string",
-                                "description": "BCP 47 language tag (e.g. en, fr, de)."
-                              }
-                            },
-                            "required": [
-                              "@value"
-                            ]
-                          }
-                        }
-                      ]
-                    },
-                    "skos:notation": {
-                      "description": "Classification code for this concept within a scheme.",
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    },
-                    "skos:definition": {
-                      "description": "Formal explanation of the meaning of this concept.",
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "object",
-                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                          "properties": {
-                            "@value": {
-                              "type": "string",
-                              "description": "The text content."
-                            },
-                            "@language": {
-                              "type": "string",
-                              "description": "BCP 47 language tag (e.g. en, fr, de)."
-                            }
-                          },
-                          "required": [
-                            "@value"
-                          ]
-                        },
-                        {
-                          "type": "array",
-                          "items": {
-                            "anyOf": [
-                              {
-                                "type": "string"
-                              },
-                              {
-                                "type": "object",
-                                "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                                "properties": {
-                                  "@value": {
-                                    "type": "string",
-                                    "description": "The text content."
-                                  },
-                                  "@language": {
-                                    "type": "string",
-                                    "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                  }
-                                },
-                                "required": [
-                                  "@value"
-                                ]
-                              }
-                            ]
-                          }
-                        }
-                      ]
-                    },
-                    "skos:note": {
-                      "description": "General note about this concept.",
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "object",
-                          "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                          "properties": {
-                            "@value": {
-                              "type": "string",
-                              "description": "The text content."
-                            },
-                            "@language": {
-                              "type": "string",
-                              "description": "BCP 47 language tag (e.g. en, fr, de)."
-                            }
-                          },
-                          "required": [
-                            "@value"
-                          ]
-                        },
-                        {
-                          "type": "array",
-                          "items": {
-                            "anyOf": [
-                              {
-                                "type": "string"
-                              },
-                              {
-                                "type": "object",
-                                "description": "An RDF literal value with a language tag, serialized as a JSON-LD value object. Inlined from skosConcept (the resolver does not preserve cross-file '#/$defs/...' fragment refs).",
-                                "properties": {
-                                  "@value": {
-                                    "type": "string",
-                                    "description": "The text content."
-                                  },
-                                  "@language": {
-                                    "type": "string",
-                                    "description": "BCP 47 language tag (e.g. en, fr, de)."
-                                  }
-                                },
-                                "required": [
-                                  "@value"
-                                ]
-                              }
-                            ]
-                          }
-                        }
-                      ]
-                    },
-                    "skos:inScheme": {
-                      "description": "Concept scheme(s) this concept belongs to.",
-                      "anyOf": [
-                        {
-                          "type": "object",
-                          "properties": {
-                            "@id": {
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "@id"
-                          ]
-                        },
-                        {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "@id": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "@id"
-                            ]
-                          }
-                        }
-                      ]
-                    },
-                    "skos:broader": {
-                      "description": "Broader (parent) concepts in the hierarchy. Items are inline concept objects or @id references.",
-                      "type": "array",
-                      "items": {
-                        "anyOf": [
-                          {
-                            "type": "object",
-                            "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
-                            "properties": {
-                              "@id": {
-                                "type": "string",
-                                "description": "URI of the referenced concept."
-                              }
-                            },
-                            "required": [
-                              "@id"
-                            ]
-                          },
-                          {
-                            "$comment": "circular-ref"
-                          }
-                        ]
-                      }
-                    },
-                    "skos:narrower": {
-                      "description": "Narrower (child) concepts in the hierarchy. Items are inline concept objects or @id references.",
-                      "type": "array",
-                      "items": {
-                        "anyOf": [
-                          {
-                            "type": "object",
-                            "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
-                            "properties": {
-                              "@id": {
-                                "type": "string",
-                                "description": "URI of the referenced concept."
-                              }
-                            },
-                            "required": [
-                              "@id"
-                            ]
-                          },
-                          {
-                            "$comment": "circular-ref"
-                          }
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "@type",
-                    "skos:prefLabel",
-                    "skos:notation"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "cdi:statistic": {
-          "type": "array",
-          "description": "Per-category Statistic value objects.",
-          "items": {
-            "title": "Statistic",
-            "description": "DDI-CDI Statistic dataType — a single computed value (mean, count, median, etc.). A value object with no identity; appears inline inside a cdi:statistic array.",
-            "type": "object",
-            "properties": {
-              "cdi:computationBase": {
-                "type": "string",
-                "enum": [
-                  "MissingOnly",
-                  "Total",
-                  "ValidOnly"
-                ],
-                "description": "The cases included in determining the statistic — Total (all cases, valid and missing), ValidOnly (valid values only), MissingOnly (invalid cases only)."
-              },
-              "cdi:content": {
-                "type": "number",
-                "description": "The value of the statistic expressed as a real number."
-              },
-              "cdi:isWeighted": {
-                "type": "boolean",
-                "default": false,
-                "description": "True if the statistic was computed using a weighting variable."
-              },
-              "cdi:typeOfNumericValue": {
-                "type": "string",
-                "description": "The type of numeric value carried in cdi:content — decimal, float, or double."
-              }
-            }
-          }
-        },
-        "cdi:hasWeight": {
-          "description": "The InstanceVariable whose values were used as weights (inline cdifInstanceVariable node or an @id-reference).",
-          "anyOf": [
-            {
-              "$ref": "#/$defs/CdifInstanceVariable"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
-            }
-          ]
-        }
-      },
-      "required": [
-        "@type",
-        "cdi:for",
         "cdi:statistic"
       ]
     }
