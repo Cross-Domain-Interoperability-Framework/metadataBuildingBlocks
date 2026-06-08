@@ -1,0 +1,26 @@
+@startuml
+title CDIFConceptScheme — overview
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "ConceptScheme" as ConceptScheme #FEFECE
+class "Concept" as Concept #FEFECE
+class "CatalogRecord" as CatalogRecord #FEFECE
+ConceptScheme *-- "0..1" CatalogRecord : subjectOf
+ConceptScheme *-- "1..*" Concept : hasTopConcept
+Concept --> "0..*" ConceptScheme : inScheme
+Concept --> "0..*" Concept : broader
+Concept --> "0..*" Concept : narrower
+
+@enduml

@@ -1,0 +1,34 @@
+@startuml
+title ConceptScheme
+hide circle
+hide empty members
+skinparam shadowing false
+skinparam ArrowThickness 1.2
+skinparam ranksep 250
+skinparam nodesep 20
+skinparam defaultFontSize 36
+skinparam class {
+  ArrowColor #404040
+  BorderColor #404040
+  FontSize 36
+  AttributeFontSize 30
+}
+
+class "ConceptScheme" as ConceptScheme #FEFECE {
+  +identifier : XsdAnyUri [0..1]
+  +prefLabel : string [1..*]
+  +altLabel : string [0..*]
+  +definition : string [1..*]
+  +notation : string [0..*]
+  +note : string [0..*]
+  +version : string [0..1]
+}
+class "CatalogRecord" as CatalogRecord #EEEEEE
+ConceptScheme *-- "0..1" CatalogRecord : subjectOf
+class "Concept" as Concept #EEEEEE
+ConceptScheme *-- "1..*" Concept : hasTopConcept
+Concept --> "0..*" ConceptScheme : inScheme
+class "XsdAnyUri" as XsdAnyUri <<dataType>> #FAE5D3
+ConceptScheme ..> XsdAnyUri : identifier
+
+@enduml

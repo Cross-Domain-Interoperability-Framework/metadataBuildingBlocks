@@ -3982,15 +3982,23 @@ def _html_escape(s: str) -> str:
 
 def _html_link_class(cls_name: str, kind: str,
                      current_profile: str = "",
-                     cross_profile_registry: Optional[dict[str, str]] = None) -> str:
+                     cross_profile_registry: Optional[dict[str, str]] = None,
+                     force_local: bool = False) -> str:
     """Return an <a> linking to another class/datatype page.
 
     Same-profile target: ../{Classes|DataTypes}/Name.html
     Cross-profile target: ../../{OtherProfile}/{Classes|DataTypes}/Name.html
     Unknown target: plain text (no <a>).
+
+    `force_local=True` overrides the cross-profile registry and always emits a
+    local link. Use when the caller knows the class is in the current closure
+    (e.g. `cls.id in included_ids`); this avoids the registry's last-wins
+    behaviour mis-routing a locally-declared class to a sibling profile that
+    happens to redeclare the same name (e.g. Concept / ConceptScheme defined
+    independently in cdifCodelist and cdifConceptScheme).
     """
     folder = "DataTypes" if kind in ("datatype", "enumeration") else "Classes"
-    other_profile = (cross_profile_registry or {}).get(cls_name)
+    other_profile = None if force_local else (cross_profile_registry or {}).get(cls_name)
     if other_profile and other_profile != current_profile:
         href = f"../../{other_profile}/{folder}/{_puml_safe(cls_name)}.html"
         return (f'<a class="classlink" href="{href}" title="in {other_profile}">'
@@ -4066,7 +4074,10 @@ def _html_attr_rows(cls: UmlClass, model: Model,
             type_html = f'<span>{_html_escape(p.primitive)}</span>'
         elif p.type_id and p.type_id in model.elements:
             t = model.elements[p.type_id]
-            if t.id in included_ids or (registry and t.name in registry):
+            if t.id in included_ids:
+                type_html = _html_link_class(t.name, t.kind, current_profile, registry,
+                                             force_local=True)
+            elif registry and t.name in registry:
                 type_html = _html_link_class(t.name, t.kind, current_profile, registry)
             else:
                 type_html = _html_escape(t.name)
@@ -4108,7 +4119,10 @@ def _html_assoc_rows(cls: UmlClass, closure: UmlClosure,
         other = model.elements.get(other_id)
         if other is None:
             continue
-        if other.id in included_ids or (registry and other.name in registry):
+        if other.id in included_ids:
+            target_html = _html_link_class(other.name, other.kind, current_profile, registry,
+                                           force_local=True)
+        elif registry and other.name in registry:
             target_html = _html_link_class(other.name, other.kind, current_profile, registry)
         else:
             target_html = _html_escape(other.name)
@@ -4140,7 +4154,10 @@ def _html_inheritance(cls: UmlClass, closure: UmlClosure,
             p = model.elements.get(pid)
             if p is None:
                 continue
-            if p.id in included_ids or (registry and p.name in registry):
+            if p.id in included_ids:
+                parents.append(_html_link_class(p.name, p.kind, current_profile, registry,
+                                                force_local=True))
+            elif registry and p.name in registry:
                 parents.append(_html_link_class(p.name, p.kind, current_profile, registry))
             else:
                 parents.append(_html_escape(p.name))
@@ -4148,7 +4165,9 @@ def _html_inheritance(cls: UmlClass, closure: UmlClosure,
     subs = []
     for other in closure.classes:
         if cls.id in other.parents:
-            subs.append(_html_link_class(other.name, other.kind, current_profile, registry))
+            # subs come from closure.classes which is the local set
+            subs.append(_html_link_class(other.name, other.kind, current_profile, registry,
+                                         force_local=True))
     if subs:
         parts.append(f'<p><strong>Specialized by:</strong> {", ".join(subs)}</p>')
     if not parts:
