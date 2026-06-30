@@ -3,45 +3,89 @@
     "title": "DDI-CDI Data Structure",
     "description": "Adds data-structure description to a CDIF metadata record. Defines the cdi:DataStructure family of types ($defs DataStructure / DimensionalDataStructure / LongDataStructure / WideDataStructure, plus the supporting Component / Key / RepresentedVariable types). A distribution attaches a structure via cdi:isStructuredBy on its schema:DataDownload item; the structure value is any of the four DataStructure variants. Metadata records must declare conformance to cdif/data_structure/1.0.",
     "type": "object",
-    "properties": {
-        "schema:subjectOf": {
-            "properties": {
-                "dcterms:conformsTo": {
-                    "contains": {
-                        "type": "object",
-                        "properties": {
-                            "@id": {
-                                "const": "https://w3id.org/cdif/data_structure/1.1"
+    "if": {
+        "required": [
+            "@type"
+        ],
+        "properties": {
+            "@type": {
+                "type": "array",
+                "contains": {
+                    "enum": [
+                        "cdi:DataStructure",
+                        "cdi:DimensionalDataStructure",
+                        "cdi:LongDataStructure",
+                        "cdi:WideDataStructure"
+                    ]
+                }
+            }
+        }
+    },
+    "then": {
+        "description": "Standalone data-structure object (one of the four variants).",
+        "anyOf": [
+            {
+                "$ref": "#/$defs/DataStructure"
+            },
+            {
+                "$ref": "#/$defs/DimensionalDataStructure"
+            },
+            {
+                "$ref": "#/$defs/LongDataStructure"
+            },
+            {
+                "$ref": "#/$defs/WideDataStructure"
+            }
+        ]
+    },
+    "else": {
+        "description": "A CDIF dataset described by a data structure. Must declare conformance to data_structure/1.1 and attach the structure to a distribution.",
+        "required": [
+            "schema:subjectOf"
+        ],
+        "properties": {
+            "schema:subjectOf": {
+                "required": [
+                    "dcterms:conformsTo"
+                ],
+                "properties": {
+                    "dcterms:conformsTo": {
+                        "contains": {
+                            "type": "object",
+                            "properties": {
+                                "@id": {
+                                    "const": "https://w3id.org/cdif/data_structure/1.1"
+                                }
                             }
                         }
                     }
                 }
-            }
-        },
-        "schema:distribution": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "cdi:isStructuredBy": {
-                        "description": "Reusable data-structure description for this distribution. One of the four DataStructure variants (DataStructure, Dimensional, Long, Wide), or an @id reference to one declared elsewhere in the document.",
-                        "anyOf": [
-                            {
-                                "$ref": "#/$defs/DataStructure"
-                            },
-                            {
-                                "$ref": "#/$defs/DimensionalDataStructure"
-                            },
-                            {
-                                "$ref": "#/$defs/LongDataStructure"
-                            },
-                            {
-                                "$ref": "#/$defs/WideDataStructure"
-                            },
-                            {
-                                "$ref": "#/$defs/id-reference"
-                            }
-                        ]
+            },
+            "schema:distribution": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "cdi:isStructuredBy": {
+                            "description": "Reusable data-structure description for this distribution. One of the four DataStructure variants (DataStructure, Dimensional, Long, Wide) as an inline definition, or an @id reference to one declared elsewhere in the document or published at a resolvable URI. (A profile may further require the inline form via SHACL.)",
+                            "anyOf": [
+                                {
+                                    "$ref": "#/$defs/DataStructure"
+                                },
+                                {
+                                    "$ref": "#/$defs/DimensionalDataStructure"
+                                },
+                                {
+                                    "$ref": "#/$defs/LongDataStructure"
+                                },
+                                {
+                                    "$ref": "#/$defs/WideDataStructure"
+                                },
+                                {
+                                    "$ref": "#/$defs/id-reference"
+                                }
+                            ]
+                        }
                     }
                 }
             }
