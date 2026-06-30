@@ -248,3 +248,45 @@ cdifds:RepresentedVariableMustBeInstantiatedShape
         sh:message "This RepresentedVariable is referenced by a DataStructureComponent (cdif:isDefinedBy_RepresentedVariable) but no InstanceVariable references it via cdif:uses. Add an InstanceVariable in schema:variableMeasured whose cdif:uses points at this RepresentedVariable." ;
     ]
     .
+
+# ------------------------------------------------------------
+# Override the standalone profile's inline-only rule.
+#
+# cdifDataStructure/rules.shacl forbids a bare @id reference on
+# cdi:isStructuredBy (self-contained descriptions must be inline). This is an
+# INSTANCE profile: a dataset may reference an externally-published structure by
+# @id, so we redefine that named shape as a no-op (the SHACL emitter lets this
+# profile's rules.shacl win on the duplicated shape name).
+# ------------------------------------------------------------
+cdifd:cdifDataStructure_inlineStructureShape
+    a sh:NodeShape ;
+    .
+
+# ------------------------------------------------------------
+# RepresentedVariable reference cascade.
+#
+# If a distribution references an external data structure (cdi:isStructuredBy is
+# a bare @id reference, i.e. it carries no cdi:has_DataStructureComponent here),
+# then the structure's RepresentedVariables live in that external structure. So
+# the dataset's InstanceVariables must reference them by @id, NOT inline a
+# cdi:RepresentedVariable object via cdif:uses. SPARQL uses full IRIs to avoid
+# needing sh:prefixes.
+# ------------------------------------------------------------
+cdifds:ReferencedStructureImpliesReferencedRVShape
+    a sh:NodeShape ;
+    sh:targetClass schema:Dataset ;
+    sh:sparql [
+        sh:severity sh:Violation ;
+        sh:message "This dataset references an external data structure (cdi:isStructuredBy is a bare @id reference), so its RepresentedVariables belong to that external structure: an InstanceVariable's cdif:uses must be an @id reference, not an inline cdi:RepresentedVariable." ;
+        sh:select """
+            SELECT $this WHERE {
+                $this <http://schema.org/distribution> ?dist .
+                ?dist <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isStructuredBy> ?s .
+                FILTER NOT EXISTS { ?s <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent> ?c }
+                $this <http://schema.org/variableMeasured> ?iv .
+                ?iv <https://w3id.org/cdif/uses> ?u .
+                ?u a <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/RepresentedVariable> .
+            }
+        """ ;
+    ] ;
+    .

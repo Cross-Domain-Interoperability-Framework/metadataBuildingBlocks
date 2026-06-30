@@ -5,6 +5,7 @@
 @prefix cdi:    <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif:   <https://w3id.org/cdif/> .
 @prefix cdifd:  <https://cdif.org/validation/0.1/shacl#> .
+@prefix schema: <http://schema.org/> .
 @base <https://www.ogc.org/rules/template/> .
 
 # ------------------------------------------------------------
@@ -56,6 +57,37 @@ cdifd:cdifDataStructure_WideDataStructureShape
 		sh:minCount 1 ;
 		sh:severity sh:Violation ;
 		sh:message "A cdi:WideDataStructure must carry at least one cdi:has_DataStructureComponent." ;
+	] ;
+	.
+
+# ------------------------------------------------------------
+# Inline-only structure (standalone / self-contained description).
+#
+# The JSON Schema permits a distribution's cdi:isStructuredBy to be EITHER an
+# inline DataStructure OR an @id reference to one (JSON Schema cannot relax a
+# shared definition per-profile). In a self-contained data-structure
+# *description*, the structure must be defined inline: cdi:isStructuredBy must
+# carry cdi:has_DataStructureComponent, not be a bare @id reference.
+#
+# The instance profile (DiscoveryDataDescriptionStructure) OVERRIDES this same
+# named shape with a no-op so that a reference to an externally-published
+# structure is permitted there (the SHACL emitter lets a profile's own
+# rules.shacl win on a duplicated shape name). SPARQL uses full IRIs to avoid
+# needing sh:prefixes.
+# ------------------------------------------------------------
+cdifd:cdifDataStructure_inlineStructureShape
+	a sh:NodeShape ;
+	sh:targetClass schema:Dataset ;
+	sh:sparql [
+		sh:severity sh:Violation ;
+		sh:message "A self-contained data-structure description must define the structure inline: a distribution's cdi:isStructuredBy must carry cdi:has_DataStructureComponent, not be a bare @id reference." ;
+		sh:select """
+			SELECT $this WHERE {
+				$this <http://schema.org/distribution> ?dist .
+				?dist <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isStructuredBy> ?s .
+				FILTER NOT EXISTS { ?s <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/has_DataStructureComponent> ?c }
+			}
+		""" ;
 	] ;
 	.
 
