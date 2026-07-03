@@ -128,13 +128,13 @@ Bare cdi:TabularTextDataSet + schema:Dataset typing with cdi:isDelimited
     csvw:headerRowCount 1 ;
     csvw:skipBlankRows false ;
     csvw:skipInitialSpace true ;
-    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-station-id ;
-            cdif:index 0 ;
-            cdif:physicalDataType "String" ],
-        [ cdif:format "float64" ;
+    cdif:hasPhysicalMapping [ cdif:format "float64" ;
             cdif:formats_InstanceVariable ex:var-temperature ;
             cdif:index 1 ;
-            cdif:physicalDataType "Numeric" ] .
+            cdif:physicalDataType "Numeric" ],
+        [ cdif:formats_InstanceVariable ex:var-station-id ;
+            cdif:index 0 ;
+            cdif:physicalDataType "String" ] .
 
 
 ```
@@ -319,18 +319,18 @@ and three physical-mapping entries.
             cdif:formats_InstanceVariable ex:var-station-id ;
             cdif:index 0 ;
             cdif:physicalDataType "String" ],
+        [ cdi:nullSequence "NA" ;
+            cdif:format "YYYY-MM-DD" ;
+            cdif:formats_InstanceVariable ex:var-date ;
+            cdif:index 1 ;
+            cdif:physicalDataType "Date" ],
         [ cdi:decimalPositions 2 ;
             cdi:length 12 ;
             cdi:scale 1 ;
             cdif:format "#,##0.00" ;
             cdif:formats_InstanceVariable ex:var-temperature ;
             cdif:index 2 ;
-            cdif:physicalDataType "Numeric" ],
-        [ cdi:nullSequence "NA" ;
-            cdif:format "YYYY-MM-DD" ;
-            cdif:formats_InstanceVariable ex:var-date ;
-            cdif:index 1 ;
-            cdif:physicalDataType "Date" ] .
+            cdif:physicalDataType "Numeric" ] .
 
 
 ```
