@@ -79,6 +79,38 @@ cdifd:CDIFDataDescriptionConformsToShape a sh:NodeShape ;
         sh:message "Metadata record must declare conformance to the CDIF data description profile (https://w3id.org/cdif/data_description/1.1)" ;
     ] .
 
+# Statistics entries attached at Dataset level via cdif:statistics are reserved
+# for genuinely dataset-scope aggregates (row count, dataset-wide totals, etc.).
+# Per-variable statistics belong under variableMeasured[i].cdif:isDescribedBy_StatisticsCollection
+# — the direct JSON mapping of the DDI-CDI InstanceVariable.isDescribedBy
+# association. cdif:appliesTo (on Statistics) and cdif:indexedBy (on
+# StatisticsCollection) are the markers of per-variable scope, so they MUST
+# NOT appear on any entry reached via Dataset.cdif:statistics.
+cdifd:datasetScopeStatisticsShape
+    a sh:NodeShape ;
+    sh:target [
+        a sh:SPARQLTarget ;
+        sh:select """
+            PREFIX cdif: <https://w3id.org/cdif/>
+            SELECT ?this
+            WHERE {
+              ?dataset cdif:statistics ?this .
+            }
+        """ ;
+    ] ;
+    sh:property [
+        sh:path cdif:appliesTo ;
+        sh:maxCount 0 ;
+        sh:severity sh:Violation ;
+        sh:message "Statistics attached at Dataset level via cdif:statistics are reserved for dataset-scope aggregates and MUST NOT carry cdif:appliesTo. Per-variable statistics belong under variableMeasured[i].cdif:isDescribedBy_StatisticsCollection." ;
+    ] ;
+    sh:property [
+        sh:path cdif:indexedBy ;
+        sh:maxCount 0 ;
+        sh:severity sh:Violation ;
+        sh:message "StatisticsCollection attached at Dataset level via cdif:statistics is reserved for dataset-scope aggregates and MUST NOT carry cdif:indexedBy. Per-variable StatisticsCollections belong under variableMeasured[i].cdif:isDescribedBy_StatisticsCollection." ;
+    ] .
+
 # A schema:distribution typed cdi:StructuredDataSet locates each variable in the
 # structured document with a LocatorMapping: every cdif:hasPhysicalMapping entry
 # must carry cdi:locator (i.e., be a cdifLocatorMapping, not a column-index/text
