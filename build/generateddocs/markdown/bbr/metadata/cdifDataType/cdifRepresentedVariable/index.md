@@ -26,18 +26,14 @@ properties:
     type: string
     description: Identifier for this RepresentedVariable node
   cdi:describedUnitOfMeasure:
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/cdifConceptOrTerm'
+    $ref: '#/$defs/cdifConceptOrTermOrString'
     description: The unit in which the data values are measured (kg, pound, euro),
       expressed as a value from a controlled system of entries (i.e., QDT). Supports
       the provision of an identifier for the entry in the authoritative source (a
       URI, etc.), and the specific vocabulary.
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure
   cdi:hasIntendedDataType:
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/cdifConceptOrTerm'
+    $ref: '#/$defs/cdifConceptOrTermOrString'
     description: The data type intended to be used by this variable. Supports the
       optional use of an external controlled vocabulary.
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType
@@ -75,9 +71,7 @@ properties:
     - $ref: '#/$defs/id-reference'
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/measures
   cdi:unitOfMeasureKind:
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/cdifConceptOrTerm'
+    $ref: '#/$defs/cdifConceptOrTermOrString'
     description: Kind of unit of measure, so that it may be prone to translation to
       equivalent UOMs. Example values include "acceleration," "temperature," "salinity",
       etc. This description exists at the conceptual level, indicating a limitation
@@ -132,6 +126,8 @@ properties:
 required:
 - '@type'
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   cdifConceptOrTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
   id-reference:
@@ -315,9 +311,9 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
+    "schema": "http://schema.org/",
     "cdif": "https://w3id.org/cdif/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "schema": "http://schema.org/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",

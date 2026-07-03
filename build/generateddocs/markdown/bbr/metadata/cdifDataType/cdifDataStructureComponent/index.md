@@ -23,6 +23,8 @@ anyOf:
 - $ref: '#/$defs/VariableValueComponent'
 - $ref: '#/$defs/VariableDescriptorComponent'
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   cdifConceptOrTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
   id-reference:
@@ -95,9 +97,7 @@ $defs:
       cdi:semantic:
         type: array
         items:
-          anyOf:
-          - type: string
-          - $ref: '#/$defs/cdifConceptOrTerm'
+          $ref: '#/$defs/cdifConceptOrTermOrString'
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
@@ -140,9 +140,7 @@ $defs:
       cdi:semantic:
         type: array
         items:
-          anyOf:
-          - type: string
-          - $ref: '#/$defs/cdifConceptOrTerm'
+          $ref: '#/$defs/cdifConceptOrTermOrString'
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
@@ -206,9 +204,7 @@ $defs:
       cdi:semantic:
         type: array
         items:
-          anyOf:
-          - type: string
-          - $ref: '#/$defs/cdifConceptOrTerm'
+          $ref: '#/$defs/cdifConceptOrTermOrString'
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
@@ -244,9 +240,7 @@ $defs:
       cdi:semantic:
         type: array
         items:
-          anyOf:
-          - type: string
-          - $ref: '#/$defs/cdifConceptOrTerm'
+          $ref: '#/$defs/cdifConceptOrTermOrString'
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
@@ -281,9 +275,7 @@ $defs:
       cdi:semantic:
         type: array
         items:
-          anyOf:
-          - type: string
-          - $ref: '#/$defs/cdifConceptOrTerm'
+          $ref: '#/$defs/cdifConceptOrTermOrString'
         minItems: 1
         description: Qualifies the purpose or use expressed as a paired external controlled
           vocabulary.
@@ -307,9 +299,9 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
+    "schema": "http://schema.org/",
     "cdif": "https://w3id.org/cdif/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "schema": "http://schema.org/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",

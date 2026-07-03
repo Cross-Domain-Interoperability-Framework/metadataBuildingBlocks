@@ -88,14 +88,7 @@
       "type": "array",
       "minItems": 0,
       "items": {
-        "anyOf": [
-          {
-            "type": "string"
-          },
-          {
-            "$ref": "#/$defs/cdifConceptOrTerm"
-          }
-        ]
+        "$ref": "#/$defs/cdifConceptOrTermOrString"
       },
       "x-jsonld-id": "http://schema.org/additionalType"
     },
@@ -235,14 +228,7 @@
             "minItems": 1
           },
           "schema:linkRelationship": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/cdifConceptOrTerm"
-              },
-              {
-                "type": "string"
-              }
-            ],
+            "$ref": "#/$defs/cdifConceptOrTermOrString",
             "x-jsonld-id": "http://schema.org/linkRelationship"
           },
           "schema:target": {
@@ -308,14 +294,7 @@
       "description": "Keywords are an array of strings, an array of schema:DefinedTerms, or some combination of these. If you have information about a controlled vocabulary from which keywords come from, use schema:DefinedTerm to descibe that keyword. This allowed variability makes parsing metadata hard; recommend using DefinedTerm for all keywords if any of them are from a known vocabulary, otherwise an array of strings.",
       "type": "array",
       "items": {
-        "anyOf": [
-          {
-            "$ref": "#/$defs/cdifConceptOrTerm"
-          },
-          {
-            "type": "string"
-          }
-        ]
+        "$ref": "#/$defs/cdifConceptOrTermOrString"
       },
       "x-jsonld-id": "http://schema.org/keywords"
     },
@@ -519,6 +498,9 @@
     }
   ],
   "$defs": {
+    "cdifConceptOrTermOrString": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.json"
+    },
     "Reference": {
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifReference/schema.json"
     },

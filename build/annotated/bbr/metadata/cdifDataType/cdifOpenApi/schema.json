@@ -26,14 +26,7 @@
     },
     "schema:serviceType": {
       "description": "identifier for the kind of service, expected to identify the service type and version. For interoperability, ideally a resolvable identifier; otherwise a string from a vocabulary shared between provider and consumer. Subsumes OpenAPI info.version when the service-type identifier includes versioning.",
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "$ref": "#/$defs/cdifConceptOrTerm"
-        }
-      ],
+      "$ref": "#/$defs/cdifConceptOrTermOrString",
       "x-jsonld-id": "http://schema.org/serviceType"
     },
     "schema:termsOfService": {
@@ -89,6 +82,9 @@
     "schema:potentialAction"
   ],
   "$defs": {
+    "cdifConceptOrTermOrString": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.json"
+    },
     "Operation": {
       "type": "object",
       "description": "an OpenAPI-aligned operation. Corresponds to one OpenAPI Operation Object; the path component of OAS Path Item is folded into schema:target/schema:urlTemplate together with the server URL.",

@@ -84,9 +84,7 @@ properties:
     type: array
     minItems: 0
     items:
-      anyOf:
-      - type: string
-      - $ref: '#/$defs/cdifConceptOrTerm'
+      $ref: '#/$defs/cdifConceptOrTermOrString'
     x-jsonld-id: http://schema.org/additionalType
   schema:sameAs:
     description: Other identifiers for the dataset, as IRI references, literal strings,
@@ -194,9 +192,7 @@ properties:
             const: schema:LinkRole
           minItems: 1
         schema:linkRelationship:
-          anyOf:
-          - $ref: '#/$defs/cdifConceptOrTerm'
-          - type: string
+          $ref: '#/$defs/cdifConceptOrTermOrString'
           x-jsonld-id: http://schema.org/linkRelationship
         schema:target:
           type: object
@@ -248,9 +244,7 @@ properties:
       of strings.
     type: array
     items:
-      anyOf:
-      - $ref: '#/$defs/cdifConceptOrTerm'
-      - type: string
+      $ref: '#/$defs/cdifConceptOrTermOrString'
     x-jsonld-id: http://schema.org/keywords
   schema:creator:
     description: author or orginator of intellectual content of dataset. Uset the
@@ -371,6 +365,8 @@ allOf:
   - required:
     - schema:distribution
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   Reference:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifReference/schema.yaml
   Identifier:

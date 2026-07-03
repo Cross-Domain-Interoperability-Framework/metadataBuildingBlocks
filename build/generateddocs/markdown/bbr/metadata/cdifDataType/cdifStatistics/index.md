@@ -583,6 +583,8 @@ anyOf:
 - $ref: '#/$defs/CategoryStatistics'
 - $ref: '#/$defs/StatisticsCollection'
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   cdifConceptOrTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
   Statistic:
@@ -635,9 +637,7 @@ $defs:
       cdi:typeOfStatistic:
         description: "Controlled-vocabulary entry naming the kind of statistic \u2014
           e.g. mean, median, count, sum, stdDev."
-        anyOf:
-        - type: string
-        - $ref: '#/$defs/cdifConceptOrTerm'
+        $ref: '#/$defs/cdifConceptOrTermOrString'
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic
       cdi:statistic:
         type: array
@@ -722,9 +722,7 @@ $defs:
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/for
       cdi:typeOfStatistic:
         description: Controlled-vocabulary entry naming the kind of statistic.
-        anyOf:
-        - type: string
-        - $ref: '#/$defs/cdifConceptOrTerm'
+        $ref: '#/$defs/cdifConceptOrTermOrString'
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic
       cdi:statistic:
         type: array

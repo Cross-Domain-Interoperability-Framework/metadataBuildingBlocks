@@ -6,6 +6,8 @@ allOf:
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/labeledLink/schema.yaml
 - $ref: '#/$defs/Relation'
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   cdifConceptOrTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
   Relation:
@@ -23,9 +25,7 @@ $defs:
       dcat:hadRole:
         description: Role of the related resource as a SKOS Concept (DCAT canonical
           role slot).
-        anyOf:
-        - type: string
-        - $ref: '#/$defs/cdifConceptOrTerm'
+        $ref: '#/$defs/cdifConceptOrTermOrString'
         x-jsonld-id: http://www.w3.org/ns/dcat#hadRole
       dcterms:relation:
         type: string

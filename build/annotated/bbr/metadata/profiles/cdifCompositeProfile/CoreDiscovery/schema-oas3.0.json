@@ -101,14 +101,7 @@
           "type": "array",
           "minItems": 0,
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCore/$defs/cdifConceptOrTerm"
-              }
-            ]
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCore/$defs/cdifConceptOrTermOrString"
           },
           "x-jsonld-id": "http://schema.org/additionalType"
         },
@@ -254,15 +247,12 @@
                 "minItems": 1
               },
               "schema:linkRelationship": {
-                "anyOf": [
+                "x-jsonld-id": "http://schema.org/linkRelationship",
+                "allOf": [
                   {
-                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCore/$defs/cdifConceptOrTerm"
-                  },
-                  {
-                    "type": "string"
+                    "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCore/$defs/cdifConceptOrTermOrString"
                   }
-                ],
-                "x-jsonld-id": "http://schema.org/linkRelationship"
+                ]
               },
               "schema:target": {
                 "type": "object",
@@ -329,14 +319,7 @@
           "description": "Keywords are an array of strings, an array of schema:DefinedTerms, or some combination of these. If you have information about a controlled vocabulary from which keywords come from, use schema:DefinedTerm to descibe that keyword. This allowed variability makes parsing metadata hard; recommend using DefinedTerm for all keywords if any of them are from a known vocabulary, otherwise an array of strings.",
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCore/$defs/cdifConceptOrTerm"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCore/$defs/cdifConceptOrTermOrString"
           },
           "x-jsonld-id": "http://schema.org/keywords"
         },
@@ -546,6 +529,9 @@
         }
       ],
       "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString"
+        },
         "Reference": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference"
         },
@@ -619,14 +605,7 @@
           "description": "The technique, technology, or methodology used for measurement or determination of the dataset values.",
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDiscovery/$defs/cdifConceptOrTerm"
-              }
-            ]
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDiscovery/$defs/cdifConceptOrTermOrString"
           }
         },
         "schema:variableMeasured": {
@@ -675,6 +654,9 @@
         }
       },
       "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString"
+        },
         "cdifConceptOrTerm": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm"
         },
@@ -694,6 +676,20 @@
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDiscovery/schema.json",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
+    "cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString": {
+      "title": "CDIF Concept-or-Term-or-String",
+      "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm"
+        }
+      ],
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
     "cdif.bbr.metadata.cdifDataType.cdifReference": {
       "type": "object",
       "description": "Building block to implement relations to other resources using a URL and some semantics.",
@@ -706,6 +702,9 @@
         }
       ],
       "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString"
+        },
         "cdifConceptOrTerm": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm"
         },
@@ -727,15 +726,12 @@
             },
             "dcat:hadRole": {
               "description": "Role of the related resource as a SKOS Concept (DCAT canonical role slot).",
-              "anyOf": [
+              "x-jsonld-id": "http://www.w3.org/ns/dcat#hadRole",
+              "allOf": [
                 {
-                  "type": "string"
-                },
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference/$defs/cdifConceptOrTerm"
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference/$defs/cdifConceptOrTermOrString"
                 }
-              ],
-              "x-jsonld-id": "http://www.w3.org/ns/dcat#hadRole"
+              ]
             },
             "dcterms:relation": {
               "type": "string",
@@ -1219,14 +1215,7 @@
         "schema:additionalType": {
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization/$defs/cdifConceptOrTermOrString"
           },
           "x-jsonld-id": "http://schema.org/additionalType"
         },
@@ -1298,6 +1287,11 @@
           ]
         }
       ],
+      "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString"
+        }
+      },
       "x-jsonld-prefixes": {
         "schema": "http://schema.org/"
       },
@@ -1322,15 +1316,12 @@
           "minItems": 1
         },
         "schema:roleName": {
-          "anyOf": [
+          "x-jsonld-id": "http://schema.org/roleName",
+          "allOf": [
             {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.agentInRole/$defs/cdifConceptOrTermOrString"
             }
-          ],
-          "x-jsonld-id": "http://schema.org/roleName"
+          ]
         },
         "schema:contributor": {
           "anyOf": [
@@ -1361,6 +1352,11 @@
         "schema:roleName",
         "schema:contributor"
       ],
+      "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/CoreDiscovery/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString"
+        }
+      },
       "x-jsonld-prefixes": {
         "schema": "http://schema.org/"
       },

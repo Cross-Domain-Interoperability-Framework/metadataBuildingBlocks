@@ -202,14 +202,7 @@ properties:
       or MM-DD-YY.
     x-jsonld-id: https://w3id.org/cdif/format
   cdif:physicalDataType:
-    anyOf:
-    - type: string
-    - type: object
-      properties:
-        '@id':
-          type: string
-          description: reference to a skos concept for the data type
-    - $ref: '#/$defs/cdifConceptOrTerm'
+    $ref: '#/$defs/cdifConceptOrTermOrString'
     description: identifier or name for the data type concept.
     x-jsonld-id: https://w3id.org/cdif/physicalDataType
   cdi:numberPattern:
@@ -254,6 +247,8 @@ properties:
           section.
     x-jsonld-id: https://w3id.org/cdif/formats_InstanceVariable
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   cdifConceptOrTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
 x-jsonld-prefixes:

@@ -236,9 +236,7 @@ properties:
   schema:additionalType:
     type: array
     items:
-      anyOf:
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
-      - type: string
+      $ref: '#/$defs/cdifConceptOrTermOrString'
     x-jsonld-id: http://schema.org/additionalType
   schema:name:
     type: string
@@ -276,6 +274,9 @@ allOf:
     - schema:name
   - required:
     - schema:identifier
+$defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
 

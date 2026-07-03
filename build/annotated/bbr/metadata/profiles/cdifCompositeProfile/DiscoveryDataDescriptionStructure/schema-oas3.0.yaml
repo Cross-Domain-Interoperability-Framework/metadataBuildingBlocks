@@ -93,9 +93,7 @@ x-defs:
         type: array
         minItems: 0
         items:
-          anyOf:
-          - type: string
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCore/$defs/cdifConceptOrTerm
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCore/$defs/cdifConceptOrTermOrString
         x-jsonld-id: http://schema.org/additionalType
       schema:sameAs:
         description: Other identifiers for the dataset, as IRI references, literal
@@ -206,10 +204,9 @@ x-defs:
                 - schema:LinkRole
               minItems: 1
             schema:linkRelationship:
-              anyOf:
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCore/$defs/cdifConceptOrTerm
-              - type: string
               x-jsonld-id: http://schema.org/linkRelationship
+              allOf:
+              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCore/$defs/cdifConceptOrTermOrString
             schema:target:
               type: object
               properties:
@@ -261,9 +258,7 @@ x-defs:
           otherwise an array of strings.
         type: array
         items:
-          anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCore/$defs/cdifConceptOrTerm
-          - type: string
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCore/$defs/cdifConceptOrTermOrString
         x-jsonld-id: http://schema.org/keywords
       schema:creator:
         description: author or orginator of intellectual content of dataset. Uset
@@ -387,6 +382,8 @@ x-defs:
       - required:
         - schema:distribution
     $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       Reference:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference
       Identifier:
@@ -440,9 +437,7 @@ x-defs:
           or determination of the dataset values.
         type: array
         items:
-          anyOf:
-          - type: string
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDiscovery/$defs/cdifConceptOrTerm
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifDiscovery/$defs/cdifConceptOrTermOrString
       schema:variableMeasured:
         description: What does the dataset measure? (e.g., temperature, pressure)
         type: array
@@ -473,6 +468,8 @@ x-defs:
                   enum:
                   - https://w3id.org/cdif/discovery/1.1
     $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       cdifConceptOrTerm:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
       VariableMeasured:
@@ -1069,6 +1066,17 @@ x-defs:
       cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
+  cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString:
+    title: CDIF Concept-or-Term-or-String
+    description: Shared shape for a CDIF property that carries either a controlled-vocabulary
+      value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref,
+      schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative
+      used for legacy or single-word labels not yet bound to a vocabulary.
+    anyOf:
+    - type: string
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.cdifDataType.cdifReference:
     type: object
     description: Building block to implement relations to other resources using a
@@ -1077,6 +1085,8 @@ x-defs:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.labeledLink
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference/$defs/Relation
     $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       cdifConceptOrTerm:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
       Relation:
@@ -1095,10 +1105,9 @@ x-defs:
           dcat:hadRole:
             description: Role of the related resource as a SKOS Concept (DCAT canonical
               role slot).
-            anyOf:
-            - type: string
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference/$defs/cdifConceptOrTerm
             x-jsonld-id: http://www.w3.org/ns/dcat#hadRole
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference/$defs/cdifConceptOrTermOrString
           dcterms:relation:
             type: string
             format: uri
@@ -1465,9 +1474,7 @@ x-defs:
       schema:additionalType:
         type: array
         items:
-          anyOf:
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
-          - type: string
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.organization/$defs/cdifConceptOrTermOrString
         x-jsonld-id: http://schema.org/additionalType
       schema:name:
         type: string
@@ -1505,6 +1512,9 @@ x-defs:
         - schema:name
       - required:
         - schema:identifier
+    $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml
@@ -1527,10 +1537,9 @@ x-defs:
           - schema:Role
         minItems: 1
       schema:roleName:
-        anyOf:
-        - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm
         x-jsonld-id: http://schema.org/roleName
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.agentInRole/$defs/cdifConceptOrTermOrString
       schema:contributor:
         anyOf:
         - type: object
@@ -1547,6 +1556,9 @@ x-defs:
     - '@type'
     - schema:roleName
     - schema:contributor
+    $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
     x-jsonld-prefixes:
       schema: http://schema.org/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/agentInRole/schema.yaml
@@ -2331,6 +2343,8 @@ x-defs:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/CategoryStatistics
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/StatisticsCollection
     $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       cdifConceptOrTerm:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
       Statistic:
@@ -2384,10 +2398,9 @@ x-defs:
           cdi:typeOfStatistic:
             description: "Controlled-vocabulary entry naming the kind of statistic
               \u2014 e.g. mean, median, count, sum, stdDev."
-            anyOf:
-            - type: string
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/cdifConceptOrTerm
             x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/cdifConceptOrTermOrString
           cdi:statistic:
             type: array
             description: "Ordered list of Statistic value objects carried by this
@@ -2473,10 +2486,9 @@ x-defs:
             x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/for
           cdi:typeOfStatistic:
             description: Controlled-vocabulary entry naming the kind of statistic.
-            anyOf:
-            - type: string
-            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/cdifConceptOrTerm
             x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic
+            allOf:
+            - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/cdifConceptOrTermOrString
           cdi:statistic:
             type: array
             description: Per-category Statistic value objects.
@@ -2649,11 +2661,10 @@ x-defs:
           enum:
           - cdi:InstanceVariable
       cdif:physicalDataType:
-        anyOf:
-        - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTerm
         description: identifier or name for the data type concept.
         x-jsonld-id: https://w3id.org/cdif/physicalDataType
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTermOrString
       cdif:role:
         type: string
         enum:
@@ -2680,9 +2691,7 @@ x-defs:
       cdif:uses:
         type: array
         items:
-          anyOf:
-          - type: string
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTerm
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTermOrString
         description: Essentially the same as schema:propertyID. References to concepts
           that this variable measures or represents. When the dataset's distribution
           carries cdi:isStructuredBy (CDIF Data Structure profile), cdif:uses references
@@ -2692,20 +2701,17 @@ x-defs:
       cdi:function:
         type: array
         items:
-          anyOf:
-          - type: string
-          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTerm
+          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTermOrString
         description: Immutable characteristic of the variable such as geographic designator,
           weight, temporal designation, etc. (InstanceVariable.function).
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/function
       cdi:platformType:
-        anyOf:
-        - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTerm
         description: The application or technical system context in which the variable
           has been realized - typically a statistical processing package or processing
           environment (InstanceVariable.platformType).
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/platformType
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTermOrString
       cdi:source:
         anyOf:
         - type: string
@@ -2751,6 +2757,8 @@ x-defs:
       - '@type'
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.variableMeasured
     $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       cdifConceptOrTerm:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
     x-jsonld-prefixes:
@@ -3075,16 +3083,10 @@ x-defs:
           YYYY/MM or MM-DD-YY.
         x-jsonld-id: https://w3id.org/cdif/format
       cdif:physicalDataType:
-        anyOf:
-        - type: string
-        - type: object
-          properties:
-            '@id':
-              type: string
-              description: reference to a skos concept for the data type
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifPhysicalMapping/$defs/cdifConceptOrTerm
         description: identifier or name for the data type concept.
         x-jsonld-id: https://w3id.org/cdif/physicalDataType
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifPhysicalMapping/$defs/cdifConceptOrTermOrString
       cdi:numberPattern:
         type: string
         description: Number format pattern for the field (PhysicalMapping.numberPattern).
@@ -3127,6 +3129,8 @@ x-defs:
               section.
         x-jsonld-id: https://w3id.org/cdif/formats_InstanceVariable
     $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       cdifConceptOrTerm:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
     x-jsonld-prefixes:
@@ -3403,6 +3407,8 @@ x-defs:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/VariableValueComponent
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/VariableDescriptorComponent
     $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       cdifConceptOrTerm:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
       id-reference:
@@ -3479,9 +3485,7 @@ x-defs:
           cdi:semantic:
             type: array
             items:
-              anyOf:
-              - type: string
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/cdifConceptOrTerm
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/cdifConceptOrTermOrString
             minItems: 1
             description: Qualifies the purpose or use expressed as a paired external
               controlled vocabulary.
@@ -3527,9 +3531,7 @@ x-defs:
           cdi:semantic:
             type: array
             items:
-              anyOf:
-              - type: string
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/cdifConceptOrTerm
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/cdifConceptOrTermOrString
             minItems: 1
             description: Qualifies the purpose or use expressed as a paired external
               controlled vocabulary.
@@ -3597,9 +3599,7 @@ x-defs:
           cdi:semantic:
             type: array
             items:
-              anyOf:
-              - type: string
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/cdifConceptOrTerm
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/cdifConceptOrTermOrString
             minItems: 1
             description: Qualifies the purpose or use expressed as a paired external
               controlled vocabulary.
@@ -3639,9 +3639,7 @@ x-defs:
           cdi:semantic:
             type: array
             items:
-              anyOf:
-              - type: string
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/cdifConceptOrTerm
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/cdifConceptOrTermOrString
             minItems: 1
             description: Qualifies the purpose or use expressed as a paired external
               controlled vocabulary.
@@ -3679,9 +3677,7 @@ x-defs:
           cdi:semantic:
             type: array
             items:
-              anyOf:
-              - type: string
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/cdifConceptOrTerm
+              $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifDataStructureComponent/$defs/cdifConceptOrTermOrString
             minItems: 1
             description: Qualifies the purpose or use expressed as a paired external
               controlled vocabulary.
@@ -3710,21 +3706,19 @@ x-defs:
         type: string
         description: Identifier for this RepresentedVariable node
       cdi:describedUnitOfMeasure:
-        anyOf:
-        - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTerm
         description: The unit in which the data values are measured (kg, pound, euro),
           expressed as a value from a controlled system of entries (i.e., QDT). Supports
           the provision of an identifier for the entry in the authoritative source
           (a URI, etc.), and the specific vocabulary.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTermOrString
       cdi:hasIntendedDataType:
-        anyOf:
-        - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTerm
         description: The data type intended to be used by this variable. Supports
           the optional use of an external controlled vocabulary.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTermOrString
       cdi:takesSentinelValuesFrom:
         type: array
         items:
@@ -3761,15 +3755,14 @@ x-defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/id-reference
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/measures
       cdi:unitOfMeasureKind:
-        anyOf:
-        - type: string
-        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTerm
         description: Kind of unit of measure, so that it may be prone to translation
           to equivalent UOMs. Example values include "acceleration," "temperature,"
           "salinity", etc. This description exists at the conceptual level, indicating
           a limitation on the type of representations which may be used for the variable
           as it is made more concrete.
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind
+        allOf:
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTermOrString
       cdif:definition:
         type: string
         description: Natural language statement conveying the meaning of a concept,
@@ -3821,6 +3814,8 @@ x-defs:
     required:
     - '@type'
     $defs:
+      cdifConceptOrTermOrString:
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString
       cdifConceptOrTerm:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescriptionStructure/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm
       id-reference:

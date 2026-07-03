@@ -309,9 +309,7 @@ properties:
     contains:
       const: cdi:InstanceVariable
   cdif:physicalDataType:
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/cdifConceptOrTerm'
+    $ref: '#/$defs/cdifConceptOrTermOrString'
     description: identifier or name for the data type concept.
     x-jsonld-id: https://w3id.org/cdif/physicalDataType
   cdif:role:
@@ -339,9 +337,7 @@ properties:
   cdif:uses:
     type: array
     items:
-      anyOf:
-      - type: string
-      - $ref: '#/$defs/cdifConceptOrTerm'
+      $ref: '#/$defs/cdifConceptOrTermOrString'
     description: Essentially the same as schema:propertyID. References to concepts
       that this variable measures or represents. When the dataset's distribution carries
       cdi:isStructuredBy (CDIF Data Structure profile), cdif:uses references the RepresentedVariable
@@ -351,16 +347,12 @@ properties:
   cdi:function:
     type: array
     items:
-      anyOf:
-      - type: string
-      - $ref: '#/$defs/cdifConceptOrTerm'
+      $ref: '#/$defs/cdifConceptOrTermOrString'
     description: Immutable characteristic of the variable such as geographic designator,
       weight, temporal designation, etc. (InstanceVariable.function).
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/function
   cdi:platformType:
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/cdifConceptOrTerm'
+    $ref: '#/$defs/cdifConceptOrTermOrString'
     description: The application or technical system context in which the variable
       has been realized - typically a statistical processing package or processing
       environment (InstanceVariable.platformType).
@@ -409,6 +401,8 @@ allOf:
   - '@type'
 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/variableMeasured/schema.yaml
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   cdifConceptOrTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
 x-jsonld-prefixes:

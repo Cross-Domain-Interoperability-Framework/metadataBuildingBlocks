@@ -108,6 +108,9 @@
         }
       ],
       "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString"
+        },
         "cdifConceptOrTerm": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm"
         },
@@ -167,15 +170,12 @@
             },
             "cdi:typeOfStatistic": {
               "description": "Controlled-vocabulary entry naming the kind of statistic \u2014 e.g. mean, median, count, sum, stdDev.",
-              "anyOf": [
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic",
+              "allOf": [
                 {
-                  "type": "string"
-                },
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/cdifConceptOrTerm"
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/cdifConceptOrTermOrString"
                 }
-              ],
-              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic"
+              ]
             },
             "cdi:statistic": {
               "type": "array",
@@ -287,15 +287,12 @@
             },
             "cdi:typeOfStatistic": {
               "description": "Controlled-vocabulary entry naming the kind of statistic.",
-              "anyOf": [
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic",
+              "allOf": [
                 {
-                  "type": "string"
-                },
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/cdifConceptOrTerm"
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/cdifConceptOrTermOrString"
                 }
-              ],
-              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic"
+              ]
             },
             "cdi:statistic": {
               "type": "array",
@@ -673,16 +670,13 @@
           }
         },
         "cdif:physicalDataType": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTerm"
-            }
-          ],
           "description": "identifier or name for the data type concept.",
-          "x-jsonld-id": "https://w3id.org/cdif/physicalDataType"
+          "x-jsonld-id": "https://w3id.org/cdif/physicalDataType",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTermOrString"
+            }
+          ]
         },
         "cdif:role": {
           "type": "string",
@@ -705,14 +699,7 @@
         "cdif:uses": {
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTerm"
-              }
-            ]
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTermOrString"
           },
           "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents. When the dataset's distribution carries cdi:isStructuredBy (CDIF Data Structure profile), cdif:uses references the RepresentedVariable that supplies the represented-variable-level properties below, which are then NOT duplicated on the InstanceVariable.",
           "x-jsonld-id": "https://w3id.org/cdif/uses"
@@ -720,29 +707,19 @@
         "cdi:function": {
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTerm"
-              }
-            ]
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTermOrString"
           },
           "description": "Immutable characteristic of the variable such as geographic designator, weight, temporal designation, etc. (InstanceVariable.function).",
           "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/function"
         },
         "cdi:platformType": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTerm"
-            }
-          ],
           "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType).",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/platformType"
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/platformType",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTermOrString"
+            }
+          ]
         },
         "cdi:source": {
           "anyOf": [
@@ -812,6 +789,9 @@
         }
       ],
       "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString"
+        },
         "cdifConceptOrTerm": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm"
         }
@@ -1189,25 +1169,13 @@
           "x-jsonld-id": "https://w3id.org/cdif/format"
         },
         "cdif:physicalDataType": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string",
-                  "description": "reference to a skos concept for the data type"
-                }
-              }
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifPhysicalMapping/$defs/cdifConceptOrTerm"
-            }
-          ],
           "description": "identifier or name for the data type concept.",
-          "x-jsonld-id": "https://w3id.org/cdif/physicalDataType"
+          "x-jsonld-id": "https://w3id.org/cdif/physicalDataType",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifPhysicalMapping/$defs/cdifConceptOrTermOrString"
+            }
+          ]
         },
         "cdi:numberPattern": {
           "type": "string",
@@ -1258,6 +1226,9 @@
         }
       },
       "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString"
+        },
         "cdifConceptOrTerm": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm"
         }
@@ -1577,16 +1548,13 @@
           }
         },
         "cdif:physicalDataType": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1/$defs/cdifConceptOrTerm"
-            }
-          ],
           "description": "identifier or name for the data type concept.",
-          "x-jsonld-id": "https://w3id.org/cdif/physicalDataType"
+          "x-jsonld-id": "https://w3id.org/cdif/physicalDataType",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1/$defs/cdifConceptOrTermOrString"
+            }
+          ]
         },
         "cdif:role": {
           "type": "string",
@@ -1609,14 +1577,7 @@
         "cdif:uses": {
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1/$defs/cdifConceptOrTerm"
-              }
-            ]
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1/$defs/cdifConceptOrTermOrString"
           },
           "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents. When the dataset's distribution carries cdi:isStructuredBy (CDIF Data Structure profile), cdif:uses references the RepresentedVariable that supplies the represented-variable-level properties below, which are then NOT duplicated on the InstanceVariable.",
           "x-jsonld-id": "https://w3id.org/cdif/uses"
@@ -1624,29 +1585,19 @@
         "cdi:function": {
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1/$defs/cdifConceptOrTerm"
-              }
-            ]
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1/$defs/cdifConceptOrTermOrString"
           },
           "description": "Immutable characteristic of the variable such as geographic designator, weight, temporal designation, etc. (InstanceVariable.function).",
           "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/function"
         },
         "cdi:platformType": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1/$defs/cdifConceptOrTerm"
-            }
-          ],
           "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType).",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/platformType"
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/platformType",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable_1/$defs/cdifConceptOrTermOrString"
+            }
+          ]
         },
         "cdi:source": {
           "anyOf": [
@@ -1716,6 +1667,9 @@
         }
       ],
       "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString"
+        },
         "cdifConceptOrTerm": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm"
         }
@@ -1731,6 +1685,20 @@
         "prov": "http://www.w3.org/ns/prov#"
       },
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString": {
+      "title": "CDIF Concept-or-Term-or-String",
+      "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm"
+        }
+      ],
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm": {
@@ -2273,6 +2241,9 @@
         }
       ],
       "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString"
+        },
         "cdifConceptOrTerm": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm"
         },
@@ -2332,15 +2303,12 @@
             },
             "cdi:typeOfStatistic": {
               "description": "Controlled-vocabulary entry naming the kind of statistic \u2014 e.g. mean, median, count, sum, stdDev.",
-              "anyOf": [
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic",
+              "allOf": [
                 {
-                  "type": "string"
-                },
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics_1/$defs/cdifConceptOrTerm"
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics_1/$defs/cdifConceptOrTermOrString"
                 }
-              ],
-              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic"
+              ]
             },
             "cdi:statistic": {
               "type": "array",
@@ -2452,15 +2420,12 @@
             },
             "cdi:typeOfStatistic": {
               "description": "Controlled-vocabulary entry naming the kind of statistic.",
-              "anyOf": [
+              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic",
+              "allOf": [
                 {
-                  "type": "string"
-                },
-                {
-                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics_1/$defs/cdifConceptOrTerm"
+                  "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics_1/$defs/cdifConceptOrTermOrString"
                 }
-              ],
-              "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/typeOfStatistic"
+              ]
             },
             "cdi:statistic": {
               "type": "array",
@@ -2925,25 +2890,13 @@
           "x-jsonld-id": "https://w3id.org/cdif/format"
         },
         "cdif:physicalDataType": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string",
-                  "description": "reference to a skos concept for the data type"
-                }
-              }
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifPhysicalMapping_1/$defs/cdifConceptOrTerm"
-            }
-          ],
           "description": "identifier or name for the data type concept.",
-          "x-jsonld-id": "https://w3id.org/cdif/physicalDataType"
+          "x-jsonld-id": "https://w3id.org/cdif/physicalDataType",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifPhysicalMapping_1/$defs/cdifConceptOrTermOrString"
+            }
+          ]
         },
         "cdi:numberPattern": {
           "type": "string",
@@ -2994,6 +2947,9 @@
         }
       },
       "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString"
+        },
         "cdifConceptOrTerm": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataDescription/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm"
         }

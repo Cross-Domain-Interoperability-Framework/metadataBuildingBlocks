@@ -49,9 +49,7 @@ properties:
       determination of the dataset values.
     type: array
     items:
-      anyOf:
-      - type: string
-      - $ref: '#/$defs/cdifConceptOrTerm'
+      $ref: '#/$defs/cdifConceptOrTermOrString'
   schema:variableMeasured:
     description: What does the dataset measure? (e.g., temperature, pressure)
     type: array
@@ -81,6 +79,8 @@ properties:
             '@id':
               const: https://w3id.org/cdif/discovery/1.1
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   cdifConceptOrTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
   VariableMeasured:

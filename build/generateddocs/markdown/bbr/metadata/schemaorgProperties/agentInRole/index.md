@@ -422,9 +422,7 @@ properties:
       const: schema:Role
     minItems: 1
   schema:roleName:
-    anyOf:
-    - type: string
-    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+    $ref: '#/$defs/cdifConceptOrTermOrString'
     x-jsonld-id: http://schema.org/roleName
   schema:contributor:
     anyOf:
@@ -442,6 +440,9 @@ required:
 - '@type'
 - schema:roleName
 - schema:contributor
+$defs:
+  cdifConceptOrTermOrString:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
 

@@ -539,10 +539,10 @@ ComponentPosition wrapper.
     cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
-            cdif:value "systolic_bp" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
-            cdif:value "heart_rate" ] .
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
+            cdif:value "heart_rate" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
+            cdif:value "systolic_bp" ] .
 
 <https://example.org/struct/vitalsLong/comp/measureValue> a cdi:VariableValueComponent ;
     cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/measureValue> .
@@ -1727,9 +1727,9 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
+    "schema": "http://schema.org/",
     "cdif": "https://w3id.org/cdif/",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-    "schema": "http://schema.org/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",

@@ -1,5 +1,19 @@
 {
   "x-defs": {
+    "cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString": {
+      "title": "CDIF Concept-or-Term-or-String",
+      "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm_1"
+        }
+      ],
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
     "cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm": {
       "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
       "anyOf": [
@@ -44,28 +58,22 @@
           "description": "Identifier for this RepresentedVariable node"
         },
         "cdi:describedUnitOfMeasure": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTerm"
-            }
-          ],
           "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary.",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure"
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTermOrString"
+            }
+          ]
         },
         "cdi:hasIntendedDataType": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTerm"
-            }
-          ],
           "description": "The data type intended to be used by this variable. Supports the optional use of an external controlled vocabulary.",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType"
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTermOrString"
+            }
+          ]
         },
         "cdi:takesSentinelValuesFrom": {
           "type": "array",
@@ -117,16 +125,13 @@
           "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/measures"
         },
         "cdi:unitOfMeasureKind": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTerm"
-            }
-          ],
           "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete.",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind"
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable/$defs/cdifConceptOrTermOrString"
+            }
+          ]
         },
         "cdif:definition": {
           "type": "string",
@@ -189,6 +194,9 @@
         "@type"
       ],
       "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString_1"
+        },
         "cdifConceptOrTerm": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm_1"
         },
@@ -602,6 +610,28 @@
         "cdif": "https://w3id.org/cdif/"
       },
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDescriptorVariable/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm_1": {
+      "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string",
+              "description": "reference to a skos concept for the data type"
+            }
+          }
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
+        },
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme/$defs/cdifConcept"
+        }
+      ],
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.schemaorgProperties.definedTerm": {
@@ -1905,26 +1935,18 @@
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
-    "cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm_1": {
-      "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+    "cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString_1": {
+      "title": "CDIF Concept-or-Term-or-String",
+      "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
       "anyOf": [
         {
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "reference to a skos concept for the data type"
-            }
-          }
+          "type": "string"
         },
         {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.definedTerm"
-        },
-        {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme/$defs/cdifConcept"
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm_1"
         }
       ],
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml",
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable_1": {
@@ -1949,28 +1971,22 @@
           "description": "Identifier for this RepresentedVariable node"
         },
         "cdi:describedUnitOfMeasure": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable_1/$defs/cdifConceptOrTerm"
-            }
-          ],
           "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary.",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure"
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable_1/$defs/cdifConceptOrTermOrString"
+            }
+          ]
         },
         "cdi:hasIntendedDataType": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable_1/$defs/cdifConceptOrTerm"
-            }
-          ],
           "description": "The data type intended to be used by this variable. Supports the optional use of an external controlled vocabulary.",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType"
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/hasIntendedDataType",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable_1/$defs/cdifConceptOrTermOrString"
+            }
+          ]
         },
         "cdi:takesSentinelValuesFrom": {
           "type": "array",
@@ -2022,16 +2038,13 @@
           "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/measures"
         },
         "cdi:unitOfMeasureKind": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable_1/$defs/cdifConceptOrTerm"
-            }
-          ],
           "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete.",
-          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind"
+          "x-jsonld-id": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/unitOfMeasureKind",
+          "allOf": [
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifRepresentedVariable_1/$defs/cdifConceptOrTermOrString"
+            }
+          ]
         },
         "cdif:definition": {
           "type": "string",
@@ -2094,6 +2107,9 @@
         "@type"
       ],
       "$defs": {
+        "cdifConceptOrTermOrString": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString_1"
+        },
         "cdifConceptOrTerm": {
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm_1"
         },
@@ -2765,6 +2781,9 @@
     }
   ],
   "$defs": {
+    "cdifConceptOrTermOrString": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString"
+    },
     "cdifConceptOrTerm": {
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifConceptOrTerm"
     },
@@ -2869,14 +2888,7 @@
         "cdi:semantic": {
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/$defs/cdifConceptOrTerm"
-              }
-            ]
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/$defs/cdifConceptOrTermOrString"
           },
           "minItems": 1,
           "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary.",
@@ -2945,14 +2957,7 @@
         "cdi:semantic": {
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/$defs/cdifConceptOrTerm"
-              }
-            ]
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/$defs/cdifConceptOrTermOrString"
           },
           "minItems": 1,
           "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary.",
@@ -3043,14 +3048,7 @@
         "cdi:semantic": {
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/$defs/cdifConceptOrTerm"
-              }
-            ]
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/$defs/cdifConceptOrTermOrString"
           },
           "minItems": 1,
           "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary.",
@@ -3109,14 +3107,7 @@
         "cdi:semantic": {
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/$defs/cdifConceptOrTerm"
-              }
-            ]
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/$defs/cdifConceptOrTermOrString"
           },
           "minItems": 1,
           "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary.",
@@ -3171,14 +3162,7 @@
         "cdi:semantic": {
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/$defs/cdifConceptOrTerm"
-              }
-            ]
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDataStructureComponent/schema-oas3.0.json#/$defs/cdifConceptOrTermOrString"
           },
           "minItems": 1,
           "description": "Qualifies the purpose or use expressed as a paired external controlled vocabulary.",
