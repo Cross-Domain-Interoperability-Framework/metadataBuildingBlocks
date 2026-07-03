@@ -19,25 +19,11 @@
       "description": "Identifier for this RepresentedVariable node"
     },
     "cdi:describedUnitOfMeasure": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "$ref": "#/$defs/cdifConceptOrTerm"
-        }
-      ],
+      "$ref": "#/$defs/cdifConceptOrTermOrString",
       "description": "The unit in which the data values are measured (kg, pound, euro), expressed as a value from a controlled system of entries (i.e., QDT). Supports the provision of an identifier for the entry in the authoritative source (a URI, etc.), and the specific vocabulary."
     },
     "cdi:hasIntendedDataType": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "$ref": "#/$defs/cdifConceptOrTerm"
-        }
-      ],
+      "$ref": "#/$defs/cdifConceptOrTermOrString",
       "description": "The data type intended to be used by this variable. Supports the optional use of an external controlled vocabulary."
     },
     "cdi:takesSentinelValuesFrom": {
@@ -489,7 +475,7 @@
             ]
           },
           {
-            "$ref": "#/$defs/id-reference"
+            "$comment": "unresolved fragment ref: #/$defs/id-reference"
           }
         ]
       },
@@ -943,7 +929,7 @@
           ]
         },
         {
-          "$ref": "#/$defs/id-reference"
+          "$comment": "unresolved fragment ref: #/$defs/id-reference"
         }
       ],
       "description": "The substantive value domain for this RepresentedVariable - the set of valid, meaningful values (RepresentedVariable.takesSubstantiveValuesFrom)."
@@ -959,122 +945,15 @@
     "cdi:measures": {
       "anyOf": [
         {
-          "type": "object",
-          "description": "Unit type is a type or class of objects of interest (units).",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "cdi:UnitType"
-              },
-              "minItems": 1
-            },
-            "@id": {
-              "type": "string",
-              "description": "Identifier for this UnitType node"
-            },
-            "cdif:descriptiveText": {
-              "type": "string",
-              "description": "A short natural language account of the characteristics of the object."
-            },
-            "cdif:definition": {
-              "type": "string",
-              "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
-            },
-            "cdif:displayLabel": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "minItems": 1,
-              "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
-            },
-            "cdi:externalDefinition": {
-              "type": "object",
-              "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used.",
-              "properties": {
-                "@type": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "contains": {
-                    "const": "cdif:Reference"
-                  },
-                  "minItems": 1
-                },
-                "schema:url": {
-                  "type": "string",
-                  "format": "uri",
-                  "description": "URL of the referenced resource."
-                },
-                "schema:name": {
-                  "type": "string",
-                  "description": "Human-readable name of the referenced resource."
-                },
-                "schema:description": {
-                  "type": "string",
-                  "description": "Human-readable description of the reference."
-                }
-              },
-              "required": [
-                "@type"
-              ]
-            },
-            "cdi:identifier": {
-              "$ref": "#/$defs/Identifier",
-              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
-            },
-            "cdif:name": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "minItems": 1,
-              "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
-            },
-            "cdif:uses_Concept": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "title": "SKOS Concept",
-                    "description": "JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel), notations, hierarchical relations (broader/narrower), associative relations (related), cross-scheme mapping properties, scheme membership, and documentary notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).",
-                    "allOf": [
-                      {
-                        "$ref": "#/$defs/Concept"
-                      }
-                    ]
-                  },
-                  {
-                    "$ref": "#/$defs/id-reference"
-                  }
-                ]
-              },
-              "minItems": 1
-            }
-          },
-          "required": [
-            "@type"
-          ]
+          "$comment": "unresolved fragment ref: #/$defs/UnitType"
         },
         {
-          "$ref": "#/$defs/id-reference"
+          "$comment": "unresolved fragment ref: #/$defs/id-reference"
         }
       ]
     },
     "cdi:unitOfMeasureKind": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "$ref": "#/$defs/cdifConceptOrTerm"
-        }
-      ],
+      "$ref": "#/$defs/cdifConceptOrTermOrString",
       "description": "Kind of unit of measure, so that it may be prone to translation to equivalent UOMs. Example values include \"acceleration,\" \"temperature,\" \"salinity\", etc. This description exists at the conceptual level, indicating a limitation on the type of representations which may be used for the variable as it is made more concrete."
     },
     "cdif:definition": {
@@ -1090,36 +969,8 @@
       "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
     },
     "cdi:externalDefinition": {
-      "type": "object",
-      "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "cdif:Reference"
-          },
-          "minItems": 1
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri",
-          "description": "URL of the referenced resource."
-        },
-        "schema:name": {
-          "type": "string",
-          "description": "Human-readable name of the referenced resource."
-        },
-        "schema:description": {
-          "type": "string",
-          "description": "Human-readable description of the reference."
-        }
-      },
-      "required": [
-        "@type"
-      ]
+      "$comment": "unresolved fragment ref: #/$defs/Reference",
+      "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
     },
     "cdi:identifier": {
       "$ref": "#/$defs/Identifier",
@@ -1147,7 +998,7 @@
             ]
           },
           {
-            "$ref": "#/$defs/id-reference"
+            "$comment": "unresolved fragment ref: #/$defs/id-reference"
           }
         ]
       },
@@ -1158,84 +1009,93 @@
     "@type"
   ],
   "$defs": {
-    "cdifConceptOrTerm": {
-      "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+    "cdifConceptOrTermOrString": {
+      "title": "CDIF Concept-or-Term-or-String",
+      "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
       "anyOf": [
         {
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "reference to a skos concept for the data type"
-            }
-          }
+          "type": "string"
         },
         {
-          "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
-          "type": "object",
-          "properties": {
-            "@type": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "contains": {
-                "const": "schema:DefinedTerm"
-              },
-              "minItems": 1
+          "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "reference to a skos concept for the data type"
+                }
+              }
             },
-            "schema:name": {
-              "type": "string",
-              "description": "text label for the term that is useful to human user"
-            },
-            "schema:identifier": {
-              "anyOf": [
+            {
+              "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "schema:DefinedTerm"
+                  },
+                  "minItems": 1
+                },
+                "schema:name": {
+                  "type": "string",
+                  "description": "text label for the term that is useful to human user"
+                },
+                "schema:identifier": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/$defs/Identifier"
+                    }
+                  ]
+                },
+                "schema:inDefinedTermSet": {
+                  "type": "string",
+                  "description": "Name for the controlled vocabulary responsible for this keyword."
+                },
+                "schema:termCode": {
+                  "type": "string",
+                  "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                }
+              },
+              "allOf": [
                 {
-                  "type": "string"
+                  "required": [
+                    "@type"
+                  ]
                 },
                 {
-                  "$ref": "#/$defs/Identifier"
+                  "anyOf": [
+                    {
+                      "required": [
+                        "schema:name"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "schema:identifier"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "schema:termCode"
+                      ]
+                    }
+                  ]
                 }
               ]
             },
-            "schema:inDefinedTermSet": {
-              "type": "string",
-              "description": "Name for the controlled vocabulary responsible for this keyword."
-            },
-            "schema:termCode": {
-              "type": "string",
-              "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
-            }
-          },
-          "allOf": [
             {
-              "required": [
-                "@type"
-              ]
-            },
-            {
-              "anyOf": [
-                {
-                  "required": [
-                    "schema:name"
-                  ]
-                },
-                {
-                  "required": [
-                    "schema:identifier"
-                  ]
-                },
-                {
-                  "required": [
-                    "schema:termCode"
-                  ]
-                }
-              ]
+              "$ref": "#/$defs/cdifConcept"
             }
           ]
-        },
-        {
-          "$ref": "#/$defs/cdifConcept"
         }
       ]
     },
@@ -1287,18 +1147,6 @@
             }
           ]
         }
-      ]
-    },
-    "id-reference": {
-      "type": "object",
-      "description": "Reference to a node defined elsewhere in the document via its @id.",
-      "properties": {
-        "@id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "@id"
       ]
     },
     "cdifConcept": {

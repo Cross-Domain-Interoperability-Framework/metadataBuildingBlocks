@@ -5,6 +5,8 @@ allOf:
 - '$ref': '../../schemaorgProperties/labeledLink/schema.yaml'
 - '$ref': '#/$defs/Relation'
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: ../cdifConceptOrTermOrString/schema.yaml
   cdifConceptOrTerm:
     $ref: ../cdifConceptOrTerm/schema.yaml
   Relation:
@@ -20,12 +22,9 @@ $defs:
         minItems: 1
       "dcat:hadRole":
         description: Role of the related resource as a SKOS Concept (DCAT canonical role slot).
-        anyOf:
-        - type: string
-        - $ref: '#/$defs/cdifConceptOrTerm'
+        $ref: '#/$defs/cdifConceptOrTermOrString'
       "dcterms:relation":
         type: string
         format: uri
         description: URI of the related resource (DCAT canonical pointer to what is being related to; distinct from schema:url which is the presentation URL inherited from labeledLink).
-
 

@@ -19,6 +19,8 @@ anyOf:
 - $ref: '#/$defs/CategoryStatistics'
 - $ref: '#/$defs/StatisticsCollection'
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: ../cdifConceptOrTermOrString/schema.yaml
   cdifConceptOrTerm:
     $ref: ../cdifConceptOrTerm/schema.yaml
   Statistic:
@@ -72,9 +74,7 @@ $defs:
         description: >-
           Controlled-vocabulary entry naming the kind of statistic — e.g. mean,
           median, count, sum, stdDev.
-        anyOf:
-        - type: string
-        - $ref: '#/$defs/cdifConceptOrTerm'
+        $ref: '#/$defs/cdifConceptOrTermOrString'
       'cdi:statistic':
         type: array
         description: >-
@@ -159,9 +159,7 @@ $defs:
       'cdi:typeOfStatistic':
         description: >-
           Controlled-vocabulary entry naming the kind of statistic.
-        anyOf:
-        - type: string
-        - $ref: '#/$defs/cdifConceptOrTerm'
+        $ref: '#/$defs/cdifConceptOrTermOrString'
       'cdi:statistic':
         type: array
         description: Per-category Statistic value objects.

@@ -24,14 +24,7 @@
         },
         "schema:serviceType": {
             "description": "identifier for the kind of service, expected to identify the service type and version. For interoperability, ideally a resolvable identifier; otherwise a string from a vocabulary shared between provider and consumer. Subsumes OpenAPI info.version when the service-type identifier includes versioning.",
-            "anyOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "$ref": "#/$defs/cdifConceptOrTerm"
-                }
-            ]
+            "$ref": "#/$defs/cdifConceptOrTermOrString"
         },
         "schema:termsOfService": {
             "description": "Description of access privileges required to use the API (e.g. registration, licensing, payments). Maps OpenAPI info.termsOfService. Note that access constraints applying to all distributions of the resource should be specified at the resource level.",
@@ -82,6 +75,9 @@
         "schema:potentialAction"
     ],
     "$defs": {
+        "cdifConceptOrTermOrString": {
+            "$ref": "../cdifConceptOrTermOrString/cdifConceptOrTermOrStringSchema.json"
+        },
         "Operation": {
             "type": "object",
             "description": "an OpenAPI-aligned operation. Corresponds to one OpenAPI Operation Object; the path component of OAS Path Item is folded into schema:target/schema:urlTemplate together with the server URL.",

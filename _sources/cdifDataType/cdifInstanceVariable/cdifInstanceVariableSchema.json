@@ -14,14 +14,7 @@
             }
         },
         "cdif:physicalDataType": {
-            "anyOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "$ref": "#/$defs/cdifConceptOrTerm"
-                }
-            ],
+            "$ref": "#/$defs/cdifConceptOrTermOrString",
             "description": "identifier or name for the data type concept."
         },
         "cdif:role": {
@@ -43,40 +36,19 @@
         "cdif:uses": {
             "type": "array",
             "items": {
-                "anyOf": [
-                    {
-                        "type": "string"
-                    },
-                    {
-                        "$ref": "#/$defs/cdifConceptOrTerm"
-                    }
-                ]
+                "$ref": "#/$defs/cdifConceptOrTermOrString"
             },
             "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents. When the dataset's distribution carries cdi:isStructuredBy (CDIF Data Structure profile), cdif:uses references the RepresentedVariable that supplies the represented-variable-level properties below, which are then NOT duplicated on the InstanceVariable."
         },
         "cdi:function": {
             "type": "array",
             "items": {
-                "anyOf": [
-                    {
-                        "type": "string"
-                    },
-                    {
-                        "$ref": "#/$defs/cdifConceptOrTerm"
-                    }
-                ]
+                "$ref": "#/$defs/cdifConceptOrTermOrString"
             },
             "description": "Immutable characteristic of the variable such as geographic designator, weight, temporal designation, etc. (InstanceVariable.function)."
         },
         "cdi:platformType": {
-            "anyOf": [
-                {
-                    "type": "string"
-                },
-                {
-                    "$ref": "#/$defs/cdifConceptOrTerm"
-                }
-            ],
+            "$ref": "#/$defs/cdifConceptOrTermOrString",
             "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType)."
         },
         "cdi:source": {
@@ -139,6 +111,9 @@
         }
     ],
     "$defs": {
+        "cdifConceptOrTermOrString": {
+            "$ref": "../cdifConceptOrTermOrString/cdifConceptOrTermOrStringSchema.json"
+        },
         "cdifConceptOrTerm": {
             "$ref": "../cdifConceptOrTerm/cdifConceptOrTermSchema.json"
         }

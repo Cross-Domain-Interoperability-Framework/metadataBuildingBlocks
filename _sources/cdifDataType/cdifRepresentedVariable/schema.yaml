@@ -14,17 +14,13 @@ properties:
     type: string
     description: Identifier for this RepresentedVariable node
   'cdi:describedUnitOfMeasure':
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/cdifConceptOrTerm'
+    $ref: '#/$defs/cdifConceptOrTermOrString'
     description: >-
       The unit in which the data values are measured (kg, pound, euro), expressed as a value
       from a controlled system of entries (i.e., QDT). Supports the provision of an identifier
       for the entry in the authoritative source (a URI, etc.), and the specific vocabulary.
   'cdi:hasIntendedDataType':
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/cdifConceptOrTerm'
+    $ref: '#/$defs/cdifConceptOrTermOrString'
     description: >-
       The data type intended to be used by this variable. Supports the optional use of an
       external controlled vocabulary.
@@ -60,9 +56,7 @@ properties:
     - '$ref': '#/$defs/UnitType'
     - '$ref': '#/$defs/id-reference'
   'cdi:unitOfMeasureKind':
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/cdifConceptOrTerm'
+    $ref: '#/$defs/cdifConceptOrTermOrString'
     description: >-
       Kind of unit of measure, so that it may be prone to translation to equivalent UOMs.
       Example values include "acceleration," "temperature," "salinity", etc. This description
@@ -266,3 +260,6 @@ required:
         minItems: 1
     required:
     - '@type'
+$defs:
+  cdifConceptOrTermOrString:
+    $ref: ../cdifConceptOrTermOrString/schema.yaml

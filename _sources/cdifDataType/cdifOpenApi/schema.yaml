@@ -27,9 +27,7 @@ properties:
       version. For interoperability, ideally a resolvable identifier; otherwise a string from
       a vocabulary shared between provider and consumer. Subsumes OpenAPI info.version when the
       service-type identifier includes versioning.
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/cdifConceptOrTerm'
+    $ref: '#/$defs/cdifConceptOrTermOrString'
   'schema:termsOfService':
     description: Description of access privileges required to use the API (e.g. registration,
       licensing, payments). Maps OpenAPI info.termsOfService. Note that access constraints
@@ -64,6 +62,8 @@ required:
 - 'schema:termsOfService'
 - 'schema:potentialAction'
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: ../cdifConceptOrTermOrString/schema.yaml
   Operation:
     type: object
     description: an OpenAPI-aligned operation. Corresponds to one OpenAPI Operation Object;

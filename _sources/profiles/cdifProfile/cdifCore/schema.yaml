@@ -78,9 +78,7 @@ properties:
     type: array
     minItems: 0
     items:
-      anyOf:
-      - type: string
-      - $ref: '#/$defs/cdifConceptOrTerm'
+      $ref: '#/$defs/cdifConceptOrTermOrString'
   'schema:sameAs':
     description: Other identifiers for the dataset, as IRI references, literal strings,
       or structured identifiers using schema:PropertyValue.
@@ -171,9 +169,7 @@ properties:
             const: schema:LinkRole
           minItems: 1
         'schema:linkRelationship':
-          anyOf:
-          - $ref: '#/$defs/cdifConceptOrTerm'
-          - type: string
+          $ref: '#/$defs/cdifConceptOrTermOrString'
         'schema:target':
           type: object
           properties:
@@ -216,9 +212,7 @@ properties:
       an array of strings.
     type: array
     items:
-      anyOf:
-      - $ref: '#/$defs/cdifConceptOrTerm'
-      - type: string
+      $ref: '#/$defs/cdifConceptOrTermOrString'
   'schema:creator':
     description: author or orginator of intellectual content of dataset. Uset the JSON-LD @list construct
       to preserve author order. Use contributor with the Role property to specify other roles related
@@ -326,6 +320,8 @@ allOf:
   - required:
     - schema:distribution
 $defs:
+  cdifConceptOrTermOrString:
+    $ref: ../../../cdifDataType/cdifConceptOrTermOrString/schema.yaml
   Reference:
     $ref: ../../../cdifDataType/cdifReference/schema.yaml
   Identifier:

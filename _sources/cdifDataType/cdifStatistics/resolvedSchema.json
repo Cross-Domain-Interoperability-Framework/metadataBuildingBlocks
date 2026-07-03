@@ -15,23 +15,32 @@
     }
   ],
   "$defs": {
-    "cdifConceptOrTerm": {
-      "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+    "cdifConceptOrTermOrString": {
+      "title": "CDIF Concept-or-Term-or-String",
+      "description": "Shared shape for a CDIF property that carries either a controlled-vocabulary value or a bare string label. Wraps cdifConceptOrTerm (SKOS-concept @id-ref, schema:DefinedTerm, or inline cdif:Concept) with a plain-string alternative used for legacy or single-word labels not yet bound to a vocabulary.",
       "anyOf": [
         {
-          "type": "object",
-          "properties": {
-            "@id": {
-              "type": "string",
-              "description": "reference to a skos concept for the data type"
+          "type": "string"
+        },
+        {
+          "description": "A SKOS concept identified by URI, a schema:DefinedTerm, or an inline cdif:Concept. Shared shape used wherever a CDIF property carries either a controlled-vocabulary reference or an inline concept definition.",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "reference to a skos concept for the data type"
+                }
+              }
+            },
+            {
+              "$ref": "#/$defs/DefinedTerm"
+            },
+            {
+              "$ref": "#/$defs/cdifConcept"
             }
-          }
-        },
-        {
-          "$ref": "#/$defs/DefinedTerm"
-        },
-        {
-          "$ref": "#/$defs/cdifConcept"
+          ]
         }
       ]
     },
@@ -161,14 +170,7 @@
           }
         },
         "cdif:physicalDataType": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/cdifConceptOrTerm"
-            }
-          ],
+          "$ref": "#/$defs/cdifConceptOrTermOrString",
           "description": "identifier or name for the data type concept."
         },
         "cdif:role": {
@@ -190,40 +192,19 @@
         "cdif:uses": {
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/$defs/cdifConceptOrTerm"
-              }
-            ]
+            "$ref": "#/$defs/cdifConceptOrTermOrString"
           },
           "description": "Essentially the same as schema:propertyID. References to concepts that this variable measures or represents. When the dataset's distribution carries cdi:isStructuredBy (CDIF Data Structure profile), cdif:uses references the RepresentedVariable that supplies the represented-variable-level properties below, which are then NOT duplicated on the InstanceVariable."
         },
         "cdi:function": {
           "type": "array",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/$defs/cdifConceptOrTerm"
-              }
-            ]
+            "$ref": "#/$defs/cdifConceptOrTermOrString"
           },
           "description": "Immutable characteristic of the variable such as geographic designator, weight, temporal designation, etc. (InstanceVariable.function)."
         },
         "cdi:platformType": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/cdifConceptOrTerm"
-            }
-          ],
+          "$ref": "#/$defs/cdifConceptOrTermOrString",
           "description": "The application or technical system context in which the variable has been realized - typically a statistical processing package or processing environment (InstanceVariable.platformType)."
         },
         "cdi:source": {
@@ -262,8 +243,24 @@
           ]
         },
         "cdi:describedUnitOfMeasure": {
-          "$ref": "#/$defs/cdifConceptOrTerm",
-          "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead."
+          "description": "The unit in which the data values are measured, expressed as a controlled-vocabulary entry (RepresentedVariable.describedUnitOfMeasure). For a plain-string unit, use cdif:simpleUnitOfMeasure instead.",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "reference to a skos concept for the data type"
+                }
+              }
+            },
+            {
+              "$ref": "#/$defs/DefinedTerm"
+            },
+            {
+              "$ref": "#/$defs/cdifConcept"
+            }
+          ]
         },
         "cdi:qualifies": {
           "type": "object",
@@ -454,15 +451,8 @@
           "minItems": 1
         },
         "cdi:typeOfStatistic": {
-          "description": "Controlled-vocabulary entry naming the kind of statistic — e.g. mean, median, count, sum, stdDev.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/cdifConceptOrTerm"
-            }
-          ]
+          "$ref": "#/$defs/cdifConceptOrTermOrString",
+          "description": "Controlled-vocabulary entry naming the kind of statistic — e.g. mean, median, count, sum, stdDev."
         },
         "cdi:statistic": {
           "type": "array",
@@ -631,15 +621,8 @@
           ]
         },
         "cdi:typeOfStatistic": {
-          "description": "Controlled-vocabulary entry naming the kind of statistic.",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "#/$defs/cdifConceptOrTerm"
-            }
-          ]
+          "$ref": "#/$defs/cdifConceptOrTermOrString",
+          "description": "Controlled-vocabulary entry naming the kind of statistic."
         },
         "cdi:statistic": {
           "type": "array",
