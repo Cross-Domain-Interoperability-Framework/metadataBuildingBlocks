@@ -475,7 +475,7 @@
             ]
           },
           {
-            "$comment": "unresolved fragment ref: #/$defs/id-reference"
+            "$ref": "#/$defs/id-reference"
           }
         ]
       },
@@ -929,7 +929,7 @@
           ]
         },
         {
-          "$comment": "unresolved fragment ref: #/$defs/id-reference"
+          "$ref": "#/$defs/id-reference"
         }
       ],
       "description": "The substantive value domain for this RepresentedVariable - the set of valid, meaningful values (RepresentedVariable.takesSubstantiveValuesFrom)."
@@ -945,10 +945,110 @@
     "cdi:measures": {
       "anyOf": [
         {
-          "$comment": "unresolved fragment ref: #/$defs/UnitType"
+          "type": "object",
+          "description": "Unit type is a type or class of objects of interest (units).",
+          "properties": {
+            "@type": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "contains": {
+                "const": "cdi:UnitType"
+              },
+              "minItems": 1
+            },
+            "@id": {
+              "type": "string",
+              "description": "Identifier for this UnitType node"
+            },
+            "cdif:descriptiveText": {
+              "type": "string",
+              "description": "A short natural language account of the characteristics of the object."
+            },
+            "cdif:definition": {
+              "type": "string",
+              "description": "Natural language statement conveying the meaning of a concept, differentiating it from other concepts. Supports the use of multiple languages and structured text. 'externalDefinition' can't be used if 'definition' is used."
+            },
+            "cdif:displayLabel": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
+            },
+            "cdi:externalDefinition": {
+              "type": "object",
+              "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used.",
+              "properties": {
+                "@type": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "contains": {
+                    "const": "cdif:Reference"
+                  },
+                  "minItems": 1
+                },
+                "schema:url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "URL of the referenced resource."
+                },
+                "schema:name": {
+                  "type": "string",
+                  "description": "Human-readable name of the referenced resource."
+                },
+                "schema:description": {
+                  "type": "string",
+                  "description": "Human-readable description of the reference."
+                }
+              },
+              "required": [
+                "@type"
+              ]
+            },
+            "cdi:identifier": {
+              "$ref": "#/$defs/Identifier",
+              "description": "Identifier for objects requiring short- or long-lasting referencing and management."
+            },
+            "cdif:name": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "description": "Human understandable name (linguistic signifier, word, phrase, or mnemonic). May follow ISO/IEC 11179-5 naming principles, and have context provided to specify usage."
+            },
+            "cdif:uses_Concept": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "title": "SKOS Concept",
+                    "description": "JSON Schema for a SKOS Concept in JSON-LD form. A unit of thought within a concept scheme. Supports labels (prefLabel, altLabel, hiddenLabel), notations, hierarchical relations (broader/narrower), associative relations (related), cross-scheme mapping properties, scheme membership, and documentary notes. Based on the W3C SKOS Reference (https://www.w3.org/TR/skos-reference/).",
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/Concept"
+                      }
+                    ]
+                  },
+                  {
+                    "$ref": "#/$defs/id-reference"
+                  }
+                ]
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "@type"
+          ]
         },
         {
-          "$comment": "unresolved fragment ref: #/$defs/id-reference"
+          "$ref": "#/$defs/id-reference"
         }
       ]
     },
@@ -969,8 +1069,36 @@
       "description": "A human-readable display label for the object. Supports the use of multiple languages. Repeat for labels with different content, for example, labels with differing length limitations."
     },
     "cdi:externalDefinition": {
-      "$comment": "unresolved fragment ref: #/$defs/Reference",
-      "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used."
+      "type": "object",
+      "description": "A reference to an external definition of a concept (that is, a concept which is described outside the content of the DDI-CDI metadata description). An example is a SKOS concept. The definition property is assumed to duplicate the external one referenced if externalDefinition is used. Other corresponding properties are assumed to be included unchanged if used.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "cdif:Reference"
+          },
+          "minItems": 1
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the referenced resource."
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "Human-readable name of the referenced resource."
+        },
+        "schema:description": {
+          "type": "string",
+          "description": "Human-readable description of the reference."
+        }
+      },
+      "required": [
+        "@type"
+      ]
     },
     "cdi:identifier": {
       "$ref": "#/$defs/Identifier",
@@ -998,7 +1126,7 @@
             ]
           },
           {
-            "$comment": "unresolved fragment ref: #/$defs/id-reference"
+            "$ref": "#/$defs/id-reference"
           }
         ]
       },
@@ -1147,6 +1275,18 @@
             }
           ]
         }
+      ]
+    },
+    "id-reference": {
+      "type": "object",
+      "description": "Reference to a node defined elsewhere in the document via its @id.",
+      "properties": {
+        "@id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "@id"
       ]
     },
     "cdifConcept": {
