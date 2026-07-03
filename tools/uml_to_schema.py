@@ -1906,10 +1906,25 @@ def _emit_model_identification(w: _XmiWriter, acronym: str, profile_uri: str,
 def _emit_property(w: _XmiWriter, owner_xmi_id: str, owner_uuid: str,
                    prop: Property, closure: UmlClosure, model: Model,
                    acronym: str, profile_uri: str,
-                   association_xmi_id: Optional[str] = None) -> None:
-    """Emit an <ownedAttribute xmi:type='uml:Property'> on the open class."""
-    prop_id = f"{owner_xmi_id}-{prop.name}"
-    prop_uuid = f"{owner_uuid}-{prop.name}"
+                   association_xmi_id: Optional[str] = None,
+                   prop_xmi_id: Optional[str] = None) -> None:
+    """Emit an <ownedAttribute xmi:type='uml:Property'> on the open class.
+
+    `prop_xmi_id` overrides the default `{owner}-{name}` id — used when a
+    class has two properties with the same local name (typically an
+    attribute and an association-end whose role happens to match, e.g.
+    ConceptScheme has both an `identifier` XsdAnyUri attribute for @id
+    and an `identifier` association-end to Identifier for schema:identifier
+    PropertyValue). Both would otherwise get the same xmi:id and violate
+    XMI 2.5 uniqueness."""
+    if prop_xmi_id:
+        prop_id = prop_xmi_id
+        # keep the uuid distinct too, deriving from the same suffix
+        suffix = prop_id[len(owner_xmi_id) + 1:] if prop_id.startswith(f"{owner_xmi_id}-") else prop.name
+        prop_uuid = f"{owner_uuid}-{suffix}"
+    else:
+        prop_id = f"{owner_xmi_id}-{prop.name}"
+        prop_uuid = f"{owner_uuid}-{prop.name}"
     w._open("ownedAttribute", {
         "xmi:id": prop_id,
         "xmi:uuid": prop_uuid,
@@ -1952,7 +1967,8 @@ def _emit_property(w: _XmiWriter, owner_xmi_id: str, owner_uuid: str,
 
 def _emit_class(w: _XmiWriter, cls: UmlClass, closure: UmlClosure, model: Model,
                 acronym: str, profile_uri: str,
-                assoc_for_prop: dict[str, str]) -> None:
+                assoc_for_prop: dict[str, str],
+                prop_xmi_for_prop: Optional[dict[tuple[str, str], str]] = None) -> None:
     xmi_id = _profile_xmi_id(acronym, cls.name)
     uuid = f"{profile_uri}#{cls.name}"
     w._open("packagedElement", {
@@ -1995,8 +2011,10 @@ def _emit_class(w: _XmiWriter, cls: UmlClass, closure: UmlClosure, model: Model,
             if prop.is_assoc_end and prop.type_id not in closure.class_ids:
                 continue
         association_xmi_id = assoc_for_prop.get(prop.id)
+        prop_xmi_id = prop_xmi_for_prop.get((xmi_id, prop.id)) if prop_xmi_for_prop else None
         _emit_property(w, xmi_id, uuid, prop, closure, model, acronym,
-                       profile_uri, association_xmi_id=association_xmi_id)
+                       profile_uri, association_xmi_id=association_xmi_id,
+                       prop_xmi_id=prop_xmi_id)
     w._close("packagedElement")
 
 
@@ -2045,17 +2063,25 @@ def _emit_enumeration(w: _XmiWriter, en: UmlClass, acronym: str,
 
 
 def _emit_association(w: _XmiWriter, assoc_entry: tuple, model: Model,
-                      acronym: str, profile_uri: str) -> str:
+                      acronym: str, profile_uri: str,
+                      prop_xmi_for_prop: Optional[dict[tuple[str, str], str]] = None) -> str:
     """Emit a top-level <packagedElement xmi:type='uml:Association'>. Returns
     its xmi:id so the corresponding property's <association xmi:idref=...> can
-    point at it."""
+    point at it. `prop_xmi_for_prop` provides the subject-end property's
+    disambiguated xmi:id when it collides with a same-named attribute on
+    the subject class."""
     prop_id, subj_id, obj_id, role, lower, upper, aggregation = assoc_entry
     subj = model.elements[subj_id]
     obj = model.elements[obj_id]
     name = f"{subj.name}_{role}_{obj.name}"
     assoc_xmi = _profile_xmi_id(acronym, name)
     assoc_uuid = f"{profile_uri}#{name}"
-    subj_prop_xmi = _profile_xmi_id(acronym, subj.name) + f"-{role}"
+    subj_prop_xmi = None
+    if prop_xmi_for_prop:
+        subj_owner_id = _profile_xmi_id(acronym, subj.name)
+        subj_prop_xmi = prop_xmi_for_prop.get((subj_owner_id, prop_id))
+    if not subj_prop_xmi:
+        subj_prop_xmi = _profile_xmi_id(acronym, subj.name) + f"-{role}"
     w._open("packagedElement", {
         "xmi:id": assoc_xmi,
         "xmi:uuid": assoc_uuid,
@@ -2122,6 +2148,41 @@ def emit_uml(out_path: Path, *,
             acronym, f"{subj.name}_{role}_{obj.name}"
         )
 
+    # Build a map: (owner_xmi_id, Property.id) -> owned-attribute xmi:id,
+    # disambiguating any same-named-on-same-class collision (typically a data
+    # attribute vs an association-end sharing the local name — e.g.
+    # ConceptScheme has both an `identifier` XsdAnyUri attribute for @id AND
+    # an `identifier` association to Identifier for schema:identifier).
+    # Without this, both get the same xmi:id and violate XMI 2.5 uniqueness.
+    # First occurrence keeps the base `{owner}-{name}` id; subsequent
+    # occurrences get `-{TargetClass}` suffixed.
+    #
+    # Keyed on (owner_xmi_id, prop.id) — not prop.id alone — because inherited
+    # properties share the SAME prop.id across every subclass that emits them
+    # (Agent's `identifier` prop.id is reused by Person and Organization), and
+    # each subclass owns its own <ownedAttribute> under its own owner-prefixed
+    # xmi:id.
+    prop_xmi_for_prop: dict[tuple[str, str], str] = {}
+    for cls in closure.classes:
+        owner_id = _profile_xmi_id(acronym, cls.name)
+        used_ids: set[str] = set()
+        for prop in collect_inherited_properties(cls.id, model):
+            if not prop.name:
+                continue
+            base = f"{owner_id}-{prop.name}"
+            candidate = base
+            if candidate in used_ids:
+                target = model.elements.get(prop.type_id) if prop.type_id else None
+                if target and target.name:
+                    candidate = f"{base}-{target.name}"
+                # last-resort dedup if the disambiguated form still collides
+                n = 2
+                while candidate in used_ids:
+                    candidate = f"{base}-{n}"
+                    n += 1
+            used_ids.add(candidate)
+            prop_xmi_for_prop[(owner_id, prop.id)] = candidate
+
     w = _XmiWriter()
     w.lines.append('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>')
     w._open("xmi:XMI", {
@@ -2182,16 +2243,17 @@ def emit_uml(out_path: Path, *,
         w._leaf("name", text=classes_package_name)
         for cls in closure.classes:
             _emit_class(w, cls, closure, model, acronym, profile_uri,
-                        assoc_xmi_for_prop)
+                        assoc_xmi_for_prop, prop_xmi_for_prop=prop_xmi_for_prop)
         w._close("packagedElement")  # /classes_package
     else:
         for cls in closure.classes:
             _emit_class(w, cls, closure, model, acronym, profile_uri,
-                        assoc_xmi_for_prop)
+                        assoc_xmi_for_prop, prop_xmi_for_prop=prop_xmi_for_prop)
 
     # Associations live at the main-package level
     for entry in closure.associations:
-        _emit_association(w, entry, model, acronym, profile_uri)
+        _emit_association(w, entry, model, acronym, profile_uri,
+                          prop_xmi_for_prop=prop_xmi_for_prop)
 
     w._close("packagedElement")  # /main_package
     w._close("uml:Model")
