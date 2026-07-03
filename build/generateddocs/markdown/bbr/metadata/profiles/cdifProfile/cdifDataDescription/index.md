@@ -44,19 +44,18 @@ minimum required CdifInstanceVariableNode shape.
   "schema:variableMeasured": [
     {
       "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
+        "cdi:InstanceVariable",
+        "schema:PropertyValue"
       ],
       "@id": "ex:var/temperature",
       "schema:name": "temperature",
-      "schema:description": "Air temperature measurement.",
-      "schema:propertyID": [
-        "air_temperature"
+      "cdif:name": [
+        "temperature"
       ],
-      "schema:unitText": "degrees Celsius",
-      "schema:unitCode": "Cel",
-      "cdif:physicalDataType": "xsd:decimal",
-      "cdif:role": "Measure"
+      "cdif:definition": "Air temperature measurement.",
+      "cdi:takesSubstantiveValuesFrom": {
+        "@id": "ex:value-domain/decimal"
+      }
     }
   ]
 }
@@ -96,19 +95,18 @@ minimum required CdifInstanceVariableNode shape.
   "schema:variableMeasured": [
     {
       "@type": [
-        "schema:PropertyValue",
-        "cdi:InstanceVariable"
+        "cdi:InstanceVariable",
+        "schema:PropertyValue"
       ],
       "@id": "ex:var/temperature",
       "schema:name": "temperature",
-      "schema:description": "Air temperature measurement.",
-      "schema:propertyID": [
-        "air_temperature"
+      "cdif:name": [
+        "temperature"
       ],
-      "schema:unitText": "degrees Celsius",
-      "schema:unitCode": "Cel",
-      "cdif:physicalDataType": "xsd:decimal",
-      "cdif:role": "Measure"
+      "cdif:definition": "Air temperature measurement.",
+      "cdi:takesSubstantiveValuesFrom": {
+        "@id": "ex:value-domain/decimal"
+      }
     }
   ]
 }
@@ -128,13 +126,10 @@ minimum required CdifInstanceVariableNode shape.
 
 <https://example.org/var/temperature> a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    schema1:description "Air temperature measurement." ;
+    cdi:takesSubstantiveValuesFrom <https://example.org/value-domain/decimal> ;
     schema1:name "temperature" ;
-    schema1:propertyID "air_temperature" ;
-    schema1:unitCode "Cel" ;
-    schema1:unitText "degrees Celsius" ;
-    cdif:physicalDataType "xsd:decimal" ;
-    cdif:role "Measure" .
+    cdif:definition "Air temperature measurement." ;
+    cdif:name "temperature" .
 
 
 ```
@@ -371,8 +366,17 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
         "text/csv"
       ],
       "cdi:characterSet": "UTF-8",
-      "schema:contentSize": "1.2 Mb",
+      "cdif:fileSize": 1.2,
+      "cdif:fileSizeUofM": "MB",
       "cdi:isDelimited": true,
+      "csvw:delimiter": ",",
+      "csvw:header": true,
+      "csvw:headerRowCount": 1,
+      "csvw:skipRows": 0,
+      "csvw:skipBlankRows": true,
+      "csvw:commentPrefix": "#",
+      "csvw:quoteChar": "\"",
+      "csvw:trim": "true",
       "cdif:hasPhysicalMapping": [
         {
           "cdif:index": 0,
@@ -703,8 +707,17 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
         "text/csv"
       ],
       "cdi:characterSet": "UTF-8",
-      "schema:contentSize": "1.2 Mb",
+      "cdif:fileSize": 1.2,
+      "cdif:fileSizeUofM": "MB",
       "cdi:isDelimited": true,
+      "csvw:delimiter": ",",
+      "csvw:header": true,
+      "csvw:headerRowCount": 1,
+      "csvw:skipRows": 0,
+      "csvw:skipBlankRows": true,
+      "csvw:commentPrefix": "#",
+      "csvw:quoteChar": "\"",
+      "csvw:trim": "true",
       "cdif:hasPhysicalMapping": [
         {
           "cdif:index": 0,
@@ -803,6 +816,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ns1: <csvw:> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -829,20 +843,38 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
         [ a cdi:PhysicalDataSet,
                 cdi:TabularTextDataSet,
                 schema1:DataDownload ;
+            ns1:commentPrefix "#" ;
+            ns1:delimiter "," ;
+            ns1:header true ;
+            ns1:headerRowCount 1 ;
+            ns1:quoteChar "\"" ;
+            ns1:skipBlankRows true ;
+            ns1:skipRows 0 ;
+            ns1:trim "true" ;
             cdi:characterSet "UTF-8" ;
             cdi:isDelimited true ;
-            schema1:contentSize "1.2 Mb" ;
             schema1:contentUrl "https://example.org/downloads/ocean-temp-2025.csv" ;
             schema1:encodingFormat "text/csv" ;
             schema1:name "Ocean temperature CSV" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired false ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
-                    cdif:index 4 ;
-                    cdif:physicalDataType "String" ],
+            cdif:fileSize 1.2e+00 ;
+            cdif:fileSizeUofM "MB" ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 1 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "-999.9" ;
+                    cdi:scale 1 ;
+                    cdif:format "0.0" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "Numeric" ],
                 [ cdi:isRequired false ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
                     cdif:index 3 ;
                     cdif:physicalDataType "Integer" ],
+                [ cdi:isRequired true ;
+                    cdi:length 20 ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "String" ],
                 [ cdi:decimalPositions 2 ;
                     cdi:defaultValue "NaN" ;
                     cdi:isRequired false ;
@@ -854,19 +886,10 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
                     cdif:index 2 ;
                     cdif:physicalDataType "Numeric" ],
-                [ cdi:isRequired true ;
-                    cdi:length 20 ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "String" ],
-                [ cdi:decimalPositions 1 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "-999.9" ;
-                    cdi:scale 1 ;
-                    cdif:format "0.0" ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "Numeric" ] ] ;
+                [ cdi:isRequired false ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "String" ] ] ;
     schema1:identifier "https://doi.org/10.1234/ocean-temp-2025" ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:name "Ocean Temperature Monitoring Data" ;
@@ -1013,13 +1036,19 @@ properties:
       uniquely identify each data instance.'
   cdif:statistics:
     type: array
-    description: "Summary statistics describing the dataset's values. Each entry is
-      a cdi:Statistics bundle (one or more Statistic value objects, optionally weighted
-      by an InstanceVariable, optionally broken down by Category) or a cdi:StatisticsCollection
-      (groups multiple Statistics nodes and records which InstanceVariables they index).
-      Inline node or @id-reference to one declared elsewhere in the document. cdif:
-      namespaced \u2014 DDI-CDI has no `statistics` association from a dataset; this
-      is a CDIF attachment property."
+    description: "**Dataset-scope** summary statistics \u2014 statistics that describe
+      the dataset as a whole rather than any single variable (e.g. row count, dataset-wide
+      totals, table-level checksums). Each entry is a cdi:Statistics bundle (one or
+      more Statistic value objects) or a cdi:StatisticsCollection; inline or @id-reference
+      to one declared elsewhere. cdif: namespaced \u2014 DDI-CDI has no `statistics`
+      association from a dataset; this is a CDIF attachment property reserved for
+      genuinely dataset-scope aggregates.\nPer-variable statistics MUST NOT appear
+      here \u2014 they belong under `schema:variableMeasured[i].cdif:isDescribedBy_StatisticsCollection`,
+      which is the direct JSON mapping of the DDI-CDI `InstanceVariable \u2192 isDescribedBy
+      \u2192 StatisticsCollection` association. As a consequence, entries under `cdif:statistics`
+      MUST NOT carry `cdif:appliesTo` (Statistics) or `cdif:indexedBy` (StatisticsCollection);
+      those properties are the marker of a per-variable stat and require the variable-anchored
+      path."
     items:
       anyOf:
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifStatistics/schema.yaml

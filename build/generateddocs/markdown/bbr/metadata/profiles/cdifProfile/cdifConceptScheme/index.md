@@ -255,7 +255,7 @@ $defs:
         items:
           anyOf:
           - $ref: '#/$defs/ConceptRef'
-          - $ref: '#'
+          - $ref: '#/$defs/cdifConcept'
       skos:narrower:
         description: Narrower (child) concepts in the hierarchy. Items are inline
           concept objects or @id references.
@@ -263,11 +263,10 @@ $defs:
         items:
           anyOf:
           - $ref: '#/$defs/ConceptRef'
-          - $ref: '#'
+          - $ref: '#/$defs/cdifConcept'
     required:
     - '@type'
     - skos:prefLabel
-    - skos:notation
   ConceptRef:
     type: object
     description: Reference (by URI) to a skos:Concept defined elsewhere. Used inside

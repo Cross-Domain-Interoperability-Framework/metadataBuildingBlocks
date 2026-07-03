@@ -375,13 +375,13 @@ Total), and cdif:has_CategoryStatistics carrying surface / deep breakdowns.
 
 <https://example.org/stats/temperature-mean> a cdi:Statistics ;
     cdi:hasWeight ex:var-sample-weight ;
-    cdi:statistic [ cdi:computationBase "Total" ;
-            cdi:content 1.21e+01 ;
-            cdi:isWeighted false ;
-            cdi:typeOfNumericValue "double" ],
-        [ cdi:computationBase "ValidOnly" ;
+    cdi:statistic [ cdi:computationBase "ValidOnly" ;
             cdi:content 1.243e+01 ;
             cdi:isWeighted true ;
+            cdi:typeOfNumericValue "double" ],
+        [ cdi:computationBase "Total" ;
+            cdi:content 1.21e+01 ;
+            cdi:isWeighted false ;
             cdi:typeOfNumericValue "double" ] ;
     cdi:typeOfStatistic [ a schema1:DefinedTerm ;
             schema1:identifier "https://example.org/vocab/stat-types/mean" ;
@@ -663,9 +663,13 @@ $defs:
         type: array
         description: "CDIF addition (not in canonical DDI-CDI): the InstanceVariable(s)
           this Statistics bundle summarizes \u2014 the per-bundle \"what these numbers
-          describe\" link. When a Statistics node sits inside a StatisticsCollection
-          that indexes more than one variable, cdif:appliesTo disambiguates which
-          variable each bundle describes."
+          describe\" link. Used **only** when this Statistics bundle sits inside a
+          StatisticsCollection that indexes more than one variable, to disambiguate
+          which variable each bundle describes. It MUST NOT appear on a Statistics
+          bundle attached at Dataset level via `cdif:statistics`; per-variable stats
+          belong under `schema:variableMeasured[i].cdif:isDescribedBy_StatisticsCollection`
+          (the direct JSON mapping of the DDI-CDI `InstanceVariable.isDescribedBy`
+          association)."
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
@@ -793,7 +797,11 @@ $defs:
       cdif:indexedBy:
         type: array
         description: "CDIF addition (not in canonical DDI-CDI): the InstanceVariable(s)
-          the contained Statistics index \u2014 the collection-level coordinate space."
+          the contained Statistics index \u2014 the collection-level coordinate space.
+          Marks the collection as per-variable-scoped: a StatisticsCollection carrying
+          `cdif:indexedBy` MUST be attached via `schema:variableMeasured[i].cdif:isDescribedBy_StatisticsCollection`
+          on one of the indexed variables, NOT at Dataset level via `cdif:statistics`
+          (which is reserved for genuinely dataset-scope aggregates like row count)."
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml

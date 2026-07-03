@@ -26,6 +26,16 @@
     schema1:about <https://example.org/dataset/vitalsWide> ;
     schema1:additionalType "dcat:CatalogRecord" .
 
+<https://example.org/struct/vitalsWide> a cdi:WideDataStructure ;
+    cdi:has_DataStructureComponent <https://example.org/struct/vitalsWide/comp/patientId>,
+        <https://example.org/struct/vitalsWide/comp/systolicBP> .
+
+<https://example.org/struct/vitalsWide/comp/patientId> a cdi:IdentifierComponent ;
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/patientId> .
+
+<https://example.org/struct/vitalsWide/comp/systolicBP> a cdi:MeasureComponent ;
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/systolicBP> .
+
 <https://example.org/var/patientId> a cdi:InstanceVariable,
         schema1:PropertyValue ;
     schema1:name "patient_id" ;
@@ -35,4 +45,16 @@
         schema1:PropertyValue ;
     schema1:name "systolic_bp" ;
     cdif:uses <https://example.org/struct/vitalsWide/rv/systolicBP> .
+
+<https://example.org/struct/vitalsWide/rv/patientId> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:string" ] ;
+    cdif:definition "Pseudonymous patient identifier." ;
+    cdif:name "patient_id" .
+
+<https://example.org/struct/vitalsWide/rv/systolicBP> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:decimal" ] ;
+    cdi:simpleUnitOfMeasure "mmHg" ;
+    cdif:name "systolic_blood_pressure" .
 

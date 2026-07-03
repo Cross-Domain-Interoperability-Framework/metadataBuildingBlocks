@@ -20,12 +20,60 @@ Dimensional / Long / Wide shapes.
 {
   "@context": {
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "cdif": "https://w3id.org/cdif/",
     "ex": "https://example.org/"
   },
-  "@type": ["cdi:DataStructure"],
+  "@type": [
+    "cdi:WideDataStructure"
+  ],
   "@id": "ex:struct/observations",
   "cdi:has_DataStructureComponent": [
-    { "@id": "ex:component/observationValue" }
+    {
+      "@type": [
+        "cdi:IdentifierComponent"
+      ],
+      "@id": "ex:struct/observations/comp/observationId",
+      "cdif:isDefinedBy_RepresentedVariable": {
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
+        "@id": "ex:struct/observations/rv/observationId",
+        "cdif:name": [
+          "observation_id"
+        ],
+        "cdi:hasIntendedDataType": {
+          "@type": [
+            "cdi:ControlledVocabularyEntry"
+          ],
+          "cdi:entryValue": [
+            "xsd:string"
+          ]
+        }
+      }
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "ex:struct/observations/comp/observationValue",
+      "cdif:isDefinedBy_RepresentedVariable": {
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
+        "@id": "ex:struct/observations/rv/observationValue",
+        "cdif:name": [
+          "observation_value"
+        ],
+        "cdi:hasIntendedDataType": {
+          "@type": [
+            "cdi:ControlledVocabularyEntry"
+          ],
+          "cdi:entryValue": [
+            "xsd:decimal"
+          ]
+        }
+      }
+    }
   ]
 }
 
@@ -41,16 +89,60 @@ Dimensional / Long / Wide shapes.
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifDataStructure/context.jsonld",
     {
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "cdif": "https://w3id.org/cdif/",
       "ex": "https://example.org/"
     }
   ],
   "@type": [
-    "cdi:DataStructure"
+    "cdi:WideDataStructure"
   ],
   "@id": "ex:struct/observations",
   "cdi:has_DataStructureComponent": [
     {
-      "@id": "ex:component/observationValue"
+      "@type": [
+        "cdi:IdentifierComponent"
+      ],
+      "@id": "ex:struct/observations/comp/observationId",
+      "cdif:isDefinedBy_RepresentedVariable": {
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
+        "@id": "ex:struct/observations/rv/observationId",
+        "cdif:name": [
+          "observation_id"
+        ],
+        "cdi:hasIntendedDataType": {
+          "@type": [
+            "cdi:ControlledVocabularyEntry"
+          ],
+          "cdi:entryValue": [
+            "xsd:string"
+          ]
+        }
+      }
+    },
+    {
+      "@type": [
+        "cdi:MeasureComponent"
+      ],
+      "@id": "ex:struct/observations/comp/observationValue",
+      "cdif:isDefinedBy_RepresentedVariable": {
+        "@type": [
+          "cdi:RepresentedVariable"
+        ],
+        "@id": "ex:struct/observations/rv/observationValue",
+        "cdif:name": [
+          "observation_value"
+        ],
+        "cdi:hasIntendedDataType": {
+          "@type": [
+            "cdi:ControlledVocabularyEntry"
+          ],
+          "cdi:entryValue": [
+            "xsd:decimal"
+          ]
+        }
+      }
     }
   ]
 }
@@ -59,9 +151,27 @@ Dimensional / Long / Wide shapes.
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
+@prefix cdif: <https://w3id.org/cdif/> .
 
-<https://example.org/struct/observations> a cdi:DataStructure ;
-    cdi:has_DataStructureComponent <https://example.org/component/observationValue> .
+<https://example.org/struct/observations> a cdi:WideDataStructure ;
+    cdi:has_DataStructureComponent <https://example.org/struct/observations/comp/observationId>,
+        <https://example.org/struct/observations/comp/observationValue> .
+
+<https://example.org/struct/observations/comp/observationId> a cdi:IdentifierComponent ;
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/observations/rv/observationId> .
+
+<https://example.org/struct/observations/comp/observationValue> a cdi:MeasureComponent ;
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/observations/rv/observationValue> .
+
+<https://example.org/struct/observations/rv/observationId> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:string" ] ;
+    cdif:name "observation_id" .
+
+<https://example.org/struct/observations/rv/observationValue> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:decimal" ] ;
+    cdif:name "observation_value" .
 
 
 ```
@@ -1259,31 +1369,59 @@ description: Adds data-structure description to a CDIF metadata record. Defines 
   item; the structure value is any of the four DataStructure variants. Metadata records
   must declare conformance to cdif/data_structure/1.0.
 type: object
-properties:
-  schema:subjectOf:
-    properties:
-      dcterms:conformsTo:
-        contains:
-          type: object
-          properties:
-            '@id':
-              const: https://w3id.org/cdif/data_structure/1.1
-  schema:distribution:
-    type: array
-    items:
-      type: object
+if:
+  required:
+  - '@type'
+  properties:
+    '@type':
+      type: array
+      contains:
+        enum:
+        - cdi:DataStructure
+        - cdi:DimensionalDataStructure
+        - cdi:LongDataStructure
+        - cdi:WideDataStructure
+then:
+  description: Standalone data-structure object (one of the four variants).
+  anyOf:
+  - $ref: '#/$defs/DataStructure'
+  - $ref: '#/$defs/DimensionalDataStructure'
+  - $ref: '#/$defs/LongDataStructure'
+  - $ref: '#/$defs/WideDataStructure'
+else:
+  description: A CDIF dataset described by a data structure. Must declare conformance
+    to data_structure/1.1 and attach the structure to a distribution.
+  required:
+  - schema:subjectOf
+  properties:
+    schema:subjectOf:
+      required:
+      - dcterms:conformsTo
       properties:
-        cdi:isStructuredBy:
-          description: Reusable data-structure description for this distribution.
-            One of the four DataStructure variants (DataStructure, Dimensional, Long,
-            Wide), or an @id reference to one declared elsewhere in the document.
-          anyOf:
-          - $ref: '#/$defs/DataStructure'
-          - $ref: '#/$defs/DimensionalDataStructure'
-          - $ref: '#/$defs/LongDataStructure'
-          - $ref: '#/$defs/WideDataStructure'
-          - $ref: '#/$defs/id-reference'
-          x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isStructuredBy
+        dcterms:conformsTo:
+          contains:
+            type: object
+            properties:
+              '@id':
+                const: https://w3id.org/cdif/data_structure/1.1
+    schema:distribution:
+      type: array
+      items:
+        type: object
+        properties:
+          cdi:isStructuredBy:
+            description: Reusable data-structure description for this distribution.
+              One of the four DataStructure variants (DataStructure, Dimensional,
+              Long, Wide) as an inline definition, or an @id reference to one declared
+              elsewhere in the document or published at a resolvable URI. (A profile
+              may further require the inline form via SHACL.)
+            anyOf:
+            - $ref: '#/$defs/DataStructure'
+            - $ref: '#/$defs/DimensionalDataStructure'
+            - $ref: '#/$defs/LongDataStructure'
+            - $ref: '#/$defs/WideDataStructure'
+            - $ref: '#/$defs/id-reference'
+            x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isStructuredBy
 $defs:
   id-reference:
     type: object

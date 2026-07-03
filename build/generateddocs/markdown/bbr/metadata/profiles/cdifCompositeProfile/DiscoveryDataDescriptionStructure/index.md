@@ -123,7 +123,60 @@ elsewhere. The conformsTo array carries the three required URIs
         "text/csv"
       ],
       "cdi:isStructuredBy": {
-        "@id": "ex:struct/vitalsWide"
+        "@type": [
+          "cdi:WideDataStructure"
+        ],
+        "@id": "ex:struct/vitalsWide",
+        "cdi:has_DataStructureComponent": [
+          {
+            "@type": [
+              "cdi:IdentifierComponent"
+            ],
+            "@id": "ex:struct/vitalsWide/comp/patientId",
+            "cdif:isDefinedBy_RepresentedVariable": {
+              "@type": [
+                "cdi:RepresentedVariable"
+              ],
+              "@id": "ex:struct/vitalsWide/rv/patientId",
+              "cdif:name": [
+                "patient_id"
+              ],
+              "cdif:definition": "Pseudonymous patient identifier.",
+              "cdi:hasIntendedDataType": {
+                "@type": [
+                  "cdi:ControlledVocabularyEntry"
+                ],
+                "cdi:entryValue": [
+                  "xsd:string"
+                ]
+              }
+            }
+          },
+          {
+            "@type": [
+              "cdi:MeasureComponent"
+            ],
+            "@id": "ex:struct/vitalsWide/comp/systolicBP",
+            "cdif:isDefinedBy_RepresentedVariable": {
+              "@type": [
+                "cdi:RepresentedVariable"
+              ],
+              "@id": "ex:struct/vitalsWide/rv/systolicBP",
+              "cdif:name": [
+                "systolic_blood_pressure"
+              ],
+              "cdi:simpleUnitOfMeasure": "mmHg",
+              "cdi:hasIntendedDataType": {
+                "@type": [
+                  "cdi:ControlledVocabularyEntry"
+                ],
+                "cdi:entryValue": [
+                  "xsd:decimal"
+                ]
+              }
+            }
+          }
+        ]
       }
     }
   ],
@@ -229,7 +282,60 @@ elsewhere. The conformsTo array carries the three required URIs
         "text/csv"
       ],
       "cdi:isStructuredBy": {
-        "@id": "ex:struct/vitalsWide"
+        "@type": [
+          "cdi:WideDataStructure"
+        ],
+        "@id": "ex:struct/vitalsWide",
+        "cdi:has_DataStructureComponent": [
+          {
+            "@type": [
+              "cdi:IdentifierComponent"
+            ],
+            "@id": "ex:struct/vitalsWide/comp/patientId",
+            "cdif:isDefinedBy_RepresentedVariable": {
+              "@type": [
+                "cdi:RepresentedVariable"
+              ],
+              "@id": "ex:struct/vitalsWide/rv/patientId",
+              "cdif:name": [
+                "patient_id"
+              ],
+              "cdif:definition": "Pseudonymous patient identifier.",
+              "cdi:hasIntendedDataType": {
+                "@type": [
+                  "cdi:ControlledVocabularyEntry"
+                ],
+                "cdi:entryValue": [
+                  "xsd:string"
+                ]
+              }
+            }
+          },
+          {
+            "@type": [
+              "cdi:MeasureComponent"
+            ],
+            "@id": "ex:struct/vitalsWide/comp/systolicBP",
+            "cdif:isDefinedBy_RepresentedVariable": {
+              "@type": [
+                "cdi:RepresentedVariable"
+              ],
+              "@id": "ex:struct/vitalsWide/rv/systolicBP",
+              "cdif:name": [
+                "systolic_blood_pressure"
+              ],
+              "cdi:simpleUnitOfMeasure": "mmHg",
+              "cdi:hasIntendedDataType": {
+                "@type": [
+                  "cdi:ControlledVocabularyEntry"
+                ],
+                "cdi:entryValue": [
+                  "xsd:decimal"
+                ]
+              }
+            }
+          }
+        ]
       }
     }
   ],
@@ -292,6 +398,16 @@ elsewhere. The conformsTo array carries the three required URIs
     schema1:about <https://example.org/dataset/vitalsWide> ;
     schema1:additionalType "dcat:CatalogRecord" .
 
+<https://example.org/struct/vitalsWide> a cdi:WideDataStructure ;
+    cdi:has_DataStructureComponent <https://example.org/struct/vitalsWide/comp/patientId>,
+        <https://example.org/struct/vitalsWide/comp/systolicBP> .
+
+<https://example.org/struct/vitalsWide/comp/patientId> a cdi:IdentifierComponent ;
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/patientId> .
+
+<https://example.org/struct/vitalsWide/comp/systolicBP> a cdi:MeasureComponent ;
+    cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/systolicBP> .
+
 <https://example.org/var/patientId> a cdi:InstanceVariable,
         schema1:PropertyValue ;
     schema1:name "patient_id" ;
@@ -301,6 +417,18 @@ elsewhere. The conformsTo array carries the three required URIs
         schema1:PropertyValue ;
     schema1:name "systolic_bp" ;
     cdif:uses <https://example.org/struct/vitalsWide/rv/systolicBP> .
+
+<https://example.org/struct/vitalsWide/rv/patientId> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:string" ] ;
+    cdif:definition "Pseudonymous patient identifier." ;
+    cdif:name "patient_id" .
+
+<https://example.org/struct/vitalsWide/rv/systolicBP> a cdi:RepresentedVariable ;
+    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
+            cdi:entryValue "xsd:decimal" ] ;
+    cdi:simpleUnitOfMeasure "mmHg" ;
+    cdif:name "systolic_blood_pressure" .
 
 
 ```
@@ -1890,7 +2018,68 @@ optional Attribute) and its own cdif:PrimaryKey.
     schema1:dateModified "2025-09-15" ;
     schema1:datePublished "2025-10-01" ;
     schema1:description "Time-series of vital sign measurements (heart rate, systolic BP, diastolic BP, temperature) in long format: one row per observation with a descriptor column naming the measure and a reference column holding the value." ;
-    schema1:distribution [ a cdi:PhysicalDataSet,
+    schema1:distribution [ a schema1:WebAPI ;
+            schema1:documentation [ a schema1:CreativeWork,
+                        dcat:Relationship ;
+                    schema1:name "OpenAPI specification for vitals service" ;
+                    schema1:url "https://example.org/api/v1/openapi.json" ] ;
+            schema1:name "Vitals query API" ;
+            schema1:potentialAction [ a schema1:Action ;
+                    schema1:name "Query vitals as long-format CSV" ;
+                    schema1:query-input [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Response format token (csv only for this example)." ;
+                            schema1:valueName "format" ;
+                            schema1:valuePattern "csv" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Maximum number of observations to return (default 100)." ;
+                            schema1:valueName "limit" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Starting index for pagination." ;
+                            schema1:valueName "offset" ;
+                            schema1:valueRequired false ] ;
+                    schema1:result [ a cdi:PhysicalDataSet,
+                                cdi:TabularTextDataSet,
+                                schema1:DataDownload ;
+                            cdi:characterSet "UTF-8" ;
+                            cdi:isDelimited true ;
+                            cdi:isStructuredBy <https://example.org/struct/vitalsLong> ;
+                            schema1:contentUrl "https://example.org/api/v1/collections/vitals/items?f=csv" ;
+                            schema1:encodingFormat "text/csv" ;
+                            schema1:name "Vitals API response (long format)" ;
+                            csvw:delimiter "," ;
+                            csvw:header true ;
+                            csvw:headerRowCount 1 ;
+                            cdif:fileSize 5e-01 ;
+                            cdif:fileSizeUofM "MB" ;
+                            cdif:hasPhysicalMapping [ cdif:format "decimal" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
+                                    cdif:index 2 ;
+                                    cdif:physicalDataType "decimal" ],
+                                [ cdif:format "string" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
+                                    cdif:index 0 ;
+                                    cdif:physicalDataType "string" ],
+                                [ cdif:format "ISO8601" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
+                                    cdif:index 3 ;
+                                    cdif:physicalDataType "dateTime" ],
+                                [ cdif:format "string" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
+                                    cdif:index 1 ;
+                                    cdif:physicalDataType "string" ] ] ;
+                    schema1:target [ a schema1:EntryPoint ;
+                            schema1:contentType "text/csv" ;
+                            schema1:description "OGC API Features endpoint returning vitals observations as long-format CSV." ;
+                            schema1:httpMethod "GET" ;
+                            schema1:urlTemplate "https://example.org/api/v1/collections/vitals/items?f={format}&limit={limit}&offset={offset}" ] ] ;
+            schema1:serviceType [ a schema1:DefinedTerm ;
+                    schema1:identifier "https://www.ogc.org/standard/ogcapi-features/" ;
+                    schema1:name "OGC API - Features" ;
+                    schema1:termCode "ogcapi-features" ] ;
+            schema1:termsOfService "Open access, no authentication required." ],
+        [ a cdi:PhysicalDataSet,
                 cdi:TabularTextDataSet,
                 schema1:DataDownload ;
             cdi:characterSet "UTF-8" ;
@@ -1919,68 +2108,7 @@ optional Attribute) and its own cdif:PrimaryKey.
                 [ cdif:format "string" ;
                     cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
                     cdif:index 0 ;
-                    cdif:physicalDataType "string" ] ],
-        [ a schema1:WebAPI ;
-            schema1:documentation [ a schema1:CreativeWork,
-                        dcat:Relationship ;
-                    schema1:name "OpenAPI specification for vitals service" ;
-                    schema1:url "https://example.org/api/v1/openapi.json" ] ;
-            schema1:name "Vitals query API" ;
-            schema1:potentialAction [ a schema1:Action ;
-                    schema1:name "Query vitals as long-format CSV" ;
-                    schema1:query-input [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Starting index for pagination." ;
-                            schema1:valueName "offset" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Response format token (csv only for this example)." ;
-                            schema1:valueName "format" ;
-                            schema1:valuePattern "csv" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of observations to return (default 100)." ;
-                            schema1:valueName "limit" ;
-                            schema1:valueRequired false ] ;
-                    schema1:result [ a cdi:PhysicalDataSet,
-                                cdi:TabularTextDataSet,
-                                schema1:DataDownload ;
-                            cdi:characterSet "UTF-8" ;
-                            cdi:isDelimited true ;
-                            cdi:isStructuredBy <https://example.org/struct/vitalsLong> ;
-                            schema1:contentUrl "https://example.org/api/v1/collections/vitals/items?f=csv" ;
-                            schema1:encodingFormat "text/csv" ;
-                            schema1:name "Vitals API response (long format)" ;
-                            csvw:delimiter "," ;
-                            csvw:header true ;
-                            csvw:headerRowCount 1 ;
-                            cdif:fileSize 5e-01 ;
-                            cdif:fileSizeUofM "MB" ;
-                            cdif:hasPhysicalMapping [ cdif:format "string" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
-                                    cdif:index 1 ;
-                                    cdif:physicalDataType "string" ],
-                                [ cdif:format "string" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
-                                    cdif:index 0 ;
-                                    cdif:physicalDataType "string" ],
-                                [ cdif:format "ISO8601" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
-                                    cdif:index 3 ;
-                                    cdif:physicalDataType "dateTime" ],
-                                [ cdif:format "decimal" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
-                                    cdif:index 2 ;
-                                    cdif:physicalDataType "decimal" ] ] ;
-                    schema1:target [ a schema1:EntryPoint ;
-                            schema1:contentType "text/csv" ;
-                            schema1:description "OGC API Features endpoint returning vitals observations as long-format CSV." ;
-                            schema1:httpMethod "GET" ;
-                            schema1:urlTemplate "https://example.org/api/v1/collections/vitals/items?f={format}&limit={limit}&offset={offset}" ] ] ;
-            schema1:serviceType [ a schema1:DefinedTerm ;
-                    schema1:identifier "https://www.ogc.org/standard/ogcapi-features/" ;
-                    schema1:name "OGC API - Features" ;
-                    schema1:termCode "ogcapi-features" ] ;
-            schema1:termsOfService "Open access, no authentication required." ] ;
+                    cdif:physicalDataType "string" ] ] ;
     schema1:funding <https://example.org/grant/nih-R01-XXXX> ;
     schema1:identifier "https://doi.org/10.1234/vitals-long-2025" ;
     schema1:inLanguage "en" ;

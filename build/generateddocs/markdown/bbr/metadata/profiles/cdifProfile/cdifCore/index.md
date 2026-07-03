@@ -82,9 +82,6 @@ Example CDIF discovery instance with mandatory properties only.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfile/cdifCore"
-      },
-      {
         "@id": "https://w3id.org/cdif/core/1.1"
       }
     ],
@@ -170,9 +167,6 @@ Example CDIF discovery instance with mandatory properties only.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfile/cdifCore"
-      },
-      {
         "@id": "https://w3id.org/cdif/core/1.1"
       }
     ],
@@ -219,8 +213,7 @@ Example CDIF discovery instance with mandatory properties only.
 @prefix schema1: <http://schema.org/> .
 
 ex:URIforMetadata3575 a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/bbr/metadata/profiles/cdifProfile/cdifCore>,
-        <https://w3id.org/cdif/core/1.1> ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/1.1> ;
     schema1:about ex:baseDiscovery23578 ;
     schema1:additionalType "dcat:CatalogRecord" ;
     schema1:includedInDataCatalog <https://ror.org/04sfkyrt24> ;
@@ -733,9 +726,6 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfile/cdifCore"
-      },
-      {
         "@id": "https://w3id.org/cdif/core/1.1"
       }
     ],
@@ -1135,9 +1125,6 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/bbr/metadata/profiles/cdifProfile/cdifCore"
-      },
-      {
         "@id": "https://w3id.org/cdif/core/1.1"
       }
     ],
@@ -1211,6 +1198,11 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
     schema1:datePublished "2024-01-10" ;
     schema1:description "Quality-controlled temperature profiles from Argo floats deployed worldwide. Profiles extend from the surface to 2000m depth with 2dbar vertical resolution." ;
     schema1:distribution [ a schema1:DataDownload ;
+            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
+            schema1:contentUrl "https://example.org/data/ocean-temp-profiles.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "CSV download" ],
+        [ a schema1:DataDownload ;
             dcterms:conformsTo <https://www.unidata.ucar.edu/software/netcdf/> ;
             schema1:contentUrl "https://example.org/data/ocean-temp-profiles.nc" ;
             schema1:description "Complete dataset in CF-compliant NetCDF4 format" ;
@@ -1219,12 +1211,7 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
             schema1:provider <https://ror.org/04t3en479> ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "checksumAlgorithm_sha256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2" ] ],
-        [ a schema1:DataDownload ;
-            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
-            schema1:contentUrl "https://example.org/data/ocean-temp-profiles.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "CSV download" ] ;
+                    spdx:checksumValue "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:funder [ a schema1:Organization ;
                     schema1:identifier ex:ercRor ;
@@ -1234,15 +1221,15 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
     schema1:identifier ex:datasetIdentifier001 ;
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "https://vocab.nerc.ac.uk/collection/L06/current/46/" ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L06/current/" ;
-            schema1:name "Argo" ;
-            schema1:termCode "L06:46" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
             schema1:name "Sea water temperature" ;
             schema1:termCode "TEMPPR01" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "https://vocab.nerc.ac.uk/collection/L06/current/46/" ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L06/current/" ;
+            schema1:name "Argo" ;
+            schema1:termCode "L06:46" ],
         "ocean temperature" ;
     schema1:license [ a schema1:CreativeWork ;
             schema1:name "Creative Commons Attribution 4.0" ;
@@ -1295,8 +1282,7 @@ ex:marchandOrcid a schema1:PropertyValue ;
     schema1:value "0000-0001-2345-6789" .
 
 ex:metadataRecord99001 a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/bbr/metadata/profiles/cdifProfile/cdifCore>,
-        <https://w3id.org/cdif/core/1.1> ;
+    dcterms:conformsTo <https://w3id.org/cdif/core/1.1> ;
     schema1:about ex:completeCoreDataset99001 ;
     schema1:additionalType "dcat:CatalogRecord" ;
     schema1:includedInDataCatalog <https://example.org/catalog/ocean-data> ;

@@ -31,13 +31,19 @@ properties:
       uniquely identify each data instance.'
   cdif:statistics:
     type: array
-    description: "Summary statistics describing the dataset's values. Each entry is
-      a cdi:Statistics bundle (one or more Statistic value objects, optionally weighted
-      by an InstanceVariable, optionally broken down by Category) or a cdi:StatisticsCollection
-      (groups multiple Statistics nodes and records which InstanceVariables they index).
-      Inline node or @id-reference to one declared elsewhere in the document. cdif:
-      namespaced \u2014 DDI-CDI has no `statistics` association from a dataset; this
-      is a CDIF attachment property."
+    description: "**Dataset-scope** summary statistics \u2014 statistics that describe
+      the dataset as a whole rather than any single variable (e.g. row count, dataset-wide
+      totals, table-level checksums). Each entry is a cdi:Statistics bundle (one or
+      more Statistic value objects) or a cdi:StatisticsCollection; inline or @id-reference
+      to one declared elsewhere. cdif: namespaced \u2014 DDI-CDI has no `statistics`
+      association from a dataset; this is a CDIF attachment property reserved for
+      genuinely dataset-scope aggregates.\nPer-variable statistics MUST NOT appear
+      here \u2014 they belong under `schema:variableMeasured[i].cdif:isDescribedBy_StatisticsCollection`,
+      which is the direct JSON mapping of the DDI-CDI `InstanceVariable \u2192 isDescribedBy
+      \u2192 StatisticsCollection` association. As a consequence, entries under `cdif:statistics`
+      MUST NOT carry `cdif:appliesTo` (Statistics) or `cdif:indexedBy` (StatisticsCollection);
+      those properties are the marker of a per-variable stat and require the variable-anchored
+      path."
     items:
       anyOf:
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifStatistics/schema.yaml

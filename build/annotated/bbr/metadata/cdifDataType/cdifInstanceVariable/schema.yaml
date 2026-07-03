@@ -78,9 +78,12 @@ properties:
       (InstanceVariable.source).
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/source
   cdif:isDescribedBy_StatisticsCollection:
-    description: 'The StatisticsCollection holding summary / category statistics for
-      this InstanceVariable (InstanceVariable.isDescribedBy). cdif: namespaced and
-      target-suffixed because the DDI-CDI isDescribedBy association is polymorphic.'
+    description: "The StatisticsCollection holding summary / category statistics for
+      this InstanceVariable (direct JSON mapping of the DDI-CDI `InstanceVariable.isDescribedBy
+      \u2192 StatisticsCollection` association). cdif: namespaced and target-suffixed
+      because the DDI-CDI isDescribedBy association is polymorphic. This is the canonical
+      CDIF path for **per-variable** statistics; dataset-scope aggregates (row count
+      etc.) go under `Dataset.cdif:statistics` instead."
     anyOf:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifStatistics/schema.yaml#/$defs/StatisticsCollection
     - type: object
