@@ -1,3 +1,3 @@
-## Person properties
+## Material sample properties
 
-Defines a set of properties for use describing a person for the schema.org implementation of the [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) discovery profile.
+Defines a set of properties for describing a material sample that is the `schema:object` (target) of an X-ray absorption spectroscopy (XAS) analysis, for the schema.org implementation of the [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) XAS profile. The sample is typed `schema:Thing` + `schema:Product` with `schema:additionalType` including `MaterialSample` and the iSample material-sample-object-type URI.

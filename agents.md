@@ -95,9 +95,8 @@ metadataBuildingBlocks/
 │   │   ├── xasInstrument/           # XAS instrument (beamline, synchrotron)
 │   │   ├── xasFacility/             # XAS facility (synchrotron source)
 │   │   ├── xasGeneratedBy/          # XAS analysis event (extends cdifProvActivity)
-│   │   ├── xasXdiTabularTextDataset/ # XDI tabular text dataset
-│   │   ├── xasCore/             # XAS mandatory property group
-│   │   └── xasOptional/             # XAS optional property group
+│   │   ├── xasCore/                 # XAS mandatory tier (required constraints)
+│   │   └── xasOptional/             # XAS optional tier (optional fields, no requirements)
 │   └── profiles/                    # Profile modules + composite profiles (split 2026-05)
 │       ├── cdifProfile/             # Profile MODULE BBs (tight; each adds one slice; NO composes of cdifCore)
 │       │   ├── cdifCore/            # Foundational schema:Dataset shape (identifiers, distribution, agents, license, subjectOf → CatalogRecord, etc.)
@@ -112,7 +111,7 @@ metadataBuildingBlocks/
 │       │   ├── CoreDiscovery/                  # composes cdifCore + cdifDiscovery
 │       │   ├── DiscoveryDataDescription/            # composes cdifCore + cdifDiscovery + cdifDataDescription
 │       │   ├── DiscoveryDataDescriptionStructure/    # + cdifDataStructure
-│       │   ├── XASdata/                         # cdifCore + cdifDiscovery + cdifDataDescription + xasOptional + xasCore
+│       │   ├── XASdata/                         # cdifCore + cdifDiscovery + cdifDataDescription + xasCore + xasOptional
 │       │   └── cdifComplete/                    # Everything (incl. ArchiveDistribution + Provenance)
 │       └── archive/                 # Deprecated / not-promoted-to-composite (e.g. CDIFCodelistProfile)
 ├── tools/
@@ -340,13 +339,13 @@ Building blocks that represent CDIF specification components declare required `d
 
 | Building Block | Conformance URI | SHACL Shape |
 |---|---|---|
-| `cdifCore` | `https://w3id.org/cdif/core/1.0` | `sh:hasValue` on existing `metadataProfileProperty` |
-| `CDIFDiscoveryProfile` | `https://w3id.org/cdif/discovery/1.0` | `CDIFDiscoveryProfileConformsToShape` |
-| `cdifDataDescription` | `https://w3id.org/cdif/data_description/1.0` | `CDIFDataDescriptionProfileConformsToShape` |
-| `cdifManifest` | `https://w3id.org/cdif/manifest/1.0` | *(no rules.shacl — JSON Schema only)* |
-| `cdifProvenance` | `https://w3id.org/cdif/provenance/1.0` | *(no rules.shacl — JSON Schema only)* |
-| `xasOptional` | `https://w3id.org/cdif/xasDiscovery/1.0` | `XasDiscoveryConformsToShape` |
-| `xasCore` | `https://w3id.org/cdif/xasCore/1.0` | `XasCoreConformsToShape` |
+| `cdifCore` | `https://w3id.org/cdif/core/1.1` | `sh:hasValue` on existing `metadataProfileProperty` |
+| `CDIFDiscoveryProfile` | `https://w3id.org/cdif/discovery/1.1` | `CDIFDiscoveryProfileConformsToShape` |
+| `cdifDataDescription` | `https://w3id.org/cdif/data_description/1.1` | `CDIFDataDescriptionProfileConformsToShape` |
+| `cdifManifest` | `https://w3id.org/cdif/manifest/1.1` | *(no rules.shacl — JSON Schema only)* |
+| `cdifProvenance` | `https://w3id.org/cdif/provenance/1.1` | *(no rules.shacl — JSON Schema only)* |
+| `xasCore` | `https://w3id.org/cdif/xasCore/1.0` | `XasCoreConformsToShape` (XAS mandatory tier) |
+| `xasOptional` | `https://w3id.org/cdif/xasOptional/1.0` | `XasOptionalConformsToShape` (XAS optional tier, advisory `sh:Warning`) |
 
 **URI convention:** Conformance URIs must NOT have a trailing `/` character.
 
@@ -354,12 +353,12 @@ Building blocks that represent CDIF specification components declare required `d
 
 | Profile | Required conformsTo URIs |
 |---|---|
-| CDIFDiscoveryProfile | `core/1.0` + `discovery/1.0` |
-| CDIFDataDescriptionProfile | `core/1.0` + `discovery/1.0` + `data_description/1.0` |
-| CDIFDataStructureProfile | `core/1.0` + `data_description/1.0` + `data_structure/1.0` |
-| CDIFcompleteProfile | `core/1.0` + `discovery/1.0` + `data_description/1.0` + `manifest/1.0` + `provenance/1.0` |
+| CDIFDiscoveryProfile | `core/1.1` + `discovery/1.1` |
+| CDIFDataDescriptionProfile | `core/1.1` + `discovery/1.1` + `data_description/1.1` |
+| CDIFDataStructureProfile | `core/1.1` + `data_description/1.1` + `data_structure/1.1` |
+| CDIFcompleteProfile | `core/1.1` + `discovery/1.1` + `data_description/1.1` + `data_structure/1.1` + `manifest/1.1` + `provenance/1.1` |
 | CDIFCodelistProfile | *(no conformsTo constraints — uses SKOS ConceptScheme, not dataset metadata)* |
-| CDIFxasProfile | `core/1.0` + `discovery/1.0` + `xasDiscovery/1.0` + `xasCore/1.0` |
+| CDIFxasProfile (XASdata) | `core/1.1` + `discovery/1.1` + `data_description/1.1` + `xasCore/1.0` (+ `xasOptional/1.0`, optional tier) |
 
 These conformance URIs are distinct from the OGC building block identifiers (`https://w3id.org/cdif/bbr/metadata/...`). Both may appear in a record's conformsTo array.
 

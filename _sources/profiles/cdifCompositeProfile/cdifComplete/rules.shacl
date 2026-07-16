@@ -9,8 +9,8 @@
 @prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
 @base <https://www.ogc.org/rules/template/> .
 
-# CDIFcomplete profile: composes cdifCore, cdifOptional,
-# cdifDataDescription, cdifManifest, and cdifProvenance.
+# CDIFcomplete profile: composes cdifCore, cdifDiscovery, cdifDataDescription,
+# cdifDataStructure, cdifManifest, and cdifProvenance.
 # Validation rules for each component are in their respective
 # rules.shacl files; this file adds the profile-level conformance
 # check and any cross-cutting constraints specific to the complete profile.
@@ -68,27 +68,6 @@ cdifd:metadataProfileProperty
     sh:hasValue <https://w3id.org/cdif/data_structure/1.1> ;
     sh:hasValue <https://w3id.org/cdif/manifest/1.1> ;
     sh:hasValue <https://w3id.org/cdif/provenance/1.1> ;
-    sh:message "a CDIF cdifComplete metadata record must declare conformance to core/1.0, discovery/1.0, data_description/1.0, data_structure/1.0, manifest/1.0 and provenance/1.0 (all under https://w3id.org/cdif/)"
+    sh:message "a CDIF cdifComplete metadata record must declare conformance to core/1.1, discovery/1.1, data_description/1.1, data_structure/1.1, manifest/1.1 and provenance/1.1 (all under https://w3id.org/cdif/)"
     .
 
-# Conformance declaration for the complete profile in the catalog record.
-cdifd:CDIFCompleteConformsToShape a sh:NodeShape ;
-    sh:target [
-      a sh:SPARQLTarget ;
-        sh:select  """
-            PREFIX schema: <http://schema.org/>
-            SELECT ?this
-            WHERE {
-            ?this a schema:Dataset ;
-             schema:about ?parent ;
-             schema:additionalType "dcat:CatalogRecord" .
-            }
-        """;
-    ] ;
-    sh:property [
-        a sh:PropertyShape ;
-        sh:path dcterms:conformsTo ;
-        sh:hasValue <https://w3id.org/cdif/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete> ;
-        sh:severity sh:Warning ;
-        sh:message "Metadata record for CDIFcomplete profile should declare conformance to https://w3id.org/cdif/bbr/metadata/profiles/cdifCompositeProfile/cdifComplete" ;
-    ] .

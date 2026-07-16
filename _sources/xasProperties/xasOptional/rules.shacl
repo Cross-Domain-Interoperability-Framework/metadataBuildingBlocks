@@ -7,20 +7,10 @@
 @prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
 @base <https://www.ogc.org/rules/template/> .
 
-
-cdifd:CDIFDataDownloadShape
-    a sh:NodeShape ;
-    sh:targetClass schema:DataDownload ;
-	sh:property [
-    	sh:path schema:contentUrl;
-    	sh:minCount 1 ;
-    	sh:datatype xsd:string ;
-        sh:pattern "^[a-zA-Z][a-zA-Z0-9+.-]*:[^\\s]*$";
-    	];
-    sh:message "a datadownload must have a URL that will get the described resource" ;
-	.
-
-cdifd:XasDiscoveryConformsToShape a sh:NodeShape ;
+# xasOptional is the fully-optional XAS tier: it imposes no requirements.
+# A record that provides optional XAS fields SHOULD (advisory) declare conformance
+# to the optional tier. This is a Warning, never a Violation.
+cdifd:XasOptionalConformsToShape a sh:NodeShape ;
     sh:target [
       a sh:SPARQLTarget ;
         sh:select  """
@@ -36,6 +26,7 @@ cdifd:XasDiscoveryConformsToShape a sh:NodeShape ;
     sh:property [
         a sh:PropertyShape ;
         sh:path dcterms:conformsTo ;
-        sh:hasValue <https://w3id.org/cdif/xasDiscovery/1.0> ;
-        sh:message "Metadata record must declare conformance to the CDIF XAS discovery profile (https://w3id.org/cdif/xasDiscovery/1.0)" ;
+        sh:hasValue <https://w3id.org/cdif/xasOptional/1.0> ;
+        sh:severity sh:Warning ;
+        sh:message "A record that uses optional XAS fields should declare conformance to the CDIF XAS optional tier (https://w3id.org/cdif/xasOptional/1.0)" ;
     ] .
