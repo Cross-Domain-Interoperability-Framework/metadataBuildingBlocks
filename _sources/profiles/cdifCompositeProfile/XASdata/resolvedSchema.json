@@ -1442,6 +1442,7 @@
               },
               "prov:used": {
                 "type": "array",
+                "description": "Entities the activity used. Per PROV-O each value denotes a prov:Entity. An item may be (1) a string URI or free-text reference, (2) an {@id} reference, or (3) an inline entity object. Inline entities SHOULD carry an @type that includes prov:Entity plus a schema.org type for the kind of thing used, e.g. [\"prov:Entity\",\"schema:Thing\"] (instrument), [\"prov:Entity\",\"schema:CreativeWork\"] (method/protocol), or [\"prov:Entity\",\"schema:SoftwareApplication\"] (software).",
                 "items": {
                   "anyOf": [
                     {
@@ -1455,6 +1456,25 @@
                           "description": "a resolvable reference to a representation of the software or instrument used"
                         }
                       }
+                    },
+                    {
+                      "type": "object",
+                      "description": "an inline prov:Entity used by the activity (see prov:used description)",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "minItems": 1,
+                          "contains": {
+                            "const": "prov:Entity"
+                          }
+                        }
+                      },
+                      "required": [
+                        "@type"
+                      ]
                     }
                   ]
                 }
@@ -1484,6 +1504,7 @@
                       },
                       "prov:used": {
                         "type": "array",
+                        "description": "Entities the activity used. Per PROV-O each value denotes a prov:Entity. An item may be (1) a string URI or free-text reference, (2) an {@id} reference, or (3) an inline entity object. Inline entities SHOULD carry an @type that includes prov:Entity plus a schema.org type for the kind of thing used, e.g. [\"prov:Entity\",\"schema:Thing\"] (instrument), [\"prov:Entity\",\"schema:CreativeWork\"] (method/protocol), or [\"prov:Entity\",\"schema:SoftwareApplication\"] (software).",
                         "items": {
                           "anyOf": [
                             {
@@ -1497,6 +1518,25 @@
                                   "description": "a resolvable reference to a representation of the software or instrument used"
                                 }
                               }
+                            },
+                            {
+                              "type": "object",
+                              "description": "an inline prov:Entity used by the activity (see prov:used description)",
+                              "properties": {
+                                "@type": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  },
+                                  "minItems": 1,
+                                  "contains": {
+                                    "const": "prov:Entity"
+                                  }
+                                }
+                              },
+                              "required": [
+                                "@type"
+                              ]
                             }
                           ]
                         }
