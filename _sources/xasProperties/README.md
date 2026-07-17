@@ -8,7 +8,7 @@ schema.org / JSON-LD implementation. These compose into the
 
 | Block | Role |
 |-------|------|
-| [`xasCore`](xasCore/) | **XAS mandatory tier.** Required XAS constraints layered on `cdifCore`: dual `@type` (Dataset + Product), the `prov:wasGeneratedBy` analysis activity with the `NXsource`+`NXmonochromator` instrument wrapper, XDI-conformant distribution, required measurementTechnique DefinedTerms, required element/edge keywords, and the `schema:object` sample. |
+| [`xasCore`](xasCore/) | **XAS mandatory tier.** Required XAS constraints layered on `cdifCore`: `@type` requires `Dataset` (`Product` optional), the `prov:wasGeneratedBy` analysis activity with the `NXsource`+`NXmonochromator` instrument wrapper, XDI-conformant distribution, required measurementTechnique DefinedTerms, required element/edge keywords, and the `schema:object` sample. |
 | [`xasOptional`](xasOptional/) | **XAS optional tier.** Genuinely-optional XAS fields — data-array `schema:variableMeasured` InstanceVariables plus documented beamline-operational and sample physico-chemical `additionalProperty` vocabularies. No requirements. |
 | [`xasSample`](xasSample/) | Material sample that is the `schema:object` (target) of an XAS analysis; `schema:Thing`+`schema:Product` typed with `MaterialSample` + iSample `additionalType`. |
 | [`xasInstrument`](xasInstrument/) | XAS instrument / instrument system (extends the generic `instrument` block; requires `wd:Q3099911` scientific-instrument `additionalType`). |

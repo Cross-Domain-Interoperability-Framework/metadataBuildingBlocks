@@ -43,7 +43,7 @@ tier is advisory (`sh:Warning` in `xasOptional/rules.shacl`).
 
 ## What each tier contributes
 
-**`xasCore` (required)** — dual `@type` (`schema:Dataset` + `schema:Product`); a
+**`xasCore` (required)** — `@type` requires `schema:Dataset` (`schema:Product` optional); a
 `prov:wasGeneratedBy` analysis activity whose `prov:used` carries the instrument wrapper
 (`NXsource` + `NXmonochromator` sub-components with required type / probe / d-spacing /
 reflection); an XDI-conformant `schema:distribution`; required XAS `schema:measurementTechnique`

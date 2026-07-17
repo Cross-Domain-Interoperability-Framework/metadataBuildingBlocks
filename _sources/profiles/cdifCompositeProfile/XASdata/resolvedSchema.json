@@ -21,37 +21,16 @@
       "description": "The URI for the resource should be the @id value for the root of the JSON instance document tree. Must be an IRI (e.g. https://doi.org/..., urn:..., or a relative URI like #localid). Note that this identifier can be interpreted to identify the resource that is the subject of this metadata record, or the JSON-LD object that is the digital object containing the metadata information."
     },
     "@type": {
-      "description": "Dataset @type MUST include both schema:Dataset and schema:Product.",
+      "description": "Dataset @type MUST include schema:Dataset. schema:Product MAY also be included (to treat the dataset as a data product) but is not required; no root-level property depends on the Product type.",
       "type": "array",
       "items": {
-        "allOf": [
-          {
-            "type": "string",
-            "enum": [
-              "schema:CreativeWork",
-              "schema:SoftwareApplication",
-              "schema:SoftwareSourceCode",
-              "schema:Product",
-              "schema:WebAPI",
-              "schema:Dataset",
-              "schema:DigitalDocument",
-              "schema:Collection",
-              "schema:ImageObject",
-              "schema:DataCatalog",
-              "schema:DefinedTermSet",
-              "schema:MediaObject"
-            ]
-          },
-          {
-            "type": "string",
-            "enum": [
-              "schema:Dataset",
-              "schema:Product"
-            ]
-          }
+        "type": "string",
+        "enum": [
+          "schema:Dataset",
+          "schema:Product"
         ]
       },
-      "minItems": 2,
+      "minItems": 1,
       "allOf": [
         {
           "contains": {
@@ -60,7 +39,7 @@
         },
         {
           "contains": {
-            "const": "schema:Product"
+            "const": "schema:Dataset"
           }
         }
       ]
