@@ -109,7 +109,22 @@
             "$ref": "../xasFacility/xasFacilitySchema.json"
         },
         "Instrument": {
-            "$ref": "../xasInstrument/xasInstrumentSchema.json"
+            "allOf": [
+                {
+                    "$ref": "../xasInstrument/xasInstrumentSchema.json"
+                },
+                {
+                    "type": "object",
+                    "description": "As a prov:used entity, the instrument's @type includes prov:Entity (the PROV-O range of prov:used) alongside schema:Thing / schema:Product.",
+                    "properties": {
+                        "@type": {
+                            "contains": {
+                                "const": "prov:Entity"
+                            }
+                        }
+                    }
+                }
+            ]
         }
     }
 }
