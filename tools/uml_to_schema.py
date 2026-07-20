@@ -527,9 +527,16 @@ def clean_definition(doc: Optional[str]) -> Optional[str]:
 
     Return only the Definition body (collapsed whitespace). If no recognizable
     section markers are present, return the whole body trimmed.
+
+    RST-augmented bodies (starting with 'Documentation\\n===') are passed
+    through unchanged — they were already composed as full documentation
+    blocks by rst_augment.
     """
     if not doc:
         return None
+    # Preserve RST-augmented bodies (composed by rst_augment.py).
+    if doc.lstrip().startswith("Documentation\n===") or doc.lstrip().startswith("Documentation\r\n==="):
+        return doc.rstrip() + "\n"
     # Normalize whitespace and split on section headers
     parts = _SECTION_RE.split(doc.strip())
     # _SECTION_RE.split returns: [pre, header1, body1, header2, body2, ...]
@@ -4849,6 +4856,17 @@ def emit_uml_from_config(
       - v1.1 composes: recursive merge from base profile configs
     """
     cfg, inherited_class_names = _load_with_composition(config_path)
+
+    # Rewrite `definition` fields into RST-formatted documentation bodies,
+    # merging in source-vocabulary text (schema.org, SKOS, PROV, DCAT,
+    # DCTerms, DQV) and CDIF descriptions from the profile's
+    # resolvedSchema.json. No-ops if the vocab bundle isn't installed under
+    # tools/vocabularies/ yet.
+    try:
+        from rst_augment import maybe_augment
+        maybe_augment(cfg, config_path)
+    except ImportError:
+        pass
 
     tm = cfg["transformation"]["targetModel"]
     acronym = tm["acronym"]
