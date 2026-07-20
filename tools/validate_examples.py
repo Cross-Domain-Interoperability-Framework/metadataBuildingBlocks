@@ -40,13 +40,47 @@ SOURCES_DIR = REPO_ROOT / "_sources"
 
 
 def find_example_schema_pairs():
-    """Find all (example.json, schema.yaml) pairs in the sources tree."""
-    pairs = []
+    """Find all (example.json, schema.yaml) pairs in the sources tree.
+
+    Two sources are merged and de-duplicated:
+      1. every ``example*.json`` sitting beside a ``schema.yaml`` (the fast
+         default), and
+      2. every ``*.json`` registered as a snippet ``ref`` in an
+         ``examples.yaml`` — this catches examples whose filename does not
+         match the ``example*`` glob (e.g. ``CDIF-XAS-Full.json``), validated
+         against the ``schema.yaml`` of the block that registers them.
+
+    Negative-test fixtures (referenced from ``tests.yaml``, not
+    ``examples.yaml``) are intentionally not picked up.
+    """
+    pairs = {}  # (example_path, schema_path) -> None; dict preserves order + dedupes
+
+    def add(example_path: Path, schema_path: Path):
+        if example_path.exists() and schema_path.exists():
+            pairs.setdefault((example_path.resolve(), schema_path.resolve()), None)
+
+    # 1. example*.json glob
     for example_path in sorted(SOURCES_DIR.rglob("example*.json")):
-        schema_path = example_path.parent / "schema.yaml"
-        if schema_path.exists():
-            pairs.append((example_path, schema_path))
-    return pairs
+        add(example_path, example_path.parent / "schema.yaml")
+
+    # 2. examples.yaml snippet refs
+    for examples_yaml in sorted(SOURCES_DIR.rglob("examples.yaml")):
+        try:
+            entries = yaml.safe_load(examples_yaml.read_text(encoding="utf-8")) or []
+        except Exception:
+            continue
+        if not isinstance(entries, list):
+            continue
+        schema_path = examples_yaml.parent / "schema.yaml"
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+            for snippet in entry.get("snippets", []) or []:
+                ref = snippet.get("ref") if isinstance(snippet, dict) else None
+                if isinstance(ref, str) and ref.endswith(".json"):
+                    add(examples_yaml.parent / ref, schema_path)
+
+    return sorted(pairs.keys())
 
 
 def resolve_for_validation(schema_path: Path) -> dict:
