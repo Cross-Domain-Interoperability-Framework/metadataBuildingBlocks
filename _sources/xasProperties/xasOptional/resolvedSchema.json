@@ -9,7 +9,7 @@
       "description": "JSON-LD prefixes used by optional XAS fields.",
       "properties": {
         "xas": {
-          "const": "https://xas.org/dictionary/"
+          "const": "http://www.cdi4exas.org/"
         },
         "nxs": {
           "const": "https://manual.nexusformat.org/classes/"
@@ -17,10 +17,186 @@
       }
     },
     "schema:variableMeasured": {
-      "description": "Optional XAS data-array variables (energy, i0, itrans, ifluor, irefer, mutrans, mufluor, murefer, normtrans, normfluor, normrefer, chi, chi_re, chi_im, chi_mag, chi_pha, k, r, angle), each a cdi:InstanceVariable / schema:PropertyValue. Not required.",
+      "description": "Optional XAS data-array variables (energy, i0, itrans, ifluor, irefer, mutrans, mufluor, murefer, normtrans, normfluor, normrefer, chi, chi_re, chi_im, chi_mag, chi_pha, k, r, angle), each a cdi:InstanceVariable / schema:PropertyValue. Not required. The XDI variable propertyID enum is layered on in xasCore; this profile only enforces the base cdifInstanceVariable shape.",
       "type": "array",
       "items": {
         "$ref": "#/$defs/InstanceVariable"
+      }
+    },
+    "prov:wasGeneratedBy": {
+      "type": "array",
+      "description": "Optional-vocabulary layer on the XAS analysis activity. Adds propertyID enums for (a) activity-level additionalProperty entries, (b) the sample (schema:object) additionalProperty entries, and (c) the beamline peer instrument's additionalProperty entries. Enum arms are additive over the base propertyID_item shape.",
+      "items": {
+        "properties": {
+          "schema:additionalProperty": {
+            "description": "XDI activity-level additionalProperty vocabulary (XDI-CDIF-Mapping edge_energy / calibration_method / instrument_configuration / installedOptions).",
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/AdditionalProperty"
+                },
+                {
+                  "properties": {
+                    "schema:propertyID": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/$defs/propertyID_item"
+                          },
+                          {
+                            "enum": [
+                              "xas:edge_energy",
+                              "xas:calibration_method",
+                              "xas:instrument_configuration",
+                              "xas:installedOptions"
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "schema:object": {
+            "description": "Sample additionalProperty entries. XDI Sample.* vocabulary (XDI-CDIF-Mapping.xlsx rows 47-64) plus legacy xas:* names and NEXUS NXsample fields.",
+            "properties": {
+              "schema:additionalProperty": {
+                "type": "array",
+                "items": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/AdditionalProperty"
+                    },
+                    {
+                      "properties": {
+                        "schema:propertyID": {
+                          "type": "array",
+                          "minItems": 1,
+                          "items": {
+                            "anyOf": [
+                              {
+                                "$ref": "#/$defs/propertyID_item"
+                              },
+                              {
+                                "enum": [
+                                  "xas:concentration",
+                                  "xas:crystal_structure",
+                                  "xas:density",
+                                  "xas:eh",
+                                  "xas:electric_field",
+                                  "xas:electrochemical_potential",
+                                  "xas:magnetic_field",
+                                  "xas:magnetic_moment",
+                                  "xas:opacity",
+                                  "xas:ph",
+                                  "xas:porosity",
+                                  "xas:prep",
+                                  "xas:pressure",
+                                  "xas:resistivity",
+                                  "xas:stoichiometry",
+                                  "xas:temperature",
+                                  "xas:viscosity",
+                                  "xas:volume",
+                                  "xas:samplePreparation",
+                                  "xas:parentSample",
+                                  "xas:materialState",
+                                  "nxs:Field/NXsample/mass",
+                                  "nxs:Field/NXsample/point_group",
+                                  "nxs:Field/NXsample/unit_cell"
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "prov:used": {
+            "type": "array",
+            "items": {
+              "if": {
+                "description": "When this peer prov:used entry's instrument is a beamline (schema:additionalType contains xas:Beamline), its schema:additionalProperty entries SHOULD use the XDI Beamline vocabulary (XDI-CDIF-Mapping.xlsx rows 10-20, excluding Beamline.name which maps to schema:name).",
+                "properties": {
+                  "schema:instrument": {
+                    "type": "object",
+                    "properties": {
+                      "schema:additionalType": {
+                        "anyOf": [
+                          {
+                            "const": "xas:Beamline"
+                          },
+                          {
+                            "type": "array",
+                            "contains": {
+                              "const": "xas:Beamline"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "schema:instrument": {
+                    "type": "object",
+                    "properties": {
+                      "schema:additionalProperty": {
+                        "type": "array",
+                        "items": {
+                          "allOf": [
+                            {
+                              "$ref": "#/$defs/AdditionalProperty"
+                            },
+                            {
+                              "properties": {
+                                "schema:propertyID": {
+                                  "type": "array",
+                                  "minItems": 1,
+                                  "items": {
+                                    "anyOf": [
+                                      {
+                                        "$ref": "#/$defs/propertyID_item"
+                                      },
+                                      {
+                                        "enum": [
+                                          "xas:collimation",
+                                          "xas:detector",
+                                          "xas:energy_range",
+                                          "xas:energy_resolution",
+                                          "xas:flux",
+                                          "xas:focusing",
+                                          "xas:harmonic_rejection",
+                                          "xas:scan_mode",
+                                          "xas:spot_size",
+                                          "xas:website"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -438,6 +614,85 @@
               ]
             }
           ]
+        }
+      ]
+    },
+    "AdditionalProperty": {
+      "type": "object",
+      "title": "additionalProperty PropertyValue",
+      "description": "PropertyValue values required to define a soft-typed property with a value. ",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:PropertyValue"
+          },
+          "minItems": 1
+        },
+        "schema:propertyID": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/propertyID_item"
+          },
+          "minItems": 1,
+          "description": "identifier or name for the property concept quantified by the values in this variable slot. Multiple values can specify the property at different levels of granularity."
+        },
+        "schema:name": {
+          "type": "string"
+        },
+        "schema:value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "object"
+            }
+          ]
+        },
+        "schema:unitCode": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/DefinedTerm"
+            }
+          ]
+        },
+        "schema:unitText": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema:name",
+        "schema:value"
+      ]
+    },
+    "propertyID_item": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "@id": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/DefinedTerm"
         }
       ]
     },

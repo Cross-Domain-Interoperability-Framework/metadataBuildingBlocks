@@ -59,40 +59,105 @@
                                 }
                             }
                         ]
-                    }
+                    },
+                    "allOf": [
+                        {
+                            "description": "Must contain a prov:used entry whose schema:instrument is classified as an xas:Beamline (via schema:additionalType) and carries a schema:name (the beamline name).",
+                            "contains": {
+                                "type": "object",
+                                "properties": {
+                                    "schema:instrument": {
+                                        "type": "object",
+                                        "properties": {
+                                            "schema:additionalType": {
+                                                "anyOf": [
+                                                    {
+                                                        "const": "xas:Beamline"
+                                                    },
+                                                    {
+                                                        "type": "array",
+                                                        "contains": {
+                                                            "const": "xas:Beamline"
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            "schema:name": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "schema:additionalType",
+                                            "schema:name"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "schema:instrument"
+                                ]
+                            }
+                        },
+                        {
+                            "description": "Must contain a prov:used entry whose schema:instrument is classified as an nxs:BaseClass/NXmonochromator (via schema:additionalType) and has a schema:additionalProperty carrying the nxs:Field/NXcrystal/d_spacing PropertyValue with a schema:value.",
+                            "contains": {
+                                "type": "object",
+                                "properties": {
+                                    "schema:instrument": {
+                                        "type": "object",
+                                        "properties": {
+                                            "schema:additionalType": {
+                                                "anyOf": [
+                                                    {
+                                                        "const": "nxs:BaseClass/NXmonochromator"
+                                                    },
+                                                    {
+                                                        "type": "array",
+                                                        "contains": {
+                                                            "const": "nxs:BaseClass/NXmonochromator"
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            "schema:additionalProperty": {
+                                                "type": "array",
+                                                "contains": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "schema:propertyID": {
+                                                            "type": "array",
+                                                            "contains": {
+                                                                "const": "nxs:Field/NXcrystal/d_spacing"
+                                                            }
+                                                        },
+                                                        "schema:value": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "schema:propertyID",
+                                                        "schema:value"
+                                                    ]
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "schema:additionalType",
+                                            "schema:additionalProperty"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "schema:instrument"
+                                ]
+                            }
+                        }
+                    ]
                 },
                 "schema:additionalProperty": {
                     "type": "array",
-                    "description": "XAS-specific additional properties for the analysis activity",
+                    "description": "Additional properties on the XAS analysis activity (base AdditionalProperty shape). The activity-level propertyID enum (xas:edge_energy, calibration method, ...) is layered on in xasOptional so it applies at the profile level, not this shape.",
                     "items": {
-                        "allOf": [
-                            {
-                                "$ref": "#/$defs/AdditionalProperty"
-                            },
-                            {
-                                "properties": {
-                                    "schema:propertyID": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "anyOf": [
-                                                {
-                                                    "$ref": "../../schemaorgProperties/additionalProperty/schema.yaml#/$defs/propertyID_item"
-                                                },
-                                                {
-                                                    "enum": [
-                                                        "xas:edge_energy",
-                                                        "calibration method",
-                                                        "Instrument configuration",
-                                                        "xas:installedOptions"
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            }
-                        ]
+                        "$ref": "#/$defs/AdditionalProperty"
                     }
                 },
                 "schema:location": {
