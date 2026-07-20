@@ -46,143 +46,145 @@ properties:
         properties:
           prov:used:
             type: array
-            description: Array of used entities. Must contain an instrument wrapper with schema:hasPart
-              sub-components. The x-ray source type and probe, and monochromator properties type, d-spacing
-              and reflection plane are required.
-            contains:
-              type: object
-              required:
-              - schema:instrument
-              properties:
-                schema:instrument:
-                  type: object
-                  properties:
-                    schema:hasPart:
-                      type: array
-                      minItems: 2
-                      allOf:
-                      - contains:
-                          type: object
-                          properties:
-                            '@type':
-                              type: array
-                              items:
+            description: >-
+              Array of instrument-wrapper entries used by the analysis. Under
+              the peer prov:used model each instrument (source, beamline,
+              monochromator, monitor, ...) is its own top-level wrapper
+              differentiated by schema:instrument.schema:additionalType.
+              An x-ray source (with type and probe properties) and a
+              monochromator (with crystal type, d_spacing, and reflection
+              plane properties) are required here; xas:Beamline and the
+              monochromator d_spacing schema:value are additionally required
+              by xasGeneratedBy.
+            allOf:
+            - description: >-
+                Must contain a peer wrapper whose schema:instrument is
+                classified as nxs:BaseClass/NXsource and carries
+                schema:additionalProperty entries for
+                nxs:Field/NXsource/type and nxs:Field/NXsource/probe (each
+                with a schema:value; the probe entry is also named "Probe").
+              contains:
+                type: object
+                required:
+                - schema:instrument
+                properties:
+                  schema:instrument:
+                    type: object
+                    required:
+                    - schema:additionalType
+                    - schema:additionalProperty
+                    properties:
+                      schema:additionalType:
+                        anyOf:
+                        - const: nxs:BaseClass/NXsource
+                        - type: array
+                          contains:
+                            const: nxs:BaseClass/NXsource
+                      schema:additionalProperty:
+                        type: array
+                        minItems: 2
+                        items:
+                          $ref: '#/$defs/AdditionalProperty'
+                        allOf:
+                        - contains:
+                            type: object
+                            required:
+                            - schema:propertyID
+                            - schema:value
+                            properties:
+                              schema:propertyID:
+                                type: array
+                                contains:
+                                  const: nxs:Field/NXsource/type
+                              schema:value:
                                 type: string
-                              minItems: 2
-                              allOf:
-                              - contains:
-                                  const: schema:Thing
-                              - contains:
-                                  const: schema:Product
-                            schema:additionalType:
-                              const: nxs:BaseClass/NXsource
-                            schema:additionalProperty:
-                              type: array
-                              minItems: 2
-                              items:
-                                $ref: '#/$defs/AdditionalProperty'
-                              allOf:
-                              - contains:
-                                  type: object
-                                  properties:
-                                    schema:propertyID:
-                                      type: array
-                                      contains:
-                                        const: nxs:Field/NXsource/type
-                                    schema:value:
-                                      type: string
-                                  required:
-                                  - schema:propertyID
-                                  - schema:value
-                              - contains:
-                                  type: object
-                                  properties:
-                                    schema:propertyID:
-                                      type: array
-                                      contains:
-                                        const: nxs:Field/NXsource/probe
-                                    schema:name:
-                                      const: Probe
-                                    schema:value:
-                                      type: string
-                                  required:
-                                  - schema:name
-                                  - schema:propertyID
-                                  - schema:value
-                          required:
-                          - '@type'
-                          - schema:additionalType
-                          - schema:additionalProperty
-                      - contains:
-                          type: object
-                          properties:
-                            '@type':
-                              type: array
-                              items:
+                        - contains:
+                            type: object
+                            required:
+                            - schema:name
+                            - schema:propertyID
+                            - schema:value
+                            properties:
+                              schema:propertyID:
+                                type: array
+                                contains:
+                                  const: nxs:Field/NXsource/probe
+                              schema:name:
+                                const: Probe
+                              schema:value:
                                 type: string
-                              minItems: 2
-                              allOf:
-                              - contains:
-                                  const: schema:Thing
-                              - contains:
-                                  const: schema:Product
-                            schema:additionalType:
-                              const: nxs:BaseClass/NXmonochromator
-                            schema:name:
-                              type: string
-                            schema:additionalProperty:
-                              description: Require additional properties for monochromator, requires d-space,
-                                crystal type, reflection plane.
-                              type: array
-                              minItems: 3
-                              items:
-                                $ref: '#/$defs/AdditionalProperty'
-                              contains:
-                                type: object
-                                properties:
-                                  schema:propertyID:
-                                    type: array
-                                    contains:
-                                      const: nxs:Field/NXcrystal/type
-                                  schema:value:
-                                    type: string
-                                required:
-                                - schema:value
-                                - schema:propertyID
-                              allOf:
-                              - contains:
-                                  type: object
-                                  properties:
-                                    schema:propertyID:
-                                      type: array
-                                      contains:
-                                        const: nxs:Field/NXcrystal/d_spacing
-                                    schema:value:
-                                      type: string
-                                    schema:unitText:
-                                      type: string
-                                  required:
-                                  - schema:propertyID
-                                  - schema:value
-                                  - schema:unitText
-                              - contains:
-                                  type: object
-                                  properties:
-                                    schema:propertyID:
-                                      type: array
-                                      contains:
-                                        const: nxs:Field/NXcrystal/reflection
-                                    schema:value:
-                                      type: string
-                                  required:
-                                  - schema:value
-                                  - schema:propertyID
-                          required:
-                          - '@type'
-                          - schema:additionalType
-                          - schema:additionalProperty
-                  required:
-                  - schema:hasPart
+            - description: >-
+                Must contain a peer wrapper whose schema:instrument is
+                classified as nxs:BaseClass/NXmonochromator, has a
+                schema:name, and carries schema:additionalProperty entries
+                for nxs:Field/NXcrystal/type, nxs:Field/NXcrystal/d_spacing
+                (with value + unitText), and nxs:Field/NXcrystal/reflection.
+              contains:
+                type: object
+                required:
+                - schema:instrument
+                properties:
+                  schema:instrument:
+                    type: object
+                    required:
+                    - schema:additionalType
+                    - schema:name
+                    - schema:additionalProperty
+                    properties:
+                      schema:additionalType:
+                        anyOf:
+                        - const: nxs:BaseClass/NXmonochromator
+                        - type: array
+                          contains:
+                            const: nxs:BaseClass/NXmonochromator
+                      schema:name:
+                        type: string
+                      schema:additionalProperty:
+                        description: Require crystal type, d_spacing (with unitText), and reflection plane properties.
+                        type: array
+                        minItems: 3
+                        items:
+                          $ref: '#/$defs/AdditionalProperty'
+                        allOf:
+                        - contains:
+                            type: object
+                            required:
+                            - schema:propertyID
+                            - schema:value
+                            properties:
+                              schema:propertyID:
+                                type: array
+                                contains:
+                                  const: nxs:Field/NXcrystal/type
+                              schema:value:
+                                type: string
+                        - contains:
+                            type: object
+                            required:
+                            - schema:propertyID
+                            - schema:value
+                            - schema:unitText
+                            properties:
+                              schema:propertyID:
+                                type: array
+                                contains:
+                                  const: nxs:Field/NXcrystal/d_spacing
+                              schema:value:
+                                type: string
+                              schema:unitText:
+                                type: string
+                        - contains:
+                            type: object
+                            required:
+                            - schema:propertyID
+                            - schema:value
+                            properties:
+                              schema:propertyID:
+                                type: array
+                                contains:
+                                  const: nxs:Field/NXcrystal/reflection
+                              schema:value:
+                                type: string
           schema:object:
             $ref: '#/$defs/XasSample'
   schema:distribution:
@@ -279,20 +281,66 @@ properties:
       - schema:inDefinedTermSet
       additionalProperties: true
     contains:
+      description: >-
+        The XDI-dictionary keyword identifying the absorption edge; tagged
+        with schema:about "element.edge" to mark its role.
       type: object
       properties:
         schema:inDefinedTermSet:
           const: https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md
+        schema:about:
+          const: element.edge
       required:
       - schema:inDefinedTermSet
+      - schema:about
     allOf:
     - contains:
+        description: >-
+          The SWEET matrElement keyword identifying the target element; tagged
+          with schema:about "element.symbol" to mark its role.
         type: object
         properties:
           schema:inDefinedTermSet:
             const: http://sweetontology.net/matrElement
+          schema:about:
+            const: element.symbol
         required:
         - schema:inDefinedTermSet
+        - schema:about
+  schema:variableMeasured:
+    description: >-
+      XAS variableMeasured items. Each item's schema:propertyID SHOULD reference
+      one of the XDI canonical variable concept URIs (XDI-CDIF-Mapping.xlsx rows
+      71-89); any other propertyID string is also permitted (propertyID_item arm).
+    type: array
+    items:
+      properties:
+        'schema:propertyID':
+          type: array
+          minItems: 1
+          items:
+            anyOf:
+            - $ref: ../../schemaorgProperties/additionalProperty/schema.yaml#/$defs/propertyID_item
+            - enum:
+              - xas:monochromatorEnergyVariable
+              - xas:monochromatorAngleVariable
+              - xas:incidentIntensityVariable
+              - xas:transmittedIntensityVariable
+              - xas:fluorescenceIntensityVariable
+              - xas:referenceIntensityVariable
+              - xas:absorptionCoefficientVariable
+              - xas:FluorescenceAbsorptionCoefficientVariable
+              - xas:ReferenceAbsorptionCoefficientVariable
+              - xas:NormalizedMuTransmmissionVariable
+              - xas:NormalizedMuFluorescenceVariable
+              - xas:NormalizedMuReferenceVariable
+              - xas:KVariable
+              - xas:ExafsVariable
+              - xas:MagnitudeFilteredChiKVariable
+              - xas:PhaseFilteredChiKVariable
+              - xas:RealFilteredChiKVariable
+              - xas:ImaginaryFilteredChiKVariable
+              - xas:RadialDistanceVariable
 $defs:
   CdifProvActivity:
     $ref: ../xasGeneratedBy/schema.yaml

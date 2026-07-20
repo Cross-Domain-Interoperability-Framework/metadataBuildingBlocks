@@ -9,7 +9,7 @@
         "time": "http://www.w3.org/2006/time#",
         "skos": "http://www.w3.org/2004/02/skos/core#",
         "csvw": "http://www.w3.org/ns/csvw#",
-        "xas": "https://xas.org/dictionary/",
+        "xas": "http://www.cdi4exas.org/",
         "nxs": "https://manual.nexusformat.org/classes/",
         "prov": "http://www.w3.org/ns/prov#",
         "dcat": "http://www.w3.org/ns/dcat#",
@@ -53,9 +53,7 @@
         {
             "@type": ["schema:Role"],
             "schema:roleName": "dataCollector",
-            "schema:contributor": {
-                "@id": "https://orcid.org/3547ulkj"
-            }
+            "schema:contributor": {"@id": "https://orcid.org/3547ulkj"}
         },
         {
             "@type": ["schema:Role"],
@@ -76,9 +74,7 @@
             }
         }
     ],
-    "schema:license": [
-        "https://creativecommons.org/publicdomain/zero/1.0/"
-    ],
+    "schema:license": ["https://creativecommons.org/publicdomain/zero/1.0/"],
     "schema:distribution": [
         {
             "@type": [
@@ -88,14 +84,10 @@
             "schema:name": "XDI data file for Se K-edge XAS",
             "schema:contentUrl": "https://github.com/XraySpectroscopy/XASDataLibrary/blob/master/data/Se/Se_Na2SeO4_rt_01.xdi",
             "schema:description": "Fixed-width text file conformant with XDI specification. Contains three data columns: monochromator energy (eV), transmitted intensity (counts), and incident intensity (counts). 27-line header with comment prefix '#'.",
-            "schema:encodingFormat": [
-                "text/plain"
-            ],
+            "schema:encodingFormat": ["text/plain"],
             "cdi:isFixedWidth": true,
             "dcterms:conformsTo": [
-                {
-                    "@id": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md"
-                }
+                {"@id": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md"}
             ],
             "cdif:hasPhysicalMapping": [
                 {
@@ -103,27 +95,21 @@
                     "cdif:format": "decimal",
                     "cdif:physicalDataType": "float64",
                     "cdi:isRequired": true,
-                    "cdif:formats_InstanceVariable": {
-                        "@id": "xas:monochromatorEnergy"
-                    }
+                    "cdif:formats_InstanceVariable": {"@id": "xas:monochromatorEnergy"}
                 },
                 {
                     "cdif:index": 1,
                     "cdif:format": "decimal",
                     "cdif:physicalDataType": "float64",
                     "cdi:isRequired": true,
-                    "cdif:formats_InstanceVariable": {
-                        "@id": "xas:transmittedIntensity"
-                    }
+                    "cdif:formats_InstanceVariable": {"@id": "xas:transmittedIntensity"}
                 },
                 {
                     "cdif:index": 2,
                     "cdif:format": "decimal",
                     "cdif:physicalDataType": "float64",
                     "cdi:isRequired": true,
-                    "cdif:formats_InstanceVariable": {
-                        "@id": "xas:incidentIntensity"
-                    }
+                    "cdif:formats_InstanceVariable": {"@id": "xas:incidentIntensity"}
                 }
             ]
         }
@@ -149,14 +135,16 @@
             "schema:name": "K-edge",
             "schema:identifier": "missing",
             "schema:termCode": "K",
-            "schema:inDefinedTermSet": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md"
+            "schema:inDefinedTermSet": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md",
+            "schema:about": "element.edge"
         },
         {
             "@type": ["schema:DefinedTerm"],
             "schema:name": "Selenium",
             "schema:identifier": "http://sweetontology.net/matrElement/Selenium",
             "schema:termCode": "Se",
-            "schema:inDefinedTermSet": "http://sweetontology.net/matrElement"
+            "schema:inDefinedTermSet": "http://sweetontology.net/matrElement",
+            "schema:about": "element.symbol"
         }
     ],
     "prov:wasGeneratedBy": [
@@ -165,170 +153,136 @@
                 "schema:Action",
                 "prov:Activity"
             ],
-            "schema:additionalType": [
-                "xas:AnalysisEvent"
-            ],
+            "schema:additionalType": ["xas:AnalysisEvent"],
             "schema:identifier": "20241111_DSC_NU_OREX-803224-0_1",
             "schema:startDate": "2008-04-10T21:58:50",
             "prov:used": [
                 {
                     "schema:instrument": {
-                        "@type": ["schema:Thing", "schema:Product"],
-                        "schema:additionalType": ["wd:Q3099911"],
-                        "schema:name": "XAS analytical instrument system",
-                        "schema:category": "X-ray Absorption Spectroscopy",
-                        "schema:hasPart": [
+                        "@type": [
+                            "schema:Thing",
+                            "schema:Product"
+                        ],
+                        "schema:additionalType": "nxs:BaseClass/NXsource",
+                        "schema:name": "source, made up for this example",
+                        "schema:identifier": "should have a registry with URIs",
+                        "schema:additionalProperty": [
                             {
-                                "@type": [
-                                    "schema:Thing",
-                                    "schema:Product"
-                                ],
-                                "schema:additionalType": "nxs:BaseClass/NXsource",
-                                "schema:name": "source, made up for this example",
-                                "schema:identifier": "should have a registry with URIs",
-                                "schema:additionalProperty": [
-                                    {
-                                        "@type": ["schema:PropertyValue"],
-                                        "schema:propertyID": [
-                                            "nxs:Field/NXsource/type"
-                                        ],
-                                        "schema:name": "x-ray source",
-                                        "schema:value": "Synchrotron X-ray Source"
-                                    },
-                                    {
-                                        "@type": ["schema:PropertyValue"],
-                                        "schema:propertyID": [
-                                            "nxs:Field/NXsource/probe"
-                                        ],
-                                        "schema:name": "Probe",
-                                        "schema:value": "x-ray"
-                                    }
-                                ]
+                                "@type": ["schema:PropertyValue"],
+                                "schema:propertyID": ["nxs:Field/NXsource/type"],
+                                "schema:name": "x-ray source",
+                                "schema:value": "Synchrotron X-ray Source"
                             },
                             {
-                                "@type": [
-                                    "schema:Thing",
-                                    "schema:Product"
-                                ],
-                                "schema:additionalType": "xas:Beamline",
-                                "schema:name": "13-BM-D",
-                                "schema:identifier": "should have a registry with URIs",
-                                "schema:additionalProperty": [
-                                    {
-                                        "@type": ["schema:PropertyValue"],
-                                        "schema:propertyID": [
-                                            "xas:collimation"
-                                        ],
-                                        "schema:name": "collimation technique",
-                                        "schema:value": "none"
-                                    },
-                                    {
-                                        "@type": ["schema:PropertyValue"],
-                                        "schema:propertyID": [
-                                            "xas:focusing"
-                                        ],
-                                        "schema:name": "focusing",
-                                        "schema:value": "???"
-                                    },
-                                    {
-                                        "@type": ["schema:PropertyValue"],
-                                        "schema:propertyID": [
-                                            "xas:harmonic_rejection"
-                                        ],
-                                        "schema:name": "harmonic_rejection",
-                                        "schema:value": "Rh-coated mirror, detuned"
-                                    }
-                                ]
+                                "@type": ["schema:PropertyValue"],
+                                "schema:propertyID": ["nxs:Field/NXsource/probe"],
+                                "schema:name": "Probe",
+                                "schema:value": "x-ray"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "schema:instrument": {
+                        "@type": [
+                            "schema:Thing",
+                            "schema:Product"
+                        ],
+                        "schema:additionalType": "xas:Beamline",
+                        "schema:name": "13-BM-D",
+                        "schema:identifier": "should have a registry with URIs",
+                        "schema:additionalProperty": [
+                            {
+                                "@type": ["schema:PropertyValue"],
+                                "schema:propertyID": ["xas:collimation"],
+                                "schema:name": "collimation technique",
+                                "schema:value": "none"
                             },
                             {
-                                "@type": [
-                                    "schema:Thing",
-                                    "schema:Product"
-                                ],
-                                "schema:additionalType": "nxs:BaseClass/NXmonochromator",
-                                "schema:name": "Si 111",
-                                "schema:additionalProperty": [
-                                    {
-                                        "@type": ["schema:PropertyValue"],
-                                        "schema:propertyID": [
-                                            "nxs:Field/NXcrystal/d_spacing"
-                                        ],
-                                        "schema:name": "d-spacing",
-                                        "schema:value": "3.13550",
-                                        "schema:unitText": "Angstrom"
-                                    },
-                                    {
-                                        "@type": ["schema:PropertyValue"],
-                                        "schema:propertyID": [
-                                            "nxs:Field/NXcrystal/chemical_formula"
-                                        ],
-                                        "schema:name": "chemical formula",
-                                        "schema:value": "Si"
-                                    },
-                                    {
-                                        "@type": ["schema:PropertyValue"],
-                                        "schema:propertyID": [
-                                            "nxs:Field/NXcrystal/type"
-                                        ],
-                                        "schema:name": "crystal type",
-                                        "schema:value": "missing"
-                                    },
-                                    {
-                                        "@type": ["schema:PropertyValue"],
-                                        "schema:propertyID": [
-                                            "nxs:Field/NXcrystal/reflection"
-                                        ],
-                                        "schema:name": "reflection plane (hkl)",
-                                        "schema:value": "1,1,1"
-                                    }
-                                ]
+                                "@type": ["schema:PropertyValue"],
+                                "schema:propertyID": ["xas:focusing"],
+                                "schema:name": "focusing",
+                                "schema:value": "???"
                             },
                             {
-                                "@type": [
-                                    "schema:Thing",
-                                    "schema:Product"
-                                ],
-                                "schema:additionalType": "nxs:BaseClass/NXmonitor",
-                                "schema:additionalProperty": [
-                                    {
-                                        "@type": ["schema:PropertyValue"],
-                                        "schema:propertyID": [
-                                            "nxs:Field/NXmonitor/mode"
-                                        ],
-                                        "schema:name": "monitor mode",
-                                        "schema:value": "monitor"
-                                    },
-                                    {
-                                        "@type": ["schema:PropertyValue"],
-                                        "schema:propertyID": [
-                                            "nxs:Field/NXmonitor/preset"
-                                        ],
-                                        "schema:name": "monitor preset",
-                                        "schema:value": "N.A."
-                                    },
-                                    {
-                                        "@type": ["schema:PropertyValue"],
-                                        "schema:propertyID": [
-                                            "xas:detector.i0"
-                                        ],
-                                        "schema:name": "detector mode i0",
-                                        "schema:alternateName": [
-                                            "incident flux measurement method"
-                                        ],
-                                        "schema:value": "10cm  N2"
-                                    },
-                                    {
-                                        "@type": ["schema:PropertyValue"],
-                                        "schema:propertyID": [
-                                            "xas:detector.it"
-                                        ],
-                                        "schema:name": "detector mode it",
-                                        "schema:alternateName": [
-                                            "transmitted flux measurement method"
-                                        ],
-                                        "schema:value": "10cm  N2"
-                                    }
-                                ]
+                                "@type": ["schema:PropertyValue"],
+                                "schema:propertyID": ["xas:harmonic_rejection"],
+                                "schema:name": "harmonic_rejection",
+                                "schema:value": "Rh-coated mirror, detuned"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "schema:instrument": {
+                        "@type": [
+                            "schema:Thing",
+                            "schema:Product"
+                        ],
+                        "schema:additionalType": "nxs:BaseClass/NXmonochromator",
+                        "schema:name": "Si 111",
+                        "schema:additionalProperty": [
+                            {
+                                "@type": ["schema:PropertyValue"],
+                                "schema:propertyID": ["nxs:Field/NXcrystal/d_spacing"],
+                                "schema:name": "d-spacing",
+                                "schema:value": "3.13550",
+                                "schema:unitText": "Angstrom"
+                            },
+                            {
+                                "@type": ["schema:PropertyValue"],
+                                "schema:propertyID": ["nxs:Field/NXcrystal/chemical_formula"],
+                                "schema:name": "chemical formula",
+                                "schema:value": "Si"
+                            },
+                            {
+                                "@type": ["schema:PropertyValue"],
+                                "schema:propertyID": ["nxs:Field/NXcrystal/type"],
+                                "schema:name": "crystal type",
+                                "schema:value": "missing"
+                            },
+                            {
+                                "@type": ["schema:PropertyValue"],
+                                "schema:propertyID": ["nxs:Field/NXcrystal/reflection"],
+                                "schema:name": "reflection plane (hkl)",
+                                "schema:value": "1,1,1"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "schema:instrument": {
+                        "@type": [
+                            "schema:Thing",
+                            "schema:Product"
+                        ],
+                        "schema:additionalType": "nxs:BaseClass/NXmonitor",
+                        "schema:additionalProperty": [
+                            {
+                                "@type": ["schema:PropertyValue"],
+                                "schema:propertyID": ["nxs:Field/NXmonitor/mode"],
+                                "schema:name": "monitor mode",
+                                "schema:value": "monitor"
+                            },
+                            {
+                                "@type": ["schema:PropertyValue"],
+                                "schema:propertyID": ["nxs:Field/NXmonitor/preset"],
+                                "schema:name": "monitor preset",
+                                "schema:value": "N.A."
+                            },
+                            {
+                                "@type": ["schema:PropertyValue"],
+                                "schema:propertyID": ["xas:detector.i0"],
+                                "schema:name": "detector mode i0",
+                                "schema:alternateName": ["incident flux measurement method"],
+                                "schema:value": "10cm  N2"
+                            },
+                            {
+                                "@type": ["schema:PropertyValue"],
+                                "schema:propertyID": ["xas:detector.it"],
+                                "schema:name": "detector mode it",
+                                "schema:alternateName": ["transmitted flux measurement method"],
+                                "schema:value": "10cm  N2"
                             }
                         ]
                     }
@@ -337,9 +291,7 @@
             "schema:additionalProperty": [
                 {
                     "@type": ["schema:PropertyValue"],
-                    "schema:propertyID": [
-                        "xas:pressure"
-                    ],
+                    "schema:propertyID": ["xas:pressure"],
                     "schema:name": "experiment environment-pressure",
                     "schema:description": "extrinsic properties of measurement environment--temperature, pressure, e-field, mag-field.  have to check magnetic_moment, electrochemical_potential",
                     "schema:value": 3567,
@@ -347,36 +299,28 @@
                 },
                 {
                     "@type": ["schema:PropertyValue"],
-                    "schema:propertyID": [
-                        "xas:edge_energy"
-                    ],
+                    "schema:propertyID": ["xas:edge_energy"],
                     "schema:name": "Absorption edge",
                     "schema:value": "12658.0",
                     "schema:unitText": "eV"
                 },
                 {
                     "@type": ["schema:PropertyValue"],
-                    "schema:propertyID": [
-                        "nxs:Group/NXdetector/calibration_method"
-                    ],
+                    "schema:propertyID": ["nxs:Group/NXdetector/calibration_method"],
                     "schema:name": "calibration method",
                     "schema:value": "description of calibration procedure",
                     "schema:url": "http://protocols.io/link/to/calibrationMethod"
                 },
                 {
                     "@type": ["schema:PropertyValue"],
-                    "schema:propertyID": [
-                        "nxs:Group/NXentry/experiment_documentation"
-                    ],
+                    "schema:propertyID": ["nxs:Group/NXentry/experiment_documentation"],
                     "schema:name": "Instrument configuration",
                     "schema:value": "description of instrument configuration",
                     "schema:url": "http://protocols.io/link/to/calibrationMethod"
                 },
                 {
                     "@type": ["schema:PropertyValue"],
-                    "schema:propertyID": [
-                        "xas:installedOptions"
-                    ],
+                    "schema:propertyID": ["xas:installedOptions"],
                     "schema:name": "Installed Options",
                     "schema:value": "Description of extra equipment installed on the base instrument(?)"
                 }
@@ -384,41 +328,33 @@
             "schema:location": {
                 "@id": "ex:xasfacility_37yht",
                 "@type": ["schema:Place"],
-                "schema:additionalType": [
-                    "xas:Facility"
-                ],
+                "schema:additionalType": ["xas:Facility"],
                 "schema:identifier": "https://ror.org/aps",
                 "schema:name": "APS",
                 "schema:additionalProperty": [
                     {
                         "@type": ["schema:PropertyValue"],
-                        "schema:propertyID": [
-                            "xas:energy"
-                        ],
+                        "schema:propertyID": ["xas:energy"],
                         "schema:name": "Facility energy",
                         "schema:value": "7.00",
                         "schema:unitText": "GeV"
                     },
                     {
                         "@type": ["schema:PropertyValue"],
-                        "schema:propertyID": [
-                            "xas:current"
-                        ],
+                        "schema:propertyID": ["xas:current"],
                         "schema:name": "Facility current",
                         "schema:value": "120",
                         "schema:unitText": "Amps"
                     },
                     {
                         "@type": ["schema:PropertyValue"],
-                        "schema:propertyID": [
-                            "xas:xray_source"
-                        ],
+                        "schema:propertyID": ["xas:xray_source"],
                         "schema:name": "X-ray Source",
                         "schema:value": "APS bending magnet"
                     }
                 ]
             },
-            "schema:mainEntity": {
+            "schema:object": {
                 "@type": [
                     "schema:Thing",
                     "schema:Product"
@@ -433,67 +369,51 @@
                 "schema:additionalProperty": [
                     {
                         "@type": ["schema:PropertyValue"],
-                        "schema:propertyID": [
-                            "xas:porosity"
-                        ],
+                        "schema:propertyID": ["xas:porosity"],
                         "schema:name": "Porosity",
                         "schema:value": 27,
                         "schema:unitText": "percent"
                     },
                     {
                         "@type": ["schema:PropertyValue"],
-                        "schema:propertyID": [
-                            "xas:stoichiometry"
-                        ],
+                        "schema:propertyID": ["xas:stoichiometry"],
                         "schema:name": "Stoichiometry",
                         "schema:value": "Na2SeO4"
                     },
                     {
                         "@type": ["schema:PropertyValue"],
-                        "schema:propertyID": [
-                            "xas:samplePreparation"
-                        ],
+                        "schema:propertyID": ["xas:samplePreparation"],
                         "schema:name": "samaple preparation method",
                         "schema:value": "powder on tape, 6 layers"
                     },
                     {
                         "@type": ["schema:PropertyValue"],
-                        "schema:propertyID": [
-                            "nxs:Field/NXsample/mass"
-                        ],
+                        "schema:propertyID": ["nxs:Field/NXsample/mass"],
                         "schema:name": "sample mass",
                         "schema:value": "10",
                         "schema:unitText": "mg"
                     },
                     {
                         "@type": ["schema:PropertyValue"],
-                        "schema:propertyID": [
-                            "nxs:Field/NXsample/point_group"
-                        ],
+                        "schema:propertyID": ["nxs:Field/NXsample/point_group"],
                         "schema:name": "crystallographic point group",
                         "schema:value": "mm2"
                     },
                     {
                         "@type": ["schema:PropertyValue"],
-                        "schema:propertyID": [
-                            "nxs:Field/NXsample/unit_cell"
-                        ],
+                        "schema:propertyID": ["nxs:Field/NXsample/unit_cell"],
                         "schema:name": "Crystal unit cell dimensions",
                         "schema:value": "cubic; Z = 4; a = 5.46; V = 162.77"
                     },
                     {
                         "@type": ["schema:PropertyValue"],
-                        "schema:propertyID": [
-                            "xas:parentSample"
-                        ],
+                        "schema:propertyID": ["xas:parentSample"],
                         "schema:name": "parent sample identifier",
                         "schema:value": "igsn:10.3476/342573"
                     },
                     {
                         "@type": ["schema:PropertyValue"],
-                        "schema:propertyID": [
-                            "xas:materialState"
-                        ],
+                        "schema:propertyID": ["xas:materialState"],
                         "schema:name": "material state",
                         "schema:value": "solid metal foil"
                     }
@@ -509,13 +429,9 @@
                 "schema:PropertyValue"
             ],
             "schema:name": "energy",
-            "schema:alternateName": [
-                "Monochromator energy"
-            ],
+            "schema:alternateName": ["Monochromator energy"],
             "schema:description": "missing, definition of what this variable is about (maybe even an iAdopt description",
-            "schema:propertyID": [
-                "xas:monochromatorEnergyConcept"
-            ],
+            "schema:propertyID": ["xas:monochromatorEnergyConcept"],
             "schema:unitText": "eV",
             "identifier": "should be URI from nexusFormat organization",
             "physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
@@ -531,13 +447,9 @@
                 "schema:PropertyValue"
             ],
             "schema:name": "i0 monitory intensity",
-            "schema:alternateName": [
-                "Monitor intensity"
-            ],
+            "schema:alternateName": ["Monitor intensity"],
             "schema:description": "missing, definition of what this variable is about (maybe even an iAdopt description)",
-            "schema:propertyID": [
-                "xas:incidentIntensityConcept"
-            ],
+            "schema:propertyID": ["xas:incidentIntensityConcept"],
             "schema:unitText": "counts",
             "identifier": "should be URI from nexusFormat organization",
             "physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
@@ -552,14 +464,10 @@
                 "schema:PropertyValue"
             ],
             "schema:description": "missing, definition of what this variable is about (maybe even an iAdopt description",
-            "schema:propertyID": [
-                "xas:transmittedIntensityConcept"
-            ],
+            "schema:propertyID": ["xas:transmittedIntensityConcept"],
             "schema:unitText": "counts",
             "schema:name": "itrans",
-            "schema:alternateName": [
-                "transmission intensity"
-            ],
+            "schema:alternateName": ["transmission intensity"],
             "physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
             "identifier": "should be URI from nexusFormat organization",
             "uses": "xas:transmittedIntensityConcept",
@@ -582,12 +490,8 @@
     ],
     "schema:subjectOf": {
         "@id": "xas:ja51-pz63",
-        "@type": [
-            "schema:Dataset"
-        ],
-        "schema:additionalType": [
-            "dcat:CatalogRecord"
-        ],
+        "@type": ["schema:Dataset"],
+        "schema:additionalType": ["dcat:CatalogRecord"],
         "schema:dateModified": "2025-08-26",
         "schema:creator": [
             {
@@ -601,26 +505,14 @@
                 }
             }
         ],
-        "schema:about": {
-            "@id": "xas:485749"
-        },
+        "schema:about": {"@id": "xas:485749"},
         "schema:description": "metadata about documentation for se_na2so4",
         "dcterms:conformsTo": [
-            {
-                "@id": "https://w3id.org/cdif/core/1.1"
-            },
-            {
-                "@id": "https://w3id.org/cdif/discovery/1.1"
-            },
-            {
-                "@id": "https://w3id.org/cdif/data_description/1.1"
-            },
-            {
-                "@id": "https://w3id.org/cdif/xasOptional/1.0"
-            },
-            {
-                "@id": "https://w3id.org/cdif/xasCore/1.0"
-            }
+            {"@id": "https://w3id.org/cdif/core/1.1"},
+            {"@id": "https://w3id.org/cdif/discovery/1.1"},
+            {"@id": "https://w3id.org/cdif/data_description/1.1"},
+            {"@id": "https://w3id.org/cdif/xasOptional/1.0"},
+            {"@id": "https://w3id.org/cdif/xasCore/1.0"}
         ]
     }
 }
