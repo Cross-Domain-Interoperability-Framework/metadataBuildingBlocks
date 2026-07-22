@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "XAS Analysis Event activity",
-    "description": "XAS-specific provenance activity building block. Extends cdifProvActivity with XAS analysis event typing (xas:AnalysisEvent), XAS facility location, sample object, XAS-specific instrument type, and XAS additional properties (edge_energy, calibration method, instrument configuration, installedOptions).",
+    "description": "XAS-specific provenance activity building block. Extends cdifProvActivity with XAS analysis event typing (xas:analysisevent), XAS facility location, sample object, XAS-specific instrument type, and XAS additional properties (edge_energy, calibration method, instrument configuration, installedOptions).",
     "allOf": [
         {
             "$ref": "../../cdifDataType/cdifProvActivity/cdifProvActivitySchema.json"
@@ -19,13 +19,13 @@
                     }
                 },
                 "schema:additionalType": {
-                    "description": "Domain type(s) for the activity; must include xas:AnalysisEvent (an XAS analysis event).",
+                    "description": "Domain type(s) for the activity; must include xas:analysisevent (an XAS analysis event).",
                     "type": "array",
                     "items": {
                         "type": "string"
                     },
                     "contains": {
-                        "const": "xas:AnalysisEvent"
+                        "const": "xas:analysisevent"
                     }
                 },
                 "schema:startDate": {
@@ -62,7 +62,7 @@
                     },
                     "allOf": [
                         {
-                            "description": "Must contain a prov:used entry whose schema:instrument is classified as an xas:Beamline (via schema:additionalType) and carries a schema:name (the beamline name).",
+                            "description": "Must contain a prov:used entry whose schema:instrument is classified as an xas:beamline (via schema:additionalType) and carries a schema:name (the beamline name).",
                             "contains": {
                                 "type": "object",
                                 "properties": {
@@ -72,12 +72,12 @@
                                             "schema:additionalType": {
                                                 "anyOf": [
                                                     {
-                                                        "const": "xas:Beamline"
+                                                        "const": "xas:beamline"
                                                     },
                                                     {
                                                         "type": "array",
                                                         "contains": {
-                                                            "const": "xas:Beamline"
+                                                            "const": "xas:beamline"
                                                         }
                                                     }
                                                 ]
@@ -98,7 +98,7 @@
                             }
                         },
                         {
-                            "description": "Must contain a prov:used entry whose schema:instrument is classified as an xas:X-Ray_Monochromator (via schema:additionalType) and has a schema:additionalProperty carrying the xas:d_spacing PropertyValue with a schema:value.",
+                            "description": "Must contain a prov:used entry whose schema:instrument is classified as an xas:xraymonochromator (via schema:additionalType) and has a schema:additionalProperty carrying the xas:dspacing PropertyValue with a schema:value.",
                             "contains": {
                                 "type": "object",
                                 "properties": {
@@ -108,12 +108,12 @@
                                             "schema:additionalType": {
                                                 "anyOf": [
                                                     {
-                                                        "const": "xas:X-Ray_Monochromator"
+                                                        "const": "xas:xraymonochromator"
                                                     },
                                                     {
                                                         "type": "array",
                                                         "contains": {
-                                                            "const": "xas:X-Ray_Monochromator"
+                                                            "const": "xas:xraymonochromator"
                                                         }
                                                     }
                                                 ]
@@ -126,7 +126,7 @@
                                                         "schema:propertyID": {
                                                             "type": "array",
                                                             "contains": {
-                                                                "const": "xas:d_spacing"
+                                                                "const": "xas:dspacing"
                                                             }
                                                         },
                                                         "schema:value": {
@@ -155,7 +155,7 @@
                 },
                 "schema:additionalProperty": {
                     "type": "array",
-                    "description": "Additional properties on the XAS analysis activity (base AdditionalProperty shape). The activity-level propertyID enum (xas:edge_energy, calibration method, ...) is layered on in xasOptional so it applies at the profile level, not this shape.",
+                    "description": "Additional properties on the XAS analysis activity (base AdditionalProperty shape). The activity-level propertyID enum (xas:edgeenergy, calibration method, ...) is layered on in xasOptional so it applies at the profile level, not this shape.",
                     "items": {
                         "$ref": "#/$defs/AdditionalProperty"
                     }

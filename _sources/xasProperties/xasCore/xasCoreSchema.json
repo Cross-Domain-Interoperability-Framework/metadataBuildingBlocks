@@ -56,10 +56,10 @@
                         "properties": {
                             "prov:used": {
                                 "type": "array",
-                                "description": "Array of instrument-wrapper entries used by the analysis. Under the peer prov:used model each instrument (source, beamline, monochromator, monitor, ...) is its own top-level wrapper differentiated by schema:instrument.schema:additionalType. An x-ray source (with type and probe properties) and a monochromator (with crystal type, d_spacing, and reflection plane properties) are required here; xas:Beamline and the monochromator d_spacing schema:value are additionally required by xasGeneratedBy.",
+                                "description": "Array of instrument-wrapper entries used by the analysis. Under the peer prov:used model each instrument (source, beamline, monochromator, monitor, ...) is its own top-level wrapper differentiated by schema:instrument.schema:additionalType. An x-ray source (with type and probe properties) and a monochromator (with crystal type, d_spacing, and reflection plane properties) are required here; xas:beamline and the monochromator d_spacing schema:value are additionally required by xasGeneratedBy.",
                                 "allOf": [
                                     {
-                                        "description": "Must contain a peer wrapper whose schema:instrument is classified as xas:Source and carries schema:additionalProperty entries for xas:xray_source_type and xas:probe (each with a schema:value; the probe entry is also named \"Probe\").",
+                                        "description": "Must contain a peer wrapper whose schema:instrument is classified as xas:source and carries schema:additionalProperty entries for xas:xraysourcetype and xas:probe (each with a schema:value; the probe entry is also named \"Probe\").",
                                         "contains": {
                                             "type": "object",
                                             "required": [
@@ -76,12 +76,12 @@
                                                         "schema:additionalType": {
                                                             "anyOf": [
                                                                 {
-                                                                    "const": "xas:Source"
+                                                                    "const": "xas:source"
                                                                 },
                                                                 {
                                                                     "type": "array",
                                                                     "contains": {
-                                                                        "const": "xas:Source"
+                                                                        "const": "xas:source"
                                                                     }
                                                                 }
                                                             ]
@@ -104,7 +104,7 @@
                                                                             "schema:propertyID": {
                                                                                 "type": "array",
                                                                                 "contains": {
-                                                                                    "const": "xas:xray_source_type"
+                                                                                    "const": "xas:xraysourcetype"
                                                                                 }
                                                                             },
                                                                             "schema:value": {
@@ -145,7 +145,7 @@
                                         }
                                     },
                                     {
-                                        "description": "Must contain a peer wrapper whose schema:instrument is classified as xas:X-Ray_Monochromator, has a schema:name, and carries schema:additionalProperty entries for xas:monochromator_type, xas:d_spacing (with value + unitText), and xas:reflection_plane.",
+                                        "description": "Must contain a peer wrapper whose schema:instrument is classified as xas:xraymonochromator, has a schema:name, and carries schema:additionalProperty entries for xas:monochromatortype, xas:dspacing (with value + unitText), and xas:reflectionplane.",
                                         "contains": {
                                             "type": "object",
                                             "required": [
@@ -163,12 +163,12 @@
                                                         "schema:additionalType": {
                                                             "anyOf": [
                                                                 {
-                                                                    "const": "xas:X-Ray_Monochromator"
+                                                                    "const": "xas:xraymonochromator"
                                                                 },
                                                                 {
                                                                     "type": "array",
                                                                     "contains": {
-                                                                        "const": "xas:X-Ray_Monochromator"
+                                                                        "const": "xas:xraymonochromator"
                                                                     }
                                                                 }
                                                             ]
@@ -195,7 +195,7 @@
                                                                             "schema:propertyID": {
                                                                                 "type": "array",
                                                                                 "contains": {
-                                                                                    "const": "xas:monochromator_type"
+                                                                                    "const": "xas:monochromatortype"
                                                                                 }
                                                                             },
                                                                             "schema:value": {
@@ -216,7 +216,7 @@
                                                                             "schema:propertyID": {
                                                                                 "type": "array",
                                                                                 "contains": {
-                                                                                    "const": "xas:d_spacing"
+                                                                                    "const": "xas:dspacing"
                                                                                 }
                                                                             },
                                                                             "schema:value": {
@@ -239,7 +239,7 @@
                                                                             "schema:propertyID": {
                                                                                 "type": "array",
                                                                                 "contains": {
-                                                                                    "const": "xas:reflection_plane"
+                                                                                    "const": "xas:reflectionplane"
                                                                                 }
                                                                             },
                                                                             "schema:value": {
@@ -454,25 +454,25 @@
                                 },
                                 {
                                     "enum": [
-                                        "xas:Monochromator_Energy",
-                                        "xas:Monochromator_Angle",
-                                        "xas:Incident_Intensity",
-                                        "xas:Transmitted_Intensity",
-                                        "xas:Fluorescence_Intensity",
-                                        "xas:Reference_Intensity",
-                                        "xas:Absorption_Coefficient",
-                                        "xas:Fluorescence_Absorption_Coefficient",
-                                        "xas:Reference_Absorption_Coefficient",
-                                        "xas:Normalized_Transmission_Absorption_Coefficient",
-                                        "xas:Normalized_Fluorescence_Absorption_Coefficient",
-                                        "xas:Normalized_Reference_Absorption_Coefficient",
-                                        "xas:Wavenumber",
-                                        "xas:EXAFS_Function",
-                                        "xas:Filtered_Chi_Magnitude",
-                                        "xas:Filtered_Chi_Phase",
-                                        "xas:Filtered_Chi_Real",
-                                        "xas:Filtered_Chi_Imaginary",
-                                        "xas:Radial_Distance"
+                                        "xas:monochromatorenergy",
+                                        "xas:monochromatorangle",
+                                        "xas:incidentintensity",
+                                        "xas:transmittedintensity",
+                                        "xas:fluorescenceintensity",
+                                        "xas:referenceintensity",
+                                        "xas:absorptioncoefficient",
+                                        "xas:fluorescenceabsorptioncoefficient",
+                                        "xas:referenceabsorptioncoefficient",
+                                        "xas:normalizedtransmissionabsorptioncoefficient",
+                                        "xas:normalizedfluorescenceabsorptioncoefficient",
+                                        "xas:normalizedreferenceabsorptioncoefficient",
+                                        "xas:wavenumber",
+                                        "xas:exafsfunction",
+                                        "xas:filteredchimagnitude",
+                                        "xas:filteredchiphase",
+                                        "xas:filteredchireal",
+                                        "xas:filteredchiimaginary",
+                                        "xas:radialdistance"
                                     ]
                                 }
                             ]
