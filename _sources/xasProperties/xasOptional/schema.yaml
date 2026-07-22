@@ -15,7 +15,7 @@ properties:
     description: JSON-LD prefixes used by optional XAS fields.
     properties:
       xas:
-        const: http://www.cdi4exas.org/
+        const: http://cdi4exas.org/
       nxs:
         const: https://manual.nexusformat.org/classes/
   'schema:variableMeasured':
@@ -40,9 +40,10 @@ properties:
       properties:
         'schema:additionalProperty':
           description: >-
-            XDI activity-level additionalProperty vocabulary (XDI-CDIF-Mapping
-            edge_energy / calibration_method / instrument_configuration /
-            installedOptions).
+            XDI activity-level additionalProperty vocabulary. Uses nxs: paths
+            where a Nexus field exists (calibration_method,
+            experiment_documentation); falls back to xas: for XAS-specific
+            concepts with no Nexus equivalent (edge_energy, installedOptions).
           type: array
           items:
             allOf:
@@ -56,9 +57,9 @@ properties:
                     - $ref: ../../schemaorgProperties/additionalProperty/schema.yaml#/$defs/propertyID_item
                     - enum:
                       - xas:edge_energy
-                      - xas:calibration_method
-                      - xas:instrument_configuration
-                      - xas:installedOptions
+                      - nxs:Group/NXdetector/calibration_method
+                      - nxs:Group/NXentry/experiment_documentation
+                      - xas:installed_options
         'schema:object':
           description: >-
             Sample additionalProperty entries. XDI Sample.* vocabulary
@@ -78,9 +79,9 @@ properties:
                         anyOf:
                         - $ref: ../../schemaorgProperties/additionalProperty/schema.yaml#/$defs/propertyID_item
                         - enum:
-                          # XDI Sample.* additionalProperty names (rows 47-64)
+                          # Sample-scoped SKOS glossary concepts
                           - xas:concentration
-                          - xas:crystal_structure
+                          - xas:sample_crystal_structure
                           - xas:density
                           - xas:eh
                           - xas:electric_field
@@ -88,19 +89,17 @@ properties:
                           - xas:magnetic_field
                           - xas:magnetic_moment
                           - xas:opacity
+                          - xas:parent_sample
                           - xas:ph
                           - xas:porosity
-                          - xas:prep
                           - xas:pressure
                           - xas:resistivity
-                          - xas:stoichiometry
+                          - xas:sample_chemical_composition
+                          - xas:sample_material
+                          - xas:sample_preparation
                           - xas:temperature
                           - xas:viscosity
                           - xas:volume
-                          # Legacy xas:* names retained for backwards compatibility
-                          - xas:samplePreparation
-                          - xas:parentSample
-                          - xas:materialState
                           # NEXUS NXsample fields
                           - nxs:Field/NXsample/mass
                           - nxs:Field/NXsample/point_group
@@ -145,7 +144,7 @@ properties:
                                 - enum:
                                   # XDI Beamline.* additionalProperty names
                                   - xas:collimation
-                                  - xas:detector
+                                  - xas:detector_type
                                   - xas:energy_range
                                   - xas:energy_resolution
                                   - xas:flux
