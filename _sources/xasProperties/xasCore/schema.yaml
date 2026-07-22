@@ -59,9 +59,9 @@ properties:
             allOf:
             - description: >-
                 Must contain a peer wrapper whose schema:instrument is
-                classified as nxs:BaseClass/NXsource and carries
+                classified as xas:Source and carries
                 schema:additionalProperty entries for
-                nxs:Field/NXsource/type and nxs:Field/NXsource/probe (each
+                xas:xray_source_type and xas:probe (each
                 with a schema:value; the probe entry is also named "Probe").
               contains:
                 type: object
@@ -76,10 +76,10 @@ properties:
                     properties:
                       schema:additionalType:
                         anyOf:
-                        - const: nxs:BaseClass/NXsource
+                        - const: xas:Source
                         - type: array
                           contains:
-                            const: nxs:BaseClass/NXsource
+                            const: xas:Source
                       schema:additionalProperty:
                         type: array
                         minItems: 2
@@ -95,7 +95,7 @@ properties:
                               schema:propertyID:
                                 type: array
                                 contains:
-                                  const: nxs:Field/NXsource/type
+                                  const: xas:xray_source_type
                               schema:value:
                                 type: string
                         - contains:
@@ -108,17 +108,17 @@ properties:
                               schema:propertyID:
                                 type: array
                                 contains:
-                                  const: nxs:Field/NXsource/probe
+                                  const: xas:probe
                               schema:name:
                                 const: Probe
                               schema:value:
                                 type: string
             - description: >-
                 Must contain a peer wrapper whose schema:instrument is
-                classified as nxs:BaseClass/NXmonochromator, has a
+                classified as xas:X-Ray_Monochromator, has a
                 schema:name, and carries schema:additionalProperty entries
-                for nxs:Field/NXcrystal/type, nxs:Field/NXcrystal/d_spacing
-                (with value + unitText), and nxs:Field/NXcrystal/reflection.
+                for xas:monochromator_type, xas:d_spacing
+                (with value + unitText), and xas:reflection_plane.
               contains:
                 type: object
                 required:
@@ -133,10 +133,10 @@ properties:
                     properties:
                       schema:additionalType:
                         anyOf:
-                        - const: nxs:BaseClass/NXmonochromator
+                        - const: xas:X-Ray_Monochromator
                         - type: array
                           contains:
-                            const: nxs:BaseClass/NXmonochromator
+                            const: xas:X-Ray_Monochromator
                       schema:name:
                         type: string
                       schema:additionalProperty:
@@ -155,7 +155,7 @@ properties:
                               schema:propertyID:
                                 type: array
                                 contains:
-                                  const: nxs:Field/NXcrystal/type
+                                  const: xas:monochromator_type
                               schema:value:
                                 type: string
                         - contains:
@@ -168,7 +168,7 @@ properties:
                               schema:propertyID:
                                 type: array
                                 contains:
-                                  const: nxs:Field/NXcrystal/d_spacing
+                                  const: xas:d_spacing
                               schema:value:
                                 type: string
                               schema:unitText:
@@ -182,7 +182,7 @@ properties:
                               schema:propertyID:
                                 type: array
                                 contains:
-                                  const: nxs:Field/NXcrystal/reflection
+                                  const: xas:reflection_plane
                               schema:value:
                                 type: string
           schema:object:
