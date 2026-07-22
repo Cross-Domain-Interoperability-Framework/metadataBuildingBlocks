@@ -35,7 +35,7 @@ to these live `_sources` files.
 
 | Prefix | IRI |
 |--------|-----|
-| `xas` | `http://cdi4exas.org/` |
+| `xas` | `https://w3id.org/cdif/xas/` |
 | `nxs` | `https://manual.nexusformat.org/classes/` |
 | `wd` | `https://www.wikidata.org/entity/` |
 

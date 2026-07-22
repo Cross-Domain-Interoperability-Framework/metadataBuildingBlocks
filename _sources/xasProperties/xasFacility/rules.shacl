@@ -4,7 +4,7 @@
 @prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
 @prefix schema:      <http://schema.org/>.
 @prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
-@prefix xas: <http://cdi4exas.org/> .
+@prefix xas: <https://w3id.org/cdif/xas/> .
 @base <https://www.ogc.org/rules/template/> .
 
 
@@ -14,18 +14,18 @@ cdifd:xasFacilityNode
 	  a sh:SPARQLTarget ;
       sh:select  """
       PREFIX schema: <http://schema.org/>
-      PREFIX xas: <http://cdi4exas.org/>
+      PREFIX xas: <https://w3id.org/cdif/xas/>
       SELECT DISTINCT ?this
         WHERE {
           ?this a schema:Place .
-          ?this schema:additionalType "xas:Facility" .
+          ?this schema:additionalType "xas:facility" .
           }""";
 	] ;
     sh:property [
       sh:path schema:additionalType ;
-      sh:hasValue "xas:Facility" ;
+      sh:hasValue "xas:facility" ;
       sh:minCount 1 ;
-      sh:message "An XAS facility must have additionalType xas:Facility."
+      sh:message "An XAS facility must have additionalType xas:facility."
     ] ;
     sh:property [
       sh:path schema:name ;

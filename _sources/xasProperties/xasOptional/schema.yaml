@@ -5,7 +5,7 @@ description: >-
   Genuinely-optional XAS properties layered on cdifCore. Adds NO requirements. Documents and
   permits optional XAS content: (a) XAS data-array variables as schema:variableMeasured
   cdi:InstanceVariable items, and (b) optional beamline-operational and sample physico-chemical
-  parameters carried as schema:additionalProperty entries (on the prov:used xas:Beamline entity
+  parameters carried as schema:additionalProperty entries (on the prov:used xas:beamline entity
   and the schema:object sample respectively; see description.md for the propertyID vocabularies).
   Present only when the corresponding measurements exist.
 type: object
@@ -15,7 +15,7 @@ properties:
     description: JSON-LD prefixes used by optional XAS fields.
     properties:
       xas:
-        const: http://cdi4exas.org/
+        const: https://w3id.org/cdif/xas/
       nxs:
         const: https://manual.nexusformat.org/classes/
   'schema:variableMeasured':
@@ -54,10 +54,10 @@ properties:
                     anyOf:
                     - $ref: ../../schemaorgProperties/additionalProperty/schema.yaml#/$defs/propertyID_item
                     - enum:
-                      - xas:edge_energy
-                      - xas:calibration_method
-                      - xas:experiment_documentation
-                      - xas:installed_options
+                      - xas:edgeenergy
+                      - xas:calibrationmethod
+                      - xas:experimentdocumentation
+                      - xas:installedoptions
         'schema:object':
           description: >-
             Sample additionalProperty entries. XDI Sample.* vocabulary
@@ -79,22 +79,22 @@ properties:
                         - enum:
                           # Sample-scoped SKOS glossary concepts
                           - xas:concentration
-                          - xas:sample_crystal_structure
+                          - xas:samplecrystalstructure
                           - xas:density
                           - xas:eh
-                          - xas:electric_field
-                          - xas:electrochemical_potential
-                          - xas:magnetic_field
-                          - xas:magnetic_moment
+                          - xas:electricfield
+                          - xas:electrochemicalpotential
+                          - xas:magneticfield
+                          - xas:magneticmoment
                           - xas:opacity
-                          - xas:parent_sample
+                          - xas:parentsample
                           - xas:ph
                           - xas:porosity
                           - xas:pressure
                           - xas:resistivity
-                          - xas:sample_chemical_composition
-                          - xas:sample_material
-                          - xas:sample_preparation
+                          - xas:samplechemicalcomposition
+                          - xas:samplematerial
+                          - xas:samplepreparation
                           - xas:temperature
                           - xas:viscosity
                           - xas:volume
@@ -108,7 +108,7 @@ properties:
             if:
               description: >-
                 When this peer prov:used entry's instrument is a beamline
-                (schema:additionalType contains xas:Beamline), its
+                (schema:additionalType contains xas:beamline), its
                 schema:additionalProperty entries SHOULD use the XDI
                 Beamline vocabulary (XDI-CDIF-Mapping.xlsx rows 10-20,
                 excluding Beamline.name which maps to schema:name).
@@ -118,10 +118,10 @@ properties:
                   properties:
                     'schema:additionalType':
                       anyOf:
-                      - const: 'xas:Beamline'
+                      - const: 'xas:beamline'
                       - type: array
                         contains:
-                          const: 'xas:Beamline'
+                          const: 'xas:beamline'
             then:
               properties:
                 'schema:instrument':
@@ -142,14 +142,14 @@ properties:
                                 - enum:
                                   # XDI Beamline.* additionalProperty names
                                   - xas:collimation
-                                  - xas:detector_type
-                                  - xas:energy_range
-                                  - xas:energy_resolution
+                                  - xas:detectortype
+                                  - xas:energyrange
+                                  - xas:energyresolution
                                   - xas:flux
                                   - xas:focusing
-                                  - xas:harmonic_rejection
-                                  - xas:scan_mode
-                                  - xas:spot_size
+                                  - xas:harmonicrejection
+                                  - xas:scanmode
+                                  - xas:spotsize
                                   - xas:website
 $defs:
   InstanceVariable:
