@@ -2963,7 +2963,7 @@
                             }
                           },
                           {
-                            "description": "Must contain a prov:used entry whose schema:instrument is classified as an nxs:BaseClass/NXmonochromator (via schema:additionalType) and has a schema:additionalProperty carrying the nxs:Field/NXcrystal/d_spacing PropertyValue with a schema:value.",
+                            "description": "Must contain a prov:used entry whose schema:instrument is classified as an xas:X-Ray_Monochromator (via schema:additionalType) and has a schema:additionalProperty carrying the xas:d_spacing PropertyValue with a schema:value.",
                             "contains": {
                               "type": "object",
                               "properties": {
@@ -2973,12 +2973,12 @@
                                     "schema:additionalType": {
                                       "anyOf": [
                                         {
-                                          "const": "nxs:BaseClass/NXmonochromator"
+                                          "const": "xas:X-Ray_Monochromator"
                                         },
                                         {
                                           "type": "array",
                                           "contains": {
-                                            "const": "nxs:BaseClass/NXmonochromator"
+                                            "const": "xas:X-Ray_Monochromator"
                                           }
                                         }
                                       ]
@@ -2991,7 +2991,7 @@
                                           "schema:propertyID": {
                                             "type": "array",
                                             "contains": {
-                                              "const": "nxs:Field/NXcrystal/d_spacing"
+                                              "const": "xas:d_spacing"
                                             }
                                           },
                                           "schema:value": {
@@ -3169,7 +3169,7 @@
                     "description": "Array of instrument-wrapper entries used by the analysis. Under the peer prov:used model each instrument (source, beamline, monochromator, monitor, ...) is its own top-level wrapper differentiated by schema:instrument.schema:additionalType. An x-ray source (with type and probe properties) and a monochromator (with crystal type, d_spacing, and reflection plane properties) are required here; xas:Beamline and the monochromator d_spacing schema:value are additionally required by xasGeneratedBy.",
                     "allOf": [
                       {
-                        "description": "Must contain a peer wrapper whose schema:instrument is classified as nxs:BaseClass/NXsource and carries schema:additionalProperty entries for nxs:Field/NXsource/type and nxs:Field/NXsource/probe (each with a schema:value; the probe entry is also named \"Probe\").",
+                        "description": "Must contain a peer wrapper whose schema:instrument is classified as xas:Source and carries schema:additionalProperty entries for xas:xray_source_type and xas:probe (each with a schema:value; the probe entry is also named \"Probe\").",
                         "contains": {
                           "type": "object",
                           "required": [
@@ -3186,12 +3186,12 @@
                                 "schema:additionalType": {
                                   "anyOf": [
                                     {
-                                      "const": "nxs:BaseClass/NXsource"
+                                      "const": "xas:Source"
                                     },
                                     {
                                       "type": "array",
                                       "contains": {
-                                        "const": "nxs:BaseClass/NXsource"
+                                        "const": "xas:Source"
                                       }
                                     }
                                   ]
@@ -3214,7 +3214,7 @@
                                           "schema:propertyID": {
                                             "type": "array",
                                             "contains": {
-                                              "const": "nxs:Field/NXsource/type"
+                                              "const": "xas:xray_source_type"
                                             }
                                           },
                                           "schema:value": {
@@ -3235,7 +3235,7 @@
                                           "schema:propertyID": {
                                             "type": "array",
                                             "contains": {
-                                              "const": "nxs:Field/NXsource/probe"
+                                              "const": "xas:probe"
                                             }
                                           },
                                           "schema:name": {
@@ -3255,7 +3255,7 @@
                         }
                       },
                       {
-                        "description": "Must contain a peer wrapper whose schema:instrument is classified as nxs:BaseClass/NXmonochromator, has a schema:name, and carries schema:additionalProperty entries for nxs:Field/NXcrystal/type, nxs:Field/NXcrystal/d_spacing (with value + unitText), and nxs:Field/NXcrystal/reflection.",
+                        "description": "Must contain a peer wrapper whose schema:instrument is classified as xas:X-Ray_Monochromator, has a schema:name, and carries schema:additionalProperty entries for xas:monochromator_type, xas:d_spacing (with value + unitText), and xas:reflection_plane.",
                         "contains": {
                           "type": "object",
                           "required": [
@@ -3273,12 +3273,12 @@
                                 "schema:additionalType": {
                                   "anyOf": [
                                     {
-                                      "const": "nxs:BaseClass/NXmonochromator"
+                                      "const": "xas:X-Ray_Monochromator"
                                     },
                                     {
                                       "type": "array",
                                       "contains": {
-                                        "const": "nxs:BaseClass/NXmonochromator"
+                                        "const": "xas:X-Ray_Monochromator"
                                       }
                                     }
                                   ]
@@ -3305,7 +3305,7 @@
                                           "schema:propertyID": {
                                             "type": "array",
                                             "contains": {
-                                              "const": "nxs:Field/NXcrystal/type"
+                                              "const": "xas:monochromator_type"
                                             }
                                           },
                                           "schema:value": {
@@ -3326,7 +3326,7 @@
                                           "schema:propertyID": {
                                             "type": "array",
                                             "contains": {
-                                              "const": "nxs:Field/NXcrystal/d_spacing"
+                                              "const": "xas:d_spacing"
                                             }
                                           },
                                           "schema:value": {
@@ -3349,7 +3349,7 @@
                                           "schema:propertyID": {
                                             "type": "array",
                                             "contains": {
-                                              "const": "nxs:Field/NXcrystal/reflection"
+                                              "const": "xas:reflection_plane"
                                             }
                                           },
                                           "schema:value": {
@@ -3452,7 +3452,7 @@
           {
             "properties": {
               "schema:additionalProperty": {
-                "description": "XDI activity-level additionalProperty vocabulary. Uses nxs: paths where a Nexus field exists (calibration_method, experiment_documentation); falls back to xas: for XAS-specific concepts with no Nexus equivalent (edge_energy, installedOptions).",
+                "description": "XAS activity-level additionalProperty vocabulary. All entries resolve to SKOS concepts in the XAS-CDIF glossary.",
                 "type": "array",
                 "items": {
                   "allOf": [
@@ -3472,8 +3472,8 @@
                               {
                                 "enum": [
                                   "xas:edge_energy",
-                                  "nxs:Group/NXdetector/calibration_method",
-                                  "nxs:Group/NXentry/experiment_documentation",
+                                  "xas:calibration_method",
+                                  "xas:experiment_documentation",
                                   "xas:installed_options"
                                 ]
                               }
