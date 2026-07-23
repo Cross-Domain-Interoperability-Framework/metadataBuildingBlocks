@@ -4,6 +4,7 @@
 @prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
 @prefix schema:      <http://schema.org/>.
 @prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix dcat:    <http://www.w3.org/ns/dcat#>.
 @prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
 @base <https://www.ogc.org/rules/template/> .
 
@@ -25,11 +26,12 @@ cdifd:XasCoreConformsToShape a sh:NodeShape ;
       a sh:SPARQLTarget ;
         sh:select  """
             PREFIX schema: <http://schema.org/>
+            PREFIX dcat: <http://www.w3.org/ns/dcat#>
             SELECT ?this
             WHERE {
             ?this a schema:Dataset ;
              schema:about ?parent ;
-             schema:additionalType "dcat:CatalogRecord" .
+             schema:additionalType dcat:CatalogRecord .
             }
         """;
     ] ;

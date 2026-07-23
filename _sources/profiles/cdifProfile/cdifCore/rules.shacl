@@ -10,7 +10,7 @@
 @base <https://www.ogc.org/rules/template/> .
 
 cdifd:CDIFDatasetMandatoryShape a sh:NodeShape ;
-# applies to every dataset description; catalog-record nodes (schema:about + additionalType "dcat:CatalogRecord") are excluded by the SPARQL target
+# applies to every dataset description; catalog-record nodes (schema:about + additionalType dcat:CatalogRecord) are excluded by the SPARQL target
 	sh:target [
 	  a sh:SPARQLTarget ;
     sh:select """
@@ -18,13 +18,14 @@ cdifd:CDIFDatasetMandatoryShape a sh:NodeShape ;
        PREFIX ex: <https://example.org/>
        PREFIX prov: <http://www.w3.org/ns/prov#>
        PREFIX dcterms: <http://purl.org/dc/terms/>
+       PREFIX dcat: <http://www.w3.org/ns/dcat#>
             SELECT ?this
             WHERE {
               ?this a schema:Dataset .
               # Exclude catalog-record nodes (they describe a record, not a dataset).
               MINUS {
                 ?this schema:about ?x .
-                ?this schema:additionalType "dcat:CatalogRecord" .
+                ?this schema:additionalType dcat:CatalogRecord .
               }
               # Exclude datasets that are only *referenced* as provenance / source /
               # derived-from / based-on resources rather than the resource being
@@ -168,11 +169,12 @@ cdifd:CDIFCatalogRecordShape
 	  a sh:SPARQLTarget ;
         sh:select  """
             PREFIX schema: <http://schema.org/>
+            PREFIX dcat: <http://www.w3.org/ns/dcat#>
             SELECT ?this
             WHERE {
             ?this a schema:Dataset ;
              schema:about ?parent ;
-             schema:additionalType "dcat:CatalogRecord" .
+             schema:additionalType dcat:CatalogRecord .
             }
         """;
 	] ;
