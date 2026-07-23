@@ -333,6 +333,39 @@ WebAPI distribution itself.
 
 The same SHACL rules that target `cdi:TabularTextDataSet` / `cdi:StructuredDataSet` / `cdif:hasPhysicalMapping` apply unchanged because their targets are class-based or path-agnostic.
 
+## JSON-LD URI serialization policy (`schema:propertyID`, `schema:additionalType`)
+
+**Policy**: URI values on `schema:propertyID` and `schema:additionalType` must be JSON-LD IRI references (`{"@id": "…"}`), not string literals. Bare-string CURIEs are still permitted by the shared `propertyID_item` shape and the widened `items` shape on `additionalType` (so free-label values like `"MaterialSample"` remain valid), but XAS profile `contains` checks reject them for URI-shaped values, and a SHACL rule catches any string literal that matches `prefix:localname`.
+
+**JSON Schema layer** — the XAS profile `contains` checks require the `{"@id":}` object form for URI-shape values:
+
+```yaml
+schema:propertyID:
+  type: array
+  contains:
+    type: object
+    required:
+    - '@id'
+    properties:
+      '@id':
+        const: xas:dspacing
+```
+
+For `schema:additionalType`, the shape is widened at `items` to accept either a bare string or an `{"@id": "…"}` object. Required-value `contains` checks in the XAS profile schemas (source, monochromator, beamline, monochromator-crystal, monitor, analysisevent, facility) all require the object form. The base `schemaorgProperties/instrument/schema.yaml` was widened so peer-instrument `additionalType` can carry `{"@id":}` items. Widened files: `schemaorg/instrument`, `xasProperties/xasFacility`, `xasInstrument`, `xasGeneratedBy`, `xasSample`.
+
+**SHACL layer** — two shapes in `schemaorgProperties/additionalProperty/rules.shacl`:
+
+- `cdifd:PropertyIDUriShouldBeIRIShape` — targets `schema:propertyID` object values; fails when the value is a string literal matching `^[A-Za-z][A-Za-z0-9+.\-]*:[^\s"]+$`.
+- `cdifd:AdditionalTypeUriShouldBeIRIShape` — same pattern for `schema:additionalType`.
+
+Both are `sh:Violation`. Free-label strings (no colon or don't match the URI shape) pass. `nodeKind sh:IRI` and `schema:DefinedTerm`-typed objects also pass.
+
+**Cross-BB carveout.** As of 2026-07-23 the policy is enforced for `xas:*` URIs only. Cross-BB CURIEs still routinely appear as bare strings — `dcat:CatalogRecord`, `wd:Q3099911`, `MaterialSample` plus the isample `w3id.org/isample/…` and Wikidata full URIs, and the `nxs:BaseClass/…` NeXus BaseClass CURIEs. Schemas checking these values in `contains: const:` still expect the string form, and examples still supply them as strings. The SHACL rule flags them as violations for future migration but doesn't block validation today. Broadening this policy is a follow-up sweep across `cdifCore`, `cdifDataDescription`, `cdifDiscovery`, `cdifCodelist`, `cdifConceptScheme`, and `xasInstrument` (drops `wd:Q3099911` back to string const).
+
+**When adding a new required `contains` check for a URI additionalType or propertyID value:** use the `{"@id":}` object shape from the start. When writing a new XAS example: use `{"@id": "xas:foo"}` for all URI values on `schema:propertyID` and `schema:additionalType`. When updating an existing example that pre-dates the policy, convert bare-string CURIEs to `{"@id":}` objects at the same time.
+
+**Framed-example workflow reference.** The `_sources/profiles/cdifCompositeProfile/XASdata/cdif_dds_framed.jsonld` file exercises the full XAS-CDIF metadata pattern end-to-end (Dataverse export → CDIF-compliant JSON-LD). It validates against the `XASdata` composite profile. When walking a mapping template through the JSON-LD serialization policy, use this file as the reference — it demonstrates the peer `prov:used` instrument model, the required `xas:analysisevent` typing, the `{"@id":}` form for URI CURIEs, and the `schema:about "element.edge"` / `schema:about "element.symbol"` tagging.
+
 ## Building Block Conformance URIs
 
 Building blocks that represent CDIF specification components declare required `dcterms:conformsTo` URIs in the metadata catalog record (`schema:subjectOf`). Each building block's `schema.yaml` adds a `contains` constraint on `schema:subjectOf` → `dcterms:conformsTo` requiring its specific URI. Corresponding SHACL shapes enforce the same constraint via `sh:hasValue`.

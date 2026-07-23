@@ -15,9 +15,21 @@ properties:
   'schema:additionalType':
     type: array
     items:
-      type: string
+      anyOf:
+      - type: string
+      - type: object
+        required:
+        - '@id'
+        properties:
+          '@id':
+            type: string
     contains:
-      const: xas:facility
+      type: object
+      required:
+      - '@id'
+      properties:
+        '@id':
+          const: xas:facility
     minItems: 1
   'schema:identifier':
     anyOf:

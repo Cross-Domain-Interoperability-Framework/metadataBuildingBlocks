@@ -19,9 +19,21 @@ allOf:
       description: Domain type(s) for the activity; must include xas:analysisevent (an XAS analysis event).
       type: array
       items:
-        type: string
+        anyOf:
+        - type: string
+        - type: object
+          required:
+          - '@id'
+          properties:
+            '@id':
+              type: string
       contains:
-        const: xas:analysisevent
+        type: object
+        required:
+        - '@id'
+        properties:
+          '@id':
+            const: xas:analysisevent
     'schema:startDate':
       type: string
       description: Date/time the XAS analysis started
@@ -53,10 +65,20 @@ allOf:
               properties:
                 'schema:additionalType':
                   anyOf:
-                  - const: 'xas:beamline'
+                  - type: object
+                    required:
+                    - '@id'
+                    properties:
+                      '@id':
+                        const: 'xas:beamline'
                   - type: array
                     contains:
-                      const: 'xas:beamline'
+                      type: object
+                      required:
+                      - '@id'
+                      properties:
+                        '@id':
+                          const: 'xas:beamline'
                 'schema:name':
                   type: string
               required:
@@ -77,10 +99,20 @@ allOf:
               properties:
                 'schema:additionalType':
                   anyOf:
-                  - const: 'xas:xraymonochromator'
+                  - type: object
+                    required:
+                    - '@id'
+                    properties:
+                      '@id':
+                        const: 'xas:xraymonochromator'
                   - type: array
                     contains:
-                      const: 'xas:xraymonochromator'
+                      type: object
+                      required:
+                      - '@id'
+                      properties:
+                        '@id':
+                          const: 'xas:xraymonochromator'
                 'schema:additionalProperty':
                   type: array
                   contains:
@@ -89,7 +121,12 @@ allOf:
                       'schema:propertyID':
                         type: array
                         contains:
-                          const: 'xas:dspacing'
+                          type: object
+                          required:
+                          - '@id'
+                          properties:
+                            '@id':
+                              const: xas:dspacing
                       'schema:value':
                         type: string
                     required:

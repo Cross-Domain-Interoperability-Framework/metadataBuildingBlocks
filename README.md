@@ -322,10 +322,14 @@ The repository implements a three-tier provenance architecture:
 | `xasSample` | Material sample that is the `schema:mainEntity` of an XAS analysis (extends `schema:Product`). |
 | `xasInstrument` | XAS instrument with `schema:hasPart` for hierarchical sub-components (refs generic instrument building block). |
 | `xasFacility` | XAS facility (synchrotron source / beamline host). |
-| `xasGeneratedBy` | XAS analysis event — extends `cdifProvActivity` with `xas:AnalysisEvent` typing, XAS facility location, sample object, XAS-specific instrument types, and XAS additional properties (edge_energy, calibration method, etc.). |
+| `xasGeneratedBy` | XAS analysis event — extends `cdifProvActivity` with `xas:analysisevent` typing, XAS facility location, sample object, XAS-specific instrument types (peer `prov:used` model — one wrapper per instrument peer), and XAS additional properties (`xas:edgeenergy`, `xas:calibrationmethod`, etc.). |
 | `xasXdiTabularTextDataset` | XDI data structure description — fixed-width tabular text dataset for XAS experiment results. |
-| `xasCore` | XAS mandatory properties — `prov:wasGeneratedBy` items use `allOf` with `cdifProvActivity` + NXsource/NXmonochromator instrument constraints via `schema:instrument` sub-key. |
-| `xasOptional` | Same provenance structure as `xasCore` — `cdifProvActivity` activity with XAS instrument constraints. |
+| `xasCore` | XAS mandatory properties — requires an `nxs:BaseClass/NXsource` peer (via `xas:source`) and an `nxs:BaseClass/NXmonochromator` peer (via `xas:xraymonochromator`) with `xas:dspacing`, `xas:monochromatortype`, `xas:reflectionplane` propertyIDs; requires `schema:keywords` tagged with `schema:about "element.edge"` (XDI dictionary) and `schema:about "element.symbol"` (SWEET matrElement); pins `schema:variableMeasured.schema:propertyID` to the XAS SKOS concept URIs. |
+| `xasOptional` | Advisory-tier XAS content — beamline (`xas:beamline`) operational properties, sample-environment propertyIDs, and activity-level propertyIDs (`xas:edgeenergy`, `xas:calibrationmethod`, `xas:experimentdocumentation`, `xas:installedoptions`). |
+
+**XAS SKOS glossary.** The `xas:` prefix binds to `https://w3id.org/cdif/xas/`, whose concepts are curated in the CDIF-4-XAS project [XAS-CDIF](https://github.com/smrgeoinfo/XAS-CDIF/) repo (source: `XAS_Glossary_SKOS_v2.json`). A browsable HTML view is published to <https://smrgeoinfo.github.io/XAS-CDIF/>. Every `xas:*` URI used as a `schema:propertyID` or `schema:additionalType` value in a CDIF-XAS metadata record resolves to a SKOS concept there.
+
+**JSON-LD URI serialization policy (XAS profile).** URI values on `schema:propertyID` and `schema:additionalType` must be JSON-LD IRI references (`{"@id": "xas:foo"}`), not string literals. Bare-string CURIEs are still valid on the underlying schemas (for free-label values like `"MaterialSample"`), but the XAS profiles' `contains` checks require the `{"@id":}` object form for URI-shaped values, and a SHACL rule in `schemaorgProperties/additionalProperty/rules.shacl` (`cdifd:PropertyIDUriShouldBeIRIShape` + `cdifd:AdditionalTypeUriShouldBeIRIShape`) flags string literals matching the `prefix:localname` pattern as violations. Cross-BB URI CURIEs like `dcat:CatalogRecord` and `wd:Q3099911` currently remain bare strings and are surfaced by SHACL as advisory reports pending a future migration.
 
 ## Building Block Conformance URIs
 
