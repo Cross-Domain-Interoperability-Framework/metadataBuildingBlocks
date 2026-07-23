@@ -175,19 +175,31 @@ the beamline description.
     (propertyID `xas:detectorit`).
 
 
+## 7. `schema:subjectOf` — catalog-record completeness
+
+The `ex:dataset/DV/BYSPHH/metadata` catalog record inside `schema:subjectOf`
+now carries its own descriptive metadata, distinct from the outer dataset
+(a catalog record IS metadata about the dataset — it needs its own name,
+identifier, license, etc.). Added:
+
+- `schema:name`: `"CDIF metadata catalog record for Se_Na2SeO4_rt_01 (DV/BYSPHH)"`
+- `schema:identifier`: `"http://localhost:8080/api/dataset/DV/BYSPHH/metadata"`
+- `schema:dateModified`: `"2026-06-24"`
+- `schema:license`: `["https://creativecommons.org/licenses/by/4.0/"]`
+  (CDIF metadata is CC-BY-4.0 by project standard, distinct from the CC0
+  license on the payload data)
+- `schema:url`: `"http://localhost:8080/dataset.xhtml?persistentId=perma:DV/BYSPHH"`
+
+Deirdre should replace the placeholder `http://localhost:8080/...` URIs
+with the real Dataverse endpoints when this is regenerated from the
+production installation.
+
+
 ## Notes on validation state
 
 - **JSON Schema** (against `resolvedSchema.json` for XASdata composite):
   passes with 0 errors.
-- **SHACL** (all rules bundled by the XASdata composite):
-  5 violations, all against the subordinate catalog record
-  `ex:dataset/DV/BYSPHH/metadata`. They are catalog-record completeness
-  rules — `schema:name`, `schema:identifier`, `schema:dateModified`, FAIR
-  license reminder, and `schema:url`-or-`schema:distribution` on the
-  catalog record itself. To clear them Deirdre would need to populate the
-  metadata catalog record with its own descriptive properties (which is
-  distinct from the dataset metadata already in the file).
-- The record already carries `schema:license`, `schema:url`, and
-  `schema:distribution` on the outer `schema:Dataset` (`ex:dataset/DV/BYSPHH`),
-  so those are not missing at the dataset level — only at the
-  catalog-record level.
+- **SHACL** (all rules bundled by the XASdata composite): 0 violations
+  on `cdif_dds_framed.jsonld`. The remaining 18 warnings and 4 info
+  results are standard schema.org catalog-record advisories (informational
+  only, not fitness failures).
