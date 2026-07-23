@@ -197,7 +197,22 @@
                                       "description": "Domain-specific type classifications. Should include a scientific instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).",
                                       "type": "array",
                                       "items": {
-                                        "type": "string"
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "object",
+                                            "required": [
+                                              "@id"
+                                            ],
+                                            "properties": {
+                                              "@id": {
+                                                "type": "string"
+                                              }
+                                            }
+                                          }
+                                        ]
                                       },
                                       "minItems": 1
                                     },
@@ -357,7 +372,22 @@
                                                 "description": "Component type classification.",
                                                 "type": "array",
                                                 "items": {
-                                                  "type": "string"
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "type": "object",
+                                                      "required": [
+                                                        "@id"
+                                                      ],
+                                                      "properties": {
+                                                        "@id": {
+                                                          "type": "string"
+                                                        }
+                                                      }
+                                                    }
+                                                  ]
                                                 }
                                               },
                                               "schema:additionalProperty": {
@@ -1120,10 +1150,33 @@
                     "description": "Domain type(s) for the activity; must include xas:analysisevent (an XAS analysis event).",
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "@id"
+                          ],
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      ]
                     },
                     "contains": {
-                      "const": "xas:analysisevent"
+                      "type": "object",
+                      "required": [
+                        "@id"
+                      ],
+                      "properties": {
+                        "@id": {
+                          "const": "xas:analysisevent"
+                        }
+                      }
                     }
                   },
                   "schema:startDate": {
@@ -1194,7 +1247,22 @@
                                           "description": "Domain-specific type classifications. Should include a scientific instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).",
                                           "type": "array",
                                           "items": {
-                                            "type": "string"
+                                            "anyOf": [
+                                              {
+                                                "type": "string"
+                                              },
+                                              {
+                                                "type": "object",
+                                                "required": [
+                                                  "@id"
+                                                ],
+                                                "properties": {
+                                                  "@id": {
+                                                    "type": "string"
+                                                  }
+                                                }
+                                              }
+                                            ]
                                           },
                                           "minItems": 1
                                         },
@@ -1354,7 +1422,22 @@
                                                     "description": "Component type classification.",
                                                     "type": "array",
                                                     "items": {
-                                                      "type": "string"
+                                                      "anyOf": [
+                                                        {
+                                                          "type": "string"
+                                                        },
+                                                        {
+                                                          "type": "object",
+                                                          "required": [
+                                                            "@id"
+                                                          ],
+                                                          "properties": {
+                                                            "@id": {
+                                                              "type": "string"
+                                                            }
+                                                          }
+                                                        }
+                                                      ]
                                                     }
                                                   },
                                                   "schema:additionalProperty": {
@@ -1546,7 +1629,22 @@
                                         "schema:additionalType": {
                                           "type": "array",
                                           "items": {
-                                            "type": "string"
+                                            "anyOf": [
+                                              {
+                                                "type": "string"
+                                              },
+                                              {
+                                                "type": "object",
+                                                "required": [
+                                                  "@id"
+                                                ],
+                                                "properties": {
+                                                  "@id": {
+                                                    "type": "string"
+                                                  }
+                                                }
+                                              }
+                                            ]
                                           },
                                           "minItems": 1,
                                           "uniqueItems": true,
@@ -1606,12 +1704,28 @@
                                 "schema:additionalType": {
                                   "anyOf": [
                                     {
-                                      "const": "xas:beamline"
+                                      "type": "object",
+                                      "required": [
+                                        "@id"
+                                      ],
+                                      "properties": {
+                                        "@id": {
+                                          "const": "xas:beamline"
+                                        }
+                                      }
                                     },
                                     {
                                       "type": "array",
                                       "contains": {
-                                        "const": "xas:beamline"
+                                        "type": "object",
+                                        "required": [
+                                          "@id"
+                                        ],
+                                        "properties": {
+                                          "@id": {
+                                            "const": "xas:beamline"
+                                          }
+                                        }
                                       }
                                     }
                                   ]
@@ -1642,12 +1756,28 @@
                                 "schema:additionalType": {
                                   "anyOf": [
                                     {
-                                      "const": "xas:xraymonochromator"
+                                      "type": "object",
+                                      "required": [
+                                        "@id"
+                                      ],
+                                      "properties": {
+                                        "@id": {
+                                          "const": "xas:xraymonochromator"
+                                        }
+                                      }
                                     },
                                     {
                                       "type": "array",
                                       "contains": {
-                                        "const": "xas:xraymonochromator"
+                                        "type": "object",
+                                        "required": [
+                                          "@id"
+                                        ],
+                                        "properties": {
+                                          "@id": {
+                                            "const": "xas:xraymonochromator"
+                                          }
+                                        }
                                       }
                                     }
                                   ]
@@ -1660,7 +1790,15 @@
                                       "schema:propertyID": {
                                         "type": "array",
                                         "contains": {
-                                          "const": "xas:dspacing"
+                                          "type": "object",
+                                          "required": [
+                                            "@id"
+                                          ],
+                                          "properties": {
+                                            "@id": {
+                                              "const": "xas:dspacing"
+                                            }
+                                          }
                                         }
                                       },
                                       "schema:value": {
@@ -1714,10 +1852,33 @@
                       "schema:additionalType": {
                         "type": "array",
                         "items": {
-                          "type": "string"
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object",
+                              "required": [
+                                "@id"
+                              ],
+                              "properties": {
+                                "@id": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          ]
                         },
                         "contains": {
-                          "const": "xas:facility"
+                          "type": "object",
+                          "required": [
+                            "@id"
+                          ],
+                          "properties": {
+                            "@id": {
+                              "const": "xas:facility"
+                            }
+                          }
                         },
                         "minItems": 1
                       },
@@ -1776,7 +1937,22 @@
                       "schema:additionalType": {
                         "type": "array",
                         "items": {
-                          "type": "string"
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object",
+                              "required": [
+                                "@id"
+                              ],
+                              "properties": {
+                                "@id": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          ]
                         },
                         "minItems": 2,
                         "uniqueItems": true,
@@ -1855,12 +2031,28 @@
                             "schema:additionalType": {
                               "anyOf": [
                                 {
-                                  "const": "xas:source"
+                                  "type": "object",
+                                  "required": [
+                                    "@id"
+                                  ],
+                                  "properties": {
+                                    "@id": {
+                                      "const": "xas:source"
+                                    }
+                                  }
                                 },
                                 {
                                   "type": "array",
                                   "contains": {
-                                    "const": "xas:source"
+                                    "type": "object",
+                                    "required": [
+                                      "@id"
+                                    ],
+                                    "properties": {
+                                      "@id": {
+                                        "const": "xas:source"
+                                      }
+                                    }
                                   }
                                 }
                               ]
@@ -1883,7 +2075,15 @@
                                       "schema:propertyID": {
                                         "type": "array",
                                         "contains": {
-                                          "const": "xas:xraysourcetype"
+                                          "type": "object",
+                                          "required": [
+                                            "@id"
+                                          ],
+                                          "properties": {
+                                            "@id": {
+                                              "const": "xas:xraysourcetype"
+                                            }
+                                          }
                                         }
                                       },
                                       "schema:value": {
@@ -1904,7 +2104,15 @@
                                       "schema:propertyID": {
                                         "type": "array",
                                         "contains": {
-                                          "const": "xas:probe"
+                                          "type": "object",
+                                          "required": [
+                                            "@id"
+                                          ],
+                                          "properties": {
+                                            "@id": {
+                                              "const": "xas:probe"
+                                            }
+                                          }
                                         }
                                       },
                                       "schema:name": {
@@ -1942,12 +2150,28 @@
                             "schema:additionalType": {
                               "anyOf": [
                                 {
-                                  "const": "xas:xraymonochromator"
+                                  "type": "object",
+                                  "required": [
+                                    "@id"
+                                  ],
+                                  "properties": {
+                                    "@id": {
+                                      "const": "xas:xraymonochromator"
+                                    }
+                                  }
                                 },
                                 {
                                   "type": "array",
                                   "contains": {
-                                    "const": "xas:xraymonochromator"
+                                    "type": "object",
+                                    "required": [
+                                      "@id"
+                                    ],
+                                    "properties": {
+                                      "@id": {
+                                        "const": "xas:xraymonochromator"
+                                      }
+                                    }
                                   }
                                 }
                               ]
@@ -1974,7 +2198,15 @@
                                       "schema:propertyID": {
                                         "type": "array",
                                         "contains": {
-                                          "const": "xas:monochromatortype"
+                                          "type": "object",
+                                          "required": [
+                                            "@id"
+                                          ],
+                                          "properties": {
+                                            "@id": {
+                                              "const": "xas:monochromatortype"
+                                            }
+                                          }
                                         }
                                       },
                                       "schema:value": {
@@ -1995,7 +2227,15 @@
                                       "schema:propertyID": {
                                         "type": "array",
                                         "contains": {
-                                          "const": "xas:dspacing"
+                                          "type": "object",
+                                          "required": [
+                                            "@id"
+                                          ],
+                                          "properties": {
+                                            "@id": {
+                                              "const": "xas:dspacing"
+                                            }
+                                          }
                                         }
                                       },
                                       "schema:value": {
@@ -2018,7 +2258,15 @@
                                       "schema:propertyID": {
                                         "type": "array",
                                         "contains": {
-                                          "const": "xas:reflectionplane"
+                                          "type": "object",
+                                          "required": [
+                                            "@id"
+                                          ],
+                                          "properties": {
+                                            "@id": {
+                                              "const": "xas:reflectionplane"
+                                            }
+                                          }
                                         }
                                       },
                                       "schema:value": {
@@ -2065,7 +2313,22 @@
                   "schema:additionalType": {
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "@id"
+                          ],
+                          "properties": {
+                            "@id": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      ]
                     },
                     "minItems": 2,
                     "uniqueItems": true,
