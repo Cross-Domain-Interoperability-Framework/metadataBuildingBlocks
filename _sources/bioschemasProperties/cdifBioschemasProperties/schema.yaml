@@ -268,7 +268,14 @@ $defs:
         description: Further type classification (e.g. File, Dataset, PropertyValue, DataType)
         type: array
         items:
-          type: string
+          anyOf:
+          - type: string
+          - type: object
+            required:
+            - '@id'
+            properties:
+              '@id':
+                type: string
       'schema:encodingFormat':
         description: MIME type or URL for expected data format
         type: array

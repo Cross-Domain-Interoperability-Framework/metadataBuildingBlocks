@@ -58,7 +58,14 @@ properties:
       abbreviation.
     type: array
     items:
-      type: string
+      anyOf:
+      - type: string
+      - type: object
+        required:
+        - '@id'
+        properties:
+          '@id':
+            type: string
   'schema:identifier':
     description: Formal identifier(s) for this instrument. Use PropertyValue for
       structured identifiers (e.g. PIDINST, serial number, inventory number).
@@ -245,7 +252,14 @@ $defs:
           '@type':
             type: array
             items:
-              type: string
+              anyOf:
+              - type: string
+              - type: object
+                required:
+                - '@id'
+                properties:
+                  '@id':
+                    type: string
             contains:
               const: schema:ProductModel
             minItems: 1

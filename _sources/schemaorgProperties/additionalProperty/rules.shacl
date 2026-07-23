@@ -80,12 +80,15 @@ cdifd:AdditionalTypeUriShouldBeIRIShape
 # JSON-LD semantic policy: if a schema:additionalType value looks like a URI or
 # CURIE (matches "prefix:localname" or full IRI), it must be serialized as an
 # IRI reference (in JSON-LD: {"@id": "..."}), not as a string literal.
-# Free-label strings (e.g. "MaterialSample") are permitted as strings.
+# Free-label strings (e.g. "MaterialSample") are permitted as strings, and
+# schema:DefinedTerm objects (blank node or named IRI) are also permitted.
     a sh:NodeShape ;
     sh:targetObjectsOf schema:additionalType ;
     sh:or (
         # OK: it's an IRI reference (RDF IRI node)
         [ sh:nodeKind sh:IRI ]
+        # OK: it's a schema:DefinedTerm object (any node kind)
+        [ sh:class schema:DefinedTerm ]
         # OK: it's a string literal that does NOT look like a URI or CURIE
         [
             sh:datatype xsd:string ;
@@ -95,7 +98,7 @@ cdifd:AdditionalTypeUriShouldBeIRIShape
         ]
     ) ;
     sh:severity sh:Violation ;
-    sh:message "schema:additionalType value looks like a URI or CURIE (prefix:localname) but is serialized as a string literal. Serialize URI values as JSON-LD IRI references: {\"@id\":\"...\"}. Free-label strings like 'MaterialSample' remain valid as strings." .
+    sh:message "schema:additionalType value looks like a URI or CURIE (prefix:localname) but is serialized as a string literal. Serialize URI values as JSON-LD IRI references: {\"@id\":\"...\"}. Free-label strings like 'MaterialSample' remain valid as strings; schema:DefinedTerm objects are also permitted." .
 
 
 cdifd:PropertyIDUriShouldBeIRIShape
