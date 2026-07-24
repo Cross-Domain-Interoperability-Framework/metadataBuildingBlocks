@@ -2,7 +2,7 @@
 
 Building blocks for describing **X-ray Absorption Spectroscopy (XAS)** datasets in the CDIF
 schema.org / JSON-LD implementation. These compose into the
-[`XASdata`](../profiles/cdifCompositeProfile/XASdata/) composite profile.
+[`xasDocument`](../profiles/cdifCompositeProfile/xasDocument/) composite profile.
 
 ## Building blocks
 

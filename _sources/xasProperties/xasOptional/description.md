@@ -2,7 +2,7 @@
 
 Genuinely-optional X-ray absorption spectroscopy (XAS) properties layered on `cdifCore`.
 This module adds **no requirements** — it documents and permits optional XAS content that
-appears only when the corresponding measurements exist. It is composed once by the `XASdata`
+appears only when the corresponding measurements exist. It is composed once by the `xasDocument`
 profile alongside the required-constraints module `xasCore`.
 
 ### 1. Data-array variables (`schema:variableMeasured`)

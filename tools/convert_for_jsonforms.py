@@ -20,7 +20,7 @@ The input schemas are already fully resolved (no $ref, no $defs).
 Usage:
     python tools/convert_for_jsonforms.py --all
     python tools/convert_for_jsonforms.py --profile BasicDiscovery
-    python tools/convert_for_jsonforms.py --profile XASdata --verbose
+    python tools/convert_for_jsonforms.py --profile xasDocument --verbose
 """
 
 import argparse
@@ -84,7 +84,7 @@ def _find_sources_dir(name: str) -> Path:
     # Legacy flat layout fallback
     return SOURCES_DIR / name
 
-CDIF_PROFILES = ["CoreDiscovery", "XASdata"]
+CDIF_PROFILES = ["CoreDiscovery", "xasDocument"]
 ALL_PROFILES = CDIF_PROFILES
 
 

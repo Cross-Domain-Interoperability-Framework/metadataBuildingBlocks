@@ -111,7 +111,7 @@ metadataBuildingBlocks/
 │       │   ├── CoreDiscovery/                  # composes cdifCore + cdifDiscovery
 │       │   ├── DiscoveryDataDescription/            # composes cdifCore + cdifDiscovery + cdifDataDescription
 │       │   ├── DiscoveryDataDescriptionStructure/    # + cdifDataStructure
-│       │   ├── XASdata/                         # cdifCore + cdifDiscovery + cdifDataDescription + xasCore + xasOptional
+│       │   ├── xasDocument/                     # cdifCore + cdifDiscovery + cdifDataDescription + cdifDataStructure + xasCore + xasOptional
 │       │   └── cdifComplete/                    # Everything (incl. ArchiveDistribution + Provenance)
 │       └── archive/                 # Deprecated / not-promoted-to-composite (e.g. CDIFCodelistProfile)
 ├── tools/
@@ -364,7 +364,7 @@ Both are `sh:Violation`. Free-label strings (no colon or don't match the URI sha
 
 **When adding a new required `contains` check for a URI additionalType or propertyID value:** use the `{"@id":}` object shape from the start. When writing a new XAS example: use `{"@id": "xas:foo"}` for all URI values on `schema:propertyID` and `schema:additionalType`. When updating an existing example that pre-dates the policy, convert bare-string CURIEs to `{"@id":}` objects at the same time.
 
-**Framed-example workflow reference.** The `_sources/profiles/cdifCompositeProfile/XASdata/cdif_dds_framed.jsonld` file exercises the full XAS-CDIF metadata pattern end-to-end (Dataverse export → CDIF-compliant JSON-LD). It validates against the `XASdata` composite profile. When walking a mapping template through the JSON-LD serialization policy, use this file as the reference — it demonstrates the peer `prov:used` instrument model, the required `xas:analysisevent` typing, the `{"@id":}` form for URI CURIEs, and the `schema:about "element.edge"` / `schema:about "element.symbol"` tagging.
+**Framed-example workflow reference.** The `_sources/profiles/cdifCompositeProfile/xasDocument/example_dds_framed.json` file exercises the full XAS-CDIF metadata pattern end-to-end (Dataverse export → CDIF-compliant JSON-LD). It validates against the `xasDocument` composite profile (conformance URI `https://w3id.org/cdif/xasDocument/1.0`). When walking a mapping template through the JSON-LD serialization policy, use this file as the reference — it demonstrates the peer `prov:used` instrument model, the required `xas:analysisevent` typing, the `{"@id":}` form for URI CURIEs, and the `schema:about "element.edge"` / `schema:about "element.symbol"` tagging.
 
 ## Building Block Conformance URIs
 
@@ -391,7 +391,7 @@ Building blocks that represent CDIF specification components declare required `d
 | CDIFDataStructureProfile | `core/1.1` + `data_description/1.1` + `data_structure/1.1` |
 | CDIFcompleteProfile | `core/1.1` + `discovery/1.1` + `data_description/1.1` + `data_structure/1.1` + `manifest/1.1` + `provenance/1.1` |
 | CDIFCodelistProfile | *(no conformsTo constraints — uses SKOS ConceptScheme, not dataset metadata)* |
-| CDIFxasProfile (XASdata) | `core/1.1` + `discovery/1.1` + `data_description/1.1` + `xasCore/1.0` (+ `xasOptional/1.0`, optional tier) |
+| CDIFxasProfile (xasDocument) | `core/1.1` + `discovery/1.1` + `data_description/1.1` + `data_structure/1.1` + `xasCore/1.0` + `xasOptional/1.0` (conformance URI `xasDocument/1.0`) |
 
 These conformance URIs are distinct from the OGC building block identifiers (`https://w3id.org/cdif/bbr/metadata/...`). Both may appear in a record's conformsTo array.
 

@@ -191,7 +191,7 @@ Profile content is split across two trees (2026-05 reorg):
 | `CoreDiscovery` | cdifCore + cdifDiscovery | Smallest valid CDIF dataset metadata record |
 | `DiscoveryDataDescription` | cdifCore + cdifDiscovery + cdifDataDescription | Adds per-variable physical types, primary key, statistics, per-distribution physical mappings, file fingerprint |
 | `DiscoveryDataDescriptionStructure` | + cdifDataStructure | Full DDI-CDI structural complexity (DataStructure variants Dimensional / Long / Wide, six component subtypes, PrimaryKey / ForeignKey over RepresentedVariables with `cdif:position`) |
-| `XASdata` | cdifCore + cdifDiscovery + cdifDataDescription + xasProperties (xasCore, xasOptional) | X-ray Absorption Spectroscopy profile |
+| `xasDocument` | cdifCore + cdifDiscovery + cdifDataDescription + cdifDataStructure + xasProperties (xasCore, xasOptional) | X-ray Absorption Spectroscopy document profile (conformance URI `xasDocument/1.0`; supersedes the archived 5-profile `XASdata` composite) |
 | `cdifComplete` | cdifCore + cdifDiscovery + cdifDataDescription + cdifDataStructure + cdifManifest + cdifProvenance | Everything |
 
 ### Profile modules
@@ -239,7 +239,7 @@ For example, `cdifProvActivity` defines the schema for a single provenance Activ
 | xasProperties | `_sources/xasProperties/` | X-ray Absorption Spectroscopy domain properties |
 | bioschemasProperties | `_sources/bioschemasProperties/` | Bioschemas vocabulary building blocks (lab protocols, samples, computational workflows) |
 | cdifProfile (modules) | `_sources/profiles/cdifProfile/` | Profile-module building blocks: cdifCore, cdifDiscovery, cdifDataDescription, cdifDataStructure, cdifManifest, cdifProvenance, cdifCodelist, cdifConceptScheme |
-| cdifCompositeProfile | `_sources/profiles/cdifCompositeProfile/` | Composite profiles assembled via `composes` from the modules above: CoreDiscovery, DiscoveryDataDescription, DiscoveryDataDescriptionStructure, XASdata, cdifComplete |
+| cdifCompositeProfile | `_sources/profiles/cdifCompositeProfile/` | Composite profiles assembled via `composes` from the modules above: CoreDiscovery, DiscoveryDataDescription, DiscoveryDataDescriptionStructure, xasDocument, cdifComplete |
 | archive | `_sources/profiles/archive/` | Deprecated profiles retained for reference (e.g. CDIFCodelistProfile) |
 
 ### ddiProperties
