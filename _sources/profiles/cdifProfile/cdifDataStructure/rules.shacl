@@ -80,7 +80,7 @@ cdifd:cdifDataStructure_inlineStructureShape
 	sh:targetClass schema:Dataset ;
 	sh:sparql [
 		sh:severity sh:Violation ;
-		sh:message "A self-contained data-structure description must define the structure inline: a distribution's cdi:isStructuredBy must carry cdi:has_DataStructureComponent, not be a bare @id reference." ;
+		sh:message "A distribution's cdi:isStructuredBy must resolve to a structure that carries cdi:has_DataStructureComponent. The components may be written inline or on a node identified by @id elsewhere in the same document -- in RDF both denote the same node, and this rule is satisfied either way. What it rejects is a reference to a structure that is never defined." ;
 		sh:select """
 			SELECT $this WHERE {
 				$this <http://schema.org/distribution> ?dist .
