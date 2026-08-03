@@ -101,6 +101,35 @@ def gather_rule_files(schema_files) -> list:
     return rules
 
 
+def _normalize_literal_newlines(graph):
+    """Strip CR from multi-line literals, in place.
+
+    Without this, `--emit-shapes` grows the file every time it runs on a
+    Windows checkout. Git stores rules.shacl with LF and checks it out
+    with CRLF; a Turtle long string (`\"\"\"...\"\"\"`) preserves whatever
+    bytes sit between the quotes, so those CRs land inside the literal.
+    rdflib then writes each one back as a two-character `\\r` escape
+    followed by a real newline -- which git again checks out as CRLF, so
+    the next parse sees the escape *and* a fresh CR and the literal gains
+    one CR per line per run. Nothing fails: the SPARQL still executes,
+    the shapes still validate, and the diff is 324 lines of noise that
+    doubles on each regeneration.
+
+    Only `sh:select` bodies are long enough to hit this in practice, but
+    this normalises every literal, because the rule is general: a line
+    break inside a literal means a line break, not a record of which
+    platform last touched the file.
+    """
+    import rdflib
+    for s, p, o in list(graph):
+        if not isinstance(o, rdflib.Literal) or "\r" not in str(o):
+            continue
+        clean = str(o).replace("\r\n", "\n").replace("\r", "\n")
+        graph.remove((s, p, o))
+        graph.add((s, p, rdflib.Literal(
+            clean, datatype=o.datatype, lang=o.language)))
+
+
 def merge_shapes_dedup(rule_files, profile_name):
     """Merge the rule files into one shapes graph, deduping shapes that are
     defined in more than one source. A naive union yields e.g. a PropertyShape
@@ -126,6 +155,7 @@ def merge_shapes_dedup(rule_files, profile_name):
     for rf in rule_files:
         g = rdflib.Graph()
         g.parse(str(rf), format="turtle")
+        _normalize_literal_newlines(g)
         parsed.append((rf, g))
 
     def priority(rf, local):
