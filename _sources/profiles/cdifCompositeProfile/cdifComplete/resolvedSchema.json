@@ -3724,6 +3724,56 @@
           }
         ]
       }
+    },
+    "schema:hasPart": {
+      "type": "array",
+      "description": "Component resources of a package whose parts are independently accessible, each with its own distribution. Parts may differ in content type, format and data structure. For component files inside an archive, which have no address of their own, use schema:hasPart on the distribution instead.",
+      "items": {
+        "type": "object",
+        "description": "One independently accessible member of a package. Type it for what it is: schema:Dataset for data, schema:CreativeWork for a codebook, methods document or quality report, schema:MediaObject for a browse image. Parts under separate stewardship should carry their own schema:provider, schema:conditionsOfAccess and schema:dateModified, since those are what differ.",
+        "properties": {
+          "@id": {
+            "type": "string",
+            "description": "Identifier for this part."
+          },
+          "@type": {
+            "type": "array",
+            "description": "What kind of resource this part is. Not constrained to schema:MediaObject as an archive part is, because a part with its own address may well be a Dataset or a DataDownload.",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "schema:name": {
+            "type": "string"
+          },
+          "schema:description": {
+            "type": "string"
+          },
+          "schema:encodingFormat": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "schema:url": {
+            "type": "string"
+          },
+          "schema:about": {
+            "type": "array",
+            "description": "The part this one is about. Use it on a part that describes another -- a codebook, a data dictionary, a quality report, a metadata sidecar -- so that a consumer can tell WHICH part it documents rather than only that both are in the package. Equivalent in this use to cito:documents, which is how OAI-ORE packages express the same relationship; schema:subjectOf is the declared inverse.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string",
+                  "description": "Reference to the @id of the part being described."
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "allOf": [
