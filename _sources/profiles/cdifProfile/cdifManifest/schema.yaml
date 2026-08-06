@@ -35,25 +35,27 @@ properties:
           'schema:hasPart':
             $ref: '#/$defs/archivePartArray'
             description: >-
-              For archive-style distributions (e.g. ZIP files containing
-              multiple component files), describes the component files.
+              For bundle/archive distributions (positively typed with
+              schema:Collection in @type), describes the component files.
               Each component is typed as schema:MediaObject and may include
               CDIF data description extensions (cdifTabularData,
               cdifDataCube) to describe its internal structure.
-      # Per-distribution conditional: when a DataDownload's encodingFormat
-      # contains application/zip, schema:hasPart MUST be present (and must
-      # match archivePartArray, per the property declaration above).
-      # encodingFormat / hasPart are siblings of the same distribution
-      # item node, so if/then are scoped here at items level — NOT at the
-      # parent Dataset root, where they would be invisible to each other.
+      # Per-distribution conditional: a bundle/archive distribution is
+      # positively typed with schema:Collection in @type (alongside
+      # schema:DataDownload); when that marker is present, schema:hasPart
+      # MUST enumerate the member files (and must match archivePartArray,
+      # per the property declaration above). @type / hasPart are siblings
+      # of the same distribution item node, so if/then are scoped here at
+      # items level — NOT at the parent Dataset root, where they would be
+      # invisible to each other.
       - if:
           properties:
-            'schema:encodingFormat':
+            '@type':
               type: array
               contains:
-                const: 'application/zip'
+                const: 'schema:Collection'
           required:
-            - 'schema:encodingFormat'
+            - '@type'
         then:
           required:
             - 'schema:hasPart'
