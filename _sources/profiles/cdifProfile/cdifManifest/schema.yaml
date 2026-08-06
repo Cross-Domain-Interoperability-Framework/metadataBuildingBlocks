@@ -123,14 +123,21 @@ $defs:
           type: string
         minItems: 1
         # JSON Schema cannot reason over the schema.org class hierarchy,
-        # so the subclasses are enumerated. Both serializations of a
-        # schema.org term are accepted: the prefixed form and the full
-        # http/https URI. EXTEND THIS LIST when a package legitimately
-        # contains a CreativeWork subclass not named here -- a rejection
-        # is a gap in the list, not necessarily a bad record.
+        # so the subclasses are enumerated. EXTEND THIS LIST when a
+        # package legitimately contains a CreativeWork subclass not named
+        # here -- a rejection is a gap in the list, not necessarily a bad
+        # record.
+        #
+        # Two serializations are accepted, and only two: the prefixed
+        # form, and the http:// URI it expands to. Every CDIF context
+        # binds `schema` to http://schema.org/ (144 of 144 declarations
+        # across the register), so `https://schema.org/Dataset` is NOT
+        # the same IRI and does not denote the class -- it is a distinct
+        # term that happens to look right. Accepting it here would have
+        # blessed a value that means nothing.
         contains:
           type: string
-          pattern: '^(schema:|https?://schema\.org/)(CreativeWork|Dataset|DataDownload|DataCatalog|MediaObject|ImageObject|VideoObject|AudioObject|3DModel|DigitalDocument|TextDigitalDocument|SpreadsheetDigitalDocument|PresentationDigitalDocument|NoteDigitalDocument|SoftwareApplication|WebApplication|SoftwareSourceCode|Article|ScholarlyArticle|TechArticle|Report|Book|Chapter|Thesis|Manuscript|Map|WebPage|WebSite|Collection|Course|HowTo|Guide|Legislation|Photograph|Painting|Drawing|Poster|Atlas|Periodical|PublicationIssue|PublicationVolume|CreativeWorkSeries|Review|Comment)$'
+          pattern: '^(schema:|http://schema\.org/)(CreativeWork|Dataset|DataDownload|DataCatalog|MediaObject|ImageObject|VideoObject|AudioObject|3DModel|DigitalDocument|TextDigitalDocument|SpreadsheetDigitalDocument|PresentationDigitalDocument|NoteDigitalDocument|SoftwareApplication|WebApplication|SoftwareSourceCode|Article|ScholarlyArticle|TechArticle|Report|Book|Chapter|Thesis|Manuscript|Map|WebPage|WebSite|Collection|Course|HowTo|Guide|Legislation|Photograph|Painting|Drawing|Poster|Atlas|Periodical|PublicationIssue|PublicationVolume|CreativeWorkSeries|Review|Comment)$'
       'schema:name':
         type: string
       'schema:description':
