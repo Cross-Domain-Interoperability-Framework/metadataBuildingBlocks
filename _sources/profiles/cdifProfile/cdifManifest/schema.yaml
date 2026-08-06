@@ -109,12 +109,28 @@ $defs:
       '@type':
         type: array
         description: >-
-          What kind of resource this part is. Not constrained to
-          schema:MediaObject as an archive part is, because a part with
-          its own address may well be a Dataset or a DataDownload.
+          What kind of resource this part is. Must include
+          schema:CreativeWork or one of its subclasses -- everything a
+          package can contain is a creative work of some kind, and
+          saying which one is what lets a consumer tell the data from
+          the codebook from the browse image. Additional types beyond
+          that are free, so domain vocabularies (ada:otherFileType and
+          the like) sit alongside.
+          Not constrained to schema:MediaObject as an archive part is,
+          because a part with its own address may well be a Dataset or a
+          DataDownload.
         items:
           type: string
         minItems: 1
+        # JSON Schema cannot reason over the schema.org class hierarchy,
+        # so the subclasses are enumerated. Both serializations of a
+        # schema.org term are accepted: the prefixed form and the full
+        # http/https URI. EXTEND THIS LIST when a package legitimately
+        # contains a CreativeWork subclass not named here -- a rejection
+        # is a gap in the list, not necessarily a bad record.
+        contains:
+          type: string
+          pattern: '^(schema:|https?://schema\.org/)(CreativeWork|Dataset|DataDownload|DataCatalog|MediaObject|ImageObject|VideoObject|AudioObject|3DModel|DigitalDocument|TextDigitalDocument|SpreadsheetDigitalDocument|PresentationDigitalDocument|NoteDigitalDocument|SoftwareApplication|WebApplication|SoftwareSourceCode|Article|ScholarlyArticle|TechArticle|Report|Book|Chapter|Thesis|Manuscript|Map|WebPage|WebSite|Collection|Course|HowTo|Guide|Legislation|Photograph|Painting|Drawing|Poster|Atlas|Periodical|PublicationIssue|PublicationVolume|CreativeWorkSeries|Review|Comment)$'
       'schema:name':
         type: string
       'schema:description':
