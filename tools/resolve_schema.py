@@ -1211,6 +1211,30 @@ def _is_profile_schema(schema: dict) -> bool:
     return has_ext_ref and "properties" not in schema
 
 
+def _is_type_library(schema_path: Path) -> bool:
+    """Does this block exist to publish $defs for others to $ref?
+
+    Marked with `isTypeLibrary: true` in bblock.json -- the same flag
+    audit_building_blocks.py uses to skip the example check, since a type
+    library has no instances of its own to exemplify.
+
+    It matters here because the low-use inlining pass would otherwise
+    delete the block's entire reason for existing. A type library's $defs
+    are referenced from OUTSIDE the file, so their internal use count is
+    zero, and a def used zero times is inlined into nothing and dropped.
+    cdifBioschemasProperties lost all 8 -- ComputationalWorkflow and
+    Sample vanished outright -- while the source still declared them.
+    """
+    bblock = schema_path.parent / "bblock.json"
+    if not bblock.exists():
+        return False
+    try:
+        return bool(json.loads(bblock.read_text(encoding="utf-8"))
+                    .get("isTypeLibrary", False))
+    except (json.JSONDecodeError, OSError):
+        return False
+
+
 def resolve_structured(schema_path: Path) -> dict:
     """Orchestrator: produce a structured schema with $defs.
 
@@ -1241,6 +1265,19 @@ def resolve_structured(schema_path: Path) -> dict:
         result = _merge_non_profile_structured(schema_path, global_defs, file_to_def,
                                                inline_def_map)
 
+    # A type library exists to publish $defs for OTHER blocks to $ref.
+    # Those defs are, by definition, not reachable from this block's own
+    # properties, so the merge above never encounters them and never
+    # collects them. Seed them explicitly and let Phase 3.5 resolve them
+    # like any other promoted def.
+    #
+    # Without this the artifact ships without the thing it exists to
+    # provide: ddicdiDataTypes declares 28 $defs and its published
+    # resolvedSchema.json contains none of them.
+    if _is_type_library(schema_path):
+        for def_name in (schema.get("$defs") or {}):
+            inline_def_map.setdefault((schema_path, def_name), def_name)
+
     # Phase 3.5: resolve every promoted inline def and merge into $defs.
     if inline_def_map:
         promoted_resolved = _resolve_promoted_defs(inline_def_map, file_to_def)
@@ -1250,8 +1287,15 @@ def resolve_structured(schema_path: Path) -> dict:
         print(f"  Promoted {len(promoted_resolved)} inline $defs ({', '.join(sorted(promoted_resolved.keys()))})",
               file=sys.stderr)
 
-    # Phase 4-5: inline low-use defs (skips cyclic ones automatically)
-    result = inline_low_use_defs(result, threshold=2)
+    # Phase 4-5: inline low-use defs (skips cyclic ones automatically).
+    # Not for a type library: its $defs are the deliverable, referenced
+    # from other blocks rather than from within this one, so every use
+    # count is zero and the pass would delete all of them.
+    if _is_type_library(schema_path):
+        print("  Type library (isTypeLibrary=true): keeping all $defs, "
+              "skipping low-use inlining", file=sys.stderr)
+    else:
+        result = inline_low_use_defs(result, threshold=2)
 
     # Phase 6: strip metadata
     result = strip_metadata_keys(result, is_root=True)

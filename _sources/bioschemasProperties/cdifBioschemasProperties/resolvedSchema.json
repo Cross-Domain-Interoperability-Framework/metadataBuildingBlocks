@@ -105,59 +105,6 @@
     }
   },
   "$defs": {
-    "LabProcess": {
-      "type": "object",
-      "description": "A Bioschemas LabProcess — a laboratory process execution. Used as an additionalType on a cdifProvActivity activity ([\"schema:Action\", \"prov:Activity\"]) to indicate that the activity represents a lab process. Carries bios:executesLabProtocol to link to the protocol followed and bios:parameterValue for actual instrument settings.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Must include bios:LabProcess as additionalType on the activity"
-        },
-        "@id": {
-          "type": "string"
-        },
-        "schema:name": {
-          "type": "string",
-          "description": "Short human-readable description of the execution"
-        },
-        "schema:description": {
-          "type": "string",
-          "description": "Details of the execution, e.g. command line arguments or notes"
-        },
-        "bios:executesLabProtocol": {
-          "description": "The executed protocol",
-          "anyOf": [
-            {
-              "$ref": "#/$defs/LabProtocol"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
-            }
-          ]
-        },
-        "bios:parameterValue": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ParameterValue"
-          }
-        }
-      },
-      "required": [
-        "@type",
-        "schema:name"
-      ]
-    },
     "LabProtocol": {
       "type": "object",
       "description": "A Bioschemas LabProtocol describing how a lab process should be carried out. Includes equipment, reagents, computational tools, and expected parameters. Maps to schema:HowTo in the cdifProvActivity context.",
@@ -312,6 +259,201 @@
         "schema:name"
       ]
     },
+    "ParameterValue": {
+      "type": "object",
+      "description": "A schema:PropertyValue recording an actual parameter setting used during a lab process execution. Contains the measured or configured value, units, and optionally a link back to the FormalParameter definition via schema:propertyID.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:PropertyValue"
+          },
+          "minItems": 1
+        },
+        "@id": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "Name of the parameter"
+        },
+        "schema:value": {
+          "description": "The actual value (string, number, or boolean)",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "schema:unitText": {
+          "type": "string",
+          "description": "Unit of measurement (e.g. degrees C, mL/min, mg)"
+        },
+        "schema:propertyID": {
+          "description": "Link to the FormalParameter definition this value realizes",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "@type",
+        "schema:name"
+      ]
+    },
+    "LabEquipment": {
+      "type": "object",
+      "description": "Laboratory equipment or instrument described as a schema:DefinedTerm. Physical instruments that don't have software versions — pyrolysis ovens, chromatographs, mass spectrometers, etc.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "contains": {
+            "const": "schema:Thing"
+          },
+          "description": "Must include schema:Thing. Typically also includes schema:DefinedTerm."
+        },
+        "@id": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "Name of the equipment"
+        },
+        "schema:description": {
+          "type": "string",
+          "description": "Description including capabilities and specifications"
+        },
+        "schema:identifier": {
+          "description": "Serial number or other formal identifier",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object"
+            }
+          ]
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to manufacturer or equipment documentation"
+        }
+      },
+      "required": [
+        "schema:name"
+      ]
+    },
+    "ComputationalTool": {
+      "type": "object",
+      "description": "A software application used as part of a lab protocol.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "schema:SoftwareApplication"
+          }
+        },
+        "@id": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string"
+        },
+        "schema:description": {
+          "type": "string"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "schema:version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema:name"
+      ]
+    },
+    "LabProcess": {
+      "type": "object",
+      "description": "A Bioschemas LabProcess — a laboratory process execution. Used as an additionalType on a cdifProvActivity activity ([\"schema:Action\", \"prov:Activity\"]) to indicate that the activity represents a lab process. Carries bios:executesLabProtocol to link to the protocol followed and bios:parameterValue for actual instrument settings.",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Must include bios:LabProcess as additionalType on the activity"
+        },
+        "@id": {
+          "type": "string"
+        },
+        "schema:name": {
+          "type": "string",
+          "description": "Short human-readable description of the execution"
+        },
+        "schema:description": {
+          "type": "string",
+          "description": "Details of the execution, e.g. command line arguments or notes"
+        },
+        "bios:executesLabProtocol": {
+          "description": "The executed protocol",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LabProtocol"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            }
+          ]
+        },
+        "bios:parameterValue": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ParameterValue"
+          }
+        }
+      },
+      "required": [
+        "@type",
+        "schema:name"
+      ]
+    },
     "Sample": {
       "type": "object",
       "description": "A Bioschemas Sample representing a physical or material entity used or produced by lab processes. In cdifProvActivity output, typed as schema:Thing with schema:additionalType bios:Sample.",
@@ -351,7 +493,22 @@
                   "minItems": 1
                 },
                 "schema:propertyID": {
-                  "type": "string"
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "@id"
+                      ],
+                      "properties": {
+                        "@id": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ]
                 },
                 "schema:value": {
                   "type": "string"
@@ -398,7 +555,22 @@
           "description": "Further type classification (e.g. File, Dataset, PropertyValue, DataType)",
           "type": "array",
           "items": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
           }
         },
         "schema:encodingFormat": {
@@ -530,148 +702,6 @@
               }
             ]
           }
-        }
-      },
-      "required": [
-        "@type",
-        "schema:name"
-      ]
-    },
-    "LabEquipment": {
-      "type": "object",
-      "description": "Laboratory equipment or instrument described as a schema:DefinedTerm. Physical instruments that don't have software versions — pyrolysis ovens, chromatographs, mass spectrometers, etc.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 1,
-          "contains": {
-            "const": "schema:Thing"
-          },
-          "description": "Must include schema:Thing. Typically also includes schema:DefinedTerm."
-        },
-        "@id": {
-          "type": "string"
-        },
-        "schema:name": {
-          "type": "string",
-          "description": "Name of the equipment"
-        },
-        "schema:description": {
-          "type": "string",
-          "description": "Description including capabilities and specifications"
-        },
-        "schema:identifier": {
-          "description": "Serial number or other formal identifier",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object"
-            }
-          ]
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri",
-          "description": "URL to manufacturer or equipment documentation"
-        }
-      },
-      "required": [
-        "schema:name"
-      ]
-    },
-    "ComputationalTool": {
-      "type": "object",
-      "description": "A software application used as part of a lab protocol.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "schema:SoftwareApplication"
-          }
-        },
-        "@id": {
-          "type": "string"
-        },
-        "schema:name": {
-          "type": "string"
-        },
-        "schema:description": {
-          "type": "string"
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri"
-        },
-        "schema:version": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "schema:name"
-      ]
-    },
-    "ParameterValue": {
-      "type": "object",
-      "description": "A schema:PropertyValue recording an actual parameter setting used during a lab process execution. Contains the measured or configured value, units, and optionally a link back to the FormalParameter definition via schema:propertyID.",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "const": "schema:PropertyValue"
-          },
-          "minItems": 1
-        },
-        "@id": {
-          "type": "string"
-        },
-        "schema:name": {
-          "type": "string",
-          "description": "Name of the parameter"
-        },
-        "schema:value": {
-          "description": "The actual value (string, number, or boolean)",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "number"
-            },
-            {
-              "type": "boolean"
-            }
-          ]
-        },
-        "schema:unitText": {
-          "type": "string",
-          "description": "Unit of measurement (e.g. degrees C, mL/min, mg)"
-        },
-        "schema:propertyID": {
-          "description": "Link to the FormalParameter definition this value realizes",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              }
-            }
-          ]
         }
       },
       "required": [
