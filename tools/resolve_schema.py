@@ -1307,7 +1307,12 @@ def resolve_and_write_structured(schema_path: Path) -> Path:
     """Resolve structured and write resolvedSchema.json next to schema. Returns output path."""
     structured = resolve_structured(schema_path)
     out_path = schema_path.parent / "resolvedSchema.json"
-    with open(out_path, "w", encoding="utf-8") as f:
+    # newline="\n": .gitattributes stores these LF, but Python's text mode
+    # translates \n to \r\n on Windows, so every run rewrote every byte and
+    # git reported all 92 files modified with no content change. That noise
+    # has to be filtered by hand after each regeneration, and it hides real
+    # changes among hundreds of fake ones.
+    with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(structured, indent=2, ensure_ascii=False) + "\n")
     return out_path
 
@@ -1460,10 +1465,12 @@ def main():
         for schema_path in schemas:
             rel = schema_path.relative_to(REPO_ROOT)
             out_path = schema_path.parent / "resolvedSchema.json"
-            previous = (out_path.read_text(encoding="utf-8")
-                        if out_path.exists() else None)
+            # Bytes, not text: text mode normalises line endings, so a CRLF
+            # file compared equal to LF output and every run reported
+            # "0 updated" while rewriting all 92 files.
+            previous = out_path.read_bytes() if out_path.exists() else None
             out_path = resolve_and_write_structured(schema_path)
-            now = out_path.read_text(encoding="utf-8")
+            now = out_path.read_bytes()
             if previous != now:
                 changed += 1
                 print(f"  UPDATED  {rel}", file=sys.stderr)
@@ -1500,10 +1507,14 @@ def main():
     else:
         out_path = args.output or (schema_path.parent / "resolvedSchema.json")
         out_path.parent.mkdir(parents=True, exist_ok=True)
-        previous = out_path.read_text(encoding="utf-8") if out_path.exists() else None
-        with open(out_path, "w", encoding="utf-8") as f:
+        # Compare and write raw bytes. Reading in text mode normalises line
+        # endings, so a file already on disk as CRLF compared equal to LF
+        # output and reported "unchanged" while git saw every line change.
+        expected = output_json.encode("utf-8")
+        previous = out_path.read_bytes() if out_path.exists() else None
+        with open(out_path, "w", encoding="utf-8", newline="\n") as f:
             f.write(output_json)
-        state = "unchanged" if previous == output_json else "updated"
+        state = "unchanged" if previous == expected else "updated"
         print(f"Wrote: {out_path} ({state})", file=sys.stderr)
 
     defs = structured.get("$defs", {})
