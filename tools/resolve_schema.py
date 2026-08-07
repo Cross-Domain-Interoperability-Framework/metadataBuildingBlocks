@@ -15,15 +15,23 @@ $ref patterns handled:
   6. Both YAML and JSON file extensions
 
 Usage:
-    python tools/resolve_schema.py adaEMPA
-    python tools/resolve_schema.py adaProduct
+    python tools/resolve_schema.py adaEMPA           # writes resolvedSchema.json in place
     python tools/resolve_schema.py CDIFDiscoveryProfile
     python tools/resolve_schema.py --file path/to/any/schema.yaml
-    python tools/resolve_schema.py adaEMPA -o resolved.json
-    python tools/resolve_schema.py adaEMPA --flatten-allof
+    python tools/resolve_schema.py adaEMPA -o elsewhere.json
+    python tools/resolve_schema.py adaEMPA --stdout   # print instead of writing
     python tools/resolve_schema.py --all
-    python tools/resolve_schema.py CDIFDiscoveryProfile --structured
-    python tools/resolve_schema.py --all --structured
+
+Writing is the default. It used to be printing, which meant the obvious
+invocation resolved the schema, reported its size, and left the
+resolvedSchema.json beside the source untouched -- so a change to
+schema.yaml could land in the source and in nothing that validates
+against it. `--all` wrote in place, so the tool had two opposite
+behaviours and the silent one was the default. Use `--stdout` for the
+old behaviour.
+
+`--all` covers every block with external $refs *or* an existing
+resolvedSchema.json, and reports how many it actually changed.
 """
 
 import argparse
@@ -1333,6 +1341,28 @@ def find_all_schemas_with_external_refs() -> list[Path]:
     return results
 
 
+def find_all_resolvable_schemas() -> list[Path]:
+    """Every schema.yaml `--all` should refresh.
+
+    External $refs are one reason to resolve a block. The other is that a
+    `resolvedSchema.json` already exists beside it: that file is published
+    and consumed, so leaving it behind after a source edit makes it a lie.
+
+    Selecting on external refs alone skipped 13 blocks that ship a resolved
+    schema -- among them cdifCodelist, cdifConceptScheme, skosConcept and
+    identifier. Editing any of their schema.yaml files and running `--all`
+    refreshed nothing, and said nothing about it.
+    """
+    with_refs = set(find_all_schemas_with_external_refs())
+    results = list(with_refs)
+    for schema_path in sorted(SOURCES_DIR.rglob("schema.yaml")):
+        if schema_path in with_refs:
+            continue
+        if (schema_path.parent / "resolvedSchema.json").exists():
+            results.append(schema_path)
+    return sorted(results)
+
+
 
 
 # ---------------------------------------------------------------------------
@@ -1361,7 +1391,14 @@ def main():
     parser.add_argument(
         "-o", "--output",
         type=Path,
-        help="Write output to file (default: stdout). Ignored with --all.",
+        help="Write to this path instead of the schema's own "
+             "resolvedSchema.json. Ignored with --all.",
+    )
+    parser.add_argument(
+        "--stdout",
+        action="store_true",
+        help="Print the resolved schema instead of writing it. Was the "
+             "default, which silently left resolvedSchema.json stale.",
     )
     parser.add_argument(
         "--structured",
@@ -1371,13 +1408,25 @@ def main():
     args = parser.parse_args()
 
     if args.all:
-        schemas = find_all_schemas_with_external_refs()
-        print(f"Found {len(schemas)} building blocks with external $refs", file=sys.stderr)
+        schemas = find_all_resolvable_schemas()
+        print(f"Found {len(schemas)} building blocks to resolve "
+              f"(external $refs, or an existing resolvedSchema.json)",
+              file=sys.stderr)
+        changed = 0
         for schema_path in schemas:
             rel = schema_path.relative_to(REPO_ROOT)
+            out_path = schema_path.parent / "resolvedSchema.json"
+            previous = (out_path.read_text(encoding="utf-8")
+                        if out_path.exists() else None)
             out_path = resolve_and_write_structured(schema_path)
-            print(f"  {rel} -> {out_path.name}", file=sys.stderr)
-        print(f"Resolved {len(schemas)} schemas", file=sys.stderr)
+            now = out_path.read_text(encoding="utf-8")
+            if previous != now:
+                changed += 1
+                print(f"  UPDATED  {rel}", file=sys.stderr)
+        # Say what moved, not just how many ran. A silent "Resolved 79
+        # schemas" reads the same whether it rewrote everything or nothing.
+        print(f"Resolved {len(schemas)} schemas: {changed} updated, "
+              f"{len(schemas) - changed} already current", file=sys.stderr)
         return
 
     if not args.profile and not args.file:
@@ -1396,14 +1445,22 @@ def main():
     structured = resolve_structured(schema_path)
     output_json = json.dumps(structured, indent=2, ensure_ascii=False) + "\n"
 
-    if args.output:
-        out_path = args.output
+    # Write in place unless told otherwise. Printing used to be the default,
+    # and it made `resolve_schema.py cdifManifest` look like it had done the
+    # job -- it reported the $defs and the byte count on stderr while the
+    # resolvedSchema.json beside the source stayed stale. `--all` wrote in
+    # place, so one tool had two opposite behaviours and the quieter one was
+    # the default.
+    if args.stdout:
+        sys.stdout.write(output_json)
+    else:
+        out_path = args.output or (schema_path.parent / "resolvedSchema.json")
         out_path.parent.mkdir(parents=True, exist_ok=True)
+        previous = out_path.read_text(encoding="utf-8") if out_path.exists() else None
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(output_json)
-        print(f"Wrote: {out_path}", file=sys.stderr)
-    else:
-        sys.stdout.write(output_json)
+        state = "unchanged" if previous == output_json else "updated"
+        print(f"Wrote: {out_path} ({state})", file=sys.stderr)
 
     defs = structured.get("$defs", {})
     print(f"  $defs: {len(defs)} ({', '.join(sorted(defs.keys()))})",
