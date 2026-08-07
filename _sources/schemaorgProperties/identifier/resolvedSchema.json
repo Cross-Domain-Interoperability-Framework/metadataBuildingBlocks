@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "description": "Properties for a schema.org identifier",
+  "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
   "type": "object",
   "properties": {
     "@type": {
@@ -14,8 +14,23 @@
       "minItems": 1
     },
     "schema:propertyID": {
-      "type": "string",
-      "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability"
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "required": [
+            "@id"
+          ],
+          "properties": {
+            "@id": {
+              "type": "string"
+            }
+          }
+        }
+      ],
+      "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings."
     },
     "schema:value": {
       "type": "string",
@@ -27,18 +42,24 @@
       "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ "
     }
   },
-  "required": [
-    "@type"
-  ],
-  "anyOf": [
+  "allOf": [
     {
       "required": [
-        "schema:value"
+        "@type"
       ]
     },
     {
-      "required": [
-        "schema:url"
+      "anyOf": [
+        {
+          "required": [
+            "schema:value"
+          ]
+        },
+        {
+          "required": [
+            "schema:url"
+          ]
+        }
       ]
     }
   ]
