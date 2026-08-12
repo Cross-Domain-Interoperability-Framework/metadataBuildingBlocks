@@ -208,6 +208,25 @@ The second `$ref` (to `id-reference`) lets a JSON-LD document carry just `{"@id"
 
 **Principle:** local `$defs` are only for classes not already owned by another BB. As more classes get pulled out into their own BBs, more property targets resolve through the external-`$ref` path.
 
+**Sealed bare-`{@id}` references (2026-08).** The reference alternative of an `anyOf` — the `{"@id": "..."}` shape — is `additionalProperties: false` with `required: ['@id']`, so a reference slot no longer silently accepts an arbitrary inline object that merely happens to carry an `@id` (the old lenient catch-all). The canonical strict form is the **`cdifDataType/objectReference`** BB (`{@id}` only, sealed); new schemas should `$ref` it rather than re-inline a local `id-reference` `$def`. **Only seal a reference alternative of an `anyOf`.** Never add `additionalProperties: false` to an `allOf` member or a catch-all stub: because profiles compose via `allOf`, a sealed member intersected with a richer one becomes unsatisfiable. When a bare reference legitimately carries `@type` or `@context` (e.g. a standalone JSON-LD example doc), either drop those keys or model the node fully — don't loosen the seal.
+
+## prov:used wrapper model (base accepts, profiles pin)
+
+`provProperties/generatedBy.prov:used` is the base contract for every provenance activity. An item may be: a **string**, an **`{@id}` reference**, an **inline `prov:Entity`** object (`@type` ∋ `prov:Entity`), or a **role-keyed wrapper** naming what was used through one of the recognized relations — `schema:instrument`, `bios:computationalTool`, or `prov:reagent`. The base leaves the wrapped value loose.
+
+A profile that wants to *pin* a wrapper's shape (e.g. `cdifProvActivity` pinning `schema:instrument` to the Instrument BB) MUST do it with a constraint-only `if/then`:
+
+```yaml
+'prov:used':
+  items:
+    if: { type: object, required: ['schema:instrument'] }
+    then:
+      properties:
+        'schema:instrument': { $ref: '#/$defs/Instrument' }
+```
+
+It must **not** re-declare a narrower `anyOf`. Because profiles compose via `allOf`, a re-declared `anyOf` becomes the *intersection* with the base's `anyOf`, silently dropping every base item shape the profile didn't re-list (inline `prov:Entity` inputs such as samples, and the other wrapper keys). The `if/then` adds the pin without removing any base branch. Domain layers (geochem `adaProduct`, `xasGeneratedBy`) extend the same way and must follow the same rule. This reconciliation (2026-08) is why the base carries the wrapper keys but no per-key value schema.
+
 ## Distribution Composition Pattern
 
 Building blocks that add properties to `schema:distribution` items must use partial property patches (no `type`, `anyOf`, `allOf`, or `$ref` at the distribution level) so the resolver's `deep_merge` merges them with cdifCore's `anyOf: [DataDownload, WebAPI]` rather than replacing it.

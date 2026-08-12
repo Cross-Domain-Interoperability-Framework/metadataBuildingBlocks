@@ -52,6 +52,10 @@
                     "dcterms:conformsTo": {
                         "contains": {
                             "type": "object",
+                            "required": [
+                                "@id"
+                            ],
+                            "additionalProperties": false,
                             "properties": {
                                 "@id": {
                                     "const": "https://w3id.org/cdif/data_structure/1.1"
@@ -82,7 +86,7 @@
                                     "$ref": "#/$defs/WideDataStructure"
                                 },
                                 {
-                                    "$ref": "#/$defs/id-reference"
+                                    "$ref": "../../../cdifDataType/objectReference/objectReferenceSchema.json"
                                 }
                             ]
                         }
@@ -92,19 +96,6 @@
         }
     },
     "$defs": {
-        "id-reference": {
-            "type": "object",
-            "description": "Reference to a node defined elsewhere in the document via its @id.",
-            "additionalProperties": false,
-            "properties": {
-                "@id": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "@id"
-            ]
-        },
         "DataStructure": {
             "type": "object",
             "description": "Data organization based on reusable data structure components.",
@@ -131,7 +122,7 @@
                                 "$ref": "#/$defs/ForeignKey"
                             },
                             {
-                                "$ref": "#/$defs/id-reference"
+                                "$ref": "../../../cdifDataType/objectReference/objectReferenceSchema.json"
                             }
                         ]
                     },
@@ -145,7 +136,7 @@
                                 "$ref": "../../../cdifDataType/cdifDataStructureComponent/cdifDataStructureComponentSchema.json"
                             },
                             {
-                                "$ref": "#/$defs/id-reference"
+                                "$ref": "../../../cdifDataType/objectReference/objectReferenceSchema.json"
                             }
                         ]
                     },
@@ -209,7 +200,7 @@
                                 "$ref": "#/$defs/ForeignKey"
                             },
                             {
-                                "$ref": "#/$defs/id-reference"
+                                "$ref": "../../../cdifDataType/objectReference/objectReferenceSchema.json"
                             }
                         ]
                     },
@@ -324,7 +315,7 @@
                                 "$ref": "../../../cdifDataType/cdifDataStructureComponent/schema.yaml#/$defs/AttributeComponent"
                             },
                             {
-                                "$ref": "#/$defs/id-reference"
+                                "$ref": "../../../cdifDataType/objectReference/objectReferenceSchema.json"
                             }
                         ]
                     },
@@ -341,7 +332,7 @@
                                 "$ref": "#/$defs/ForeignKey"
                             },
                             {
-                                "$ref": "#/$defs/id-reference"
+                                "$ref": "../../../cdifDataType/objectReference/objectReferenceSchema.json"
                             }
                         ]
                     },
@@ -391,7 +382,7 @@
                                 "$ref": "../../../cdifDataType/cdifDataStructureComponent/cdifDataStructureComponentSchema.json"
                             },
                             {
-                                "$ref": "#/$defs/id-reference"
+                                "$ref": "../../../cdifDataType/objectReference/objectReferenceSchema.json"
                             }
                         ]
                     },
@@ -430,7 +421,7 @@
                                         "$ref": "../../../cdifDataType/cdifRepresentedVariable/cdifRepresentedVariableSchema.json"
                                     },
                                     {
-                                        "$ref": "#/$defs/id-reference"
+                                        "$ref": "../../../cdifDataType/objectReference/objectReferenceSchema.json"
                                     }
                                 ]
                             },
@@ -453,7 +444,7 @@
                 },
                 "cdi:references": {
                     "description": "references a primary key in a different dataset",
-                    "$ref": "#/$defs/id-reference"
+                    "$ref": "../../../cdifDataType/objectReference/objectReferenceSchema.json"
                 }
             },
             "required": [
@@ -463,7 +454,7 @@
         },
         "PrimaryKey": {
             "type": "object",
-            "description": "set of Variables that uniquely identify a data instance. Array order of cdif:isComposedOf items is the position; no intermediate ComponentPosition wrapper.",
+            "description": "set of Variables that uniquely identify a data instance, expressed as an ordered list of cdi:ComponentPosition wrappers (unified with cdifKey's cdi:ComponentPosition model).",
             "properties": {
                 "@type": {
                     "type": "array",
@@ -481,28 +472,42 @@
                 },
                 "cdif:isComposedOf": {
                     "type": "array",
-                    "description": "List @id-references to representedVariables in this dataStructure. Array order of cdif:isComposedOf items is the position; no intermediate ComponentPosition wrapper.",
+                    "minItems": 1,
+                    "description": "Ordered list of cdi:ComponentPosition wrappers, one per key component. Each wrapper indexes one representedVariable (cdi:indexes) at its cdi:value position in the key.",
                     "items": {
-                        "allOf": [
-                            {
-                                "$ref": "#/$defs/id-reference"
+                        "type": "object",
+                        "description": "cdi:ComponentPosition wrapper indexing one variable's position in the key.",
+                        "properties": {
+                            "@type": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "contains": {
+                                    "const": "cdi:ComponentPosition"
+                                },
+                                "minItems": 1
                             },
-                            {
-                                "type": "object",
-                                "properties": {
-                                    "cdif:position": {
-                                        "type": "integer",
-                                        "minimum": 1,
-                                        "description": "1-based position of this component in the key."
-                                    }
-                                }
+                            "@id": {
+                                "type": "string",
+                                "description": "Identifier for this ComponentPosition node."
+                            },
+                            "cdi:indexes": {
+                                "description": "The representedVariable this position indexes — an @id-reference to a variable declared elsewhere in the dataStructure.",
+                                "$ref": "../../../cdifDataType/objectReference/objectReferenceSchema.json"
+                            },
+                            "cdi:value": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "description": "1-based position of this variable in the ordered key."
                             }
+                        },
+                        "required": [
+                            "@type",
+                            "cdi:indexes",
+                            "cdi:value"
                         ]
-                    },
-                    "required": [
-                        "cdif:position"
-                    ],
-                    "minItems": 1
+                    }
                 }
             },
             "required": [

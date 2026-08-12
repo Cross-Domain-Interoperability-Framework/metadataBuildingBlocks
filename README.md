@@ -231,7 +231,7 @@ For example, `cdifProvActivity` defines the schema for a single provenance Activ
 | Category | Directory | Description |
 |----------|-----------|-------------|
 | schemaorgProperties | `_sources/schemaorgProperties/` | schema.org vocabulary building blocks (person, organization, identifier, definedTerm, instrument, etc.) |
-| cdifDataType | `_sources/cdifDataType/` | CDIF data-type / value-object building blocks: `cdifInstanceVariable`, `cdifKey`, `cdifEnumerationDomain`, `cdifValueDomain`, `cdifRepresentedVariable`, `cdifDataStructureComponent`, `cdifDescriptorVariable`, `cdifPhysicalMapping`, `cdifTextMapping`, `cdifLocatorMapping`, `cdifTabularTextDataSet`, `cdifStructuredDataSet`, `cdifDataFingerprint`, `cdifStatistics`, `cdifCatalogRecord`, `cdifReference`, `cdifProvActivity`, `cdifOpenApi`, `cdifTabularData`, `cdifDataCube`, `cdifLongData`. (Renamed from `cdifProperties` in the 2026-05 reorg; profile-level BBs that compose these moved to `_sources/profiles/cdifProfile/`.) |
+| cdifDataType | `_sources/cdifDataType/` | CDIF data-type / value-object building blocks: `cdifInstanceVariable`, `cdifKey`, `cdifEnumerationDomain`, `cdifValueDomain`, `cdifRepresentedVariable`, `cdifDataStructureComponent`, `cdifDescriptorVariable`, `cdifPhysicalMapping`, `cdifTextMapping`, `cdifLocatorMapping`, `cdifTabularTextDataSet`, `cdifStructuredDataSet`, `cdifDataFingerprint`, `cdifStatistics`, `cdifCatalogRecord`, `cdifReference`, `objectReference`, `cdifProvActivity`, `cdifOpenApi`, `cdifTabularData`, `cdifDataCube`, `cdifLongData`. (Renamed from `cdifProperties` in the 2026-05 reorg; profile-level BBs that compose these moved to `_sources/profiles/cdifProfile/`.) |
 | ddiProperties | `_sources/ddiProperties/` | DDI-CDI vocabulary building blocks |
 | provProperties | `_sources/provProperties/` | PROV-O provenance (generatedBy, derivedFrom, provActivity) |
 | skosProperties | `_sources/skosProperties/` | W3C SKOS vocabulary building blocks (ConceptScheme, Concept, Collection) |
@@ -301,7 +301,7 @@ PROV-O provenance building blocks.
 
 | Building Block | Description |
 |----------------|-------------|
-| `generatedBy` | Base provenance activity -- minimal `prov:Activity` with `prov:used`. Extended by `cdifProvActivity` and `provActivity`. |
+| `generatedBy` | Base provenance activity -- minimal `prov:Activity` whose `prov:used` item may be a string, an `{@id}` reference, an inline `prov:Entity`, or a **role-keyed wrapper** naming what was used (`schema:instrument` \| `bios:computationalTool` \| `prov:reagent`; wrapped value left loose). Extended by `cdifProvActivity` and `provActivity`, which *pin* the wrapper shapes via constraint-only `if/then` (see agents.md §"prov:used wrapper model"). |
 | `provActivity` | PROV-O native provenance activity -- extends `generatedBy` with W3C PROV-O properties (`prov:wasAssociatedWith`, `prov:startedAtTime`, `prov:endedAtTime`, `prov:atLocation`, `prov:wasInformedBy`, `prov:generated`). Uses schema.org fallbacks only where PROV-O has no equivalent (name, description, methodology, status). Instruments nested in `prov:used` via `schema:instrument` sub-key. |
 | `derivedFrom` | Provenance derivation -- `prov:wasDerivedFrom` linking. |
 
@@ -311,8 +311,8 @@ The repository implements a three-tier provenance architecture:
 
 | Tier | Building Block | Introduced At | Description |
 |------|---------------|---------------|-------------|
-| 1 (simple) | `generatedBy` (provProperties) | `cdifCore` | Minimal `prov:Activity` — `prov:used` accepts only string names or `@id` references |
-| 2 (extended) | `cdifProvActivity` (cdifDataType) | `cdifComplete` (via `cdifProvenance`, both in `cdifProfile/`) | Extends `generatedBy` with schema.org Action properties (`schema:agent`, `schema:actionProcess`, `schema:object`, `schema:result`, temporal bounds, location). Requires `@type: ["schema:Action", "prov:Activity"]`. Instruments nested in `prov:used` via `schema:instrument` sub-key. The `cdifProvenance` building block wraps `cdifProvActivity` items in the `prov:wasGeneratedBy` root property. |
+| 1 (simple) | `generatedBy` (provProperties) | `cdifCore` | Minimal `prov:Activity` — `prov:used` accepts a string, an `@id` reference, an inline `prov:Entity`, or a role-keyed wrapper (`schema:instrument` \| `bios:computationalTool` \| `prov:reagent`) whose value profiles pin |
+| 2 (extended) | `cdifProvActivity` (cdifDataType) | `cdifComplete` (via `cdifProvenance`, both in `cdifProfile/`) | Extends `generatedBy` with schema.org Action properties (`schema:agent`, `schema:actionProcess`, `schema:object`, `schema:result`, temporal bounds, location). Requires `@type: ["schema:Action", "prov:Activity"]`. **Pins** the `prov:used` `schema:instrument` wrapper to the Instrument BB via a constraint-only `if/then` (never a narrowed `anyOf` — that would `allOf`-intersect away the base's other item shapes). The `cdifProvenance` building block wraps `cdifProvActivity` items in the `prov:wasGeneratedBy` root property. |
 | 3 (domain) | `xasGeneratedBy`, etc. | Domain-specific profiles | Extend `cdifProvActivity` with domain-specific instrument types, agents, and additional properties (see [ddeBuildingBlocks](https://github.com/usgin/ddeBuildingBlocks), [geochemBuildingBlocks](https://github.com/usgin/geochemBuildingBlocks)) |
 
 ### xasProperties

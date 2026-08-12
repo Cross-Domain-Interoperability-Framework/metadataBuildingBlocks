@@ -21,21 +21,21 @@ allOf:
         required by base generatedBy schema)
     'prov:used':
       type: array
+      description: >-
+        Base generatedBy defines the allowed item shapes (string | {@id} |
+        inline prov:Entity | a role-keyed wrapper naming schema:instrument /
+        bios:computationalTool / prov:reagent). This profile only PINS the
+        schema:instrument wrapper's value to the Instrument description when that
+        key is present; it adds no other restriction, so all base item shapes
+        (including inline prov:Entity inputs such as samples) remain valid.
       items:
-        anyOf:
-        - type: string
-        - type: object
-          properties:
-            '@id':
-              type: string
-              description: a resolvable reference to a representation of the software or instrument used
-        - type: object
-          description: an item used by the activity that includes a schema:instrument sub-key
+        if:
+          type: object
+          required: ['schema:instrument']
+        then:
           properties:
             'schema:instrument':
               $ref: '#/$defs/Instrument'
-          required:
-            - schema:instrument
     'schema:name':
       type: string
       description: Human-readable name for the activity
@@ -54,6 +54,7 @@ allOf:
       - $ref: '#/$defs/Organization'
       - $ref: '#/$defs/AgentInRole'
       - type: object
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -69,6 +70,7 @@ allOf:
         - $ref: '#/$defs/Organization'
         - $ref: '#/$defs/AgentInRole'
         - type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -85,6 +87,8 @@ allOf:
       anyOf:
       - type: string
       - type: object
+        required: ['@id']
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -119,6 +123,8 @@ allOf:
       anyOf:
       - type: string
       - type: object
+        required: ['@id']
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -162,6 +168,8 @@ allOf:
       - $ref: '#/$defs/SpatialExtent'
       - type: string
       - type: object
+        required: ['@id']
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -172,6 +180,8 @@ allOf:
       - $ref: '#/$defs/HowTo'
       - type: string
       - type: object
+        required: ['@id']
+        additionalProperties: false
         properties:
           '@id':
             type: string

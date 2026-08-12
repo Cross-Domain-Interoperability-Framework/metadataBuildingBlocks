@@ -80,6 +80,7 @@ properties:
       anyOf:
       - $ref: '#/$defs/cdifConcept'
       - type: object
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -112,6 +113,7 @@ properties:
           anyOf:
           - type: string
           - type: object
+            additionalProperties: false
             required:
             - '@id'
             properties:
@@ -119,6 +121,7 @@ properties:
                 type: string
         contains:
           type: object
+          additionalProperties: false
           required:
           - '@id'
           properties:
@@ -129,6 +132,7 @@ properties:
         type: array
         items:
           type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -136,6 +140,8 @@ properties:
           - '@id'
         contains:
           type: object
+          required: ['@id']
+          additionalProperties: false
           properties:
             '@id':
               const: 'https://w3id.org/cdif/conceptscheme/1.1'
@@ -145,6 +151,7 @@ properties:
         description: Identifier for the catalog record.
       'schema:about':
         type: object
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -222,6 +229,7 @@ $defs:
         description: Concept scheme(s) this concept belongs to.
         anyOf:
         - type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -230,6 +238,7 @@ $defs:
         - type: array
           items:
             type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -256,6 +265,7 @@ $defs:
     - 'skos:prefLabel'
   ConceptRef:
     type: object
+    additionalProperties: false
     description: Reference (by URI) to a skos:Concept defined elsewhere. Used
       inside skos:broader / skos:narrower as the @id-reference alternative to
       an inline Concept.
