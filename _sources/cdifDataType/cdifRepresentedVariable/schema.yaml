@@ -29,7 +29,7 @@ properties:
     items:
       anyOf:
       - '$ref': ../../cdifDataType/cdifValueDomain/schema.yaml#/$defs/SentinelValueDomain
-      - '$ref': '#/$defs/id-reference'
+      - '$ref': '../objectReference/schema.yaml'
     minItems: 1
     description: >-
       Sentinel (missing / not-applicable) value domain(s) for this RepresentedVariable
@@ -37,7 +37,7 @@ properties:
   'cdi:takesSubstantiveValuesFrom':
     anyOf:
     - '$ref': ../../cdifDataType/cdifValueDomain/schema.yaml#/$defs/SubstantiveValueDomain
-    - '$ref': '#/$defs/id-reference'
+    - '$ref': '../objectReference/schema.yaml'
     description: >-
       The substantive value domain for this RepresentedVariable - the set of valid,
       meaningful values (RepresentedVariable.takesSubstantiveValuesFrom).
@@ -54,7 +54,7 @@ properties:
   'cdi:measures':
     anyOf:
     - '$ref': '#/$defs/UnitType'
-    - '$ref': '#/$defs/id-reference'
+    - '$ref': '../objectReference/schema.yaml'
   'cdi:unitOfMeasureKind':
     $ref: '#/$defs/cdifConceptOrTermOrString'
     description: >-
@@ -101,7 +101,7 @@ properties:
     items:
       anyOf:
       - '$ref': ../../skosProperties/skosConcept/schema.yaml
-      - '$ref': '#/$defs/id-reference'
+      - '$ref': '../objectReference/schema.yaml'
     minItems: 1
 required:
 - '@type'
@@ -110,14 +110,6 @@ required:
     $ref: ../cdifConceptOrTermOrString/schema.yaml
   cdifConceptOrTerm:
     $ref: ../cdifConceptOrTerm/schema.yaml
-  id-reference:
-    type: object
-    description: Reference to a node defined elsewhere in the document via its @id.
-    properties:
-      '@id':
-        type: string
-    required:
-    - '@id'
   Reference:
     type: object
     description: >-
@@ -187,14 +179,14 @@ required:
         items:
           anyOf:
           - '$ref': ../../skosProperties/skosConcept/schema.yaml
-          - '$ref': '#/$defs/id-reference'
+          - '$ref': '../objectReference/schema.yaml'
         minItems: 1
       'cdif:has_Concept':
         type: array
         items:
           anyOf:
           - '$ref': ../../skosProperties/skosConcept/schema.yaml
-          - '$ref': '#/$defs/id-reference'
+          - '$ref': '../objectReference/schema.yaml'
         minItems: 1
       'cdi:purpose':
         type: string
@@ -258,7 +250,7 @@ required:
         items:
           anyOf:
           - '$ref': ../../skosProperties/skosConcept/schema.yaml
-          - '$ref': '#/$defs/id-reference'
+          - '$ref': '../objectReference/schema.yaml'
         minItems: 1
     required:
     - '@type'

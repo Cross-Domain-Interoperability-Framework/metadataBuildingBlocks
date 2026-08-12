@@ -83,6 +83,10 @@
           },
           "cdif:formats_InstanceVariable": {
             "type": "object",
+            "required": [
+              "@id"
+            ],
+            "additionalProperties": false,
             "description": "Reference to a variable defined in schema:variableMeasured.",
             "properties": {
               "@id": {
@@ -144,7 +148,7 @@
                             "$ref": "#/$defs/CdifRepresentedVariable"
                           },
                           {
-                            "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+                            "$ref": "#/$defs/ObjectReference"
                           }
                         ]
                       }
@@ -226,6 +230,7 @@
                                         },
                                         {
                                           "type": "object",
+                                          "additionalProperties": false,
                                           "description": "object reference via URI or URI fragment to a RepresentedVariable defined elsewhere in the document",
                                           "properties": {
                                             "@id": {
@@ -267,7 +272,7 @@
                         ]
                       },
                       "cdi:refersTo": {
-                        "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+                        "$ref": "#/$defs/ObjectReference"
                       },
                       "cdi:identifier": {
                         "$ref": "#/$defs/Identifier",
@@ -315,7 +320,7 @@
                             "$ref": "#/$defs/CdifRepresentedVariable"
                           },
                           {
-                            "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+                            "$ref": "#/$defs/ObjectReference"
                           }
                         ]
                       },
@@ -382,7 +387,7 @@
                                       "$ref": "#/$defs/CdifRepresentedVariable"
                                     },
                                     {
-                                      "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+                                      "$ref": "#/$defs/ObjectReference"
                                     }
                                   ]
                                 },
@@ -400,7 +405,7 @@
                               ]
                             },
                             {
-                              "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+                              "$ref": "#/$defs/ObjectReference"
                             }
                           ]
                         },
@@ -416,7 +421,7 @@
                             "$ref": "#/$defs/CdifRepresentedVariable"
                           },
                           {
-                            "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+                            "$ref": "#/$defs/ObjectReference"
                           }
                         ]
                       },
@@ -461,7 +466,7 @@
                             "$ref": "#/$defs/CdifRepresentedVariable"
                           },
                           {
-                            "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+                            "$ref": "#/$defs/ObjectReference"
                           }
                         ]
                       }
@@ -547,6 +552,7 @@
                                         },
                                         {
                                           "type": "object",
+                                          "additionalProperties": false,
                                           "description": "object reference via URI or URI fragment to a RepresentedVariable defined elsewhere in the document",
                                           "properties": {
                                             "@id": {
@@ -588,7 +594,7 @@
                         ]
                       },
                       "cdi:refersTo": {
-                        "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+                        "$ref": "#/$defs/ObjectReference"
                       },
                       "cdi:identifier": {
                         "$ref": "#/$defs/Identifier",
@@ -640,7 +646,7 @@
                             "$ref": "#/$defs/CdifRepresentedVariable"
                           },
                           {
-                            "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+                            "$ref": "#/$defs/ObjectReference"
                           }
                         ]
                       },
@@ -665,7 +671,7 @@
             },
             "cdi:has_PrimaryKey": {
               "type": "object",
-              "description": "set of Variables that uniquely identify a data instance. Array order of cdif:isComposedOf items is the position; no intermediate ComponentPosition wrapper.",
+              "description": "set of Variables that uniquely identify a data instance, expressed as an ordered list of cdi:ComponentPosition wrappers (unified with cdifKey's cdi:ComponentPosition model).",
               "properties": {
                 "@type": {
                   "type": "array",
@@ -683,38 +689,42 @@
                 },
                 "cdif:isComposedOf": {
                   "type": "array",
-                  "description": "List @id-references to representedVariables in this dataStructure. Array order of cdif:isComposedOf items is the position; no intermediate ComponentPosition wrapper.",
+                  "minItems": 1,
+                  "description": "Ordered list of cdi:ComponentPosition wrappers, one per key component. Each wrapper indexes one representedVariable (cdi:indexes) at its cdi:value position in the key.",
                   "items": {
-                    "allOf": [
-                      {
-                        "type": "object",
-                        "description": "Reference to a node defined elsewhere in the document via its @id.",
-                        "additionalProperties": false,
-                        "properties": {
-                          "@id": {
-                            "type": "string"
-                          }
+                    "type": "object",
+                    "description": "cdi:ComponentPosition wrapper indexing one variable's position in the key.",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
                         },
-                        "required": [
-                          "@id"
-                        ]
+                        "contains": {
+                          "const": "cdi:ComponentPosition"
+                        },
+                        "minItems": 1
                       },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "cdif:position": {
-                            "type": "integer",
-                            "minimum": 1,
-                            "description": "1-based position of this component in the key."
-                          }
-                        }
+                      "@id": {
+                        "type": "string",
+                        "description": "Identifier for this ComponentPosition node."
+                      },
+                      "cdi:indexes": {
+                        "$ref": "#/$defs/ObjectReference",
+                        "description": "The representedVariable this position indexes — an @id-reference to a variable declared elsewhere in the dataStructure."
+                      },
+                      "cdi:value": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "1-based position of this variable in the ordered key."
                       }
+                    },
+                    "required": [
+                      "@type",
+                      "cdi:indexes",
+                      "cdi:value"
                     ]
-                  },
-                  "required": [
-                    "cdif:position"
-                  ],
-                  "minItems": 1
+                  }
                 }
               },
               "required": [
@@ -730,6 +740,7 @@
         },
         {
           "type": "object",
+          "additionalProperties": false,
           "properties": {
             "@id": {
               "type": "string"
@@ -818,6 +829,10 @@
           "anyOf": [
             {
               "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string",
@@ -917,6 +932,7 @@
             },
             {
               "type": "object",
+              "additionalProperties": false,
               "required": [
                 "@id"
               ],
@@ -960,6 +976,21 @@
           ]
         }
       ]
+    },
+    "ObjectReference": {
+      "title": "Object Reference",
+      "description": "A reference to a node defined elsewhere, by its @id.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "resolvable @id of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
+      ],
+      "additionalProperties": false
     },
     "CdifRepresentedVariable": {
       "title": "DDI-CDI Represented Variable",
@@ -1098,6 +1129,7 @@
                                               },
                                               {
                                                 "type": "object",
+                                                "additionalProperties": false,
                                                 "required": [
                                                   "@id"
                                                 ],
@@ -1139,6 +1171,10 @@
                                         },
                                         {
                                           "type": "object",
+                                          "required": [
+                                            "@id"
+                                          ],
+                                          "additionalProperties": false,
                                           "properties": {
                                             "@id": {
                                               "type": "string"
@@ -1198,6 +1234,7 @@
                                             },
                                             {
                                               "type": "object",
+                                              "additionalProperties": false,
                                               "required": [
                                                 "@id"
                                               ],
@@ -1211,6 +1248,7 @@
                                         },
                                         "contains": {
                                           "type": "object",
+                                          "additionalProperties": false,
                                           "required": [
                                             "@id"
                                           ],
@@ -1226,6 +1264,7 @@
                                         "type": "array",
                                         "items": {
                                           "type": "object",
+                                          "additionalProperties": false,
                                           "properties": {
                                             "@id": {
                                               "type": "string"
@@ -1237,6 +1276,10 @@
                                         },
                                         "contains": {
                                           "type": "object",
+                                          "required": [
+                                            "@id"
+                                          ],
+                                          "additionalProperties": false,
                                           "properties": {
                                             "@id": {
                                               "const": "https://w3id.org/cdif/codelist/1.1"
@@ -1251,6 +1294,7 @@
                                       },
                                       "schema:about": {
                                         "type": "object",
+                                        "additionalProperties": false,
                                         "properties": {
                                           "@id": {
                                             "type": "string"
@@ -1290,6 +1334,10 @@
                               },
                               {
                                 "type": "object",
+                                "required": [
+                                  "@id"
+                                ],
+                                "additionalProperties": false,
                                 "description": "object reference via URI or URI fragment referencing an @id in the same document",
                                 "properties": {
                                   "@id": {
@@ -1311,6 +1359,7 @@
                       },
                       {
                         "type": "object",
+                        "additionalProperties": false,
                         "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
                         "properties": {
                           "@id": {
@@ -1444,6 +1493,7 @@
                       },
                       {
                         "type": "object",
+                        "additionalProperties": false,
                         "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
                         "properties": {
                           "@id": {
@@ -1475,7 +1525,7 @@
                 ]
               },
               {
-                "$ref": "#/$defs/CdifRepresentedVariable_id-reference"
+                "$ref": "#/$defs/ObjectReference"
               }
             ]
           },
@@ -1590,6 +1640,7 @@
                                             },
                                             {
                                               "type": "object",
+                                              "additionalProperties": false,
                                               "required": [
                                                 "@id"
                                               ],
@@ -1631,6 +1682,10 @@
                                       },
                                       {
                                         "type": "object",
+                                        "required": [
+                                          "@id"
+                                        ],
+                                        "additionalProperties": false,
                                         "properties": {
                                           "@id": {
                                             "type": "string"
@@ -1690,6 +1745,7 @@
                                           },
                                           {
                                             "type": "object",
+                                            "additionalProperties": false,
                                             "required": [
                                               "@id"
                                             ],
@@ -1703,6 +1759,7 @@
                                       },
                                       "contains": {
                                         "type": "object",
+                                        "additionalProperties": false,
                                         "required": [
                                           "@id"
                                         ],
@@ -1718,6 +1775,7 @@
                                       "type": "array",
                                       "items": {
                                         "type": "object",
+                                        "additionalProperties": false,
                                         "properties": {
                                           "@id": {
                                             "type": "string"
@@ -1729,6 +1787,10 @@
                                       },
                                       "contains": {
                                         "type": "object",
+                                        "required": [
+                                          "@id"
+                                        ],
+                                        "additionalProperties": false,
                                         "properties": {
                                           "@id": {
                                             "const": "https://w3id.org/cdif/codelist/1.1"
@@ -1743,6 +1805,7 @@
                                     },
                                     "schema:about": {
                                       "type": "object",
+                                      "additionalProperties": false,
                                       "properties": {
                                         "@id": {
                                           "type": "string"
@@ -1782,6 +1845,10 @@
                             },
                             {
                               "type": "object",
+                              "required": [
+                                "@id"
+                              ],
+                              "additionalProperties": false,
                               "description": "object reference via URI or URI fragment referencing an @id in the same document",
                               "properties": {
                                 "@id": {
@@ -1803,6 +1870,7 @@
                     },
                     {
                       "type": "object",
+                      "additionalProperties": false,
                       "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
                       "properties": {
                         "@id": {
@@ -1936,6 +2004,7 @@
                     },
                     {
                       "type": "object",
+                      "additionalProperties": false,
                       "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
                       "properties": {
                         "@id": {
@@ -1967,7 +2036,7 @@
               ]
             },
             {
-              "$ref": "#/$defs/CdifRepresentedVariable_id-reference"
+              "$ref": "#/$defs/ObjectReference"
             }
           ],
           "description": "The substantive value domain for this RepresentedVariable - the set of valid, meaningful values (RepresentedVariable.takesSubstantiveValuesFrom)."
@@ -2074,7 +2143,7 @@
                         ]
                       },
                       {
-                        "$ref": "#/$defs/CdifRepresentedVariable_id-reference"
+                        "$ref": "#/$defs/ObjectReference"
                       }
                     ]
                   },
@@ -2086,7 +2155,7 @@
               ]
             },
             {
-              "$ref": "#/$defs/CdifRepresentedVariable_id-reference"
+              "$ref": "#/$defs/ObjectReference"
             }
           ]
         },
@@ -2164,7 +2233,7 @@
                 ]
               },
               {
-                "$ref": "#/$defs/CdifRepresentedVariable_id-reference"
+                "$ref": "#/$defs/ObjectReference"
               }
             ]
           },
@@ -2281,6 +2350,7 @@
           "anyOf": [
             {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -2294,6 +2364,7 @@
               "type": "array",
               "items": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -2313,6 +2384,7 @@
             "anyOf": [
               {
                 "type": "object",
+                "additionalProperties": false,
                 "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
                 "properties": {
                   "@id": {
@@ -2337,6 +2409,7 @@
             "anyOf": [
               {
                 "type": "object",
+                "additionalProperties": false,
                 "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
                 "properties": {
                   "@id": {
@@ -2377,18 +2450,6 @@
         "@value"
       ]
     },
-    "CdifRepresentedVariable_id-reference": {
-      "type": "object",
-      "description": "Reference to a node defined elsewhere in the document via its @id.",
-      "properties": {
-        "@id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "@id"
-      ]
-    },
     "CdifCodelistConcept": {
       "description": "A SKOS Concept constrained for CDIF codelist use. Must have a resolvable @id, skos:inScheme, skos:notation, and skos:prefLabel. Becasue JSON-LD is an open-world implementation, any other skos properties may be included.",
       "type": "object",
@@ -2402,6 +2463,7 @@
           "type": "array",
           "items": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "@id": {
                 "type": "string"
@@ -2431,6 +2493,7 @@
             "anyOf": [
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -2460,6 +2523,7 @@
           "type": "array",
           "items": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "@id": {
                 "type": "string"
@@ -2708,6 +2772,7 @@
           "anyOf": [
             {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -2721,6 +2786,7 @@
               "type": "array",
               "items": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -2738,6 +2804,7 @@
           "anyOf": [
             {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -2751,6 +2818,7 @@
               "type": "array",
               "items": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -2770,6 +2838,7 @@
             "anyOf": [
               {
                 "type": "object",
+                "additionalProperties": false,
                 "description": "A reference to a SKOS Concept by URI.",
                 "properties": {
                   "@id": {
@@ -2794,6 +2863,7 @@
             "anyOf": [
               {
                 "type": "object",
+                "additionalProperties": false,
                 "description": "A reference to a SKOS Concept by URI.",
                 "properties": {
                   "@id": {
@@ -2817,18 +2887,6 @@
         "skos:prefLabel",
         "skos:definition",
         "skos:inScheme"
-      ]
-    },
-    "CdifDataStructureComponent_id-reference": {
-      "type": "object",
-      "description": "Reference to a node defined elsewhere in the document via its @id.",
-      "properties": {
-        "@id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "@id"
       ]
     },
     "SkosConcept_LanguageTaggedValue": {

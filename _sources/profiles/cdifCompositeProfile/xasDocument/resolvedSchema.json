@@ -82,6 +82,10 @@
           },
           {
             "type": "object",
+            "required": [
+              "@id"
+            ],
+            "additionalProperties": false,
             "properties": {
               "@id": {
                 "type": "string",
@@ -125,6 +129,10 @@
           },
           {
             "type": "object",
+            "required": [
+              "@id"
+            ],
+            "additionalProperties": false,
             "properties": {
               "@id": {
                 "type": "string",
@@ -149,6 +157,10 @@
           },
           {
             "type": "object",
+            "required": [
+              "@id"
+            ],
+            "additionalProperties": false,
             "properties": {
               "@id": {
                 "type": "string",
@@ -244,6 +256,10 @@
                     "minItems": 1,
                     "items": {
                       "type": "object",
+                      "required": [
+                        "@id"
+                      ],
+                      "additionalProperties": false,
                       "properties": {
                         "@id": {
                           "type": "string",
@@ -259,6 +275,7 @@
                       "anyOf": [
                         {
                           "type": "object",
+                          "additionalProperties": false,
                           "properties": {
                             "@id": {
                               "type": "string",
@@ -461,6 +478,10 @@
                               "description": "identifier(s) for a standard or specification the response conforms to.",
                               "items": {
                                 "type": "object",
+                                "required": [
+                                  "@id"
+                                ],
+                                "additionalProperties": false,
                                 "properties": {
                                   "@id": {
                                     "type": "string"
@@ -1008,6 +1029,10 @@
                 "minItems": 1,
                 "items": {
                   "type": "object",
+                  "required": [
+                    "@id"
+                  ],
+                  "additionalProperties": false,
                   "properties": {
                     "@id": {
                       "type": "string",
@@ -1023,6 +1048,7 @@
                   "anyOf": [
                     {
                       "type": "object",
+                      "additionalProperties": false,
                       "properties": {
                         "@id": {
                           "type": "string",
@@ -1081,6 +1107,7 @@
             "description": "The distribution must declare the format specification its bytes follow. XDI and NeXus are the two serializations of XAS data in scope, so either satisfies this. The '@type' constraint above is already format-neutral (tabular text or structured binary); requiring the XDI specification here contradicted it and made a conforming NeXus/HDF5 distribution impossible to describe.",
             "contains": {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "anyOf": [
@@ -1172,6 +1199,10 @@
           },
           {
             "type": "object",
+            "required": [
+              "@id"
+            ],
+            "additionalProperties": false,
             "properties": {
               "@id": {
                 "type": "string",
@@ -1274,6 +1305,7 @@
             "anyOf": [
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string",
@@ -1302,6 +1334,7 @@
         "anyOf": [
           {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "@id": {
                 "type": "string",
@@ -1329,6 +1362,7 @@
       "anyOf": [
         {
           "type": "object",
+          "additionalProperties": false,
           "properties": {
             "@id": {
               "type": "string",
@@ -1354,6 +1388,7 @@
         "anyOf": [
           {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "@id": {
                 "type": "string",
@@ -1410,6 +1445,7 @@
             "anyOf": [
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string",
@@ -1472,7 +1508,7 @@
               },
               "prov:used": {
                 "type": "array",
-                "description": "Entities the activity used. Per PROV-O each value denotes a prov:Entity. An item may be (1) a string URI or free-text reference, (2) an {@id} reference, or (3) an inline entity object. Inline entities SHOULD carry an @type that includes prov:Entity plus a schema.org type for the kind of thing used, e.g. [\"prov:Entity\",\"schema:Thing\"] (instrument), [\"prov:Entity\",\"schema:CreativeWork\"] (method/protocol), or [\"prov:Entity\",\"schema:SoftwareApplication\"] (software).",
+                "description": "Entities the activity used. Per PROV-O each value denotes a prov:Entity. An item may be (1) a string URI or free-text reference, (2) an {@id} reference, (3) an inline entity object carrying an @type that includes prov:Entity plus a schema.org type for the kind of thing used, e.g. [\"prov:Entity\",\"schema:Thing\"] (instrument), [\"prov:Entity\",\"schema:CreativeWork\"] (method/protocol), or [\"prov:Entity\",\"schema:SoftwareApplication\"] (software), or (4) a role-keyed wrapper naming what was used through one of the recognized \"used\" relations (schema:instrument, bios:computationalTool, prov:reagent). Base leaves the wrapped value loose; profiles/extensions (e.g. cdifProvActivity, adaProduct) pin its shape (Instrument, ComputationalTool, Reagent, ...).",
                 "items": {
                   "anyOf": [
                     {
@@ -1480,6 +1516,10 @@
                     },
                     {
                       "type": "object",
+                      "required": [
+                        "@id"
+                      ],
+                      "additionalProperties": false,
                       "properties": {
                         "@id": {
                           "type": "string",
@@ -1504,6 +1544,27 @@
                       },
                       "required": [
                         "@type"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "description": "a role-keyed wrapper naming an instrument used by the activity; the extension layer pins the value to an Instrument description.",
+                      "required": [
+                        "schema:instrument"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "description": "a role-keyed wrapper naming a computational tool (software) used; the extension layer pins the value to a ComputationalTool description.",
+                      "required": [
+                        "bios:computationalTool"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "description": "a role-keyed wrapper naming a reagent / material used; the extension layer pins the value to a Reagent description.",
+                      "required": [
+                        "prov:reagent"
                       ]
                     }
                   ]
@@ -1541,7 +1602,7 @@
                           },
                           "prov:used": {
                             "type": "array",
-                            "description": "Entities the activity used. Per PROV-O each value denotes a prov:Entity. An item may be (1) a string URI or free-text reference, (2) an {@id} reference, or (3) an inline entity object. Inline entities SHOULD carry an @type that includes prov:Entity plus a schema.org type for the kind of thing used, e.g. [\"prov:Entity\",\"schema:Thing\"] (instrument), [\"prov:Entity\",\"schema:CreativeWork\"] (method/protocol), or [\"prov:Entity\",\"schema:SoftwareApplication\"] (software).",
+                            "description": "Entities the activity used. Per PROV-O each value denotes a prov:Entity. An item may be (1) a string URI or free-text reference, (2) an {@id} reference, (3) an inline entity object carrying an @type that includes prov:Entity plus a schema.org type for the kind of thing used, e.g. [\"prov:Entity\",\"schema:Thing\"] (instrument), [\"prov:Entity\",\"schema:CreativeWork\"] (method/protocol), or [\"prov:Entity\",\"schema:SoftwareApplication\"] (software), or (4) a role-keyed wrapper naming what was used through one of the recognized \"used\" relations (schema:instrument, bios:computationalTool, prov:reagent). Base leaves the wrapped value loose; profiles/extensions (e.g. cdifProvActivity, adaProduct) pin its shape (Instrument, ComputationalTool, Reagent, ...).",
                             "items": {
                               "anyOf": [
                                 {
@@ -1549,6 +1610,10 @@
                                 },
                                 {
                                   "type": "object",
+                                  "required": [
+                                    "@id"
+                                  ],
+                                  "additionalProperties": false,
                                   "properties": {
                                     "@id": {
                                       "type": "string",
@@ -1574,6 +1639,27 @@
                                   "required": [
                                     "@type"
                                   ]
+                                },
+                                {
+                                  "type": "object",
+                                  "description": "a role-keyed wrapper naming an instrument used by the activity; the extension layer pins the value to an Instrument description.",
+                                  "required": [
+                                    "schema:instrument"
+                                  ]
+                                },
+                                {
+                                  "type": "object",
+                                  "description": "a role-keyed wrapper naming a computational tool (software) used; the extension layer pins the value to a ComputationalTool description.",
+                                  "required": [
+                                    "bios:computationalTool"
+                                  ]
+                                },
+                                {
+                                  "type": "object",
+                                  "description": "a role-keyed wrapper naming a reagent / material used; the extension layer pins the value to a Reagent description.",
+                                  "required": [
+                                    "prov:reagent"
+                                  ]
                                 }
                               ]
                             }
@@ -1596,126 +1682,159 @@
                           },
                           "prov:used": {
                             "type": "array",
+                            "description": "Base generatedBy defines the allowed item shapes (string | {@id} | inline prov:Entity | a role-keyed wrapper naming schema:instrument / bios:computationalTool / prov:reagent). This profile only PINS the schema:instrument wrapper's value to the Instrument description when that key is present; it adds no other restriction, so all base item shapes (including inline prov:Entity inputs such as samples) remain valid.",
                             "items": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "object",
-                                  "properties": {
-                                    "@id": {
-                                      "type": "string",
-                                      "description": "a resolvable reference to a representation of the software or instrument used"
-                                    }
-                                  }
-                                },
-                                {
-                                  "type": "object",
-                                  "description": "an item used by the activity that includes a schema:instrument sub-key",
-                                  "properties": {
-                                    "schema:instrument": {
-                                      "title": "Instrument Description",
-                                      "description": "Schema for describing laboratory instruments and instrument systems. Supports ownership, manufacturer, model, commissioning dates, hierarchical sub-components via schema:hasPart, and domain-specific typing. Instruments may be standalone devices or complex systems with sub-components.",
-                                      "type": "object",
-                                      "properties": {
-                                        "@context": {
-                                          "type": "object",
-                                          "description": "JSON-LD context declaring namespace prefixes.",
-                                          "properties": {
-                                            "schema": {
-                                              "const": "http://schema.org/"
-                                            },
-                                            "dcterms": {
-                                              "const": "http://purl.org/dc/terms/"
-                                            }
+                              "if": {
+                                "type": "object",
+                                "required": [
+                                  "schema:instrument"
+                                ]
+                              },
+                              "then": {
+                                "properties": {
+                                  "schema:instrument": {
+                                    "title": "Instrument Description",
+                                    "description": "Schema for describing laboratory instruments and instrument systems. Supports ownership, manufacturer, model, commissioning dates, hierarchical sub-components via schema:hasPart, and domain-specific typing. Instruments may be standalone devices or complex systems with sub-components.",
+                                    "type": "object",
+                                    "properties": {
+                                      "@context": {
+                                        "type": "object",
+                                        "description": "JSON-LD context declaring namespace prefixes.",
+                                        "properties": {
+                                          "schema": {
+                                            "const": "http://schema.org/"
                                           },
-                                          "required": [
-                                            "schema"
-                                          ]
-                                        },
-                                        "@id": {
-                                          "type": "string",
-                                          "description": "Persistent identifier URI for this instrument metadata record."
-                                        },
-                                        "@type": {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "string"
-                                          },
-                                          "minItems": 2,
-                                          "description": "Must include schema:Product and schema:Thing. May include additional types.",
-                                          "allOf": [
-                                            {
-                                              "contains": {
-                                                "const": "schema:Product"
-                                              }
-                                            },
-                                            {
-                                              "contains": {
-                                                "const": "schema:Thing"
-                                              }
-                                            }
-                                          ]
-                                        },
-                                        "schema:additionalType": {
-                                          "description": "Domain-specific type classifications. Should include a scientific instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).",
-                                          "type": "array",
-                                          "items": {
-                                            "anyOf": [
-                                              {
-                                                "type": "string"
-                                              },
-                                              {
-                                                "type": "object",
-                                                "required": [
-                                                  "@id"
-                                                ],
-                                                "properties": {
-                                                  "@id": {
-                                                    "type": "string"
-                                                  }
-                                                }
-                                              }
-                                            ]
-                                          },
-                                          "minItems": 1
-                                        },
-                                        "schema:name": {
-                                          "type": "string",
-                                          "minLength": 3,
-                                          "description": "Human-readable name for this instrument."
-                                        },
-                                        "schema:description": {
-                                          "type": "string",
-                                          "description": "Text description of this instrument, its purpose, and capabilities."
-                                        },
-                                        "schema:alternateName": {
-                                          "description": "Alternate name(s), e.g. specific make/model designation, common abbreviation.",
-                                          "type": "array",
-                                          "items": {
-                                            "anyOf": [
-                                              {
-                                                "type": "string"
-                                              },
-                                              {
-                                                "type": "object",
-                                                "required": [
-                                                  "@id"
-                                                ],
-                                                "properties": {
-                                                  "@id": {
-                                                    "type": "string"
-                                                  }
-                                                }
-                                              }
-                                            ]
+                                          "dcterms": {
+                                            "const": "http://purl.org/dc/terms/"
                                           }
                                         },
-                                        "schema:identifier": {
-                                          "description": "Formal identifier(s) for this instrument. Use PropertyValue for structured identifiers (e.g. PIDINST, serial number, inventory number).",
-                                          "type": "array",
-                                          "items": {
+                                        "required": [
+                                          "schema"
+                                        ]
+                                      },
+                                      "@id": {
+                                        "type": "string",
+                                        "description": "Persistent identifier URI for this instrument metadata record."
+                                      },
+                                      "@type": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string"
+                                        },
+                                        "minItems": 2,
+                                        "description": "Must include schema:Product and schema:Thing. May include additional types.",
+                                        "allOf": [
+                                          {
+                                            "contains": {
+                                              "const": "schema:Product"
+                                            }
+                                          },
+                                          {
+                                            "contains": {
+                                              "const": "schema:Thing"
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      "schema:additionalType": {
+                                        "description": "Domain-specific type classifications. Should include a scientific instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).",
+                                        "type": "array",
+                                        "items": {
+                                          "anyOf": [
+                                            {
+                                              "type": "string"
+                                            },
+                                            {
+                                              "type": "object",
+                                              "additionalProperties": false,
+                                              "required": [
+                                                "@id"
+                                              ],
+                                              "properties": {
+                                                "@id": {
+                                                  "type": "string"
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        "minItems": 1
+                                      },
+                                      "schema:name": {
+                                        "type": "string",
+                                        "minLength": 3,
+                                        "description": "Human-readable name for this instrument."
+                                      },
+                                      "schema:description": {
+                                        "type": "string",
+                                        "description": "Text description of this instrument, its purpose, and capabilities."
+                                      },
+                                      "schema:alternateName": {
+                                        "description": "Alternate name(s), e.g. specific make/model designation, common abbreviation.",
+                                        "type": "array",
+                                        "items": {
+                                          "anyOf": [
+                                            {
+                                              "type": "string"
+                                            },
+                                            {
+                                              "type": "object",
+                                              "additionalProperties": false,
+                                              "required": [
+                                                "@id"
+                                              ],
+                                              "properties": {
+                                                "@id": {
+                                                  "type": "string"
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "schema:identifier": {
+                                        "description": "Formal identifier(s) for this instrument. Use PropertyValue for structured identifiers (e.g. PIDINST, serial number, inventory number).",
+                                        "type": "array",
+                                        "items": {
+                                          "anyOf": [
+                                            {
+                                              "type": "string"
+                                            },
+                                            {
+                                              "$ref": "#/$defs/Identifier"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "schema:url": {
+                                        "type": "string",
+                                        "format": "uri",
+                                        "description": "Landing page URL for this instrument."
+                                      },
+                                      "schema:manufacturer": {
+                                        "$ref": "#/$defs/Organization",
+                                        "description": "Organization that manufactured this instrument."
+                                      },
+                                      "schema:model": {
+                                        "type": "object",
+                                        "description": "Product model information for this instrument.",
+                                        "properties": {
+                                          "@type": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            },
+                                            "contains": {
+                                              "const": "schema:ProductModel"
+                                            },
+                                            "minItems": 1
+                                          },
+                                          "schema:name": {
+                                            "type": "string",
+                                            "description": "Model name or number."
+                                          },
+                                          "schema:identifier": {
+                                            "description": "Model identifier.",
                                             "anyOf": [
                                               {
                                                 "type": "string"
@@ -1726,295 +1845,263 @@
                                             ]
                                           }
                                         },
-                                        "schema:url": {
-                                          "type": "string",
-                                          "format": "uri",
-                                          "description": "Landing page URL for this instrument."
-                                        },
-                                        "schema:manufacturer": {
-                                          "$ref": "#/$defs/Organization",
-                                          "description": "Organization that manufactured this instrument."
-                                        },
-                                        "schema:model": {
-                                          "type": "object",
-                                          "description": "Product model information for this instrument.",
-                                          "properties": {
-                                            "@type": {
-                                              "type": "array",
-                                              "items": {
-                                                "type": "string"
-                                              },
-                                              "contains": {
-                                                "const": "schema:ProductModel"
-                                              },
-                                              "minItems": 1
-                                            },
-                                            "schema:name": {
-                                              "type": "string",
-                                              "description": "Model name or number."
-                                            },
-                                            "schema:identifier": {
-                                              "description": "Model identifier.",
-                                              "anyOf": [
-                                                {
+                                        "required": [
+                                          "@type",
+                                          "schema:name"
+                                        ]
+                                      },
+                                      "schema:category": {
+                                        "description": "Instrument type classification(s) from a controlled vocabulary.",
+                                        "type": "array",
+                                        "items": {
+                                          "$ref": "#/$defs/DefinedTerm"
+                                        }
+                                      },
+                                      "schema:owner": {
+                                        "$ref": "#/$defs/Organization",
+                                        "description": "Organization that owns this instrument."
+                                      },
+                                      "schema:contributor": {
+                                        "description": "Agents associated with this instrument in specific roles (e.g. operator, custodian, principal investigator). Use schema:owner for the owning organization.",
+                                        "type": "array",
+                                        "items": {
+                                          "$ref": "#/$defs/Contributor"
+                                        }
+                                      },
+                                      "schema:additionalProperty": {
+                                        "type": "array",
+                                        "description": "Instrument-specific properties (measured variables, detection limits, calibration information, operating parameters, etc.).",
+                                        "items": {
+                                          "$ref": "#/$defs/AdditionalProperty"
+                                        }
+                                      },
+                                      "schema:validFrom": {
+                                        "type": "string",
+                                        "description": "Date the instrument was commissioned (ISO 8601)."
+                                      },
+                                      "schema:validThrough": {
+                                        "type": "string",
+                                        "description": "Date the instrument was decommissioned (ISO 8601). Absent if still operational."
+                                      },
+                                      "schema:hasPart": {
+                                        "type": "array",
+                                        "description": "Sub-components of this instrument system. Each item is either an inline instrument description or an @id reference.",
+                                        "items": {
+                                          "anyOf": [
+                                            {
+                                              "type": "object",
+                                              "description": "A sub-component of an instrument system. Uses the same structure as the parent instrument but without nesting (single level of hasPart).",
+                                              "properties": {
+                                                "@type": {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "string"
+                                                  },
+                                                  "minItems": 1,
+                                                  "contains": {
+                                                    "const": "schema:Thing"
+                                                  }
+                                                },
+                                                "@id": {
                                                   "type": "string"
                                                 },
-                                                {
-                                                  "$ref": "#/$defs/Identifier"
-                                                }
-                                              ]
-                                            }
-                                          },
-                                          "required": [
-                                            "@type",
-                                            "schema:name"
-                                          ]
-                                        },
-                                        "schema:category": {
-                                          "description": "Instrument type classification(s) from a controlled vocabulary.",
-                                          "type": "array",
-                                          "items": {
-                                            "$ref": "#/$defs/DefinedTerm"
-                                          }
-                                        },
-                                        "schema:owner": {
-                                          "$ref": "#/$defs/Organization",
-                                          "description": "Organization that owns this instrument."
-                                        },
-                                        "schema:contributor": {
-                                          "description": "Agents associated with this instrument in specific roles (e.g. operator, custodian, principal investigator). Use schema:owner for the owning organization.",
-                                          "type": "array",
-                                          "items": {
-                                            "$ref": "#/$defs/Contributor"
-                                          }
-                                        },
-                                        "schema:additionalProperty": {
-                                          "type": "array",
-                                          "description": "Instrument-specific properties (measured variables, detection limits, calibration information, operating parameters, etc.).",
-                                          "items": {
-                                            "$ref": "#/$defs/AdditionalProperty"
-                                          }
-                                        },
-                                        "schema:validFrom": {
-                                          "type": "string",
-                                          "description": "Date the instrument was commissioned (ISO 8601)."
-                                        },
-                                        "schema:validThrough": {
-                                          "type": "string",
-                                          "description": "Date the instrument was decommissioned (ISO 8601). Absent if still operational."
-                                        },
-                                        "schema:hasPart": {
-                                          "type": "array",
-                                          "description": "Sub-components of this instrument system. Each item is either an inline instrument description or an @id reference.",
-                                          "items": {
-                                            "anyOf": [
-                                              {
-                                                "type": "object",
-                                                "description": "A sub-component of an instrument system. Uses the same structure as the parent instrument but without nesting (single level of hasPart).",
-                                                "properties": {
-                                                  "@type": {
-                                                    "type": "array",
-                                                    "items": {
+                                                "schema:name": {
+                                                  "type": "string",
+                                                  "minLength": 3
+                                                },
+                                                "schema:description": {
+                                                  "type": "string"
+                                                },
+                                                "schema:alternateName": {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "string"
+                                                  }
+                                                },
+                                                "schema:identifier": {
+                                                  "anyOf": [
+                                                    {
                                                       "type": "string"
                                                     },
-                                                    "minItems": 1,
-                                                    "contains": {
-                                                      "const": "schema:Thing"
+                                                    {
+                                                      "$ref": "#/$defs/Identifier"
                                                     }
-                                                  },
-                                                  "@id": {
-                                                    "type": "string"
-                                                  },
-                                                  "schema:name": {
-                                                    "type": "string",
-                                                    "minLength": 3
-                                                  },
-                                                  "schema:description": {
-                                                    "type": "string"
-                                                  },
-                                                  "schema:alternateName": {
-                                                    "type": "array",
-                                                    "items": {
-                                                      "type": "string"
-                                                    }
-                                                  },
-                                                  "schema:identifier": {
+                                                  ]
+                                                },
+                                                "schema:additionalType": {
+                                                  "description": "Component type classification.",
+                                                  "type": "array",
+                                                  "items": {
                                                     "anyOf": [
                                                       {
                                                         "type": "string"
                                                       },
                                                       {
-                                                        "$ref": "#/$defs/Identifier"
-                                                      }
-                                                    ]
-                                                  },
-                                                  "schema:additionalType": {
-                                                    "description": "Component type classification.",
-                                                    "type": "array",
-                                                    "items": {
-                                                      "anyOf": [
-                                                        {
-                                                          "type": "string"
-                                                        },
-                                                        {
-                                                          "type": "object",
-                                                          "required": [
-                                                            "@id"
-                                                          ],
-                                                          "properties": {
-                                                            "@id": {
-                                                              "type": "string"
-                                                            }
+                                                        "type": "object",
+                                                        "additionalProperties": false,
+                                                        "required": [
+                                                          "@id"
+                                                        ],
+                                                        "properties": {
+                                                          "@id": {
+                                                            "type": "string"
                                                           }
                                                         }
-                                                      ]
-                                                    }
-                                                  },
-                                                  "schema:additionalProperty": {
-                                                    "type": "array",
-                                                    "items": {
-                                                      "$ref": "#/$defs/AdditionalProperty"
-                                                    }
-                                                  },
-                                                  "schema:manufacturer": {
-                                                    "$ref": "#/$defs/Organization"
-                                                  },
-                                                  "schema:model": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "@type": {
-                                                        "type": "array",
-                                                        "items": {
-                                                          "anyOf": [
-                                                            {
-                                                              "type": "string"
-                                                            },
-                                                            {
-                                                              "type": "object",
-                                                              "required": [
-                                                                "@id"
-                                                              ],
-                                                              "properties": {
-                                                                "@id": {
-                                                                  "type": "string"
-                                                                }
-                                                              }
-                                                            }
-                                                          ]
-                                                        },
-                                                        "contains": {
-                                                          "const": "schema:ProductModel"
-                                                        },
-                                                        "minItems": 1
-                                                      },
-                                                      "schema:name": {
-                                                        "type": "string"
-                                                      },
-                                                      "schema:identifier": {
+                                                      }
+                                                    ]
+                                                  }
+                                                },
+                                                "schema:additionalProperty": {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "$ref": "#/$defs/AdditionalProperty"
+                                                  }
+                                                },
+                                                "schema:manufacturer": {
+                                                  "$ref": "#/$defs/Organization"
+                                                },
+                                                "schema:model": {
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "@type": {
+                                                      "type": "array",
+                                                      "items": {
                                                         "anyOf": [
                                                           {
                                                             "type": "string"
                                                           },
                                                           {
-                                                            "$ref": "#/$defs/Identifier"
+                                                            "type": "object",
+                                                            "additionalProperties": false,
+                                                            "required": [
+                                                              "@id"
+                                                            ],
+                                                            "properties": {
+                                                              "@id": {
+                                                                "type": "string"
+                                                              }
+                                                            }
                                                           }
                                                         ]
-                                                      }
+                                                      },
+                                                      "contains": {
+                                                        "const": "schema:ProductModel"
+                                                      },
+                                                      "minItems": 1
                                                     },
-                                                    "required": [
-                                                      "@type"
-                                                    ]
-                                                  }
-                                                },
-                                                "required": [
-                                                  "@type",
-                                                  "schema:name"
-                                                ]
+                                                    "schema:name": {
+                                                      "type": "string"
+                                                    },
+                                                    "schema:identifier": {
+                                                      "anyOf": [
+                                                        {
+                                                          "type": "string"
+                                                        },
+                                                        {
+                                                          "$ref": "#/$defs/Identifier"
+                                                        }
+                                                      ]
+                                                    }
+                                                  },
+                                                  "required": [
+                                                    "@type"
+                                                  ]
+                                                }
                                               },
-                                              {
-                                                "type": "object",
-                                                "properties": {
-                                                  "@id": {
-                                                    "type": "string",
-                                                    "description": "Reference to a sub-component defined elsewhere."
-                                                  }
-                                                },
-                                                "required": [
-                                                  "@id"
-                                                ]
-                                              }
-                                            ]
-                                          }
-                                        },
-                                        "schema:relatedLink": {
-                                          "type": "array",
-                                          "description": "Links to related resources (manuals, datasheets, calibration records, related instruments).",
-                                          "items": {
-                                            "$ref": "#/$defs/Reference"
-                                          }
-                                        },
-                                        "schema:subjectOf": {
-                                          "description": "Catalog record metadata-about-metadata for this instrument description.",
-                                          "type": "object",
-                                          "properties": {
-                                            "@id": {
-                                              "type": "string"
+                                              "required": [
+                                                "@type",
+                                                "schema:name"
+                                              ]
                                             },
-                                            "@type": {
-                                              "type": "array",
-                                              "items": {
-                                                "type": "string"
-                                              }
-                                            },
-                                            "schema:dateModified": {
-                                              "type": "string",
-                                              "description": "Date this metadata record was last modified (ISO 8601)."
-                                            },
-                                            "schema:about": {
+                                            {
                                               "type": "object",
+                                              "additionalProperties": false,
                                               "properties": {
                                                 "@id": {
                                                   "type": "string",
-                                                  "description": "Reference back to the instrument @id."
+                                                  "description": "Reference to a sub-component defined elsewhere."
                                                 }
-                                              }
-                                            },
-                                            "dcterms:conformsTo": {
-                                              "description": "Schema or profile this metadata record conforms to.",
-                                              "type": "array",
-                                              "items": {
-                                                "anyOf": [
-                                                  {
-                                                    "type": "string"
-                                                  },
-                                                  {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "@id": {
-                                                        "type": "string"
-                                                      }
-                                                    }
-                                                  }
-                                                ]
-                                              }
+                                              },
+                                              "required": [
+                                                "@id"
+                                              ]
                                             }
-                                          },
-                                          "required": [
-                                            "@type"
                                           ]
                                         }
                                       },
-                                      "required": [
-                                        "@type",
-                                        "schema:name"
-                                      ]
-                                    }
-                                  },
-                                  "required": [
-                                    "schema:instrument"
-                                  ]
+                                      "schema:relatedLink": {
+                                        "type": "array",
+                                        "description": "Links to related resources (manuals, datasheets, calibration records, related instruments).",
+                                        "items": {
+                                          "$ref": "#/$defs/Reference"
+                                        }
+                                      },
+                                      "schema:subjectOf": {
+                                        "description": "Catalog record metadata-about-metadata for this instrument description.",
+                                        "type": "object",
+                                        "properties": {
+                                          "@id": {
+                                            "type": "string"
+                                          },
+                                          "@type": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "schema:dateModified": {
+                                            "type": "string",
+                                            "description": "Date this metadata record was last modified (ISO 8601)."
+                                          },
+                                          "schema:about": {
+                                            "type": "object",
+                                            "required": [
+                                              "@id"
+                                            ],
+                                            "additionalProperties": false,
+                                            "properties": {
+                                              "@id": {
+                                                "type": "string",
+                                                "description": "Reference back to the instrument @id."
+                                              }
+                                            }
+                                          },
+                                          "dcterms:conformsTo": {
+                                            "description": "Schema or profile this metadata record conforms to.",
+                                            "type": "array",
+                                            "items": {
+                                              "anyOf": [
+                                                {
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "type": "object",
+                                                  "required": [
+                                                    "@id"
+                                                  ],
+                                                  "additionalProperties": false,
+                                                  "properties": {
+                                                    "@id": {
+                                                      "type": "string"
+                                                    }
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        },
+                                        "required": [
+                                          "@type"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "@type",
+                                      "schema:name"
+                                    ]
+                                  }
                                 }
-                              ]
+                              }
                             }
                           },
                           "schema:name": {
@@ -2050,6 +2137,7 @@
                               },
                               {
                                 "type": "object",
+                                "additionalProperties": false,
                                 "properties": {
                                   "@id": {
                                     "type": "string",
@@ -2078,6 +2166,7 @@
                                 },
                                 {
                                   "type": "object",
+                                  "additionalProperties": false,
                                   "properties": {
                                     "@id": {
                                       "type": "string",
@@ -2099,6 +2188,10 @@
                               },
                               {
                                 "type": "object",
+                                "required": [
+                                  "@id"
+                                ],
+                                "additionalProperties": false,
                                 "properties": {
                                   "@id": {
                                     "type": "string",
@@ -2152,6 +2245,10 @@
                               },
                               {
                                 "type": "object",
+                                "required": [
+                                  "@id"
+                                ],
+                                "additionalProperties": false,
                                 "properties": {
                                   "@id": {
                                     "type": "string",
@@ -2403,6 +2500,10 @@
                                       },
                                       "geosparql:crs": {
                                         "type": "object",
+                                        "required": [
+                                          "@id"
+                                        ],
+                                        "additionalProperties": false,
                                         "properties": {
                                           "@id": {
                                             "type": "string",
@@ -2441,6 +2542,10 @@
                               },
                               {
                                 "type": "object",
+                                "required": [
+                                  "@id"
+                                ],
+                                "additionalProperties": false,
                                 "properties": {
                                   "@id": {
                                     "type": "string",
@@ -2546,6 +2651,10 @@
                               },
                               {
                                 "type": "object",
+                                "required": [
+                                  "@id"
+                                ],
+                                "additionalProperties": false,
                                 "properties": {
                                   "@id": {
                                     "type": "string",
@@ -2592,6 +2701,7 @@
                             },
                             {
                               "type": "object",
+                              "additionalProperties": false,
                               "required": [
                                 "@id"
                               ],
@@ -2605,6 +2715,7 @@
                         },
                         "contains": {
                           "type": "object",
+                          "additionalProperties": false,
                           "required": [
                             "@id"
                           ],
@@ -2693,6 +2804,7 @@
                                                   },
                                                   {
                                                     "type": "object",
+                                                    "additionalProperties": false,
                                                     "required": [
                                                       "@id"
                                                     ],
@@ -2725,6 +2837,7 @@
                                                   },
                                                   {
                                                     "type": "object",
+                                                    "additionalProperties": false,
                                                     "required": [
                                                       "@id"
                                                     ],
@@ -2883,6 +2996,7 @@
                                                             },
                                                             {
                                                               "type": "object",
+                                                              "additionalProperties": false,
                                                               "required": [
                                                                 "@id"
                                                               ],
@@ -2916,6 +3030,7 @@
                                                                 },
                                                                 {
                                                                   "type": "object",
+                                                                  "additionalProperties": false,
                                                                   "required": [
                                                                     "@id"
                                                                   ],
@@ -2958,6 +3073,7 @@
                                                   },
                                                   {
                                                     "type": "object",
+                                                    "additionalProperties": false,
                                                     "properties": {
                                                       "@id": {
                                                         "type": "string",
@@ -2997,6 +3113,10 @@
                                                 },
                                                 "schema:about": {
                                                   "type": "object",
+                                                  "required": [
+                                                    "@id"
+                                                  ],
+                                                  "additionalProperties": false,
                                                   "properties": {
                                                     "@id": {
                                                       "type": "string",
@@ -3014,6 +3134,10 @@
                                                       },
                                                       {
                                                         "type": "object",
+                                                        "required": [
+                                                          "@id"
+                                                        ],
+                                                        "additionalProperties": false,
                                                         "properties": {
                                                           "@id": {
                                                             "type": "string"
@@ -3046,6 +3170,7 @@
                                                   },
                                                   {
                                                     "type": "object",
+                                                    "additionalProperties": false,
                                                     "required": [
                                                       "@id"
                                                     ],
@@ -3063,6 +3188,7 @@
                                                 {
                                                   "contains": {
                                                     "type": "object",
+                                                    "additionalProperties": false,
                                                     "required": [
                                                       "@id"
                                                     ],
@@ -3103,6 +3229,10 @@
                             },
                             {
                               "type": "object",
+                              "required": [
+                                "@id"
+                              ],
+                              "additionalProperties": false,
                               "properties": {
                                 "@id": {
                                   "type": "string"
@@ -3124,6 +3254,7 @@
                                       "anyOf": [
                                         {
                                           "type": "object",
+                                          "additionalProperties": false,
                                           "required": [
                                             "@id"
                                           ],
@@ -3137,6 +3268,7 @@
                                           "type": "array",
                                           "contains": {
                                             "type": "object",
+                                            "additionalProperties": false,
                                             "required": [
                                               "@id"
                                             ],
@@ -3176,6 +3308,7 @@
                                       "anyOf": [
                                         {
                                           "type": "object",
+                                          "additionalProperties": false,
                                           "required": [
                                             "@id"
                                           ],
@@ -3189,6 +3322,7 @@
                                           "type": "array",
                                           "contains": {
                                             "type": "object",
+                                            "additionalProperties": false,
                                             "required": [
                                               "@id"
                                             ],
@@ -3210,6 +3344,7 @@
                                             "type": "array",
                                             "contains": {
                                               "type": "object",
+                                              "additionalProperties": false,
                                               "required": [
                                                 "@id"
                                               ],
@@ -3277,6 +3412,7 @@
                                 },
                                 {
                                   "type": "object",
+                                  "additionalProperties": false,
                                   "required": [
                                     "@id"
                                   ],
@@ -3290,6 +3426,7 @@
                             },
                             "contains": {
                               "type": "object",
+                              "additionalProperties": false,
                               "required": [
                                 "@id"
                               ],
@@ -3362,6 +3499,7 @@
                                 },
                                 {
                                   "type": "object",
+                                  "additionalProperties": false,
                                   "required": [
                                     "@id"
                                   ],
@@ -3385,6 +3523,7 @@
                               {
                                 "contains": {
                                   "type": "object",
+                                  "additionalProperties": false,
                                   "required": [
                                     "@id"
                                   ],
@@ -3459,6 +3598,7 @@
                                   "anyOf": [
                                     {
                                       "type": "object",
+                                      "additionalProperties": false,
                                       "required": [
                                         "@id"
                                       ],
@@ -3472,6 +3612,7 @@
                                       "type": "array",
                                       "contains": {
                                         "type": "object",
+                                        "additionalProperties": false,
                                         "required": [
                                           "@id"
                                         ],
@@ -3503,6 +3644,7 @@
                                             "type": "array",
                                             "contains": {
                                               "type": "object",
+                                              "additionalProperties": false,
                                               "required": [
                                                 "@id"
                                               ],
@@ -3532,6 +3674,7 @@
                                             "type": "array",
                                             "contains": {
                                               "type": "object",
+                                              "additionalProperties": false,
                                               "required": [
                                                 "@id"
                                               ],
@@ -3578,6 +3721,7 @@
                                   "anyOf": [
                                     {
                                       "type": "object",
+                                      "additionalProperties": false,
                                       "required": [
                                         "@id"
                                       ],
@@ -3591,6 +3735,7 @@
                                       "type": "array",
                                       "contains": {
                                         "type": "object",
+                                        "additionalProperties": false,
                                         "required": [
                                           "@id"
                                         ],
@@ -3626,6 +3771,7 @@
                                             "type": "array",
                                             "contains": {
                                               "type": "object",
+                                              "additionalProperties": false,
                                               "required": [
                                                 "@id"
                                               ],
@@ -3655,6 +3801,7 @@
                                             "type": "array",
                                             "contains": {
                                               "type": "object",
+                                              "additionalProperties": false,
                                               "required": [
                                                 "@id"
                                               ],
@@ -3686,6 +3833,7 @@
                                             "type": "array",
                                             "contains": {
                                               "type": "object",
+                                              "additionalProperties": false,
                                               "required": [
                                                 "@id"
                                               ],
@@ -3746,6 +3894,7 @@
                             },
                             {
                               "type": "object",
+                              "additionalProperties": false,
                               "required": [
                                 "@id"
                               ],
@@ -3769,6 +3918,7 @@
                           {
                             "contains": {
                               "type": "object",
+                              "additionalProperties": false,
                               "required": [
                                 "@id"
                               ],
@@ -3922,6 +4072,7 @@
                             "anyOf": [
                               {
                                 "type": "object",
+                                "additionalProperties": false,
                                 "required": [
                                   "@id"
                                 ],
@@ -3935,6 +4086,7 @@
                                 "type": "array",
                                 "contains": {
                                   "type": "object",
+                                  "additionalProperties": false,
                                   "required": [
                                     "@id"
                                   ],
@@ -4017,6 +4169,10 @@
           },
           {
             "type": "object",
+            "required": [
+              "@id"
+            ],
+            "additionalProperties": false,
             "properties": {
               "@id": {
                 "type": "string",
@@ -4054,6 +4210,7 @@
               },
               {
                 "type": "object",
+                "additionalProperties": false,
                 "required": [
                   "@id"
                 ],
@@ -4067,6 +4224,7 @@
           },
           "contains": {
             "type": "object",
+            "additionalProperties": false,
             "required": [
               "@id"
             ],
@@ -4084,6 +4242,10 @@
         },
         "schema:about": {
           "type": "object",
+          "required": [
+            "@id"
+          ],
+          "additionalProperties": false,
           "properties": {
             "@id": {
               "type": "string",
@@ -4097,6 +4259,10 @@
             "allOf": [
               {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string",
@@ -4106,6 +4272,10 @@
               },
               {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string",
@@ -4120,6 +4290,10 @@
             {
               "contains": {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "const": "https://w3id.org/cdif/core/1.1"
@@ -4130,6 +4304,10 @@
             {
               "contains": {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "const": "https://w3id.org/cdif/discovery/1.1"
@@ -4140,6 +4318,10 @@
             {
               "contains": {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "const": "https://w3id.org/cdif/data_description/1.1"
@@ -4150,6 +4332,10 @@
             {
               "contains": {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "const": "https://w3id.org/cdif/xasCore/1.0"
@@ -4417,6 +4603,7 @@
                                                         },
                                                         {
                                                           "type": "object",
+                                                          "additionalProperties": false,
                                                           "required": [
                                                             "@id"
                                                           ],
@@ -4458,6 +4645,10 @@
                                                   },
                                                   {
                                                     "type": "object",
+                                                    "required": [
+                                                      "@id"
+                                                    ],
+                                                    "additionalProperties": false,
                                                     "properties": {
                                                       "@id": {
                                                         "type": "string"
@@ -4517,6 +4708,7 @@
                                                       },
                                                       {
                                                         "type": "object",
+                                                        "additionalProperties": false,
                                                         "required": [
                                                           "@id"
                                                         ],
@@ -4530,6 +4722,7 @@
                                                   },
                                                   "contains": {
                                                     "type": "object",
+                                                    "additionalProperties": false,
                                                     "required": [
                                                       "@id"
                                                     ],
@@ -4545,6 +4738,7 @@
                                                   "type": "array",
                                                   "items": {
                                                     "type": "object",
+                                                    "additionalProperties": false,
                                                     "properties": {
                                                       "@id": {
                                                         "type": "string"
@@ -4556,6 +4750,10 @@
                                                   },
                                                   "contains": {
                                                     "type": "object",
+                                                    "required": [
+                                                      "@id"
+                                                    ],
+                                                    "additionalProperties": false,
                                                     "properties": {
                                                       "@id": {
                                                         "const": "https://w3id.org/cdif/codelist/1.1"
@@ -4570,6 +4768,7 @@
                                                 },
                                                 "schema:about": {
                                                   "type": "object",
+                                                  "additionalProperties": false,
                                                   "properties": {
                                                     "@id": {
                                                       "type": "string"
@@ -4609,6 +4808,10 @@
                                         },
                                         {
                                           "type": "object",
+                                          "required": [
+                                            "@id"
+                                          ],
+                                          "additionalProperties": false,
                                           "description": "object reference via URI or URI fragment referencing an @id in the same document",
                                           "properties": {
                                             "@id": {
@@ -4630,6 +4833,7 @@
                                 },
                                 {
                                   "type": "object",
+                                  "additionalProperties": false,
                                   "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
                                   "properties": {
                                     "@id": {
@@ -4663,6 +4867,7 @@
                                 },
                                 {
                                   "type": "object",
+                                  "additionalProperties": false,
                                   "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
                                   "properties": {
                                     "@id": {
@@ -4695,6 +4900,7 @@
                         },
                         {
                           "type": "object",
+                          "additionalProperties": false,
                           "properties": {
                             "@id": {
                               "type": "string"
@@ -4816,6 +5022,7 @@
                                                       },
                                                       {
                                                         "type": "object",
+                                                        "additionalProperties": false,
                                                         "required": [
                                                           "@id"
                                                         ],
@@ -4857,6 +5064,10 @@
                                                 },
                                                 {
                                                   "type": "object",
+                                                  "required": [
+                                                    "@id"
+                                                  ],
+                                                  "additionalProperties": false,
                                                   "properties": {
                                                     "@id": {
                                                       "type": "string"
@@ -4916,6 +5127,7 @@
                                                     },
                                                     {
                                                       "type": "object",
+                                                      "additionalProperties": false,
                                                       "required": [
                                                         "@id"
                                                       ],
@@ -4929,6 +5141,7 @@
                                                 },
                                                 "contains": {
                                                   "type": "object",
+                                                  "additionalProperties": false,
                                                   "required": [
                                                     "@id"
                                                   ],
@@ -4944,6 +5157,7 @@
                                                 "type": "array",
                                                 "items": {
                                                   "type": "object",
+                                                  "additionalProperties": false,
                                                   "properties": {
                                                     "@id": {
                                                       "type": "string"
@@ -4955,6 +5169,10 @@
                                                 },
                                                 "contains": {
                                                   "type": "object",
+                                                  "required": [
+                                                    "@id"
+                                                  ],
+                                                  "additionalProperties": false,
                                                   "properties": {
                                                     "@id": {
                                                       "const": "https://w3id.org/cdif/codelist/1.1"
@@ -4969,6 +5187,7 @@
                                               },
                                               "schema:about": {
                                                 "type": "object",
+                                                "additionalProperties": false,
                                                 "properties": {
                                                   "@id": {
                                                     "type": "string"
@@ -5008,6 +5227,10 @@
                                       },
                                       {
                                         "type": "object",
+                                        "required": [
+                                          "@id"
+                                        ],
+                                        "additionalProperties": false,
                                         "description": "object reference via URI or URI fragment referencing an @id in the same document",
                                         "properties": {
                                           "@id": {
@@ -5029,6 +5252,7 @@
                               },
                               {
                                 "type": "object",
+                                "additionalProperties": false,
                                 "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
                                 "properties": {
                                   "@id": {
@@ -5062,6 +5286,7 @@
                               },
                               {
                                 "type": "object",
+                                "additionalProperties": false,
                                 "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
                                 "properties": {
                                   "@id": {
@@ -5094,6 +5319,7 @@
                       },
                       {
                         "type": "object",
+                        "additionalProperties": false,
                         "properties": {
                           "@id": {
                             "type": "string"
@@ -5342,6 +5568,10 @@
               },
               "geosparql:crs": {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string",
@@ -5597,6 +5827,10 @@
               },
               {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string",
@@ -5676,6 +5910,7 @@
                       },
                       {
                         "type": "object",
+                        "additionalProperties": false,
                         "description": "object reference via @id to a cdifInstanceVariable declared elsewhere",
                         "properties": {
                           "@id": {
@@ -5709,6 +5944,7 @@
         },
         {
           "type": "object",
+          "additionalProperties": false,
           "description": "object reference via URI or URI fragment to a cdif:Key defined elsewhere in the same document",
           "properties": {
             "@id": {
@@ -5745,6 +5981,7 @@
           },
           {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "@id": {
                 "type": "string"
@@ -5853,7 +6090,7 @@
                       "$ref": "#/$defs/ForeignKey"
                     },
                     {
-                      "$ref": "#/$defs/id-reference"
+                      "$ref": "#/$defs/ObjectReference"
                     }
                   ]
                 },
@@ -5888,7 +6125,7 @@
                       ]
                     },
                     {
-                      "$ref": "#/$defs/id-reference"
+                      "$ref": "#/$defs/ObjectReference"
                     }
                   ]
                 },
@@ -5952,7 +6189,7 @@
                       "$ref": "#/$defs/ForeignKey"
                     },
                     {
-                      "$ref": "#/$defs/id-reference"
+                      "$ref": "#/$defs/ObjectReference"
                     }
                   ]
                 },
@@ -6067,7 +6304,7 @@
                       "$ref": "#/$defs/AttributeComponent"
                     },
                     {
-                      "$ref": "#/$defs/id-reference"
+                      "$ref": "#/$defs/ObjectReference"
                     }
                   ]
                 },
@@ -6084,7 +6321,7 @@
                       "$ref": "#/$defs/ForeignKey"
                     },
                     {
-                      "$ref": "#/$defs/id-reference"
+                      "$ref": "#/$defs/ObjectReference"
                     }
                   ]
                 },
@@ -6114,6 +6351,10 @@
               "dcterms:conformsTo": {
                 "contains": {
                   "type": "object",
+                  "required": [
+                    "@id"
+                  ],
+                  "additionalProperties": false,
                   "properties": {
                     "@id": {
                       "const": "https://w3id.org/cdif/data_structure/1.1"
@@ -6157,7 +6398,7 @@
                                 "$ref": "#/$defs/ForeignKey"
                               },
                               {
-                                "$ref": "#/$defs/id-reference"
+                                "$ref": "#/$defs/ObjectReference"
                               }
                             ]
                           },
@@ -6192,7 +6433,7 @@
                                 ]
                               },
                               {
-                                "$ref": "#/$defs/id-reference"
+                                "$ref": "#/$defs/ObjectReference"
                               }
                             ]
                           },
@@ -6256,7 +6497,7 @@
                                 "$ref": "#/$defs/ForeignKey"
                               },
                               {
-                                "$ref": "#/$defs/id-reference"
+                                "$ref": "#/$defs/ObjectReference"
                               }
                             ]
                           },
@@ -6371,7 +6612,7 @@
                                 "$ref": "#/$defs/AttributeComponent"
                               },
                               {
-                                "$ref": "#/$defs/id-reference"
+                                "$ref": "#/$defs/ObjectReference"
                               }
                             ]
                           },
@@ -6388,7 +6629,7 @@
                                 "$ref": "#/$defs/ForeignKey"
                               },
                               {
-                                "$ref": "#/$defs/id-reference"
+                                "$ref": "#/$defs/ObjectReference"
                               }
                             ]
                           },
@@ -6401,7 +6642,7 @@
                       ]
                     },
                     {
-                      "$ref": "#/$defs/id-reference"
+                      "$ref": "#/$defs/ObjectReference"
                     }
                   ]
                 }
@@ -6425,6 +6666,10 @@
           "anyOf": [
             {
               "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string",
@@ -6527,6 +6772,7 @@
             },
             {
               "type": "object",
+              "additionalProperties": false,
               "required": [
                 "@id"
               ],
@@ -6710,6 +6956,10 @@
               },
               {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -6813,6 +7063,10 @@
               },
               {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -6867,6 +7121,7 @@
           "anyOf": [
             {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string",
@@ -6931,6 +7186,10 @@
             },
             {
               "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string",
@@ -6953,6 +7212,10 @@
               },
               {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -6977,6 +7240,10 @@
             },
             {
               "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -7102,6 +7369,10 @@
             },
             {
               "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -7119,6 +7390,7 @@
             },
             {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -7135,6 +7407,10 @@
           "anyOf": [
             {
               "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string",
@@ -7152,6 +7428,10 @@
         },
         "cdi:qualifies": {
           "type": "object",
+          "required": [
+            "@id"
+          ],
+          "additionalProperties": false,
           "properties": {
             "@id": {
               "type": "string"
@@ -7234,6 +7514,10 @@
         },
         "cdif:formats_InstanceVariable": {
           "type": "object",
+          "required": [
+            "@id"
+          ],
+          "additionalProperties": false,
           "description": "Reference to a variable defined in schema:variableMeasured.",
           "properties": {
             "@id": {
@@ -7243,6 +7527,21 @@
           }
         }
       }
+    },
+    "ObjectReference": {
+      "title": "Object Reference",
+      "description": "A reference to a node defined elsewhere, by its @id.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "resolvable @id of the referenced node"
+        }
+      },
+      "required": [
+        "@id"
+      ],
+      "additionalProperties": false
     },
     "CdifRepresentedVariable": {
       "title": "DDI-CDI Represented Variable",
@@ -7381,6 +7680,7 @@
                                               },
                                               {
                                                 "type": "object",
+                                                "additionalProperties": false,
                                                 "required": [
                                                   "@id"
                                                 ],
@@ -7422,6 +7722,10 @@
                                         },
                                         {
                                           "type": "object",
+                                          "required": [
+                                            "@id"
+                                          ],
+                                          "additionalProperties": false,
                                           "properties": {
                                             "@id": {
                                               "type": "string"
@@ -7481,6 +7785,7 @@
                                             },
                                             {
                                               "type": "object",
+                                              "additionalProperties": false,
                                               "required": [
                                                 "@id"
                                               ],
@@ -7494,6 +7799,7 @@
                                         },
                                         "contains": {
                                           "type": "object",
+                                          "additionalProperties": false,
                                           "required": [
                                             "@id"
                                           ],
@@ -7509,6 +7815,7 @@
                                         "type": "array",
                                         "items": {
                                           "type": "object",
+                                          "additionalProperties": false,
                                           "properties": {
                                             "@id": {
                                               "type": "string"
@@ -7520,6 +7827,10 @@
                                         },
                                         "contains": {
                                           "type": "object",
+                                          "required": [
+                                            "@id"
+                                          ],
+                                          "additionalProperties": false,
                                           "properties": {
                                             "@id": {
                                               "const": "https://w3id.org/cdif/codelist/1.1"
@@ -7534,6 +7845,7 @@
                                       },
                                       "schema:about": {
                                         "type": "object",
+                                        "additionalProperties": false,
                                         "properties": {
                                           "@id": {
                                             "type": "string"
@@ -7573,6 +7885,10 @@
                               },
                               {
                                 "type": "object",
+                                "required": [
+                                  "@id"
+                                ],
+                                "additionalProperties": false,
                                 "description": "object reference via URI or URI fragment referencing an @id in the same document",
                                 "properties": {
                                   "@id": {
@@ -7594,6 +7910,7 @@
                       },
                       {
                         "type": "object",
+                        "additionalProperties": false,
                         "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
                         "properties": {
                           "@id": {
@@ -7627,6 +7944,7 @@
                       },
                       {
                         "type": "object",
+                        "additionalProperties": false,
                         "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
                         "properties": {
                           "@id": {
@@ -7658,7 +7976,7 @@
                 ]
               },
               {
-                "$ref": "#/$defs/CdifRepresentedVariable_id-reference"
+                "$ref": "#/$defs/ObjectReference"
               }
             ]
           },
@@ -7773,6 +8091,7 @@
                                             },
                                             {
                                               "type": "object",
+                                              "additionalProperties": false,
                                               "required": [
                                                 "@id"
                                               ],
@@ -7814,6 +8133,10 @@
                                       },
                                       {
                                         "type": "object",
+                                        "required": [
+                                          "@id"
+                                        ],
+                                        "additionalProperties": false,
                                         "properties": {
                                           "@id": {
                                             "type": "string"
@@ -7873,6 +8196,7 @@
                                           },
                                           {
                                             "type": "object",
+                                            "additionalProperties": false,
                                             "required": [
                                               "@id"
                                             ],
@@ -7886,6 +8210,7 @@
                                       },
                                       "contains": {
                                         "type": "object",
+                                        "additionalProperties": false,
                                         "required": [
                                           "@id"
                                         ],
@@ -7901,6 +8226,7 @@
                                       "type": "array",
                                       "items": {
                                         "type": "object",
+                                        "additionalProperties": false,
                                         "properties": {
                                           "@id": {
                                             "type": "string"
@@ -7912,6 +8238,10 @@
                                       },
                                       "contains": {
                                         "type": "object",
+                                        "required": [
+                                          "@id"
+                                        ],
+                                        "additionalProperties": false,
                                         "properties": {
                                           "@id": {
                                             "const": "https://w3id.org/cdif/codelist/1.1"
@@ -7926,6 +8256,7 @@
                                     },
                                     "schema:about": {
                                       "type": "object",
+                                      "additionalProperties": false,
                                       "properties": {
                                         "@id": {
                                           "type": "string"
@@ -7965,6 +8296,10 @@
                             },
                             {
                               "type": "object",
+                              "required": [
+                                "@id"
+                              ],
+                              "additionalProperties": false,
                               "description": "object reference via URI or URI fragment referencing an @id in the same document",
                               "properties": {
                                 "@id": {
@@ -7986,6 +8321,7 @@
                     },
                     {
                       "type": "object",
+                      "additionalProperties": false,
                       "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
                       "properties": {
                         "@id": {
@@ -8019,6 +8355,7 @@
                     },
                     {
                       "type": "object",
+                      "additionalProperties": false,
                       "description": "JSON-LD @id reference to a node defined elsewhere in the graph",
                       "properties": {
                         "@id": {
@@ -8050,7 +8387,7 @@
               ]
             },
             {
-              "$ref": "#/$defs/CdifRepresentedVariable_id-reference"
+              "$ref": "#/$defs/ObjectReference"
             }
           ],
           "description": "The substantive value domain for this RepresentedVariable - the set of valid, meaningful values (RepresentedVariable.takesSubstantiveValuesFrom)."
@@ -8157,7 +8494,7 @@
                         ]
                       },
                       {
-                        "$ref": "#/$defs/CdifRepresentedVariable_id-reference"
+                        "$ref": "#/$defs/ObjectReference"
                       }
                     ]
                   },
@@ -8169,7 +8506,7 @@
               ]
             },
             {
-              "$ref": "#/$defs/CdifRepresentedVariable_id-reference"
+              "$ref": "#/$defs/ObjectReference"
             }
           ]
         },
@@ -8247,7 +8584,7 @@
                 ]
               },
               {
-                "$ref": "#/$defs/CdifRepresentedVariable_id-reference"
+                "$ref": "#/$defs/ObjectReference"
               }
             ]
           },
@@ -8319,19 +8656,6 @@
         "schema:value"
       ]
     },
-    "id-reference": {
-      "type": "object",
-      "description": "Reference to a node defined elsewhere in the document via its @id.",
-      "additionalProperties": false,
-      "properties": {
-        "@id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "@id"
-      ]
-    },
     "propertyID_item": {
       "anyOf": [
         {
@@ -8339,6 +8663,10 @@
         },
         {
           "type": "object",
+          "required": [
+            "@id"
+          ],
+          "additionalProperties": false,
           "properties": {
             "@id": {
               "type": "string"
@@ -8456,6 +8784,7 @@
           "anyOf": [
             {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -8469,6 +8798,7 @@
               "type": "array",
               "items": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -8488,6 +8818,7 @@
             "anyOf": [
               {
                 "type": "object",
+                "additionalProperties": false,
                 "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
                 "properties": {
                   "@id": {
@@ -8512,6 +8843,7 @@
             "anyOf": [
               {
                 "type": "object",
+                "additionalProperties": false,
                 "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
                 "properties": {
                   "@id": {
@@ -8579,6 +8911,7 @@
             },
             {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -8600,6 +8933,7 @@
               },
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -8623,6 +8957,7 @@
               },
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -8707,6 +9042,7 @@
             },
             {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -8728,6 +9064,7 @@
               },
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -8820,6 +9157,7 @@
             },
             {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -8877,6 +9215,7 @@
             },
             {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -9125,6 +9464,7 @@
           "anyOf": [
             {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -9138,6 +9478,7 @@
               "type": "array",
               "items": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -9155,6 +9496,7 @@
           "anyOf": [
             {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -9168,6 +9510,7 @@
               "type": "array",
               "items": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -9187,6 +9530,7 @@
             "anyOf": [
               {
                 "type": "object",
+                "additionalProperties": false,
                 "description": "A reference to a SKOS Concept by URI.",
                 "properties": {
                   "@id": {
@@ -9211,6 +9555,7 @@
             "anyOf": [
               {
                 "type": "object",
+                "additionalProperties": false,
                 "description": "A reference to a SKOS Concept by URI.",
                 "properties": {
                   "@id": {
@@ -9249,6 +9594,7 @@
           "type": "array",
           "items": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "@id": {
                 "type": "string"
@@ -9278,6 +9624,7 @@
             "anyOf": [
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -9307,6 +9654,7 @@
           "type": "array",
           "items": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "@id": {
                 "type": "string"
@@ -9349,7 +9697,7 @@
               "$ref": "#/$defs/CdifRepresentedVariable"
             },
             {
-              "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+              "$ref": "#/$defs/ObjectReference"
             }
           ]
         }
@@ -9395,7 +9743,7 @@
               "$ref": "#/$defs/CdifRepresentedVariable"
             },
             {
-              "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+              "$ref": "#/$defs/ObjectReference"
             }
           ]
         },
@@ -9462,7 +9810,7 @@
                         "$ref": "#/$defs/CdifRepresentedVariable"
                       },
                       {
-                        "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+                        "$ref": "#/$defs/ObjectReference"
                       }
                     ]
                   },
@@ -9480,7 +9828,7 @@
                 ]
               },
               {
-                "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+                "$ref": "#/$defs/ObjectReference"
               }
             ]
           },
@@ -9496,7 +9844,7 @@
               "$ref": "#/$defs/CdifRepresentedVariable"
             },
             {
-              "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+              "$ref": "#/$defs/ObjectReference"
             }
           ]
         },
@@ -9537,7 +9885,7 @@
               "$ref": "#/$defs/CdifRepresentedVariable"
             },
             {
-              "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+              "$ref": "#/$defs/ObjectReference"
             }
           ]
         }
@@ -9575,7 +9923,7 @@
               "$ref": "#/$defs/CdifRepresentedVariable"
             },
             {
-              "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+              "$ref": "#/$defs/ObjectReference"
             }
           ]
         },
@@ -9664,6 +10012,7 @@
                           },
                           {
                             "type": "object",
+                            "additionalProperties": false,
                             "description": "object reference via URI or URI fragment to a RepresentedVariable defined elsewhere in the document",
                             "properties": {
                               "@id": {
@@ -9705,7 +10054,7 @@
           ]
         },
         "cdi:refersTo": {
-          "$ref": "#/$defs/CdifDataStructureComponent_id-reference"
+          "$ref": "#/$defs/ObjectReference"
         },
         "cdi:identifier": {
           "$ref": "#/$defs/Identifier",
@@ -9723,18 +10072,6 @@
       "required": [
         "@type",
         "cdif:isDefinedBy_DescriptorVariable"
-      ]
-    },
-    "CdifRepresentedVariable_id-reference": {
-      "type": "object",
-      "description": "Reference to a node defined elsewhere in the document via its @id.",
-      "properties": {
-        "@id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "@id"
       ]
     },
     "xsdDataType": {
@@ -9871,7 +10208,7 @@
                     "$ref": "#/$defs/CdifRepresentedVariable"
                   },
                   {
-                    "$ref": "#/$defs/id-reference"
+                    "$ref": "#/$defs/ObjectReference"
                   }
                 ]
               },
@@ -9893,7 +10230,7 @@
           "minItems": 1
         },
         "cdi:references": {
-          "$ref": "#/$defs/id-reference",
+          "$ref": "#/$defs/ObjectReference",
           "description": "references a primary key in a different dataset"
         }
       },
@@ -9904,7 +10241,7 @@
     },
     "PrimaryKey": {
       "type": "object",
-      "description": "set of Variables that uniquely identify a data instance. Array order of cdif:isComposedOf items is the position; no intermediate ComponentPosition wrapper.",
+      "description": "set of Variables that uniquely identify a data instance, expressed as an ordered list of cdi:ComponentPosition wrappers (unified with cdifKey's cdi:ComponentPosition model).",
       "properties": {
         "@type": {
           "type": "array",
@@ -9922,28 +10259,42 @@
         },
         "cdif:isComposedOf": {
           "type": "array",
-          "description": "List @id-references to representedVariables in this dataStructure. Array order of cdif:isComposedOf items is the position; no intermediate ComponentPosition wrapper.",
+          "minItems": 1,
+          "description": "Ordered list of cdi:ComponentPosition wrappers, one per key component. Each wrapper indexes one representedVariable (cdi:indexes) at its cdi:value position in the key.",
           "items": {
-            "allOf": [
-              {
-                "$ref": "#/$defs/id-reference"
+            "type": "object",
+            "description": "cdi:ComponentPosition wrapper indexing one variable's position in the key.",
+            "properties": {
+              "@type": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "contains": {
+                  "const": "cdi:ComponentPosition"
+                },
+                "minItems": 1
               },
-              {
-                "type": "object",
-                "properties": {
-                  "cdif:position": {
-                    "type": "integer",
-                    "minimum": 1,
-                    "description": "1-based position of this component in the key."
-                  }
-                }
+              "@id": {
+                "type": "string",
+                "description": "Identifier for this ComponentPosition node."
+              },
+              "cdi:indexes": {
+                "$ref": "#/$defs/ObjectReference",
+                "description": "The representedVariable this position indexes — an @id-reference to a variable declared elsewhere in the dataStructure."
+              },
+              "cdi:value": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "1-based position of this variable in the ordered key."
               }
+            },
+            "required": [
+              "@type",
+              "cdi:indexes",
+              "cdi:value"
             ]
-          },
-          "required": [
-            "cdif:position"
-          ],
-          "minItems": 1
+          }
         }
       },
       "required": [
@@ -9967,18 +10318,6 @@
       "required": [
         "@value",
         "@language"
-      ]
-    },
-    "CdifDataStructureComponent_id-reference": {
-      "type": "object",
-      "description": "Reference to a node defined elsewhere in the document via its @id.",
-      "properties": {
-        "@id": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "@id"
       ]
     }
   }
