@@ -73,74 +73,76 @@ properties:
                 - schema:instrument
                 properties:
                   schema:instrument:
-                    type: object
-                    required:
-                    - schema:additionalType
-                    - schema:additionalProperty
-                    properties:
-                      schema:additionalType:
-                        anyOf:
-                        - type: object
-                          additionalProperties: false
-                          required:
-                          - '@id'
-                          properties:
-                            '@id':
-                              const: xas:source
-                        - type: array
-                          contains:
-                            type: object
+                    type: array
+                    contains:
+                      type: object
+                      required:
+                      - schema:additionalType
+                      - schema:additionalProperty
+                      properties:
+                        schema:additionalType:
+                          anyOf:
+                          - type: object
                             additionalProperties: false
                             required:
                             - '@id'
                             properties:
                               '@id':
                                 const: xas:source
-                      schema:additionalProperty:
-                        type: array
-                        minItems: 2
-                        items:
-                          $ref: '#/$defs/AdditionalProperty'
-                        allOf:
-                        - contains:
-                            type: object
-                            required:
-                            - schema:propertyID
-                            - schema:value
-                            properties:
-                              schema:propertyID:
-                                type: array
-                                contains:
-                                  type: object
-                                  additionalProperties: false
-                                  required:
-                                  - '@id'
-                                  properties:
-                                    '@id':
-                                      const: xas:xraysourcetype
-                              schema:value:
-                                type: string
-                        - contains:
-                            type: object
-                            required:
-                            - schema:name
-                            - schema:propertyID
-                            - schema:value
-                            properties:
-                              schema:propertyID:
-                                type: array
-                                contains:
-                                  type: object
-                                  additionalProperties: false
-                                  required:
-                                  - '@id'
-                                  properties:
-                                    '@id':
-                                      const: xas:probe
-                              schema:name:
-                                const: Probe
-                              schema:value:
-                                type: string
+                          - type: array
+                            contains:
+                              type: object
+                              additionalProperties: false
+                              required:
+                              - '@id'
+                              properties:
+                                '@id':
+                                  const: xas:source
+                        schema:additionalProperty:
+                          type: array
+                          minItems: 2
+                          items:
+                            $ref: '#/$defs/AdditionalProperty'
+                          allOf:
+                          - contains:
+                              type: object
+                              required:
+                              - schema:propertyID
+                              - schema:value
+                              properties:
+                                schema:propertyID:
+                                  type: array
+                                  contains:
+                                    type: object
+                                    additionalProperties: false
+                                    required:
+                                    - '@id'
+                                    properties:
+                                      '@id':
+                                        const: xas:xraysourcetype
+                                schema:value:
+                                  type: string
+                          - contains:
+                              type: object
+                              required:
+                              - schema:name
+                              - schema:propertyID
+                              - schema:value
+                              properties:
+                                schema:propertyID:
+                                  type: array
+                                  contains:
+                                    type: object
+                                    additionalProperties: false
+                                    required:
+                                    - '@id'
+                                    properties:
+                                      '@id':
+                                        const: xas:probe
+                                schema:name:
+                                  const: Probe
+                                schema:value:
+                                  type: string
             - description: >-
                 Must contain a peer wrapper whose schema:instrument is
                 classified as xas:xraymonochromator, has a
@@ -153,96 +155,98 @@ properties:
                 - schema:instrument
                 properties:
                   schema:instrument:
-                    type: object
-                    required:
-                    - schema:additionalType
-                    - schema:name
-                    - schema:additionalProperty
-                    properties:
-                      schema:additionalType:
-                        anyOf:
-                        - type: object
-                          additionalProperties: false
-                          required:
-                          - '@id'
-                          properties:
-                            '@id':
-                              const: xas:xraymonochromator
-                        - type: array
-                          contains:
-                            type: object
+                    type: array
+                    contains:
+                      type: object
+                      required:
+                      - schema:additionalType
+                      - schema:name
+                      - schema:additionalProperty
+                      properties:
+                        schema:additionalType:
+                          anyOf:
+                          - type: object
                             additionalProperties: false
                             required:
                             - '@id'
                             properties:
                               '@id':
                                 const: xas:xraymonochromator
-                      schema:name:
-                        type: string
-                      schema:additionalProperty:
-                        description: Require crystal type, d_spacing (with unitText), and reflection plane properties.
-                        type: array
-                        minItems: 3
-                        items:
-                          $ref: '#/$defs/AdditionalProperty'
-                        allOf:
-                        - contains:
-                            type: object
-                            required:
-                            - schema:propertyID
-                            - schema:value
-                            properties:
-                              schema:propertyID:
-                                type: array
-                                contains:
-                                  type: object
-                                  additionalProperties: false
-                                  required:
-                                  - '@id'
-                                  properties:
-                                    '@id':
-                                      const: xas:monochromatortype
-                              schema:value:
-                                type: string
-                        - contains:
-                            type: object
-                            required:
-                            - schema:propertyID
-                            - schema:value
-                            - schema:unitText
-                            properties:
-                              schema:propertyID:
-                                type: array
-                                contains:
-                                  type: object
-                                  additionalProperties: false
-                                  required:
-                                  - '@id'
-                                  properties:
-                                    '@id':
-                                      const: xas:dspacing
-                              schema:value:
-                                type: string
-                              schema:unitText:
-                                type: string
-                        - contains:
-                            type: object
-                            required:
-                            - schema:propertyID
-                            - schema:value
-                            properties:
-                              schema:propertyID:
-                                type: array
-                                contains:
-                                  type: object
-                                  additionalProperties: false
-                                  required:
-                                  - '@id'
-                                  properties:
-                                    '@id':
-                                      const: xas:reflectionplane
-                              schema:value:
-                                type: string
+                          - type: array
+                            contains:
+                              type: object
+                              additionalProperties: false
+                              required:
+                              - '@id'
+                              properties:
+                                '@id':
+                                  const: xas:xraymonochromator
+                        schema:name:
+                          type: string
+                        schema:additionalProperty:
+                          description: Require crystal type, d_spacing (with unitText), and reflection plane properties.
+                          type: array
+                          minItems: 3
+                          items:
+                            $ref: '#/$defs/AdditionalProperty'
+                          allOf:
+                          - contains:
+                              type: object
+                              required:
+                              - schema:propertyID
+                              - schema:value
+                              properties:
+                                schema:propertyID:
+                                  type: array
+                                  contains:
+                                    type: object
+                                    additionalProperties: false
+                                    required:
+                                    - '@id'
+                                    properties:
+                                      '@id':
+                                        const: xas:monochromatortype
+                                schema:value:
+                                  type: string
+                          - contains:
+                              type: object
+                              required:
+                              - schema:propertyID
+                              - schema:value
+                              - schema:unitText
+                              properties:
+                                schema:propertyID:
+                                  type: array
+                                  contains:
+                                    type: object
+                                    additionalProperties: false
+                                    required:
+                                    - '@id'
+                                    properties:
+                                      '@id':
+                                        const: xas:dspacing
+                                schema:value:
+                                  type: string
+                                schema:unitText:
+                                  type: string
+                          - contains:
+                              type: object
+                              required:
+                              - schema:propertyID
+                              - schema:value
+                              properties:
+                                schema:propertyID:
+                                  type: array
+                                  contains:
+                                    type: object
+                                    additionalProperties: false
+                                    required:
+                                    - '@id'
+                                    properties:
+                                      '@id':
+                                        const: xas:reflectionplane
+                                schema:value:
+                                  type: string
           schema:object:
             $ref: '#/$defs/XasSample'
   schema:distribution:
