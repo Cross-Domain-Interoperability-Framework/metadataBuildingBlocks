@@ -58,6 +58,15 @@ properties:
       an archive, which have no address of their own, use
       schema:hasPart on the distribution instead.
   'schema:distribution':
+    # type: array is load-bearing, not decoration. JSON Schema applies
+    # `items` only when the instance IS an array, so without it a
+    # distribution written as a single object -- rather than a
+    # one-element array -- slipped through with NONE of the rules below
+    # applied: no hasPart requirement for a bundle, no MediaObject
+    # typing, no must-not-be-DataDownload check. Composing with cdifCore
+    # masked it, because cdifCore declares the array; this module alone
+    # did not.
+    type: array
     items:
       allOf:
       - properties:
