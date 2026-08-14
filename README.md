@@ -31,12 +31,31 @@ Resolves all external `$ref` references from modular YAML/JSON source schemas in
 # profiles/cdifCompositeProfile/ for modules and composites respectively)
 python tools/resolve_schema.py CoreDiscovery
 
-# Resolve all building blocks with external $refs (writes each BB's resolvedSchema.json)
+# Resolve every BB that has external $refs OR already ships a
+# resolvedSchema.json (92 blocks), reporting how many actually changed
 python tools/resolve_schema.py --all
 
 # Resolve an arbitrary schema file
-python tools/resolve_schema.py --file path/to/any/schema.yaml -o resolvedSchema.json
+python tools/resolve_schema.py --file path/to/any/schema.yaml
+
+# Print instead of writing
+python tools/resolve_schema.py CoreDiscovery --stdout
 ```
+
+**Writing is the default (changed 2026-08).** Naming a block used to print
+to stdout and leave the `resolvedSchema.json` beside the source untouched,
+while `--all` wrote in place — one tool with two opposite behaviours, the
+silent one the default. A `schema.yaml` edit could therefore land in the
+source and in nothing that validates against it. Use `--stdout` for the old
+behaviour; `-o` still redirects.
+
+**`--all` no longer skips blocks whose `$ref`s are all internal.** Selecting
+on external refs alone missed 13 blocks that publish a `resolvedSchema.json`,
+6 of which had already drifted. A **type library** (`isTypeLibrary: true` in
+`bblock.json`) additionally keeps every `$def`: its definitions are referenced
+from *other* blocks, so their local use count is zero and the low-use inlining
+pass would otherwise delete them — `ddicdiDataTypes` declared 28 `$defs` and
+published none.
 
 The legacy `--structured` flag is accepted but ignored — structured form is the only output mode.
 

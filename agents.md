@@ -210,6 +210,32 @@ The second `$ref` (to `id-reference`) lets a JSON-LD document carry just `{"@id"
 
 **Sealed bare-`{@id}` references (2026-08).** The reference alternative of an `anyOf` — the `{"@id": "..."}` shape — is `additionalProperties: false` with `required: ['@id']`, so a reference slot no longer silently accepts an arbitrary inline object that merely happens to carry an `@id` (the old lenient catch-all). The canonical strict form is the **`cdifDataType/objectReference`** BB (`{@id}` only, sealed); new schemas should `$ref` it rather than re-inline a local `id-reference` `$def`. **Only seal a reference alternative of an `anyOf`.** Never add `additionalProperties: false` to an `allOf` member or a catch-all stub: because profiles compose via `allOf`, a sealed member intersected with a richer one becomes unsatisfiable. When a bare reference legitimately carries `@type` or `@context` (e.g. a standalone JSON-LD example doc), either drop those keys or model the node fully — don't loosen the seal.
 
+## Conforming an instrument used by an activity
+
+An instrument reached through `prov:used` must carry two markers that are easy
+to omit, because neither is domain-specific and both live in the base BBs:
+
+```json
+"schema:instrument": {
+  "@type": ["schema:Thing", "schema:Product", "prov:Entity"],
+  "schema:additionalType": [{"@id": "xas:beamline"}, {"@id": "wd:Q3099911"}]
+}
+```
+
+- **`prov:Entity` in `@type`** — the PROV-O range of `prov:used`.
+- **`{"@id": "wd:Q3099911"}` in `schema:additionalType`** — Wikidata
+  *scientific instrument*, required by `xasInstrument` via `contains`. The
+  domain type (`xas:beamline`, `xas:source`, …) sits alongside it, not
+  instead of it. Declare the prefix `wd: https://www.wikidata.org/entity/`.
+
+`schema:identifier` on an instrument is an **array** slot, as is `cdif:name`.
+
+Diagnosing a miss is awkward: the top-level error is the unhelpful "not valid
+under any of the given schemas" plus a dump of the whole document, and fixing
+only one of the two markers makes the reported error *move* from
+`schema:additionalType` to `@type` rather than disappear. Walk
+`error.context` to the deepest sub-error, and expect to fix both.
+
 ## prov:used wrapper model (base accepts, profiles pin)
 
 `provProperties/generatedBy.prov:used` is the base contract for every provenance activity. An item may be: a **string**, an **`{@id}` reference**, an **inline `prov:Entity`** object (`@type` ∋ `prov:Entity`), or a **role-keyed wrapper** naming what was used through one of the recognized relations — `schema:instrument`, `bios:computationalTool`, or `prov:reagent`. The base leaves the wrapped value loose.
@@ -664,7 +690,15 @@ python tools/resolve_schema.py --file path/to/any/schema.yaml -o resolvedSchema.
 python tools/resolve_schema.py --all
 ```
 
-**CLI options:** `profile` (positional, profile name), `--file` (arbitrary schema path), `--all` (resolve all schemas with external refs, writes resolvedSchema.json per BB), `-o`/`--output` (output file for single-target runs; default: stdout). The legacy `--structured` flag is accepted but ignored — structured form is the only output mode.
+**CLI options:** `profile` (positional, profile name), `--file` (arbitrary schema path), `--all`, `-o`/`--output` (redirect a single-target run), `--stdout` (print instead of writing). The legacy `--structured` flag is accepted but ignored — structured form is the only output mode.
+
+**Writing in place is the default (2026-08).** It used to be printing, so `resolve_schema.py <name>` reported the `$defs` and byte count while leaving `resolvedSchema.json` stale — a source edit could reach the `schema.yaml` and nothing that validates against it. `--all` always wrote, so the tool had two opposite behaviours and the quiet one was the default.
+
+**`--all` covers 92 blocks, not 79**: every BB with external `$ref`s *or* an existing `resolvedSchema.json`. The old external-refs-only test skipped 13 blocks that ship a resolved artifact, 6 already stale. It now also reports how many files it changed — `Resolved 92 schemas: 0 updated` — because a count of files processed reads the same whether it rewrote everything or nothing.
+
+**Type libraries keep all their `$defs`.** A block flagged `isTypeLibrary: true` in `bblock.json` publishes definitions for *other* blocks to `$ref`, so nothing local references them: the merge never collects them and `inline_low_use_defs` drops anything used ≤2 times (a def used zero times is inlined into nothing and popped). Both steps are skipped for type libraries. Before this, `ddicdiDataTypes` declared 28 `$defs` and its published `resolvedSchema.json` contained none.
+
+**Writes LF and compares bytes.** Text-mode writes produced CRLF on Windows against LF-stored files, so every run rewrote all 92 while the text-mode comparison reported "0 updated". Repeated runs are now byte-stable.
 
 **Requirements:** Python 3.6+ with `pyyaml`
 
