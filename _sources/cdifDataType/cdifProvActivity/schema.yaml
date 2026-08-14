@@ -28,6 +28,11 @@ allOf:
         schema:instrument wrapper's value to the Instrument description when that
         key is present; it adds no other restriction, so all base item shapes
         (including inline prov:Entity inputs such as samples) remain valid.
+        The wrapped value is an ARRAY of Instrument. schema:instrument is 0..* --
+        one activity commonly uses several instruments in the same role (a laser
+        ablation cell plus the ICP-MS it feeds) -- and this schema implements
+        every 1..* / 0..* property as a JSON array, never as "object or array",
+        so a consumer never has to test the value's type before iterating.
       items:
         if:
           type: object
@@ -35,7 +40,10 @@ allOf:
         then:
           properties:
             'schema:instrument':
-              $ref: '#/$defs/Instrument'
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/$defs/Instrument'
     'schema:name':
       type: string
       description: Human-readable name for the activity

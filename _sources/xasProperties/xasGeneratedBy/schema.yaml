@@ -54,7 +54,10 @@ allOf:
           - 'schema:instrument'
           properties:
             'schema:instrument':
-              $ref: '#/$defs/Instrument'
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/$defs/Instrument'
         - type: string
         - type: object
           required: ['@id']
@@ -71,31 +74,33 @@ allOf:
           type: object
           properties:
             'schema:instrument':
-              type: object
-              properties:
-                'schema:additionalType':
-                  anyOf:
-                  - type: object
-                    additionalProperties: false
-                    required:
-                    - '@id'
-                    properties:
-                      '@id':
-                        const: 'xas:beamline'
-                  - type: array
-                    contains:
-                      type: object
+              type: array
+              contains:
+                type: object
+                properties:
+                  'schema:additionalType':
+                    anyOf:
+                    - type: object
                       additionalProperties: false
                       required:
                       - '@id'
                       properties:
                         '@id':
                           const: 'xas:beamline'
-                'schema:name':
-                  type: string
-              required:
-              - 'schema:additionalType'
-              - 'schema:name'
+                    - type: array
+                      contains:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - '@id'
+                        properties:
+                          '@id':
+                            const: 'xas:beamline'
+                  'schema:name':
+                    type: string
+                required:
+                - 'schema:additionalType'
+                - 'schema:name'
           required:
           - 'schema:instrument'
       - description: >-
@@ -107,49 +112,51 @@ allOf:
           type: object
           properties:
             'schema:instrument':
-              type: object
-              properties:
-                'schema:additionalType':
-                  anyOf:
-                  - type: object
-                    additionalProperties: false
-                    required:
-                    - '@id'
-                    properties:
-                      '@id':
-                        const: 'xas:xraymonochromator'
-                  - type: array
-                    contains:
-                      type: object
+              type: array
+              contains:
+                type: object
+                properties:
+                  'schema:additionalType':
+                    anyOf:
+                    - type: object
                       additionalProperties: false
                       required:
                       - '@id'
                       properties:
                         '@id':
                           const: 'xas:xraymonochromator'
-                'schema:additionalProperty':
-                  type: array
-                  contains:
-                    type: object
-                    properties:
-                      'schema:propertyID':
-                        type: array
-                        contains:
-                          type: object
-                          additionalProperties: false
-                          required:
-                          - '@id'
-                          properties:
-                            '@id':
-                              const: xas:dspacing
-                      'schema:value':
-                        type: string
-                    required:
-                    - 'schema:propertyID'
-                    - 'schema:value'
-              required:
-              - 'schema:additionalType'
-              - 'schema:additionalProperty'
+                    - type: array
+                      contains:
+                        type: object
+                        additionalProperties: false
+                        required:
+                        - '@id'
+                        properties:
+                          '@id':
+                            const: 'xas:xraymonochromator'
+                  'schema:additionalProperty':
+                    type: array
+                    contains:
+                      type: object
+                      properties:
+                        'schema:propertyID':
+                          type: array
+                          contains:
+                            type: object
+                            additionalProperties: false
+                            required:
+                            - '@id'
+                            properties:
+                              '@id':
+                                const: xas:dspacing
+                        'schema:value':
+                          type: string
+                      required:
+                      - 'schema:propertyID'
+                      - 'schema:value'
+                required:
+                - 'schema:additionalType'
+                - 'schema:additionalProperty'
           required:
           - 'schema:instrument'
     'schema:additionalProperty':
