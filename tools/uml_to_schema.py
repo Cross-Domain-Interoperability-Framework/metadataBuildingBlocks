@@ -3510,6 +3510,9 @@ def render_puml_to_svg(puml_dir: Path, plantuml_jar: Path,
     def _sha(p: Path) -> str:
         return hashlib.sha256(p.read_bytes()).hexdigest()
 
+    # Cache schema: {rel: {"pu_hash": <sha256>, "svg_mtime": <float>}}
+    # Legacy entries (bare hash string) are treated as unfresh so the next run
+    # produces the richer entry.
     cur_hash: dict[str, str] = {}
     to_render: list[Path] = []
     for pu in pu_files:
@@ -3517,7 +3520,20 @@ def render_puml_to_svg(puml_dir: Path, plantuml_jar: Path,
         h = _sha(pu)
         cur_hash[rel] = h
         svg = pu.with_suffix(".svg")
-        if not svg.exists() or cache.get(rel) != h:
+        entry = cache.get(rel)
+        # Freshness: svg exists AND cached pu-hash matches current pu content
+        # AND svg on disk has the mtime we recorded when we last rendered it.
+        # The svg_mtime check catches the case where a git pull/checkout has
+        # restored an older committed .svg under a newer .pu (or vice versa):
+        # the restored file's mtime is the checkout time, not the mtime we
+        # recorded, so we re-render.
+        fresh = (
+            svg.exists()
+            and isinstance(entry, dict)
+            and entry.get("pu_hash") == h
+            and entry.get("svg_mtime") == svg.stat().st_mtime
+        )
+        if not fresh:
             to_render.append(pu)
 
     rendered: list[Path] = []
@@ -3551,10 +3567,14 @@ def render_puml_to_svg(puml_dir: Path, plantuml_jar: Path,
                 if pu not in rendered:
                     rendered.append(pu)
 
-    # Record the hash of each successfully rendered .pu; prune entries for .pu
-    # files that no longer exist. Skipped (up-to-date) entries are preserved.
+    # Record (pu_hash, svg_mtime) for each successfully rendered .pu; prune
+    # entries for .pu files that no longer exist. Skipped (up-to-date) entries
+    # are preserved.
     for f in rendered:
-        cache[f.relative_to(puml_dir).as_posix()] = cur_hash[f.relative_to(puml_dir).as_posix()]
+        rel = f.relative_to(puml_dir).as_posix()
+        svg = f.with_suffix(".svg")
+        if svg.exists():
+            cache[rel] = {"pu_hash": cur_hash[rel], "svg_mtime": svg.stat().st_mtime}
     cache = {k: v for k, v in cache.items() if k in cur_hash}
     try:
         cache_path.write_text(json.dumps(cache, indent=0, sort_keys=True) + "\n",
