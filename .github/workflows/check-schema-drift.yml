@@ -1,0 +1,108 @@
+# Fail when a schema.yaml edit has landed without regenerating the
+# artifacts built from it.
+#
+# This is the failure that produced a98330da3: the source said
+# schema:instrument was an array, every resolvedSchema.json still said
+# object, and nothing anywhere disagreed out loud. The drift lived for a
+# day and was found by accident. A source edit that lands in schema.yaml
+# and in nothing that validates against it is invisible precisely because
+# the sources still look right.
+#
+# The check does not repair anything. Committing a fix on the author's
+# behalf would restore byte-parity while leaving the habit intact -- and
+# the artifacts here are inputs to downstream repos, so a bot-authored
+# regeneration is a schema change nobody reviewed.
+name: Check generated schemas are current
+
+on:
+  # Push matters as much as pull_request: a98330da3 went straight to main.
+  push:
+    branches: [main]
+    paths:
+      - '_sources/**/schema.yaml'
+      - '_sources/**/resolvedSchema.json'
+      - '_sources/**/*Schema.json'
+      - 'tools/resolve_schema.py'
+      - 'tools/regenerate_schema_json.py'
+      - '.github/workflows/check-schema-drift.yml'
+  pull_request:
+    paths:
+      - '_sources/**/schema.yaml'
+      - '_sources/**/resolvedSchema.json'
+      - '_sources/**/*Schema.json'
+      - 'tools/resolve_schema.py'
+      - 'tools/regenerate_schema_json.py'
+      - '.github/workflows/check-schema-drift.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: schema-drift-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-drift:
+    name: Regenerate and diff
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      # No source declares a URL $ref, so both tools run entirely offline
+      # and the result depends only on the checked-out tree.
+      - name: Regenerate resolved schemas
+        run: python tools/resolve_schema.py --all
+
+      - name: Regenerate Schema.json files
+        run: python tools/regenerate_schema_json.py
+
+      - name: Report drift
+        run: |
+          # Scoped to _sources: build/ is regenerated and committed by the
+          # postprocess and jsonforms workflows, so it is expected to lag
+          # here and is not this check's business.
+          if git diff --quiet -- _sources; then
+            echo "Generated schemas match their sources."
+            exit 0
+          fi
+
+          echo "::error::Generated schemas are stale. A schema.yaml was edited without regenerating what is built from it."
+          echo
+          echo "Files that regeneration changed:"
+          git diff --name-only -- _sources | sed 's/^/  /'
+          echo
+          echo "To fix, from the repo root:"
+          echo "  python tools/resolve_schema.py --all"
+          echo "  python tools/regenerate_schema_json.py"
+          echo "then commit the result. Regeneration is deterministic, so"
+          echo "these are the same bytes CI just produced."
+          echo
+          echo "===== full diff ====="
+          # Untruncated on purpose. A reviewer reading this log is deciding
+          # whether the drift is a forgotten regeneration or a real
+          # disagreement between a source and its artifact, and the summary
+          # alone cannot tell those apart.
+          git --no-pager diff -- _sources
+          exit 1
+
+      # Only reachable when the diff is clean, so this catches the other
+      # half: a generated file that regeneration does not produce at all.
+      - name: Check for untracked generated files
+        run: |
+          UNTRACKED=$(git ls-files --others --exclude-standard -- _sources)
+          if [ -n "$UNTRACKED" ]; then
+            echo "::error::Regeneration produced files that are not committed."
+            echo "$UNTRACKED" | sed 's/^/  /'
+            exit 1
+          fi
+          echo "No untracked generated files."

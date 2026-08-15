@@ -483,6 +483,20 @@ Each building block directory contains:
 
 For profiles, generated files use the full profile directory name (e.g., `CoreDiscoverySchema.json`).
 
+**Regenerate in the same commit as the source edit.** CI enforces this:
+`.github/workflows/check-schema-drift.yml` reruns both tools on every push
+to `main` and every PR touching a `schema.yaml` or either tool, then fails
+if the result differs from what is committed. It reports the drifted files
+and the full diff; it does not commit a fix, because these artifacts are
+inputs to the downstream release repos and a bot-authored regeneration
+would be a schema change nobody reviewed.
+
+The check exists because `a98330da3` edited `cdifProvActivity/schema.yaml`
+so `schema:instrument` was always an array, without regenerating. For a
+day the source and seven `resolvedSchema.json` files disagreed, and
+anything validating against the resolved form enforced the old rule. It
+was found by accident during unrelated work.
+
 ### `bblock.json` Required Fields
 
 Every `bblock.json` must include all of these fields:
