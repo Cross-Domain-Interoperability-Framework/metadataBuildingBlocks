@@ -714,6 +714,14 @@ python tools/resolve_schema.py --all
 
 **Writes LF and compares bytes.** Text-mode writes produced CRLF on Windows against LF-stored files, so every run rewrote all 92 while the text-mode comparison reported "0 updated". Repeated runs are now byte-stable.
 
+**An unresolvable `$ref` is fatal, and nothing is written (2026-08-15).** A failed fetch, a missing file, or a fragment that isn't in the target used to print a `WARNING` and emit a `$comment` placeholder where the content belonged — so the run still "succeeded" and a schema missing whole branches replaced a good one on disk. The tool now scans the *finished* output for those placeholders (`find_unresolved`), skips writing any schema that has them, lists what failed and where, and exits 1. Checking the output rather than each failure site matters: `unresolved fragment ref:` doubles as an internal sentinel that `_inline_unresolved_defs` replaces later in the inline path, so recording at the call site would report failures that get fixed moments later.
+
+`--allow-unresolved` restores the old write-anyway behaviour. It exists for repairing a repo whose refs are *already* broken — you need to regenerate to see the damage — not for routine use.
+
+This is not hypothetical. `ecrrBuildingBlocks` points every one of its 25 cross-repo `$ref`s at `https://usgin.github.io/metadataBuildingBlocks`, which does not exist; all 25 404. Its committed `resolvedSchema.json` were generated with every ref failing, so regeneration reproduces them exactly — zero drift, and the published schemas are missing all their cross-repo content. `ddeBuildingBlocks` has 3 refs still on the pre-reorg `_sources/cdifProperties/` path (now `cdifDataType/`); regenerating it today would collapse its artifacts from 98k lines to 10k.
+
+**Emitted source locations never contain a local path.** A URL-fetched schema is cached under a per-run `tempfile.mkdtemp()`, and that absolute path was being written into `$comment` values — making output differ on every run and baking the local username into committed artifacts. `_display_source()` maps a cache path back to its URL, falls back to a repo-relative path, and never emits an absolute local path. `geochemBuildingBlocks` has 47 committed artifacts carrying 92 such paths; that alone made it "drift" on every regeneration, with two runs differing only in `resolve_schema_ktd_n0em` vs `resolve_schema_wv3kcf7_`.
+
 **Requirements:** Python 3.6+ with `pyyaml`
 
 **Key implementation details (tools/resolve_schema.py):**

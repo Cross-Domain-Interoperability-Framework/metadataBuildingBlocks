@@ -67,6 +67,71 @@ def _is_url(ref: str) -> bool:
     return ref.startswith("https://") or ref.startswith("http://") or ref.startswith("//")
 
 
+# $comment values that mean "the content that belongs here is missing". Cycle
+# markers (circular-ref, cycle:, self-referential:) are deliberately absent --
+# those are legitimate outcomes for a recursive schema, not failures.
+UNRESOLVED_PREFIXES = (
+    "failed to fetch URL:",
+    "file not found:",
+    "could not resolve fragment",
+    "unresolved fragment ref:",
+)
+
+
+def _display_source(path: Path) -> str:
+    """Render a source location deterministically and without local paths.
+
+    A URL-fetched schema lives under a per-run tempfile.mkdtemp() directory, so
+    embedding str(path) in output made the artifact different on every run and
+    baked the local username into it. geochemBuildingBlocks has 47 committed
+    resolvedSchema.json carrying 92 such paths, which is why regenerating it
+    always "drifts". Map the cache path back to the URL it came from; fall back
+    to a repo-relative path; never emit an absolute local path.
+    """
+    s = str(path)
+    for cache_prefix, url_prefix in _URL_BASE_REGISTRY.items():
+        if s.startswith(cache_prefix):
+            rest = s[len(cache_prefix):].replace(os.sep, "/").lstrip("/")
+            return f"{url_prefix}/{rest}"
+    if s.startswith(str(_URL_CACHE_DIR)):
+        # Inside the cache but no registered base -- strip the temp root so at
+        # least the run-to-run random segment does not survive.
+        rest = s[len(str(_URL_CACHE_DIR)):].replace(os.sep, "/").lstrip("/")
+        return f"(fetched)/{rest}"
+    try:
+        return str(path.resolve().relative_to(REPO_ROOT)).replace(os.sep, "/")
+    except ValueError:
+        # Outside the repo and not fetched. Keep the tail rather than the bare
+        # filename -- "schema.yaml" alone names nothing, and every building
+        # block has one.
+        parts = path.resolve().parts[-3:]
+        return ".../" + "/".join(parts)
+
+
+def find_unresolved(node: Any, path: str = "") -> list[tuple[str, str]]:
+    """Collect surviving failure placeholders from a *resolved* schema.
+
+    Checking the finished output rather than instrumenting each failure site
+    is deliberate: "unresolved fragment ref:" is also used as an internal
+    sentinel that _inline_unresolved_defs replaces later in the inline path, so
+    recording at the call site would report failures that get fixed moments
+    later. Whatever is still present at the end is genuinely missing, whichever
+    code path produced it -- including sites added after this was written.
+    """
+    found: list[tuple[str, str]] = []
+    if isinstance(node, dict):
+        c = node.get("$comment")
+        if isinstance(c, str) and c.startswith(UNRESOLVED_PREFIXES):
+            found.append((path or "(root)", c))
+        for k, v in node.items():
+            if k != "$comment":
+                found.extend(find_unresolved(v, f"{path}/{k}"))
+    elif isinstance(node, list):
+        for i, item in enumerate(node):
+            found.extend(find_unresolved(item, f"{path}/{i}"))
+    return found
+
+
 def _fetch_url_schema(url: str) -> Path:
     """Fetch a schema from a URL and cache it locally. Returns the local file path."""
     if url in _URL_CACHE:
@@ -317,7 +382,7 @@ def resolve_file(path: Path, seen: set) -> dict:
     """Load a YAML or JSON schema file and resolve all $ref within it."""
     canonical = path.resolve()
     if canonical in seen:
-        return {"$comment": f"circular ref to {canonical}"}
+        return {"$comment": f"circular ref to {_display_source(canonical)}"}
     seen = seen | {canonical}  # Copy to avoid mutation across branches
 
     schema = load_schema_file(canonical)
@@ -496,7 +561,7 @@ def _resolve_ref(ref: str, base_dir: Path, defs: dict, seen: set) -> Any:
         if fetched is not None:
             file_path = fetched
         else:
-            return {"$comment": f"file not found: {file_path}"}
+            return {"$comment": f"file not found: {_display_source(file_path)}"}
 
     # For cross-file $defs fragment refs, resolve the defs from the raw schema
     # before resolve_file strips them.
@@ -520,7 +585,7 @@ def _resolve_ref(ref: str, base_dir: Path, defs: dict, seen: set) -> Any:
                 target_name = parts[1]
                 if target_name in resolved_defs:
                     return copy.deepcopy(resolved_defs[target_name])
-            return {"$comment": f"could not resolve fragment {fragment} in {file_path}"}
+            return {"$comment": f"could not resolve fragment {fragment} in {_display_source(file_path)}"}
 
     resolved = resolve_file(file_path, seen)
 
@@ -528,7 +593,7 @@ def _resolve_ref(ref: str, base_dir: Path, defs: dict, seen: set) -> Any:
         try:
             resolved = resolve_fragment(resolved, fragment)
         except KeyError as e:
-            return {"$comment": f"could not resolve fragment {fragment} in {file_path}: {e}"}
+            return {"$comment": f"could not resolve fragment {fragment} in {_display_source(file_path)}: {e}"}
         # The fragment result might itself contain refs — resolve them
         resolved = resolve_node(resolved, file_path.parent, {}, seen)
 
@@ -884,7 +949,7 @@ def _resolve_ref_structured(ref: str, base_dir: Path, local_defs: dict,
         if fetched is not None:
             file_path = fetched
         else:
-            return {"$comment": f"file not found: {file_path}"}
+            return {"$comment": f"file not found: {_display_source(file_path)}"}
 
     # If the target file (without fragment) is a known $def, emit a $ref
     if not fragment and file_path in file_to_def:
@@ -910,7 +975,7 @@ def _resolve_ref_structured(ref: str, base_dir: Path, local_defs: dict,
                     promoted = _promote_inline_def(file_path, target_name,
                                                    inline_def_map, file_to_def)
                     return {"$ref": f"#/$defs/{promoted}"}
-            return {"$comment": f"could not resolve fragment {fragment} in {file_path}"}
+            return {"$comment": f"could not resolve fragment {fragment} in {_display_source(file_path)}"}
 
     # Not a known def — resolve fully with def-awareness
     return resolve_def_aware(file_path, file_to_def, inline_def_map, seen)
@@ -924,7 +989,7 @@ def resolve_def_aware(path: Path, file_to_def: dict, inline_def_map: dict,
     """
     canonical = path.resolve()
     if canonical in seen:
-        return {"$comment": f"circular ref to {canonical}"}
+        return {"$comment": f"circular ref to {_display_source(canonical)}"}
     seen = seen | {canonical}
 
     schema = load_schema_file(canonical)
@@ -1303,20 +1368,6 @@ def resolve_structured(schema_path: Path) -> dict:
     return result
 
 
-def resolve_and_write_structured(schema_path: Path) -> Path:
-    """Resolve structured and write resolvedSchema.json next to schema. Returns output path."""
-    structured = resolve_structured(schema_path)
-    out_path = schema_path.parent / "resolvedSchema.json"
-    # newline="\n": .gitattributes stores these LF, but Python's text mode
-    # translates \n to \r\n on Windows, so every run rewrote every byte and
-    # git reported all 92 files modified with no content change. That noise
-    # has to be filtered by hand after each regeneration, and it hides real
-    # changes among hundreds of fake ones.
-    with open(out_path, "w", encoding="utf-8", newline="\n") as f:
-        f.write(json.dumps(structured, indent=2, ensure_ascii=False) + "\n")
-    return out_path
-
-
 # ---------------------------------------------------------------------------
 # Profile entry point resolution
 # ---------------------------------------------------------------------------
@@ -1418,6 +1469,31 @@ def find_all_resolvable_schemas() -> list[Path]:
 # CLI
 # ---------------------------------------------------------------------------
 
+def _report_unresolved(broken: list) -> None:
+    """Print what could not be resolved, and where it belonged.
+
+    This used to be a WARNING line on stderr followed by a written file, so a
+    ref that had gone dead produced a schema missing whole branches and a run
+    that still looked successful. ecrrBuildingBlocks is what that policy
+    produces given time: all 25 of its cross-repo refs 404, and its committed
+    resolvedSchema.json were generated with every one of them failing.
+    """
+    print("\nERROR: refs could not be resolved. Nothing was written for the "
+          "schemas listed below --", file=sys.stderr)
+    print("a schema missing the content behind a ref is not a valid stand-in "
+          "for one that has it.\n", file=sys.stderr)
+    for name, items in broken:
+        print(f"  {name}", file=sys.stderr)
+        for loc, comment in items[:8]:
+            print(f"      {loc}\n        {comment}", file=sys.stderr)
+        if len(items) > 8:
+            print(f"      ... and {len(items) - 8} more", file=sys.stderr)
+    print("\nUsual causes: the target moved (check for a rename), the host is "
+          "wrong, or the\nfragment no longer exists in the target file. To "
+          "write anyway, leaving placeholders\nwhere the content should be, "
+          "re-run with --allow-unresolved.", file=sys.stderr)
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Resolve OGC Building Block schemas into a single complete JSON Schema.",
@@ -1454,6 +1530,13 @@ def main():
         action="store_true",
         help="(deprecated, ignored — structured form is now the only output mode)",
     )
+    parser.add_argument(
+        "--allow-unresolved",
+        action="store_true",
+        help="Write the schema even if refs could not be resolved, leaving "
+             "$comment placeholders where the content should be. Needed only "
+             "while repairing a repo whose refs are already broken.",
+    )
     args = parser.parse_args()
 
     if args.all:
@@ -1462,22 +1545,39 @@ def main():
               f"(external $refs, or an existing resolvedSchema.json)",
               file=sys.stderr)
         changed = 0
+        broken: list[tuple[Path, list[tuple[str, str]]]] = []
         for schema_path in schemas:
             rel = schema_path.relative_to(REPO_ROOT)
             out_path = schema_path.parent / "resolvedSchema.json"
+
+            # Resolve first, inspect, then write. A schema whose refs did not
+            # resolve is NOT written: the whole point is that a degraded
+            # artifact must not quietly replace a good one on disk.
+            structured = resolve_structured(schema_path)
+            unresolved = find_unresolved(structured)
+            if unresolved and not args.allow_unresolved:
+                broken.append((rel, unresolved))
+                print(f"  UNRESOLVED  {rel} ({len(unresolved)} ref(s)) — not written",
+                      file=sys.stderr)
+                continue
+
             # Bytes, not text: text mode normalises line endings, so a CRLF
             # file compared equal to LF output and every run reported
             # "0 updated" while rewriting all 92 files.
             previous = out_path.read_bytes() if out_path.exists() else None
-            out_path = resolve_and_write_structured(schema_path)
-            now = out_path.read_bytes()
-            if previous != now:
+            with open(out_path, "w", encoding="utf-8", newline="\n") as f:
+                f.write(json.dumps(structured, indent=2, ensure_ascii=False) + "\n")
+            if previous != out_path.read_bytes():
                 changed += 1
                 print(f"  UPDATED  {rel}", file=sys.stderr)
         # Say what moved, not just how many ran. A silent "Resolved 79
         # schemas" reads the same whether it rewrote everything or nothing.
-        print(f"Resolved {len(schemas)} schemas: {changed} updated, "
-              f"{len(schemas) - changed} already current", file=sys.stderr)
+        ok = len(schemas) - len(broken)
+        print(f"Resolved {ok} schemas: {changed} updated, "
+              f"{ok - changed} already current", file=sys.stderr)
+        if broken:
+            _report_unresolved(broken)
+            sys.exit(1)
         return
 
     if not args.profile and not args.file:
@@ -1494,6 +1594,12 @@ def main():
     print(f"Resolving: {schema_path}", file=sys.stderr)
 
     structured = resolve_structured(schema_path)
+
+    unresolved = find_unresolved(structured)
+    if unresolved and not args.allow_unresolved:
+        _report_unresolved([(schema_path, unresolved)])
+        sys.exit(1)
+
     output_json = json.dumps(structured, indent=2, ensure_ascii=False) + "\n"
 
     # Write in place unless told otherwise. Printing used to be the default,
