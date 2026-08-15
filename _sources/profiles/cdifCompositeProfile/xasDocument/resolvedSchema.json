@@ -1682,7 +1682,7 @@
                           },
                           "prov:used": {
                             "type": "array",
-                            "description": "Base generatedBy defines the allowed item shapes (string | {@id} | inline prov:Entity | a role-keyed wrapper naming schema:instrument / bios:computationalTool / prov:reagent). This profile only PINS the schema:instrument wrapper's value to the Instrument description when that key is present; it adds no other restriction, so all base item shapes (including inline prov:Entity inputs such as samples) remain valid.",
+                            "description": "Base generatedBy defines the allowed item shapes (string | {@id} | inline prov:Entity | a role-keyed wrapper naming schema:instrument / bios:computationalTool / prov:reagent). This profile only PINS the schema:instrument wrapper's value to the Instrument description when that key is present; it adds no other restriction, so all base item shapes (including inline prov:Entity inputs such as samples) remain valid. The wrapped value is an ARRAY of Instrument. schema:instrument is 0..* -- one activity commonly uses several instruments in the same role (a laser ablation cell plus the ICP-MS it feeds) -- and this schema implements every 1..* / 0..* property as a JSON array, never as \"object or array\", so a consumer never has to test the value's type before iterating.",
                             "items": {
                               "if": {
                                 "type": "object",
@@ -1693,148 +1693,112 @@
                               "then": {
                                 "properties": {
                                   "schema:instrument": {
-                                    "title": "Instrument Description",
-                                    "description": "Schema for describing laboratory instruments and instrument systems. Supports ownership, manufacturer, model, commissioning dates, hierarchical sub-components via schema:hasPart, and domain-specific typing. Instruments may be standalone devices or complex systems with sub-components.",
-                                    "type": "object",
-                                    "properties": {
-                                      "@context": {
-                                        "type": "object",
-                                        "description": "JSON-LD context declaring namespace prefixes.",
-                                        "properties": {
-                                          "schema": {
-                                            "const": "http://schema.org/"
-                                          },
-                                          "dcterms": {
-                                            "const": "http://purl.org/dc/terms/"
-                                          }
-                                        },
-                                        "required": [
-                                          "schema"
-                                        ]
-                                      },
-                                      "@id": {
-                                        "type": "string",
-                                        "description": "Persistent identifier URI for this instrument metadata record."
-                                      },
-                                      "@type": {
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string"
-                                        },
-                                        "minItems": 2,
-                                        "description": "Must include schema:Product and schema:Thing. May include additional types.",
-                                        "allOf": [
-                                          {
-                                            "contains": {
-                                              "const": "schema:Product"
+                                    "type": "array",
+                                    "minItems": 1,
+                                    "items": {
+                                      "title": "Instrument Description",
+                                      "description": "Schema for describing laboratory instruments and instrument systems. Supports ownership, manufacturer, model, commissioning dates, hierarchical sub-components via schema:hasPart, and domain-specific typing. Instruments may be standalone devices or complex systems with sub-components.",
+                                      "type": "object",
+                                      "properties": {
+                                        "@context": {
+                                          "type": "object",
+                                          "description": "JSON-LD context declaring namespace prefixes.",
+                                          "properties": {
+                                            "schema": {
+                                              "const": "http://schema.org/"
+                                            },
+                                            "dcterms": {
+                                              "const": "http://purl.org/dc/terms/"
                                             }
                                           },
-                                          {
-                                            "contains": {
-                                              "const": "schema:Thing"
-                                            }
-                                          }
-                                        ]
-                                      },
-                                      "schema:additionalType": {
-                                        "description": "Domain-specific type classifications. Should include a scientific instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).",
-                                        "type": "array",
-                                        "items": {
-                                          "anyOf": [
+                                          "required": [
+                                            "schema"
+                                          ]
+                                        },
+                                        "@id": {
+                                          "type": "string",
+                                          "description": "Persistent identifier URI for this instrument metadata record."
+                                        },
+                                        "@type": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "string"
+                                          },
+                                          "minItems": 2,
+                                          "description": "Must include schema:Product and schema:Thing. May include additional types.",
+                                          "allOf": [
                                             {
-                                              "type": "string"
+                                              "contains": {
+                                                "const": "schema:Product"
+                                              }
                                             },
                                             {
-                                              "type": "object",
-                                              "additionalProperties": false,
-                                              "required": [
-                                                "@id"
-                                              ],
-                                              "properties": {
-                                                "@id": {
-                                                  "type": "string"
-                                                }
+                                              "contains": {
+                                                "const": "schema:Thing"
                                               }
                                             }
                                           ]
                                         },
-                                        "minItems": 1
-                                      },
-                                      "schema:name": {
-                                        "type": "string",
-                                        "minLength": 3,
-                                        "description": "Human-readable name for this instrument."
-                                      },
-                                      "schema:description": {
-                                        "type": "string",
-                                        "description": "Text description of this instrument, its purpose, and capabilities."
-                                      },
-                                      "schema:alternateName": {
-                                        "description": "Alternate name(s), e.g. specific make/model designation, common abbreviation.",
-                                        "type": "array",
-                                        "items": {
-                                          "anyOf": [
-                                            {
-                                              "type": "string"
-                                            },
-                                            {
-                                              "type": "object",
-                                              "additionalProperties": false,
-                                              "required": [
-                                                "@id"
-                                              ],
-                                              "properties": {
-                                                "@id": {
-                                                  "type": "string"
+                                        "schema:additionalType": {
+                                          "description": "Domain-specific type classifications. Should include a scientific instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).",
+                                          "type": "array",
+                                          "items": {
+                                            "anyOf": [
+                                              {
+                                                "type": "string"
+                                              },
+                                              {
+                                                "type": "object",
+                                                "additionalProperties": false,
+                                                "required": [
+                                                  "@id"
+                                                ],
+                                                "properties": {
+                                                  "@id": {
+                                                    "type": "string"
+                                                  }
                                                 }
                                               }
-                                            }
-                                          ]
-                                        }
-                                      },
-                                      "schema:identifier": {
-                                        "description": "Formal identifier(s) for this instrument. Use PropertyValue for structured identifiers (e.g. PIDINST, serial number, inventory number).",
-                                        "type": "array",
-                                        "items": {
-                                          "anyOf": [
-                                            {
-                                              "type": "string"
-                                            },
-                                            {
-                                              "$ref": "#/$defs/Identifier"
-                                            }
-                                          ]
-                                        }
-                                      },
-                                      "schema:url": {
-                                        "type": "string",
-                                        "format": "uri",
-                                        "description": "Landing page URL for this instrument."
-                                      },
-                                      "schema:manufacturer": {
-                                        "$ref": "#/$defs/Organization",
-                                        "description": "Organization that manufactured this instrument."
-                                      },
-                                      "schema:model": {
-                                        "type": "object",
-                                        "description": "Product model information for this instrument.",
-                                        "properties": {
-                                          "@type": {
-                                            "type": "array",
-                                            "items": {
-                                              "type": "string"
-                                            },
-                                            "contains": {
-                                              "const": "schema:ProductModel"
-                                            },
-                                            "minItems": 1
+                                            ]
                                           },
-                                          "schema:name": {
-                                            "type": "string",
-                                            "description": "Model name or number."
-                                          },
-                                          "schema:identifier": {
-                                            "description": "Model identifier.",
+                                          "minItems": 1
+                                        },
+                                        "schema:name": {
+                                          "type": "string",
+                                          "minLength": 3,
+                                          "description": "Human-readable name for this instrument."
+                                        },
+                                        "schema:description": {
+                                          "type": "string",
+                                          "description": "Text description of this instrument, its purpose, and capabilities."
+                                        },
+                                        "schema:alternateName": {
+                                          "description": "Alternate name(s), e.g. specific make/model designation, common abbreviation.",
+                                          "type": "array",
+                                          "items": {
+                                            "anyOf": [
+                                              {
+                                                "type": "string"
+                                              },
+                                              {
+                                                "type": "object",
+                                                "additionalProperties": false,
+                                                "required": [
+                                                  "@id"
+                                                ],
+                                                "properties": {
+                                                  "@id": {
+                                                    "type": "string"
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        },
+                                        "schema:identifier": {
+                                          "description": "Formal identifier(s) for this instrument. Use PropertyValue for structured identifiers (e.g. PIDINST, serial number, inventory number).",
+                                          "type": "array",
+                                          "items": {
                                             "anyOf": [
                                               {
                                                 "type": "string"
@@ -1845,260 +1809,300 @@
                                             ]
                                           }
                                         },
-                                        "required": [
-                                          "@type",
-                                          "schema:name"
-                                        ]
-                                      },
-                                      "schema:category": {
-                                        "description": "Instrument type classification(s) from a controlled vocabulary.",
-                                        "type": "array",
-                                        "items": {
-                                          "$ref": "#/$defs/DefinedTerm"
-                                        }
-                                      },
-                                      "schema:owner": {
-                                        "$ref": "#/$defs/Organization",
-                                        "description": "Organization that owns this instrument."
-                                      },
-                                      "schema:contributor": {
-                                        "description": "Agents associated with this instrument in specific roles (e.g. operator, custodian, principal investigator). Use schema:owner for the owning organization.",
-                                        "type": "array",
-                                        "items": {
-                                          "$ref": "#/$defs/Contributor"
-                                        }
-                                      },
-                                      "schema:additionalProperty": {
-                                        "type": "array",
-                                        "description": "Instrument-specific properties (measured variables, detection limits, calibration information, operating parameters, etc.).",
-                                        "items": {
-                                          "$ref": "#/$defs/AdditionalProperty"
-                                        }
-                                      },
-                                      "schema:validFrom": {
-                                        "type": "string",
-                                        "description": "Date the instrument was commissioned (ISO 8601)."
-                                      },
-                                      "schema:validThrough": {
-                                        "type": "string",
-                                        "description": "Date the instrument was decommissioned (ISO 8601). Absent if still operational."
-                                      },
-                                      "schema:hasPart": {
-                                        "type": "array",
-                                        "description": "Sub-components of this instrument system. Each item is either an inline instrument description or an @id reference.",
-                                        "items": {
-                                          "anyOf": [
-                                            {
-                                              "type": "object",
-                                              "description": "A sub-component of an instrument system. Uses the same structure as the parent instrument but without nesting (single level of hasPart).",
-                                              "properties": {
-                                                "@type": {
-                                                  "type": "array",
-                                                  "items": {
-                                                    "type": "string"
-                                                  },
-                                                  "minItems": 1,
-                                                  "contains": {
-                                                    "const": "schema:Thing"
-                                                  }
-                                                },
-                                                "@id": {
-                                                  "type": "string"
-                                                },
-                                                "schema:name": {
-                                                  "type": "string",
-                                                  "minLength": 3
-                                                },
-                                                "schema:description": {
-                                                  "type": "string"
-                                                },
-                                                "schema:alternateName": {
-                                                  "type": "array",
-                                                  "items": {
-                                                    "type": "string"
-                                                  }
-                                                },
-                                                "schema:identifier": {
-                                                  "anyOf": [
-                                                    {
-                                                      "type": "string"
-                                                    },
-                                                    {
-                                                      "$ref": "#/$defs/Identifier"
-                                                    }
-                                                  ]
-                                                },
-                                                "schema:additionalType": {
-                                                  "description": "Component type classification.",
-                                                  "type": "array",
-                                                  "items": {
-                                                    "anyOf": [
-                                                      {
-                                                        "type": "string"
-                                                      },
-                                                      {
-                                                        "type": "object",
-                                                        "additionalProperties": false,
-                                                        "required": [
-                                                          "@id"
-                                                        ],
-                                                        "properties": {
-                                                          "@id": {
-                                                            "type": "string"
-                                                          }
-                                                        }
-                                                      }
-                                                    ]
-                                                  }
-                                                },
-                                                "schema:additionalProperty": {
-                                                  "type": "array",
-                                                  "items": {
-                                                    "$ref": "#/$defs/AdditionalProperty"
-                                                  }
-                                                },
-                                                "schema:manufacturer": {
-                                                  "$ref": "#/$defs/Organization"
-                                                },
-                                                "schema:model": {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "@type": {
-                                                      "type": "array",
-                                                      "items": {
-                                                        "anyOf": [
-                                                          {
-                                                            "type": "string"
-                                                          },
-                                                          {
-                                                            "type": "object",
-                                                            "additionalProperties": false,
-                                                            "required": [
-                                                              "@id"
-                                                            ],
-                                                            "properties": {
-                                                              "@id": {
-                                                                "type": "string"
-                                                              }
-                                                            }
-                                                          }
-                                                        ]
-                                                      },
-                                                      "contains": {
-                                                        "const": "schema:ProductModel"
-                                                      },
-                                                      "minItems": 1
-                                                    },
-                                                    "schema:name": {
-                                                      "type": "string"
-                                                    },
-                                                    "schema:identifier": {
-                                                      "anyOf": [
-                                                        {
-                                                          "type": "string"
-                                                        },
-                                                        {
-                                                          "$ref": "#/$defs/Identifier"
-                                                        }
-                                                      ]
-                                                    }
-                                                  },
-                                                  "required": [
-                                                    "@type"
-                                                  ]
-                                                }
+                                        "schema:url": {
+                                          "type": "string",
+                                          "format": "uri",
+                                          "description": "Landing page URL for this instrument."
+                                        },
+                                        "schema:manufacturer": {
+                                          "$ref": "#/$defs/Organization",
+                                          "description": "Organization that manufactured this instrument."
+                                        },
+                                        "schema:model": {
+                                          "type": "object",
+                                          "description": "Product model information for this instrument.",
+                                          "properties": {
+                                            "@type": {
+                                              "type": "array",
+                                              "items": {
+                                                "type": "string"
                                               },
-                                              "required": [
-                                                "@type",
-                                                "schema:name"
-                                              ]
+                                              "contains": {
+                                                "const": "schema:ProductModel"
+                                              },
+                                              "minItems": 1
                                             },
-                                            {
-                                              "type": "object",
-                                              "additionalProperties": false,
-                                              "properties": {
-                                                "@id": {
-                                                  "type": "string",
-                                                  "description": "Reference to a sub-component defined elsewhere."
-                                                }
-                                              },
-                                              "required": [
-                                                "@id"
-                                              ]
-                                            }
-                                          ]
-                                        }
-                                      },
-                                      "schema:relatedLink": {
-                                        "type": "array",
-                                        "description": "Links to related resources (manuals, datasheets, calibration records, related instruments).",
-                                        "items": {
-                                          "$ref": "#/$defs/Reference"
-                                        }
-                                      },
-                                      "schema:subjectOf": {
-                                        "description": "Catalog record metadata-about-metadata for this instrument description.",
-                                        "type": "object",
-                                        "properties": {
-                                          "@id": {
-                                            "type": "string"
-                                          },
-                                          "@type": {
-                                            "type": "array",
-                                            "items": {
-                                              "type": "string"
-                                            }
-                                          },
-                                          "schema:dateModified": {
-                                            "type": "string",
-                                            "description": "Date this metadata record was last modified (ISO 8601)."
-                                          },
-                                          "schema:about": {
-                                            "type": "object",
-                                            "required": [
-                                              "@id"
-                                            ],
-                                            "additionalProperties": false,
-                                            "properties": {
-                                              "@id": {
-                                                "type": "string",
-                                                "description": "Reference back to the instrument @id."
-                                              }
-                                            }
-                                          },
-                                          "dcterms:conformsTo": {
-                                            "description": "Schema or profile this metadata record conforms to.",
-                                            "type": "array",
-                                            "items": {
+                                            "schema:name": {
+                                              "type": "string",
+                                              "description": "Model name or number."
+                                            },
+                                            "schema:identifier": {
+                                              "description": "Model identifier.",
                                               "anyOf": [
                                                 {
                                                   "type": "string"
                                                 },
                                                 {
-                                                  "type": "object",
-                                                  "required": [
-                                                    "@id"
-                                                  ],
-                                                  "additionalProperties": false,
-                                                  "properties": {
-                                                    "@id": {
-                                                      "type": "string"
-                                                    }
-                                                  }
+                                                  "$ref": "#/$defs/Identifier"
                                                 }
                                               ]
                                             }
+                                          },
+                                          "required": [
+                                            "@type",
+                                            "schema:name"
+                                          ]
+                                        },
+                                        "schema:category": {
+                                          "description": "Instrument type classification(s) from a controlled vocabulary.",
+                                          "type": "array",
+                                          "items": {
+                                            "$ref": "#/$defs/DefinedTerm"
                                           }
                                         },
-                                        "required": [
-                                          "@type"
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "@type",
-                                      "schema:name"
-                                    ]
+                                        "schema:owner": {
+                                          "$ref": "#/$defs/Organization",
+                                          "description": "Organization that owns this instrument."
+                                        },
+                                        "schema:contributor": {
+                                          "description": "Agents associated with this instrument in specific roles (e.g. operator, custodian, principal investigator). Use schema:owner for the owning organization.",
+                                          "type": "array",
+                                          "items": {
+                                            "$ref": "#/$defs/Contributor"
+                                          }
+                                        },
+                                        "schema:additionalProperty": {
+                                          "type": "array",
+                                          "description": "Instrument-specific properties (measured variables, detection limits, calibration information, operating parameters, etc.).",
+                                          "items": {
+                                            "$ref": "#/$defs/AdditionalProperty"
+                                          }
+                                        },
+                                        "schema:validFrom": {
+                                          "type": "string",
+                                          "description": "Date the instrument was commissioned (ISO 8601)."
+                                        },
+                                        "schema:validThrough": {
+                                          "type": "string",
+                                          "description": "Date the instrument was decommissioned (ISO 8601). Absent if still operational."
+                                        },
+                                        "schema:hasPart": {
+                                          "type": "array",
+                                          "description": "Sub-components of this instrument system. Each item is either an inline instrument description or an @id reference.",
+                                          "items": {
+                                            "anyOf": [
+                                              {
+                                                "type": "object",
+                                                "description": "A sub-component of an instrument system. Uses the same structure as the parent instrument but without nesting (single level of hasPart).",
+                                                "properties": {
+                                                  "@type": {
+                                                    "type": "array",
+                                                    "items": {
+                                                      "type": "string"
+                                                    },
+                                                    "minItems": 1,
+                                                    "contains": {
+                                                      "const": "schema:Thing"
+                                                    }
+                                                  },
+                                                  "@id": {
+                                                    "type": "string"
+                                                  },
+                                                  "schema:name": {
+                                                    "type": "string",
+                                                    "minLength": 3
+                                                  },
+                                                  "schema:description": {
+                                                    "type": "string"
+                                                  },
+                                                  "schema:alternateName": {
+                                                    "type": "array",
+                                                    "items": {
+                                                      "type": "string"
+                                                    }
+                                                  },
+                                                  "schema:identifier": {
+                                                    "anyOf": [
+                                                      {
+                                                        "type": "string"
+                                                      },
+                                                      {
+                                                        "$ref": "#/$defs/Identifier"
+                                                      }
+                                                    ]
+                                                  },
+                                                  "schema:additionalType": {
+                                                    "description": "Component type classification.",
+                                                    "type": "array",
+                                                    "items": {
+                                                      "anyOf": [
+                                                        {
+                                                          "type": "string"
+                                                        },
+                                                        {
+                                                          "type": "object",
+                                                          "additionalProperties": false,
+                                                          "required": [
+                                                            "@id"
+                                                          ],
+                                                          "properties": {
+                                                            "@id": {
+                                                              "type": "string"
+                                                            }
+                                                          }
+                                                        }
+                                                      ]
+                                                    }
+                                                  },
+                                                  "schema:additionalProperty": {
+                                                    "type": "array",
+                                                    "items": {
+                                                      "$ref": "#/$defs/AdditionalProperty"
+                                                    }
+                                                  },
+                                                  "schema:manufacturer": {
+                                                    "$ref": "#/$defs/Organization"
+                                                  },
+                                                  "schema:model": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "@type": {
+                                                        "type": "array",
+                                                        "items": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "string"
+                                                            },
+                                                            {
+                                                              "type": "object",
+                                                              "additionalProperties": false,
+                                                              "required": [
+                                                                "@id"
+                                                              ],
+                                                              "properties": {
+                                                                "@id": {
+                                                                  "type": "string"
+                                                                }
+                                                              }
+                                                            }
+                                                          ]
+                                                        },
+                                                        "contains": {
+                                                          "const": "schema:ProductModel"
+                                                        },
+                                                        "minItems": 1
+                                                      },
+                                                      "schema:name": {
+                                                        "type": "string"
+                                                      },
+                                                      "schema:identifier": {
+                                                        "anyOf": [
+                                                          {
+                                                            "type": "string"
+                                                          },
+                                                          {
+                                                            "$ref": "#/$defs/Identifier"
+                                                          }
+                                                        ]
+                                                      }
+                                                    },
+                                                    "required": [
+                                                      "@type"
+                                                    ]
+                                                  }
+                                                },
+                                                "required": [
+                                                  "@type",
+                                                  "schema:name"
+                                                ]
+                                              },
+                                              {
+                                                "type": "object",
+                                                "additionalProperties": false,
+                                                "properties": {
+                                                  "@id": {
+                                                    "type": "string",
+                                                    "description": "Reference to a sub-component defined elsewhere."
+                                                  }
+                                                },
+                                                "required": [
+                                                  "@id"
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        },
+                                        "schema:relatedLink": {
+                                          "type": "array",
+                                          "description": "Links to related resources (manuals, datasheets, calibration records, related instruments).",
+                                          "items": {
+                                            "$ref": "#/$defs/Reference"
+                                          }
+                                        },
+                                        "schema:subjectOf": {
+                                          "description": "Catalog record metadata-about-metadata for this instrument description.",
+                                          "type": "object",
+                                          "properties": {
+                                            "@id": {
+                                              "type": "string"
+                                            },
+                                            "@type": {
+                                              "type": "array",
+                                              "items": {
+                                                "type": "string"
+                                              }
+                                            },
+                                            "schema:dateModified": {
+                                              "type": "string",
+                                              "description": "Date this metadata record was last modified (ISO 8601)."
+                                            },
+                                            "schema:about": {
+                                              "type": "object",
+                                              "required": [
+                                                "@id"
+                                              ],
+                                              "additionalProperties": false,
+                                              "properties": {
+                                                "@id": {
+                                                  "type": "string",
+                                                  "description": "Reference back to the instrument @id."
+                                                }
+                                              }
+                                            },
+                                            "dcterms:conformsTo": {
+                                              "description": "Schema or profile this metadata record conforms to.",
+                                              "type": "array",
+                                              "items": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "type": "object",
+                                                    "required": [
+                                                      "@id"
+                                                    ],
+                                                    "additionalProperties": false,
+                                                    "properties": {
+                                                      "@id": {
+                                                        "type": "string"
+                                                      }
+                                                    }
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          },
+                                          "required": [
+                                            "@type"
+                                          ]
+                                        }
+                                      },
+                                      "required": [
+                                        "@type",
+                                        "schema:name"
+                                      ]
+                                    }
                                   }
                                 }
                               }
@@ -2745,154 +2749,118 @@
                               ],
                               "properties": {
                                 "schema:instrument": {
-                                  "allOf": [
-                                    {
-                                      "title": "XAS Instrument",
-                                      "description": "XAS-specific instrument building block. Extends the generic instrument building block with required wd:Q3099911 (Wikidata scientific instrument) additionalType classification.",
-                                      "allOf": [
-                                        {
-                                          "title": "Instrument Description",
-                                          "description": "Schema for describing laboratory instruments and instrument systems. Supports ownership, manufacturer, model, commissioning dates, hierarchical sub-components via schema:hasPart, and domain-specific typing. Instruments may be standalone devices or complex systems with sub-components.",
-                                          "type": "object",
-                                          "properties": {
-                                            "@context": {
-                                              "type": "object",
-                                              "description": "JSON-LD context declaring namespace prefixes.",
-                                              "properties": {
-                                                "schema": {
-                                                  "const": "http://schema.org/"
-                                                },
-                                                "dcterms": {
-                                                  "const": "http://purl.org/dc/terms/"
-                                                }
-                                              },
-                                              "required": [
-                                                "schema"
-                                              ]
-                                            },
-                                            "@id": {
-                                              "type": "string",
-                                              "description": "Persistent identifier URI for this instrument metadata record."
-                                            },
-                                            "@type": {
-                                              "type": "array",
-                                              "items": {
-                                                "type": "string"
-                                              },
-                                              "minItems": 2,
-                                              "description": "Must include schema:Product and schema:Thing. May include additional types.",
-                                              "allOf": [
-                                                {
-                                                  "contains": {
-                                                    "const": "schema:Product"
+                                  "type": "array",
+                                  "minItems": 1,
+                                  "items": {
+                                    "allOf": [
+                                      {
+                                        "title": "XAS Instrument",
+                                        "description": "XAS-specific instrument building block. Extends the generic instrument building block with required wd:Q3099911 (Wikidata scientific instrument) additionalType classification.",
+                                        "allOf": [
+                                          {
+                                            "title": "Instrument Description",
+                                            "description": "Schema for describing laboratory instruments and instrument systems. Supports ownership, manufacturer, model, commissioning dates, hierarchical sub-components via schema:hasPart, and domain-specific typing. Instruments may be standalone devices or complex systems with sub-components.",
+                                            "type": "object",
+                                            "properties": {
+                                              "@context": {
+                                                "type": "object",
+                                                "description": "JSON-LD context declaring namespace prefixes.",
+                                                "properties": {
+                                                  "schema": {
+                                                    "const": "http://schema.org/"
+                                                  },
+                                                  "dcterms": {
+                                                    "const": "http://purl.org/dc/terms/"
                                                   }
                                                 },
-                                                {
-                                                  "contains": {
-                                                    "const": "schema:Thing"
-                                                  }
-                                                }
-                                              ]
-                                            },
-                                            "schema:additionalType": {
-                                              "description": "Domain-specific type classifications. Should include a scientific instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).",
-                                              "type": "array",
-                                              "items": {
-                                                "anyOf": [
+                                                "required": [
+                                                  "schema"
+                                                ]
+                                              },
+                                              "@id": {
+                                                "type": "string",
+                                                "description": "Persistent identifier URI for this instrument metadata record."
+                                              },
+                                              "@type": {
+                                                "type": "array",
+                                                "items": {
+                                                  "type": "string"
+                                                },
+                                                "minItems": 2,
+                                                "description": "Must include schema:Product and schema:Thing. May include additional types.",
+                                                "allOf": [
                                                   {
-                                                    "type": "string"
+                                                    "contains": {
+                                                      "const": "schema:Product"
+                                                    }
                                                   },
                                                   {
-                                                    "type": "object",
-                                                    "additionalProperties": false,
-                                                    "required": [
-                                                      "@id"
-                                                    ],
-                                                    "properties": {
-                                                      "@id": {
-                                                        "type": "string"
-                                                      }
+                                                    "contains": {
+                                                      "const": "schema:Thing"
                                                     }
                                                   }
                                                 ]
                                               },
-                                              "minItems": 1
-                                            },
-                                            "schema:name": {
-                                              "type": "string",
-                                              "minLength": 3,
-                                              "description": "Human-readable name for this instrument."
-                                            },
-                                            "schema:description": {
-                                              "type": "string",
-                                              "description": "Text description of this instrument, its purpose, and capabilities."
-                                            },
-                                            "schema:alternateName": {
-                                              "description": "Alternate name(s), e.g. specific make/model designation, common abbreviation.",
-                                              "type": "array",
-                                              "items": {
-                                                "anyOf": [
-                                                  {
-                                                    "type": "string"
-                                                  },
-                                                  {
-                                                    "type": "object",
-                                                    "additionalProperties": false,
-                                                    "required": [
-                                                      "@id"
-                                                    ],
-                                                    "properties": {
-                                                      "@id": {
-                                                        "type": "string"
+                                              "schema:additionalType": {
+                                                "description": "Domain-specific type classifications. Should include a scientific instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).",
+                                                "type": "array",
+                                                "items": {
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "type": "object",
+                                                      "additionalProperties": false,
+                                                      "required": [
+                                                        "@id"
+                                                      ],
+                                                      "properties": {
+                                                        "@id": {
+                                                          "type": "string"
+                                                        }
                                                       }
                                                     }
-                                                  }
-                                                ]
-                                              }
-                                            },
-                                            "schema:identifier": {
-                                              "description": "Formal identifier(s) for this instrument. Use PropertyValue for structured identifiers (e.g. PIDINST, serial number, inventory number).",
-                                              "type": "array",
-                                              "items": {
-                                                "anyOf": [
-                                                  {
-                                                    "type": "string"
-                                                  },
-                                                  {
-                                                    "$ref": "#/$defs/Identifier"
-                                                  }
-                                                ]
-                                              }
-                                            },
-                                            "schema:url": {
-                                              "type": "string",
-                                              "format": "uri",
-                                              "description": "Landing page URL for this instrument."
-                                            },
-                                            "schema:manufacturer": {
-                                              "$ref": "#/$defs/Organization",
-                                              "description": "Organization that manufactured this instrument."
-                                            },
-                                            "schema:model": {
-                                              "type": "object",
-                                              "description": "Product model information for this instrument.",
-                                              "properties": {
-                                                "@type": {
-                                                  "type": "array",
-                                                  "items": {
-                                                    "type": "string"
-                                                  },
-                                                  "contains": {
-                                                    "const": "schema:ProductModel"
-                                                  },
-                                                  "minItems": 1
+                                                  ]
                                                 },
-                                                "schema:name": {
-                                                  "type": "string",
-                                                  "description": "Model name or number."
-                                                },
-                                                "schema:identifier": {
-                                                  "description": "Model identifier.",
+                                                "minItems": 1
+                                              },
+                                              "schema:name": {
+                                                "type": "string",
+                                                "minLength": 3,
+                                                "description": "Human-readable name for this instrument."
+                                              },
+                                              "schema:description": {
+                                                "type": "string",
+                                                "description": "Text description of this instrument, its purpose, and capabilities."
+                                              },
+                                              "schema:alternateName": {
+                                                "description": "Alternate name(s), e.g. specific make/model designation, common abbreviation.",
+                                                "type": "array",
+                                                "items": {
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "type": "object",
+                                                      "additionalProperties": false,
+                                                      "required": [
+                                                        "@id"
+                                                      ],
+                                                      "properties": {
+                                                        "@id": {
+                                                          "type": "string"
+                                                        }
+                                                      }
+                                                    }
+                                                  ]
+                                                }
+                                              },
+                                              "schema:identifier": {
+                                                "description": "Formal identifier(s) for this instrument. Use PropertyValue for structured identifiers (e.g. PIDINST, serial number, inventory number).",
+                                                "type": "array",
+                                                "items": {
                                                   "anyOf": [
                                                     {
                                                       "type": "string"
@@ -2903,324 +2871,364 @@
                                                   ]
                                                 }
                                               },
-                                              "required": [
-                                                "@type",
-                                                "schema:name"
-                                              ]
-                                            },
-                                            "schema:category": {
-                                              "description": "Instrument type classification(s) from a controlled vocabulary.",
-                                              "type": "array",
-                                              "items": {
-                                                "$ref": "#/$defs/DefinedTerm"
-                                              }
-                                            },
-                                            "schema:owner": {
-                                              "$ref": "#/$defs/Organization",
-                                              "description": "Organization that owns this instrument."
-                                            },
-                                            "schema:contributor": {
-                                              "description": "Agents associated with this instrument in specific roles (e.g. operator, custodian, principal investigator). Use schema:owner for the owning organization.",
-                                              "type": "array",
-                                              "items": {
-                                                "$ref": "#/$defs/Contributor"
-                                              }
-                                            },
-                                            "schema:additionalProperty": {
-                                              "type": "array",
-                                              "description": "Instrument-specific properties (measured variables, detection limits, calibration information, operating parameters, etc.).",
-                                              "items": {
-                                                "$ref": "#/$defs/AdditionalProperty"
-                                              }
-                                            },
-                                            "schema:validFrom": {
-                                              "type": "string",
-                                              "description": "Date the instrument was commissioned (ISO 8601)."
-                                            },
-                                            "schema:validThrough": {
-                                              "type": "string",
-                                              "description": "Date the instrument was decommissioned (ISO 8601). Absent if still operational."
-                                            },
-                                            "schema:hasPart": {
-                                              "type": "array",
-                                              "description": "Sub-components of this instrument system. Each item is either an inline instrument description or an @id reference.",
-                                              "items": {
-                                                "anyOf": [
-                                                  {
-                                                    "type": "object",
-                                                    "description": "A sub-component of an instrument system. Uses the same structure as the parent instrument but without nesting (single level of hasPart).",
-                                                    "properties": {
-                                                      "@type": {
-                                                        "type": "array",
-                                                        "items": {
-                                                          "type": "string"
-                                                        },
-                                                        "minItems": 1,
-                                                        "contains": {
-                                                          "const": "schema:Thing"
-                                                        }
-                                                      },
-                                                      "@id": {
-                                                        "type": "string"
-                                                      },
-                                                      "schema:name": {
-                                                        "type": "string",
-                                                        "minLength": 3
-                                                      },
-                                                      "schema:description": {
-                                                        "type": "string"
-                                                      },
-                                                      "schema:alternateName": {
-                                                        "type": "array",
-                                                        "items": {
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "schema:identifier": {
-                                                        "anyOf": [
-                                                          {
-                                                            "type": "string"
-                                                          },
-                                                          {
-                                                            "$ref": "#/$defs/Identifier"
-                                                          }
-                                                        ]
-                                                      },
-                                                      "schema:additionalType": {
-                                                        "description": "Component type classification.",
-                                                        "type": "array",
-                                                        "items": {
-                                                          "anyOf": [
-                                                            {
-                                                              "type": "string"
-                                                            },
-                                                            {
-                                                              "type": "object",
-                                                              "additionalProperties": false,
-                                                              "required": [
-                                                                "@id"
-                                                              ],
-                                                              "properties": {
-                                                                "@id": {
-                                                                  "type": "string"
-                                                                }
-                                                              }
-                                                            }
-                                                          ]
-                                                        }
-                                                      },
-                                                      "schema:additionalProperty": {
-                                                        "type": "array",
-                                                        "items": {
-                                                          "$ref": "#/$defs/AdditionalProperty"
-                                                        }
-                                                      },
-                                                      "schema:manufacturer": {
-                                                        "$ref": "#/$defs/Organization"
-                                                      },
-                                                      "schema:model": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "@type": {
-                                                            "type": "array",
-                                                            "items": {
-                                                              "anyOf": [
-                                                                {
-                                                                  "type": "string"
-                                                                },
-                                                                {
-                                                                  "type": "object",
-                                                                  "additionalProperties": false,
-                                                                  "required": [
-                                                                    "@id"
-                                                                  ],
-                                                                  "properties": {
-                                                                    "@id": {
-                                                                      "type": "string"
-                                                                    }
-                                                                  }
-                                                                }
-                                                              ]
-                                                            },
-                                                            "contains": {
-                                                              "const": "schema:ProductModel"
-                                                            },
-                                                            "minItems": 1
-                                                          },
-                                                          "schema:name": {
-                                                            "type": "string"
-                                                          },
-                                                          "schema:identifier": {
-                                                            "anyOf": [
-                                                              {
-                                                                "type": "string"
-                                                              },
-                                                              {
-                                                                "$ref": "#/$defs/Identifier"
-                                                              }
-                                                            ]
-                                                          }
-                                                        },
-                                                        "required": [
-                                                          "@type"
-                                                        ]
-                                                      }
+                                              "schema:url": {
+                                                "type": "string",
+                                                "format": "uri",
+                                                "description": "Landing page URL for this instrument."
+                                              },
+                                              "schema:manufacturer": {
+                                                "$ref": "#/$defs/Organization",
+                                                "description": "Organization that manufactured this instrument."
+                                              },
+                                              "schema:model": {
+                                                "type": "object",
+                                                "description": "Product model information for this instrument.",
+                                                "properties": {
+                                                  "@type": {
+                                                    "type": "array",
+                                                    "items": {
+                                                      "type": "string"
                                                     },
-                                                    "required": [
-                                                      "@type",
-                                                      "schema:name"
-                                                    ]
+                                                    "contains": {
+                                                      "const": "schema:ProductModel"
+                                                    },
+                                                    "minItems": 1
                                                   },
-                                                  {
-                                                    "type": "object",
-                                                    "additionalProperties": false,
-                                                    "properties": {
-                                                      "@id": {
-                                                        "type": "string",
-                                                        "description": "Reference to a sub-component defined elsewhere."
-                                                      }
-                                                    },
-                                                    "required": [
-                                                      "@id"
-                                                    ]
-                                                  }
-                                                ]
-                                              }
-                                            },
-                                            "schema:relatedLink": {
-                                              "type": "array",
-                                              "description": "Links to related resources (manuals, datasheets, calibration records, related instruments).",
-                                              "items": {
-                                                "$ref": "#/$defs/Reference"
-                                              }
-                                            },
-                                            "schema:subjectOf": {
-                                              "description": "Catalog record metadata-about-metadata for this instrument description.",
-                                              "type": "object",
-                                              "properties": {
-                                                "@id": {
-                                                  "type": "string"
-                                                },
-                                                "@type": {
-                                                  "type": "array",
-                                                  "items": {
-                                                    "type": "string"
-                                                  }
-                                                },
-                                                "schema:dateModified": {
-                                                  "type": "string",
-                                                  "description": "Date this metadata record was last modified (ISO 8601)."
-                                                },
-                                                "schema:about": {
-                                                  "type": "object",
-                                                  "required": [
-                                                    "@id"
-                                                  ],
-                                                  "additionalProperties": false,
-                                                  "properties": {
-                                                    "@id": {
-                                                      "type": "string",
-                                                      "description": "Reference back to the instrument @id."
-                                                    }
-                                                  }
-                                                },
-                                                "dcterms:conformsTo": {
-                                                  "description": "Schema or profile this metadata record conforms to.",
-                                                  "type": "array",
-                                                  "items": {
+                                                  "schema:name": {
+                                                    "type": "string",
+                                                    "description": "Model name or number."
+                                                  },
+                                                  "schema:identifier": {
+                                                    "description": "Model identifier.",
                                                     "anyOf": [
                                                       {
                                                         "type": "string"
                                                       },
                                                       {
-                                                        "type": "object",
-                                                        "required": [
-                                                          "@id"
-                                                        ],
-                                                        "additionalProperties": false,
-                                                        "properties": {
-                                                          "@id": {
-                                                            "type": "string"
-                                                          }
-                                                        }
+                                                        "$ref": "#/$defs/Identifier"
                                                       }
                                                     ]
                                                   }
-                                                }
-                                              },
-                                              "required": [
-                                                "@type"
-                                              ]
-                                            }
-                                          },
-                                          "required": [
-                                            "@type",
-                                            "schema:name"
-                                          ]
-                                        },
-                                        {
-                                          "type": "object",
-                                          "properties": {
-                                            "schema:additionalType": {
-                                              "type": "array",
-                                              "items": {
-                                                "anyOf": [
-                                                  {
-                                                    "type": "string"
-                                                  },
-                                                  {
-                                                    "type": "object",
-                                                    "additionalProperties": false,
-                                                    "required": [
-                                                      "@id"
-                                                    ],
-                                                    "properties": {
-                                                      "@id": {
-                                                        "type": "string"
-                                                      }
-                                                    }
-                                                  }
+                                                },
+                                                "required": [
+                                                  "@type",
+                                                  "schema:name"
                                                 ]
                                               },
-                                              "minItems": 1,
-                                              "uniqueItems": true,
-                                              "allOf": [
-                                                {
-                                                  "contains": {
+                                              "schema:category": {
+                                                "description": "Instrument type classification(s) from a controlled vocabulary.",
+                                                "type": "array",
+                                                "items": {
+                                                  "$ref": "#/$defs/DefinedTerm"
+                                                }
+                                              },
+                                              "schema:owner": {
+                                                "$ref": "#/$defs/Organization",
+                                                "description": "Organization that owns this instrument."
+                                              },
+                                              "schema:contributor": {
+                                                "description": "Agents associated with this instrument in specific roles (e.g. operator, custodian, principal investigator). Use schema:owner for the owning organization.",
+                                                "type": "array",
+                                                "items": {
+                                                  "$ref": "#/$defs/Contributor"
+                                                }
+                                              },
+                                              "schema:additionalProperty": {
+                                                "type": "array",
+                                                "description": "Instrument-specific properties (measured variables, detection limits, calibration information, operating parameters, etc.).",
+                                                "items": {
+                                                  "$ref": "#/$defs/AdditionalProperty"
+                                                }
+                                              },
+                                              "schema:validFrom": {
+                                                "type": "string",
+                                                "description": "Date the instrument was commissioned (ISO 8601)."
+                                              },
+                                              "schema:validThrough": {
+                                                "type": "string",
+                                                "description": "Date the instrument was decommissioned (ISO 8601). Absent if still operational."
+                                              },
+                                              "schema:hasPart": {
+                                                "type": "array",
+                                                "description": "Sub-components of this instrument system. Each item is either an inline instrument description or an @id reference.",
+                                                "items": {
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "object",
+                                                      "description": "A sub-component of an instrument system. Uses the same structure as the parent instrument but without nesting (single level of hasPart).",
+                                                      "properties": {
+                                                        "@type": {
+                                                          "type": "array",
+                                                          "items": {
+                                                            "type": "string"
+                                                          },
+                                                          "minItems": 1,
+                                                          "contains": {
+                                                            "const": "schema:Thing"
+                                                          }
+                                                        },
+                                                        "@id": {
+                                                          "type": "string"
+                                                        },
+                                                        "schema:name": {
+                                                          "type": "string",
+                                                          "minLength": 3
+                                                        },
+                                                        "schema:description": {
+                                                          "type": "string"
+                                                        },
+                                                        "schema:alternateName": {
+                                                          "type": "array",
+                                                          "items": {
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "schema:identifier": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "string"
+                                                            },
+                                                            {
+                                                              "$ref": "#/$defs/Identifier"
+                                                            }
+                                                          ]
+                                                        },
+                                                        "schema:additionalType": {
+                                                          "description": "Component type classification.",
+                                                          "type": "array",
+                                                          "items": {
+                                                            "anyOf": [
+                                                              {
+                                                                "type": "string"
+                                                              },
+                                                              {
+                                                                "type": "object",
+                                                                "additionalProperties": false,
+                                                                "required": [
+                                                                  "@id"
+                                                                ],
+                                                                "properties": {
+                                                                  "@id": {
+                                                                    "type": "string"
+                                                                  }
+                                                                }
+                                                              }
+                                                            ]
+                                                          }
+                                                        },
+                                                        "schema:additionalProperty": {
+                                                          "type": "array",
+                                                          "items": {
+                                                            "$ref": "#/$defs/AdditionalProperty"
+                                                          }
+                                                        },
+                                                        "schema:manufacturer": {
+                                                          "$ref": "#/$defs/Organization"
+                                                        },
+                                                        "schema:model": {
+                                                          "type": "object",
+                                                          "properties": {
+                                                            "@type": {
+                                                              "type": "array",
+                                                              "items": {
+                                                                "anyOf": [
+                                                                  {
+                                                                    "type": "string"
+                                                                  },
+                                                                  {
+                                                                    "type": "object",
+                                                                    "additionalProperties": false,
+                                                                    "required": [
+                                                                      "@id"
+                                                                    ],
+                                                                    "properties": {
+                                                                      "@id": {
+                                                                        "type": "string"
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                ]
+                                                              },
+                                                              "contains": {
+                                                                "const": "schema:ProductModel"
+                                                              },
+                                                              "minItems": 1
+                                                            },
+                                                            "schema:name": {
+                                                              "type": "string"
+                                                            },
+                                                            "schema:identifier": {
+                                                              "anyOf": [
+                                                                {
+                                                                  "type": "string"
+                                                                },
+                                                                {
+                                                                  "$ref": "#/$defs/Identifier"
+                                                                }
+                                                              ]
+                                                            }
+                                                          },
+                                                          "required": [
+                                                            "@type"
+                                                          ]
+                                                        }
+                                                      },
+                                                      "required": [
+                                                        "@type",
+                                                        "schema:name"
+                                                      ]
+                                                    },
+                                                    {
+                                                      "type": "object",
+                                                      "additionalProperties": false,
+                                                      "properties": {
+                                                        "@id": {
+                                                          "type": "string",
+                                                          "description": "Reference to a sub-component defined elsewhere."
+                                                        }
+                                                      },
+                                                      "required": [
+                                                        "@id"
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              },
+                                              "schema:relatedLink": {
+                                                "type": "array",
+                                                "description": "Links to related resources (manuals, datasheets, calibration records, related instruments).",
+                                                "items": {
+                                                  "$ref": "#/$defs/Reference"
+                                                }
+                                              },
+                                              "schema:subjectOf": {
+                                                "description": "Catalog record metadata-about-metadata for this instrument description.",
+                                                "type": "object",
+                                                "properties": {
+                                                  "@id": {
+                                                    "type": "string"
+                                                  },
+                                                  "@type": {
+                                                    "type": "array",
+                                                    "items": {
+                                                      "type": "string"
+                                                    }
+                                                  },
+                                                  "schema:dateModified": {
+                                                    "type": "string",
+                                                    "description": "Date this metadata record was last modified (ISO 8601)."
+                                                  },
+                                                  "schema:about": {
                                                     "type": "object",
-                                                    "additionalProperties": false,
                                                     "required": [
                                                       "@id"
                                                     ],
+                                                    "additionalProperties": false,
                                                     "properties": {
                                                       "@id": {
-                                                        "const": "wd:Q3099911"
+                                                        "type": "string",
+                                                        "description": "Reference back to the instrument @id."
                                                       }
                                                     }
                                                   },
-                                                  "description": "wd:Q3099911 is Wikidata scientific instrument. Declare prefix wd: https://www.wikidata.org/entity/"
-                                                }
-                                              ]
-                                            }
+                                                  "dcterms:conformsTo": {
+                                                    "description": "Schema or profile this metadata record conforms to.",
+                                                    "type": "array",
+                                                    "items": {
+                                                      "anyOf": [
+                                                        {
+                                                          "type": "string"
+                                                        },
+                                                        {
+                                                          "type": "object",
+                                                          "required": [
+                                                            "@id"
+                                                          ],
+                                                          "additionalProperties": false,
+                                                          "properties": {
+                                                            "@id": {
+                                                              "type": "string"
+                                                            }
+                                                          }
+                                                        }
+                                                      ]
+                                                    }
+                                                  }
+                                                },
+                                                "required": [
+                                                  "@type"
+                                                ]
+                                              }
+                                            },
+                                            "required": [
+                                              "@type",
+                                              "schema:name"
+                                            ]
                                           },
-                                          "required": [
-                                            "schema:additionalType"
-                                          ]
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "object",
-                                      "description": "As a prov:used entity, the instrument's @type includes prov:Entity (the PROV-O range of prov:used) alongside schema:Thing / schema:Product.",
-                                      "properties": {
-                                        "@type": {
-                                          "contains": {
-                                            "const": "prov:Entity"
+                                          {
+                                            "type": "object",
+                                            "properties": {
+                                              "schema:additionalType": {
+                                                "type": "array",
+                                                "items": {
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "type": "object",
+                                                      "additionalProperties": false,
+                                                      "required": [
+                                                        "@id"
+                                                      ],
+                                                      "properties": {
+                                                        "@id": {
+                                                          "type": "string"
+                                                        }
+                                                      }
+                                                    }
+                                                  ]
+                                                },
+                                                "minItems": 1,
+                                                "uniqueItems": true,
+                                                "allOf": [
+                                                  {
+                                                    "contains": {
+                                                      "type": "object",
+                                                      "additionalProperties": false,
+                                                      "required": [
+                                                        "@id"
+                                                      ],
+                                                      "properties": {
+                                                        "@id": {
+                                                          "const": "wd:Q3099911"
+                                                        }
+                                                      }
+                                                    },
+                                                    "description": "wd:Q3099911 is Wikidata scientific instrument. Declare prefix wd: https://www.wikidata.org/entity/"
+                                                  }
+                                                ]
+                                              }
+                                            },
+                                            "required": [
+                                              "schema:additionalType"
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "object",
+                                        "description": "As a prov:used entity, the instrument's @type includes prov:Entity (the PROV-O range of prov:used) alongside schema:Thing / schema:Product.",
+                                        "properties": {
+                                          "@type": {
+                                            "contains": {
+                                              "const": "prov:Entity"
+                                            }
                                           }
                                         }
                                       }
-                                    }
-                                  ]
+                                    ]
+                                  }
                                 }
                               }
                             },
@@ -3248,25 +3256,13 @@
                               "type": "object",
                               "properties": {
                                 "schema:instrument": {
-                                  "type": "object",
-                                  "properties": {
-                                    "schema:additionalType": {
-                                      "anyOf": [
-                                        {
-                                          "type": "object",
-                                          "additionalProperties": false,
-                                          "required": [
-                                            "@id"
-                                          ],
-                                          "properties": {
-                                            "@id": {
-                                              "const": "xas:beamline"
-                                            }
-                                          }
-                                        },
-                                        {
-                                          "type": "array",
-                                          "contains": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "properties": {
+                                      "schema:additionalType": {
+                                        "anyOf": [
+                                          {
                                             "type": "object",
                                             "additionalProperties": false,
                                             "required": [
@@ -3277,18 +3273,33 @@
                                                 "const": "xas:beamline"
                                               }
                                             }
+                                          },
+                                          {
+                                            "type": "array",
+                                            "contains": {
+                                              "type": "object",
+                                              "additionalProperties": false,
+                                              "required": [
+                                                "@id"
+                                              ],
+                                              "properties": {
+                                                "@id": {
+                                                  "const": "xas:beamline"
+                                                }
+                                              }
+                                            }
                                           }
-                                        }
-                                      ]
+                                        ]
+                                      },
+                                      "schema:name": {
+                                        "type": "string"
+                                      }
                                     },
-                                    "schema:name": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "required": [
-                                    "schema:additionalType",
-                                    "schema:name"
-                                  ]
+                                    "required": [
+                                      "schema:additionalType",
+                                      "schema:name"
+                                    ]
+                                  }
                                 }
                               },
                               "required": [
@@ -3302,25 +3313,13 @@
                               "type": "object",
                               "properties": {
                                 "schema:instrument": {
-                                  "type": "object",
-                                  "properties": {
-                                    "schema:additionalType": {
-                                      "anyOf": [
-                                        {
-                                          "type": "object",
-                                          "additionalProperties": false,
-                                          "required": [
-                                            "@id"
-                                          ],
-                                          "properties": {
-                                            "@id": {
-                                              "const": "xas:xraymonochromator"
-                                            }
-                                          }
-                                        },
-                                        {
-                                          "type": "array",
-                                          "contains": {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "properties": {
+                                      "schema:additionalType": {
+                                        "anyOf": [
+                                          {
                                             "type": "object",
                                             "additionalProperties": false,
                                             "required": [
@@ -3331,16 +3330,8 @@
                                                 "const": "xas:xraymonochromator"
                                               }
                                             }
-                                          }
-                                        }
-                                      ]
-                                    },
-                                    "schema:additionalProperty": {
-                                      "type": "array",
-                                      "contains": {
-                                        "type": "object",
-                                        "properties": {
-                                          "schema:propertyID": {
+                                          },
+                                          {
                                             "type": "array",
                                             "contains": {
                                               "type": "object",
@@ -3350,26 +3341,49 @@
                                               ],
                                               "properties": {
                                                 "@id": {
-                                                  "const": "xas:dspacing"
+                                                  "const": "xas:xraymonochromator"
                                                 }
                                               }
                                             }
-                                          },
-                                          "schema:value": {
-                                            "type": "string"
                                           }
-                                        },
-                                        "required": [
-                                          "schema:propertyID",
-                                          "schema:value"
                                         ]
+                                      },
+                                      "schema:additionalProperty": {
+                                        "type": "array",
+                                        "contains": {
+                                          "type": "object",
+                                          "properties": {
+                                            "schema:propertyID": {
+                                              "type": "array",
+                                              "contains": {
+                                                "type": "object",
+                                                "additionalProperties": false,
+                                                "required": [
+                                                  "@id"
+                                                ],
+                                                "properties": {
+                                                  "@id": {
+                                                    "const": "xas:dspacing"
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            "schema:value": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "schema:propertyID",
+                                            "schema:value"
+                                          ]
+                                        }
                                       }
-                                    }
-                                  },
-                                  "required": [
-                                    "schema:additionalType",
-                                    "schema:additionalProperty"
-                                  ]
+                                    },
+                                    "required": [
+                                      "schema:additionalType",
+                                      "schema:additionalProperty"
+                                    ]
+                                  }
                                 }
                               },
                               "required": [
@@ -3588,29 +3602,17 @@
                           ],
                           "properties": {
                             "schema:instrument": {
-                              "type": "object",
-                              "required": [
-                                "schema:additionalType",
-                                "schema:additionalProperty"
-                              ],
-                              "properties": {
-                                "schema:additionalType": {
-                                  "anyOf": [
-                                    {
-                                      "type": "object",
-                                      "additionalProperties": false,
-                                      "required": [
-                                        "@id"
-                                      ],
-                                      "properties": {
-                                        "@id": {
-                                          "const": "xas:source"
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "type": "array",
-                                      "contains": {
+                              "type": "array",
+                              "contains": {
+                                "type": "object",
+                                "required": [
+                                  "schema:additionalType",
+                                  "schema:additionalProperty"
+                                ],
+                                "properties": {
+                                  "schema:additionalType": {
+                                    "anyOf": [
+                                      {
                                         "type": "object",
                                         "additionalProperties": false,
                                         "required": [
@@ -3621,80 +3623,95 @@
                                             "const": "xas:source"
                                           }
                                         }
+                                      },
+                                      {
+                                        "type": "array",
+                                        "contains": {
+                                          "type": "object",
+                                          "additionalProperties": false,
+                                          "required": [
+                                            "@id"
+                                          ],
+                                          "properties": {
+                                            "@id": {
+                                              "const": "xas:source"
+                                            }
+                                          }
+                                        }
                                       }
-                                    }
-                                  ]
-                                },
-                                "schema:additionalProperty": {
-                                  "type": "array",
-                                  "minItems": 2,
-                                  "items": {
-                                    "$ref": "#/$defs/AdditionalProperty"
+                                    ]
                                   },
-                                  "allOf": [
-                                    {
-                                      "contains": {
-                                        "type": "object",
-                                        "required": [
-                                          "schema:propertyID",
-                                          "schema:value"
-                                        ],
-                                        "properties": {
-                                          "schema:propertyID": {
-                                            "type": "array",
-                                            "contains": {
-                                              "type": "object",
-                                              "additionalProperties": false,
-                                              "required": [
-                                                "@id"
-                                              ],
-                                              "properties": {
-                                                "@id": {
-                                                  "const": "xas:xraysourcetype"
-                                                }
-                                              }
-                                            }
-                                          },
-                                          "schema:value": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      }
+                                  "schema:additionalProperty": {
+                                    "type": "array",
+                                    "minItems": 2,
+                                    "items": {
+                                      "$ref": "#/$defs/AdditionalProperty"
                                     },
-                                    {
-                                      "contains": {
-                                        "type": "object",
-                                        "required": [
-                                          "schema:name",
-                                          "schema:propertyID",
-                                          "schema:value"
-                                        ],
-                                        "properties": {
-                                          "schema:propertyID": {
-                                            "type": "array",
-                                            "contains": {
-                                              "type": "object",
-                                              "additionalProperties": false,
-                                              "required": [
-                                                "@id"
-                                              ],
-                                              "properties": {
-                                                "@id": {
-                                                  "const": "xas:probe"
+                                    "allOf": [
+                                      {
+                                        "contains": {
+                                          "type": "object",
+                                          "required": [
+                                            "schema:propertyID",
+                                            "schema:value"
+                                          ],
+                                          "properties": {
+                                            "schema:propertyID": {
+                                              "type": "array",
+                                              "contains": {
+                                                "type": "object",
+                                                "additionalProperties": false,
+                                                "required": [
+                                                  "@id"
+                                                ],
+                                                "properties": {
+                                                  "@id": {
+                                                    "const": "xas:xraysourcetype"
+                                                  }
                                                 }
                                               }
+                                            },
+                                            "schema:value": {
+                                              "type": "string"
                                             }
-                                          },
-                                          "schema:name": {
-                                            "const": "Probe"
-                                          },
-                                          "schema:value": {
-                                            "type": "string"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "contains": {
+                                          "type": "object",
+                                          "required": [
+                                            "schema:name",
+                                            "schema:propertyID",
+                                            "schema:value"
+                                          ],
+                                          "properties": {
+                                            "schema:propertyID": {
+                                              "type": "array",
+                                              "contains": {
+                                                "type": "object",
+                                                "additionalProperties": false,
+                                                "required": [
+                                                  "@id"
+                                                ],
+                                                "properties": {
+                                                  "@id": {
+                                                    "const": "xas:probe"
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            "schema:name": {
+                                              "const": "Probe"
+                                            },
+                                            "schema:value": {
+                                              "type": "string"
+                                            }
                                           }
                                         }
                                       }
-                                    }
-                                  ]
+                                    ]
+                                  }
                                 }
                               }
                             }
@@ -3710,30 +3727,18 @@
                           ],
                           "properties": {
                             "schema:instrument": {
-                              "type": "object",
-                              "required": [
-                                "schema:additionalType",
-                                "schema:name",
-                                "schema:additionalProperty"
-                              ],
-                              "properties": {
-                                "schema:additionalType": {
-                                  "anyOf": [
-                                    {
-                                      "type": "object",
-                                      "additionalProperties": false,
-                                      "required": [
-                                        "@id"
-                                      ],
-                                      "properties": {
-                                        "@id": {
-                                          "const": "xas:xraymonochromator"
-                                        }
-                                      }
-                                    },
-                                    {
-                                      "type": "array",
-                                      "contains": {
+                              "type": "array",
+                              "contains": {
+                                "type": "object",
+                                "required": [
+                                  "schema:additionalType",
+                                  "schema:name",
+                                  "schema:additionalProperty"
+                                ],
+                                "properties": {
+                                  "schema:additionalType": {
+                                    "anyOf": [
+                                      {
                                         "type": "object",
                                         "additionalProperties": false,
                                         "required": [
@@ -3744,113 +3749,128 @@
                                             "const": "xas:xraymonochromator"
                                           }
                                         }
+                                      },
+                                      {
+                                        "type": "array",
+                                        "contains": {
+                                          "type": "object",
+                                          "additionalProperties": false,
+                                          "required": [
+                                            "@id"
+                                          ],
+                                          "properties": {
+                                            "@id": {
+                                              "const": "xas:xraymonochromator"
+                                            }
+                                          }
+                                        }
                                       }
-                                    }
-                                  ]
-                                },
-                                "schema:name": {
-                                  "type": "string"
-                                },
-                                "schema:additionalProperty": {
-                                  "description": "Require crystal type, d_spacing (with unitText), and reflection plane properties.",
-                                  "type": "array",
-                                  "minItems": 3,
-                                  "items": {
-                                    "$ref": "#/$defs/AdditionalProperty"
+                                    ]
                                   },
-                                  "allOf": [
-                                    {
-                                      "contains": {
-                                        "type": "object",
-                                        "required": [
-                                          "schema:propertyID",
-                                          "schema:value"
-                                        ],
-                                        "properties": {
-                                          "schema:propertyID": {
-                                            "type": "array",
-                                            "contains": {
-                                              "type": "object",
-                                              "additionalProperties": false,
-                                              "required": [
-                                                "@id"
-                                              ],
-                                              "properties": {
-                                                "@id": {
-                                                  "const": "xas:monochromatortype"
-                                                }
-                                              }
-                                            }
-                                          },
-                                          "schema:value": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      }
+                                  "schema:name": {
+                                    "type": "string"
+                                  },
+                                  "schema:additionalProperty": {
+                                    "description": "Require crystal type, d_spacing (with unitText), and reflection plane properties.",
+                                    "type": "array",
+                                    "minItems": 3,
+                                    "items": {
+                                      "$ref": "#/$defs/AdditionalProperty"
                                     },
-                                    {
-                                      "contains": {
-                                        "type": "object",
-                                        "required": [
-                                          "schema:propertyID",
-                                          "schema:value",
-                                          "schema:unitText"
-                                        ],
-                                        "properties": {
-                                          "schema:propertyID": {
-                                            "type": "array",
-                                            "contains": {
-                                              "type": "object",
-                                              "additionalProperties": false,
-                                              "required": [
-                                                "@id"
-                                              ],
-                                              "properties": {
-                                                "@id": {
-                                                  "const": "xas:dspacing"
+                                    "allOf": [
+                                      {
+                                        "contains": {
+                                          "type": "object",
+                                          "required": [
+                                            "schema:propertyID",
+                                            "schema:value"
+                                          ],
+                                          "properties": {
+                                            "schema:propertyID": {
+                                              "type": "array",
+                                              "contains": {
+                                                "type": "object",
+                                                "additionalProperties": false,
+                                                "required": [
+                                                  "@id"
+                                                ],
+                                                "properties": {
+                                                  "@id": {
+                                                    "const": "xas:monochromatortype"
+                                                  }
                                                 }
                                               }
+                                            },
+                                            "schema:value": {
+                                              "type": "string"
                                             }
-                                          },
-                                          "schema:value": {
-                                            "type": "string"
-                                          },
-                                          "schema:unitText": {
-                                            "type": "string"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "contains": {
+                                          "type": "object",
+                                          "required": [
+                                            "schema:propertyID",
+                                            "schema:value",
+                                            "schema:unitText"
+                                          ],
+                                          "properties": {
+                                            "schema:propertyID": {
+                                              "type": "array",
+                                              "contains": {
+                                                "type": "object",
+                                                "additionalProperties": false,
+                                                "required": [
+                                                  "@id"
+                                                ],
+                                                "properties": {
+                                                  "@id": {
+                                                    "const": "xas:dspacing"
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            "schema:value": {
+                                              "type": "string"
+                                            },
+                                            "schema:unitText": {
+                                              "type": "string"
+                                            }
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "contains": {
+                                          "type": "object",
+                                          "required": [
+                                            "schema:propertyID",
+                                            "schema:value"
+                                          ],
+                                          "properties": {
+                                            "schema:propertyID": {
+                                              "type": "array",
+                                              "contains": {
+                                                "type": "object",
+                                                "additionalProperties": false,
+                                                "required": [
+                                                  "@id"
+                                                ],
+                                                "properties": {
+                                                  "@id": {
+                                                    "const": "xas:reflectionplane"
+                                                  }
+                                                }
+                                              }
+                                            },
+                                            "schema:value": {
+                                              "type": "string"
+                                            }
                                           }
                                         }
                                       }
-                                    },
-                                    {
-                                      "contains": {
-                                        "type": "object",
-                                        "required": [
-                                          "schema:propertyID",
-                                          "schema:value"
-                                        ],
-                                        "properties": {
-                                          "schema:propertyID": {
-                                            "type": "array",
-                                            "contains": {
-                                              "type": "object",
-                                              "additionalProperties": false,
-                                              "required": [
-                                                "@id"
-                                              ],
-                                              "properties": {
-                                                "@id": {
-                                                  "const": "xas:reflectionplane"
-                                                }
-                                              }
-                                            }
-                                          },
-                                          "schema:value": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      }
-                                    }
-                                  ]
+                                    ]
+                                  }
                                 }
                               }
                             }
@@ -4066,25 +4086,13 @@
                     "description": "When this peer prov:used entry's instrument is a beamline (schema:additionalType contains xas:beamline), its schema:additionalProperty entries SHOULD use the XDI Beamline vocabulary (XDI-CDIF-Mapping.xlsx rows 10-20, excluding Beamline.name which maps to schema:name).",
                     "properties": {
                       "schema:instrument": {
-                        "type": "object",
-                        "properties": {
-                          "schema:additionalType": {
-                            "anyOf": [
-                              {
-                                "type": "object",
-                                "additionalProperties": false,
-                                "required": [
-                                  "@id"
-                                ],
-                                "properties": {
-                                  "@id": {
-                                    "const": "xas:beamline"
-                                  }
-                                }
-                              },
-                              {
-                                "type": "array",
-                                "contains": {
+                        "type": "array",
+                        "contains": {
+                          "type": "object",
+                          "properties": {
+                            "schema:additionalType": {
+                              "anyOf": [
+                                {
                                   "type": "object",
                                   "additionalProperties": false,
                                   "required": [
@@ -4095,9 +4103,24 @@
                                       "const": "xas:beamline"
                                     }
                                   }
+                                },
+                                {
+                                  "type": "array",
+                                  "contains": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "required": [
+                                      "@id"
+                                    ],
+                                    "properties": {
+                                      "@id": {
+                                        "const": "xas:beamline"
+                                      }
+                                    }
+                                  }
                                 }
-                              }
-                            ]
+                              ]
+                            }
                           }
                         }
                       }
@@ -4106,45 +4129,48 @@
                   "then": {
                     "properties": {
                       "schema:instrument": {
-                        "type": "object",
-                        "properties": {
-                          "schema:additionalProperty": {
-                            "type": "array",
-                            "items": {
-                              "allOf": [
-                                {
-                                  "$ref": "#/$defs/AdditionalProperty"
-                                },
-                                {
-                                  "properties": {
-                                    "schema:propertyID": {
-                                      "type": "array",
-                                      "minItems": 1,
-                                      "items": {
-                                        "anyOf": [
-                                          {
-                                            "$ref": "#/$defs/propertyID_item"
-                                          },
-                                          {
-                                            "enum": [
-                                              "xas:collimation",
-                                              "xas:detectortype",
-                                              "xas:energyrange",
-                                              "xas:energyresolution",
-                                              "xas:flux",
-                                              "xas:focusing",
-                                              "xas:harmonicrejection",
-                                              "xas:scanmode",
-                                              "xas:spotsize",
-                                              "xas:website"
-                                            ]
-                                          }
-                                        ]
+                        "type": "array",
+                        "contains": {
+                          "type": "object",
+                          "properties": {
+                            "schema:additionalProperty": {
+                              "type": "array",
+                              "items": {
+                                "allOf": [
+                                  {
+                                    "$ref": "#/$defs/AdditionalProperty"
+                                  },
+                                  {
+                                    "properties": {
+                                      "schema:propertyID": {
+                                        "type": "array",
+                                        "minItems": 1,
+                                        "items": {
+                                          "anyOf": [
+                                            {
+                                              "$ref": "#/$defs/propertyID_item"
+                                            },
+                                            {
+                                              "enum": [
+                                                "xas:collimation",
+                                                "xas:detectortype",
+                                                "xas:energyrange",
+                                                "xas:energyresolution",
+                                                "xas:flux",
+                                                "xas:focusing",
+                                                "xas:harmonicrejection",
+                                                "xas:scanmode",
+                                                "xas:spotsize",
+                                                "xas:website"
+                                              ]
+                                            }
+                                          ]
+                                        }
                                       }
                                     }
                                   }
-                                }
-                              ]
+                                ]
+                              }
                             }
                           }
                         }
