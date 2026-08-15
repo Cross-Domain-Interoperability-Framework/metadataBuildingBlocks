@@ -13,7 +13,273 @@
   <nav class="breadcrumb"><a href="../../../index.html">Profiles</a> &raquo; <a href="../../index.html">CoreDiscovery</a> &raquo; <a href="../../Classes/index.html">Classes</a> &raquo; VariableMeasured</nav>
 </header>
 <main>
-<h1 class="classname">VariableMeasured <span class="stereotype inherited" title="Composed from CDIFDiscovery">inherited from <a class="classlink" href="../../CDIFDiscovery/Classes/VariableMeasured.html">CDIFDiscovery</a></span></h1><p class="fqn">CoreDiscovery::Classes::VariableMeasured</p><h2>Definition</h2><div class="definition">A measured variable described as a schema:PropertyValue. Lightweight discovery-level shape: name, description, optional measurement technique, optional value range (min/maxValue) and unit (unitCode/unitText). Richer per-variable structure is added by cdifDataDescription.</div><h2>Diagram</h2><div class="diagram" data-diagram data-svg="VariableMeasured.svg"><div class="diagram-viewport"><div class="diagram-stage"><object data="VariableMeasured.svg" type="image/svg+xml"></object></div></div></div><h2>Inheritance</h2><p class="empty">No generalization relationships.</p><h2>Attributes</h2><table><thead><tr><th>Name</th><th>Type</th><th>Multiplicity</th><th>Description</th></tr></thead><tbody><tr><td class="name">identifier</td><td class="type"><a class="classlink" href="../DataTypes/XsdAnyUri.html">XsdAnyUri</a></td><td class="mult">[0..1]</td><td class="doc">@id - resolvable URI for the variable.</td></tr><tr><td class="name">name</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">schema:name - label associated with the variable in the dataset.</td></tr><tr><td class="name">description</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">schema:description - free-text description of what the variable measures.</td></tr><tr><td class="name">alternateName</td><td class="type"><span>string</span></td><td class="mult">[0..*]</td><td class="doc">schema:alternateName - additional human-readable name(s) for the variable.</td></tr><tr><td class="name">minValue</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">schema:minValue - the lower bound of the values this variable can take (string for generality; concrete numeric type varies).</td></tr><tr><td class="name">maxValue</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">schema:maxValue - the upper bound of the values this variable can take.</td></tr><tr><td class="name">unitCode</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">schema:unitCode - URL/code identifying the unit of measure (e.g. UN/CEFACT Common Code, QUDT URI).</td></tr><tr><td class="name">unitText</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">schema:unitText - text label for the unit of measure (free form, complements unitCode).</td></tr></tbody></table><h2>Associations</h2><table><thead><tr><th>Role</th><th>Target</th><th>Multiplicity</th><th>Kind</th></tr></thead><tbody><tr><td class="name">variableMeasured</td><td>&larr; <a class="classlink" href="../Classes/Dataset.html">Dataset</a></td><td class="mult">[0..*]</td><td class="doc">composition</td></tr><tr><td class="name">measurementTechnique</td><td>&rarr; <a class="classlink" href="../Classes/DefinedTerm.html">DefinedTerm</a></td><td class="mult">[0..1]</td><td class="doc">association</td></tr></tbody></table>
+<h1 class="classname">VariableMeasured <span class="stereotype inherited" title="Composed from CDIFDiscovery">inherited from <a class="classlink" href="../../CDIFDiscovery/Classes/VariableMeasured.html">CDIFDiscovery</a></span></h1><p class="fqn">CoreDiscovery::Classes::VariableMeasured</p><h2>Definition</h2><div class="definition">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+schema:PropertyValue
+
+Definition
+..........
+A property-value pair, e.g. representing a feature of a product or place. Use the 'name' property for the name of the property. If there is an additional human-readable version of the value, put that into the 'description' property.\n\n Always use specific schema.org properties when a) they exist and b) you can populate them. Using PropertyValue as a substitute will typically not trigger the same effect as using the original, specific property.
+
+Scope
+.....
+Parent class(es): StructuredValue (https://schema.org/StructuredValue).
+
+
+CDIF
+----
+
+Definition
+..........
+A measured variable described as a schema:PropertyValue. Lightweight discovery-level shape: name, description, optional measurement technique, optional value range (min/maxValue) and unit (unitCode/unitText). Richer per-variable structure is added by cdifDataDescription.
+</div><h2>Diagram</h2><div class="diagram" data-diagram data-svg="VariableMeasured.svg"><div class="diagram-viewport"><div class="diagram-stage"><object data="VariableMeasured.svg" type="image/svg+xml"></object></div></div></div><h2>Inheritance</h2><p class="empty">No generalization relationships.</p><h2>Attributes</h2><table><thead><tr><th>Name</th><th>Type</th><th>Multiplicity</th><th>Description</th></tr></thead><tbody><tr><td class="name">identifier</td><td class="type"><a class="classlink" href="../DataTypes/XsdAnyUri.html">XsdAnyUri</a></td><td class="mult">[0..1]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+schema:identifier
+
+Definition
+..........
+The identifier property represents any kind of identifier for any kind of [[Thing]], such as ISBNs, GTIN codes, UUIDs etc. Schema.org provides dedicated properties for representing many of these, either as textual strings or as URL (URI) links. See [background notes](/docs/datamodel.html#identifierBg) for more details.
+
+Scope
+.....
+Domain: Thing (https://schema.org/Thing).
+Range: PropertyValue (https://schema.org/PropertyValue), Text (https://schema.org/Text), URL (https://schema.org/URL).
+
+
+CDIF
+----
+
+Definition
+..........
+The primary identifier for the dataset; other identifiers should be listed in the sameAs field. Schema.org has three ways of encoding identifiers-- a text description, a URL, or by using the schema:PropertyValue field. The Science on Schema.org guidance strongly recommends using the PropertyValue approach. see https://github.com/ESIPFed/science-on-schema.org   .... Dataset.md#identifier.  Ideally, for any given data provided they would provide identifiers either all as strings or all as identifier_type.
+
+Scope
+.....
+@id - resolvable URI for the variable.
+</td></tr><tr><td class="name">name</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+schema:name
+
+Definition
+..........
+The name of the item.
+
+Scope
+.....
+Domain: Thing (https://schema.org/Thing).
+Range: Text (https://schema.org/Text).
+
+
+CDIF
+----
+
+Definition
+..........
+A descriptive name of a dataset (e.g., 'Snow depth in Northern Hemisphere'). The name should uniquely identify the described resource for human use, in the scope of the metadata catalog containing this metadata record.
+
+Scope
+.....
+schema:name - label associated with the variable in the dataset.
+</td></tr><tr><td class="name">description</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+schema:description
+
+Definition
+..........
+A description of the item.
+
+Scope
+.....
+Domain: Thing (https://schema.org/Thing).
+Range: Text (https://schema.org/Text), TextObject (https://schema.org/TextObject).
+
+
+CDIF
+----
+
+Definition
+..........
+A short summary describing a dataset. This text will be indexed by search applications, so the more information here, the better.
+
+Scope
+.....
+schema:description - free-text description of what the variable measures.
+</td></tr><tr><td class="name">alternateName</td><td class="type"><span>string</span></td><td class="mult">[0..*]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+schema:alternateName
+
+Definition
+..........
+An alias for the item.
+
+Scope
+.....
+Domain: Thing (https://schema.org/Thing).
+Range: Text (https://schema.org/Text).
+
+
+CDIF
+----
+
+Definition
+..........
+Alternate or abbreviated name(s) for this place.
+
+Scope
+.....
+schema:alternateName - additional human-readable name(s) for the variable.
+</td></tr><tr><td class="name">minValue</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+schema:minValue
+
+Definition
+..........
+The lower value of some characteristic or property.
+
+Scope
+.....
+Domain: MonetaryAmount (https://schema.org/MonetaryAmount), PropertyValue (https://schema.org/PropertyValue), PropertyValueSpecification (https://schema.org/PropertyValueSpecification), QuantitativeValue (https://schema.org/QuantitativeValue).
+Range: Number (https://schema.org/Number).
+
+
+CDIF
+----
+
+Definition
+..........
+minimum numeric value in the dataset
+
+Scope
+.....
+schema:minValue - the lower bound of the values this variable can take (string for generality; concrete numeric type varies).
+</td></tr><tr><td class="name">maxValue</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+schema:maxValue
+
+Definition
+..........
+The upper value of some characteristic or property.
+
+Scope
+.....
+Domain: MonetaryAmount (https://schema.org/MonetaryAmount), PropertyValue (https://schema.org/PropertyValue), PropertyValueSpecification (https://schema.org/PropertyValueSpecification), QuantitativeValue (https://schema.org/QuantitativeValue).
+Range: Number (https://schema.org/Number).
+
+
+CDIF
+----
+
+Definition
+..........
+maximum numeric value in the dataset
+
+Scope
+.....
+schema:maxValue - the upper bound of the values this variable can take.
+</td></tr><tr><td class="name">unitCode</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+schema:unitCode
+
+Definition
+..........
+The unit of measurement given using the UN/CEFACT Common Code (3 characters) or a URL. Other codes than the UN/CEFACT Common Code may be used with a prefix followed by a colon.
+
+Scope
+.....
+Domain: PropertyValue (https://schema.org/PropertyValue), QuantitativeValue (https://schema.org/QuantitativeValue), TypeAndQuantityNode (https://schema.org/TypeAndQuantityNode), UnitPriceSpecification (https://schema.org/UnitPriceSpecification).
+Range: Text (https://schema.org/Text), URL (https://schema.org/URL).
+
+
+CDIF
+----
+
+Definition
+..........
+URI or code identifying the unit of measure
+
+Scope
+.....
+schema:unitCode - URL/code identifying the unit of measure (e.g. UN/CEFACT Common Code, QUDT URI).
+</td></tr><tr><td class="name">unitText</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+schema:unitText
+
+Definition
+..........
+A string or text indicating the unit of measurement. Useful if you cannot provide a standard unit code for
+&lt;a href='unitCode'&gt;unitCode&lt;/a&gt;.
+
+Scope
+.....
+Domain: PropertyValue (https://schema.org/PropertyValue), QuantitativeValue (https://schema.org/QuantitativeValue), TypeAndQuantityNode (https://schema.org/TypeAndQuantityNode), UnitPriceSpecification (https://schema.org/UnitPriceSpecification).
+Range: Text (https://schema.org/Text).
+
+
+CDIF
+----
+
+Definition
+..........
+unit of measurement as text
+
+Scope
+.....
+schema:unitText - text label for the unit of measure (free form, complements unitCode).
+</td></tr></tbody></table><h2>Associations</h2><table><thead><tr><th>Role</th><th>Target</th><th>Multiplicity</th><th>Kind</th></tr></thead><tbody><tr><td class="name">variableMeasured</td><td>&larr; <a class="classlink" href="../Classes/Dataset.html">Dataset</a></td><td class="mult">[0..*]</td><td class="doc">composition</td></tr><tr><td class="name">measurementTechnique</td><td>&rarr; <a class="classlink" href="../Classes/DefinedTerm.html">DefinedTerm</a></td><td class="mult">[0..1]</td><td class="doc">association</td></tr></tbody></table>
 </main>
 </body>
 </html>

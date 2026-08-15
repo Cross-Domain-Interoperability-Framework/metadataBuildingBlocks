@@ -13,7 +13,181 @@
   <nav class="breadcrumb"><a href="../../../index.html">Profiles</a> &raquo; <a href="../../index.html">CDIFManifest</a> &raquo; <a href="../../Classes/index.html">Classes</a> &raquo; TabularTextDataSet</nav>
 </header>
 <main>
-<h1 class="classname">TabularTextDataSet</h1><p class="fqn">CDIFManifest::Classes::TabularTextDataSet</p><h2>Definition</h2><div class="definition">ArchivePart co-typed cdi:TabularTextDataSet. Carries CSV-style layout attributes.</div><h2>Diagram</h2><div class="diagram" data-diagram data-svg="TabularTextDataSet.svg"><div class="diagram-viewport"><div class="diagram-stage"><object data="TabularTextDataSet.svg" type="image/svg+xml"></object></div></div></div><h2>Inheritance</h2><p><strong>Generalizes:</strong> <a class="classlink" href="../Classes/AbstractDataSet.html">AbstractDataSet</a></p><h2>Attributes</h2><table><thead><tr><th>Name</th><th>Type</th><th>Multiplicity</th><th>Description</th></tr></thead><tbody><tr><td class="name">delimiter</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">csvw:delimiter.</td></tr><tr><td class="name">isDelimited</td><td class="type"><span>boolean</span></td><td class="mult">[0..1]</td><td class="doc">cdi:isDelimited.</td></tr><tr><td class="name">isFixedWidth</td><td class="type"><span>boolean</span></td><td class="mult">[0..1]</td><td class="doc">cdi:isFixedWidth.</td></tr><tr><td class="name">headerIsCaseSensitive</td><td class="type"><span>boolean</span></td><td class="mult">[0..1]</td><td class="doc">cdi:headerIsCaseSensitive.</td></tr><tr><td class="name">treatConsecutiveDelimitersAsOne</td><td class="type"><span>boolean</span></td><td class="mult">[0..1]</td><td class="doc">cdi:treatConsecutiveDelimitersAsOne.</td></tr><tr><td class="name">escapeCharacter</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">cdi:escapeCharacter.</td></tr></tbody></table><h2>Associations</h2><p class="empty">No associations.</p>
+<h1 class="classname">TabularTextDataSet</h1><p class="fqn">CDIFManifest::Classes::TabularTextDataSet</p><h2>Definition</h2><div class="definition">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+cdi:TabularTextDataSet
+
+Definition
+..........
+Definition
+==========
+Information describing the physical aspects of a data set which is encoded using a text-based method and which has an essentially tabular structure.
+
+Examples
+========
+A table formatted as a comma separated values (CSV) file; a pipe-delimited ASCII data file such as the tract definitions for the US 2020 Census (found at https://www2.census.gov/geo/docs/maps-data/data/rel2020/tract/tab20_tract20_tract10_natl.txt); any similar file which used fixed-width columns instead of delimiters.
+
+Explanatory notes
+=================
+A tabular text data set is a physical description (e.g. unit segment layout) of the instance variables making up the records in the data set. Each instance variable has a text mapping linking it to the physical layout, with a position index supplied by a physical mapping position object.
+Tabular text data sets are distinct from binary data sets which do not use a text-based encoding, and from more structured text-based data expressed in formats such as XML, JSON, or any of the RDF representations.
+
+
+CDIF
+----
+
+Definition
+..........
+ArchivePart co-typed cdi:TabularTextDataSet. Carries CSV-style layout attributes.
+</div><h2>Diagram</h2><div class="diagram" data-diagram data-svg="TabularTextDataSet.svg"><div class="diagram-viewport"><div class="diagram-stage"><object data="TabularTextDataSet.svg" type="image/svg+xml"></object></div></div></div><h2>Inheritance</h2><p><strong>Generalizes:</strong> <a class="classlink" href="../Classes/AbstractDataSet.html">AbstractDataSet</a></p><h2>Attributes</h2><table><thead><tr><th>Name</th><th>Type</th><th>Multiplicity</th><th>Description</th></tr></thead><tbody><tr><td class="name">delimiter</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+cdi:TabularTextDataSet-delimiter
+
+Definition
+..........
+The Delimiting character in the data. Must be used if isDelimited is True. &quot;The separator between cells, set by the delimiter property of a dialect description. The default is ,. See the W3C Recommendation &quot;Metadata Vocabulary for Tabular Data&quot; (https://www.w3.org/TR/tabular-data-model/#encoding). From the &quot;CSV Dialect&quot; specification (https://specs.frictionlessdata.io/csv-dialect/#specification): &quot;delimiter: specifies a one-character string to use as the field separator. Default = ,.&quot;
+
+
+CDIF
+----
+
+Definition
+..........
+csvw:delimiter.
+</td></tr><tr><td class="name">isDelimited</td><td class="type"><span>boolean</span></td><td class="mult">[0..1]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+cdi:TabularTextDataSet-isDelimited
+
+Definition
+..........
+Indicates whether the data are in a delimited format. If &quot;true,&quot; the format is delimited, and the isFixedWidth property must be set to &quot;false.&quot; If not set to &quot;true,&quot; the property isFixedWitdh must be set to &quot;true.&quot;
+
+
+CDIF
+----
+
+Definition
+..........
+Schema constraint is that one of {'isDelimited','isFixedWidth'} must be present with a True value; the other one may be present or omitted, but if present must have a false value.
+
+Scope
+.....
+cdi:isDelimited.
+</td></tr><tr><td class="name">isFixedWidth</td><td class="type"><span>boolean</span></td><td class="mult">[0..1]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+cdi:TabularTextDataSet-isFixedWidth
+
+Definition
+..........
+Set to true if the file is fixed-width. If true, isDelimited must be set to false.
+
+
+CDIF
+----
+
+Definition
+..........
+cdi:isFixedWidth.
+</td></tr><tr><td class="name">headerIsCaseSensitive</td><td class="type"><span>boolean</span></td><td class="mult">[0..1]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+cdi:TabularTextDataSet-headerIsCaseSensitive
+
+Definition
+..........
+If True, the case of the labels in the header is significant. From the &quot;CSV Dialect&quot; specification (http://specs.frictionlessdata.io/csv-dialect/): &quot;caseSensitiveHeader: indicates that case in the header is meaningful. For example, columns CAT and Cat should not be equated. Default = false.&quot;
+
+
+CDIF
+----
+
+Definition
+..........
+Whether column header names are case-sensitive. From DDI-CDI PhysicalSegmentLayout.headerIsCaseSensitive.
+
+Scope
+.....
+cdi:headerIsCaseSensitive.
+</td></tr><tr><td class="name">treatConsecutiveDelimitersAsOne</td><td class="type"><span>boolean</span></td><td class="mult">[0..1]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+cdi:TabularTextDataSet-treatConsecutiveDelimitersAsOne
+
+Definition
+..........
+If the value is True, consecutive (adjacent) delimiters are treated as a single delimiter; if the value is False consecutive (adjacent) delimiters indicate a missing value.
+
+
+CDIF
+----
+
+Definition
+..........
+Whether consecutive delimiters should be treated as a single delimiter. From DDI-CDI PhysicalSegmentLayout.treatConsecutiveDelimitersAsOne.
+
+Scope
+.....
+cdi:treatConsecutiveDelimitersAsOne.
+</td></tr><tr><td class="name">escapeCharacter</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+cdi:TabularTextDataSet-escapeCharacter
+
+Definition
+..........
+&quot;The string that is used to escape the quote character within escaped cells, or null&quot; see https://www.w3.org/TR/tabular-data-model/#encoding. From https://www.w3.org/TR/tabular-metadata/ 5.9 Dialect &quot;doubleQuote: A boolean atomic property that, if true, sets the escape character flag to &quot;. If false, to \. The default is true.&quot; From http://specs.frictionlessdata.io/csv-dialect/ &quot;doubleQuote: controls the handling of quotes inside fields. If true, two consecutive quotes should be interpreted as one. Default = true&quot;.
+
+
+CDIF
+----
+
+Definition
+..........
+The character used to escape special characters in the data. From DDI-CDI PhysicalSegmentLayout.escapeCharacter.
+
+Scope
+.....
+cdi:escapeCharacter.
+</td></tr></tbody></table><h2>Associations</h2><p class="empty">No associations.</p>
 </main>
 </body>
 </html>

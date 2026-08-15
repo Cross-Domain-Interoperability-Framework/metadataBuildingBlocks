@@ -13,7 +13,168 @@
   <nav class="breadcrumb"><a href="../../../index.html">Profiles</a> &raquo; <a href="../../index.html">CDIFDataDescription</a> &raquo; <a href="../../Classes/index.html">Classes</a> &raquo; DefinedTerm</nav>
 </header>
 <main>
-<h1 class="classname">DefinedTerm</h1><p class="fqn">CDIFDataDescription::Classes::DefinedTerm</p><h2>Definition</h2><div class="definition">schema:DefinedTerm - a term from a controlled vocabulary (DefinedTermSet). Used as a typed concept reference (e.g. cdi:hasIntendedDataType -&gt; xsd-datatype DefinedTerm), and as one branch of CdifConceptOrTerm.</div><div class="union-note"><strong>JSON serialization:</strong> In a JSON instance, a property typed as <code>DefinedTerm</code> may also be supplied as a plain string (the term's label) or as an object reference (<code>{"@id": ...}</code>) instead of a full schema:DefinedTerm object.</div><h2>Diagram</h2><div class="diagram" data-diagram data-svg="DefinedTerm.svg"><div class="diagram-viewport"><div class="diagram-stage"><object data="DefinedTerm.svg" type="image/svg+xml"></object></div></div></div><h2>Inheritance</h2><p class="empty">No generalization relationships.</p><h2>Attributes</h2><table><thead><tr><th>Name</th><th>Type</th><th>Multiplicity</th><th>Description</th></tr></thead><tbody><tr><td class="name">identifier</td><td class="type"><a class="classlink" href="../DataTypes/XsdAnyUri.html">XsdAnyUri</a></td><td class="mult">[0..1]</td><td class="doc">@id - resolvable URI for the DefinedTerm.</td></tr><tr><td class="name">termCode</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">schema:termCode - the code identifying the term within its DefinedTermSet.</td></tr><tr><td class="name">name</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">schema:name - human-readable label.</td></tr><tr><td class="name">inDefinedTermSet</td><td class="type"><a class="classlink" href="../DataTypes/XsdAnyUri.html">XsdAnyUri</a></td><td class="mult">[0..1]</td><td class="doc">schema:inDefinedTermSet - @id of the DefinedTermSet.</td></tr></tbody></table><h2>Associations</h2><table><thead><tr><th>Role</th><th>Target</th><th>Multiplicity</th><th>Kind</th></tr></thead><tbody><tr><td class="name">hasIntendedDataType</td><td>&larr; <a class="classlink" href="../Classes/InstanceVariable.html">InstanceVariable</a></td><td class="mult">[0..1]</td><td class="doc">association</td></tr><tr><td class="name">source</td><td>&larr; <a class="classlink" href="../Classes/InstanceVariable.html">InstanceVariable</a></td><td class="mult">[0..*]</td><td class="doc">association</td></tr><tr><td class="name">measurementTechnique</td><td>&larr; <a class="classlink" href="../Classes/InstanceVariable.html">InstanceVariable</a></td><td class="mult">[0..*]</td><td class="doc">association</td></tr></tbody></table>
+<h1 class="classname">DefinedTerm</h1><p class="fqn">CDIFDataDescription::Classes::DefinedTerm</p><h2>Definition</h2><div class="definition">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+schema:DefinedTerm
+
+Definition
+..........
+A word, name, acronym, phrase, etc. with a formal definition. Often used in the context of category or subject classification, glossaries or dictionaries, product or creative work types, etc. Use the name property for the term being defined, use termCode if the term has an alpha-numeric code allocated, use description to provide the definition of the term. Use the about property to specify what the term is about.
+
+Scope
+.....
+Parent class(es): Intangible (https://schema.org/Intangible).
+
+
+CDIF
+----
+
+Definition
+..........
+schema.org Defined Term schema.
+
+**Union-type policy:** In CDIF profile UML models an attribute typed as
+schema:DefinedTerm is represented by a single attribute of that class type.
+The JSON Schema implementation permits the property value to be EITHER a
+plain string (interpreted as schema:name or schema:termCode in the default
+vocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,
+identifier, termCode, inDefinedTermSet). Consumers should accept either form.
+
+Note that this differs from the cdif Concept policy: a Concept (skos:Concept)
+in CDIF profiles MUST be a controlled-vocabulary entry (object form or
+@id-reference) — plain strings are not permitted for Concept-typed values
+because vocabulary identity cannot be recovered from an unscoped label.
+
+Scope
+.....
+schema:DefinedTerm - a term from a controlled vocabulary (DefinedTermSet). Used as a typed concept reference (e.g. cdi:hasIntendedDataType -&gt; xsd-datatype DefinedTerm), and as one branch of CdifConceptOrTerm.
+</div><div class="union-note"><strong>JSON serialization:</strong> In a JSON instance, a property typed as <code>DefinedTerm</code> may also be supplied as a plain string (the term's label) or as an object reference (<code>{"@id": ...}</code>) instead of a full schema:DefinedTerm object.</div><h2>Diagram</h2><div class="diagram" data-diagram data-svg="DefinedTerm.svg"><div class="diagram-viewport"><div class="diagram-stage"><object data="DefinedTerm.svg" type="image/svg+xml"></object></div></div></div><h2>Inheritance</h2><p class="empty">No generalization relationships.</p><h2>Attributes</h2><table><thead><tr><th>Name</th><th>Type</th><th>Multiplicity</th><th>Description</th></tr></thead><tbody><tr><td class="name">identifier</td><td class="type"><a class="classlink" href="../DataTypes/XsdAnyUri.html">XsdAnyUri</a></td><td class="mult">[0..1]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+schema:identifier
+
+Definition
+..........
+The identifier property represents any kind of identifier for any kind of [[Thing]], such as ISBNs, GTIN codes, UUIDs etc. Schema.org provides dedicated properties for representing many of these, either as textual strings or as URL (URI) links. See [background notes](/docs/datamodel.html#identifierBg) for more details.
+
+Scope
+.....
+Domain: Thing (https://schema.org/Thing).
+Range: PropertyValue (https://schema.org/PropertyValue), Text (https://schema.org/Text), URL (https://schema.org/URL).
+
+
+CDIF
+----
+
+Definition
+..........
+Identifier for this enumerated (categorical) domain.
+
+Scope
+.....
+@id - resolvable URI for the DefinedTerm.
+</td></tr><tr><td class="name">termCode</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+schema:termCode
+
+Definition
+..........
+A code that identifies this [[DefinedTerm]] within a [[DefinedTermSet]].
+
+Scope
+.....
+Domain: DefinedTerm (https://schema.org/DefinedTerm).
+Range: Text (https://schema.org/Text).
+
+
+CDIF
+----
+
+Definition
+..........
+A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation
+
+Scope
+.....
+schema:termCode - the code identifying the term within its DefinedTermSet.
+</td></tr><tr><td class="name">name</td><td class="type"><span>string</span></td><td class="mult">[0..1]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+schema:name
+
+Definition
+..........
+The name of the item.
+
+Scope
+.....
+Domain: Thing (https://schema.org/Thing).
+Range: Text (https://schema.org/Text).
+
+
+CDIF
+----
+
+Definition
+..........
+text label for the term that is useful to human user
+
+Scope
+.....
+schema:name - human-readable label.
+</td></tr><tr><td class="name">inDefinedTermSet</td><td class="type"><a class="classlink" href="../DataTypes/XsdAnyUri.html">XsdAnyUri</a></td><td class="mult">[0..1]</td><td class="doc">Documentation
+=============
+
+Original
+--------
+
+Reference
+.........
+schema:inDefinedTermSet
+
+Definition
+..........
+A [[DefinedTermSet]] that contains this term.
+
+Scope
+.....
+Domain: DefinedTerm (https://schema.org/DefinedTerm).
+Range: DefinedTermSet (https://schema.org/DefinedTermSet), URL (https://schema.org/URL).
+
+
+CDIF
+----
+
+Definition
+..........
+Name for the controlled vocabulary responsible for this keyword.
+
+Scope
+.....
+schema:inDefinedTermSet - @id of the DefinedTermSet.
+</td></tr></tbody></table><h2>Associations</h2><table><thead><tr><th>Role</th><th>Target</th><th>Multiplicity</th><th>Kind</th></tr></thead><tbody><tr><td class="name">hasIntendedDataType</td><td>&larr; <a class="classlink" href="../Classes/InstanceVariable.html">InstanceVariable</a></td><td class="mult">[0..1]</td><td class="doc">association</td></tr><tr><td class="name">source</td><td>&larr; <a class="classlink" href="../Classes/InstanceVariable.html">InstanceVariable</a></td><td class="mult">[0..*]</td><td class="doc">association</td></tr><tr><td class="name">measurementTechnique</td><td>&larr; <a class="classlink" href="../Classes/InstanceVariable.html">InstanceVariable</a></td><td class="mult">[0..*]</td><td class="doc">association</td></tr></tbody></table>
 </main>
 </body>
 </html>
