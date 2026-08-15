@@ -863,17 +863,14 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
             schema1:name "Ocean temperature CSV" ;
             cdif:fileSize 1.2e+00 ;
             cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:decimalPositions 1 ;
-                    cdi:isRequired true ;
-                    cdi:nullSequence "-999.9" ;
-                    cdi:scale 1 ;
-                    cdif:format "0.0" ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "Numeric" ],
-                [ cdi:isRequired false ;
+            cdif:hasPhysicalMapping [ cdi:isRequired false ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
                     cdif:index 4 ;
+                    cdif:physicalDataType "String" ],
+                [ cdi:isRequired true ;
+                    cdi:length 20 ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
+                    cdif:index 0 ;
                     cdif:physicalDataType "String" ],
                 [ cdi:decimalPositions 2 ;
                     cdi:defaultValue "NaN" ;
@@ -886,15 +883,18 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
                     cdif:index 2 ;
                     cdif:physicalDataType "Numeric" ],
-                [ cdi:isRequired true ;
-                    cdi:length 20 ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "String" ],
                 [ cdi:isRequired false ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
                     cdif:index 3 ;
-                    cdif:physicalDataType "Integer" ] ] ;
+                    cdif:physicalDataType "Integer" ],
+                [ cdi:decimalPositions 1 ;
+                    cdi:isRequired true ;
+                    cdi:nullSequence "-999.9" ;
+                    cdi:scale 1 ;
+                    cdif:format "0.0" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/measurementDepth> ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "Numeric" ] ] ;
     schema1:identifier "https://doi.org/10.1234/ocean-temp-2025" ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:name "Ocean Temperature Monitoring Data" ;
