@@ -89,10 +89,10 @@ that const.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 [] a cdi:LongStructureDataSet ;
-    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-value ;
-            cdif:index 1 ],
-        [ cdif:formats_InstanceVariable ex:var-descriptor ;
-            cdif:index 0 ] .
+    cdif:hasPhysicalMapping [ cdif:formats_InstanceVariable ex:var-descriptor ;
+            cdif:index 0 ],
+        [ cdif:formats_InstanceVariable ex:var-value ;
+            cdif:index 1 ] .
 
 
 ```
