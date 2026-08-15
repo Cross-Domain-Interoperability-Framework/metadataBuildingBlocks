@@ -166,7 +166,9 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "@id": "ex:dataset/oceanTemp2025/metadata",
     "schema:about": {
@@ -507,7 +509,9 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "@id": "ex:dataset/oceanTemp2025/metadata",
     "schema:about": {
@@ -815,6 +819,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ns1: <csvw:> .
 @prefix schema1: <http://schema.org/> .
@@ -858,23 +863,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
             schema1:name "Ocean temperature CSV" ;
             cdif:fileSize 1.2e+00 ;
             cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:length 20 ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "String" ],
-                [ cdi:decimalPositions 2 ;
-                    cdi:defaultValue "NaN" ;
-                    cdi:isRequired false ;
-                    cdi:maximumLength 10 ;
-                    cdi:minimumLength 1 ;
-                    cdi:nullSequence "-999.99" ;
-                    cdi:scale 2 ;
-                    cdif:format "0.00" ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
-                    cdif:index 2 ;
-                    cdif:physicalDataType "Numeric" ],
-                [ cdi:decimalPositions 1 ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 1 ;
                     cdi:isRequired true ;
                     cdi:nullSequence "-999.9" ;
                     cdi:scale 1 ;
@@ -886,6 +875,22 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
                     cdif:index 3 ;
                     cdif:physicalDataType "Integer" ],
+                [ cdi:decimalPositions 2 ;
+                    cdi:defaultValue "NaN" ;
+                    cdi:isRequired false ;
+                    cdi:maximumLength 10 ;
+                    cdi:minimumLength 1 ;
+                    cdi:nullSequence "-999.99" ;
+                    cdi:scale 2 ;
+                    cdif:format "0.00" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
+                    cdif:index 2 ;
+                    cdif:physicalDataType "Numeric" ],
+                [ cdi:isRequired true ;
+                    cdi:length 20 ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "String" ],
                 [ cdi:isRequired false ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
                     cdif:index 4 ;
@@ -904,7 +909,7 @@ fileSize, fileSizeUofM), and full schema:subjectOf CatalogRecord.
 <https://example.org/dataset/oceanTemp2025/metadata> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/data_description/1.1> ;
     schema1:about <https://example.org/dataset/oceanTemp2025> ;
-    schema1:additionalType "dcat:CatalogRecord" .
+    schema1:additionalType dcat:CatalogRecord .
 
 <https://example.org/dataset/oceanTemp2025/var/qcFlag> a cdi:InstanceVariable,
         schema1:PropertyValue ;
@@ -1024,6 +1029,7 @@ properties:
     anyOf:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifKey/schema.yaml
     - type: object
+      additionalProperties: false
       description: object reference via URI or URI fragment to a cdif:Key defined
         elsewhere in the same document
       properties:
@@ -1053,6 +1059,7 @@ properties:
       anyOf:
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifStatistics/schema.yaml
       - type: object
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -1064,6 +1071,9 @@ properties:
         type: array
         items:
           type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -1072,6 +1082,9 @@ properties:
         minItems: 1
         contains:
           type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               const: https://w3id.org/cdif/data_description/1.1
@@ -1104,6 +1117,7 @@ properties:
               anyOf:
               - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema.yaml#/$defs/SentinelValueDomain
               - type: object
+                additionalProperties: false
                 properties:
                   '@id':
                     type: string
@@ -1115,6 +1129,7 @@ properties:
             anyOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema.yaml#/$defs/SubstantiveValueDomain
             - type: object
+              additionalProperties: false
               properties:
                 '@id':
                   type: string
@@ -1222,8 +1237,8 @@ Links to the schema:
     "spdx": "http://spdx.org/rdf/terms#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "xas": "https://xas.org/dictionary/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
+    "xas": "cdif:xas/",
+    "nxs": "https://manual.nexusformat.org/classes/",
     "prov": "http://www.w3.org/ns/prov#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "dcterms": "http://purl.org/dc/terms/",

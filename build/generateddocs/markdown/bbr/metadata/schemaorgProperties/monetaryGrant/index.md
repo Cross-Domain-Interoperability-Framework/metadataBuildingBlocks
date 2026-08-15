@@ -102,24 +102,36 @@ award), and funder (inline Organization with additionalType, ROR identifier).
     "ex": "https://example.org/"
   },
   "@id": "ex:FunderComplete_001",
-  "@type": ["schema:MonetaryGrant"],
+  "@type": [
+    "schema:MonetaryGrant"
+  ],
   "schema:name": "Collaborative Research: Ocean Carbon Cycling and Geochemical Tracers",
   "schema:description": "Three-year collaborative research grant supporting field campaigns and laboratory analysis of ocean carbon cycling using novel geochemical tracers",
   "schema:identifier": {
-    "@type": ["schema:PropertyValue"],
+    "@type": [
+      "schema:PropertyValue"
+    ],
     "schema:propertyID": "NSF award number",
     "schema:value": "2345678",
     "schema:url": "https://www.nsf.gov/awardsearch/showAward?AWD_ID=2345678"
   },
   "schema:funder": {
     "@id": "https://ror.org/021nxhr62",
-    "@type": ["schema:Organization"],
-    "schema:additionalType": ["schema:FundingAgency"],
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:additionalType": [
+      "schema:FundingAgency"
+    ],
     "schema:name": "National Science Foundation",
     "schema:alternateName": "NSF",
     "schema:identifier": {
-      "@type": ["schema:PropertyValue"],
-      "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": {
+        "@id": "https://registry.identifiers.org/registry/ror"
+      },
       "schema:value": "021nxhr62",
       "schema:url": "https://ror.org/021nxhr62"
     }
@@ -169,7 +181,9 @@ award), and funder (inline Organization with additionalType, ROR identifier).
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+      "schema:propertyID": {
+        "@id": "https://registry.identifiers.org/registry/ror"
+      },
       "schema:value": "021nxhr62",
       "schema:url": "https://ror.org/021nxhr62"
     }
@@ -195,7 +209,7 @@ ex:FunderComplete_001 a schema1:MonetaryGrant ;
     schema1:additionalType "schema:FundingAgency" ;
     schema1:alternateName "NSF" ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://registry.identifiers.org/registry/ror" ;
+            schema1:propertyID <https://registry.identifiers.org/registry/ror> ;
             schema1:url "https://ror.org/021nxhr62" ;
             schema1:value "021nxhr62" ] ;
     schema1:name "National Science Foundation" .
@@ -236,6 +250,7 @@ properties:
   schema:funder:
     anyOf:
     - type: object
+      additionalProperties: false
       properties:
         '@id':
           type: string

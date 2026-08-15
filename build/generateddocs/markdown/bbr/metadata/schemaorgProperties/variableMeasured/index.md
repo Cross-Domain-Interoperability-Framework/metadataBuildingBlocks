@@ -53,21 +53,7 @@ Implementation of Schema.org PropertyValue as value for variableMeasured propert
   "schema:description": "Air temperature measured at 2 meters above ground level",
   "schema:propertyID": [
     {
-      "@id": "ex:definedTerm_zZc",
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:name": "Temperature",
-      "schema:identifier": {
-        "@id": "ex:tempTerm_246u",
-        "@type": [
-          "schema:PropertyValue"
-        ],
-        "schema:propertyID": "https://qudt.org/vocab/quantitykind/Temperature",
-        "schema:url": "https://qudt.org/vocab/quantitykind/Temperature"
-      },
-      "schema:inDefinedTermSet": "http://ogc.org/defs",
-      "schema:termCode": "T"
+      "@id": "ex:definedTerm_zZc"
     }
   ],
   "schema:measurementTechnique": "thermometer",
@@ -110,21 +96,7 @@ Implementation of Schema.org PropertyValue as value for variableMeasured propert
   "schema:description": "Air temperature measured at 2 meters above ground level",
   "schema:propertyID": [
     {
-      "@id": "ex:definedTerm_zZc",
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:name": "Temperature",
-      "schema:identifier": {
-        "@id": "ex:tempTerm_246u",
-        "@type": [
-          "schema:PropertyValue"
-        ],
-        "schema:propertyID": "https://qudt.org/vocab/quantitykind/Temperature",
-        "schema:url": "https://qudt.org/vocab/quantitykind/Temperature"
-      },
-      "schema:inDefinedTermSet": "http://ogc.org/defs",
-      "schema:termCode": "T"
+      "@id": "ex:definedTerm_zZc"
     }
   ],
   "schema:measurementTechnique": "thermometer",
@@ -163,16 +135,6 @@ ex:variableMeasured_346 a schema1:PropertyValue ;
                 dcat:Relationship ;
             schema1:name "WMO Guide to Meteorological Instruments – Temperature" ;
             schema1:url "https://library.wmo.int/idurl/4/68695" ] .
-
-ex:definedTerm_zZc a schema1:DefinedTerm ;
-    schema1:identifier ex:tempTerm_246u ;
-    schema1:inDefinedTermSet "http://ogc.org/defs" ;
-    schema1:name "Temperature" ;
-    schema1:termCode "T" .
-
-ex:tempTerm_246u a schema1:PropertyValue ;
-    schema1:propertyID "https://qudt.org/vocab/quantitykind/Temperature" ;
-    schema1:url "https://qudt.org/vocab/quantitykind/Temperature" .
 
 
 ```
@@ -382,6 +344,9 @@ properties:
     anyOf:
     - type: string
     - type: object
+      required:
+      - '@id'
+      additionalProperties: false
       properties:
         '@id':
           type: string
@@ -396,6 +361,9 @@ properties:
       anyOf:
       - type: string
       - type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -410,6 +378,9 @@ properties:
     anyOf:
     - type: string
     - type: object
+      required:
+      - '@id'
+      additionalProperties: false
       properties:
         '@id':
           type: string

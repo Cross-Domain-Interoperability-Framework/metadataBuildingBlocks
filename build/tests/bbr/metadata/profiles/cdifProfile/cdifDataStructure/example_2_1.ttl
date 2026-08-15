@@ -1,5 +1,6 @@
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://example.org/struct/vitalsLong> a cdi:LongDataStructure ;
     cdi:has_DataStructureComponent <https://example.org/struct/vitalsLong/comp/measureName>,
@@ -24,23 +25,26 @@
     cdif:name "measure_name" .
 
 <https://example.org/struct/vitalsLong/pk> a cdif:PrimaryKey ;
-    cdif:isComposedOf <https://example.org/var/measureName>,
-        <https://example.org/var/observedAt>,
-        <https://example.org/var/patientId> .
+    cdif:isComposedOf [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/patientId> ;
+            cdi:value 1 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/measureName> ;
+            cdi:value 2 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/observedAt> ;
+            cdi:value 3 ] .
 
 <https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:decimal" ] ;
+    cdi:hasIntendedDataType "xsd:decimal" ;
     cdif:name "measure_value" .
 
 <https://example.org/struct/vitalsLong/rv/observedAt> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:dateTime" ] ;
+    cdi:hasIntendedDataType "xsd:dateTime" ;
     cdif:name "observed_at" .
 
 <https://example.org/struct/vitalsLong/rv/patientId> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:string" ] ;
+    cdi:hasIntendedDataType "xsd:string" ;
     cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;

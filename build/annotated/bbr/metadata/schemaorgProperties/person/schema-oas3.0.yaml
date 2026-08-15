@@ -26,10 +26,20 @@ x-defs:
           - schema:PropertyValue
         minItems: 1
       schema:propertyID:
-        type: string
+        anyOf:
+        - type: string
+        - type: object
+          additionalProperties: false
+          required:
+          - '@id'
+          properties:
+            '@id':
+              type: string
         description: In this context for the schema:PropertyValue, this field is an
           identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
-          for interoperability
+          for interoperability. URI-shape values MUST be serialized as JSON-LD IRI
+          references ({"@id":"..."}) so they participate in RDF entailment; free-label
+          strings remain valid as strings.
         x-jsonld-id: http://schema.org/propertyID
       schema:value:
         type: string
@@ -109,6 +119,9 @@ x-defs:
           anyOf:
           - type: string
           - type: object
+            required:
+            - '@id'
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -145,6 +158,9 @@ x-defs:
       reference or an inline concept definition.
     anyOf:
     - type: object
+      required:
+      - '@id'
+      additionalProperties: false
       properties:
         '@id':
           type: string
@@ -291,6 +307,7 @@ x-defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme/$defs/cdifConcept
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -320,15 +337,30 @@ x-defs:
           schema:additionalType:
             type: array
             items:
-              type: string
+              anyOf:
+              - type: string
+              - type: object
+                additionalProperties: false
+                required:
+                - '@id'
+                properties:
+                  '@id':
+                    type: string
             contains:
-              enum:
-              - dcat:CatalogRecord
+              type: object
+              additionalProperties: false
+              required:
+              - '@id'
+              properties:
+                '@id':
+                  enum:
+                  - dcat:CatalogRecord
             minItems: 1
           dcterms:conformsTo:
             type: array
             items:
               type: object
+              additionalProperties: false
               properties:
                 '@id':
                   type: string
@@ -336,6 +368,9 @@ x-defs:
               - '@id'
             contains:
               type: object
+              required:
+              - '@id'
+              additionalProperties: false
               properties:
                 '@id':
                   enum:
@@ -346,6 +381,7 @@ x-defs:
             description: Identifier for the catalog record.
           schema:about:
             type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -396,10 +432,9 @@ x-defs:
               items:
                 $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme/$defs/LanguageTaggedValue
           skos:notation:
-            description: Classification code for this concept within a scheme.
-            type: array
-            items:
-              type: string
+            description: Classification code for this concept within a scheme (a single
+              notation string, consistent with CdifCodelistConcept).
+            type: string
           skos:definition:
             description: Formal explanation of the meaning of this concept.
             anyOf:
@@ -424,6 +459,7 @@ x-defs:
             description: Concept scheme(s) this concept belongs to.
             anyOf:
             - type: object
+              additionalProperties: false
               properties:
                 '@id':
                   type: string
@@ -432,6 +468,7 @@ x-defs:
             - type: array
               items:
                 type: object
+                additionalProperties: false
                 properties:
                   '@id':
                     type: string
@@ -458,6 +495,7 @@ x-defs:
         - skos:prefLabel
       ConceptRef:
         type: object
+        additionalProperties: false
         description: Reference (by URI) to a skos:Concept defined elsewhere. Used
           inside skos:broader / skos:narrower as the @id-reference alternative to
           an inline Concept.
@@ -537,6 +575,7 @@ properties:
         type: string
         x-jsonld-id: http://schema.org/email
     required:
+    - '@type'
     - schema:email
     x-jsonld-id: http://schema.org/contactPoint
   schema:sameAs:
@@ -546,6 +585,9 @@ properties:
       anyOf:
       - type: string
       - type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string

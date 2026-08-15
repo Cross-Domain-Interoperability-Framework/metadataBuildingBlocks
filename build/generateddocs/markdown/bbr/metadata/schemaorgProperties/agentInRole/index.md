@@ -44,7 +44,9 @@ In **Markdown** format.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+      "schema:propertyID": {
+        "@id": "https://registry.identifiers.org/registry/ror"
+      },
       "schema:value": "03m2x1q45",
       "schema:url": "https://ror.org/03m2x1q45"
     },
@@ -86,7 +88,9 @@ In **Markdown** format.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+      "schema:propertyID": {
+        "@id": "https://registry.identifiers.org/registry/ror"
+      },
       "schema:value": "03m2x1q45",
       "schema:url": "https://ror.org/03m2x1q45"
     },
@@ -106,7 +110,7 @@ ex:exampleOrg_fW a schema1:Organization ;
     schema1:alternateName "UAz" ;
     schema1:description "University in Tucson, Arizona" ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://registry.identifiers.org/registry/ror" ;
+            schema1:propertyID <https://registry.identifiers.org/registry/ror> ;
             schema1:url "https://ror.org/03m2x1q45" ;
             schema1:value "03m2x1q45" ] ;
     schema1:name "University of Arizona" ;
@@ -151,7 +155,9 @@ Example person in role instance.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://orcid.org",
+      "schema:propertyID": {
+        "@id": "https://orcid.org"
+      },
       "schema:value": "0000-0001-2345-6789",
       "schema:url": "https://orcid.org/0000-0001-2345-6789"
     },
@@ -205,7 +211,9 @@ Example person in role instance.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://orcid.org",
+      "schema:propertyID": {
+        "@id": "https://orcid.org"
+      },
       "schema:value": "0000-0001-2345-6789",
       "schema:url": "https://orcid.org/0000-0001-2345-6789"
     },
@@ -236,7 +244,7 @@ ex:PersonExample_zZc a schema1:Person ;
             schema1:email "joe@bmanuco.org" ] ;
     schema1:description "Metadata specialist, based in Portland, Maine" ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://orcid.org" ;
+            schema1:propertyID <https://orcid.org> ;
             schema1:url "https://orcid.org/0000-0001-2345-6789" ;
             schema1:value "0000-0001-2345-6789" ] ;
     schema1:name "Joe B. Test" ;
@@ -262,37 +270,55 @@ Person properties including affiliation, contactPoint, sameAs).
     "schema": "http://schema.org/",
     "ex": "https://example.org/"
   },
-  "@type": ["schema:Role"],
+  "@type": [
+    "schema:Role"
+  ],
   "schema:roleName": {
-    "@type": ["schema:DefinedTerm"],
+    "@type": [
+      "schema:DefinedTerm"
+    ],
     "schema:name": "Principal Investigator",
     "schema:inDefinedTermSet": "https://credit.niso.org/",
     "schema:termCode": "investigation"
   },
   "schema:contributor": {
     "@id": "ex:PersonComplete_PI",
-    "@type": ["schema:Person"],
+    "@type": [
+      "schema:Person"
+    ],
     "schema:name": "Elena Volcanova",
     "schema:description": "Volcanologist and principal investigator for the Cascades Monitoring Network",
     "schema:alternateName": "Volcanova, E.",
     "schema:identifier": {
-      "@type": ["schema:PropertyValue"],
-      "schema:propertyID": "https://orcid.org",
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": {
+        "@id": "https://orcid.org"
+      },
       "schema:value": "0000-0003-4567-8901",
       "schema:url": "https://orcid.org/0000-0003-4567-8901"
     },
     "schema:affiliation": {
-      "@type": ["schema:Organization"],
+      "@type": [
+        "schema:Organization"
+      ],
       "schema:name": "USGS Cascades Volcano Observatory",
       "schema:identifier": {
-        "@type": ["schema:PropertyValue"],
-        "schema:propertyID": "https://ror.org",
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": {
+          "@id": "https://ror.org"
+        },
         "schema:value": "035a68863",
         "schema:url": "https://ror.org/035a68863"
       }
     },
     "schema:contactPoint": {
-      "@type": ["schema:ContactPoint"],
+      "@type": [
+        "schema:ContactPoint"
+      ],
       "schema:email": "evolcanova@usgs.gov"
     },
     "schema:sameAs": [
@@ -339,7 +365,9 @@ Person properties including affiliation, contactPoint, sameAs).
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://orcid.org",
+      "schema:propertyID": {
+        "@id": "https://orcid.org"
+      },
       "schema:value": "0000-0003-4567-8901",
       "schema:url": "https://orcid.org/0000-0003-4567-8901"
     },
@@ -352,7 +380,9 @@ Person properties including affiliation, contactPoint, sameAs).
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://ror.org",
+        "schema:propertyID": {
+          "@id": "https://ror.org"
+        },
         "schema:value": "035a68863",
         "schema:url": "https://ror.org/035a68863"
       }
@@ -378,7 +408,7 @@ Person properties including affiliation, contactPoint, sameAs).
 ex:PersonComplete_PI a schema1:Person ;
     schema1:affiliation [ a schema1:Organization ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://ror.org" ;
+                    schema1:propertyID <https://ror.org> ;
                     schema1:url "https://ror.org/035a68863" ;
                     schema1:value "035a68863" ] ;
             schema1:name "USGS Cascades Volcano Observatory" ] ;
@@ -387,7 +417,7 @@ ex:PersonComplete_PI a schema1:Person ;
             schema1:email "evolcanova@usgs.gov" ] ;
     schema1:description "Volcanologist and principal investigator for the Cascades Monitoring Network" ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://orcid.org" ;
+            schema1:propertyID <https://orcid.org> ;
             schema1:url "https://orcid.org/0000-0003-4567-8901" ;
             schema1:value "0000-0003-4567-8901" ] ;
     schema1:name "Elena Volcanova" ;
@@ -427,6 +457,7 @@ properties:
   schema:contributor:
     anyOf:
     - type: object
+      additionalProperties: false
       properties:
         '@id':
           type: string

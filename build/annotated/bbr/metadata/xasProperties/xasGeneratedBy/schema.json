@@ -1,27 +1,68 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "XAS Analysis Event activity",
-  "description": "XAS-specific provenance activity building block. Extends cdifProvActivity with XAS analysis event typing (xas:AnalysisEvent), XAS facility location, sample object, XAS-specific instrument type, and XAS additional properties (edge_energy, calibration method, instrument configuration, installedOptions).",
+  "description": "XAS-specific provenance activity building block. Extends cdifProvActivity with XAS analysis event typing (xas:analysisevent), XAS facility location, sample object, XAS-specific instrument type, and XAS additional properties (edge_energy, calibration method, instrument configuration, installedOptions).",
   "allOf": [
     {
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifProvActivity/schema.json"
     },
     {
       "type": "object",
+      "required": [
+        "schema:additionalType"
+      ],
       "properties": {
         "@type": {
           "type": "array",
           "items": {
             "type": "string"
-          },
-          "contains": {
-            "const": "xas:AnalysisEvent"
           }
         },
-        "schema:startDate": {
+        "schema:additionalType": {
+          "description": "Domain type(s) for the activity; must include xas:analysisevent (an XAS analysis event).",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "@id"
+                ],
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "contains": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "@id"
+            ],
+            "properties": {
+              "@id": {
+                "const": "xas:analysisevent"
+              }
+            }
+          },
+          "x-jsonld-id": "http://schema.org/additionalType"
+        },
+        "schema:startTime": {
           "type": "string",
           "description": "Date/time the XAS analysis started",
-          "x-jsonld-id": "http://schema.org/startDate"
+          "x-jsonld-id": "http://schema.org/startTime"
+        },
+        "schema:endTime": {
+          "type": "string",
+          "description": "Date/time the XAS analysis finished",
+          "x-jsonld-id": "http://schema.org/endTime"
         },
         "prov:used": {
           "type": "array",
@@ -34,7 +75,11 @@
                 ],
                 "properties": {
                   "schema:instrument": {
-                    "$ref": "#/$defs/Instrument",
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "$ref": "#/$defs/Instrument"
+                    },
                     "x-jsonld-id": "http://schema.org/instrument"
                   }
                 }
@@ -44,6 +89,10 @@
               },
               {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -52,41 +101,156 @@
               }
             ]
           },
+          "allOf": [
+            {
+              "description": "Must contain a prov:used entry whose schema:instrument is classified as an xas:beamline (via schema:additionalType) and carries a schema:name (the beamline name).",
+              "contains": {
+                "type": "object",
+                "properties": {
+                  "schema:instrument": {
+                    "type": "array",
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "schema:additionalType": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "@id"
+                              ],
+                              "properties": {
+                                "@id": {
+                                  "const": "xas:beamline"
+                                }
+                              }
+                            },
+                            {
+                              "type": "array",
+                              "contains": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "@id"
+                                ],
+                                "properties": {
+                                  "@id": {
+                                    "const": "xas:beamline"
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "schema:name": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "schema:additionalType",
+                        "schema:name"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "schema:instrument"
+                ]
+              }
+            },
+            {
+              "description": "Must contain a prov:used entry whose schema:instrument is classified as an xas:xraymonochromator (via schema:additionalType) and has a schema:additionalProperty carrying the xas:dspacing PropertyValue with a schema:value.",
+              "contains": {
+                "type": "object",
+                "properties": {
+                  "schema:instrument": {
+                    "type": "array",
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "schema:additionalType": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "@id"
+                              ],
+                              "properties": {
+                                "@id": {
+                                  "const": "xas:xraymonochromator"
+                                }
+                              }
+                            },
+                            {
+                              "type": "array",
+                              "contains": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "@id"
+                                ],
+                                "properties": {
+                                  "@id": {
+                                    "const": "xas:xraymonochromator"
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "schema:additionalProperty": {
+                          "type": "array",
+                          "contains": {
+                            "type": "object",
+                            "properties": {
+                              "schema:propertyID": {
+                                "type": "array",
+                                "contains": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "required": [
+                                    "@id"
+                                  ],
+                                  "properties": {
+                                    "@id": {
+                                      "const": "xas:dspacing"
+                                    }
+                                  }
+                                }
+                              },
+                              "schema:value": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "schema:propertyID",
+                              "schema:value"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "schema:additionalType",
+                        "schema:additionalProperty"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "schema:instrument"
+                ]
+              }
+            }
+          ],
           "x-jsonld-id": "http://www.w3.org/ns/prov#used"
         },
         "schema:additionalProperty": {
           "type": "array",
-          "description": "XAS-specific additional properties for the analysis activity",
+          "description": "Additional properties on the XAS analysis activity (base AdditionalProperty shape). The activity-level propertyID enum (xas:edgeenergy, calibration method, ...) is layered on in xasOptional so it applies at the profile level, not this shape.",
           "items": {
-            "allOf": [
-              {
-                "$ref": "#/$defs/AdditionalProperty"
-              },
-              {
-                "properties": {
-                  "schema:propertyID": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                      "anyOf": [
-                        {
-                          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.json#/$defs/propertyID_item"
-                        },
-                        {
-                          "enum": [
-                            "xas:edge_energy",
-                            "calibration method",
-                            "Instrument configuration",
-                            "xas:installedOptions"
-                          ]
-                        }
-                      ]
-                    },
-                    "x-jsonld-id": "http://schema.org/propertyID"
-                  }
-                }
-              }
-            ]
+            "$ref": "#/$defs/AdditionalProperty"
           },
           "x-jsonld-id": "http://schema.org/additionalProperty"
         },
@@ -116,12 +280,29 @@
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasFacility/schema.json"
     },
     "Instrument": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasInstrument/schema.json"
+      "allOf": [
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasInstrument/schema.json"
+        },
+        {
+          "type": "object",
+          "description": "As a prov:used entity, the instrument's @type includes prov:Entity (the PROV-O range of prov:used) alongside schema:Thing / schema:Product.",
+          "properties": {
+            "@type": {
+              "contains": {
+                "const": "prov:Entity"
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "x-jsonld-prefixes": {
     "schema": "http://schema.org/",
+    "nxs": "https://manual.nexusformat.org/classes/",
     "prov": "http://www.w3.org/ns/prov#",
-    "xas": "https://xas.org/dictionary/"
+    "wd": "https://www.wikidata.org/entity/",
+    "xas": "https://w3id.org/cdif/xas/"
   }
 }

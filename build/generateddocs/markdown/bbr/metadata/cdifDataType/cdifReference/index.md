@@ -125,14 +125,19 @@ related resource and dcat:hadRole classifying the role.
     "ex": "https://example.org/"
   },
   "@id": "ex:CdifRelationComplete_001",
-  "@type": ["schema:CreativeWork", "dcat:Relationship"],
+  "@type": [
+    "schema:CreativeWork",
+    "dcat:Relationship"
+  ],
   "schema:name": "Predecessor version of this dataset",
   "schema:description": "Relationship pointing at the previous published version, expressed in the DCAT qualifiedRelation pattern with a SKOS-typed role.",
   "schema:url": "https://example.org/datasets/source-2023",
   "dcterms:relation": "https://doi.org/10.5281/zenodo.7654320",
   "dcat:hadRole": {
     "@id": "ex:concepts/isVersionOf",
-    "@type": ["skos:Concept"],
+    "@type": [
+      "skos:Concept"
+    ],
     "skos:prefLabel": {
       "@value": "is version of",
       "@language": "en"
@@ -141,8 +146,10 @@ related resource and dcat:hadRole classifying the role.
       "@value": "The related resource is a version, edition, or adaptation of the described resource.",
       "@language": "en"
     },
-    "skos:inScheme": { "@id": "ex:vocab/relationRoles" },
-    "skos:notation": ["isVersionOf"]
+    "skos:inScheme": {
+      "@id": "ex:vocab/relationRoles"
+    },
+    "skos:notation": "isVersionOf"
   }
 }
 
@@ -192,9 +199,7 @@ related resource and dcat:hadRole classifying the role.
     "skos:inScheme": {
       "@id": "ex:vocab/relationRoles"
     },
-    "skos:notation": [
-      "isVersionOf"
-    ]
+    "skos:notation": "isVersionOf"
   }
 }
 ```

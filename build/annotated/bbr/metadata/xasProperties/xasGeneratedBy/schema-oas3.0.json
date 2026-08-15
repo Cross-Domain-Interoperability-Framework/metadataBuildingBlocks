@@ -26,38 +26,26 @@
             },
             "prov:used": {
               "type": "array",
+              "description": "Base generatedBy defines the allowed item shapes (string | {@id} | inline prov:Entity | a role-keyed wrapper naming schema:instrument / bios:computationalTool / prov:reagent). This profile only PINS the schema:instrument wrapper's value to the Instrument description when that key is present; it adds no other restriction, so all base item shapes (including inline prov:Entity inputs such as samples) remain valid. The wrapped value is an ARRAY of Instrument. schema:instrument is 0..* -- one activity commonly uses several instruments in the same role (a laser ablation cell plus the ICP-MS it feeds) -- and this schema implements every 1..* / 0..* property as a JSON array, never as \"object or array\", so a consumer never has to test the value's type before iterating.",
               "items": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "@id": {
-                        "type": "string",
-                        "description": "a resolvable reference to a representation of the software or instrument used"
-                      }
+                "if": {
+                  "type": "object",
+                  "required": [
+                    "schema:instrument"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "schema:instrument": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifProvActivity/$defs/Instrument"
+                      },
+                      "x-jsonld-id": "http://schema.org/instrument"
                     }
-                  },
-                  {
-                    "type": "object",
-                    "description": "an item used by the activity that includes a schema:instrument sub-key",
-                    "properties": {
-                      "schema:instrument": {
-                        "x-jsonld-id": "http://schema.org/instrument",
-                        "allOf": [
-                          {
-                            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifProvActivity/$defs/Instrument"
-                          }
-                        ]
-                      }
-                    },
-                    "required": [
-                      "schema:instrument"
-                    ]
                   }
-                ]
+                }
               },
               "x-jsonld-id": "http://www.w3.org/ns/prov#used"
             },
@@ -97,6 +85,7 @@
                 },
                 {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "@id": {
                       "type": "string",
@@ -126,6 +115,7 @@
                   },
                   {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
                       "@id": {
                         "type": "string",
@@ -148,6 +138,10 @@
                 },
                 {
                   "type": "object",
+                  "required": [
+                    "@id"
+                  ],
+                  "additionalProperties": false,
                   "properties": {
                     "@id": {
                       "type": "string",
@@ -202,6 +196,10 @@
                 },
                 {
                   "type": "object",
+                  "required": [
+                    "@id"
+                  ],
+                  "additionalProperties": false,
                   "properties": {
                     "@id": {
                       "type": "string",
@@ -280,6 +278,10 @@
                 },
                 {
                   "type": "object",
+                  "required": [
+                    "@id"
+                  ],
+                  "additionalProperties": false,
                   "properties": {
                     "@id": {
                       "type": "string",
@@ -301,6 +303,10 @@
                 },
                 {
                   "type": "object",
+                  "required": [
+                    "@id"
+                  ],
+                  "additionalProperties": false,
                   "properties": {
                     "@id": {
                       "type": "string",
@@ -460,6 +466,213 @@
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifProvActivity/schema.json",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
+    "cdif.bbr.metadata.schemaorgProperties.identifier": {
+      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "enum": [
+              "schema:PropertyValue"
+            ]
+          },
+          "minItems": 1
+        },
+        "schema:propertyID": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "@id"
+              ],
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              }
+            }
+          ],
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings.",
+          "x-jsonld-id": "http://schema.org/propertyID"
+        },
+        "schema:value": {
+          "type": "string",
+          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ",
+          "x-jsonld-id": "http://schema.org/value"
+        },
+        "schema:url": {
+          "type": "string",
+          "format": "uri",
+          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ ",
+          "x-jsonld-id": "http://schema.org/url"
+        }
+      },
+      "allOf": [
+        {
+          "required": [
+            "@type"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "schema:value"
+              ]
+            },
+            {
+              "required": [
+                "schema:url"
+              ]
+            }
+          ]
+        }
+      ],
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "cdif.bbr.metadata.xasProperties.xasSample": {
+      "title": "definitions for roles used in XAS profile",
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "uniqueItems": true,
+          "allOf": [
+            {
+              "contains": {
+                "enum": [
+                  "schema:Product"
+                ]
+              },
+              "minContains": 1
+            },
+            {
+              "contains": {
+                "enum": [
+                  "schema:Thing"
+                ]
+              },
+              "minContains": 1
+            }
+          ]
+        },
+        "schema:additionalType": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "@id"
+                ],
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "minItems": 2,
+          "uniqueItems": true,
+          "allOf": [
+            {
+              "contains": {
+                "enum": [
+                  "MaterialSample"
+                ]
+              },
+              "minContains": 1
+            },
+            {
+              "contains": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "@id"
+                ],
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+                    ]
+                  }
+                }
+              },
+              "minContains": 1
+            }
+          ],
+          "x-jsonld-id": "http://schema.org/additionalType"
+        },
+        "schema:name": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/name"
+        },
+        "schema:identifier": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.xasProperties.xasSample/$defs/Identifier"
+            }
+          ],
+          "x-jsonld-id": "http://schema.org/identifier"
+        },
+        "schema:description": {
+          "type": "string",
+          "x-jsonld-id": "http://schema.org/description"
+        },
+        "schema:additionalProperty": {
+          "type": "array",
+          "description": "Sample additionalProperty entries (base AdditionalProperty shape). The XDI Sample.* propertyID vocabulary enum is layered on in xasOptional, so it applies at the profile level, not this shape.",
+          "items": {
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.xasProperties.xasSample/$defs/AdditionalProperty"
+          },
+          "x-jsonld-id": "http://schema.org/additionalProperty"
+        }
+      },
+      "required": [
+        "@type",
+        "schema:additionalType",
+        "schema:name"
+      ],
+      "$defs": {
+        "Identifier": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
+        },
+        "AdditionalProperty": {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty_1"
+        }
+      },
+      "x-jsonld-prefixes": {
+        "schema": "http://schema.org/",
+        "nxs": "https://manual.nexusformat.org/classes/",
+        "xas": "https://w3id.org/cdif/xas/"
+      },
+      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema.json",
+      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
+    },
     "cdif.bbr.metadata.schemaorgProperties.additionalProperty": {
       "type": "object",
       "title": "additionalProperty PropertyValue",
@@ -538,6 +751,10 @@
             },
             {
               "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -552,204 +769,9 @@
       },
       "x-jsonld-prefixes": {
         "schema": "http://schema.org/",
-        "nxs": "http://purl.org/nexusformat/definitions/"
+        "nxs": "https://manual.nexusformat.org/classes/"
       },
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.schemaorgProperties.identifier": {
-      "description": "Properties for a schema.org identifier (schema:PropertyValue pattern).\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:Identifier / schema:PropertyValue is represented by a single attribute\nof that class type. The JSON Schema implementation permits the property value\nto be EITHER a plain string (interpreted as the bare identifier value) OR a\nfull schema:PropertyValue object (with explicit @type, propertyID, value).\nConsumers should accept either form.\n",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "schema:PropertyValue"
-            ]
-          },
-          "minItems": 1
-        },
-        "schema:propertyID": {
-          "type": "string",
-          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability",
-          "x-jsonld-id": "http://schema.org/propertyID"
-        },
-        "schema:value": {
-          "type": "string",
-          "description": "the identifier string. E.g. 10.5066/F7VX0DMQ",
-          "x-jsonld-id": "http://schema.org/value"
-        },
-        "schema:url": {
-          "type": "string",
-          "format": "uri",
-          "description": "web-resolveable string for the identifier; host name part is location of a resolver that will return some representation for the given identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ ",
-          "x-jsonld-id": "http://schema.org/url"
-        }
-      },
-      "allOf": [
-        {
-          "required": [
-            "@type"
-          ]
-        },
-        {
-          "anyOf": [
-            {
-              "required": [
-                "schema:value"
-              ]
-            },
-            {
-              "required": [
-                "schema:url"
-              ]
-            }
-          ]
-        }
-      ],
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.json",
-      "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
-    },
-    "cdif.bbr.metadata.xasProperties.xasSample": {
-      "title": "definitions for roles used in XAS profile",
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 2,
-          "uniqueItems": true,
-          "allOf": [
-            {
-              "contains": {
-                "enum": [
-                  "schema:Product"
-                ]
-              },
-              "minContains": 1
-            },
-            {
-              "contains": {
-                "enum": [
-                  "schema:Thing"
-                ]
-              },
-              "minContains": 1
-            }
-          ]
-        },
-        "schema:additionalType": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 2,
-          "uniqueItems": true,
-          "allOf": [
-            {
-              "contains": {
-                "enum": [
-                  "MaterialSample"
-                ]
-              },
-              "minContains": 1
-            },
-            {
-              "contains": {
-                "enum": [
-                  "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-                ]
-              },
-              "minContains": 1
-            }
-          ],
-          "x-jsonld-id": "http://schema.org/additionalType"
-        },
-        "schema:name": {
-          "type": "string",
-          "x-jsonld-id": "http://schema.org/name"
-        },
-        "schema:identifier": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.xasProperties.xasSample/$defs/Identifier"
-            }
-          ],
-          "x-jsonld-id": "http://schema.org/identifier"
-        },
-        "schema:description": {
-          "type": "string",
-          "x-jsonld-id": "http://schema.org/description"
-        },
-        "schema:additionalProperty": {
-          "type": "array",
-          "description": "extend base definition (AdditionalProperty) with some expected propertyID values from NEXUS and XDI specs added in the enum",
-          "items": {
-            "allOf": [
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.xasProperties.xasSample/$defs/AdditionalProperty"
-              },
-              {
-                "properties": {
-                  "schema:propertyID": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                      "anyOf": [
-                        {
-                          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty_1/$defs/propertyID_item"
-                        },
-                        {
-                          "enum": [
-                            "xas:stoichiometry",
-                            "xas:samplePreparation",
-                            "nxs:Field/NXsample/mass",
-                            "nxs:Field/NXsample/point_group",
-                            "nxs:Field/NXsample/unit_cell",
-                            "xas:parentSample",
-                            "xas:materialState"
-                          ]
-                        }
-                      ]
-                    },
-                    "x-jsonld-id": "http://schema.org/propertyID"
-                  }
-                }
-              }
-            ]
-          },
-          "x-jsonld-id": "http://schema.org/additionalProperty"
-        }
-      },
-      "required": [
-        "@type",
-        "schema:additionalType",
-        "schema:name"
-      ],
-      "$defs": {
-        "Identifier": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
-        },
-        "AdditionalProperty": {
-          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty_1"
-        }
-      },
-      "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
-      },
-      "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema.json",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
     },
     "cdif.bbr.metadata.xasProperties.xasFacility": {
@@ -774,15 +796,40 @@
         "schema:additionalType": {
           "type": "array",
           "items": {
-            "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "xas:Facility"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "@id"
+                ],
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                }
+              }
             ]
           },
+          "contains": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "@id"
+            ],
+            "properties": {
+              "@id": {
+                "enum": [
+                  "xas:facility"
+                ]
+              }
+            }
+          },
           "minItems": 1,
-          "x-jsonld-id": "http://schema.orgadditionalType"
+          "x-jsonld-id": "http://schema.org/additionalType"
         },
         "schema:identifier": {
           "anyOf": [
@@ -793,18 +840,18 @@
               "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.xasProperties.xasFacility/$defs/Identifier"
             }
           ],
-          "x-jsonld-id": "http://schema.orgidentifier"
+          "x-jsonld-id": "http://schema.org/identifier"
         },
         "schema:name": {
           "type": "string",
-          "x-jsonld-id": "http://schema.orgname"
+          "x-jsonld-id": "http://schema.org/name"
         },
         "schema:additionalProperty": {
           "type": "array",
           "items": {
             "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.xasProperties.xasFacility/$defs/AdditionalProperty"
           },
-          "x-jsonld-id": "http://schema.orgadditionalProperty"
+          "x-jsonld-id": "http://schema.org/additionalProperty"
         }
       },
       "required": [
@@ -820,11 +867,9 @@
           "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier_1"
         }
       },
-      "x-jsonld-extra-terms": {
-        "schema": "http://schema.org"
-      },
       "x-jsonld-prefixes": {
-        "xas": "https://xas.org/dictionary/"
+        "schema": "http://schema.org/",
+        "xas": "https://w3id.org/cdif/xas/"
       },
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasFacility/schema.json",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
@@ -842,16 +887,41 @@
             "schema:additionalType": {
               "type": "array",
               "items": {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "@id"
+                    ],
+                    "properties": {
+                      "@id": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
               },
               "minItems": 1,
               "uniqueItems": true,
               "allOf": [
                 {
                   "contains": {
-                    "enum": [
-                      "wd:Q3099911"
-                    ]
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "@id"
+                    ],
+                    "properties": {
+                      "@id": {
+                        "enum": [
+                          "wd:Q3099911"
+                        ]
+                      }
+                    }
                   },
                   "description": "wd:Q3099911 is Wikidata scientific instrument. Declare prefix wd: https://www.wikidata.org/entity/"
                 }
@@ -865,7 +935,9 @@
         }
       ],
       "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
+        "schema": "http://schema.org/",
+        "wd": "https://www.wikidata.org/entity/",
+        "xas": "https://w3id.org/cdif/xas/"
       },
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasInstrument/schema.json",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
@@ -873,6 +945,9 @@
     "cdif.bbr.metadata.provProperties.generatedBy": {
       "title": "very simple links or names of software or instruments used to generate a resource.",
       "type": "object",
+      "required": [
+        "@type"
+      ],
       "properties": {
         "@type": {
           "type": "array",
@@ -888,6 +963,7 @@
         },
         "prov:used": {
           "type": "array",
+          "description": "Entities the activity used. Per PROV-O each value denotes a prov:Entity. An item may be (1) a string URI or free-text reference, (2) an {@id} reference, (3) an inline entity object carrying an @type that includes prov:Entity plus a schema.org type for the kind of thing used, e.g. [\"prov:Entity\",\"schema:Thing\"] (instrument), [\"prov:Entity\",\"schema:CreativeWork\"] (method/protocol), or [\"prov:Entity\",\"schema:SoftwareApplication\"] (software), or (4) a role-keyed wrapper naming what was used through one of the recognized \"used\" relations (schema:instrument, bios:computationalTool, prov:reagent). Base leaves the wrapped value loose; profiles/extensions (e.g. cdifProvActivity, adaProduct) pin its shape (Instrument, ComputationalTool, Reagent, ...).",
           "items": {
             "anyOf": [
               {
@@ -895,12 +971,58 @@
               },
               {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string",
                     "description": "a resolvable reference to a representation of the software or instrument used"
                   }
                 }
+              },
+              {
+                "type": "object",
+                "description": "an inline prov:Entity used by the activity (see prov:used description)",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "contains": {
+                      "enum": [
+                        "prov:Entity"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "@type"
+                ]
+              },
+              {
+                "type": "object",
+                "description": "a role-keyed wrapper naming an instrument used by the activity; the extension layer pins the value to an Instrument description.",
+                "required": [
+                  "schema:instrument"
+                ]
+              },
+              {
+                "type": "object",
+                "description": "a role-keyed wrapper naming a computational tool (software) used; the extension layer pins the value to a ComputationalTool description.",
+                "required": [
+                  "bios:computationalTool"
+                ]
+              },
+              {
+                "type": "object",
+                "description": "a role-keyed wrapper naming a reagent / material used; the extension layer pins the value to a Reagent description.",
+                "required": [
+                  "prov:reagent"
+                ]
               }
             ]
           },
@@ -991,6 +1113,7 @@
             }
           },
           "required": [
+            "@type",
             "schema:email"
           ],
           "x-jsonld-id": "http://schema.org/contactPoint"
@@ -1005,6 +1128,10 @@
               },
               {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -1121,6 +1248,10 @@
               },
               {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -1193,6 +1324,7 @@
           "anyOf": [
             {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string",
@@ -1246,8 +1378,24 @@
           "minItems": 1
         },
         "schema:propertyID": {
-          "type": "string",
-          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "@id"
+              ],
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              }
+            }
+          ],
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings.",
           "x-jsonld-id": "http://schema.org/propertyID"
         },
         "schema:value": {
@@ -1345,7 +1493,23 @@
           "description": "Domain-specific type classifications. Should include a scientific instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).",
           "type": "array",
           "items": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "@id"
+                ],
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
           },
           "minItems": 1,
           "x-jsonld-id": "http://schema.org/additionalType"
@@ -1365,7 +1529,23 @@
           "description": "Alternate name(s), e.g. specific make/model designation, common abbreviation.",
           "type": "array",
           "items": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "@id"
+                ],
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
           },
           "x-jsonld-id": "http://schema.org/alternateName"
         },
@@ -1434,6 +1614,7 @@
             }
           },
           "required": [
+            "@type",
             "schema:name"
           ],
           "x-jsonld-id": "http://schema.org/model"
@@ -1491,6 +1672,7 @@
               },
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string",
@@ -1533,6 +1715,10 @@
             },
             "schema:about": {
               "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string",
@@ -1551,6 +1737,10 @@
                   },
                   {
                     "type": "object",
+                    "required": [
+                      "@id"
+                    ],
+                    "additionalProperties": false,
                     "properties": {
                       "@id": {
                         "type": "string"
@@ -1561,6 +1751,9 @@
               }
             }
           },
+          "required": [
+            "@type"
+          ],
           "x-jsonld-id": "http://schema.org/subjectOf"
         }
       },
@@ -1640,7 +1833,23 @@
               "description": "Component type classification.",
               "type": "array",
               "items": {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "@id"
+                    ],
+                    "properties": {
+                      "@id": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
               },
               "x-jsonld-id": "http://schema.org/additionalType"
             },
@@ -1665,7 +1874,23 @@
                 "@type": {
                   "type": "array",
                   "items": {
-                    "type": "string"
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "@id"
+                        ],
+                        "properties": {
+                          "@id": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    ]
                   },
                   "contains": {
                     "enum": [
@@ -1690,16 +1915,21 @@
                   "x-jsonld-id": "http://schema.org/identifier"
                 }
               },
+              "required": [
+                "@type"
+              ],
               "x-jsonld-id": "http://schema.org/model"
             }
           },
           "required": [
+            "@type",
             "schema:name"
           ]
         }
       },
       "x-jsonld-prefixes": {
-        "schema": "http://schema.org/"
+        "schema": "http://schema.org/",
+        "wd": "https://www.wikidata.org/entity/"
       },
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
@@ -1908,6 +2138,10 @@
             },
             "geosparql:crs": {
               "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string",
@@ -2032,6 +2266,10 @@
             },
             {
               "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -2046,7 +2284,7 @@
       },
       "x-jsonld-prefixes": {
         "schema": "http://schema.org/",
-        "nxs": "http://purl.org/nexusformat/definitions/"
+        "nxs": "https://manual.nexusformat.org/classes/"
       },
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
@@ -2210,6 +2448,10 @@
       "anyOf": [
         {
           "type": "object",
+          "required": [
+            "@id"
+          ],
+          "additionalProperties": false,
           "properties": {
             "@id": {
               "type": "string",
@@ -2410,6 +2652,7 @@
               },
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string",
@@ -2453,12 +2696,37 @@
             "schema:additionalType": {
               "type": "array",
               "items": {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "@id"
+                    ],
+                    "properties": {
+                      "@id": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
               },
               "contains": {
-                "enum": [
-                  "dcat:CatalogRecord"
-                ]
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "@id"
+                ],
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "dcat:CatalogRecord"
+                    ]
+                  }
+                }
               },
               "minItems": 1
             },
@@ -2466,6 +2734,7 @@
               "type": "array",
               "items": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -2477,6 +2746,10 @@
               },
               "contains": {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "enum": [
@@ -2493,6 +2766,7 @@
             },
             "schema:about": {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -2568,11 +2842,8 @@
               ]
             },
             "skos:notation": {
-              "description": "Classification code for this concept within a scheme.",
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "description": "Classification code for this concept within a scheme (a single notation string, consistent with CdifCodelistConcept).",
+              "type": "string"
             },
             "skos:definition": {
               "description": "Formal explanation of the meaning of this concept.",
@@ -2627,6 +2898,7 @@
               "anyOf": [
                 {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "@id": {
                       "type": "string"
@@ -2640,6 +2912,7 @@
                   "type": "array",
                   "items": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
                       "@id": {
                         "type": "string"
@@ -2688,6 +2961,7 @@
         },
         "ConceptRef": {
           "type": "object",
+          "additionalProperties": false,
           "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
           "properties": {
             "@id": {
@@ -2722,29 +2996,70 @@
     }
   },
   "title": "XAS Analysis Event activity",
-  "description": "XAS-specific provenance activity building block. Extends cdifProvActivity with XAS analysis event typing (xas:AnalysisEvent), XAS facility location, sample object, XAS-specific instrument type, and XAS additional properties (edge_energy, calibration method, instrument configuration, installedOptions).",
+  "description": "XAS-specific provenance activity building block. Extends cdifProvActivity with XAS analysis event typing (xas:analysisevent), XAS facility location, sample object, XAS-specific instrument type, and XAS additional properties (edge_energy, calibration method, instrument configuration, installedOptions).",
   "allOf": [
     {
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.cdifDataType.cdifProvActivity"
     },
     {
       "type": "object",
+      "required": [
+        "schema:additionalType"
+      ],
       "properties": {
         "@type": {
           "type": "array",
           "items": {
             "type": "string"
-          },
-          "contains": {
-            "enum": [
-              "xas:AnalysisEvent"
-            ]
           }
         },
-        "schema:startDate": {
+        "schema:additionalType": {
+          "description": "Domain type(s) for the activity; must include xas:analysisevent (an XAS analysis event).",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "@id"
+                ],
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "contains": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "@id"
+            ],
+            "properties": {
+              "@id": {
+                "enum": [
+                  "xas:analysisevent"
+                ]
+              }
+            }
+          },
+          "x-jsonld-id": "http://schema.org/additionalType"
+        },
+        "schema:startTime": {
           "type": "string",
           "description": "Date/time the XAS analysis started",
-          "x-jsonld-id": "http://schema.org/startDate"
+          "x-jsonld-id": "http://schema.org/startTime"
+        },
+        "schema:endTime": {
+          "type": "string",
+          "description": "Date/time the XAS analysis finished",
+          "x-jsonld-id": "http://schema.org/endTime"
         },
         "prov:used": {
           "type": "array",
@@ -2757,12 +3072,12 @@
                 ],
                 "properties": {
                   "schema:instrument": {
-                    "x-jsonld-id": "http://schema.org/instrument",
-                    "allOf": [
-                      {
-                        "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/$defs/Instrument"
-                      }
-                    ]
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/$defs/Instrument"
+                    },
+                    "x-jsonld-id": "http://schema.org/instrument"
                   }
                 }
               },
@@ -2771,6 +3086,10 @@
               },
               {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -2779,41 +3098,166 @@
               }
             ]
           },
+          "allOf": [
+            {
+              "description": "Must contain a prov:used entry whose schema:instrument is classified as an xas:beamline (via schema:additionalType) and carries a schema:name (the beamline name).",
+              "contains": {
+                "type": "object",
+                "properties": {
+                  "schema:instrument": {
+                    "type": "array",
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "schema:additionalType": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "@id"
+                              ],
+                              "properties": {
+                                "@id": {
+                                  "enum": [
+                                    "xas:beamline"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "type": "array",
+                              "contains": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "@id"
+                                ],
+                                "properties": {
+                                  "@id": {
+                                    "enum": [
+                                      "xas:beamline"
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "schema:name": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "schema:additionalType",
+                        "schema:name"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "schema:instrument"
+                ]
+              }
+            },
+            {
+              "description": "Must contain a prov:used entry whose schema:instrument is classified as an xas:xraymonochromator (via schema:additionalType) and has a schema:additionalProperty carrying the xas:dspacing PropertyValue with a schema:value.",
+              "contains": {
+                "type": "object",
+                "properties": {
+                  "schema:instrument": {
+                    "type": "array",
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "schema:additionalType": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "@id"
+                              ],
+                              "properties": {
+                                "@id": {
+                                  "enum": [
+                                    "xas:xraymonochromator"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "type": "array",
+                              "contains": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "@id"
+                                ],
+                                "properties": {
+                                  "@id": {
+                                    "enum": [
+                                      "xas:xraymonochromator"
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "schema:additionalProperty": {
+                          "type": "array",
+                          "contains": {
+                            "type": "object",
+                            "properties": {
+                              "schema:propertyID": {
+                                "type": "array",
+                                "contains": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "required": [
+                                    "@id"
+                                  ],
+                                  "properties": {
+                                    "@id": {
+                                      "enum": [
+                                        "xas:dspacing"
+                                      ]
+                                    }
+                                  }
+                                }
+                              },
+                              "schema:value": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "schema:propertyID",
+                              "schema:value"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "schema:additionalType",
+                        "schema:additionalProperty"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "schema:instrument"
+                ]
+              }
+            }
+          ],
           "x-jsonld-id": "http://www.w3.org/ns/prov#used"
         },
         "schema:additionalProperty": {
           "type": "array",
-          "description": "XAS-specific additional properties for the analysis activity",
+          "description": "Additional properties on the XAS analysis activity (base AdditionalProperty shape). The activity-level propertyID enum (xas:edgeenergy, calibration method, ...) is layered on in xasOptional so it applies at the profile level, not this shape.",
           "items": {
-            "allOf": [
-              {
-                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/$defs/AdditionalProperty"
-              },
-              {
-                "properties": {
-                  "schema:propertyID": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                      "anyOf": [
-                        {
-                          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/propertyID_item"
-                        },
-                        {
-                          "enum": [
-                            "xas:edge_energy",
-                            "calibration method",
-                            "Instrument configuration",
-                            "xas:installedOptions"
-                          ]
-                        }
-                      ]
-                    },
-                    "x-jsonld-id": "http://schema.org/propertyID"
-                  }
-                }
-              }
-            ]
+            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/$defs/AdditionalProperty"
           },
           "x-jsonld-id": "http://schema.org/additionalProperty"
         },
@@ -2851,13 +3295,32 @@
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.xasProperties.xasFacility"
     },
     "Instrument": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.xasProperties.xasInstrument"
+      "allOf": [
+        {
+          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasGeneratedBy/schema-oas3.0.json#/x-defs/cdif.bbr.metadata.xasProperties.xasInstrument"
+        },
+        {
+          "type": "object",
+          "description": "As a prov:used entity, the instrument's @type includes prov:Entity (the PROV-O range of prov:used) alongside schema:Thing / schema:Product.",
+          "properties": {
+            "@type": {
+              "contains": {
+                "enum": [
+                  "prov:Entity"
+                ]
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "x-jsonld-prefixes": {
     "schema": "http://schema.org/",
+    "nxs": "https://manual.nexusformat.org/classes/",
     "prov": "http://www.w3.org/ns/prov#",
-    "xas": "https://xas.org/dictionary/"
+    "wd": "https://www.wikidata.org/entity/",
+    "xas": "https://w3id.org/cdif/xas/"
   },
   "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
 }

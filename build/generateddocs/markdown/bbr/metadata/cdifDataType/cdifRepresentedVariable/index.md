@@ -42,7 +42,7 @@ properties:
     items:
       anyOf:
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema.yaml#/$defs/SentinelValueDomain
-      - $ref: '#/$defs/id-reference'
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     minItems: 1
     description: Sentinel (missing / not-applicable) value domain(s) for this RepresentedVariable
       (RepresentedVariable.takesSentinelValuesFrom).
@@ -50,7 +50,7 @@ properties:
   cdi:takesSubstantiveValuesFrom:
     anyOf:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema.yaml#/$defs/SubstantiveValueDomain
-    - $ref: '#/$defs/id-reference'
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     description: The substantive value domain for this RepresentedVariable - the set
       of valid, meaningful values (RepresentedVariable.takesSubstantiveValuesFrom).
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/takesSubstantiveValuesFrom
@@ -68,7 +68,7 @@ properties:
   cdi:measures:
     anyOf:
     - $ref: '#/$defs/UnitType'
-    - $ref: '#/$defs/id-reference'
+    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/measures
   cdi:unitOfMeasureKind:
     $ref: '#/$defs/cdifConceptOrTermOrString'
@@ -120,7 +120,7 @@ properties:
     items:
       anyOf:
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
-      - $ref: '#/$defs/id-reference'
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
     minItems: 1
     x-jsonld-id: https://w3id.org/cdif/uses_Concept
 required:
@@ -130,14 +130,6 @@ $defs:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   cdifConceptOrTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
-  id-reference:
-    type: object
-    description: Reference to a node defined elsewhere in the document via its @id.
-    properties:
-      '@id':
-        type: string
-    required:
-    - '@id'
   Reference:
     type: object
     description: CDIF reference to an external resource by URL, with optional name
@@ -210,7 +202,7 @@ $defs:
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
-          - $ref: '#/$defs/id-reference'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
         x-jsonld-id: https://w3id.org/cdif/isDefinedBy_Concept
       cdif:has_Concept:
@@ -218,7 +210,7 @@ $defs:
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
-          - $ref: '#/$defs/id-reference'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
         x-jsonld-id: https://w3id.org/cdif/has_Concept
       cdi:purpose:
@@ -289,7 +281,7 @@ $defs:
         items:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/skosProperties/skosConcept/schema.yaml
-          - $ref: '#/$defs/id-reference'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
         x-jsonld-id: https://w3id.org/cdif/uses_Concept
     required:

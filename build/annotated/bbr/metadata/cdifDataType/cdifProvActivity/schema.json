@@ -23,34 +23,26 @@
         },
         "prov:used": {
           "type": "array",
+          "description": "Base generatedBy defines the allowed item shapes (string | {@id} | inline prov:Entity | a role-keyed wrapper naming schema:instrument / bios:computationalTool / prov:reagent). This profile only PINS the schema:instrument wrapper's value to the Instrument description when that key is present; it adds no other restriction, so all base item shapes (including inline prov:Entity inputs such as samples) remain valid. The wrapped value is an ARRAY of Instrument. schema:instrument is 0..* -- one activity commonly uses several instruments in the same role (a laser ablation cell plus the ICP-MS it feeds) -- and this schema implements every 1..* / 0..* property as a JSON array, never as \"object or array\", so a consumer never has to test the value's type before iterating.",
           "items": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "a resolvable reference to a representation of the software or instrument used"
-                  }
+            "if": {
+              "type": "object",
+              "required": [
+                "schema:instrument"
+              ]
+            },
+            "then": {
+              "properties": {
+                "schema:instrument": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "$ref": "#/$defs/Instrument"
+                  },
+                  "x-jsonld-id": "http://schema.org/instrument"
                 }
-              },
-              {
-                "type": "object",
-                "description": "an item used by the activity that includes a schema:instrument sub-key",
-                "properties": {
-                  "schema:instrument": {
-                    "$ref": "#/$defs/Instrument",
-                    "x-jsonld-id": "http://schema.org/instrument"
-                  }
-                },
-                "required": [
-                  "schema:instrument"
-                ]
               }
-            ]
+            }
           },
           "x-jsonld-id": "http://www.w3.org/ns/prov#used"
         },
@@ -90,6 +82,7 @@
             },
             {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string",
@@ -119,6 +112,7 @@
               },
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string",
@@ -141,6 +135,10 @@
             },
             {
               "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string",
@@ -195,6 +193,10 @@
             },
             {
               "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string",
@@ -273,6 +275,10 @@
             },
             {
               "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string",
@@ -294,6 +300,10 @@
             },
             {
               "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string",

@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-07-03",
+  "dateOfLastChange": "2026-08-15",
   "link": "",
   "sources": [
     {
@@ -80,25 +80,25 @@
           "language": "json",
           "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/exampleIdentifierComplete.json",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/identifier/example_2_1.json",
-          "sizeBytes": 304,
-          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@type\": [\"schema:PropertyValue\"],\n  \"schema:propertyID\": \"https://registry.identifiers.org/registry/doi\",\n  \"schema:value\": \"10.5281/zenodo.1234567\",\n  \"schema:url\": \"https://doi.org/10.5281/zenodo.1234567\"\n}\n"
+          "sizeBytes": 329,
+          "code": "{\n  \"@context\": {\n    \"schema\": \"http://schema.org/\",\n    \"ex\": \"https://example.org/\"\n  },\n  \"@type\": [\n    \"schema:PropertyValue\"\n  ],\n  \"schema:propertyID\": {\n    \"@id\": \"https://registry.identifiers.org/registry/doi\"\n  },\n  \"schema:value\": \"10.5281/zenodo.1234567\",\n  \"schema:url\": \"https://doi.org/10.5281/zenodo.1234567\"\n}\n"
         },
         {
           "language": "jsonld",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/identifier/example_2_1.jsonld",
-          "sizeBytes": 540,
-          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@type\": [\n    \"schema:PropertyValue\"\n  ],\n  \"schema:propertyID\": \"https://registry.identifiers.org/registry/doi\",\n  \"schema:value\": \"10.5281/zenodo.1234567\",\n  \"schema:url\": \"https://doi.org/10.5281/zenodo.1234567\"\n}"
+          "sizeBytes": 557,
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/context.jsonld\",\n    {\n      \"schema\": \"http://schema.org/\",\n      \"ex\": \"https://example.org/\"\n    }\n  ],\n  \"@type\": [\n    \"schema:PropertyValue\"\n  ],\n  \"schema:propertyID\": {\n    \"@id\": \"https://registry.identifiers.org/registry/doi\"\n  },\n  \"schema:value\": \"10.5281/zenodo.1234567\",\n  \"schema:url\": \"https://doi.org/10.5281/zenodo.1234567\"\n}"
         },
         {
           "language": "ttl",
           "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/schemaorgProperties/identifier/example_2_1.ttl",
           "sizeBytes": 248,
-          "code": "@prefix schema1: <http://schema.org/> .\n\n[] a schema1:PropertyValue ;\n    schema1:propertyID \"https://registry.identifiers.org/registry/doi\" ;\n    schema1:url \"https://doi.org/10.5281/zenodo.1234567\" ;\n    schema1:value \"10.5281/zenodo.1234567\" .\n\n"
+          "code": "@prefix schema1: <http://schema.org/> .\n\n[] a schema1:PropertyValue ;\n    schema1:propertyID <https://registry.identifiers.org/registry/doi> ;\n    schema1:url \"https://doi.org/10.5281/zenodo.1234567\" ;\n    schema1:value \"10.5281/zenodo.1234567\" .\n\n"
         }
       ]
     }
   ],
-  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: 'Properties for a schema.org identifier (schema:PropertyValue pattern).\n\n  **Union-type policy:** In CDIF profile UML models an attribute typed as\n\n  schema:Identifier / schema:PropertyValue is represented by a single attribute\n\n  of that class type. The JSON Schema implementation permits the property value\n\n  to be EITHER a plain string (interpreted as the bare identifier value) OR a\n\n  full schema:PropertyValue object (with explicit @type, propertyID, value).\n\n  Consumers should accept either form.\n\n  '\ntype: object\nproperties:\n  '@type':\n    type: array\n    items:\n      type: string\n    contains:\n      const: schema:PropertyValue\n    minItems: 1\n  schema:propertyID:\n    type: string\n    description: In this context for the schema:PropertyValue, this field is an identifier\n      for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/\n      for interoperability\n    x-jsonld-id: http://schema.org/propertyID\n  schema:value:\n    type: string\n    description: the identifier string. E.g. 10.5066/F7VX0DMQ\n    x-jsonld-id: http://schema.org/value\n  schema:url:\n    type: string\n    format: uri\n    description: 'web-resolveable string for the identifier; host name part is location\n      of a resolver that will return some representation for the given identifier\n      value. E.g. https://doi.org/10.5066/F7VX0DMQ '\n    x-jsonld-id: http://schema.org/url\nallOf:\n- required:\n  - '@type'\n- anyOf:\n  - required:\n    - schema:value\n  - required:\n    - schema:url\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ndescription: 'Properties for a schema.org identifier (schema:PropertyValue pattern).\n\n  **Union-type policy:** In CDIF profile UML models an attribute typed as\n\n  schema:Identifier / schema:PropertyValue is represented by a single attribute\n\n  of that class type. The JSON Schema implementation permits the property value\n\n  to be EITHER a plain string (interpreted as the bare identifier value) OR a\n\n  full schema:PropertyValue object (with explicit @type, propertyID, value).\n\n  Consumers should accept either form.\n\n  '\ntype: object\nproperties:\n  '@type':\n    type: array\n    items:\n      type: string\n    contains:\n      const: schema:PropertyValue\n    minItems: 1\n  schema:propertyID:\n    anyOf:\n    - type: string\n    - type: object\n      additionalProperties: false\n      required:\n      - '@id'\n      properties:\n        '@id':\n          type: string\n    description: In this context for the schema:PropertyValue, this field is an identifier\n      for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/\n      for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references\n      ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain\n      valid as strings.\n    x-jsonld-id: http://schema.org/propertyID\n  schema:value:\n    type: string\n    description: the identifier string. E.g. 10.5066/F7VX0DMQ\n    x-jsonld-id: http://schema.org/value\n  schema:url:\n    type: string\n    format: uri\n    description: 'web-resolveable string for the identifier; host name part is location\n      of a resolver that will return some representation for the given identifier\n      value. E.g. https://doi.org/10.5066/F7VX0DMQ '\n    x-jsonld-id: http://schema.org/url\nallOf:\n- required:\n  - '@type'\n- anyOf:\n  - required:\n    - schema:value\n  - required:\n    - schema:url\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
   "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
   "gitPath": "_sources/schemaorgProperties/identifier"
 }

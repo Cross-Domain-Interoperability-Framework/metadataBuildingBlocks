@@ -246,6 +246,9 @@ properties:
     anyOf:
     - type: string
     - type: object
+      required:
+      - '@id'
+      additionalProperties: false
       properties:
         '@id':
           type: string
@@ -256,6 +259,9 @@ properties:
     anyOf:
     - type: string
     - type: object
+      required:
+      - '@id'
+      additionalProperties: false
       properties:
         '@id':
           type: string
@@ -277,6 +283,9 @@ properties:
         anyOf:
         - type: string
         - type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               type: string

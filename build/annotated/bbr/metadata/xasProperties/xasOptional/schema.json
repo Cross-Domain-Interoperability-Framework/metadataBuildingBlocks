@@ -1,479 +1,255 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "allOf": [
-    {
-      "$ref": "#/$defs/CdifMandatory"
-    },
-    {
+  "title": "Optional XAS metadata fields",
+  "description": "Genuinely-optional XAS properties layered on cdifCore. Adds NO requirements. Documents and permits optional XAS content: (a) XAS data-array variables as schema:variableMeasured cdi:InstanceVariable items, and (b) optional beamline-operational and sample physico-chemical parameters carried as schema:additionalProperty entries (on the prov:used xas:beamline entity and the schema:object sample respectively; see description.md for the propertyID vocabularies). Present only when the corresponding measurements exist.",
+  "type": "object",
+  "properties": {
+    "@context": {
       "type": "object",
+      "description": "JSON-LD prefixes used by optional XAS fields.",
       "properties": {
-        "schema:subjectOf": {
-          "properties": {
-            "dcterms:conformsTo": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "uri for specifications that this metadata record conforms to"
-                  }
-                }
-              },
-              "minItems": 1,
-              "contains": {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "const": "https://w3id.org/cdif/xasDiscovery/1.0"
-                  }
-                }
-              }
-            }
-          },
-          "x-jsonld-id": "http://schema.org/subjectOf"
+        "xas": {
+          "const": "https://w3id.org/cdif/xas/"
         },
-        "prov:wasGeneratedBy": {
-          "type": "array",
-          "items": {
-            "allOf": [
-              {
-                "$ref": "#/$defs/CdifProvActivity"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "prov:used": {
-                    "type": "array",
-                    "description": "Array of used entities. Must contain an instrument wrapper with schema:hasPart sub-components. The x-ray source type and probe, and monochromator properties type, d-spacing and reflection plane are required.",
-                    "contains": {
-                      "type": "object",
-                      "required": [
-                        "schema:instrument"
-                      ],
-                      "properties": {
-                        "schema:instrument": {
-                          "type": "object",
-                          "properties": {
-                            "schema:hasPart": {
-                              "type": "array",
-                              "minItems": 2,
-                              "allOf": [
-                                {
-                                  "contains": {
-                                    "type": "object",
-                                    "properties": {
-                                      "@type": {
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string"
-                                        },
-                                        "minItems": 2,
-                                        "allOf": [
-                                          {
-                                            "contains": {
-                                              "const": "schema:Thing"
-                                            }
-                                          },
-                                          {
-                                            "contains": {
-                                              "const": "schema:Product"
-                                            }
-                                          }
-                                        ]
-                                      },
-                                      "schema:additionalType": {
-                                        "const": "nxs:BaseClass/NXsource"
-                                      },
-                                      "schema:additionalProperty": {
-                                        "type": "array",
-                                        "minItems": 2,
-                                        "items": {
-                                          "$ref": "#/$defs/AdditionalProperty"
-                                        },
-                                        "allOf": [
-                                          {
-                                            "contains": {
-                                              "type": "object",
-                                              "properties": {
-                                                "schema:propertyID": {
-                                                  "type": "array",
-                                                  "contains": {
-                                                    "const": "nxs:Field/NXsource/type"
-                                                  }
-                                                },
-                                                "schema:value": {
-                                                  "type": "string"
-                                                }
-                                              },
-                                              "required": [
-                                                "schema:propertyID",
-                                                "schema:value"
-                                              ]
-                                            }
-                                          },
-                                          {
-                                            "contains": {
-                                              "type": "object",
-                                              "properties": {
-                                                "schema:propertyID": {
-                                                  "type": "array",
-                                                  "contains": {
-                                                    "const": "nxs:Field/NXsource/probe"
-                                                  }
-                                                },
-                                                "schema:name": {
-                                                  "const": "Probe"
-                                                },
-                                                "schema:value": {
-                                                  "type": "string"
-                                                }
-                                              },
-                                              "required": [
-                                                "schema:name",
-                                                "schema:propertyID",
-                                                "schema:value"
-                                              ]
-                                            }
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "@type",
-                                      "schema:additionalType",
-                                      "schema:additionalProperty"
-                                    ]
-                                  }
-                                },
-                                {
-                                  "contains": {
-                                    "type": "object",
-                                    "properties": {
-                                      "@type": {
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string"
-                                        },
-                                        "minItems": 2,
-                                        "allOf": [
-                                          {
-                                            "contains": {
-                                              "const": "schema:Thing"
-                                            }
-                                          },
-                                          {
-                                            "contains": {
-                                              "const": "schema:Product"
-                                            }
-                                          }
-                                        ]
-                                      },
-                                      "schema:additionalType": {
-                                        "const": "nxs:BaseClass/NXmonochromator"
-                                      },
-                                      "schema:name": {
-                                        "type": "string"
-                                      },
-                                      "schema:additionalProperty": {
-                                        "description": "Require additional properties for monochromator, requires d-space, crystal type, reflection plane.",
-                                        "type": "array",
-                                        "minItems": 3,
-                                        "items": {
-                                          "$ref": "#/$defs/AdditionalProperty"
-                                        },
-                                        "contains": {
-                                          "type": "object",
-                                          "properties": {
-                                            "schema:propertyID": {
-                                              "type": "array",
-                                              "contains": {
-                                                "const": "nxs:Field/NXcrystal/type"
-                                              }
-                                            },
-                                            "schema:value": {
-                                              "type": "string"
-                                            }
-                                          },
-                                          "required": [
-                                            "schema:value",
-                                            "schema:propertyID"
-                                          ]
-                                        },
-                                        "allOf": [
-                                          {
-                                            "contains": {
-                                              "type": "object",
-                                              "properties": {
-                                                "schema:propertyID": {
-                                                  "type": "array",
-                                                  "contains": {
-                                                    "const": "nxs:Field/NXcrystal/d_spacing"
-                                                  }
-                                                },
-                                                "schema:value": {
-                                                  "type": "string"
-                                                },
-                                                "schema:unitText": {
-                                                  "type": "string"
-                                                }
-                                              },
-                                              "required": [
-                                                "schema:propertyID",
-                                                "schema:value",
-                                                "schema:unitText"
-                                              ]
-                                            }
-                                          },
-                                          {
-                                            "contains": {
-                                              "type": "object",
-                                              "properties": {
-                                                "schema:propertyID": {
-                                                  "type": "array",
-                                                  "contains": {
-                                                    "const": "nxs:Field/NXcrystal/reflection"
-                                                  }
-                                                },
-                                                "schema:value": {
-                                                  "type": "string"
-                                                }
-                                              },
-                                              "required": [
-                                                "schema:value",
-                                                "schema:propertyID"
-                                              ]
-                                            }
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "@type",
-                                      "schema:additionalType",
-                                      "schema:additionalProperty"
-                                    ]
-                                  }
-                                }
-                              ],
-                              "x-jsonld-id": "http://schema.org/hasPart"
-                            }
+        "nxs": {
+          "const": "https://manual.nexusformat.org/classes/"
+        }
+      }
+    },
+    "schema:variableMeasured": {
+      "description": "Optional XAS data-array variables (energy, i0, itrans, ifluor, irefer, mutrans, mufluor, murefer, normtrans, normfluor, normrefer, chi, chi_re, chi_im, chi_mag, chi_pha, k, r, angle), each a cdi:InstanceVariable / schema:PropertyValue. Not required. The XDI variable propertyID enum is layered on in xasCore; this profile only enforces the base cdifInstanceVariable shape.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/InstanceVariable"
+      },
+      "x-jsonld-id": "http://schema.org/variableMeasured"
+    },
+    "prov:wasGeneratedBy": {
+      "type": "array",
+      "description": "Optional-vocabulary layer on the XAS analysis activity. Adds propertyID enums for (a) activity-level additionalProperty entries, (b) the sample (schema:object) additionalProperty entries, and (c) the beamline peer instrument's additionalProperty entries. Enum arms are additive over the base propertyID_item shape.",
+      "items": {
+        "properties": {
+          "schema:additionalProperty": {
+            "description": "XAS activity-level additionalProperty vocabulary. All entries resolve to SKOS concepts in the XAS-CDIF glossary.",
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/AdditionalProperty"
+                },
+                {
+                  "properties": {
+                    "schema:propertyID": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.json#/$defs/propertyID_item"
                           },
-                          "required": [
-                            "schema:hasPart"
-                          ],
-                          "x-jsonld-id": "http://schema.org/instrument"
+                          {
+                            "enum": [
+                              "xas:edgeenergy",
+                              "xas:calibrationmethod",
+                              "xas:experimentdocumentation",
+                              "xas:installedoptions"
+                            ]
+                          }
+                        ]
+                      },
+                      "x-jsonld-id": "http://schema.org/propertyID"
+                    }
+                  }
+                }
+              ]
+            },
+            "x-jsonld-id": "http://schema.org/additionalProperty"
+          },
+          "schema:object": {
+            "description": "Sample additionalProperty entries. XDI Sample.* vocabulary (XDI-CDIF-Mapping.xlsx rows 47-64) plus legacy xas:* names and NEXUS NXsample fields.",
+            "properties": {
+              "schema:additionalProperty": {
+                "type": "array",
+                "items": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/AdditionalProperty"
+                    },
+                    {
+                      "properties": {
+                        "schema:propertyID": {
+                          "type": "array",
+                          "minItems": 1,
+                          "items": {
+                            "anyOf": [
+                              {
+                                "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.json#/$defs/propertyID_item"
+                              },
+                              {
+                                "enum": [
+                                  "xas:concentration",
+                                  "xas:samplecrystalstructure",
+                                  "xas:density",
+                                  "xas:eh",
+                                  "xas:electricfield",
+                                  "xas:electrochemicalpotential",
+                                  "xas:magneticfield",
+                                  "xas:magneticmoment",
+                                  "xas:opacity",
+                                  "xas:parentsample",
+                                  "xas:ph",
+                                  "xas:porosity",
+                                  "xas:pressure",
+                                  "xas:resistivity",
+                                  "xas:samplechemicalcomposition",
+                                  "xas:samplematerial",
+                                  "xas:samplepreparation",
+                                  "xas:temperature",
+                                  "xas:viscosity",
+                                  "xas:volume",
+                                  "nxs:Field/NXsample/mass",
+                                  "nxs:Field/NXsample/point_group",
+                                  "nxs:Field/NXsample/unit_cell"
+                                ]
+                              }
+                            ]
+                          },
+                          "x-jsonld-id": "http://schema.org/propertyID"
                         }
                       }
                     }
-                  },
-                  "schema:object": {
-                    "$ref": "#/$defs/XasSample",
-                    "x-jsonld-id": "http://schema.org/object"
-                  }
-                }
-              }
-            ]
-          }
-        },
-        "schema:distribution": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/DataDownload"
-          },
-          "contains": {
-            "type": "object",
-            "properties": {
-              "@type": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "minItems": 2,
-                "allOf": [
-                  {
-                    "contains": {
-                      "const": "schema:DataDownload"
-                    }
-                  },
-                  {
-                    "contains": {
-                      "enum": [
-                        "cdi:PhysicalDataset",
-                        "cdi:TabularTextDataSet",
-                        "cdi:StructuredDataSet"
-                      ]
-                    }
-                  }
-                ]
-              },
-              "dcterms:conformsTo": {
-                "type": "array",
-                "contains": {
-                  "type": "object",
-                  "properties": {
-                    "@id": {
-                      "const": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md"
-                    }
-                  },
-                  "required": [
-                    "@id"
                   ]
+                },
+                "x-jsonld-id": "http://schema.org/additionalProperty"
+              }
+            },
+            "x-jsonld-id": "http://schema.org/object"
+          },
+          "prov:used": {
+            "type": "array",
+            "items": {
+              "if": {
+                "description": "When this peer prov:used entry's instrument is a beamline (schema:additionalType contains xas:beamline), its schema:additionalProperty entries SHOULD use the XDI Beamline vocabulary (XDI-CDIF-Mapping.xlsx rows 10-20, excluding Beamline.name which maps to schema:name).",
+                "properties": {
+                  "schema:instrument": {
+                    "type": "array",
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "schema:additionalType": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "@id"
+                              ],
+                              "properties": {
+                                "@id": {
+                                  "const": "xas:beamline"
+                                }
+                              }
+                            },
+                            {
+                              "type": "array",
+                              "contains": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "required": [
+                                  "@id"
+                                ],
+                                "properties": {
+                                  "@id": {
+                                    "const": "xas:beamline"
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "schema:instrument": {
+                    "type": "array",
+                    "contains": {
+                      "type": "object",
+                      "properties": {
+                        "schema:additionalProperty": {
+                          "type": "array",
+                          "items": {
+                            "allOf": [
+                              {
+                                "$ref": "#/$defs/AdditionalProperty"
+                              },
+                              {
+                                "properties": {
+                                  "schema:propertyID": {
+                                    "type": "array",
+                                    "minItems": 1,
+                                    "items": {
+                                      "anyOf": [
+                                        {
+                                          "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.json#/$defs/propertyID_item"
+                                        },
+                                        {
+                                          "enum": [
+                                            "xas:collimation",
+                                            "xas:detectortype",
+                                            "xas:energyrange",
+                                            "xas:energyresolution",
+                                            "xas:flux",
+                                            "xas:focusing",
+                                            "xas:harmonicrejection",
+                                            "xas:scanmode",
+                                            "xas:spotsize",
+                                            "xas:website"
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    "x-jsonld-id": "http://schema.org/propertyID"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "x-jsonld-id": "http://schema.org/additionalProperty"
+                        }
+                      }
+                    },
+                    "x-jsonld-id": "http://schema.org/instrument"
+                  }
                 }
               }
             },
-            "required": [
-              "@type",
-              "dcterms:conformsTo"
-            ]
-          },
-          "x-jsonld-id": "http://schema.org/distribution"
-        },
-        "schema:measurementTechnique": {
-          "type": "array",
-          "description": "Require DefinedTerms for both: absorption edge (XDI dict) and target element (SWEET).",
-          "minItems": 2,
-          "items": {
-            "$ref": "#/$defs/DefinedTerm"
-          },
-          "allOf": [
-            {
-              "contains": {
-                "type": "object",
-                "properties": {
-                  "schema:name": {
-                    "const": "X-Ray Absorption Spectroscopy"
-                  },
-                  "schema:termCode": {
-                    "const": "XAS"
-                  },
-                  "schema:identifier": {
-                    "const": "http://purl.org/pan-science/PaNET/PaNET01196"
-                  },
-                  "schema:inDefinedTermSet": {
-                    "const": "http://purl.org/pan-science/PaNET/PaNET.owl"
-                  }
-                },
-                "required": [
-                  "schema:name",
-                  "schema:termCode",
-                  "schema:identifier",
-                  "schema:inDefinedTermSet"
-                ]
-              }
-            },
-            {
-              "contains": {
-                "type": "object",
-                "properties": {
-                  "schema:name": {
-                    "type": "string"
-                  },
-                  "schema:inDefinedTermSet": {
-                    "const": "nxs:Field/NXxas/ENTRY/DATA/mode"
-                  }
-                },
-                "required": [
-                  "schema:name",
-                  "schema:inDefinedTermSet"
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://schema.org/measurementTechnique"
-        },
-        "schema:keywords": {
-          "type": "array",
-          "description": "extends base CDIF keyword schema to require defined terms for the absorption edge and the target element for the analysis",
-          "minItems": 2,
-          "items": {
-            "type": "object",
-            "properties": {
-              "@type": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "contains": {
-                  "const": "schema:DefinedTerm"
-                },
-                "minItems": 1
-              },
-              "schema:name": {
-                "type": "string",
-                "x-jsonld-id": "http://schema.org/name"
-              },
-              "schema:identifier": {
-                "type": "string",
-                "x-jsonld-id": "http://schema.org/identifier"
-              },
-              "schema:inDefinedTermSet": {
-                "type": "string",
-                "description": "need to include this to tag what the keyword is about; we're using the keywords as soft-typed properties",
-                "x-jsonld-id": "http://schema.org/inDefinedTermSet"
-              }
-            },
-            "required": [
-              "@type",
-              "schema:name",
-              "schema:inDefinedTermSet"
-            ],
-            "additionalProperties": true
-          },
-          "allOf": [
-            {
-              "contains": {
-                "type": "object",
-                "properties": {
-                  "schema:inDefinedTermSet": {
-                    "const": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md"
-                  }
-                },
-                "required": [
-                  "schema:inDefinedTermSet"
-                ]
-              }
-            },
-            {
-              "contains": {
-                "type": "object",
-                "properties": {
-                  "schema:inDefinedTermSet": {
-                    "const": "http://sweetontology.net/matrElement"
-                  }
-                },
-                "required": [
-                  "schema:inDefinedTermSet"
-                ]
-              }
-            }
-          ],
-          "x-jsonld-id": "http://schema.org/keywords"
+            "x-jsonld-id": "http://www.w3.org/ns/prov#used"
+          }
         }
-      }
+      },
+      "x-jsonld-id": "http://www.w3.org/ns/prov#wasGeneratedBy"
     }
-  ],
+  },
   "$defs": {
-    "CdifMandatory": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema.json"
-    },
-    "CdifProvActivity": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifProvActivity/schema.json"
-    },
-    "DefinedTerm": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.json"
+    "InstanceVariable": {
+      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.json"
     },
     "AdditionalProperty": {
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.json"
-    },
-    "DataDownload": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.json"
-    },
-    "XasSample": {
-      "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema.json"
     }
   },
   "x-jsonld-prefixes": {
-    "schema": "http://schema.org/"
+    "schema": "http://schema.org/",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "nxs": "https://manual.nexusformat.org/classes/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "xas": "https://w3id.org/cdif/xas/"
   }
 }

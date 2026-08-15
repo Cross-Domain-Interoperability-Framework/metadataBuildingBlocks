@@ -112,7 +112,9 @@ Example distribution webAPI, based on schema.org Action
             "schema:name": "temperature",
             "schema:description": "temperature of the sample",
             "schema:propertyID": [
-              "http://qudt.org/defs/temperature"
+              {
+                "@id": "http://qudt.org/defs/temperature"
+              }
             ]
           },
           {
@@ -122,7 +124,9 @@ Example distribution webAPI, based on schema.org Action
             ],
             "schema:name": "Viscosity",
             "schema:propertyID": [
-              "http://ogc.org/defs/g35408y"
+              {
+                "@id": "http://ogc.org/defs/g35408y"
+              }
             ],
             "schema:description": "a quantity expressing the magnitude of internal friction"
           }
@@ -298,7 +302,9 @@ Example distribution webAPI, based on schema.org Action
             "schema:name": "temperature",
             "schema:description": "temperature of the sample",
             "schema:propertyID": [
-              "http://qudt.org/defs/temperature"
+              {
+                "@id": "http://qudt.org/defs/temperature"
+              }
             ]
           },
           {
@@ -308,7 +314,9 @@ Example distribution webAPI, based on schema.org Action
             ],
             "schema:name": "Viscosity",
             "schema:propertyID": [
-              "http://ogc.org/defs/g35408y"
+              {
+                "@id": "http://ogc.org/defs/g35408y"
+              }
             ],
             "schema:description": "a quantity expressing the magnitude of internal friction"
           }
@@ -425,7 +433,7 @@ ex:exampleAction_37467 a schema1:Action ;
             schema1:variableMeasured [ a schema1:PropertyValue ;
                     schema1:description "temperature of the sample" ;
                     schema1:name "temperature" ;
-                    schema1:propertyID "http://qudt.org/defs/temperature" ],
+                    schema1:propertyID <http://qudt.org/defs/temperature> ],
                 ex:propertyValue_zZc ] ;
     schema1:query-input ex:input_encoding,
         ex:input_end,
@@ -478,7 +486,7 @@ ex:input_start a schema1:PropertyValueSpecification ;
 ex:propertyValue_zZc a schema1:PropertyValue ;
     schema1:description "a quantity expressing the magnitude of internal friction" ;
     schema1:name "Viscosity" ;
-    schema1:propertyID "http://ogc.org/defs/g35408y" .
+    schema1:propertyID <http://ogc.org/defs/g35408y> .
 
 
 ```

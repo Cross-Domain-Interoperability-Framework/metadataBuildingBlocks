@@ -1,6 +1,7 @@
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://example.org/struct/salesCube> a cdi:DimensionalDataStructure ;
     cdi:has_DataStructureComponent <https://example.org/struct/salesCube/comp/country>,
@@ -24,33 +25,34 @@
     cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/salesCube/rv/quarter> .
 
 <https://example.org/struct/salesCube/pk> a cdif:PrimaryKey ;
-    cdif:isComposedOf <https://example.org/var/country>,
-        <https://example.org/var/productCategory>,
-        <https://example.org/var/quarter> .
+    cdif:isComposedOf [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/productCategory> ;
+            cdi:value 3 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/country> ;
+            cdi:value 1 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/quarter> ;
+            cdi:value 2 ] .
 
 <https://example.org/struct/salesCube/rv/country> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:string" ] ;
+    cdi:hasIntendedDataType "xsd:string" ;
     cdif:name "country" .
 
 <https://example.org/struct/salesCube/rv/currency> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:string" ] ;
+    cdi:hasIntendedDataType "xsd:string" ;
     cdif:name "currency" .
 
 <https://example.org/struct/salesCube/rv/productCategory> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:string" ] ;
+    cdi:hasIntendedDataType "xsd:string" ;
     cdif:name "product_category" .
 
 <https://example.org/struct/salesCube/rv/quarter> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:gYearMonth" ] ;
+    cdi:hasIntendedDataType "xsd:gYearMonth" ;
     cdif:name "quarter" .
 
 <https://example.org/struct/salesCube/rv/salesAmount> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:decimal" ] ;
+    cdi:hasIntendedDataType "xsd:decimal" ;
     cdi:simpleUnitOfMeasure "USD" ;
     cdif:name "sales_amount" .
 

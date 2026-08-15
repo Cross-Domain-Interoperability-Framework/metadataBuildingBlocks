@@ -36,27 +36,44 @@ and geochemistry concepts.
     "ex": "https://example.org/vocab/"
   },
   "@id": "ex:solid-earth-disciplines",
-  "@type": ["skos:Collection"],
+  "@type": [
+    "skos:Collection"
+  ],
   "skos:prefLabel": [
-    {"@value": "Solid Earth Disciplines", "@language": "en"}
+    {
+      "@value": "Solid Earth Disciplines",
+      "@language": "en"
+    }
   ],
   "skos:definition": "A grouping of Earth science concepts focused on solid Earth processes.",
   "skos:member": [
     {
       "@id": "ex:geology",
-      "@type": ["skos:Concept"],
+      "@type": [
+        "skos:Concept"
+      ],
       "skos:prefLabel": "Geology",
-      "skos:notation": ["01"],
-      "skos:inScheme": {"@id": "ex:earth-science-topics"}
+      "skos:definition": "The study of the solid Earth — its materials, structure, and the processes that shape it.",
+      "skos:notation": "01",
+      "skos:inScheme": {
+        "@id": "ex:earth-science-topics"
+      }
     },
     {
       "@id": "ex:geophysics",
-      "@type": ["skos:Concept"],
+      "@type": [
+        "skos:Concept"
+      ],
       "skos:prefLabel": "Geophysics",
-      "skos:notation": ["03"],
-      "skos:inScheme": {"@id": "ex:earth-science-topics"}
+      "skos:definition": "The study of the Earth using quantitative physical methods such as seismology, gravity, and magnetism.",
+      "skos:notation": "03",
+      "skos:inScheme": {
+        "@id": "ex:earth-science-topics"
+      }
     },
-    {"@id": "ex:geochemistry"}
+    {
+      "@id": "ex:geochemistry"
+    }
   ]
 }
 
@@ -93,9 +110,8 @@ and geochemistry concepts.
         "skos:Concept"
       ],
       "skos:prefLabel": "Geology",
-      "skos:notation": [
-        "01"
-      ],
+      "skos:definition": "The study of the solid Earth \u2014 its materials, structure, and the processes that shape it.",
+      "skos:notation": "01",
       "skos:inScheme": {
         "@id": "ex:earth-science-topics"
       }
@@ -106,9 +122,8 @@ and geochemistry concepts.
         "skos:Concept"
       ],
       "skos:prefLabel": "Geophysics",
-      "skos:notation": [
-        "03"
-      ],
+      "skos:definition": "The study of the Earth using quantitative physical methods such as seismology, gravity, and magnetism.",
+      "skos:notation": "03",
       "skos:inScheme": {
         "@id": "ex:earth-science-topics"
       }
@@ -133,11 +148,13 @@ ex:solid-earth-disciplines a skos:Collection ;
     skos:prefLabel "Solid Earth Disciplines"@en .
 
 ex:geology a skos:Concept ;
+    skos:definition "The study of the solid Earth — its materials, structure, and the processes that shape it." ;
     skos:inScheme ex:earth-science-topics ;
     skos:notation "01" ;
     skos:prefLabel "Geology" .
 
 ex:geophysics a skos:Concept ;
+    skos:definition "The study of the Earth using quantitative physical methods such as seismology, gravity, and magnetism." ;
     skos:inScheme ex:earth-science-topics ;
     skos:notation "03" ;
     skos:prefLabel "Geophysics" .
@@ -246,6 +263,7 @@ $defs:
         items:
           anyOf:
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -330,6 +348,7 @@ $defs:
             items:
               anyOf:
               - type: object
+                additionalProperties: false
                 properties:
                   '@id':
                     type: string

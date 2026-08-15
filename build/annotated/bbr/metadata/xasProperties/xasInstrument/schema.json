@@ -12,14 +12,39 @@
         "schema:additionalType": {
           "type": "array",
           "items": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "@id"
+                ],
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
           },
           "minItems": 1,
           "uniqueItems": true,
           "allOf": [
             {
               "contains": {
-                "const": "wd:Q3099911"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "@id"
+                ],
+                "properties": {
+                  "@id": {
+                    "const": "wd:Q3099911"
+                  }
+                }
               },
               "description": "wd:Q3099911 is Wikidata scientific instrument. Declare prefix wd: https://www.wikidata.org/entity/"
             }
@@ -33,6 +58,8 @@
     }
   ],
   "x-jsonld-prefixes": {
-    "schema": "http://schema.org/"
+    "schema": "http://schema.org/",
+    "wd": "https://www.wikidata.org/entity/",
+    "xas": "https://w3id.org/cdif/xas/"
   }
 }

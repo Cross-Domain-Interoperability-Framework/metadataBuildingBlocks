@@ -12,6 +12,7 @@
         },
         {
           "type": "object",
+          "additionalProperties": false,
           "properties": {
             "@id": {
               "type": "string",
@@ -43,6 +44,7 @@
           },
           {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "@id": {
                 "type": "string",
@@ -67,6 +69,7 @@
           },
           {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "@id": {
                 "type": "string",
@@ -144,6 +147,7 @@
             },
             {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -214,6 +218,7 @@
               },
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -237,6 +242,7 @@
               },
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -294,6 +300,7 @@
               },
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -317,6 +324,7 @@
               },
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -377,7 +385,23 @@
                   "minItems": 1
                 },
                 "schema:propertyID": {
-                  "type": "string",
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "@id"
+                      ],
+                      "properties": {
+                        "@id": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ],
                   "x-jsonld-id": "http://schema.org/propertyID"
                 },
                 "schema:value": {
@@ -430,7 +454,23 @@
           "description": "Further type classification (e.g. File, Dataset, PropertyValue, DataType)",
           "type": "array",
           "items": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "@id"
+                ],
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
           },
           "x-jsonld-id": "http://schema.org/additionalType"
         },
@@ -516,6 +556,7 @@
               },
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -539,6 +580,7 @@
               },
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -559,6 +601,7 @@
             "anyOf": [
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -726,6 +769,10 @@
             },
             {
               "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"

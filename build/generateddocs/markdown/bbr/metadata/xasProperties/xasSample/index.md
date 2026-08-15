@@ -1,17 +1,17 @@
 
 # Material Sample for x-ray absorption study (Schema)
 
-`cdif.bbr.metadata.xasProperties.xasSample` *v0.1*
+`cdif.bbr.metadata.xasProperties.xasSample` *v1.0*
 
-Schema defining properties for documenting a material sample that is the mainEntity (target) of an XAS analysis. Defines properties: @type, schema:additionalType, schema:name, schema:identifier, schema:description, schema:additionalProperty. Uses building blocks: identifier (schemaorgProperties), additionalProperty (schemaorgProperties).
+Schema defining properties for documenting a material sample that is the schema:object (target) of an XAS analysis (replacing the deprecated schema:mainEntity, per the Ocean Info Hub recommendation). Defines properties: @type, schema:additionalType, schema:name, schema:identifier, schema:description, schema:additionalProperty. Uses building blocks: identifier (schemaorgProperties), additionalProperty (schemaorgProperties).
 
-[*Status*](http://www.opengis.net/def/status): Under development
+[*Status*](http://www.opengis.net/def/status): Stable
 
 ## Description
 
-## Person properties
+## Material sample properties
 
-Defines a set of properties for use describing a person for the schema.org implementation of the [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) discovery profile.
+Defines a set of properties for describing a material sample that is the `schema:object` (target) of an X-ray absorption spectroscopy (XAS) analysis, for the schema.org implementation of the [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) XAS profile. The sample is typed `schema:Thing` + `schema:Product` with `schema:additionalType` including `MaterialSample` and the iSample material-sample-object-type URI.
 ## Examples
 
 ### Example X-ray absorption sample description.
@@ -23,8 +23,8 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
     "schema": "http://schema.org/",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "xas": "https://xas.org/dictionary/",
-    "nxs": "http://purl.org/nexusformat/definitions/"
+    "xas": "https://w3id.org/cdif/xas/",
+    "nxs": "https://manual.nexusformat.org/classes/"
   },
   "@id": "ex:exampleSampel_357h",
   "@type": [
@@ -33,8 +33,12 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
   ],
   "schema:additionalType": [
     "MaterialSample",
-    "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample",
-    "https://www.wikidata.org/wiki/Q485146"
+    {
+      "@id": "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+    },
+    {
+      "@id": "https://www.wikidata.org/wiki/Q485146"
+    }
   ],
   "schema:name": "Na2SeO4",
   "schema:identifier": "igsn:10.6620/357lkj",
@@ -45,7 +49,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "xas:porosity"
+        {
+          "@id": "xas:porosity"
+        }
       ],
       "schema:name": "porosity",
       "schema:value": "27",
@@ -56,7 +62,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "xas:stoichiometry"
+        {
+          "@id": "xas:samplechemicalcomposition"
+        }
       ],
       "schema:name": "stoichiometry",
       "schema:value": "Na2SeO4"
@@ -66,7 +74,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "xas:samplePreparation"
+        {
+          "@id": "xas:samplepreparation"
+        }
       ],
       "schema:name": "samplePreparation",
       "schema:value": "powder on tape, 6 layers"
@@ -76,7 +86,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "nxs:Field/NXsample/mass"
+        {
+          "@id": "xas:samplemass"
+        }
       ],
       "schema:value": "10",
       "schema:name": "sample mass",
@@ -87,7 +99,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "nxs:Field/NXsample/point_group"
+        {
+          "@id": "xas:pointgroup"
+        }
       ],
       "schema:name": "crystal point group",
       "schema:value": "mm2"
@@ -97,7 +111,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "nxs:Field/NXsample/unit_cell"
+        {
+          "@id": "xas:sampleunitcell"
+        }
       ],
       "schema:name": "crystal unit cell",
       "schema:value": "cubic; Z = 4; a = 5.46; V = 162.77"
@@ -107,7 +123,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "xas:parentSample"
+        {
+          "@id": "xas:parentsample"
+        }
       ],
       "schema:name": "Parent sample",
       "schema:value": "igsn:10.3476/342573"
@@ -117,7 +135,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "xas:materialState"
+        {
+          "@id": "xas:samplematerial"
+        }
       ],
       "schema:name": "sample material state",
       "schema:value": "solid metal foil"
@@ -135,16 +155,16 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
       "schema": "http://schema.org",
       "ex": "https://example.org/",
       "xsd": "http://www.w3.org/2001/XMLSchema#",
-      "xas": "https://xas.org/dictionary/",
-      "nxs": "http://purl.org/nexusformat/definitions/"
+      "xas": "https://w3id.org/cdif/xas/",
+      "nxs": "https://manual.nexusformat.org/classes/"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/context.jsonld",
     {
       "schema": "http://schema.org/",
       "ex": "https://example.org/",
       "xsd": "http://www.w3.org/2001/XMLSchema#",
-      "xas": "https://xas.org/dictionary/",
-      "nxs": "http://purl.org/nexusformat/definitions/"
+      "xas": "https://w3id.org/cdif/xas/",
+      "nxs": "https://manual.nexusformat.org/classes/"
     }
   ],
   "@id": "ex:exampleSampel_357h",
@@ -154,8 +174,12 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
   ],
   "schema:additionalType": [
     "MaterialSample",
-    "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample",
-    "https://www.wikidata.org/wiki/Q485146"
+    {
+      "@id": "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
+    },
+    {
+      "@id": "https://www.wikidata.org/wiki/Q485146"
+    }
   ],
   "schema:name": "Na2SeO4",
   "schema:identifier": "igsn:10.6620/357lkj",
@@ -166,7 +190,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "xas:porosity"
+        {
+          "@id": "xas:porosity"
+        }
       ],
       "schema:name": "porosity",
       "schema:value": "27",
@@ -177,7 +203,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "xas:stoichiometry"
+        {
+          "@id": "xas:samplechemicalcomposition"
+        }
       ],
       "schema:name": "stoichiometry",
       "schema:value": "Na2SeO4"
@@ -187,7 +215,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "xas:samplePreparation"
+        {
+          "@id": "xas:samplepreparation"
+        }
       ],
       "schema:name": "samplePreparation",
       "schema:value": "powder on tape, 6 layers"
@@ -197,7 +227,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "nxs:Field/NXsample/mass"
+        {
+          "@id": "xas:samplemass"
+        }
       ],
       "schema:value": "10",
       "schema:name": "sample mass",
@@ -208,7 +240,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "nxs:Field/NXsample/point_group"
+        {
+          "@id": "xas:pointgroup"
+        }
       ],
       "schema:name": "crystal point group",
       "schema:value": "mm2"
@@ -218,7 +252,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "nxs:Field/NXsample/unit_cell"
+        {
+          "@id": "xas:sampleunitcell"
+        }
       ],
       "schema:name": "crystal unit cell",
       "schema:value": "cubic; Z = 4; a = 5.46; V = 162.77"
@@ -228,7 +264,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "xas:parentSample"
+        {
+          "@id": "xas:parentsample"
+        }
       ],
       "schema:name": "Parent sample",
       "schema:value": "igsn:10.3476/342573"
@@ -238,7 +276,9 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
         "schema:PropertyValue"
       ],
       "schema:propertyID": [
-        "xas:materialState"
+        {
+          "@id": "xas:samplematerial"
+        }
       ],
       "schema:name": "sample material state",
       "schema:value": "solid metal foil"
@@ -251,46 +291,47 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
 ```ttl
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
+@prefix xas: <https://w3id.org/cdif/xas/> .
 
 ex:exampleSampel_357h a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "sample material state" ;
-            schema1:propertyID "xas:materialState" ;
-            schema1:value "solid metal foil" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "sample mass" ;
-            schema1:propertyID "nxs:Field/NXsample/mass" ;
-            schema1:unitText "mg" ;
-            schema1:value "10" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "crystal point group" ;
-            schema1:propertyID "nxs:Field/NXsample/point_group" ;
-            schema1:value "mm2" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "crystal unit cell" ;
-            schema1:propertyID "nxs:Field/NXsample/unit_cell" ;
-            schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
-        [ a schema1:PropertyValue ;
             schema1:name "samplePreparation" ;
-            schema1:propertyID "xas:samplePreparation" ;
+            schema1:propertyID xas:samplepreparation ;
             schema1:value "powder on tape, 6 layers" ],
         [ a schema1:PropertyValue ;
+            schema1:name "sample material state" ;
+            schema1:propertyID xas:samplematerial ;
+            schema1:value "solid metal foil" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Parent sample" ;
+            schema1:propertyID xas:parentsample ;
+            schema1:value "igsn:10.3476/342573" ],
+        [ a schema1:PropertyValue ;
             schema1:name "porosity" ;
-            schema1:propertyID "xas:porosity" ;
+            schema1:propertyID xas:porosity ;
             schema1:unitText "percent" ;
             schema1:value "27" ],
         [ a schema1:PropertyValue ;
-            schema1:name "Parent sample" ;
-            schema1:propertyID "xas:parentSample" ;
-            schema1:value "igsn:10.3476/342573" ],
+            schema1:name "crystal point group" ;
+            schema1:propertyID xas:pointgroup ;
+            schema1:value "mm2" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "sample mass" ;
+            schema1:propertyID xas:samplemass ;
+            schema1:unitText "mg" ;
+            schema1:value "10" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "crystal unit cell" ;
+            schema1:propertyID xas:sampleunitcell ;
+            schema1:value "cubic; Z = 4; a = 5.46; V = 162.77" ],
         [ a schema1:PropertyValue ;
             schema1:name "stoichiometry" ;
-            schema1:propertyID "xas:stoichiometry" ;
+            schema1:propertyID xas:samplechemicalcomposition ;
             schema1:value "Na2SeO4" ] ;
-    schema1:additionalType "MaterialSample",
-        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample",
-        "https://www.wikidata.org/wiki/Q485146" ;
+    schema1:additionalType <https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample>,
+        <https://www.wikidata.org/wiki/Q485146>,
+        "MaterialSample" ;
     schema1:description "physical properties of sample: ph, eh, volume, porosity, density, concentration, resistivity, viscosity, crystal structure, opacity from xdi list..." ;
     schema1:identifier "igsn:10.6620/357lkj" ;
     schema1:name "Na2SeO4" .
@@ -321,7 +362,15 @@ properties:
   schema:additionalType:
     type: array
     items:
-      type: string
+      anyOf:
+      - type: string
+      - type: object
+        additionalProperties: false
+        required:
+        - '@id'
+        properties:
+          '@id':
+            type: string
     minItems: 2
     uniqueItems: true
     allOf:
@@ -329,7 +378,13 @@ properties:
         const: MaterialSample
       minContains: 1
     - contains:
-        const: https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample
+        type: object
+        additionalProperties: false
+        required:
+        - '@id'
+        properties:
+          '@id':
+            const: https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample
       minContains: 1
     x-jsonld-id: http://schema.org/additionalType
   schema:name:
@@ -345,27 +400,11 @@ properties:
     x-jsonld-id: http://schema.org/description
   schema:additionalProperty:
     type: array
-    description: extend base definition (AdditionalProperty) with some expected propertyID
-      values from NEXUS and XDI specs added in the enum
+    description: Sample additionalProperty entries (base AdditionalProperty shape).
+      The XDI Sample.* propertyID vocabulary enum is layered on in xasOptional, so
+      it applies at the profile level, not this shape.
     items:
-      allOf:
-      - $ref: '#/$defs/AdditionalProperty'
-      - properties:
-          schema:propertyID:
-            type: array
-            minItems: 1
-            items:
-              anyOf:
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml#/$defs/propertyID_item
-              - enum:
-                - xas:stoichiometry
-                - xas:samplePreparation
-                - nxs:Field/NXsample/mass
-                - nxs:Field/NXsample/point_group
-                - nxs:Field/NXsample/unit_cell
-                - xas:parentSample
-                - xas:materialState
-            x-jsonld-id: http://schema.org/propertyID
+      $ref: '#/$defs/AdditionalProperty'
     x-jsonld-id: http://schema.org/additionalProperty
 required:
 - '@type'
@@ -378,6 +417,8 @@ $defs:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
+  nxs: https://manual.nexusformat.org/classes/
+  xas: https://w3id.org/cdif/xas/
 
 ```
 
@@ -393,7 +434,8 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
+    "nxs": "https://manual.nexusformat.org/classes/",
+    "xas": "https://w3id.org/cdif/xas/",
     "@version": 1.1
   }
 }
@@ -404,7 +446,7 @@ You can find the full JSON-LD context here:
 
 ## Sources
 
-* [schema.org](https://schema.org/mainEntity)
+* [schema.org](https://schema.org/object)
 
 # For developers
 

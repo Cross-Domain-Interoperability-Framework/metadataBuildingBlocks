@@ -17,8 +17,24 @@
           "minItems": 1
         },
         "schema:propertyID": {
-          "type": "string",
-          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "@id"
+              ],
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              }
+            }
+          ],
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings.",
           "x-jsonld-id": "http://schema.org/propertyID"
         },
         "schema:value": {
@@ -138,6 +154,10 @@
               },
               {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -258,6 +278,7 @@
             }
           },
           "required": [
+            "@type",
             "schema:email"
           ],
           "x-jsonld-id": "http://schema.org/contactPoint"
@@ -272,6 +293,10 @@
               },
               {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -414,6 +439,7 @@
           "anyOf": [
             {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string",
@@ -528,6 +554,10 @@
             },
             {
               "type": "object",
+              "required": [
+                "@id"
+              ],
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -542,7 +572,7 @@
       },
       "x-jsonld-prefixes": {
         "schema": "http://schema.org/",
-        "nxs": "http://purl.org/nexusformat/definitions/"
+        "nxs": "https://manual.nexusformat.org/classes/"
       },
       "x-schema-source": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.json",
       "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
@@ -629,8 +659,24 @@
           "minItems": 1
         },
         "schema:propertyID": {
-          "type": "string",
-          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "@id"
+              ],
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              }
+            }
+          ],
+          "description": "In this context for the schema:PropertyValue, this field is an identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/ for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references ({\"@id\":\"...\"}) so they participate in RDF entailment; free-label strings remain valid as strings.",
           "x-jsonld-id": "http://schema.org/propertyID"
         },
         "schema:value": {
@@ -764,6 +810,10 @@
               },
               {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -884,6 +934,7 @@
             }
           },
           "required": [
+            "@type",
             "schema:email"
           ],
           "x-jsonld-id": "http://schema.org/contactPoint"
@@ -898,6 +949,10 @@
               },
               {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -1057,6 +1112,10 @@
       "anyOf": [
         {
           "type": "object",
+          "required": [
+            "@id"
+          ],
+          "additionalProperties": false,
           "properties": {
             "@id": {
               "type": "string",
@@ -1216,6 +1275,7 @@
               },
               {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string",
@@ -1259,12 +1319,37 @@
             "schema:additionalType": {
               "type": "array",
               "items": {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "@id"
+                    ],
+                    "properties": {
+                      "@id": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
               },
               "contains": {
-                "enum": [
-                  "dcat:CatalogRecord"
-                ]
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "@id"
+                ],
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "dcat:CatalogRecord"
+                    ]
+                  }
+                }
               },
               "minItems": 1
             },
@@ -1272,6 +1357,7 @@
               "type": "array",
               "items": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -1283,6 +1369,10 @@
               },
               "contains": {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "enum": [
@@ -1299,6 +1389,7 @@
             },
             "schema:about": {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "@id": {
                   "type": "string"
@@ -1374,11 +1465,8 @@
               ]
             },
             "skos:notation": {
-              "description": "Classification code for this concept within a scheme.",
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "description": "Classification code for this concept within a scheme (a single notation string, consistent with CdifCodelistConcept).",
+              "type": "string"
             },
             "skos:definition": {
               "description": "Formal explanation of the meaning of this concept.",
@@ -1433,6 +1521,7 @@
               "anyOf": [
                 {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "@id": {
                       "type": "string"
@@ -1446,6 +1535,7 @@
                   "type": "array",
                   "items": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
                       "@id": {
                         "type": "string"
@@ -1494,6 +1584,7 @@
         },
         "ConceptRef": {
           "type": "object",
+          "additionalProperties": false,
           "description": "Reference (by URI) to a skos:Concept defined elsewhere. Used inside skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.",
           "properties": {
             "@id": {
@@ -1582,7 +1673,23 @@
       "description": "Domain-specific type classifications. Should include a scientific instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).",
       "type": "array",
       "items": {
-        "type": "string"
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "@id"
+            ],
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            }
+          }
+        ]
       },
       "minItems": 1,
       "x-jsonld-id": "http://schema.org/additionalType"
@@ -1602,7 +1709,23 @@
       "description": "Alternate name(s), e.g. specific make/model designation, common abbreviation.",
       "type": "array",
       "items": {
-        "type": "string"
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "@id"
+            ],
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            }
+          }
+        ]
       },
       "x-jsonld-id": "http://schema.org/alternateName"
     },
@@ -1671,6 +1794,7 @@
         }
       },
       "required": [
+        "@type",
         "schema:name"
       ],
       "x-jsonld-id": "http://schema.org/model"
@@ -1728,6 +1852,7 @@
           },
           {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "@id": {
                 "type": "string",
@@ -1770,6 +1895,10 @@
         },
         "schema:about": {
           "type": "object",
+          "required": [
+            "@id"
+          ],
+          "additionalProperties": false,
           "properties": {
             "@id": {
               "type": "string",
@@ -1788,6 +1917,10 @@
               },
               {
                 "type": "object",
+                "required": [
+                  "@id"
+                ],
+                "additionalProperties": false,
                 "properties": {
                   "@id": {
                     "type": "string"
@@ -1798,6 +1931,9 @@
           }
         }
       },
+      "required": [
+        "@type"
+      ],
       "x-jsonld-id": "http://schema.org/subjectOf"
     }
   },
@@ -1877,7 +2013,23 @@
           "description": "Component type classification.",
           "type": "array",
           "items": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "@id"
+                ],
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
           },
           "x-jsonld-id": "http://schema.org/additionalType"
         },
@@ -1902,7 +2054,23 @@
             "@type": {
               "type": "array",
               "items": {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "@id"
+                    ],
+                    "properties": {
+                      "@id": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
               },
               "contains": {
                 "enum": [
@@ -1927,16 +2095,21 @@
               "x-jsonld-id": "http://schema.org/identifier"
             }
           },
+          "required": [
+            "@type"
+          ],
           "x-jsonld-id": "http://schema.org/model"
         }
       },
       "required": [
+        "@type",
         "schema:name"
       ]
     }
   },
   "x-jsonld-prefixes": {
-    "schema": "http://schema.org/"
+    "schema": "http://schema.org/",
+    "wd": "https://www.wikidata.org/entity/"
   },
   "x-schema-version": "https://json-schema.org/draft/2020-12/schema"
 }

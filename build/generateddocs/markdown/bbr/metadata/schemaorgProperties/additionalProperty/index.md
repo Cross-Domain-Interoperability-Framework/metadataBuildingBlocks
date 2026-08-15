@@ -35,29 +35,18 @@ Example of soft-typed additional property implementation, based on schema.org Pr
     "schema": "http://schema.org/",
     "ex": "https://example.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "nxs": "http://purl.org/nexusformat/definitions/"
+    "nxs": "https://manual.nexusformat.org/classes/"
   },
   "@id": "ex:exampleAdditionalProperty_lkj09",
   "@type": [
     "schema:PropertyValue"
   ],
   "schema:propertyID": [
-    "nxs:Field/NXsource/probe",
     {
-      "@id": "ex:addPropdefinedTerm_zZc",
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:name": "probe",
-      "schema:identifier": {
-        "@id": "ex:addPropIDPropertyValue_53yh",
-        "@type": [
-          "schema:PropertyValue"
-        ],
-        "schema:propertyID": "https://purl.org/nexusformat/definitions/Field/NXsource/probe",
-        "schema:url": "https://purl.org/nexusformat/definitions/Field/NXsource/probe"
-      },
-      "schema:inDefinedTermSet": "http://ogc.org/defs"
+      "@id": "nxs:Field/NXsource/probe"
+    },
+    {
+      "@id": "ex:addPropdefinedTerm_zZc"
     }
   ],
   "schema:name": "example additional property",
@@ -78,7 +67,7 @@ Example of soft-typed additional property implementation, based on schema.org Pr
       "schema": "http://schema.org/",
       "ex": "https://example.org/",
       "xsd": "http://www.w3.org/2001/XMLSchema#",
-      "nxs": "http://purl.org/nexusformat/definitions/"
+      "nxs": "https://manual.nexusformat.org/classes/"
     }
   ],
   "@id": "ex:exampleAdditionalProperty_lkj09",
@@ -86,22 +75,11 @@ Example of soft-typed additional property implementation, based on schema.org Pr
     "schema:PropertyValue"
   ],
   "schema:propertyID": [
-    "nxs:Field/NXsource/probe",
     {
-      "@id": "ex:addPropdefinedTerm_zZc",
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:name": "probe",
-      "schema:identifier": {
-        "@id": "ex:addPropIDPropertyValue_53yh",
-        "@type": [
-          "schema:PropertyValue"
-        ],
-        "schema:propertyID": "https://purl.org/nexusformat/definitions/Field/NXsource/probe",
-        "schema:url": "https://purl.org/nexusformat/definitions/Field/NXsource/probe"
-      },
-      "schema:inDefinedTermSet": "http://ogc.org/defs"
+      "@id": "nxs:Field/NXsource/probe"
+    },
+    {
+      "@id": "ex:addPropdefinedTerm_zZc"
     }
   ],
   "schema:name": "example additional property",
@@ -117,17 +95,8 @@ Example of soft-typed additional property implementation, based on schema.org Pr
 ex:exampleAdditionalProperty_lkj09 a schema1:PropertyValue ;
     schema1:name "example additional property" ;
     schema1:propertyID ex:addPropdefinedTerm_zZc,
-        "nxs:Field/NXsource/probe" ;
+        <https://manual.nexusformat.org/classes/Field/NXsource/probe> ;
     schema1:value "x-ray" .
-
-ex:addPropIDPropertyValue_53yh a schema1:PropertyValue ;
-    schema1:propertyID "https://purl.org/nexusformat/definitions/Field/NXsource/probe" ;
-    schema1:url "https://purl.org/nexusformat/definitions/Field/NXsource/probe" .
-
-ex:addPropdefinedTerm_zZc a schema1:DefinedTerm ;
-    schema1:identifier ex:addPropIDPropertyValue_53yh ;
-    schema1:inDefinedTermSet "http://ogc.org/defs" ;
-    schema1:name "probe" .
 
 
 ```
@@ -144,14 +113,22 @@ DefinedTerm), name, value, unitCode (DefinedTerm), and unitText.
     "ex": "https://example.org/"
   },
   "@id": "ex:additionalPropertyComplete_001",
-  "@type": ["schema:PropertyValue"],
+  "@type": [
+    "schema:PropertyValue"
+  ],
   "schema:propertyID": [
-    "ex:samplePreparationMethod",
     {
-      "@type": ["schema:DefinedTerm"],
+      "@id": "ex:samplePreparationMethod"
+    },
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "schema:name": "Sample Preparation Method",
       "schema:identifier": {
-        "@type": ["schema:PropertyValue"],
+        "@type": [
+          "schema:PropertyValue"
+        ],
         "schema:propertyID": "https://vocab.nerc.ac.uk/collection/Q01/current/",
         "schema:value": "Q0100002",
         "schema:url": "https://vocab.nerc.ac.uk/collection/Q01/current/Q0100002/"
@@ -162,7 +139,9 @@ DefinedTerm), name, value, unitCode (DefinedTerm), and unitText.
   "schema:name": "Sample preparation method",
   "schema:value": "acid digestion with HF-HNO3",
   "schema:unitCode": {
-    "@type": ["schema:DefinedTerm"],
+    "@type": [
+      "schema:DefinedTerm"
+    ],
     "schema:name": "not applicable",
     "schema:termCode": "NA"
   },
@@ -189,7 +168,9 @@ DefinedTerm), name, value, unitCode (DefinedTerm), and unitText.
     "schema:PropertyValue"
   ],
   "schema:propertyID": [
-    "ex:samplePreparationMethod",
+    {
+      "@id": "ex:samplePreparationMethod"
+    },
     {
       "@type": [
         "schema:DefinedTerm"
@@ -233,7 +214,7 @@ ex:additionalPropertyComplete_001 a schema1:PropertyValue ;
                     schema1:value "Q0100002" ] ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/Q01/current/" ;
             schema1:name "Sample Preparation Method" ],
-        "ex:samplePreparationMethod" ;
+        ex:samplePreparationMethod ;
     schema1:unitCode [ a schema1:DefinedTerm ;
             schema1:name "not applicable" ;
             schema1:termCode "NA" ] ;
@@ -296,13 +277,16 @@ $defs:
     anyOf:
     - type: string
     - type: object
+      required:
+      - '@id'
+      additionalProperties: false
       properties:
         '@id':
           type: string
     - $ref: '#/$defs/DefinedTerm'
 x-jsonld-prefixes:
   schema: http://schema.org/
-  nxs: http://purl.org/nexusformat/definitions/
+  nxs: https://manual.nexusformat.org/classes/
 
 ```
 
@@ -318,7 +302,7 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
+    "nxs": "https://manual.nexusformat.org/classes/",
     "@version": 1.1
   }
 }

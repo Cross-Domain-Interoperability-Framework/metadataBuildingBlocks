@@ -156,11 +156,7 @@ In **Markdown** format.
   ],
   "schema:publishingPrinciples": [
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "Data retention and update policy",
-      "schema:url": "https://example.org/policies/data-retention"
+      "@id": "https://example.org/policies/data-retention"
     }
   ],
   "schema:keywords": [
@@ -173,7 +169,9 @@ In **Markdown** format.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "ex:rIPXjaCPQX",
+        "schema:propertyID": {
+          "@id": "ex:rIPXjaCPQX"
+        },
         "schema:value": "PVSajGtBPsLzeCTLv",
         "schema:url": "http://example.com/resource/PVSajGtBPsLzeCTLvt"
       },
@@ -189,7 +187,9 @@ In **Markdown** format.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://resource.org/identifier",
+        "schema:propertyID": {
+          "@id": "https://resource.org/identifier"
+        },
         "schema:value": "tdUMYBItIwdJe",
         "schema:url": "http://example.com/resource/tdUMYBItIwdJe"
       },
@@ -292,7 +292,9 @@ In **Markdown** format.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://orcid.org",
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
           "schema:value": "iY",
           "schema:url": "https://orcid.org/iY"
         },
@@ -334,7 +336,9 @@ In **Markdown** format.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+      "schema:propertyID": {
+        "@id": "https://registry.identifiers.org/registry/ror"
+      },
       "schema:value": "03m2x1q45",
       "schema:url": "https://ror.org/03m2x1q45"
     },
@@ -378,7 +382,9 @@ In **Markdown** format.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://orcid.org",
+        "schema:propertyID": {
+          "@id": "https://orcid.org"
+        },
         "schema:value": "0000-0001-6113-5417",
         "schema:url": "https://orcid.org/0000-0001-6113-5417"
       },
@@ -494,7 +500,9 @@ In **Markdown** format.
             "@type": [
               "schema:PropertyValue"
             ],
-            "schema:propertyID": "https://identifiers.org/orcid",
+            "schema:propertyID": {
+              "@id": "https://identifiers.org/orcid"
+            },
             "schema:value": "NfaMinUfHeMDEFNc",
             "schema:url": "http://orcid.org/NfaMinUfHeMDEFNc"
           }
@@ -537,7 +545,9 @@ In **Markdown** format.
             "@type": [
               "schema:PropertyValue"
             ],
-            "schema:propertyID": "ex:oFIYAymjuGCPjDnSgmB",
+            "schema:propertyID": {
+              "@id": "ex:oFIYAymjuGCPjDnSgmB"
+            },
             "schema:url": "http://example.com/resource/WPfhCJyxiDcwgdHMemJd"
           }
         },
@@ -565,8 +575,12 @@ In **Markdown** format.
       "schema:name": "RbMivCtraTmzms",
       "schema:description": "EcbPmKQnMCgWozw",
       "schema:propertyID": [
-        "urn:test:GigjbPysIJ",
-        "https://ark.org/bXEOCTwvICRc"
+        {
+          "@id": "urn:test:GigjbPysIJ"
+        },
+        {
+          "@id": "https://ark.org/bXEOCTwvICRc"
+        }
       ],
       "schema:measurementTechnique": "some measurement technique",
       "schema:unitText": "furlongs",
@@ -583,8 +597,12 @@ In **Markdown** format.
       "schema:name": "jzgZCegiTFYBSmsSh",
       "schema:description": "RGKBMBkScTTNQ",
       "schema:propertyID": [
-        "urn:properties:tzysaGTv",
-        "ex:CUXfWZLdRkEAG"
+        {
+          "@id": "urn:properties:tzysaGTv"
+        },
+        {
+          "@id": "ex:CUXfWZLdRkEAG"
+        }
       ],
       "schema:measurementTechnique": {
         "@type": [
@@ -595,7 +613,9 @@ In **Markdown** format.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://identifiers.org",
+          "schema:propertyID": {
+            "@id": "https://identifiers.org"
+          },
           "schema:value": "igcJkZMJiKehgkPjMCp",
           "schema:url": "https://identifiers.org/technique/igcJkZMJiKehgkPjMCp"
         },
@@ -614,7 +634,9 @@ In **Markdown** format.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "@id": "ex:BAaR",
     "schema:about": {
@@ -648,7 +670,9 @@ In **Markdown** format.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://doi.org",
+        "schema:propertyID": {
+          "@id": "https://doi.org"
+        },
         "schema:value": "iY",
         "schema:url": "https://doi.org/iY"
       },
@@ -676,7 +700,9 @@ In **Markdown** format.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "ex:fGSg",
+        "schema:propertyID": {
+          "@id": "ex:fGSg"
+        },
         "schema:value": "vPADlYJkJuGgI",
         "schema:url": "http://example.com/resource?foo=bar#fragment"
       }
@@ -776,11 +802,7 @@ In **Markdown** format.
   ],
   "schema:publishingPrinciples": [
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "Data retention and update policy",
-      "schema:url": "https://example.org/policies/data-retention"
+      "@id": "https://example.org/policies/data-retention"
     }
   ],
   "schema:keywords": [
@@ -793,7 +815,9 @@ In **Markdown** format.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "ex:rIPXjaCPQX",
+        "schema:propertyID": {
+          "@id": "ex:rIPXjaCPQX"
+        },
         "schema:value": "PVSajGtBPsLzeCTLv",
         "schema:url": "http://example.com/resource/PVSajGtBPsLzeCTLvt"
       },
@@ -809,7 +833,9 @@ In **Markdown** format.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://resource.org/identifier",
+        "schema:propertyID": {
+          "@id": "https://resource.org/identifier"
+        },
         "schema:value": "tdUMYBItIwdJe",
         "schema:url": "http://example.com/resource/tdUMYBItIwdJe"
       },
@@ -912,7 +938,9 @@ In **Markdown** format.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://orcid.org",
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
           "schema:value": "iY",
           "schema:url": "https://orcid.org/iY"
         },
@@ -954,7 +982,9 @@ In **Markdown** format.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+      "schema:propertyID": {
+        "@id": "https://registry.identifiers.org/registry/ror"
+      },
       "schema:value": "03m2x1q45",
       "schema:url": "https://ror.org/03m2x1q45"
     },
@@ -998,7 +1028,9 @@ In **Markdown** format.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://orcid.org",
+        "schema:propertyID": {
+          "@id": "https://orcid.org"
+        },
         "schema:value": "0000-0001-6113-5417",
         "schema:url": "https://orcid.org/0000-0001-6113-5417"
       },
@@ -1114,7 +1146,9 @@ In **Markdown** format.
             "@type": [
               "schema:PropertyValue"
             ],
-            "schema:propertyID": "https://identifiers.org/orcid",
+            "schema:propertyID": {
+              "@id": "https://identifiers.org/orcid"
+            },
             "schema:value": "NfaMinUfHeMDEFNc",
             "schema:url": "http://orcid.org/NfaMinUfHeMDEFNc"
           }
@@ -1157,7 +1191,9 @@ In **Markdown** format.
             "@type": [
               "schema:PropertyValue"
             ],
-            "schema:propertyID": "ex:oFIYAymjuGCPjDnSgmB",
+            "schema:propertyID": {
+              "@id": "ex:oFIYAymjuGCPjDnSgmB"
+            },
             "schema:url": "http://example.com/resource/WPfhCJyxiDcwgdHMemJd"
           }
         },
@@ -1185,8 +1221,12 @@ In **Markdown** format.
       "schema:name": "RbMivCtraTmzms",
       "schema:description": "EcbPmKQnMCgWozw",
       "schema:propertyID": [
-        "urn:test:GigjbPysIJ",
-        "https://ark.org/bXEOCTwvICRc"
+        {
+          "@id": "urn:test:GigjbPysIJ"
+        },
+        {
+          "@id": "https://ark.org/bXEOCTwvICRc"
+        }
       ],
       "schema:measurementTechnique": "some measurement technique",
       "schema:unitText": "furlongs",
@@ -1203,8 +1243,12 @@ In **Markdown** format.
       "schema:name": "jzgZCegiTFYBSmsSh",
       "schema:description": "RGKBMBkScTTNQ",
       "schema:propertyID": [
-        "urn:properties:tzysaGTv",
-        "ex:CUXfWZLdRkEAG"
+        {
+          "@id": "urn:properties:tzysaGTv"
+        },
+        {
+          "@id": "ex:CUXfWZLdRkEAG"
+        }
       ],
       "schema:measurementTechnique": {
         "@type": [
@@ -1215,7 +1259,9 @@ In **Markdown** format.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://identifiers.org",
+          "schema:propertyID": {
+            "@id": "https://identifiers.org"
+          },
           "schema:value": "igcJkZMJiKehgkPjMCp",
           "schema:url": "https://identifiers.org/technique/igcJkZMJiKehgkPjMCp"
         },
@@ -1234,7 +1280,9 @@ In **Markdown** format.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "@id": "ex:BAaR",
     "schema:about": {
@@ -1268,7 +1316,9 @@ In **Markdown** format.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://doi.org",
+        "schema:propertyID": {
+          "@id": "https://doi.org"
+        },
         "schema:value": "iY",
         "schema:url": "https://doi.org/iY"
       },
@@ -1296,7 +1346,9 @@ In **Markdown** format.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "ex:fGSg",
+        "schema:propertyID": {
+          "@id": "ex:fGSg"
+        },
         "schema:value": "vPADlYJkJuGgI",
         "schema:url": "http://example.com/resource?foo=bar#fragment"
       }
@@ -1307,6 +1359,7 @@ In **Markdown** format.
 
 #### ttl
 ```ttl
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -1321,16 +1374,25 @@ ex:YOPx123 a schema1:Dataset ;
         "jNv",
         "tfmbDGeiuEnuhfKBvk" ;
     schema1:contributor [ a schema1:Role ;
-            schema1:contributor ex:NyMWPlRtQizAFE ;
-            schema1:roleName "data steward" ],
-        [ a schema1:Role ;
             schema1:contributor ex:PersonExample_zZc_asContributor ;
-            schema1:roleName "editor" ] ;
+            schema1:roleName "editor" ],
+        [ a schema1:Role ;
+            schema1:contributor ex:NyMWPlRtQizAFE ;
+            schema1:roleName "data steward" ] ;
     schema1:creator ( ex:mxxInaV ex:jP ) ;
     schema1:dateModified "2020-10-15" ;
     schema1:datePublished "2021-09-05" ;
     schema1:description "Auto generated from JSON schema, values are gobbledegoop. For testing" ;
     schema1:distribution [ a schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "VwuIdrCrJSsrGATePg" ;
+            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "MD5" ;
+                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ],
+        [ a schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
             schema1:encodingFormat "kpZDvhyVo",
@@ -1341,22 +1403,13 @@ ex:YOPx123 a schema1:Dataset ;
                 ex:sr68lgy ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "j" ;
-                    spdx:checksumValue "h" ] ],
-        [ a schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "VwuIdrCrJSsrGATePg" ;
-            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "MD5" ;
-                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ] ;
+                    spdx:checksumValue "h" ] ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/sejer4w6u8> ;
+            schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
-                    schema1:value "LZpo" ] ;
-            schema1:name "ekckpBtI" ],
+                    schema1:value "lieopgXuumP" ] ;
+            schema1:name "fhhbzh" ],
         [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/fnjrj68> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -1364,18 +1417,18 @@ ex:YOPx123 a schema1:Dataset ;
                     schema1:value "fMuiBjneudpV" ] ;
             schema1:name "MWoPQAqRYHobey" ],
         [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/3572wjht> ;
+            schema1:funder <https://ror.org/sejer4w6u8> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
-                    schema1:value "lieopgXuumP" ] ;
-            schema1:name "fhhbzh" ] ;
+                    schema1:value "LZpo" ] ;
+            schema1:name "ekckpBtI" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
     schema1:inLanguage "bYiJT" ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "ex:rIPXjaCPQX" ;
+                    schema1:propertyID ex:rIPXjaCPQX ;
                     schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
                     schema1:value "PVSajGtBPsLzeCTLv" ] ;
             schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
@@ -1383,7 +1436,7 @@ ex:YOPx123 a schema1:Dataset ;
             schema1:termCode "bzOl" ],
         [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://resource.org/identifier" ;
+                    schema1:propertyID <https://resource.org/identifier> ;
                     schema1:url "http://example.com/resource/tdUMYBItIwdJe" ;
                     schema1:value "tdUMYBItIwdJe" ] ;
             schema1:inDefinedTermSet "sqH" ;
@@ -1396,9 +1449,7 @@ ex:YOPx123 a schema1:Dataset ;
         ex:gDiAxjl,
         ex:ihjJtFPNEKnGSFBcgS ;
     schema1:publisher ex:exampleOrg_fW ;
-    schema1:publishingPrinciples [ a schema1:CreativeWork ;
-            schema1:name "Data retention and update policy" ;
-            schema1:url "https://example.org/policies/data-retention" ] ;
+    schema1:publishingPrinciples <https://example.org/policies/data-retention> ;
     schema1:relatedLink [ a schema1:LinkRole ;
             schema1:linkRelationship "BOoRREnpDEUrdNaV" ],
         [ a schema1:LinkRole ;
@@ -1415,7 +1466,7 @@ ex:YOPx123 a schema1:Dataset ;
     schema1:alternateName "WFcslOjvGZY" ;
     schema1:description "ztcLdOAkQTKSPLZ" ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "ex:oFIYAymjuGCPjDnSgmB" ;
+            schema1:propertyID ex:oFIYAymjuGCPjDnSgmB ;
             schema1:url "http://example.com/resource/WPfhCJyxiDcwgdHMemJd" ] ;
     schema1:name "SdeMvoPFxEaJOvQy" .
 
@@ -1423,7 +1474,7 @@ ex:YOPx123 a schema1:Dataset ;
     schema1:contactPoint [ a schema1:ContactPoint ;
             schema1:email "a.king@nhm.ac.uk" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://orcid.org" ;
+            schema1:propertyID <https://orcid.org> ;
             schema1:url "https://orcid.org/0000-0001-6113-5417" ;
             schema1:value "0000-0001-6113-5417" ] ;
     schema1:name "King, Ashley" .
@@ -1435,7 +1486,7 @@ ex:ABYcNWHKYhTiLLNEzJx a schema1:Person ;
             schema1:email "tom@ngo.net" ] ;
     schema1:description "Data Curator" ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://identifiers.org/orcid" ;
+            schema1:propertyID <https://identifiers.org/orcid> ;
             schema1:url "http://orcid.org/NfaMinUfHeMDEFNc" ;
             schema1:value "NfaMinUfHeMDEFNc" ] ;
     schema1:name "Walker, Longin" .
@@ -1444,7 +1495,7 @@ ex:BAaR a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
         <https://w3id.org/cdif/discovery/1.1> ;
     schema1:about ex:YOPx ;
-    schema1:additionalType "dcat:CatalogRecord" ;
+    schema1:additionalType dcat:CatalogRecord ;
     schema1:includedInDataCatalog ex:lIZkH ;
     schema1:maintainer ex:PersonExample_zZc ;
     schema1:sdDatePublished "2025-10-25" .
@@ -1455,8 +1506,8 @@ ex:KJTFKurNFu a schema1:PropertyValue ;
     schema1:measurementTechnique "some measurement technique" ;
     schema1:minValue 6.7e+01 ;
     schema1:name "RbMivCtraTmzms" ;
-    schema1:propertyID "https://ark.org/bXEOCTwvICRc",
-        "urn:test:GigjbPysIJ" ;
+    schema1:propertyID <https://ark.org/bXEOCTwvICRc>,
+        <urn:test:GigjbPysIJ> ;
     schema1:unitCode "F" ;
     schema1:unitText "furlongs" ;
     schema1:url "http://example.com/resource?foo=bar#furlong" .
@@ -1466,7 +1517,7 @@ ex:OjHgIDO a schema1:PropertyValue ;
     schema1:maxValue 7.4e+01 ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://identifiers.org" ;
+                    schema1:propertyID <https://identifiers.org> ;
                     schema1:url "https://identifiers.org/technique/igcJkZMJiKehgkPjMCp" ;
                     schema1:value "igcJkZMJiKehgkPjMCp" ] ;
             schema1:inDefinedTermSet "https://identifiers.org/technique/vocabulary" ;
@@ -1474,8 +1525,8 @@ ex:OjHgIDO a schema1:PropertyValue ;
             schema1:termCode "agt" ] ;
     schema1:minValue 3.6e+01 ;
     schema1:name "jzgZCegiTFYBSmsSh" ;
-    schema1:propertyID "ex:CUXfWZLdRkEAG",
-        "urn:properties:tzysaGTv" ;
+    schema1:propertyID ex:CUXfWZLdRkEAG,
+        <urn:properties:tzysaGTv> ;
     schema1:unitCode "S" ;
     schema1:unitText "stone" ;
     schema1:url "http://example.com/resource?foo=bar#stone" .
@@ -1498,7 +1549,7 @@ ex:PersonExample_zZc_asContributor a schema1:Person ;
             schema1:email "joe@bmanuco.org" ] ;
     schema1:description "Metadata specialist, based in Portland, Maine" ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://orcid.org" ;
+            schema1:propertyID <https://orcid.org> ;
             schema1:url "https://orcid.org/iY" ;
             schema1:value "iY" ] ;
     schema1:name "Joe B. Test" ;
@@ -1522,7 +1573,7 @@ ex:exampleOrg_fW a schema1:Organization ;
     schema1:alternateName "UAz" ;
     schema1:description "University in Tucson, Arizona" ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://registry.identifiers.org/registry/ror" ;
+            schema1:propertyID <https://registry.identifiers.org/registry/ror> ;
             schema1:url "https://ror.org/03m2x1q45" ;
             schema1:value "03m2x1q45" ] ;
     schema1:name "University of Arizona" ;
@@ -1543,7 +1594,7 @@ ex:jP a schema1:Person ;
 
 ex:lIZkH a schema1:DataCatalog ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "ex:fGSg" ;
+            schema1:propertyID ex:fGSg ;
             schema1:url "http://example.com/resource?foo=bar#fragment" ;
             schema1:value "vPADlYJkJuGgI" ] ;
     schema1:name "naEEWHEjgvNFJy" ;
@@ -1556,7 +1607,7 @@ ex:maintainerContactPoint_3456 a schema1:ContactPoint ;
     schema1:email "joe@bmanuco.org" .
 
 ex:maintainerIdentifier_3456 a schema1:PropertyValue ;
-    schema1:propertyID "https://doi.org" ;
+    schema1:propertyID <https://doi.org> ;
     schema1:url "https://doi.org/iY" ;
     schema1:value "iY" .
 
@@ -1616,16 +1667,14 @@ Simplest valid CDIF Discovery metadata with only required properties.
   "schema:url": "https://example.org/dataset/arctic-sea-ice-extent",
   "schema:license": [
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "Creative Commons Attribution 4.0",
-      "schema:url": "https://creativecommons.org/licenses/by/4.0/"
+      "@id": "https://creativecommons.org/licenses/by/4.0/"
     }
   ],
   "schema:variableMeasured": [
     {
-      "@type": ["schema:PropertyValue"],
+      "@type": [
+        "schema:PropertyValue"
+      ],
       "schema:name": "sea ice extent"
     }
   ],
@@ -1635,7 +1684,9 @@ Simplest valid CDIF Discovery metadata with only required properties.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "schema:about": {
       "@id": "https://example.org/dataset/minimal-discovery-001"
@@ -1679,11 +1730,7 @@ Simplest valid CDIF Discovery metadata with only required properties.
   "schema:url": "https://example.org/dataset/arctic-sea-ice-extent",
   "schema:license": [
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "Creative Commons Attribution 4.0",
-      "schema:url": "https://creativecommons.org/licenses/by/4.0/"
+      "@id": "https://creativecommons.org/licenses/by/4.0/"
     }
   ],
   "schema:variableMeasured": [
@@ -1700,7 +1747,9 @@ Simplest valid CDIF Discovery metadata with only required properties.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "schema:about": {
       "@id": "https://example.org/dataset/minimal-discovery-001"
@@ -1719,15 +1768,14 @@ Simplest valid CDIF Discovery metadata with only required properties.
 
 #### ttl
 ```ttl
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix schema1: <http://schema.org/> .
 
 <https://example.org/dataset/minimal-discovery-001> a schema1:Dataset ;
     schema1:dateModified "2025-06-15" ;
     schema1:identifier "https://doi.org/10.5281/zenodo.1234567" ;
-    schema1:license [ a schema1:CreativeWork ;
-            schema1:name "Creative Commons Attribution 4.0" ;
-            schema1:url "https://creativecommons.org/licenses/by/4.0/" ] ;
+    schema1:license <https://creativecommons.org/licenses/by/4.0/> ;
     schema1:name "Arctic Sea Ice Extent Monthly Averages" ;
     schema1:subjectOf <https://example.org/metadata/minimal-discovery-001> ;
     schema1:url "https://example.org/dataset/arctic-sea-ice-extent" ;
@@ -1738,7 +1786,7 @@ Simplest valid CDIF Discovery metadata with only required properties.
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
         <https://w3id.org/cdif/discovery/1.1> ;
     schema1:about <https://example.org/dataset/minimal-discovery-001> ;
-    schema1:additionalType "dcat:CatalogRecord" .
+    schema1:additionalType dcat:CatalogRecord .
 
 
 ```
@@ -1778,7 +1826,9 @@ complete CatalogRecord metadata.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/doi"
+    },
     "schema:value": "10.5281/zenodo.42042042",
     "schema:url": "https://doi.org/10.5281/zenodo.42042042"
   },
@@ -1819,21 +1869,12 @@ complete CatalogRecord metadata.
   "schema:conditionsOfAccess": [
     "Freely available after 12-month embargo from collection date",
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "NADW Program Data Policy",
-      "schema:description": "Embargo and citation requirements for deep water formation data",
-      "schema:url": "https://example.org/policies/nadw-data-access"
+      "@id": "https://example.org/policies/nadw-data-access"
     }
   ],
   "schema:license": [
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "Creative Commons Attribution 4.0",
-      "schema:url": "https://creativecommons.org/licenses/by/4.0/"
+      "@id": "https://creativecommons.org/licenses/by/4.0/"
     }
   ],
   "schema:keywords": [
@@ -1873,7 +1914,9 @@ complete CatalogRecord metadata.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
+          "schema:propertyID": {
+            "@id": "https://registry.identifiers.org/registry/orcid"
+          },
           "schema:value": "0000-0001-5555-6666",
           "schema:url": "https://orcid.org/0000-0001-5555-6666"
         },
@@ -1890,7 +1933,9 @@ complete CatalogRecord metadata.
             "@type": [
               "schema:PropertyValue"
             ],
-            "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+            "schema:propertyID": {
+              "@id": "https://registry.identifiers.org/registry/ror"
+            },
             "schema:value": "03fxm9z60",
             "schema:url": "https://ror.org/03fxm9z60"
           },
@@ -1950,7 +1995,9 @@ complete CatalogRecord metadata.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
+          "schema:propertyID": {
+            "@id": "https://registry.identifiers.org/registry/orcid"
+          },
           "schema:value": "0000-0002-7777-8888",
           "schema:url": "https://orcid.org/0000-0002-7777-8888"
         }
@@ -1982,7 +2029,9 @@ complete CatalogRecord metadata.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://example.org/grant-registry",
+        "schema:propertyID": {
+          "@id": "https://example.org/grant-registry"
+        },
         "schema:value": "AZMP-2020-001"
       },
       "schema:funder": {
@@ -1995,7 +2044,9 @@ complete CatalogRecord metadata.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+          "schema:propertyID": {
+            "@id": "https://registry.identifiers.org/registry/ror"
+          },
           "schema:value": "007hqnf44",
           "schema:url": "https://ror.org/007hqnf44"
         }
@@ -2087,11 +2138,7 @@ complete CatalogRecord metadata.
   ],
   "schema:publishingPrinciples": [
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "DFO Open Data Policy",
-      "schema:url": "https://example.org/policies/dfo-open-data"
+      "@id": "https://example.org/policies/dfo-open-data"
     }
   ],
   "schema:variableMeasured": [
@@ -2302,12 +2349,7 @@ complete CatalogRecord metadata.
   ],
   "prov:wasDerivedFrom": [
     {
-      "@id": "ex:rawCTDCasts",
-      "@type": [
-        "schema:Dataset"
-      ],
-      "schema:name": "AR7W Raw CTD Cast Data",
-      "schema:url": "https://example.org/data/ar7w-raw"
+      "@id": "ex:rawCTDCasts"
     }
   ],
   "schema:subjectOf": {
@@ -2315,7 +2357,9 @@ complete CatalogRecord metadata.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "@id": "ex:metadataRecord42",
     "schema:about": {
@@ -2356,7 +2400,9 @@ complete CatalogRecord metadata.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://example.org/catalog-registry",
+        "schema:propertyID": {
+          "@id": "https://example.org/catalog-registry"
+        },
         "schema:value": "dfo-ocean-catalog-001"
       }
     }
@@ -2405,7 +2451,9 @@ complete CatalogRecord metadata.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/doi"
+    },
     "schema:value": "10.5281/zenodo.42042042",
     "schema:url": "https://doi.org/10.5281/zenodo.42042042"
   },
@@ -2446,21 +2494,12 @@ complete CatalogRecord metadata.
   "schema:conditionsOfAccess": [
     "Freely available after 12-month embargo from collection date",
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "NADW Program Data Policy",
-      "schema:description": "Embargo and citation requirements for deep water formation data",
-      "schema:url": "https://example.org/policies/nadw-data-access"
+      "@id": "https://example.org/policies/nadw-data-access"
     }
   ],
   "schema:license": [
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "Creative Commons Attribution 4.0",
-      "schema:url": "https://creativecommons.org/licenses/by/4.0/"
+      "@id": "https://creativecommons.org/licenses/by/4.0/"
     }
   ],
   "schema:keywords": [
@@ -2500,7 +2539,9 @@ complete CatalogRecord metadata.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
+          "schema:propertyID": {
+            "@id": "https://registry.identifiers.org/registry/orcid"
+          },
           "schema:value": "0000-0001-5555-6666",
           "schema:url": "https://orcid.org/0000-0001-5555-6666"
         },
@@ -2517,7 +2558,9 @@ complete CatalogRecord metadata.
             "@type": [
               "schema:PropertyValue"
             ],
-            "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+            "schema:propertyID": {
+              "@id": "https://registry.identifiers.org/registry/ror"
+            },
             "schema:value": "03fxm9z60",
             "schema:url": "https://ror.org/03fxm9z60"
           },
@@ -2577,7 +2620,9 @@ complete CatalogRecord metadata.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
+          "schema:propertyID": {
+            "@id": "https://registry.identifiers.org/registry/orcid"
+          },
           "schema:value": "0000-0002-7777-8888",
           "schema:url": "https://orcid.org/0000-0002-7777-8888"
         }
@@ -2609,7 +2654,9 @@ complete CatalogRecord metadata.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://example.org/grant-registry",
+        "schema:propertyID": {
+          "@id": "https://example.org/grant-registry"
+        },
         "schema:value": "AZMP-2020-001"
       },
       "schema:funder": {
@@ -2622,7 +2669,9 @@ complete CatalogRecord metadata.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+          "schema:propertyID": {
+            "@id": "https://registry.identifiers.org/registry/ror"
+          },
           "schema:value": "007hqnf44",
           "schema:url": "https://ror.org/007hqnf44"
         }
@@ -2714,11 +2763,7 @@ complete CatalogRecord metadata.
   ],
   "schema:publishingPrinciples": [
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "DFO Open Data Policy",
-      "schema:url": "https://example.org/policies/dfo-open-data"
+      "@id": "https://example.org/policies/dfo-open-data"
     }
   ],
   "schema:variableMeasured": [
@@ -2929,12 +2974,7 @@ complete CatalogRecord metadata.
   ],
   "prov:wasDerivedFrom": [
     {
-      "@id": "ex:rawCTDCasts",
-      "@type": [
-        "schema:Dataset"
-      ],
-      "schema:name": "AR7W Raw CTD Cast Data",
-      "schema:url": "https://example.org/data/ar7w-raw"
+      "@id": "ex:rawCTDCasts"
     }
   ],
   "schema:subjectOf": {
@@ -2942,7 +2982,9 @@ complete CatalogRecord metadata.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "@id": "ex:metadataRecord42",
     "schema:about": {
@@ -2983,7 +3025,9 @@ complete CatalogRecord metadata.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://example.org/catalog-registry",
+        "schema:propertyID": {
+          "@id": "https://example.org/catalog-registry"
+        },
         "schema:value": "dfo-ocean-catalog-001"
       }
     }
@@ -2993,6 +3037,7 @@ complete CatalogRecord metadata.
 
 #### ttl
 ```ttl
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix dqv: <http://www.w3.org/ns/dqv#> .
 @prefix ex: <https://example.org/> .
@@ -3006,11 +3051,11 @@ complete CatalogRecord metadata.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:azmpGrant a schema1:PropertyValue ;
-    schema1:propertyID "https://example.org/grant-registry" ;
+    schema1:propertyID ex:grant-registry ;
     schema1:value "AZMP-2020-001" .
 
 ex:bioRor a schema1:PropertyValue ;
-    schema1:propertyID "https://registry.identifiers.org/registry/ror" ;
+    schema1:propertyID <https://registry.identifiers.org/registry/ror> ;
     schema1:url "https://ror.org/03fxm9z60" ;
     schema1:value "03fxm9z60" .
 
@@ -3025,10 +3070,7 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
             schema1:inDefinedTermSet "https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/sciencekeywords" ;
             schema1:name "Observational Data" ;
             schema1:termCode "EARTH SCIENCE > OCEANS > OCEAN CIRCULATION > THERMOHALINE CIRCULATION" ] ;
-    schema1:conditionsOfAccess [ a schema1:CreativeWork ;
-            schema1:description "Embargo and citation requirements for deep water formation data" ;
-            schema1:name "NADW Program Data Policy" ;
-            schema1:url "https://example.org/policies/nadw-data-access" ],
+    schema1:conditionsOfAccess <https://example.org/policies/nadw-data-access>,
         "Freely available after 12-month embargo from collection date" ;
     schema1:contributor [ a schema1:Role ;
             schema1:contributor <https://orcid.org/0000-0002-7777-8888> ;
@@ -3038,11 +3080,6 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:datePublished "2024-09-01" ;
     schema1:description "Hydrographic observations from repeat transects across the Labrador Sea measuring temperature, salinity, and dissolved oxygen profiles to 4000m depth. Data collected from annual winter cruises documenting deep water formation processes." ;
     schema1:distribution [ a schema1:DataDownload ;
-            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
-            schema1:contentUrl "https://example.org/data/nadw-ctd-2015-2024.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "CSV profiles export" ],
-        [ a schema1:DataDownload ;
             dcterms:conformsTo <https://cfconventions.org/> ;
             schema1:contentUrl "https://example.org/data/nadw-ctd-2015-2024.nc" ;
             schema1:description "CF-compliant NetCDF4 with all CTD profiles" ;
@@ -3051,7 +3088,12 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
             schema1:provider <https://ror.org/007hqnf44> ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "checksumAlgorithm_sha256" ;
-                    spdx:checksumValue "b3e4f5a6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4" ] ] ;
+                    spdx:checksumValue "b3e4f5a6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4" ] ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
+            schema1:contentUrl "https://example.org/data/nadw-ctd-2015-2024.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "CSV profiles export" ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:description "Long-term monitoring of physical and biological oceanographic conditions in the NW Atlantic" ;
             schema1:funder [ a schema1:Organization ;
@@ -3073,9 +3115,7 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
             schema1:termCode "TEMPPR01" ],
         "Labrador Sea",
         "deep water formation" ;
-    schema1:license [ a schema1:CreativeWork ;
-            schema1:name "Creative Commons Attribution 4.0" ;
-            schema1:url "https://creativecommons.org/licenses/by/4.0/" ] ;
+    schema1:license <https://creativecommons.org/licenses/by/4.0/> ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
             schema1:identifier "https://vocab.nerc.ac.uk/collection/L05/current/130/" ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
@@ -3085,10 +3125,14 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
     schema1:name "North Atlantic Deep Water Formation Observations 2015-2024" ;
     schema1:provider <https://ror.org/007hqnf44> ;
     schema1:publisher <https://ror.org/007hqnf44> ;
-    schema1:publishingPrinciples [ a schema1:CreativeWork ;
-            schema1:name "DFO Open Data Policy" ;
-            schema1:url "https://example.org/policies/dfo-open-data" ] ;
+    schema1:publishingPrinciples <https://example.org/policies/dfo-open-data> ;
     schema1:relatedLink [ a schema1:LinkRole ;
+            schema1:linkRelationship "service" ;
+            schema1:target [ a schema1:EntryPoint ;
+                    schema1:encodingFormat "application/x-netcdf" ;
+                    schema1:name "OPeNDAP access" ;
+                    schema1:url "https://example.org/opendap/nadw-ctd" ] ],
+        [ a schema1:LinkRole ;
             schema1:linkRelationship "documentation" ;
             schema1:target [ a schema1:EntryPoint ;
                     schema1:contentType "text/html" ;
@@ -3097,21 +3141,10 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
                     schema1:httpMethod "GET" ;
                     schema1:name "NADW Cruise Reports" ;
                     schema1:url "https://example.org/docs/nadw-cruise-reports" ;
-                    schema1:urlTemplate "https://example.org/docs/nadw-cruise-reports/{year}" ] ],
-        [ a schema1:LinkRole ;
-            schema1:linkRelationship "service" ;
-            schema1:target [ a schema1:EntryPoint ;
-                    schema1:encodingFormat "application/x-netcdf" ;
-                    schema1:name "OPeNDAP access" ;
-                    schema1:url "https://example.org/opendap/nadw-ctd" ] ] ;
+                    schema1:urlTemplate "https://example.org/docs/nadw-cruise-reports/{year}" ] ] ;
     schema1:sameAs <https://n2t.net/ark:/99999/fk4nadw2024>,
         "https://doi.org/10.5281/zenodo.42042042" ;
     schema1:spatialCoverage [ a schema1:Place ;
-            schema1:geo [ a schema1:GeoCoordinates ;
-                    schema1:latitude 5.655e+01 ;
-                    schema1:longitude -5.258e+01 ] ;
-            schema1:name "AR7W Transect Station 12" ],
-        [ a schema1:Place ;
             schema1:additionalType "ocean basin" ;
             schema1:alternateName "Labrador Sea",
                 "Mer du Labrador" ;
@@ -3125,7 +3158,12 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
                     schema1:termCode "mrgid:4287" ] ;
             geosparql:hasGeometry [ a sf:Polygon ;
                     geosparql:asWKT "POLYGON((-60 53, -45 53, -45 65, -60 65, -60 53))"^^<['geosparql:wktLiteral']> ;
-                    geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] ] ;
+                    geosparql:crs <http://www.opengis.net/def/crs/OGC/1.3/CRS84> ] ],
+        [ a schema1:Place ;
+            schema1:geo [ a schema1:GeoCoordinates ;
+                    schema1:latitude 5.655e+01 ;
+                    schema1:longitude -5.258e+01 ] ;
+            schema1:name "AR7W Transect Station 12" ] ;
     schema1:subjectOf ex:metadataRecord42 ;
     schema1:temporalCoverage [ a time:ProperInterval ;
             schema1:description "Observation period spanning 10 winter convection seasons" ;
@@ -3144,40 +3182,40 @@ ex:completeDiscoveryDataset42 a schema1:Dataset ;
         ex:varTemperature ;
     schema1:version "2.1" ;
     dqv:hasQualityMeasurement [ a dqv:QualityMeasurement ;
-            dqv:isMeasurementOf "Completeness" ;
-            dqv:value [ a schema1:DefinedTerm ;
-                    schema1:identifier "https://example.org/completeness-vocab/COMPLETE" ;
-                    schema1:inDefinedTermSet "https://example.org/completeness-vocab" ;
-                    schema1:name "Complete" ;
-                    schema1:termCode "COMPLETE" ] ],
-        [ a dqv:QualityMeasurement ;
             dqv:isMeasurementOf [ a schema1:DefinedTerm ;
                     schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPACCR/" ;
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
                     schema1:name "Temperature sensor accuracy" ;
                     schema1:termCode "TEMPACCR" ] ;
-            dqv:value "±0.001°C (ITS-90)" ] ;
+            dqv:value "±0.001°C (ITS-90)" ],
+        [ a dqv:QualityMeasurement ;
+            dqv:isMeasurementOf "Completeness" ;
+            dqv:value [ a schema1:DefinedTerm ;
+                    schema1:identifier "https://example.org/completeness-vocab/COMPLETE" ;
+                    schema1:inDefinedTermSet "https://example.org/completeness-vocab" ;
+                    schema1:name "Complete" ;
+                    schema1:termCode "COMPLETE" ] ] ;
     prov:wasDerivedFrom ex:rawCTDCasts ;
     prov:wasGeneratedBy [ a prov:Activity ;
             prov:used ex:ar7wCruiseProgram,
                 ex:sbe911PlusCTD ] .
 
 ex:datasetDOI42 a schema1:PropertyValue ;
-    schema1:propertyID "https://registry.identifiers.org/registry/doi" ;
+    schema1:propertyID <https://registry.identifiers.org/registry/doi> ;
     schema1:url "https://doi.org/10.5281/zenodo.42042042" ;
     schema1:value "10.5281/zenodo.42042042" .
 
 ex:dfoCatalogId a schema1:PropertyValue ;
-    schema1:propertyID "https://example.org/catalog-registry" ;
+    schema1:propertyID ex:catalog-registry ;
     schema1:value "dfo-ocean-catalog-001" .
 
 ex:dfoRor a schema1:PropertyValue ;
-    schema1:propertyID "https://registry.identifiers.org/registry/ror" ;
+    schema1:propertyID <https://registry.identifiers.org/registry/ror> ;
     schema1:url "https://ror.org/007hqnf44" ;
     schema1:value "007hqnf44" .
 
 ex:lozierOrcid a schema1:PropertyValue ;
-    schema1:propertyID "https://registry.identifiers.org/registry/orcid" ;
+    schema1:propertyID <https://registry.identifiers.org/registry/orcid> ;
     schema1:url "https://orcid.org/0000-0002-7777-8888" ;
     schema1:value "0000-0002-7777-8888" .
 
@@ -3185,15 +3223,11 @@ ex:metadataRecord42 a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
         <https://w3id.org/cdif/discovery/1.1> ;
     schema1:about ex:completeDiscoveryDataset42 ;
-    schema1:additionalType "dcat:CatalogRecord" ;
+    schema1:additionalType dcat:CatalogRecord ;
     schema1:dateModified "2025-03-12" ;
     schema1:includedInDataCatalog <https://example.org/catalog/dfo-ocean-data> ;
     schema1:maintainer <https://orcid.org/0000-0003-4444-5555> ;
     schema1:sdDatePublished "2024-09-05" .
-
-ex:rawCTDCasts a schema1:Dataset ;
-    schema1:name "AR7W Raw CTD Cast Data" ;
-    schema1:url "https://example.org/data/ar7w-raw" .
 
 ex:varOxygen a schema1:PropertyValue ;
     schema1:description "Dissolved oxygen concentration from SBE 43 sensor" ;
@@ -3229,7 +3263,7 @@ ex:varTemperature a schema1:PropertyValue ;
     schema1:url "https://example.org/variables/sea-water-temp" .
 
 ex:yashayaevOrcid a schema1:PropertyValue ;
-    schema1:propertyID "https://registry.identifiers.org/registry/orcid" ;
+    schema1:propertyID <https://registry.identifiers.org/registry/orcid> ;
     schema1:url "https://orcid.org/0000-0001-5555-6666" ;
     schema1:value "0000-0001-5555-6666" .
 
@@ -3294,8 +3328,8 @@ x-jsonld-prefixes:
   spdx: http://spdx.org/rdf/terms#
   time: http://www.w3.org/2006/time#
   skos: http://www.w3.org/2004/02/skos/core#
-  xas: https://xas.org/dictionary/
-  nxs: http://purl.org/nexusformat/definitions/
+  xas: https://w3id.org/cdif/xas/
+  nxs: https://manual.nexusformat.org/classes/
   prov: http://www.w3.org/ns/prov#
 
 ```
@@ -3323,8 +3357,8 @@ Links to the schema:
     "geosparql": "http://www.opengis.net/ont/geosparql#",
     "spdx": "http://spdx.org/rdf/terms#",
     "time": "http://www.w3.org/2006/time#",
-    "xas": "https://xas.org/dictionary/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
+    "xas": "cdif:xas/",
+    "nxs": "https://manual.nexusformat.org/classes/",
     "@version": 1.1
   }
 }

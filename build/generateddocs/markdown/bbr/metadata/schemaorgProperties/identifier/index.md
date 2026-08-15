@@ -79,8 +79,12 @@ Identifier instance exercising all properties: propertyID, value, and url.
     "schema": "http://schema.org/",
     "ex": "https://example.org/"
   },
-  "@type": ["schema:PropertyValue"],
-  "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+  "@type": [
+    "schema:PropertyValue"
+  ],
+  "schema:propertyID": {
+    "@id": "https://registry.identifiers.org/registry/doi"
+  },
   "schema:value": "10.5281/zenodo.1234567",
   "schema:url": "https://doi.org/10.5281/zenodo.1234567"
 }
@@ -103,7 +107,9 @@ Identifier instance exercising all properties: propertyID, value, and url.
   "@type": [
     "schema:PropertyValue"
   ],
-  "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+  "schema:propertyID": {
+    "@id": "https://registry.identifiers.org/registry/doi"
+  },
   "schema:value": "10.5281/zenodo.1234567",
   "schema:url": "https://doi.org/10.5281/zenodo.1234567"
 }
@@ -114,7 +120,7 @@ Identifier instance exercising all properties: propertyID, value, and url.
 @prefix schema1: <http://schema.org/> .
 
 [] a schema1:PropertyValue ;
-    schema1:propertyID "https://registry.identifiers.org/registry/doi" ;
+    schema1:propertyID <https://registry.identifiers.org/registry/doi> ;
     schema1:url "https://doi.org/10.5281/zenodo.1234567" ;
     schema1:value "10.5281/zenodo.1234567" .
 
@@ -150,10 +156,20 @@ properties:
       const: schema:PropertyValue
     minItems: 1
   schema:propertyID:
-    type: string
+    anyOf:
+    - type: string
+    - type: object
+      additionalProperties: false
+      required:
+      - '@id'
+      properties:
+        '@id':
+          type: string
     description: In this context for the schema:PropertyValue, this field is an identifier
       for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
-      for interoperability
+      for interoperability. URI-shape values MUST be serialized as JSON-LD IRI references
+      ({"@id":"..."}) so they participate in RDF entailment; free-label strings remain
+      valid as strings.
     x-jsonld-id: http://schema.org/propertyID
   schema:value:
     type: string

@@ -1,5 +1,6 @@
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://example.org/struct/vitalsWide> a cdi:WideDataStructure ;
     cdi:has_DataStructureComponent <https://example.org/struct/vitalsWide/comp/diastolicBP>,
@@ -25,33 +26,30 @@
     cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsWide/rv/systolicBP> .
 
 <https://example.org/struct/vitalsWide/pk> a cdif:PrimaryKey ;
-    cdif:isComposedOf <https://example.org/var/patientId> .
+    cdif:isComposedOf [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/patientId> ;
+            cdi:value 1 ] .
 
 <https://example.org/struct/vitalsWide/rv/diastolicBP> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:integer" ] ;
+    cdi:hasIntendedDataType "xsd:integer" ;
     cdi:simpleUnitOfMeasure "mmHg" ;
     cdif:name "diastolic_bp" .
 
 <https://example.org/struct/vitalsWide/rv/heartRate> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:integer" ] ;
+    cdi:hasIntendedDataType "xsd:integer" ;
     cdi:simpleUnitOfMeasure "bpm" ;
     cdif:name "heart_rate" .
 
 <https://example.org/struct/vitalsWide/rv/observedAt> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:dateTime" ] ;
+    cdi:hasIntendedDataType "xsd:dateTime" ;
     cdif:name "observed_at" .
 
 <https://example.org/struct/vitalsWide/rv/patientId> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:string" ] ;
+    cdi:hasIntendedDataType "xsd:string" ;
     cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsWide/rv/systolicBP> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:integer" ] ;
+    cdi:hasIntendedDataType "xsd:integer" ;
     cdi:simpleUnitOfMeasure "mmHg" ;
     cdif:name "systolic_bp" .
 

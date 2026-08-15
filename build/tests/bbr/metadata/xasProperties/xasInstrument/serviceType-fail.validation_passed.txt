@@ -1,5 +1,5 @@
 Validation report for cdif.bbr.metadata.xasProperties.xasInstrument - XAS Instrument
-Generated 2026-07-03T21:56:25.879052+00:00
+Generated 2026-08-15T00:09:08.555578+00:00
 === General ===
 Test was expected to fail and it did.
 === End General ===
@@ -41,7 +41,11 @@ Failed validating 'required' in schema['allOf'][0]:
                                                       'schema:additionalType': {'description': 'Component '
                                                                                                'type '
                                                                                                'classification.',
-                                                                                'items': {'type': 'string'},
+                                                                                'items': {'anyOf': [{'type': 'string'},
+                                                                                                    {'additionalProperties': False,
+                                                                                                     'properties': {'@id': {'type': 'string'}},
+                                                                                                     'required': ['@id'],
+                                                                                                     'type': 'object'}]},
                                                                                 'type': 'array',
                                                                                 'x-jsonld-id': 'http://schema.org/additionalType'},
                                                       'schema:alternateName': {'items': {'type': 'string'},
@@ -55,7 +59,11 @@ Failed validating 'required' in schema['allOf'][0]:
                                                       'schema:manufacturer': {'$ref': '#/$defs/Organization',
                                                                               'x-jsonld-id': 'http://schema.org/manufacturer'},
                                                       'schema:model': {'properties': {'@type': {'contains': {'const': 'schema:ProductModel'},
-                                                                                                'items': {'type': 'string'},
+                                                                                                'items': {'anyOf': [{'type': 'string'},
+                                                                                                                    {'additionalProperties': False,
+                                                                                                                     'properties': {'@id': {'type': 'string'}},
+                                                                                                                     'required': ['@id'],
+                                                                                                                     'type': 'object'}]},
                                                                                                 'minItems': 1,
                                                                                                 'type': 'array'},
                                                                                       'schema:identifier': {'anyOf': [{'type': 'string'},
@@ -63,12 +71,13 @@ Failed validating 'required' in schema['allOf'][0]:
                                                                                                             'x-jsonld-id': 'http://schema.org/identifier'},
                                                                                       'schema:name': {'type': 'string',
                                                                                                       'x-jsonld-id': 'http://schema.org/name'}},
+                                                                       'required': ['@type'],
                                                                        'type': 'object',
                                                                        'x-jsonld-id': 'http://schema.org/model'},
                                                       'schema:name': {'minLength': 3,
                                                                       'type': 'string',
                                                                       'x-jsonld-id': 'http://schema.org/name'}},
-                                       'required': ['schema:name'],
+                                       'required': ['@type', 'schema:name'],
                                        'type': 'object'},
                'Organization': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/organization/schema.yaml'},
                'Person': {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/person/schema.yaml'},
@@ -125,7 +134,11 @@ Failed validating 'required' in schema['allOf'][0]:
                                                              'for Wikidata '
                                                              'scientific '
                                                              'instrument).',
-                                              'items': {'type': 'string'},
+                                              'items': {'anyOf': [{'type': 'string'},
+                                                                  {'additionalProperties': False,
+                                                                   'properties': {'@id': {'type': 'string'}},
+                                                                   'required': ['@id'],
+                                                                   'type': 'object'}]},
                                               'minItems': 1,
                                               'type': 'array',
                                               'x-jsonld-id': 'http://schema.org/additionalType'},
@@ -136,7 +149,11 @@ Failed validating 'required' in schema['allOf'][0]:
                                                             'designation, '
                                                             'common '
                                                             'abbreviation.',
-                                             'items': {'type': 'string'},
+                                             'items': {'anyOf': [{'type': 'string'},
+                                                                 {'additionalProperties': False,
+                                                                  'properties': {'@id': {'type': 'string'}},
+                                                                  'required': ['@id'],
+                                                                  'type': 'object'}]},
                                              'type': 'array',
                                              'x-jsonld-id': 'http://schema.org/alternateName'},
                     'schema:category': {'description': 'Instrument type '
@@ -178,7 +195,8 @@ Failed validating 'required' in schema['allOf'][0]:
                                                       'description or an '
                                                       '@id reference.',
                                        'items': {'anyOf': [{'$ref': '#/$defs/InstrumentComponent'},
-                                                           {'properties': {'@id': {'description': 'Reference '
+                                                           {'additionalProperties': False,
+                                                            'properties': {'@id': {'description': 'Reference '
                                                                                                   'to '
                                                                                                   'a '
                                                                                                   'sub-component '
@@ -229,7 +247,7 @@ Failed validating 'required' in schema['allOf'][0]:
                                                                                    'number.',
                                                                     'type': 'string',
                                                                     'x-jsonld-id': 'http://schema.org/name'}},
-                                     'required': ['schema:name'],
+                                     'required': ['@type', 'schema:name'],
                                      'type': 'object',
                                      'x-jsonld-id': 'http://schema.org/model'},
                     'schema:name': {'description': 'Human-readable name '
@@ -270,16 +288,20 @@ Failed validating 'required' in schema['allOf'][0]:
                                                                                               'conforms '
                                                                                               'to.',
                                                                                'items': {'anyOf': [{'type': 'string'},
-                                                                                                   {'properties': {'@id': {'type': 'string'}},
+                                                                                                   {'additionalProperties': False,
+                                                                                                    'properties': {'@id': {'type': 'string'}},
+                                                                                                    'required': ['@id'],
                                                                                                     'type': 'object'}]},
                                                                                'type': 'array'},
-                                                        'schema:about': {'properties': {'@id': {'description': 'Reference '
+                                                        'schema:about': {'additionalProperties': False,
+                                                                         'properties': {'@id': {'description': 'Reference '
                                                                                                                'back '
                                                                                                                'to '
                                                                                                                'the '
                                                                                                                'instrument '
                                                                                                                '@id.',
                                                                                                 'type': 'string'}},
+                                                                         'required': ['@id'],
                                                                          'type': 'object',
                                                                          'x-jsonld-id': 'http://schema.org/about'},
                                                         'schema:dateModified': {'description': 'Date '
@@ -293,6 +315,7 @@ Failed validating 'required' in schema['allOf'][0]:
                                                                                                '8601).',
                                                                                 'type': 'string',
                                                                                 'x-jsonld-id': 'http://schema.org/dateModified'}},
+                                         'required': ['@type'],
                                          'type': 'object',
                                          'x-jsonld-id': 'http://schema.org/subjectOf'},
                     'schema:url': {'description': 'Landing page URL for '
@@ -318,7 +341,8 @@ Failed validating 'required' in schema['allOf'][0]:
      'required': ['@type', 'schema:name'],
      'title': 'Instrument Description',
      'type': 'object',
-     'x-jsonld-prefixes': {'schema': 'http://schema.org/'}}
+     'x-jsonld-prefixes': {'schema': 'http://schema.org/',
+                           'wd': 'https://www.wikidata.org/entity/'}}
 
 On instance:
     {'@context': {'ex': 'https://example.org/',
@@ -349,7 +373,7 @@ On instance:
                                                                                                       'the '
                                                                                                       'sample',
                                                                                 'schema:name': 'temperature',
-                                                                                'schema:propertyID': 'http://qudt.org/defs/temperature'},
+                                                                                'schema:propertyID': {'@id': 'http://qudt.org/defs/temperature'}},
                                                                                {'@id': 'ex:definedTerm_zZc',
                                                                                 '@type': 'schema:DefinedTerm',
                                                                                 'schema:identifier': {'@type': 'schema:PropertyValue',
@@ -488,40 +512,32 @@ Validation result for _sources/schemaorgProperties/instrument/rules.shacl:
 Focus nodes for _sources/schemaorgProperties/instrument/rules.shacl:
  - Shape cdifd:instrumentNode: *none*
 
-Validation result for _sources/schemaorgProperties/additionalProperty/rules.shacl:
+Validation result for _sources/schemaorgProperties/organization/rules.shacl:
   Validation Report
   Conforms: True
   
-Focus nodes for _sources/schemaorgProperties/additionalProperty/rules.shacl:
- - Shape cdifd:CDIFAddPropertyTermShape/sh:property/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFAddPropertyTermShape: *none*
- - Shape cdifd:CDIFadditionalPropertyShape: *none*
- - Shape _:n9d20930fd1ad4f3aa216e7c14a0f728db19: *none*
- - Shape _:n9d20930fd1ad4f3aa216e7c14a0f728db15: *none*
- - Shape _:n9d20930fd1ad4f3aa216e7c14a0f728db7: *none*
- - Shape _:n9d20930fd1ad4f3aa216e7c14a0f728db17: *none*
- - Shape _:n9d20930fd1ad4f3aa216e7c14a0f728db6: *none*
- - Shape cdifd:CDIFadditionalPropertyShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n9d20930fd1ad4f3aa216e7c14a0f728db14: *none*
- - Shape _:n9d20930fd1ad4f3aa216e7c14a0f728db16: *none*
+Focus nodes for _sources/schemaorgProperties/organization/rules.shacl:
+ - Shape cdifd:CDIFOrganizationShape: *none*
+ - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:rest/rdf:first: *none*
 
 Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
- - Shape _:n78d0c6de602740d0a01c79e8f5e89a5bb26: *none*
- - Shape _:n78d0c6de602740d0a01c79e8f5e89a5bb8: *none*
- - Shape _:n78d0c6de602740d0a01c79e8f5e89a5bb19: *none*
- - Shape _:n78d0c6de602740d0a01c79e8f5e89a5bb7: *none*
- - Shape cdifd:CDIFDefinedTermShape: *none*
- - Shape _:n78d0c6de602740d0a01c79e8f5e89a5bb10: *none*
+ - Shape _:n7c43a3ad868b4ad48105bfe58f32e4a2b8: *none*
+ - Shape _:n7c43a3ad868b4ad48105bfe58f32e4a2b19: *none*
+ - Shape _:n7c43a3ad868b4ad48105bfe58f32e4a2b10: *none*
+ - Shape _:n7c43a3ad868b4ad48105bfe58f32e4a2b6: *none*
+ - Shape _:n7c43a3ad868b4ad48105bfe58f32e4a2b5: *none*
  - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n78d0c6de602740d0a01c79e8f5e89a5bb5: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
- - Shape _:n78d0c6de602740d0a01c79e8f5e89a5bb4: *none*
- - Shape _:n78d0c6de602740d0a01c79e8f5e89a5bb6: *none*
+ - Shape cdifd:CDIFDefinedTermShape: *none*
  - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n7c43a3ad868b4ad48105bfe58f32e4a2b26: *none*
+ - Shape _:n7c43a3ad868b4ad48105bfe58f32e4a2b4: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape _:n7c43a3ad868b4ad48105bfe58f32e4a2b7: *none*
 
 
 ** Validation error **
@@ -537,45 +553,19 @@ Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
   	Message: Less than 1 values on [ rdf:type schema1:PropertyValue ; schema1:url Literal("http://ogc.org/defs/g35408y") ; schema1:value Literal("g35408y") ]->schema1:propertyID
   
 Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
- - Shape cdifd:CDIFIdentifierShape: *none*
- - Shape _:nbf7ad863c3294334987eb0231916cd00b21: *none*
- - Shape _:nbf7ad863c3294334987eb0231916cd00b22: *none*
- - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape _:ne5b776a30fc642b39ff2a770a4397a13b21: *none*
+ - Shape _:ne5b776a30fc642b39ff2a770a4397a13b20: *none*
+ - Shape _:ne5b776a30fc642b39ff2a770a4397a13b25: *none*
+ - Shape _:ne5b776a30fc642b39ff2a770a4397a13b11: *none*
+ - Shape _:ne5b776a30fc642b39ff2a770a4397a13b23: *none*
  - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
- - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:nbf7ad863c3294334987eb0231916cd00b20: *none*
- - Shape _:nbf7ad863c3294334987eb0231916cd00b10: *none*
- - Shape _:nbf7ad863c3294334987eb0231916cd00b11: *none*
  - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:nbf7ad863c3294334987eb0231916cd00b25: *none*
+ - Shape _:ne5b776a30fc642b39ff2a770a4397a13b10: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:ne5b776a30fc642b39ff2a770a4397a13b22: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierShape: *none*
  - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:nbf7ad863c3294334987eb0231916cd00b23: *none*
-
-Validation result for _sources/schemaorgProperties/organization/rules.shacl:
-  Validation Report
-  Conforms: True
-  
-Focus nodes for _sources/schemaorgProperties/organization/rules.shacl:
- - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFOrganizationShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:CDIFOrganizationShape: *none*
-
-Validation result for _sources/schemaorgProperties/person/rules.shacl:
-  Validation Report
-  Conforms: True
-  
-Focus nodes for _sources/schemaorgProperties/person/rules.shacl:
- - Shape cdifd:maintainerOrProviderContactPointShape: *none*
- - Shape cdifd:contactPointProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:CDIFPersonShape/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFPersonShape: *none*
- - Shape _:n265e132bd1874b04b6b0ad5e8f1e1130b14: *none*
- - Shape cdifd:CDIFPersonShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:affiliationProperty/sh:or/rdf:first: *none*
- - Shape cdifd:affiliationProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:contactPointProperty/sh:or/rdf:first: *none*
- - Shape cdifd:maintainerOrProviderContactPointShape/sh:property/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFContactPointShape: *none*
 
 Validation result for _sources/cdifDataType/cdifReference/rules.shacl:
   Validation Report
@@ -589,28 +579,72 @@ Validation result for _sources/schemaorgProperties/labeledLink/rules.shacl:
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/labeledLink/rules.shacl:
- - Shape cdifd:CDIFLabeledLinkShape: ex:exampleWebAPI_354btrh/schema1:termsOfService,ex:exampleWebAPI_354btrh/schema1:documentation
+ - Shape cdifd:CDIFLabeledLinkShape: ex:exampleWebAPI_354btrh/schema1:documentation,ex:exampleWebAPI_354btrh/schema1:termsOfService
 
 Validation result for _sources/schemaorgProperties/agentInRole/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/agentInRole/rules.shacl:
- - Shape _:n30ee0ab6ea0a463281fefa3428ca9d9ab4: *none*
- - Shape _:n30ee0ab6ea0a463281fefa3428ca9d9ab3: *none*
- - Shape _:n30ee0ab6ea0a463281fefa3428ca9d9ab15: *none*
- - Shape cdifd:CDIFDefinedTermShape: ex:definedTerm_zZc
- - Shape _:n30ee0ab6ea0a463281fefa3428ca9d9ab18: *none*
- - Shape _:n30ee0ab6ea0a463281fefa3428ca9d9ab17: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
- - Shape _:n30ee0ab6ea0a463281fefa3428ca9d9ab14: *none*
- - Shape cdifd:roleNameProperty/sh:or/rdf:rest/rdf:first: *none*
- - Shape cdifd:CDIFRoleShape: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n30ee0ab6ea0a463281fefa3428ca9d9ab16: *none*
- - Shape _:n30ee0ab6ea0a463281fefa3428ca9d9ab20: *none*
+ - Shape _:n8d20d68e8dc44c26a5c25531a4fef264b15: *none*
  - Shape cdifd:CDIFRoleShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n8d20d68e8dc44c26a5c25531a4fef264b17: *none*
  - Shape cdifd:roleNameProperty/sh:or/rdf:first: *none*
+ - Shape _:n8d20d68e8dc44c26a5c25531a4fef264b20: *none*
+ - Shape cdifd:CDIFDefinedTermShape: ex:definedTerm_zZc
+ - Shape _:n8d20d68e8dc44c26a5c25531a4fef264b16: *none*
+ - Shape cdifd:CDIFRoleShape: *none*
+ - Shape _:n8d20d68e8dc44c26a5c25531a4fef264b18: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n8d20d68e8dc44c26a5c25531a4fef264b3: *none*
+ - Shape cdifd:roleNameProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n8d20d68e8dc44c26a5c25531a4fef264b14: *none*
+ - Shape _:n8d20d68e8dc44c26a5c25531a4fef264b4: *none*
+
+Validation result for _sources/schemaorgProperties/person/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/person/rules.shacl:
+ - Shape cdifd:affiliationProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFContactPointShape: *none*
+ - Shape cdifd:CDIFPersonShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFPersonShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:nb27e44536bf34f2395e01c7ca0bf7a87b14: *none*
+ - Shape cdifd:contactPointProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:affiliationProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape cdifd:maintainerOrProviderContactPointShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFPersonShape: *none*
+ - Shape cdifd:contactPointProperty/sh:or/rdf:first: *none*
+ - Shape cdifd:maintainerOrProviderContactPointShape: *none*
+
+Validation result for _sources/schemaorgProperties/additionalProperty/rules.shacl:
+  Validation Report
+  Conforms: True
+  
+Focus nodes for _sources/schemaorgProperties/additionalProperty/rules.shacl:
+ - Shape _:nd2911362387d432b9c1d842d2b7b82c6b6: *none*
+ - Shape cdifd:CDIFAddPropertyTermShape: *none*
+ - Shape _:nd2911362387d432b9c1d842d2b7b82c6b28: *none*
+ - Shape _:nd2911362387d432b9c1d842d2b7b82c6b29: *none*
+ - Shape _:nd2911362387d432b9c1d842d2b7b82c6b14: *none*
+ - Shape cdifd:AdditionalTypeUriShouldBeIRIShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:nd2911362387d432b9c1d842d2b7b82c6b33: *none*
+ - Shape _:nd2911362387d432b9c1d842d2b7b82c6b13: *none*
+ - Shape cdifd:CDIFadditionalPropertyShape: *none*
+ - Shape cdifd:PropertyIDUriShouldBeIRIShape: <http://qudt.org/defs/temperature>
+ - Shape _:nd2911362387d432b9c1d842d2b7b82c6b30: *none*
+ - Shape cdifd:AdditionalTypeUriShouldBeIRIShape/sh:or/rdf:first: *none*
+ - Shape cdifd:AdditionalTypeUriShouldBeIRIShape: *none*
+ - Shape _:nd2911362387d432b9c1d842d2b7b82c6b21: *none*
+ - Shape cdifd:PropertyIDUriShouldBeIRIShape/sh:or/rdf:first: *none*
+ - Shape _:nd2911362387d432b9c1d842d2b7b82c6b7: *none*
+ - Shape cdifd:PropertyIDUriShouldBeIRIShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:nd2911362387d432b9c1d842d2b7b82c6b31: *none*
+ - Shape cdifd:CDIFadditionalPropertyShape/sh:property/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFAddPropertyTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nd2911362387d432b9c1d842d2b7b82c6b20: *none*
 
 === End SHACL ===
 

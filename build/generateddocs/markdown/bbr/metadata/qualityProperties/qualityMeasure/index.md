@@ -40,7 +40,9 @@ Example quality measure
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://standards.iso.org/iso/19157/qualityResult",
+      "schema:propertyID": {
+        "@id": "https://standards.iso.org/iso/19157/qualityResult"
+      },
       "schema:value": "conformant",
       "schema:url": "http://example.com/resource?foo=bar#fragment"
     },
@@ -81,7 +83,9 @@ Example quality measure
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://standards.iso.org/iso/19157/qualityResult",
+      "schema:propertyID": {
+        "@id": "https://standards.iso.org/iso/19157/qualityResult"
+      },
       "schema:value": "conformant",
       "schema:url": "http://example.com/resource?foo=bar#fragment"
     },
@@ -104,7 +108,7 @@ Example quality measure
             schema1:termCode "DQ_AbsoluteExternalPositionalAccuracy" ] ;
     ns1:value [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://standards.iso.org/iso/19157/qualityResult" ;
+                    schema1:propertyID <https://standards.iso.org/iso/19157/qualityResult> ;
                     schema1:url "http://example.com/resource?foo=bar#fragment" ;
                     schema1:value "conformant" ] ;
             schema1:inDefinedTermSet "https://standards.iso.org/iso/19157/conformanceResult" ;
@@ -134,6 +138,9 @@ properties:
     anyOf:
     - type: string
     - type: object
+      required:
+      - '@id'
+      additionalProperties: false
       properties:
         '@id':
           type: string

@@ -33,9 +33,6 @@ vocabulary (here, a NERC P01 parameter).
 #### json
 ```json
 {
-  "@context": {
-    "schema": "http://schema.org/"
-  },
   "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
 }
 
@@ -48,10 +45,7 @@ vocabulary (here, a NERC P01 parameter).
     {
       "schema": "http://schema.org/"
     },
-    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/context.jsonld",
-    {
-      "schema": "http://schema.org/"
-    }
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/context.jsonld"
   ],
   "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
 }
@@ -182,6 +176,9 @@ description: A SKOS concept identified by URI, a schema:DefinedTerm, or an inlin
   reference or an inline concept definition.
 anyOf:
 - type: object
+  required:
+  - '@id'
+  additionalProperties: false
   properties:
     '@id':
       type: string

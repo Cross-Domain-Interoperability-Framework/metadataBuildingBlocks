@@ -1,25 +1,53 @@
 
 # Optional Fields for XAS data (Schema)
 
-`cdif.bbr.metadata.xasProperties.xasOptional` *v0.1*
+`cdif.bbr.metadata.xasProperties.xasOptional` *v1.0*
 
-Optional XAS metadata extending CDIF mandatory with cdifProvActivity-based provenance. Includes XAS subject descriptors, instrument wrappers, XDI-conformant distribution, measurement technique DefinedTerms, and element/edge keywords. Defines properties: schema:subjectOf, prov:wasGeneratedBy, schema:distribution, schema:measurementTechnique, schema:keywords. Uses building blocks: cdifCore (cdifProfile), cdifProvActivity (cdifDataType), definedTerm (schemaorgProperties), additionalProperty (schemaorgProperties), dataDownload (schemaorgProperties), xasSample (xasProperties), cdifCatalogRecord (cdifDataType).
+Genuinely-optional XAS fields layered on cdifCore (no requirements). Permits and documents optional XAS content: schema:variableMeasured XAS data-array InstanceVariables, plus the optional beamline-operational and sample physico-chemical additionalProperty vocabularies (see description.md). Defines properties: schema:variableMeasured. Uses building blocks: cdifInstanceVariable (cdifDataType).
 
-[*Status*](http://www.opengis.net/def/status): Under development
+[*Status*](http://www.opengis.net/def/status): Stable
 
 ## Description
 
-## Optional Fields for XAS data
+## Optional XAS metadata fields
 
-Extends CDIF mandatory metadata with optional XAS-specific properties. Composes cdifCore with cdifProvActivity-based provenance (via xasGeneratedBy pattern), XAS subject descriptors, data distribution with XDI conformance, measurement technique DefinedTerms, and element/edge keywords.
+Genuinely-optional X-ray absorption spectroscopy (XAS) properties layered on `cdifCore`.
+This module adds **no requirements** — it documents and permits optional XAS content that
+appears only when the corresponding measurements exist. It is composed once by the `xasDocument`
+profile alongside the required-constraints module `xasCore`.
 
-### Key properties
+### 1. Data-array variables (`schema:variableMeasured`)
 
-- **schema:subjectOf** — XAS subject descriptors (element, edge)
-- **prov:wasGeneratedBy** — cdifProvActivity activity extended with XAS instrument wrappers (source, monochromator with d-spacing/reflection), sample object, and facility
-- **schema:distribution** — data download with XDI specification conformance
-- **schema:measurementTechnique** — DefinedTerms for XAS technique and measurement mode
-- **schema:keywords** — DefinedTerms for absorption edge (XDI dictionary) and target element (SWEET ontology)
+Optional `cdi:InstanceVariable` / `schema:PropertyValue` items describing the columns of an
+XDI data array. Enforced by this schema when present (as `schema:variableMeasured` items):
+
+`energy`, `i0`, `itrans`, `ifluor`, `irefer`, `mutrans`, `mufluor`, `murefer`,
+`normtrans`, `normfluor`, `normrefer`, `chi`, `chi_re`, `chi_im`, `chi_mag`, `chi_pha`,
+`k`, `r`, `angle`.
+
+### 2. Beamline-operational parameters (`schema:additionalProperty` on the `xas:Beamline` entity)
+
+Optional `schema:PropertyValue` entries carried on the beamline entity nested inside
+`prov:wasGeneratedBy → prov:used[schema:instrument … xas:Beamline]`. Permitted `schema:propertyID`
+values (open-world — other propertyIDs are also allowed):
+
+`xas:flux`, `xas:spot_size`, `xas:website`, `xas:energy_range`, `xas:energy_resolution`,
+`xas:scan_mode`.
+
+### 3. Sample physico-chemical parameters (`schema:additionalProperty` on the `schema:object` sample)
+
+Optional `schema:PropertyValue` entries carried on the material sample
+(`prov:wasGeneratedBy → schema:object`, an `xasSample`). Permitted `schema:propertyID` values
+(open-world):
+
+`xas:temperature`, `xas:pressure`, `xas:ph`, `xas:eh`, `xas:concentration`, `xas:density`,
+`xas:viscosity`, `xas:porosity`, `xas:opacity`, `xas:resistivity`, `xas:magnetic_field`,
+`xas:magnetic_moment`, `xas:electric_field`, `xas:electrochemical_potential`, `xas:volume`.
+
+> Groups 2 and 3 are documented here rather than constrained in the schema: CDIF is open-world,
+> so these optional `additionalProperty` entries are already permitted, and a hard schema
+> constraint on their `propertyID` would either be a no-op or wrongly reject other valid
+> additional properties. The vocabularies above are the recommended XAS `propertyID`s.
 
 ## Examples
 
@@ -34,275 +62,22 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
     "geosparql": "http://www.opengis.net/ont/geosparql#",
     "spdx": "http://spdx.org/rdf/terms#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "time": "http://www.w3.org/2006/time#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xas": "https://w3id.org/cdif/xas/",
+    "nxs": "https://manual.nexusformat.org/classes/",
     "prov": "http://www.w3.org/ns/prov#",
-    "xas": "https://xas.org/dictionary/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
+    "csvw": "http://www.w3.org/ns/csvw#",
     "dcat": "http://www.w3.org/ns/dcat#"
   },
-  "@id": "ex:xasOptionalExample_001",
+  "@id": "xas:exampleOptionalFields",
   "@type": [
     "schema:Dataset",
     "schema:Product"
   ],
-  "schema:name": "XAS measurement of Fe K-edge in magnetite sample",
-  "schema:identifier": {
-    "@type": [
-      "schema:PropertyValue"
-    ],
-    "schema:propertyID": "https://doi.org",
-    "schema:value": "10.12345/xas-optional-test",
-    "schema:url": "https://doi.org/10.12345/xas-optional-test"
-  },
-  "schema:dateModified": "2026-01-15",
-  "schema:license": [
-    "https://creativecommons.org/licenses/by/4.0/"
-  ],
-  "schema:distribution": [
-    {
-      "@id": "ex:dist_xdi_001",
-      "@type": [
-        "schema:DataDownload",
-        "cdi:PhysicalDataset"
-      ],
-      "schema:name": "XDI data file for Fe K-edge magnetite",
-      "schema:contentUrl": "https://example.org/data/fe_magnetite_kedge_01.xdi",
-      "schema:encodingFormat": [
-        "text/plain"
-      ],
-      "dcterms:conformsTo": [
-        {
-          "@id": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md"
-        }
-      ],
-      "spdx:checksum": {
-        "@type": [
-          "spdx:Checksum"
-        ],
-        "spdx:algorithm": "SHA256",
-        "spdx:checksumValue": "a1b2c3d4e5f6"
-      }
-    }
-  ],
-  "schema:subjectOf": {
-    "@type": [
-      "schema:Dataset"
-    ],
-    "schema:additionalType": [
-      "dcat:CatalogRecord"
-    ],
-    "@id": "ex:meta_xasOpt_001",
-    "schema:about": {
-      "@id": "ex:xasOptionalExample_001"
-    },
-    "dcterms:conformsTo": [
-      {
-        "@id": "https://w3id.org/cdif/core/1.1"
-      },
-      {
-        "@id": "https://w3id.org/cdif/discovery/1.1"
-      },
-      {
-        "@id": "https://w3id.org/cdif/xasDiscovery/1.0"
-      },
-      {
-        "@id": "https://w3id.org/cdif/bbr/metadata/xasProperties/xasOptional"
-      },
-      {
-        "@id": "https://w3id.org/cdif/data_description/1.1"
-      },
-      {
-        "@id": "https://w3id.org/cdif/xasCore/1.0"
-      }
-    ],
-    "schema:maintainer": {
-      "@id": "ex:person_jdoe",
-      "@type": [
-        "schema:Person"
-      ],
-      "schema:name": "Doe, Jane",
-      "schema:contactPoint": {
-        "@type": [
-          "schema:ContactPoint"
-        ],
-        "schema:email": "jane.doe@example.org"
-      }
-    },
-    "schema:sdDatePublished": "2026-01-20T10:00:00Z"
-  },
-  "prov:wasGeneratedBy": [
-    {
-      "prov:used": [
-        {
-          "schema:instrument": {
-            "@type": [
-              "schema:Thing",
-              "schema:Product"
-            ],
-            "schema:name": "APS Sector 20-BM beamline instrument",
-            "schema:category": [
-              {
-                "@type": [
-                  "schema:DefinedTerm"
-                ],
-                "schema:name": "X-ray absorption spectroscopy beamline",
-                "schema:termCode": "XAS-beamline"
-              }
-            ],
-            "schema:hasPart": [
-              {
-                "@type": [
-                  "schema:Thing",
-                  "schema:Product"
-                ],
-                "schema:additionalType": "nxs:BaseClass/NXsource",
-                "schema:name": "APS Undulator A",
-                "schema:additionalProperty": [
-                  {
-                    "@type": [
-                      "schema:PropertyValue"
-                    ],
-                    "schema:propertyID": [
-                      "nxs:Field/NXsource/type"
-                    ],
-                    "schema:name": "x-ray source type",
-                    "schema:value": "Synchrotron X-ray Source"
-                  },
-                  {
-                    "@type": [
-                      "schema:PropertyValue"
-                    ],
-                    "schema:propertyID": [
-                      "nxs:Field/NXsource/probe"
-                    ],
-                    "schema:name": "Probe",
-                    "schema:value": "x-ray"
-                  }
-                ]
-              },
-              {
-                "@type": [
-                  "schema:Thing",
-                  "schema:Product"
-                ],
-                "schema:additionalType": "nxs:BaseClass/NXmonochromator",
-                "schema:name": "Si 311",
-                "schema:additionalProperty": [
-                  {
-                    "@type": [
-                      "schema:PropertyValue"
-                    ],
-                    "schema:propertyID": [
-                      "nxs:Field/NXcrystal/d_spacing"
-                    ],
-                    "schema:name": "d-spacing",
-                    "schema:value": "1.63747",
-                    "schema:unitText": "Angstrom"
-                  },
-                  {
-                    "@type": [
-                      "schema:PropertyValue"
-                    ],
-                    "schema:propertyID": [
-                      "nxs:Field/NXcrystal/type"
-                    ],
-                    "schema:name": "crystal type",
-                    "schema:value": "channel-cut"
-                  },
-                  {
-                    "@type": [
-                      "schema:PropertyValue"
-                    ],
-                    "schema:propertyID": [
-                      "nxs:Field/NXcrystal/reflection"
-                    ],
-                    "schema:name": "reflection plane (hkl)",
-                    "schema:value": "3,1,1"
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ],
-      "schema:object": {
-        "@type": [
-          "schema:Product",
-          "schema:Thing"
-        ],
-        "schema:additionalType": [
-          "MaterialSample",
-          "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-        ],
-        "schema:name": "Magnetite powder",
-        "schema:identifier": "igsn:10.60471/mag-001",
-        "schema:description": "Synthetic magnetite powder, 99.5% purity",
-        "schema:additionalProperty": [
-          {
-            "@type": [
-              "schema:PropertyValue"
-            ],
-            "schema:propertyID": [
-              "xas:stoichiometry"
-            ],
-            "schema:name": "Stoichiometry",
-            "schema:value": "Fe3O4"
-          },
-          {
-            "@type": [
-              "schema:PropertyValue"
-            ],
-            "schema:propertyID": [
-              "xas:samplePreparation"
-            ],
-            "schema:name": "sample preparation method",
-            "schema:value": "ground and pressed into pellet with BN diluent"
-          }
-        ]
-      }
-    }
-  ],
-  "schema:measurementTechnique": [
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:name": "X-Ray Absorption Spectroscopy",
-      "schema:termCode": "XAS",
-      "schema:identifier": "http://purl.org/pan-science/PaNET/PaNET01196",
-      "schema:inDefinedTermSet": "http://purl.org/pan-science/PaNET/PaNET.owl"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:name": "Transmission",
-      "schema:identifier": "xas:transmissionMode",
-      "schema:inDefinedTermSet": "nxs:Field/NXxas/ENTRY/DATA/mode"
-    }
-  ],
-  "schema:keywords": [
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:name": "K-edge",
-      "schema:identifier": "xas:K-edge",
-      "schema:termCode": "K",
-      "schema:inDefinedTermSet": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:name": "Iron",
-      "schema:identifier": "http://sweetontology.net/matrElement/Iron",
-      "schema:termCode": "Fe",
-      "schema:inDefinedTermSet": "http://sweetontology.net/matrElement"
-    }
-  ],
   "schema:variableMeasured": [
     {
-      "@id": "xas:monochromatorEnergy",
+      "@id": "xas:monochromatorenergy",
       "@type": [
         "cdi:InstanceVariable",
         "schema:PropertyValue"
@@ -311,16 +86,42 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
       "schema:alternateName": [
         "Monochromator energy"
       ],
-      "schema:description": "Monochromator energy at which the XAS spectrum was acquired.",
+      "schema:description": "missing, definition of what this variable is about (maybe even an iAdopt description",
       "schema:propertyID": [
-        "xas:monochromatorEnergyConcept"
+        {
+          "@id": "xas:monochromatorenergy"
+        }
       ],
       "schema:unitText": "eV",
-      "cdi:identifier": "xas:monochromatorEnergy",
-      "cdi:physicalDataType": [
-        "xsd:decimal"
+      "cdi:identifier": "should be URI from nexusFormat organization",
+      "cdi:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdi:simpleUnitOfMeasure": "eV",
+      "cdi:uses": "xas:monochromatorenergy",
+      "cdi:name": "energy",
+      "cdi:displayLabel": "monochromator energy"
+    },
+    {
+      "@id": "xas:incidentintensity",
+      "@type": [
+        "cdi:InstanceVariable",
+        "schema:PropertyValue"
       ],
-      "cdi:simpleUnitOfMeasure": "eV"
+      "schema:name": "i0 monitory intensity",
+      "schema:alternateName": [
+        "Monitor intensity"
+      ],
+      "schema:description": "missing, definition of what this variable is about (maybe even an iAdopt description)",
+      "schema:propertyID": [
+        {
+          "@id": "xas:incidentintensity"
+        }
+      ],
+      "schema:unitText": "counts",
+      "cdi:identifier": "should be URI from nexusFormat organization",
+      "cdi:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdi:uses": "xas:incidentintensity",
+      "cdi:name": "i0",
+      "cdi:displayLabel": "monitor intensity"
     }
   ]
 }
@@ -335,8 +136,8 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
       "schema": "http://schema.org/",
       "dcterms": "http://purl.org/dc/terms/",
       "prov": "http://www.w3.org/ns/prov#",
-      "nxs": "http://purl.org/nexusformat/definitions/",
-      "xas": "https://xas.org/dictionary/",
+      "nxs": "https://manual.nexusformat.org/classes/",
+      "xas": "https://w3id.org/cdif/xas/",
       "dcat": "http://www.w3.org/ns/dcat#"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasOptional/context.jsonld",
@@ -346,276 +147,23 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
       "geosparql": "http://www.opengis.net/ont/geosparql#",
       "spdx": "http://spdx.org/rdf/terms#",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+      "time": "http://www.w3.org/2006/time#",
+      "skos": "http://www.w3.org/2004/02/skos/core#",
+      "xas": "https://w3id.org/cdif/xas/",
+      "nxs": "https://manual.nexusformat.org/classes/",
       "prov": "http://www.w3.org/ns/prov#",
-      "xas": "https://xas.org/dictionary/",
-      "nxs": "http://purl.org/nexusformat/definitions/",
+      "csvw": "http://www.w3.org/ns/csvw#",
       "dcat": "http://www.w3.org/ns/dcat#"
     }
   ],
-  "@id": "ex:xasOptionalExample_001",
+  "@id": "xas:exampleOptionalFields",
   "@type": [
     "schema:Dataset",
     "schema:Product"
   ],
-  "schema:name": "XAS measurement of Fe K-edge in magnetite sample",
-  "schema:identifier": {
-    "@type": [
-      "schema:PropertyValue"
-    ],
-    "schema:propertyID": "https://doi.org",
-    "schema:value": "10.12345/xas-optional-test",
-    "schema:url": "https://doi.org/10.12345/xas-optional-test"
-  },
-  "schema:dateModified": "2026-01-15",
-  "schema:license": [
-    "https://creativecommons.org/licenses/by/4.0/"
-  ],
-  "schema:distribution": [
-    {
-      "@id": "ex:dist_xdi_001",
-      "@type": [
-        "schema:DataDownload",
-        "cdi:PhysicalDataset"
-      ],
-      "schema:name": "XDI data file for Fe K-edge magnetite",
-      "schema:contentUrl": "https://example.org/data/fe_magnetite_kedge_01.xdi",
-      "schema:encodingFormat": [
-        "text/plain"
-      ],
-      "dcterms:conformsTo": [
-        {
-          "@id": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md"
-        }
-      ],
-      "spdx:checksum": {
-        "@type": [
-          "spdx:Checksum"
-        ],
-        "spdx:algorithm": "SHA256",
-        "spdx:checksumValue": "a1b2c3d4e5f6"
-      }
-    }
-  ],
-  "schema:subjectOf": {
-    "@type": [
-      "schema:Dataset"
-    ],
-    "schema:additionalType": [
-      "dcat:CatalogRecord"
-    ],
-    "@id": "ex:meta_xasOpt_001",
-    "schema:about": {
-      "@id": "ex:xasOptionalExample_001"
-    },
-    "dcterms:conformsTo": [
-      {
-        "@id": "https://w3id.org/cdif/core/1.1"
-      },
-      {
-        "@id": "https://w3id.org/cdif/discovery/1.1"
-      },
-      {
-        "@id": "https://w3id.org/cdif/xasDiscovery/1.0"
-      },
-      {
-        "@id": "https://w3id.org/cdif/bbr/metadata/xasProperties/xasOptional"
-      },
-      {
-        "@id": "https://w3id.org/cdif/data_description/1.1"
-      },
-      {
-        "@id": "https://w3id.org/cdif/xasCore/1.0"
-      }
-    ],
-    "schema:maintainer": {
-      "@id": "ex:person_jdoe",
-      "@type": [
-        "schema:Person"
-      ],
-      "schema:name": "Doe, Jane",
-      "schema:contactPoint": {
-        "@type": [
-          "schema:ContactPoint"
-        ],
-        "schema:email": "jane.doe@example.org"
-      }
-    },
-    "schema:sdDatePublished": "2026-01-20T10:00:00Z"
-  },
-  "prov:wasGeneratedBy": [
-    {
-      "prov:used": [
-        {
-          "schema:instrument": {
-            "@type": [
-              "schema:Thing",
-              "schema:Product"
-            ],
-            "schema:name": "APS Sector 20-BM beamline instrument",
-            "schema:category": [
-              {
-                "@type": [
-                  "schema:DefinedTerm"
-                ],
-                "schema:name": "X-ray absorption spectroscopy beamline",
-                "schema:termCode": "XAS-beamline"
-              }
-            ],
-            "schema:hasPart": [
-              {
-                "@type": [
-                  "schema:Thing",
-                  "schema:Product"
-                ],
-                "schema:additionalType": "nxs:BaseClass/NXsource",
-                "schema:name": "APS Undulator A",
-                "schema:additionalProperty": [
-                  {
-                    "@type": [
-                      "schema:PropertyValue"
-                    ],
-                    "schema:propertyID": [
-                      "nxs:Field/NXsource/type"
-                    ],
-                    "schema:name": "x-ray source type",
-                    "schema:value": "Synchrotron X-ray Source"
-                  },
-                  {
-                    "@type": [
-                      "schema:PropertyValue"
-                    ],
-                    "schema:propertyID": [
-                      "nxs:Field/NXsource/probe"
-                    ],
-                    "schema:name": "Probe",
-                    "schema:value": "x-ray"
-                  }
-                ]
-              },
-              {
-                "@type": [
-                  "schema:Thing",
-                  "schema:Product"
-                ],
-                "schema:additionalType": "nxs:BaseClass/NXmonochromator",
-                "schema:name": "Si 311",
-                "schema:additionalProperty": [
-                  {
-                    "@type": [
-                      "schema:PropertyValue"
-                    ],
-                    "schema:propertyID": [
-                      "nxs:Field/NXcrystal/d_spacing"
-                    ],
-                    "schema:name": "d-spacing",
-                    "schema:value": "1.63747",
-                    "schema:unitText": "Angstrom"
-                  },
-                  {
-                    "@type": [
-                      "schema:PropertyValue"
-                    ],
-                    "schema:propertyID": [
-                      "nxs:Field/NXcrystal/type"
-                    ],
-                    "schema:name": "crystal type",
-                    "schema:value": "channel-cut"
-                  },
-                  {
-                    "@type": [
-                      "schema:PropertyValue"
-                    ],
-                    "schema:propertyID": [
-                      "nxs:Field/NXcrystal/reflection"
-                    ],
-                    "schema:name": "reflection plane (hkl)",
-                    "schema:value": "3,1,1"
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      ],
-      "schema:object": {
-        "@type": [
-          "schema:Product",
-          "schema:Thing"
-        ],
-        "schema:additionalType": [
-          "MaterialSample",
-          "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample"
-        ],
-        "schema:name": "Magnetite powder",
-        "schema:identifier": "igsn:10.60471/mag-001",
-        "schema:description": "Synthetic magnetite powder, 99.5% purity",
-        "schema:additionalProperty": [
-          {
-            "@type": [
-              "schema:PropertyValue"
-            ],
-            "schema:propertyID": [
-              "xas:stoichiometry"
-            ],
-            "schema:name": "Stoichiometry",
-            "schema:value": "Fe3O4"
-          },
-          {
-            "@type": [
-              "schema:PropertyValue"
-            ],
-            "schema:propertyID": [
-              "xas:samplePreparation"
-            ],
-            "schema:name": "sample preparation method",
-            "schema:value": "ground and pressed into pellet with BN diluent"
-          }
-        ]
-      }
-    }
-  ],
-  "schema:measurementTechnique": [
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:name": "X-Ray Absorption Spectroscopy",
-      "schema:termCode": "XAS",
-      "schema:identifier": "http://purl.org/pan-science/PaNET/PaNET01196",
-      "schema:inDefinedTermSet": "http://purl.org/pan-science/PaNET/PaNET.owl"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:name": "Transmission",
-      "schema:identifier": "xas:transmissionMode",
-      "schema:inDefinedTermSet": "nxs:Field/NXxas/ENTRY/DATA/mode"
-    }
-  ],
-  "schema:keywords": [
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:name": "K-edge",
-      "schema:identifier": "xas:K-edge",
-      "schema:termCode": "K",
-      "schema:inDefinedTermSet": "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md"
-    },
-    {
-      "@type": [
-        "schema:DefinedTerm"
-      ],
-      "schema:name": "Iron",
-      "schema:identifier": "http://sweetontology.net/matrElement/Iron",
-      "schema:termCode": "Fe",
-      "schema:inDefinedTermSet": "http://sweetontology.net/matrElement"
-    }
-  ],
   "schema:variableMeasured": [
     {
-      "@id": "xas:monochromatorEnergy",
+      "@id": "xas:monochromatorenergy",
       "@type": [
         "cdi:InstanceVariable",
         "schema:PropertyValue"
@@ -624,16 +172,42 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
       "schema:alternateName": [
         "Monochromator energy"
       ],
-      "schema:description": "Monochromator energy at which the XAS spectrum was acquired.",
+      "schema:description": "missing, definition of what this variable is about (maybe even an iAdopt description",
       "schema:propertyID": [
-        "xas:monochromatorEnergyConcept"
+        {
+          "@id": "xas:monochromatorenergy"
+        }
       ],
       "schema:unitText": "eV",
-      "cdi:identifier": "xas:monochromatorEnergy",
-      "cdi:physicalDataType": [
-        "xsd:decimal"
+      "cdi:identifier": "should be URI from nexusFormat organization",
+      "cdi:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdi:simpleUnitOfMeasure": "eV",
+      "cdi:uses": "xas:monochromatorenergy",
+      "cdi:name": "energy",
+      "cdi:displayLabel": "monochromator energy"
+    },
+    {
+      "@id": "xas:incidentintensity",
+      "@type": [
+        "cdi:InstanceVariable",
+        "schema:PropertyValue"
       ],
-      "cdi:simpleUnitOfMeasure": "eV"
+      "schema:name": "i0 monitory intensity",
+      "schema:alternateName": [
+        "Monitor intensity"
+      ],
+      "schema:description": "missing, definition of what this variable is about (maybe even an iAdopt description)",
+      "schema:propertyID": [
+        {
+          "@id": "xas:incidentintensity"
+        }
+      ],
+      "schema:unitText": "counts",
+      "cdi:identifier": "should be URI from nexusFormat organization",
+      "cdi:physicalDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
+      "cdi:uses": "xas:incidentintensity",
+      "cdi:name": "i0",
+      "cdi:displayLabel": "monitor intensity"
     }
   ]
 }
@@ -642,131 +216,39 @@ XAS dataset with NXsource and NXmonochromator instrument components, XAS measure
 #### ttl
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
-@prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix ex: <https://example.org/> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix schema1: <http://schema.org/> .
-@prefix spdx: <http://spdx.org/rdf/terms#> .
-@prefix xas: <https://xas.org/dictionary/> .
+@prefix xas: <https://w3id.org/cdif/xas/> .
 
-ex:dist_xdi_001 a cdi:PhysicalDataset,
-        schema1:DataDownload ;
-    dcterms:conformsTo <https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md> ;
-    schema1:contentUrl "https://example.org/data/fe_magnetite_kedge_01.xdi" ;
-    schema1:encodingFormat "text/plain" ;
-    schema1:name "XDI data file for Fe K-edge magnetite" ;
-    spdx:checksum [ a spdx:Checksum ;
-            spdx:algorithm "SHA256" ;
-            spdx:checksumValue "a1b2c3d4e5f6" ] .
-
-ex:meta_xasOpt_001 a schema1:Dataset ;
-    dcterms:conformsTo <https://w3id.org/cdif/bbr/metadata/xasProperties/xasOptional>,
-        <https://w3id.org/cdif/core/1.1>,
-        <https://w3id.org/cdif/data_description/1.1>,
-        <https://w3id.org/cdif/discovery/1.1>,
-        <https://w3id.org/cdif/xasCore/1.0>,
-        <https://w3id.org/cdif/xasDiscovery/1.0> ;
-    schema1:about ex:xasOptionalExample_001 ;
-    schema1:additionalType "dcat:CatalogRecord" ;
-    schema1:maintainer ex:person_jdoe ;
-    schema1:sdDatePublished "2026-01-20T10:00:00Z" .
-
-ex:person_jdoe a schema1:Person ;
-    schema1:contactPoint [ a schema1:ContactPoint ;
-            schema1:email "jane.doe@example.org" ] ;
-    schema1:name "Doe, Jane" .
-
-ex:xasOptionalExample_001 a schema1:Dataset,
+xas:exampleOptionalFields a schema1:Dataset,
         schema1:Product ;
-    schema1:dateModified "2026-01-15" ;
-    schema1:distribution ex:dist_xdi_001 ;
-    schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://doi.org" ;
-            schema1:url "https://doi.org/10.12345/xas-optional-test" ;
-            schema1:value "10.12345/xas-optional-test" ] ;
-    schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "xas:K-edge" ;
-            schema1:inDefinedTermSet "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md" ;
-            schema1:name "K-edge" ;
-            schema1:termCode "K" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "http://sweetontology.net/matrElement/Iron" ;
-            schema1:inDefinedTermSet "http://sweetontology.net/matrElement" ;
-            schema1:name "Iron" ;
-            schema1:termCode "Fe" ] ;
-    schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
-    schema1:measurementTechnique [ a schema1:DefinedTerm ;
-            schema1:identifier "xas:transmissionMode" ;
-            schema1:inDefinedTermSet "nxs:Field/NXxas/ENTRY/DATA/mode" ;
-            schema1:name "Transmission" ],
-        [ a schema1:DefinedTerm ;
-            schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01196" ;
-            schema1:inDefinedTermSet "http://purl.org/pan-science/PaNET/PaNET.owl" ;
-            schema1:name "X-Ray Absorption Spectroscopy" ;
-            schema1:termCode "XAS" ] ;
-    schema1:name "XAS measurement of Fe K-edge in magnetite sample" ;
-    schema1:subjectOf ex:meta_xasOpt_001 ;
-    schema1:variableMeasured xas:monochromatorEnergy ;
-    prov:wasGeneratedBy [ schema1:object [ a schema1:Product,
-                        schema1:Thing ;
-                    schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "sample preparation method" ;
-                            schema1:propertyID "xas:samplePreparation" ;
-                            schema1:value "ground and pressed into pellet with BN diluent" ],
-                        [ a schema1:PropertyValue ;
-                            schema1:name "Stoichiometry" ;
-                            schema1:propertyID "xas:stoichiometry" ;
-                            schema1:value "Fe3O4" ] ;
-                    schema1:additionalType "MaterialSample",
-                        "https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample" ;
-                    schema1:description "Synthetic magnetite powder, 99.5% purity" ;
-                    schema1:identifier "igsn:10.60471/mag-001" ;
-                    schema1:name "Magnetite powder" ] ;
-            prov:used [ schema1:instrument [ a schema1:Product,
-                                schema1:Thing ;
-                            schema1:category [ a schema1:DefinedTerm ;
-                                    schema1:name "X-ray absorption spectroscopy beamline" ;
-                                    schema1:termCode "XAS-beamline" ] ;
-                            schema1:hasPart [ a schema1:Product,
-                                        schema1:Thing ;
-                                    schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "crystal type" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/type" ;
-                                            schema1:value "channel-cut" ],
-                                        [ a schema1:PropertyValue ;
-                                            schema1:name "d-spacing" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/d_spacing" ;
-                                            schema1:unitText "Angstrom" ;
-                                            schema1:value "1.63747" ],
-                                        [ a schema1:PropertyValue ;
-                                            schema1:name "reflection plane (hkl)" ;
-                                            schema1:propertyID "nxs:Field/NXcrystal/reflection" ;
-                                            schema1:value "3,1,1" ] ;
-                                    schema1:additionalType "nxs:BaseClass/NXmonochromator" ;
-                                    schema1:name "Si 311" ],
-                                [ a schema1:Product,
-                                        schema1:Thing ;
-                                    schema1:additionalProperty [ a schema1:PropertyValue ;
-                                            schema1:name "x-ray source type" ;
-                                            schema1:propertyID "nxs:Field/NXsource/type" ;
-                                            schema1:value "Synchrotron X-ray Source" ],
-                                        [ a schema1:PropertyValue ;
-                                            schema1:name "Probe" ;
-                                            schema1:propertyID "nxs:Field/NXsource/probe" ;
-                                            schema1:value "x-ray" ] ;
-                                    schema1:additionalType "nxs:BaseClass/NXsource" ;
-                                    schema1:name "APS Undulator A" ] ;
-                            schema1:name "APS Sector 20-BM beamline instrument" ] ] ] .
+    schema1:variableMeasured xas:incidentintensity,
+        xas:monochromatorenergy .
 
-xas:monochromatorEnergy a cdi:InstanceVariable,
+xas:incidentintensity a cdi:InstanceVariable,
         schema1:PropertyValue ;
-    cdi:identifier "xas:monochromatorEnergy" ;
-    cdi:physicalDataType "xsd:decimal" ;
+    cdi:displayLabel "monitor intensity" ;
+    cdi:identifier "should be URI from nexusFormat organization" ;
+    cdi:name "i0" ;
+    cdi:physicalDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
+    cdi:uses "xas:incidentintensity" ;
+    schema1:alternateName "Monitor intensity" ;
+    schema1:description "missing, definition of what this variable is about (maybe even an iAdopt description)" ;
+    schema1:name "i0 monitory intensity" ;
+    schema1:propertyID xas:incidentintensity ;
+    schema1:unitText "counts" .
+
+xas:monochromatorenergy a cdi:InstanceVariable,
+        schema1:PropertyValue ;
+    cdi:displayLabel "monochromator energy" ;
+    cdi:identifier "should be URI from nexusFormat organization" ;
+    cdi:name "energy" ;
+    cdi:physicalDataType "https://www.w3.org/TR/xmlschema-2/#decimal" ;
     cdi:simpleUnitOfMeasure "eV" ;
+    cdi:uses "xas:monochromatorenergy" ;
     schema1:alternateName "Monochromator energy" ;
-    schema1:description "Monochromator energy at which the XAS spectrum was acquired." ;
+    schema1:description "missing, definition of what this variable is about (maybe even an iAdopt description" ;
     schema1:name "energy" ;
-    schema1:propertyID "xas:monochromatorEnergyConcept" ;
+    schema1:propertyID xas:monochromatorenergy ;
     schema1:unitText "eV" .
 
 
@@ -776,310 +258,187 @@ xas:monochromatorEnergy a cdi:InstanceVariable,
 
 ```yaml
 $schema: https://json-schema.org/draft/2020-12/schema
-allOf:
-- $ref: '#/$defs/CdifMandatory'
-- type: object
-  properties:
-    schema:subjectOf:
+title: Optional XAS metadata fields
+description: 'Genuinely-optional XAS properties layered on cdifCore. Adds NO requirements.
+  Documents and permits optional XAS content: (a) XAS data-array variables as schema:variableMeasured
+  cdi:InstanceVariable items, and (b) optional beamline-operational and sample physico-chemical
+  parameters carried as schema:additionalProperty entries (on the prov:used xas:beamline
+  entity and the schema:object sample respectively; see description.md for the propertyID
+  vocabularies). Present only when the corresponding measurements exist.'
+type: object
+properties:
+  '@context':
+    type: object
+    description: JSON-LD prefixes used by optional XAS fields.
+    properties:
+      xas:
+        const: https://w3id.org/cdif/xas/
+      nxs:
+        const: https://manual.nexusformat.org/classes/
+  schema:variableMeasured:
+    description: Optional XAS data-array variables (energy, i0, itrans, ifluor, irefer,
+      mutrans, mufluor, murefer, normtrans, normfluor, normrefer, chi, chi_re, chi_im,
+      chi_mag, chi_pha, k, r, angle), each a cdi:InstanceVariable / schema:PropertyValue.
+      Not required. The XDI variable propertyID enum is layered on in xasCore; this
+      profile only enforces the base cdifInstanceVariable shape.
+    type: array
+    items:
+      $ref: '#/$defs/InstanceVariable'
+    x-jsonld-id: http://schema.org/variableMeasured
+  prov:wasGeneratedBy:
+    type: array
+    description: Optional-vocabulary layer on the XAS analysis activity. Adds propertyID
+      enums for (a) activity-level additionalProperty entries, (b) the sample (schema:object)
+      additionalProperty entries, and (c) the beamline peer instrument's additionalProperty
+      entries. Enum arms are additive over the base propertyID_item shape.
+    items:
       properties:
-        dcterms:conformsTo:
+        schema:additionalProperty:
+          description: XAS activity-level additionalProperty vocabulary. All entries
+            resolve to SKOS concepts in the XAS-CDIF glossary.
           type: array
           items:
-            type: object
-            properties:
-              '@id':
-                type: string
-                description: uri for specifications that this metadata record conforms
-                  to
-          minItems: 1
-          contains:
-            type: object
-            properties:
-              '@id':
-                const: https://w3id.org/cdif/xasDiscovery/1.0
-      x-jsonld-id: http://schema.org/subjectOf
-    prov:wasGeneratedBy:
-      type: array
-      items:
-        allOf:
-        - $ref: '#/$defs/CdifProvActivity'
-        - type: object
+            allOf:
+            - $ref: '#/$defs/AdditionalProperty'
+            - properties:
+                schema:propertyID:
+                  type: array
+                  minItems: 1
+                  items:
+                    anyOf:
+                    - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml#/$defs/propertyID_item
+                    - enum:
+                      - xas:edgeenergy
+                      - xas:calibrationmethod
+                      - xas:experimentdocumentation
+                      - xas:installedoptions
+                  x-jsonld-id: http://schema.org/propertyID
+          x-jsonld-id: http://schema.org/additionalProperty
+        schema:object:
+          description: Sample additionalProperty entries. XDI Sample.* vocabulary
+            (XDI-CDIF-Mapping.xlsx rows 47-64) plus legacy xas:* names and NEXUS NXsample
+            fields.
           properties:
-            prov:used:
+            schema:additionalProperty:
               type: array
-              description: Array of used entities. Must contain an instrument wrapper
-                with schema:hasPart sub-components. The x-ray source type and probe,
-                and monochromator properties type, d-spacing and reflection plane
-                are required.
-              contains:
-                type: object
-                required:
-                - schema:instrument
-                properties:
-                  schema:instrument:
+              items:
+                allOf:
+                - $ref: '#/$defs/AdditionalProperty'
+                - properties:
+                    schema:propertyID:
+                      type: array
+                      minItems: 1
+                      items:
+                        anyOf:
+                        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml#/$defs/propertyID_item
+                        - enum:
+                          - xas:concentration
+                          - xas:samplecrystalstructure
+                          - xas:density
+                          - xas:eh
+                          - xas:electricfield
+                          - xas:electrochemicalpotential
+                          - xas:magneticfield
+                          - xas:magneticmoment
+                          - xas:opacity
+                          - xas:parentsample
+                          - xas:ph
+                          - xas:porosity
+                          - xas:pressure
+                          - xas:resistivity
+                          - xas:samplechemicalcomposition
+                          - xas:samplematerial
+                          - xas:samplepreparation
+                          - xas:temperature
+                          - xas:viscosity
+                          - xas:volume
+                          - nxs:Field/NXsample/mass
+                          - nxs:Field/NXsample/point_group
+                          - nxs:Field/NXsample/unit_cell
+                      x-jsonld-id: http://schema.org/propertyID
+              x-jsonld-id: http://schema.org/additionalProperty
+          x-jsonld-id: http://schema.org/object
+        prov:used:
+          type: array
+          items:
+            if:
+              description: When this peer prov:used entry's instrument is a beamline
+                (schema:additionalType contains xas:beamline), its schema:additionalProperty
+                entries SHOULD use the XDI Beamline vocabulary (XDI-CDIF-Mapping.xlsx
+                rows 10-20, excluding Beamline.name which maps to schema:name).
+              properties:
+                schema:instrument:
+                  type: array
+                  contains:
                     type: object
                     properties:
-                      schema:hasPart:
-                        type: array
-                        minItems: 2
-                        allOf:
-                        - contains:
+                      schema:additionalType:
+                        anyOf:
+                        - type: object
+                          additionalProperties: false
+                          required:
+                          - '@id'
+                          properties:
+                            '@id':
+                              const: xas:beamline
+                        - type: array
+                          contains:
                             type: object
-                            properties:
-                              '@type':
-                                type: array
-                                items:
-                                  type: string
-                                minItems: 2
-                                allOf:
-                                - contains:
-                                    const: schema:Thing
-                                - contains:
-                                    const: schema:Product
-                              schema:additionalType:
-                                const: nxs:BaseClass/NXsource
-                              schema:additionalProperty:
-                                type: array
-                                minItems: 2
-                                items:
-                                  $ref: '#/$defs/AdditionalProperty'
-                                allOf:
-                                - contains:
-                                    type: object
-                                    properties:
-                                      schema:propertyID:
-                                        type: array
-                                        contains:
-                                          const: nxs:Field/NXsource/type
-                                      schema:value:
-                                        type: string
-                                    required:
-                                    - schema:propertyID
-                                    - schema:value
-                                - contains:
-                                    type: object
-                                    properties:
-                                      schema:propertyID:
-                                        type: array
-                                        contains:
-                                          const: nxs:Field/NXsource/probe
-                                      schema:name:
-                                        const: Probe
-                                      schema:value:
-                                        type: string
-                                    required:
-                                    - schema:name
-                                    - schema:propertyID
-                                    - schema:value
+                            additionalProperties: false
                             required:
-                            - '@type'
-                            - schema:additionalType
-                            - schema:additionalProperty
-                        - contains:
-                            type: object
+                            - '@id'
                             properties:
-                              '@type':
-                                type: array
-                                items:
-                                  type: string
-                                minItems: 2
-                                allOf:
-                                - contains:
-                                    const: schema:Thing
-                                - contains:
-                                    const: schema:Product
-                              schema:additionalType:
-                                const: nxs:BaseClass/NXmonochromator
-                              schema:name:
-                                type: string
-                              schema:additionalProperty:
-                                description: Require additional properties for monochromator,
-                                  requires d-space, crystal type, reflection plane.
-                                type: array
-                                minItems: 3
-                                items:
-                                  $ref: '#/$defs/AdditionalProperty'
-                                contains:
-                                  type: object
-                                  properties:
-                                    schema:propertyID:
-                                      type: array
-                                      contains:
-                                        const: nxs:Field/NXcrystal/type
-                                    schema:value:
-                                      type: string
-                                  required:
-                                  - schema:value
-                                  - schema:propertyID
-                                allOf:
-                                - contains:
-                                    type: object
-                                    properties:
-                                      schema:propertyID:
-                                        type: array
-                                        contains:
-                                          const: nxs:Field/NXcrystal/d_spacing
-                                      schema:value:
-                                        type: string
-                                      schema:unitText:
-                                        type: string
-                                    required:
-                                    - schema:propertyID
-                                    - schema:value
-                                    - schema:unitText
-                                - contains:
-                                    type: object
-                                    properties:
-                                      schema:propertyID:
-                                        type: array
-                                        contains:
-                                          const: nxs:Field/NXcrystal/reflection
-                                      schema:value:
-                                        type: string
-                                    required:
-                                    - schema:value
-                                    - schema:propertyID
-                            required:
-                            - '@type'
-                            - schema:additionalType
-                            - schema:additionalProperty
-                        x-jsonld-id: http://schema.org/hasPart
-                    required:
-                    - schema:hasPart
-                    x-jsonld-id: http://schema.org/instrument
-            schema:object:
-              $ref: '#/$defs/XasSample'
-              x-jsonld-id: http://schema.org/object
-    schema:distribution:
-      type: array
-      items:
-        $ref: '#/$defs/DataDownload'
-      contains:
-        type: object
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            minItems: 2
-            allOf:
-            - contains:
-                const: schema:DataDownload
-            - contains:
-                enum:
-                - cdi:PhysicalDataset
-                - cdi:TabularTextDataSet
-                - cdi:StructuredDataSet
-          dcterms:conformsTo:
-            type: array
-            contains:
-              type: object
+                              '@id':
+                                const: xas:beamline
+            then:
               properties:
-                '@id':
-                  const: https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md
-              required:
-              - '@id'
-        required:
-        - '@type'
-        - dcterms:conformsTo
-      x-jsonld-id: http://schema.org/distribution
-    schema:measurementTechnique:
-      type: array
-      description: 'Require DefinedTerms for both: absorption edge (XDI dict) and
-        target element (SWEET).'
-      minItems: 2
-      items:
-        $ref: '#/$defs/DefinedTerm'
-      allOf:
-      - contains:
-          type: object
-          properties:
-            schema:name:
-              const: X-Ray Absorption Spectroscopy
-            schema:termCode:
-              const: XAS
-            schema:identifier:
-              const: http://purl.org/pan-science/PaNET/PaNET01196
-            schema:inDefinedTermSet:
-              const: http://purl.org/pan-science/PaNET/PaNET.owl
-          required:
-          - schema:name
-          - schema:termCode
-          - schema:identifier
-          - schema:inDefinedTermSet
-      - contains:
-          type: object
-          properties:
-            schema:name:
-              type: string
-            schema:inDefinedTermSet:
-              const: nxs:Field/NXxas/ENTRY/DATA/mode
-          required:
-          - schema:name
-          - schema:inDefinedTermSet
-      x-jsonld-id: http://schema.org/measurementTechnique
-    schema:keywords:
-      type: array
-      description: extends base CDIF keyword schema to require defined terms for the
-        absorption edge and the target element for the analysis
-      minItems: 2
-      items:
-        type: object
-        properties:
-          '@type':
-            type: array
-            items:
-              type: string
-            contains:
-              const: schema:DefinedTerm
-            minItems: 1
-          schema:name:
-            type: string
-            x-jsonld-id: http://schema.org/name
-          schema:identifier:
-            type: string
-            x-jsonld-id: http://schema.org/identifier
-          schema:inDefinedTermSet:
-            type: string
-            description: need to include this to tag what the keyword is about; we're
-              using the keywords as soft-typed properties
-            x-jsonld-id: http://schema.org/inDefinedTermSet
-        required:
-        - '@type'
-        - schema:name
-        - schema:inDefinedTermSet
-        additionalProperties: true
-      allOf:
-      - contains:
-          type: object
-          properties:
-            schema:inDefinedTermSet:
-              const: https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md
-          required:
-          - schema:inDefinedTermSet
-      - contains:
-          type: object
-          properties:
-            schema:inDefinedTermSet:
-              const: http://sweetontology.net/matrElement
-          required:
-          - schema:inDefinedTermSet
-      x-jsonld-id: http://schema.org/keywords
+                schema:instrument:
+                  type: array
+                  contains:
+                    type: object
+                    properties:
+                      schema:additionalProperty:
+                        type: array
+                        items:
+                          allOf:
+                          - $ref: '#/$defs/AdditionalProperty'
+                          - properties:
+                              schema:propertyID:
+                                type: array
+                                minItems: 1
+                                items:
+                                  anyOf:
+                                  - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml#/$defs/propertyID_item
+                                  - enum:
+                                    - xas:collimation
+                                    - xas:detectortype
+                                    - xas:energyrange
+                                    - xas:energyresolution
+                                    - xas:flux
+                                    - xas:focusing
+                                    - xas:harmonicrejection
+                                    - xas:scanmode
+                                    - xas:spotsize
+                                    - xas:website
+                                x-jsonld-id: http://schema.org/propertyID
+                        x-jsonld-id: http://schema.org/additionalProperty
+                  x-jsonld-id: http://schema.org/instrument
+          x-jsonld-id: http://www.w3.org/ns/prov#used
+    x-jsonld-id: http://www.w3.org/ns/prov#wasGeneratedBy
 $defs:
-  CdifMandatory:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCore/schema.yaml
-  CdifProvActivity:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifProvActivity/schema.yaml
-  DefinedTerm:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml
+  InstanceVariable:
+    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
   AdditionalProperty:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
-  DataDownload:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/dataDownload/schema.yaml
-  XasSample:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
+  cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+  dcat: http://www.w3.org/ns/dcat#
+  dcterms: http://purl.org/dc/terms/
+  nxs: https://manual.nexusformat.org/classes/
+  prov: http://www.w3.org/ns/prov#
+  spdx: http://spdx.org/rdf/terms#
+  xas: https://w3id.org/cdif/xas/
 
 ```
 
@@ -1094,16 +453,16 @@ Links to the schema:
 ```jsonld
 {
   "@context": {
-    "schema": "http://schema.org/",
-    "skos": "http://www.w3.org/2004/02/skos/core#",
-    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "cdif": "https://w3id.org/cdif/",
-    "ex": "https://example.org/",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "dcterms": "http://purl.org/dc/terms/",
-    "dcat": "http://www.w3.org/ns/dcat#",
+    "schema": "http://schema.org/",
+    "spdx": "http://spdx.org/rdf/terms#",
+    "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xas": "cdif:xas/",
+    "nxs": "https://manual.nexusformat.org/classes/",
     "prov": "http://www.w3.org/ns/prov#",
-    "nxs": "http://purl.org/nexusformat/definitions/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dcterms": "http://purl.org/dc/terms/",
     "@version": 1.1
   }
 }

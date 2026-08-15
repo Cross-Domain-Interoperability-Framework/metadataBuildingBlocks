@@ -243,13 +243,13 @@ ex:software-spectra-eval a schema1:SoftwareApplication ;
 
 [] bios:executesLabProtocol ex:protocol-xrf-soil ;
     bios:parameterValue [ a schema1:PropertyValue ;
-            schema1:name "X-ray tube current" ;
-            schema1:unitText "mA" ;
-            schema1:value 40 ],
-        [ a schema1:PropertyValue ;
             schema1:name "X-ray tube voltage" ;
             schema1:unitText "kV" ;
-            schema1:value 50 ] .
+            schema1:value 50 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "X-ray tube current" ;
+            schema1:unitText "mA" ;
+            schema1:value 40 ] .
 
 
 ```
@@ -272,6 +272,7 @@ properties:
     anyOf:
     - $ref: '#/$defs/LabProtocol'
     - type: object
+      additionalProperties: false
       properties:
         '@id':
           type: string
@@ -295,6 +296,7 @@ properties:
       anyOf:
       - $ref: '#/$defs/LabEquipment'
       - type: object
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -310,6 +312,7 @@ properties:
       anyOf:
       - $ref: '#/$defs/ComputationalTool'
       - type: object
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -364,6 +367,7 @@ $defs:
         anyOf:
         - $ref: '#/$defs/LabProtocol'
         - type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -413,6 +417,7 @@ $defs:
           anyOf:
           - $ref: '#/$defs/LabEquipment'
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -426,6 +431,7 @@ $defs:
           anyOf:
           - $ref: '#/$defs/ComputationalTool'
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -461,6 +467,7 @@ $defs:
           anyOf:
           - $ref: '#/$defs/FormalParameter'
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -474,6 +481,7 @@ $defs:
           anyOf:
           - $ref: '#/$defs/FormalParameter'
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -516,7 +524,15 @@ $defs:
                 type: string
               minItems: 1
             schema:propertyID:
-              type: string
+              anyOf:
+              - type: string
+              - type: object
+                additionalProperties: false
+                required:
+                - '@id'
+                properties:
+                  '@id':
+                    type: string
               x-jsonld-id: http://schema.org/propertyID
             schema:value:
               type: string
@@ -558,7 +574,15 @@ $defs:
           DataType)
         type: array
         items:
-          type: string
+          anyOf:
+          - type: string
+          - type: object
+            additionalProperties: false
+            required:
+            - '@id'
+            properties:
+              '@id':
+                type: string
         x-jsonld-id: http://schema.org/additionalType
       schema:encodingFormat:
         description: MIME type or URL for expected data format
@@ -621,6 +645,7 @@ $defs:
           anyOf:
           - $ref: '#/$defs/FormalParameter'
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -634,6 +659,7 @@ $defs:
           anyOf:
           - $ref: '#/$defs/FormalParameter'
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -646,6 +672,7 @@ $defs:
         items:
           anyOf:
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -755,6 +782,9 @@ $defs:
         anyOf:
         - type: string
         - type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               type: string

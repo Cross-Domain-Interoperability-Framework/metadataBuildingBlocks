@@ -75,6 +75,9 @@ properties:
       dcterms:conformsTo:
         contains:
           type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               const: https://w3id.org/cdif/discovery/1.1

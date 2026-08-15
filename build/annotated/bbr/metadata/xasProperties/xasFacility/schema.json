@@ -19,13 +19,38 @@
     "schema:additionalType": {
       "type": "array",
       "items": {
-        "type": "string"
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "@id"
+            ],
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            }
+          }
+        ]
       },
       "contains": {
-        "const": "xas:Facility"
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "@id"
+        ],
+        "properties": {
+          "@id": {
+            "const": "xas:facility"
+          }
+        }
       },
       "minItems": 1,
-      "x-jsonld-id": "http://schema.orgadditionalType"
+      "x-jsonld-id": "http://schema.org/additionalType"
     },
     "schema:identifier": {
       "anyOf": [
@@ -36,18 +61,18 @@
           "$ref": "#/$defs/Identifier"
         }
       ],
-      "x-jsonld-id": "http://schema.orgidentifier"
+      "x-jsonld-id": "http://schema.org/identifier"
     },
     "schema:name": {
       "type": "string",
-      "x-jsonld-id": "http://schema.orgname"
+      "x-jsonld-id": "http://schema.org/name"
     },
     "schema:additionalProperty": {
       "type": "array",
       "items": {
         "$ref": "#/$defs/AdditionalProperty"
       },
-      "x-jsonld-id": "http://schema.orgadditionalProperty"
+      "x-jsonld-id": "http://schema.org/additionalProperty"
     }
   },
   "required": [
@@ -63,10 +88,8 @@
       "$ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.json"
     }
   },
-  "x-jsonld-extra-terms": {
-    "schema": "http://schema.org"
-  },
   "x-jsonld-prefixes": {
-    "xas": "https://xas.org/dictionary/"
+    "schema": "http://schema.org/",
+    "xas": "https://w3id.org/cdif/xas/"
   }
 }

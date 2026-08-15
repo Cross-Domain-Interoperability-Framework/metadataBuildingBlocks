@@ -13,6 +13,7 @@ properties:
     anyOf:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/schema-oas3.0.yaml#/$defs/LabProtocol
     - type: object
+      additionalProperties: false
       properties:
         '@id':
           type: string
@@ -36,6 +37,7 @@ properties:
       anyOf:
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/schema-oas3.0.yaml#/$defs/LabEquipment
       - type: object
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -51,6 +53,7 @@ properties:
       anyOf:
       - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/schema-oas3.0.yaml#/$defs/ComputationalTool
       - type: object
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -105,6 +108,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/schema-oas3.0.yaml#/$defs/LabProtocol
         - type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -155,6 +159,7 @@ $defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/schema-oas3.0.yaml#/$defs/LabEquipment
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -168,6 +173,7 @@ $defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/schema-oas3.0.yaml#/$defs/ComputationalTool
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -203,6 +209,7 @@ $defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/schema-oas3.0.yaml#/$defs/FormalParameter
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -216,6 +223,7 @@ $defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/schema-oas3.0.yaml#/$defs/FormalParameter
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -258,7 +266,15 @@ $defs:
                 type: string
               minItems: 1
             schema:propertyID:
-              type: string
+              anyOf:
+              - type: string
+              - type: object
+                additionalProperties: false
+                required:
+                - '@id'
+                properties:
+                  '@id':
+                    type: string
               x-jsonld-id: http://schema.org/propertyID
             schema:value:
               type: string
@@ -300,7 +316,15 @@ $defs:
           DataType)
         type: array
         items:
-          type: string
+          anyOf:
+          - type: string
+          - type: object
+            additionalProperties: false
+            required:
+            - '@id'
+            properties:
+              '@id':
+                type: string
         x-jsonld-id: http://schema.org/additionalType
       schema:encodingFormat:
         description: MIME type or URL for expected data format
@@ -363,6 +387,7 @@ $defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/schema-oas3.0.yaml#/$defs/FormalParameter
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -376,6 +401,7 @@ $defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/bioschemasProperties/cdifBioschemasProperties/schema-oas3.0.yaml#/$defs/FormalParameter
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -388,6 +414,7 @@ $defs:
         items:
           anyOf:
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -500,6 +527,9 @@ $defs:
         anyOf:
         - type: string
         - type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               type: string

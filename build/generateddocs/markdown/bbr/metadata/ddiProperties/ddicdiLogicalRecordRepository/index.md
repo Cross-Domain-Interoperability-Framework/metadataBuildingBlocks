@@ -427,8 +427,8 @@ Links to the schema:
     "cdif": "https://w3id.org/cdif/",
     "schema": "http://schema.org/",
     "spdx": "http://spdx.org/rdf/terms#",
-    "xas": "https://xas.org/dictionary/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
+    "xas": "cdif:xas/",
+    "nxs": "https://manual.nexusformat.org/classes/",
     "prov": "http://www.w3.org/ns/prov#",
     "@version": 1.1
   }

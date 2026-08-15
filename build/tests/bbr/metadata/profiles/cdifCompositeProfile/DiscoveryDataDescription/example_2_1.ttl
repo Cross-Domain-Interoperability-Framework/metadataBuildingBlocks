@@ -1,5 +1,6 @@
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -29,6 +30,11 @@ ex:gom-temp-cube-2025 a schema1:Dataset ;
                     cdif:formats_InstanceVariable ex:var-lat ;
                     cdif:physicalDataType "float32" ],
                 [ cdi:isRequired true ;
+                    cdi:locator "/time" ;
+                    cdif:format "days since 2024-01-01" ;
+                    cdif:formats_InstanceVariable ex:var-time ;
+                    cdif:physicalDataType "int32" ],
+                [ cdi:isRequired true ;
                     cdi:locator "/temperature" ;
                     cdi:nullSequence "NaN" ;
                     cdif:format "decimal" ;
@@ -40,17 +46,12 @@ ex:gom-temp-cube-2025 a schema1:Dataset ;
                     cdif:formats_InstanceVariable ex:var-depth ;
                     cdif:physicalDataType "float32" ],
                 [ cdi:isRequired true ;
-                    cdi:locator "/time" ;
-                    cdif:format "days since 2024-01-01" ;
-                    cdif:formats_InstanceVariable ex:var-time ;
-                    cdif:physicalDataType "int32" ],
-                [ cdi:isRequired true ;
                     cdi:locator "/lon" ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-lon ;
                     cdif:physicalDataType "float32" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://doi.org" ;
+            schema1:propertyID <https://doi.org> ;
             schema1:url "https://doi.org/10.5281/zenodo.4242424" ;
             schema1:value "10.5281/zenodo.4242424" ] ;
     schema1:keywords "Gulf of Maine",
@@ -78,7 +79,7 @@ ex:gom-temp-cube-2025 a schema1:Dataset ;
         <https://w3id.org/cdif/data_description/1.1>,
         <https://w3id.org/cdif/discovery/1.1> ;
     schema1:about ex:gom-temp-cube-2025 ;
-    schema1:additionalType "dcat:CatalogRecord" ;
+    schema1:additionalType dcat:CatalogRecord ;
     schema1:sdDatePublished "2025-10-15" .
 
 ex:var-depth a cdi:InstanceVariable,
@@ -131,7 +132,7 @@ ex:var-temperature a cdi:InstanceVariable,
     schema1:measurementTechnique "Optimal interpolation of CTD and ARGO float observations" ;
     schema1:minValue -2e+00 ;
     schema1:name "sea_water_temperature" ;
-    schema1:propertyID "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/" ;
+    schema1:propertyID <http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/> ;
     cdif:displayLabel "Sea-water temperature" ;
     cdif:physicalDataType "float32" ;
     cdif:role "Measure" ;

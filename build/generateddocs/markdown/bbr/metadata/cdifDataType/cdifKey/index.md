@@ -137,7 +137,9 @@ every property the schema permits including @id on the Key itself.
         ],
         "schema:description": "Calendar year in which the observation was recorded.",
         "schema:propertyID": [
-          "ex:concept/calendarYear"
+          {
+            "@id": "ex:concept/calendarYear"
+          }
         ],
         "schema:unitText": "year",
         "cdi:identifier": "ex:var/year",
@@ -208,7 +210,9 @@ every property the schema permits including @id on the Key itself.
         ],
         "schema:description": "Calendar year in which the observation was recorded.",
         "schema:propertyID": [
-          "ex:concept/calendarYear"
+          {
+            "@id": "ex:concept/calendarYear"
+          }
         ],
         "schema:unitText": "year",
         "cdi:identifier": "ex:var/year",
@@ -263,7 +267,7 @@ every property the schema permits including @id on the Key itself.
     schema1:alternateName "Observation year" ;
     schema1:description "Calendar year in which the observation was recorded." ;
     schema1:name "year" ;
-    schema1:propertyID "ex:concept/calendarYear" ;
+    schema1:propertyID <https://example.org/concept/calendarYear> ;
     schema1:unitText "year" ;
     cdif:displayLabel "Observation year" ;
     cdif:name "year" ;
@@ -321,6 +325,7 @@ properties:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
           - type: object
+            additionalProperties: false
             description: object reference via @id to a cdifInstanceVariable declared
               elsewhere
             properties:
@@ -365,8 +370,8 @@ Links to the schema:
     "spdx": "http://spdx.org/rdf/terms#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "xas": "https://xas.org/dictionary/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
+    "xas": "cdif:xas/",
+    "nxs": "https://manual.nexusformat.org/classes/",
     "prov": "http://www.w3.org/ns/prov#",
     "@version": 1.1
   }

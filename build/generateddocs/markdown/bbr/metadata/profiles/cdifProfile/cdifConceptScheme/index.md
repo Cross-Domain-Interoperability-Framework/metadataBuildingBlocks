@@ -108,6 +108,7 @@ properties:
       anyOf:
       - $ref: '#/$defs/cdifConcept'
       - type: object
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -135,14 +136,29 @@ properties:
       schema:additionalType:
         type: array
         items:
-          type: string
+          anyOf:
+          - type: string
+          - type: object
+            additionalProperties: false
+            required:
+            - '@id'
+            properties:
+              '@id':
+                type: string
         contains:
-          const: dcat:CatalogRecord
+          type: object
+          additionalProperties: false
+          required:
+          - '@id'
+          properties:
+            '@id':
+              const: dcat:CatalogRecord
         minItems: 1
       dcterms:conformsTo:
         type: array
         items:
           type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -150,6 +166,9 @@ properties:
           - '@id'
         contains:
           type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               const: https://w3id.org/cdif/conceptscheme/1.1
@@ -159,6 +178,7 @@ properties:
         description: Identifier for the catalog record.
       schema:about:
         type: object
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -207,10 +227,9 @@ $defs:
           items:
             $ref: '#/$defs/LanguageTaggedValue'
       skos:notation:
-        description: Classification code for this concept within a scheme.
-        type: array
-        items:
-          type: string
+        description: Classification code for this concept within a scheme (a single
+          notation string, consistent with CdifCodelistConcept).
+        type: string
       skos:definition:
         description: Formal explanation of the meaning of this concept.
         anyOf:
@@ -235,6 +254,7 @@ $defs:
         description: Concept scheme(s) this concept belongs to.
         anyOf:
         - type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -243,6 +263,7 @@ $defs:
         - type: array
           items:
             type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -269,6 +290,7 @@ $defs:
     - skos:prefLabel
   ConceptRef:
     type: object
+    additionalProperties: false
     description: Reference (by URI) to a skos:Concept defined elsewhere. Used inside
       skos:broader / skos:narrower as the @id-reference alternative to an inline Concept.
     properties:

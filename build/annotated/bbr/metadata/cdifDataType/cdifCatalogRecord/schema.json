@@ -17,10 +17,35 @@
       "type": "array",
       "description": "additional type assertions for the catalog record node. dcat:CatalogRecord is required.",
       "items": {
-        "type": "string"
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "@id"
+            ],
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            }
+          }
+        ]
       },
       "contains": {
-        "const": "dcat:CatalogRecord"
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "@id"
+        ],
+        "properties": {
+          "@id": {
+            "const": "dcat:CatalogRecord"
+          }
+        }
       },
       "minItems": 1,
       "x-jsonld-id": "http://schema.org/additionalType"
@@ -31,6 +56,10 @@
     },
     "schema:about": {
       "type": "object",
+      "required": [
+        "@id"
+      ],
+      "additionalProperties": false,
       "properties": {
         "@id": {
           "type": "string",
@@ -43,6 +72,10 @@
       "type": "array",
       "items": {
         "type": "object",
+        "required": [
+          "@id"
+        ],
+        "additionalProperties": false,
         "properties": {
           "@id": {
             "type": "string",

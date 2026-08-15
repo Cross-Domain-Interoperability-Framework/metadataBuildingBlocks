@@ -1,6 +1,7 @@
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -31,11 +32,17 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
             csvw:skipBlankRows true ;
             cdif:fileSize 312 ;
             cdif:fileSizeUofM "KB" ;
-            cdif:hasPhysicalMapping [ cdi:decimalPositions 2 ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 3 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-ph ;
-                    cdif:index 2 ;
+                    cdif:formats_InstanceVariable ex:var-salinity ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:decimalPositions 2 ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-temperature ;
+                    cdif:index 3 ;
                     cdif:physicalDataType "float64" ],
                 [ cdi:isRequired true ;
                     cdif:format "string" ;
@@ -50,23 +57,17 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
                 [ cdi:decimalPositions 2 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-temperature ;
-                    cdif:index 3 ;
+                    cdif:formats_InstanceVariable ex:var-oxygen ;
+                    cdif:index 5 ;
                     cdif:physicalDataType "float64" ],
                 [ cdi:decimalPositions 2 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-oxygen ;
-                    cdif:index 5 ;
-                    cdif:physicalDataType "float64" ],
-                [ cdi:decimalPositions 3 ;
-                    cdi:nullSequence "NA" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-salinity ;
-                    cdif:index 4 ;
+                    cdif:formats_InstanceVariable ex:var-ph ;
+                    cdif:index 2 ;
                     cdif:physicalDataType "float64" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://doi.org" ;
+            schema1:propertyID <https://doi.org> ;
             schema1:url "https://doi.org/10.5281/zenodo.5151515" ;
             schema1:value "10.5281/zenodo.5151515" ] ;
     schema1:keywords "Gulf of Maine",
@@ -99,12 +100,16 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
         <https://w3id.org/cdif/data_description/1.1>,
         <https://w3id.org/cdif/discovery/1.1> ;
     schema1:about ex:gom-water-quality-wide-2025 ;
-    schema1:additionalType "dcat:CatalogRecord" ;
+    schema1:additionalType dcat:CatalogRecord ;
     schema1:sdDatePublished "2025-10-20" .
 
 <https://example.org/gom-water-quality-wide-2025/pk> a cdif:Key ;
-    cdif:isComposedOf ex:var-sample-date,
-        ex:var-station .
+    cdif:isComposedOf [ a cdi:ComponentPosition ;
+            cdi:indexes ex:var-station ;
+            cdi:value 1 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes ex:var-sample-date ;
+            cdi:value 2 ] .
 
 ex:var-oxygen a cdi:InstanceVariable,
         schema1:PropertyValue ;
@@ -130,7 +135,7 @@ ex:var-ph a cdi:InstanceVariable,
     schema1:measurementTechnique "Glass electrode, two-point calibration" ;
     schema1:minValue 0e+00 ;
     schema1:name "ph" ;
-    schema1:propertyID "http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/" ;
+    schema1:propertyID <http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/> ;
     cdif:displayLabel "pH" ;
     cdif:physicalDataType "float64" ;
     cdif:role "Measure" ;

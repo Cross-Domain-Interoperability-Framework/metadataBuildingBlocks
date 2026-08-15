@@ -24,6 +24,7 @@ description: Shared DDI-CDI structured data types from DDICDILibrary/DataTypes. 
 $defs:
   id-reference:
     type: object
+    additionalProperties: false
     description: JSON-LD @id reference to a node defined elsewhere in the graph
     properties:
       '@id':

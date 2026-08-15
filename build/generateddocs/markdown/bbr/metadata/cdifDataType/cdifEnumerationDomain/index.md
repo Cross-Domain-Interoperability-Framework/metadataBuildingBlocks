@@ -109,26 +109,23 @@ cdi:purpose (multilingual InternationalString).
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "ex": "https://example.org/"
   },
-  "@type": ["cdif:EnumerationDomain"],
+  "@type": [
+    "cdif:EnumerationDomain"
+  ],
   "@id": "ex:enum-domain/iso3166-eu",
   "cdif:identifier": {
-    "@type": ["schema:PropertyValue"],
-    "schema:propertyID": "https://registry.identifiers.org/registry/cdif",
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/cdif"
+    },
     "schema:value": "iso3166-eu",
     "schema:url": "https://example.org/enum-domain/iso3166-eu"
   },
   "schema:name": "ISO 3166-1 alpha-2 — EU subset",
   "cdif:references": {
-    "@type": ["skos:ConceptScheme"],
-    "@id": "https://example.org/concept-scheme/iso3166-eu",
-    "skos:prefLabel": [
-      { "@value": "ISO 3166-1 alpha-2 — EU subset", "@language": "en" },
-      { "@value": "ISO 3166-1 alpha-2 — Sous-ensemble UE", "@language": "fr" }
-    ],
-    "skos:hasTopConcept": [
-      { "@id": "ex:concept/DE" },
-      { "@id": "ex:concept/FR" }
-    ]
+    "@id": "https://example.org/concept-scheme/iso3166-eu"
   },
   "cdif:purpose": "Subset of ISO 3166-1 alpha-2 country codes covering EU member states."
 }
@@ -162,34 +159,15 @@ cdi:purpose (multilingual InternationalString).
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://registry.identifiers.org/registry/cdif",
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/cdif"
+    },
     "schema:value": "iso3166-eu",
     "schema:url": "https://example.org/enum-domain/iso3166-eu"
   },
   "schema:name": "ISO 3166-1 alpha-2 \u2014 EU subset",
   "cdif:references": {
-    "@type": [
-      "skos:ConceptScheme"
-    ],
-    "@id": "https://example.org/concept-scheme/iso3166-eu",
-    "skos:prefLabel": [
-      {
-        "@value": "ISO 3166-1 alpha-2 \u2014 EU subset",
-        "@language": "en"
-      },
-      {
-        "@value": "ISO 3166-1 alpha-2 \u2014 Sous-ensemble UE",
-        "@language": "fr"
-      }
-    ],
-    "skos:hasTopConcept": [
-      {
-        "@id": "ex:concept/DE"
-      },
-      {
-        "@id": "ex:concept/FR"
-      }
-    ]
+    "@id": "https://example.org/concept-scheme/iso3166-eu"
   },
   "cdif:purpose": "Subset of ISO 3166-1 alpha-2 country codes covering EU member states."
 }
@@ -199,22 +177,15 @@ cdi:purpose (multilingual InternationalString).
 ```ttl
 @prefix cdif: <https://w3id.org/cdif/> .
 @prefix schema1: <http://schema.org/> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 <https://example.org/enum-domain/iso3166-eu> a cdif:EnumerationDomain ;
     schema1:name "ISO 3166-1 alpha-2 — EU subset" ;
     cdif:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://registry.identifiers.org/registry/cdif" ;
+            schema1:propertyID <https://registry.identifiers.org/registry/cdif> ;
             schema1:url "https://example.org/enum-domain/iso3166-eu" ;
             schema1:value "iso3166-eu" ] ;
     cdif:purpose "Subset of ISO 3166-1 alpha-2 country codes covering EU member states." ;
     cdif:references <https://example.org/concept-scheme/iso3166-eu> .
-
-<https://example.org/concept-scheme/iso3166-eu> a skos:ConceptScheme ;
-    skos:hasTopConcept <https://example.org/concept/DE>,
-        <https://example.org/concept/FR> ;
-    skos:prefLabel "ISO 3166-1 alpha-2 — EU subset"@en,
-        "ISO 3166-1 alpha-2 — Sous-ensemble UE"@fr .
 
 
 ```
@@ -253,6 +224,9 @@ properties:
     anyOf:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifProfile/cdifCodelist/schema.yaml
     - type: object
+      required:
+      - '@id'
+      additionalProperties: false
       description: object reference via URI or URI fragment referencing an @id in
         the same document
       properties:

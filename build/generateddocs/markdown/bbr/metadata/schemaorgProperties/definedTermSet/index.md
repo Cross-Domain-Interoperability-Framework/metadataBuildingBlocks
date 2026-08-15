@@ -122,24 +122,36 @@ list of schema:DefinedTerm entries each with their own @id, name, and termCode.
     "ex": "https://example.org/"
   },
   "@id": "ex:nercParameterCodes_P02",
-  "@type": ["schema:DefinedTermSet"],
+  "@type": [
+    "schema:DefinedTermSet"
+  ],
   "schema:name": "NERC Vocabulary Server P02 Parameter Codes",
   "schema:description": "Excerpt of the NERC Vocabulary Server P02 collection of climate and forecast standard names for marine and oceanographic measurements.",
   "schema:identifier": {
-    "@type": ["schema:PropertyValue"],
-    "schema:propertyID": "https://vocab.nerc.ac.uk/collection/P02/current/",
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": {
+      "@id": "https://vocab.nerc.ac.uk/collection/P02/current/"
+    },
     "schema:value": "P02",
     "schema:url": "https://vocab.nerc.ac.uk/collection/P02/current/"
   },
   "schema:url": "https://vocab.nerc.ac.uk/collection/P02/current/",
   "schema:hasDefinedTerm": [
     {
-      "@type": ["schema:DefinedTerm"],
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "@id": "https://vocab.nerc.ac.uk/collection/P02/current/MSDG/",
       "schema:name": "Marine Sediment Geochemistry",
       "schema:identifier": {
-        "@type": ["schema:PropertyValue"],
-        "schema:propertyID": "https://vocab.nerc.ac.uk/collection/P02/current/",
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": {
+          "@id": "https://vocab.nerc.ac.uk/collection/P02/current/"
+        },
         "schema:value": "MSDG",
         "schema:url": "https://vocab.nerc.ac.uk/collection/P02/current/MSDG/"
       },
@@ -147,7 +159,9 @@ list of schema:DefinedTerm entries each with their own @id, name, and termCode.
       "schema:termCode": "MSDG"
     },
     {
-      "@type": ["schema:DefinedTerm"],
+      "@type": [
+        "schema:DefinedTerm"
+      ],
       "@id": "https://vocab.nerc.ac.uk/collection/P02/current/CHEM/",
       "schema:name": "Water-column chemistry",
       "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/P02/current/",
@@ -181,7 +195,9 @@ list of schema:DefinedTerm entries each with their own @id, name, and termCode.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://vocab.nerc.ac.uk/collection/P02/current/",
+    "schema:propertyID": {
+      "@id": "https://vocab.nerc.ac.uk/collection/P02/current/"
+    },
     "schema:value": "P02",
     "schema:url": "https://vocab.nerc.ac.uk/collection/P02/current/"
   },
@@ -197,7 +213,9 @@ list of schema:DefinedTerm entries each with their own @id, name, and termCode.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://vocab.nerc.ac.uk/collection/P02/current/",
+        "schema:propertyID": {
+          "@id": "https://vocab.nerc.ac.uk/collection/P02/current/"
+        },
         "schema:value": "MSDG",
         "schema:url": "https://vocab.nerc.ac.uk/collection/P02/current/MSDG/"
       },
@@ -227,7 +245,7 @@ ex:nercParameterCodes_P02 a schema1:DefinedTermSet ;
     schema1:hasDefinedTerm <https://vocab.nerc.ac.uk/collection/P02/current/CHEM/>,
         <https://vocab.nerc.ac.uk/collection/P02/current/MSDG/> ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://vocab.nerc.ac.uk/collection/P02/current/" ;
+            schema1:propertyID <https://vocab.nerc.ac.uk/collection/P02/current/> ;
             schema1:url "https://vocab.nerc.ac.uk/collection/P02/current/" ;
             schema1:value "P02" ] ;
     schema1:name "NERC Vocabulary Server P02 Parameter Codes" ;
@@ -240,7 +258,7 @@ ex:nercParameterCodes_P02 a schema1:DefinedTermSet ;
 
 <https://vocab.nerc.ac.uk/collection/P02/current/MSDG/> a schema1:DefinedTerm ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://vocab.nerc.ac.uk/collection/P02/current/" ;
+            schema1:propertyID <https://vocab.nerc.ac.uk/collection/P02/current/> ;
             schema1:url "https://vocab.nerc.ac.uk/collection/P02/current/MSDG/" ;
             schema1:value "MSDG" ] ;
     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;

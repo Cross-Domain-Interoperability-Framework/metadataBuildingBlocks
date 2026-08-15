@@ -74,8 +74,12 @@ each with their own manufacturer/model/properties), relatedLink
     "schema:Thing"
   ],
   "schema:additionalType": [
-    "wd:Q3099911",
-    "wd:Q420427"
+    {
+      "@id": "wd:Q3099911"
+    },
+    {
+      "@id": "wd:Q420427"
+    }
   ],
   "schema:name": "Pyrolysis-GC-MS/MS System (NASA GSFC Astrobiology Analytical Lab)",
   "schema:description": "Integrated pyrolysis-gas chromatography-tandem mass spectrometry instrument system used for characterization of complex organic mixtures in bulk solid samples. Combines a flash pyrolysis front-end (up to 1300°C at 10°C/ms) with gas chromatographic separation and triple-quadrupole mass spectrometry with simultaneous full scan and timed SRM/MRM acquisition. Primary application: direct microanalysis of extraterrestrial materials without chemical pretreatment.",
@@ -88,7 +92,9 @@ each with their own manufacturer/model/properties), relatedLink
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://doi.org",
+      "schema:propertyID": {
+        "@id": "https://doi.org"
+      },
       "schema:value": "10.xxxx/instrument.pygcms.gsfc.001",
       "schema:url": "https://doi.org/10.xxxx/instrument.pygcms.gsfc.001"
     },
@@ -110,7 +116,9 @@ each with their own manufacturer/model/properties), relatedLink
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://ror.org",
+      "schema:propertyID": {
+        "@id": "https://ror.org"
+      },
       "schema:value": "03x1z2w73",
       "schema:url": "https://ror.org/03x1z2w73"
     },
@@ -146,7 +154,9 @@ each with their own manufacturer/model/properties), relatedLink
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://vocab.nerc.ac.uk/collection/L05/current/",
+        "schema:propertyID": {
+          "@id": "https://vocab.nerc.ac.uk/collection/L05/current/"
+        },
         "schema:value": "LAB02",
         "schema:url": "https://vocab.nerc.ac.uk/collection/L05/current/LAB02/"
       },
@@ -171,7 +181,9 @@ each with their own manufacturer/model/properties), relatedLink
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://ror.org",
+      "schema:propertyID": {
+        "@id": "https://ror.org"
+      },
       "schema:value": "0171mag52",
       "schema:url": "https://ror.org/0171mag52"
     },
@@ -205,7 +217,9 @@ each with their own manufacturer/model/properties), relatedLink
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://orcid.org",
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
           "schema:value": "0000-0002-4805-7062",
           "schema:url": "https://orcid.org/0000-0002-4805-7062"
         },
@@ -232,7 +246,9 @@ each with their own manufacturer/model/properties), relatedLink
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://orcid.org",
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
           "schema:value": "0000-0001-8898-3457",
           "schema:url": "https://orcid.org/0000-0001-8898-3457"
         },
@@ -308,7 +324,11 @@ each with their own manufacturer/model/properties), relatedLink
       "@id": "ex:component-pyrolysis-oven",
       "schema:name": "Pyrolysis Oven",
       "schema:description": "Flash pyrolysis front-end interface coupled to GC-MS. Flash heats at 10°C/ms to temperatures up to 1300°C. Samples loaded in quartz tubes.",
-      "schema:additionalType": "wd:Q3099911",
+      "schema:additionalType": [
+        {
+          "@id": "wd:Q3099911"
+        }
+      ],
       "schema:manufacturer": {
         "@type": [
           "schema:Organization"
@@ -354,7 +374,11 @@ each with their own manufacturer/model/properties), relatedLink
       "@id": "ex:component-gas-chromatograph",
       "schema:name": "Gas Chromatograph with Rtx-5ms column",
       "schema:description": "GC with Rtx-5ms (5% diphenyl / 95% dimethyl polysiloxane) fused silica capillary column, 30 m × 0.250 mm × 0.50 µm, with 5 m × 0.250 mm guard column. Helium carrier gas at 1.500 mL/min.",
-      "schema:additionalType": "wd:Q848143",
+      "schema:additionalType": [
+        {
+          "@id": "wd:Q848143"
+        }
+      ],
       "schema:manufacturer": {
         "@type": [
           "schema:Organization"
@@ -409,7 +433,11 @@ each with their own manufacturer/model/properties), relatedLink
       "@id": "ex:component-mass-spectrometer",
       "schema:name": "Thermo Scientific TSQ Triple-Quadrupole Mass Spectrometer",
       "schema:description": "TSQ triple-quadrupole MS operated in EI mode, positive polarity, with simultaneous full scan (m/z 50-500) and timed SRM/MRM capability targeting 38 organic compounds.",
-      "schema:additionalType": "wd:Q180809",
+      "schema:additionalType": [
+        {
+          "@id": "wd:Q180809"
+        }
+      ],
       "schema:identifier": {
         "@type": [
           "schema:PropertyValue"
@@ -503,7 +531,7 @@ each with their own manufacturer/model/properties), relatedLink
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/bbr/metadata/instrumentDescription/v0.1"
+        "@id": "https://w3id.org/cdif/instrument/1.0"
       }
     ]
   }
@@ -536,8 +564,12 @@ each with their own manufacturer/model/properties), relatedLink
     "schema:Thing"
   ],
   "schema:additionalType": [
-    "wd:Q3099911",
-    "wd:Q420427"
+    {
+      "@id": "wd:Q3099911"
+    },
+    {
+      "@id": "wd:Q420427"
+    }
   ],
   "schema:name": "Pyrolysis-GC-MS/MS System (NASA GSFC Astrobiology Analytical Lab)",
   "schema:description": "Integrated pyrolysis-gas chromatography-tandem mass spectrometry instrument system used for characterization of complex organic mixtures in bulk solid samples. Combines a flash pyrolysis front-end (up to 1300\u00b0C at 10\u00b0C/ms) with gas chromatographic separation and triple-quadrupole mass spectrometry with simultaneous full scan and timed SRM/MRM acquisition. Primary application: direct microanalysis of extraterrestrial materials without chemical pretreatment.",
@@ -550,7 +582,9 @@ each with their own manufacturer/model/properties), relatedLink
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://doi.org",
+      "schema:propertyID": {
+        "@id": "https://doi.org"
+      },
       "schema:value": "10.xxxx/instrument.pygcms.gsfc.001",
       "schema:url": "https://doi.org/10.xxxx/instrument.pygcms.gsfc.001"
     },
@@ -572,7 +606,9 @@ each with their own manufacturer/model/properties), relatedLink
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://ror.org",
+      "schema:propertyID": {
+        "@id": "https://ror.org"
+      },
       "schema:value": "03x1z2w73",
       "schema:url": "https://ror.org/03x1z2w73"
     },
@@ -608,7 +644,9 @@ each with their own manufacturer/model/properties), relatedLink
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://vocab.nerc.ac.uk/collection/L05/current/",
+        "schema:propertyID": {
+          "@id": "https://vocab.nerc.ac.uk/collection/L05/current/"
+        },
         "schema:value": "LAB02",
         "schema:url": "https://vocab.nerc.ac.uk/collection/L05/current/LAB02/"
       },
@@ -633,7 +671,9 @@ each with their own manufacturer/model/properties), relatedLink
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://ror.org",
+      "schema:propertyID": {
+        "@id": "https://ror.org"
+      },
       "schema:value": "0171mag52",
       "schema:url": "https://ror.org/0171mag52"
     },
@@ -667,7 +707,9 @@ each with their own manufacturer/model/properties), relatedLink
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://orcid.org",
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
           "schema:value": "0000-0002-4805-7062",
           "schema:url": "https://orcid.org/0000-0002-4805-7062"
         },
@@ -694,7 +736,9 @@ each with their own manufacturer/model/properties), relatedLink
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://orcid.org",
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
           "schema:value": "0000-0001-8898-3457",
           "schema:url": "https://orcid.org/0000-0001-8898-3457"
         },
@@ -770,7 +814,11 @@ each with their own manufacturer/model/properties), relatedLink
       "@id": "ex:component-pyrolysis-oven",
       "schema:name": "Pyrolysis Oven",
       "schema:description": "Flash pyrolysis front-end interface coupled to GC-MS. Flash heats at 10\u00b0C/ms to temperatures up to 1300\u00b0C. Samples loaded in quartz tubes.",
-      "schema:additionalType": "wd:Q3099911",
+      "schema:additionalType": [
+        {
+          "@id": "wd:Q3099911"
+        }
+      ],
       "schema:manufacturer": {
         "@type": [
           "schema:Organization"
@@ -816,7 +864,11 @@ each with their own manufacturer/model/properties), relatedLink
       "@id": "ex:component-gas-chromatograph",
       "schema:name": "Gas Chromatograph with Rtx-5ms column",
       "schema:description": "GC with Rtx-5ms (5% diphenyl / 95% dimethyl polysiloxane) fused silica capillary column, 30 m \u00d7 0.250 mm \u00d7 0.50 \u00b5m, with 5 m \u00d7 0.250 mm guard column. Helium carrier gas at 1.500 mL/min.",
-      "schema:additionalType": "wd:Q848143",
+      "schema:additionalType": [
+        {
+          "@id": "wd:Q848143"
+        }
+      ],
       "schema:manufacturer": {
         "@type": [
           "schema:Organization"
@@ -871,7 +923,11 @@ each with their own manufacturer/model/properties), relatedLink
       "@id": "ex:component-mass-spectrometer",
       "schema:name": "Thermo Scientific TSQ Triple-Quadrupole Mass Spectrometer",
       "schema:description": "TSQ triple-quadrupole MS operated in EI mode, positive polarity, with simultaneous full scan (m/z 50-500) and timed SRM/MRM capability targeting 38 organic compounds.",
-      "schema:additionalType": "wd:Q180809",
+      "schema:additionalType": [
+        {
+          "@id": "wd:Q180809"
+        }
+      ],
       "schema:identifier": {
         "@type": [
           "schema:PropertyValue"
@@ -965,7 +1021,7 @@ each with their own manufacturer/model/properties), relatedLink
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/bbr/metadata/instrumentDescription/v0.1"
+        "@id": "https://w3id.org/cdif/instrument/1.0"
       }
     ]
   }
@@ -978,24 +1034,25 @@ each with their own manufacturer/model/properties), relatedLink
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
+@prefix wd: <https://www.wikidata.org/entity/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:component-gas-chromatograph a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "Carrier gas" ;
+            schema1:propertyID "carrierGas" ;
+            schema1:value "Helium" ],
+        [ a schema1:PropertyValue ;
             schema1:name "Carrier gas flow rate" ;
             schema1:propertyID "carrierGasFlow" ;
             schema1:unitText "mL/min" ;
             schema1:value 1.5e+00 ],
         [ a schema1:PropertyValue ;
-            schema1:name "Carrier gas" ;
-            schema1:propertyID "carrierGas" ;
-            schema1:value "Helium" ],
-        [ a schema1:PropertyValue ;
             schema1:name "Column" ;
             schema1:propertyID "columnType" ;
             schema1:value "Rtx-5ms, 30 m × 0.250 mm × 0.50 µm + 5 m guard" ] ;
-    schema1:additionalType "wd:Q848143" ;
+    schema1:additionalType wd:Q848143 ;
     schema1:description "GC with Rtx-5ms (5% diphenyl / 95% dimethyl polysiloxane) fused silica capillary column, 30 m × 0.250 mm × 0.50 µm, with 5 m × 0.250 mm guard column. Helium carrier gas at 1.500 mL/min." ;
     schema1:manufacturer [ a schema1:Organization ;
             schema1:name "Thermo Fisher Scientific" ] ;
@@ -1006,6 +1063,11 @@ ex:component-gas-chromatograph a schema1:Product,
 ex:component-mass-spectrometer a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "Ion source temperature" ;
+            schema1:propertyID "ionSourceTemperature" ;
+            schema1:unitText "°C" ;
+            schema1:value 300 ],
+        [ a schema1:PropertyValue ;
             schema1:name "Detector gain" ;
             schema1:propertyID "detectorGain" ;
             schema1:value 100000 ],
@@ -1013,13 +1075,8 @@ ex:component-mass-spectrometer a schema1:Product,
             schema1:name "Full scan time" ;
             schema1:propertyID "scanTime" ;
             schema1:unitText "s" ;
-            schema1:value 1e-01 ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Ion source temperature" ;
-            schema1:propertyID "ionSourceTemperature" ;
-            schema1:unitText "°C" ;
-            schema1:value 300 ] ;
-    schema1:additionalType "wd:Q180809" ;
+            schema1:value 1e-01 ] ;
+    schema1:additionalType wd:Q180809 ;
     schema1:description "TSQ triple-quadrupole MS operated in EI mode, positive polarity, with simultaneous full scan (m/z 50-500) and timed SRM/MRM capability targeting 38 organic compounds." ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "serialNumber" ;
@@ -1042,7 +1099,7 @@ ex:component-pyrolysis-oven a schema1:Product,
             schema1:propertyID "heatingRate" ;
             schema1:unitText "°C/ms" ;
             schema1:value 10 ] ;
-    schema1:additionalType "wd:Q3099911" ;
+    schema1:additionalType wd:Q3099911 ;
     schema1:description "Flash pyrolysis front-end interface coupled to GC-MS. Flash heats at 10°C/ms to temperatures up to 1300°C. Samples loaded in quartz tubes." ;
     schema1:manufacturer [ a schema1:Organization ;
             schema1:name "CDS Analytical" ] ;
@@ -1053,68 +1110,68 @@ ex:component-pyrolysis-oven a schema1:Product,
 ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Full scan m/z range" ;
-            schema1:propertyID "scanRange" ;
-            schema1:value "50-500" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "Measured variables" ;
-            schema1:propertyID "MeasuredVariable" ;
-            schema1:value "mass-to-charge ratio (m/z); ion abundance; retention time" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "MRM target compounds" ;
-            schema1:propertyID "mrmCapability" ;
-            schema1:value 38 ],
+            schema1:name "Full scan detection limit" ;
+            schema1:propertyID "detectionLimit" ;
+            schema1:unitText "ng" ;
+            schema1:value "sub-nanogram" ],
         [ a schema1:PropertyValue ;
             schema1:name "Ionization mode" ;
             schema1:propertyID "ionizationMode" ;
             schema1:value "Electron Ionization (EI), positive polarity" ],
         [ a schema1:PropertyValue ;
-            schema1:name "Full scan detection limit" ;
-            schema1:propertyID "detectionLimit" ;
-            schema1:unitText "ng" ;
-            schema1:value "sub-nanogram" ] ;
-    schema1:additionalType "wd:Q3099911",
-        "wd:Q420427" ;
+            schema1:name "Full scan m/z range" ;
+            schema1:propertyID "scanRange" ;
+            schema1:value "50-500" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "MRM target compounds" ;
+            schema1:propertyID "mrmCapability" ;
+            schema1:value 38 ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Measured variables" ;
+            schema1:propertyID "MeasuredVariable" ;
+            schema1:value "mass-to-charge ratio (m/z); ion abundance; retention time" ] ;
+    schema1:additionalType wd:Q3099911,
+        wd:Q420427 ;
     schema1:alternateName "GSFC Astrobiology Lab Pyrolysis GC-MS System",
         "Py-GC-MS/MS" ;
     schema1:category [ a schema1:DefinedTerm ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
-            schema1:name "Pyrolysis Gas Chromatography Mass Spectrometry" ;
-            schema1:termCode "Py-GC-MS" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+                    schema1:propertyID <https://vocab.nerc.ac.uk/collection/L05/current/> ;
                     schema1:url "https://vocab.nerc.ac.uk/collection/L05/current/LAB02/" ;
                     schema1:value "LAB02" ] ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
             schema1:name "Gas Chromatography Mass Spectrometry" ;
-            schema1:termCode "GCMS" ] ;
+            schema1:termCode "GCMS" ],
+        [ a schema1:DefinedTerm ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+            schema1:name "Pyrolysis Gas Chromatography Mass Spectrometry" ;
+            schema1:termCode "Py-GC-MS" ] ;
     schema1:contributor [ a schema1:Role ;
-            schema1:contributor <https://orcid.org/0000-0001-8898-3457> ;
-            schema1:roleName "Operator" ],
-        [ a schema1:Role ;
             schema1:contributor <https://orcid.org/0000-0002-4805-7062> ;
             schema1:roleName [ a schema1:DefinedTerm ;
                     schema1:inDefinedTermSet "https://credit.niso.org/" ;
                     schema1:name "Principal Investigator" ;
-                    schema1:termCode "investigation" ] ] ;
+                    schema1:termCode "investigation" ] ],
+        [ a schema1:Role ;
+            schema1:contributor <https://orcid.org/0000-0001-8898-3457> ;
+            schema1:roleName "Operator" ] ;
     schema1:description "Integrated pyrolysis-gas chromatography-tandem mass spectrometry instrument system used for characterization of complex organic mixtures in bulk solid samples. Combines a flash pyrolysis front-end (up to 1300°C at 10°C/ms) with gas chromatographic separation and triple-quadrupole mass spectrometry with simultaneous full scan and timed SRM/MRM acquisition. Primary application: direct microanalysis of extraterrestrial materials without chemical pretreatment." ;
     schema1:hasPart ex:component-gas-chromatograph,
         ex:component-mass-spectrometer,
         ex:component-pyrolysis-oven ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://doi.org" ;
-            schema1:url "https://doi.org/10.xxxx/instrument.pygcms.gsfc.001" ;
-            schema1:value "10.xxxx/instrument.pygcms.gsfc.001" ],
-        [ a schema1:PropertyValue ;
             schema1:propertyID "inventoryNumber" ;
-            schema1:value "GSFC-AAL-PYGCMS-001" ] ;
+            schema1:value "GSFC-AAL-PYGCMS-001" ],
+        [ a schema1:PropertyValue ;
+            schema1:propertyID <https://doi.org> ;
+            schema1:url "https://doi.org/10.xxxx/instrument.pygcms.gsfc.001" ;
+            schema1:value "10.xxxx/instrument.pygcms.gsfc.001" ] ;
     schema1:manufacturer [ a schema1:Organization ;
             schema1:contactPoint [ a schema1:ContactPoint ;
                     schema1:email "info@thermofisher.com" ;
                     schema1:url "https://www.thermofisher.com/contact-us.html" ] ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://ror.org" ;
+                    schema1:propertyID <https://ror.org> ;
                     schema1:url "https://ror.org/03x1z2w73" ;
                     schema1:value "03x1z2w73" ] ;
             schema1:name "Thermo Fisher Scientific" ] ;
@@ -1127,23 +1184,23 @@ ex:instrument-pygcmsms-gsfc-001 a schema1:Product,
     schema1:owner <https://ror.org/0171mag52> ;
     schema1:relatedLink [ a schema1:CreativeWork,
                 dcat:Relationship ;
-            schema1:description "User manual for the TSQ 9000 triple quadrupole GC-MS/MS system" ;
-            schema1:name "TSQ 9000 User Guide" ;
-            schema1:url "https://www.thermofisher.com/document-connect/document-connect.html?url=https://assets.thermofisher.com/TFS-Assets/CMD/manuals/man-80000-97071-tsq-9000-user-guide.pdf" ],
-        [ a schema1:CreativeWork,
-                dcat:Relationship ;
             schema1:name "Dworkin et al. (2024) — Organic compounds in asteroid Bennu samples" ;
             schema1:url "https://doi.org/10.1038/s41586-024-08335-1" ],
         [ a schema1:CreativeWork,
                 dcat:Relationship ;
             schema1:name "2023 annual calibration report" ;
-            schema1:url "https://example.org/calibration/pygcms-gsfc-2023.pdf" ] ;
+            schema1:url "https://example.org/calibration/pygcms-gsfc-2023.pdf" ],
+        [ a schema1:CreativeWork,
+                dcat:Relationship ;
+            schema1:description "User manual for the TSQ 9000 triple quadrupole GC-MS/MS system" ;
+            schema1:name "TSQ 9000 User Guide" ;
+            schema1:url "https://www.thermofisher.com/document-connect/document-connect.html?url=https://assets.thermofisher.com/TFS-Assets/CMD/manuals/man-80000-97071-tsq-9000-user-guide.pdf" ] ;
     schema1:subjectOf ex:metadata-instrument-pygcms-001 ;
     schema1:url "https://science.gsfc.nasa.gov/sed/bio/jason.p.dworkin" ;
     schema1:validFrom "2023-01-15" .
 
 ex:metadata-instrument-pygcms-001 a schema1:DigitalDocument ;
-    dcterms:conformsTo <https://w3id.org/cdif/bbr/metadata/instrumentDescription/v0.1> ;
+    dcterms:conformsTo <https://w3id.org/cdif/instrument/1.0> ;
     schema1:about ex:instrument-pygcmsms-gsfc-001 ;
     schema1:dateModified "2026-03-15" .
 
@@ -1151,7 +1208,7 @@ ex:metadata-instrument-pygcms-001 a schema1:DigitalDocument ;
     schema1:contactPoint [ a schema1:ContactPoint ;
             schema1:email "angel.mojarro@nasa.gov" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://orcid.org" ;
+            schema1:propertyID <https://orcid.org> ;
             schema1:url "https://orcid.org/0000-0001-8898-3457" ;
             schema1:value "0000-0001-8898-3457" ] ;
     schema1:name "Mojarro, Angel" .
@@ -1160,7 +1217,7 @@ ex:metadata-instrument-pygcms-001 a schema1:DigitalDocument ;
     schema1:contactPoint [ a schema1:ContactPoint ;
             schema1:email "jason.p.dworkin@nasa.gov" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://orcid.org" ;
+            schema1:propertyID <https://orcid.org> ;
             schema1:url "https://orcid.org/0000-0002-4805-7062" ;
             schema1:value "0000-0002-4805-7062" ] ;
     schema1:name "Dworkin, Jason P." .
@@ -1169,7 +1226,7 @@ ex:metadata-instrument-pygcms-001 a schema1:DigitalDocument ;
     schema1:contactPoint [ a schema1:ContactPoint ;
             schema1:email "gsfc-aal@nasa.gov" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://ror.org" ;
+            schema1:propertyID <https://ror.org> ;
             schema1:url "https://ror.org/0171mag52" ;
             schema1:value "0171mag52" ] ;
     schema1:name "NASA Goddard Space Flight Center" .
@@ -1197,200 +1254,14 @@ reference), relatedLink, and subjectOf catalog record.
     "ex": "https://example.org/"
   },
   "@id": "ex:instrument-icpms-lab42",
-  "@type": ["schema:Product", "schema:Thing"],
-  "schema:additionalType": ["wd:Q223767"],
-  "schema:name": "ICP-MS System (Stable Isotope Geochemistry Lab)",
-  "schema:description": "Inductively coupled plasma mass spectrometer for trace element and isotope ratio analysis of geological and environmental samples. Equipped with collision/reaction cell for polyatomic interference removal. Typical applications include REE patterns, U-Pb geochronology screening, and water quality trace metals.",
-  "schema:alternateName": ["ICP-MS", "Lab 42 Quadrupole ICP-MS"],
-  "schema:identifier": [
-    {
-      "@type": ["schema:PropertyValue"],
-      "schema:propertyID": "https://doi.org",
-      "schema:value": "10.xxxx/instrument.icpms.lab42",
-      "schema:url": "https://doi.org/10.xxxx/instrument.icpms.lab42"
-    },
-    {
-      "@type": ["schema:PropertyValue"],
-      "schema:propertyID": "inventoryNumber",
-      "schema:value": "GEOL-LAB42-ICPMS-003"
-    }
-  ],
-  "schema:url": "https://example.org/facilities/lab42/icpms",
-  "schema:manufacturer": {
-    "@type": ["schema:Organization"],
-    "schema:name": "Agilent Technologies",
-    "schema:identifier": {
-      "@type": ["schema:PropertyValue"],
-      "schema:propertyID": "https://ror.org",
-      "schema:value": "03kbsn367",
-      "schema:url": "https://ror.org/03kbsn367"
-    }
-  },
-  "schema:model": {
-    "@type": ["schema:ProductModel"],
-    "schema:name": "Agilent 7900 ICP-MS",
-    "schema:identifier": {
-      "@type": ["schema:PropertyValue"],
-      "schema:propertyID": "serialNumber",
-      "schema:value": "JP19200456"
-    }
-  },
-  "schema:category": [
-    {
-      "@type": ["schema:DefinedTerm"],
-      "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
-      "schema:termCode": "LAB21",
-      "schema:identifier": {
-        "@type": ["schema:PropertyValue"],
-        "schema:propertyID": "https://vocab.nerc.ac.uk/collection/L05/current/",
-        "schema:value": "LAB21",
-        "schema:url": "https://vocab.nerc.ac.uk/collection/L05/current/LAB21/"
-      },
-      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
-    }
-  ],
-  "schema:owner": {
-    "@id": "https://ror.org/03m2x1q45",
-    "@type": ["schema:Organization"],
-    "schema:name": "University of Arizona",
-    "schema:identifier": {
-      "@type": ["schema:PropertyValue"],
-      "schema:propertyID": "https://ror.org",
-      "schema:value": "03m2x1q45",
-      "schema:url": "https://ror.org/03m2x1q45"
-    }
-  },
-  "schema:contributor": [
-    {
-      "@type": ["schema:Role"],
-      "schema:roleName": {
-        "@type": ["schema:DefinedTerm"],
-        "schema:name": "Laboratory Manager",
-        "schema:inDefinedTermSet": "https://credit.niso.org/",
-        "schema:termCode": "resources"
-      },
-      "schema:contributor": {
-        "@id": "https://orcid.org/0000-0001-9876-5432",
-        "@type": ["schema:Person"],
-        "schema:name": "Park, Soo-Jin",
-        "schema:identifier": {
-          "@type": ["schema:PropertyValue"],
-          "schema:propertyID": "https://orcid.org",
-          "schema:value": "0000-0001-9876-5432",
-          "schema:url": "https://orcid.org/0000-0001-9876-5432"
-        },
-        "schema:contactPoint": {
-          "@type": ["schema:ContactPoint"],
-          "schema:email": "spark@arizona.edu"
-        }
-      }
-    }
-  ],
-  "schema:additionalProperty": [
-    {
-      "@type": ["schema:PropertyValue"],
-      "schema:propertyID": ["detectionLimit"],
-      "schema:name": "Detection limit (most elements)",
-      "schema:value": "sub-ppt",
-      "schema:unitText": "parts per trillion"
-    },
-    {
-      "@type": ["schema:PropertyValue"],
-      "schema:propertyID": ["massRange"],
-      "schema:name": "Mass range",
-      "schema:value": "2-260",
-      "schema:unitText": "amu"
-    }
-  ],
-  "schema:validFrom": "2019-06-01",
-  "schema:validThrough": "2026-01-15",
-  "schema:hasPart": [
-    {
-      "@type": ["schema:Thing"],
-      "@id": "ex:component-autosampler-lab42",
-      "schema:name": "Autosampler for ICP-MS",
-      "schema:description": "Automated sample introduction system with 240-position sample tray and integrated rinse station",
-      "schema:alternateName": "ASX-560 Autosampler",
-      "schema:identifier": {
-        "@type": ["schema:PropertyValue"],
-        "schema:propertyID": "serialNumber",
-        "schema:value": "ASX-2019-0789"
-      },
-      "schema:additionalType": "wd:Q16653419",
-      "schema:manufacturer": {
-        "@type": ["schema:Organization"],
-        "schema:name": "Agilent Technologies"
-      },
-      "schema:model": {
-        "@type": ["schema:ProductModel"],
-        "schema:name": "ASX-560"
-      },
-      "schema:additionalProperty": [
-        {
-          "@type": ["schema:PropertyValue"],
-          "schema:propertyID": ["capacity"],
-          "schema:name": "Sample capacity",
-          "schema:value": 240
-        }
-      ]
-    },
-    {
-      "@id": "ex:component-chiller-lab42"
-    }
-  ],
-  "schema:relatedLink": [
-    {
-      "@type": ["schema:CreativeWork", "dcat:Relationship"],
-      "schema:name": "Agilent 7900 ICP-MS User Manual",
-      "schema:description": "Complete user and maintenance manual for the Agilent 7900 quadrupole ICP-MS system",
-      "schema:url": "https://www.agilent.com/cs/library/usermanuals/public/7900-icpms-manual.pdf"
-    },
-    {
-      "@type": ["schema:CreativeWork", "dcat:Relationship"],
-      "schema:name": "2025 Annual Calibration Report",
-      "schema:url": "https://example.org/calibration/icpms-lab42-2025.pdf"
-    }
-  ],
-  "schema:subjectOf": {
-    "@id": "ex:metadata-instrument-icpms-lab42",
-    "@type": ["schema:DigitalDocument"],
-    "schema:dateModified": "2026-03-31",
-    "schema:about": {
-      "@id": "ex:instrument-icpms-lab42"
-    },
-    "dcterms:conformsTo": [
-      {"@id": "https://w3id.org/cdif/bbr/metadata/instrumentDescription/v0.1"}
-    ]
-  }
-}
-
-```
-
-#### jsonld
-```jsonld
-{
-  "@context": [
-    {
-      "schema": "http://schema.org/",
-      "dcterms": "http://purl.org/dc/terms/",
-      "wd": "https://www.wikidata.org/entity/"
-    },
-    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/context.jsonld",
-    {
-      "schema": "http://schema.org/",
-      "dcterms": "http://purl.org/dc/terms/",
-      "dcat": "http://www.w3.org/ns/dcat#",
-      "wd": "https://www.wikidata.org/entity/",
-      "ex": "https://example.org/"
-    }
-  ],
-  "@id": "ex:instrument-icpms-lab42",
   "@type": [
     "schema:Product",
     "schema:Thing"
   ],
   "schema:additionalType": [
-    "wd:Q223767"
+    {
+      "@id": "wd:Q223767"
+    }
   ],
   "schema:name": "ICP-MS System (Stable Isotope Geochemistry Lab)",
   "schema:description": "Inductively coupled plasma mass spectrometer for trace element and isotope ratio analysis of geological and environmental samples. Equipped with collision/reaction cell for polyatomic interference removal. Typical applications include REE patterns, U-Pb geochronology screening, and water quality trace metals.",
@@ -1403,7 +1274,9 @@ reference), relatedLink, and subjectOf catalog record.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://doi.org",
+      "schema:propertyID": {
+        "@id": "https://doi.org"
+      },
       "schema:value": "10.xxxx/instrument.icpms.lab42",
       "schema:url": "https://doi.org/10.xxxx/instrument.icpms.lab42"
     },
@@ -1425,7 +1298,9 @@ reference), relatedLink, and subjectOf catalog record.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://ror.org",
+      "schema:propertyID": {
+        "@id": "https://ror.org"
+      },
       "schema:value": "03kbsn367",
       "schema:url": "https://ror.org/03kbsn367"
     }
@@ -1454,7 +1329,9 @@ reference), relatedLink, and subjectOf catalog record.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://vocab.nerc.ac.uk/collection/L05/current/",
+        "schema:propertyID": {
+          "@id": "https://vocab.nerc.ac.uk/collection/L05/current/"
+        },
         "schema:value": "LAB21",
         "schema:url": "https://vocab.nerc.ac.uk/collection/L05/current/LAB21/"
       },
@@ -1471,7 +1348,9 @@ reference), relatedLink, and subjectOf catalog record.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://ror.org",
+      "schema:propertyID": {
+        "@id": "https://ror.org"
+      },
       "schema:value": "03m2x1q45",
       "schema:url": "https://ror.org/03m2x1q45"
     }
@@ -1499,7 +1378,9 @@ reference), relatedLink, and subjectOf catalog record.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://orcid.org",
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
           "schema:value": "0000-0001-9876-5432",
           "schema:url": "https://orcid.org/0000-0001-9876-5432"
         },
@@ -1546,7 +1427,9 @@ reference), relatedLink, and subjectOf catalog record.
       "@id": "ex:component-autosampler-lab42",
       "schema:name": "Autosampler for ICP-MS",
       "schema:description": "Automated sample introduction system with 240-position sample tray and integrated rinse station",
-      "schema:alternateName": "ASX-560 Autosampler",
+      "schema:alternateName": [
+        "ASX-560 Autosampler"
+      ],
       "schema:identifier": {
         "@type": [
           "schema:PropertyValue"
@@ -1554,7 +1437,11 @@ reference), relatedLink, and subjectOf catalog record.
         "schema:propertyID": "serialNumber",
         "schema:value": "ASX-2019-0789"
       },
-      "schema:additionalType": "wd:Q16653419",
+      "schema:additionalType": [
+        {
+          "@id": "wd:Q16653419"
+        }
+      ],
       "schema:manufacturer": {
         "@type": [
           "schema:Organization"
@@ -1614,7 +1501,281 @@ reference), relatedLink, and subjectOf catalog record.
     },
     "dcterms:conformsTo": [
       {
-        "@id": "https://w3id.org/cdif/bbr/metadata/instrumentDescription/v0.1"
+        "@id": "https://w3id.org/cdif/instrument/1.0"
+      }
+    ]
+  }
+}
+
+```
+
+#### jsonld
+```jsonld
+{
+  "@context": [
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "wd": "https://www.wikidata.org/entity/"
+    },
+    "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/context.jsonld",
+    {
+      "schema": "http://schema.org/",
+      "dcterms": "http://purl.org/dc/terms/",
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "wd": "https://www.wikidata.org/entity/",
+      "ex": "https://example.org/"
+    }
+  ],
+  "@id": "ex:instrument-icpms-lab42",
+  "@type": [
+    "schema:Product",
+    "schema:Thing"
+  ],
+  "schema:additionalType": [
+    {
+      "@id": "wd:Q223767"
+    }
+  ],
+  "schema:name": "ICP-MS System (Stable Isotope Geochemistry Lab)",
+  "schema:description": "Inductively coupled plasma mass spectrometer for trace element and isotope ratio analysis of geological and environmental samples. Equipped with collision/reaction cell for polyatomic interference removal. Typical applications include REE patterns, U-Pb geochronology screening, and water quality trace metals.",
+  "schema:alternateName": [
+    "ICP-MS",
+    "Lab 42 Quadrupole ICP-MS"
+  ],
+  "schema:identifier": [
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": {
+        "@id": "https://doi.org"
+      },
+      "schema:value": "10.xxxx/instrument.icpms.lab42",
+      "schema:url": "https://doi.org/10.xxxx/instrument.icpms.lab42"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "inventoryNumber",
+      "schema:value": "GEOL-LAB42-ICPMS-003"
+    }
+  ],
+  "schema:url": "https://example.org/facilities/lab42/icpms",
+  "schema:manufacturer": {
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "Agilent Technologies",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": {
+        "@id": "https://ror.org"
+      },
+      "schema:value": "03kbsn367",
+      "schema:url": "https://ror.org/03kbsn367"
+    }
+  },
+  "schema:model": {
+    "@type": [
+      "schema:ProductModel"
+    ],
+    "schema:name": "Agilent 7900 ICP-MS",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": "serialNumber",
+      "schema:value": "JP19200456"
+    }
+  },
+  "schema:category": [
+    {
+      "@type": [
+        "schema:DefinedTerm"
+      ],
+      "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
+      "schema:termCode": "LAB21",
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": {
+          "@id": "https://vocab.nerc.ac.uk/collection/L05/current/"
+        },
+        "schema:value": "LAB21",
+        "schema:url": "https://vocab.nerc.ac.uk/collection/L05/current/LAB21/"
+      },
+      "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+    }
+  ],
+  "schema:owner": {
+    "@id": "https://ror.org/03m2x1q45",
+    "@type": [
+      "schema:Organization"
+    ],
+    "schema:name": "University of Arizona",
+    "schema:identifier": {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": {
+        "@id": "https://ror.org"
+      },
+      "schema:value": "03m2x1q45",
+      "schema:url": "https://ror.org/03m2x1q45"
+    }
+  },
+  "schema:contributor": [
+    {
+      "@type": [
+        "schema:Role"
+      ],
+      "schema:roleName": {
+        "@type": [
+          "schema:DefinedTerm"
+        ],
+        "schema:name": "Laboratory Manager",
+        "schema:inDefinedTermSet": "https://credit.niso.org/",
+        "schema:termCode": "resources"
+      },
+      "schema:contributor": {
+        "@id": "https://orcid.org/0000-0001-9876-5432",
+        "@type": [
+          "schema:Person"
+        ],
+        "schema:name": "Park, Soo-Jin",
+        "schema:identifier": {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
+          "schema:value": "0000-0001-9876-5432",
+          "schema:url": "https://orcid.org/0000-0001-9876-5432"
+        },
+        "schema:contactPoint": {
+          "@type": [
+            "schema:ContactPoint"
+          ],
+          "schema:email": "spark@arizona.edu"
+        }
+      }
+    }
+  ],
+  "schema:additionalProperty": [
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "detectionLimit"
+      ],
+      "schema:name": "Detection limit (most elements)",
+      "schema:value": "sub-ppt",
+      "schema:unitText": "parts per trillion"
+    },
+    {
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": [
+        "massRange"
+      ],
+      "schema:name": "Mass range",
+      "schema:value": "2-260",
+      "schema:unitText": "amu"
+    }
+  ],
+  "schema:validFrom": "2019-06-01",
+  "schema:validThrough": "2026-01-15",
+  "schema:hasPart": [
+    {
+      "@type": [
+        "schema:Thing"
+      ],
+      "@id": "ex:component-autosampler-lab42",
+      "schema:name": "Autosampler for ICP-MS",
+      "schema:description": "Automated sample introduction system with 240-position sample tray and integrated rinse station",
+      "schema:alternateName": [
+        "ASX-560 Autosampler"
+      ],
+      "schema:identifier": {
+        "@type": [
+          "schema:PropertyValue"
+        ],
+        "schema:propertyID": "serialNumber",
+        "schema:value": "ASX-2019-0789"
+      },
+      "schema:additionalType": [
+        {
+          "@id": "wd:Q16653419"
+        }
+      ],
+      "schema:manufacturer": {
+        "@type": [
+          "schema:Organization"
+        ],
+        "schema:name": "Agilent Technologies"
+      },
+      "schema:model": {
+        "@type": [
+          "schema:ProductModel"
+        ],
+        "schema:name": "ASX-560"
+      },
+      "schema:additionalProperty": [
+        {
+          "@type": [
+            "schema:PropertyValue"
+          ],
+          "schema:propertyID": [
+            "capacity"
+          ],
+          "schema:name": "Sample capacity",
+          "schema:value": 240
+        }
+      ]
+    },
+    {
+      "@id": "ex:component-chiller-lab42"
+    }
+  ],
+  "schema:relatedLink": [
+    {
+      "@type": [
+        "schema:CreativeWork",
+        "dcat:Relationship"
+      ],
+      "schema:name": "Agilent 7900 ICP-MS User Manual",
+      "schema:description": "Complete user and maintenance manual for the Agilent 7900 quadrupole ICP-MS system",
+      "schema:url": "https://www.agilent.com/cs/library/usermanuals/public/7900-icpms-manual.pdf"
+    },
+    {
+      "@type": [
+        "schema:CreativeWork",
+        "dcat:Relationship"
+      ],
+      "schema:name": "2025 Annual Calibration Report",
+      "schema:url": "https://example.org/calibration/icpms-lab42-2025.pdf"
+    }
+  ],
+  "schema:subjectOf": {
+    "@id": "ex:metadata-instrument-icpms-lab42",
+    "@type": [
+      "schema:DigitalDocument"
+    ],
+    "schema:dateModified": "2026-03-31",
+    "schema:about": {
+      "@id": "ex:instrument-icpms-lab42"
+    },
+    "dcterms:conformsTo": [
+      {
+        "@id": "https://w3id.org/cdif/instrument/1.0"
       }
     ]
   }
@@ -1627,6 +1788,7 @@ reference), relatedLink, and subjectOf catalog record.
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
+@prefix wd: <https://www.wikidata.org/entity/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:component-autosampler-lab42 a schema1:Thing ;
@@ -1634,7 +1796,7 @@ ex:component-autosampler-lab42 a schema1:Thing ;
             schema1:name "Sample capacity" ;
             schema1:propertyID "capacity" ;
             schema1:value 240 ] ;
-    schema1:additionalType "wd:Q16653419" ;
+    schema1:additionalType wd:Q16653419 ;
     schema1:alternateName "ASX-560 Autosampler" ;
     schema1:description "Automated sample introduction system with 240-position sample tray and integrated rinse station" ;
     schema1:identifier [ a schema1:PropertyValue ;
@@ -1649,21 +1811,21 @@ ex:component-autosampler-lab42 a schema1:Thing ;
 ex:instrument-icpms-lab42 a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Mass range" ;
-            schema1:propertyID "massRange" ;
-            schema1:unitText "amu" ;
-            schema1:value "2-260" ],
-        [ a schema1:PropertyValue ;
             schema1:name "Detection limit (most elements)" ;
             schema1:propertyID "detectionLimit" ;
             schema1:unitText "parts per trillion" ;
-            schema1:value "sub-ppt" ] ;
-    schema1:additionalType "wd:Q223767" ;
+            schema1:value "sub-ppt" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Mass range" ;
+            schema1:propertyID "massRange" ;
+            schema1:unitText "amu" ;
+            schema1:value "2-260" ] ;
+    schema1:additionalType wd:Q223767 ;
     schema1:alternateName "ICP-MS",
         "Lab 42 Quadrupole ICP-MS" ;
     schema1:category [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://vocab.nerc.ac.uk/collection/L05/current/" ;
+                    schema1:propertyID <https://vocab.nerc.ac.uk/collection/L05/current/> ;
                     schema1:url "https://vocab.nerc.ac.uk/collection/L05/current/LAB21/" ;
                     schema1:value "LAB21" ] ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
@@ -1679,15 +1841,15 @@ ex:instrument-icpms-lab42 a schema1:Product,
     schema1:hasPart ex:component-autosampler-lab42,
         ex:component-chiller-lab42 ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "inventoryNumber" ;
-            schema1:value "GEOL-LAB42-ICPMS-003" ],
-        [ a schema1:PropertyValue ;
-            schema1:propertyID "https://doi.org" ;
+            schema1:propertyID <https://doi.org> ;
             schema1:url "https://doi.org/10.xxxx/instrument.icpms.lab42" ;
-            schema1:value "10.xxxx/instrument.icpms.lab42" ] ;
+            schema1:value "10.xxxx/instrument.icpms.lab42" ],
+        [ a schema1:PropertyValue ;
+            schema1:propertyID "inventoryNumber" ;
+            schema1:value "GEOL-LAB42-ICPMS-003" ] ;
     schema1:manufacturer [ a schema1:Organization ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://ror.org" ;
+                    schema1:propertyID <https://ror.org> ;
                     schema1:url "https://ror.org/03kbsn367" ;
                     schema1:value "03kbsn367" ] ;
             schema1:name "Agilent Technologies" ] ;
@@ -1713,7 +1875,7 @@ ex:instrument-icpms-lab42 a schema1:Product,
     schema1:validThrough "2026-01-15" .
 
 ex:metadata-instrument-icpms-lab42 a schema1:DigitalDocument ;
-    dcterms:conformsTo <https://w3id.org/cdif/bbr/metadata/instrumentDescription/v0.1> ;
+    dcterms:conformsTo <https://w3id.org/cdif/instrument/1.0> ;
     schema1:about ex:instrument-icpms-lab42 ;
     schema1:dateModified "2026-03-31" .
 
@@ -1721,14 +1883,14 @@ ex:metadata-instrument-icpms-lab42 a schema1:DigitalDocument ;
     schema1:contactPoint [ a schema1:ContactPoint ;
             schema1:email "spark@arizona.edu" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://orcid.org" ;
+            schema1:propertyID <https://orcid.org> ;
             schema1:url "https://orcid.org/0000-0001-9876-5432" ;
             schema1:value "0000-0001-9876-5432" ] ;
     schema1:name "Park, Soo-Jin" .
 
 <https://ror.org/03m2x1q45> a schema1:Organization ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://ror.org" ;
+            schema1:propertyID <https://ror.org> ;
             schema1:url "https://ror.org/03m2x1q45" ;
             schema1:value "03m2x1q45" ] ;
     schema1:name "University of Arizona" .
@@ -1777,7 +1939,15 @@ properties:
       instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).
     type: array
     items:
-      type: string
+      anyOf:
+      - type: string
+      - type: object
+        additionalProperties: false
+        required:
+        - '@id'
+        properties:
+          '@id':
+            type: string
     minItems: 1
     x-jsonld-id: http://schema.org/additionalType
   schema:name:
@@ -1793,7 +1963,15 @@ properties:
     description: Alternate name(s), e.g. specific make/model designation, common abbreviation.
     type: array
     items:
-      type: string
+      anyOf:
+      - type: string
+      - type: object
+        additionalProperties: false
+        required:
+        - '@id'
+        properties:
+          '@id':
+            type: string
     x-jsonld-id: http://schema.org/alternateName
   schema:identifier:
     description: Formal identifier(s) for this instrument. Use PropertyValue for structured
@@ -1835,6 +2013,7 @@ properties:
         - $ref: '#/$defs/Identifier'
         x-jsonld-id: http://schema.org/identifier
     required:
+    - '@type'
     - schema:name
     x-jsonld-id: http://schema.org/model
   schema:category:
@@ -1878,6 +2057,7 @@ properties:
       anyOf:
       - $ref: '#/$defs/InstrumentComponent'
       - type: object
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -1908,6 +2088,9 @@ properties:
         x-jsonld-id: http://schema.org/dateModified
       schema:about:
         type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -1920,9 +2103,14 @@ properties:
           anyOf:
           - type: string
           - type: object
+            required:
+            - '@id'
+            additionalProperties: false
             properties:
               '@id':
                 type: string
+    required:
+    - '@type'
     x-jsonld-id: http://schema.org/subjectOf
 required:
 - '@type'
@@ -1977,7 +2165,15 @@ $defs:
         description: Component type classification.
         type: array
         items:
-          type: string
+          anyOf:
+          - type: string
+          - type: object
+            additionalProperties: false
+            required:
+            - '@id'
+            properties:
+              '@id':
+                type: string
         x-jsonld-id: http://schema.org/additionalType
       schema:additionalProperty:
         type: array
@@ -1993,7 +2189,15 @@ $defs:
           '@type':
             type: array
             items:
-              type: string
+              anyOf:
+              - type: string
+              - type: object
+                additionalProperties: false
+                required:
+                - '@id'
+                properties:
+                  '@id':
+                    type: string
             contains:
               const: schema:ProductModel
             minItems: 1
@@ -2005,11 +2209,15 @@ $defs:
             - type: string
             - $ref: '#/$defs/Identifier'
             x-jsonld-id: http://schema.org/identifier
+        required:
+        - '@type'
         x-jsonld-id: http://schema.org/model
     required:
+    - '@type'
     - schema:name
 x-jsonld-prefixes:
   schema: http://schema.org/
+  wd: https://www.wikidata.org/entity/
 
 ```
 
@@ -2025,7 +2233,8 @@ Links to the schema:
 {
   "@context": {
     "schema": "http://schema.org/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
+    "wd": "https://www.wikidata.org/entity/",
+    "nxs": "https://manual.nexusformat.org/classes/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "cdif": "https://w3id.org/cdif/",

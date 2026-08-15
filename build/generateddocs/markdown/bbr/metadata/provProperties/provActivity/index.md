@@ -67,6 +67,7 @@ Example PROV-O provenance activity with associations, inputs, outputs, and metho
     "Soil core samples collected June 2025, sites GB-001 through GB-045",
     {
       "@type": [
+        "prov:Entity",
         "schema:CreativeWork"
       ],
       "schema:name": "EPA Method 6200 - XRF Analysis of Soils",
@@ -88,12 +89,18 @@ Example PROV-O provenance activity with associations, inputs, outputs, and metho
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
+        "schema:propertyID": {
+          "@id": "https://registry.identifiers.org/registry/orcid"
+        },
         "schema:value": "0000-0002-8765-4321",
         "schema:url": "https://orcid.org/0000-0002-8765-4321"
       },
       "schema:contactPoint": {
-        "@id": "mailto:maria.chen@unr.edu"
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "@id": "mailto:maria.chen@unr.edu",
+        "schema:email": "maria.chen@unr.edu"
       }
     }
   ],
@@ -171,6 +178,7 @@ Example PROV-O provenance activity with associations, inputs, outputs, and metho
     "Soil core samples collected June 2025, sites GB-001 through GB-045",
     {
       "@type": [
+        "prov:Entity",
         "schema:CreativeWork"
       ],
       "schema:name": "EPA Method 6200 - XRF Analysis of Soils",
@@ -192,12 +200,18 @@ Example PROV-O provenance activity with associations, inputs, outputs, and metho
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
+        "schema:propertyID": {
+          "@id": "https://registry.identifiers.org/registry/orcid"
+        },
         "schema:value": "0000-0002-8765-4321",
         "schema:url": "https://orcid.org/0000-0002-8765-4321"
       },
       "schema:contactPoint": {
-        "@id": "mailto:maria.chen@unr.edu"
+        "@type": [
+          "schema:ContactPoint"
+        ],
+        "@id": "mailto:maria.chen@unr.edu",
+        "schema:email": "maria.chen@unr.edu"
       }
     }
   ],
@@ -274,7 +288,8 @@ ex:activity-soil-chem-analysis a prov:Activity ;
     prov:endedAtTime "2025-09-30T17:00:00Z" ;
     prov:generated ex:dataset-soil-chem-gb-2025 ;
     prov:startedAtTime "2025-07-15T08:00:00Z" ;
-    prov:used [ a schema1:CreativeWork ;
+    prov:used [ a schema1:CreativeWork,
+                prov:Entity ;
             schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
             schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
         <http://example.org/inst/TF_RQICP-MS>,
@@ -283,11 +298,14 @@ ex:activity-soil-chem-analysis a prov:Activity ;
     prov:wasAssociatedWith [ a schema1:Person ;
             schema1:contactPoint <mailto:maria.chen@unr.edu> ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://registry.identifiers.org/registry/orcid" ;
+                    schema1:propertyID <https://registry.identifiers.org/registry/orcid> ;
                     schema1:url "https://orcid.org/0000-0002-8765-4321" ;
                     schema1:value "0000-0002-8765-4321" ] ;
             schema1:name "Dr. Maria Chen" ] ;
     prov:wasInformedBy ex:activity-sample-collection .
+
+<mailto:maria.chen@unr.edu> a schema1:ContactPoint ;
+    schema1:email "maria.chen@unr.edu" .
 
 
 ```
@@ -332,6 +350,9 @@ allOf:
         anyOf:
         - type: string
         - type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -348,6 +369,9 @@ allOf:
         - $ref: '#/$defs/AgentInRole'
         - type: string
         - type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -360,6 +384,9 @@ allOf:
       items:
         anyOf:
         - type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -383,6 +410,9 @@ allOf:
       - $ref: '#/$defs/SpatialExtent'
       - type: string
       - type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -394,6 +424,9 @@ allOf:
       anyOf:
       - type: string
       - type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -405,6 +438,9 @@ allOf:
       anyOf:
       - type: string
       - type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -426,6 +462,9 @@ allOf:
       - $ref: '#/$defs/HowTo'
       - type: string
       - type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string

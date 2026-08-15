@@ -74,7 +74,9 @@ Example CDIF discovery instance with mandatory properties only.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "@id": "ex:URIforMetadata3575",
     "schema:about": {
@@ -104,7 +106,9 @@ Example CDIF discovery instance with mandatory properties only.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
+        "schema:propertyID": {
+          "@id": "https://registry.identifiers.org/registry/orcid"
+        },
         "schema:url": "https://orcid.org/3333-4442-9456-9347"
       }
     },
@@ -159,7 +163,9 @@ Example CDIF discovery instance with mandatory properties only.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "@id": "ex:URIforMetadata3575",
     "schema:about": {
@@ -189,7 +195,9 @@ Example CDIF discovery instance with mandatory properties only.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
+        "schema:propertyID": {
+          "@id": "https://registry.identifiers.org/registry/orcid"
+        },
         "schema:url": "https://orcid.org/3333-4442-9456-9347"
       }
     },
@@ -208,6 +216,7 @@ Example CDIF discovery instance with mandatory properties only.
 
 #### ttl
 ```ttl
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
@@ -215,7 +224,7 @@ Example CDIF discovery instance with mandatory properties only.
 ex:URIforMetadata3575 a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1> ;
     schema1:about ex:baseDiscovery23578 ;
-    schema1:additionalType "dcat:CatalogRecord" ;
+    schema1:additionalType dcat:CatalogRecord ;
     schema1:includedInDataCatalog <https://ror.org/04sfkyrt24> ;
     schema1:maintainer <https://orcid.org/3333-4442-9456-9347> ;
     schema1:sdDatePublished "2025-10-24" .
@@ -233,7 +242,7 @@ ex:baseDiscovery23578 a schema1:Dataset ;
     schema1:variableMeasured "bathymetric depth" .
 
 ex:maintainerIdentifier a schema1:PropertyValue ;
-    schema1:propertyID "https://registry.identifiers.org/registry/orcid" ;
+    schema1:propertyID <https://registry.identifiers.org/registry/orcid> ;
     schema1:url "https://orcid.org/3333-4442-9456-9347" .
 
 <https://orcid.org/3333-4442-9456-9347> a schema1:Person ;
@@ -281,7 +290,9 @@ Simplest valid CDIF core instance with only required properties.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "@id": "ex:URIforMetadata3575",
     "schema:about": {
@@ -333,7 +344,9 @@ Simplest valid CDIF core instance with only required properties.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "@id": "ex:URIforMetadata3575",
     "schema:about": {
@@ -350,6 +363,7 @@ Simplest valid CDIF core instance with only required properties.
 
 #### ttl
 ```ttl
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
@@ -357,7 +371,7 @@ Simplest valid CDIF core instance with only required properties.
 ex:URIforMetadata3575 a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1> ;
     schema1:about ex:coreMin23578 ;
-    schema1:additionalType "dcat:CatalogRecord" .
+    schema1:additionalType dcat:CatalogRecord .
 
 ex:coreMin23578 a schema1:Dataset ;
     schema1:dateModified "2022-12-12" ;
@@ -397,7 +411,9 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/doi"
+    },
     "schema:value": "10.5281/zenodo.99001",
     "schema:url": "https://doi.org/10.5281/zenodo.99001"
   },
@@ -426,20 +442,12 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
   "schema:conditionsOfAccess": [
     "Free access after registration",
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "Data Access Terms",
-      "schema:url": "https://example.org/terms/data-access-v2"
+      "@id": "https://example.org/terms/data-access-v2"
     }
   ],
   "schema:license": [
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "Creative Commons Attribution 4.0",
-      "schema:url": "https://creativecommons.org/licenses/by/4.0/"
+      "@id": "https://creativecommons.org/licenses/by/4.0/"
     }
   ],
   "schema:distribution": [
@@ -509,11 +517,7 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
   ],
   "schema:publishingPrinciples": [
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "Data Retention and Update Policy",
-      "schema:url": "https://example.org/policies/data-retention"
+      "@id": "https://example.org/policies/data-retention"
     }
   ],
   "schema:keywords": [
@@ -559,7 +563,9 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
+          "schema:propertyID": {
+            "@id": "https://registry.identifiers.org/registry/orcid"
+          },
           "schema:value": "0000-0001-2345-6789",
           "schema:url": "https://orcid.org/0000-0001-2345-6789"
         },
@@ -586,7 +592,9 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+          "schema:propertyID": {
+            "@id": "https://registry.identifiers.org/registry/ror"
+          },
           "schema:value": "04t3en479",
           "schema:url": "https://ror.org/04t3en479"
         },
@@ -631,7 +639,9 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
+          "schema:propertyID": {
+            "@id": "https://registry.identifiers.org/registry/orcid"
+          },
           "schema:value": "0000-0002-9876-5432",
           "schema:url": "https://orcid.org/0000-0002-9876-5432"
         },
@@ -667,7 +677,9 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://example.org/grant-registry",
+        "schema:propertyID": {
+          "@id": "https://example.org/grant-registry"
+        },
         "schema:value": "GOO-2020-0042"
       },
       "schema:funder": {
@@ -680,7 +692,9 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+          "schema:propertyID": {
+            "@id": "https://registry.identifiers.org/registry/ror"
+          },
           "schema:value": "0472cxd90",
           "schema:url": "https://ror.org/0472cxd90"
         }
@@ -701,12 +715,7 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
   ],
   "prov:wasDerivedFrom": [
     {
-      "@id": "ex:argoRawProfiles",
-      "@type": [
-        "schema:Dataset"
-      ],
-      "schema:name": "Argo Raw Profile Database",
-      "schema:url": "https://example.org/argo-raw"
+      "@id": "ex:argoRawProfiles"
     }
   ],
   "schema:variableMeasured": [
@@ -718,7 +727,9 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "@id": "ex:metadataRecord99001",
     "schema:about": {
@@ -755,7 +766,9 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://example.org/catalog-registry",
+        "schema:propertyID": {
+          "@id": "https://example.org/catalog-registry"
+        },
         "schema:value": "ocean-data-catalog-001"
       }
     }
@@ -796,7 +809,9 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://registry.identifiers.org/registry/doi",
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/doi"
+    },
     "schema:value": "10.5281/zenodo.99001",
     "schema:url": "https://doi.org/10.5281/zenodo.99001"
   },
@@ -825,20 +840,12 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
   "schema:conditionsOfAccess": [
     "Free access after registration",
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "Data Access Terms",
-      "schema:url": "https://example.org/terms/data-access-v2"
+      "@id": "https://example.org/terms/data-access-v2"
     }
   ],
   "schema:license": [
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "Creative Commons Attribution 4.0",
-      "schema:url": "https://creativecommons.org/licenses/by/4.0/"
+      "@id": "https://creativecommons.org/licenses/by/4.0/"
     }
   ],
   "schema:distribution": [
@@ -908,11 +915,7 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
   ],
   "schema:publishingPrinciples": [
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "Data Retention and Update Policy",
-      "schema:url": "https://example.org/policies/data-retention"
+      "@id": "https://example.org/policies/data-retention"
     }
   ],
   "schema:keywords": [
@@ -958,7 +961,9 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
+          "schema:propertyID": {
+            "@id": "https://registry.identifiers.org/registry/orcid"
+          },
           "schema:value": "0000-0001-2345-6789",
           "schema:url": "https://orcid.org/0000-0001-2345-6789"
         },
@@ -985,7 +990,9 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+          "schema:propertyID": {
+            "@id": "https://registry.identifiers.org/registry/ror"
+          },
           "schema:value": "04t3en479",
           "schema:url": "https://ror.org/04t3en479"
         },
@@ -1030,7 +1037,9 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
+          "schema:propertyID": {
+            "@id": "https://registry.identifiers.org/registry/orcid"
+          },
           "schema:value": "0000-0002-9876-5432",
           "schema:url": "https://orcid.org/0000-0002-9876-5432"
         },
@@ -1066,7 +1075,9 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://example.org/grant-registry",
+        "schema:propertyID": {
+          "@id": "https://example.org/grant-registry"
+        },
         "schema:value": "GOO-2020-0042"
       },
       "schema:funder": {
@@ -1079,7 +1090,9 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+          "schema:propertyID": {
+            "@id": "https://registry.identifiers.org/registry/ror"
+          },
           "schema:value": "0472cxd90",
           "schema:url": "https://ror.org/0472cxd90"
         }
@@ -1100,12 +1113,7 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
   ],
   "prov:wasDerivedFrom": [
     {
-      "@id": "ex:argoRawProfiles",
-      "@type": [
-        "schema:Dataset"
-      ],
-      "schema:name": "Argo Raw Profile Database",
-      "schema:url": "https://example.org/argo-raw"
+      "@id": "ex:argoRawProfiles"
     }
   ],
   "schema:variableMeasured": [
@@ -1117,7 +1125,9 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "@id": "ex:metadataRecord99001",
     "schema:about": {
@@ -1154,7 +1164,9 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://example.org/catalog-registry",
+        "schema:propertyID": {
+          "@id": "https://example.org/catalog-registry"
+        },
         "schema:value": "ocean-data-catalog-001"
       }
     }
@@ -1164,16 +1176,13 @@ CDIF core instance exercising every property allowed by the cdifCore schema.
 
 #### ttl
 ```ttl
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix schema1: <http://schema.org/> .
 @prefix spdx: <http://spdx.org/rdf/terms#> .
-
-ex:argoRawProfiles a schema1:Dataset ;
-    schema1:name "Argo Raw Profile Database" ;
-    schema1:url "https://example.org/argo-raw" .
 
 <https://example.org/catalog/ocean-data> a schema1:DataCatalog ;
     schema1:identifier ex:oceanCatalogId ;
@@ -1186,9 +1195,7 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
             schema1:inDefinedTermSet "https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/sciencekeywords" ;
             schema1:name "Observational Data" ;
             schema1:termCode "EARTH SCIENCE > OCEANS > OCEAN TEMPERATURE" ] ;
-    schema1:conditionsOfAccess [ a schema1:CreativeWork ;
-            schema1:name "Data Access Terms" ;
-            schema1:url "https://example.org/terms/data-access-v2" ],
+    schema1:conditionsOfAccess <https://example.org/terms/data-access-v2>,
         "Free access after registration" ;
     schema1:contributor [ a schema1:Role ;
             schema1:contributor <https://orcid.org/0000-0002-9876-5432> ;
@@ -1198,11 +1205,6 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
     schema1:datePublished "2024-01-10" ;
     schema1:description "Quality-controlled temperature profiles from Argo floats deployed worldwide. Profiles extend from the surface to 2000m depth with 2dbar vertical resolution." ;
     schema1:distribution [ a schema1:DataDownload ;
-            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
-            schema1:contentUrl "https://example.org/data/ocean-temp-profiles.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "CSV download" ],
-        [ a schema1:DataDownload ;
             dcterms:conformsTo <https://www.unidata.ucar.edu/software/netcdf/> ;
             schema1:contentUrl "https://example.org/data/ocean-temp-profiles.nc" ;
             schema1:description "Complete dataset in CF-compliant NetCDF4 format" ;
@@ -1211,7 +1213,12 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
             schema1:provider <https://ror.org/04t3en479> ;
             spdx:checksum [ a spdx:Checksum ;
                     spdx:algorithm "checksumAlgorithm_sha256" ;
-                    spdx:checksumValue "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2" ] ] ;
+                    spdx:checksumValue "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2" ] ],
+        [ a schema1:DataDownload ;
+            dcterms:conformsTo <https://www.ietf.org/rfc/rfc4180> ;
+            schema1:contentUrl "https://example.org/data/ocean-temp-profiles.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "CSV download" ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
             schema1:funder [ a schema1:Organization ;
                     schema1:identifier ex:ercRor ;
@@ -1221,25 +1228,21 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
     schema1:identifier ex:datasetIdentifier001 ;
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
-            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
-            schema1:name "Sea water temperature" ;
-            schema1:termCode "TEMPPR01" ],
-        [ a schema1:DefinedTerm ;
             schema1:identifier "https://vocab.nerc.ac.uk/collection/L06/current/46/" ;
             schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L06/current/" ;
             schema1:name "Argo" ;
             schema1:termCode "L06:46" ],
+        [ a schema1:DefinedTerm ;
+            schema1:identifier "https://vocab.nerc.ac.uk/collection/P01/current/TEMPPR01/" ;
+            schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P01/current/" ;
+            schema1:name "Sea water temperature" ;
+            schema1:termCode "TEMPPR01" ],
         "ocean temperature" ;
-    schema1:license [ a schema1:CreativeWork ;
-            schema1:name "Creative Commons Attribution 4.0" ;
-            schema1:url "https://creativecommons.org/licenses/by/4.0/" ] ;
+    schema1:license <https://creativecommons.org/licenses/by/4.0/> ;
     schema1:name "Global Ocean Temperature Profiles 2010-2024" ;
     schema1:provider <https://ror.org/04t3en479> ;
     schema1:publisher <https://ror.org/04t3en479> ;
-    schema1:publishingPrinciples [ a schema1:CreativeWork ;
-            schema1:name "Data Retention and Update Policy" ;
-            schema1:url "https://example.org/policies/data-retention" ] ;
+    schema1:publishingPrinciples <https://example.org/policies/data-retention> ;
     schema1:relatedLink [ a schema1:LinkRole ;
             schema1:linkRelationship "documentation" ;
             schema1:target [ a schema1:EntryPoint ;
@@ -1258,43 +1261,43 @@ ex:completeCoreDataset99001 a schema1:Dataset ;
             prov:used ex:argoFloatNetwork ] .
 
 ex:datasetIdentifier001 a schema1:PropertyValue ;
-    schema1:propertyID "https://registry.identifiers.org/registry/doi" ;
+    schema1:propertyID <https://registry.identifiers.org/registry/doi> ;
     schema1:url "https://doi.org/10.5281/zenodo.99001" ;
     schema1:value "10.5281/zenodo.99001" .
 
 ex:ercRor a schema1:PropertyValue ;
-    schema1:propertyID "https://registry.identifiers.org/registry/ror" ;
+    schema1:propertyID <https://registry.identifiers.org/registry/ror> ;
     schema1:url "https://ror.org/0472cxd90" ;
     schema1:value "0472cxd90" .
 
 ex:grantId001 a schema1:PropertyValue ;
-    schema1:propertyID "https://example.org/grant-registry" ;
+    schema1:propertyID ex:grant-registry ;
     schema1:value "GOO-2020-0042" .
 
 ex:liOrcid a schema1:PropertyValue ;
-    schema1:propertyID "https://registry.identifiers.org/registry/orcid" ;
+    schema1:propertyID <https://registry.identifiers.org/registry/orcid> ;
     schema1:url "https://orcid.org/0000-0002-9876-5432" ;
     schema1:value "0000-0002-9876-5432" .
 
 ex:marchandOrcid a schema1:PropertyValue ;
-    schema1:propertyID "https://registry.identifiers.org/registry/orcid" ;
+    schema1:propertyID <https://registry.identifiers.org/registry/orcid> ;
     schema1:url "https://orcid.org/0000-0001-2345-6789" ;
     schema1:value "0000-0001-2345-6789" .
 
 ex:metadataRecord99001 a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1> ;
     schema1:about ex:completeCoreDataset99001 ;
-    schema1:additionalType "dcat:CatalogRecord" ;
+    schema1:additionalType dcat:CatalogRecord ;
     schema1:includedInDataCatalog <https://example.org/catalog/ocean-data> ;
     schema1:maintainer <https://orcid.org/0000-0003-1111-2222> ;
     schema1:sdDatePublished "2024-11-20" .
 
 ex:oceanCatalogId a schema1:PropertyValue ;
-    schema1:propertyID "https://example.org/catalog-registry" ;
+    schema1:propertyID ex:catalog-registry ;
     schema1:value "ocean-data-catalog-001" .
 
 ex:odrRor a schema1:PropertyValue ;
-    schema1:propertyID "https://registry.identifiers.org/registry/ror" ;
+    schema1:propertyID <https://registry.identifiers.org/registry/ror> ;
     schema1:url "https://ror.org/04t3en479" ;
     schema1:value "04t3en479" .
 
@@ -1439,6 +1442,9 @@ properties:
       anyOf:
       - type: string
       - type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -1478,6 +1484,9 @@ properties:
       anyOf:
       - type: string
       - type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -1497,6 +1506,9 @@ properties:
       anyOf:
       - type: string
       - type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -1573,6 +1585,9 @@ properties:
       anyOf:
       - type: string
       - type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -1601,6 +1616,7 @@ properties:
         items:
           anyOf:
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -1617,6 +1633,7 @@ properties:
     items:
       anyOf:
       - type: object
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -1632,6 +1649,7 @@ properties:
     description: Party who made the dataset publicly available
     anyOf:
     - type: object
+      additionalProperties: false
       properties:
         '@id':
           type: string
@@ -1650,6 +1668,7 @@ properties:
     items:
       anyOf:
       - type: object
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -1686,6 +1705,9 @@ allOf:
         dcterms:conformsTo:
           contains:
             type: object
+            required:
+            - '@id'
+            additionalProperties: false
             properties:
               '@id':
                 const: https://w3id.org/cdif/core/1.1

@@ -167,14 +167,7 @@ wrapper) and a non-trivial code → variable mapping.
             "systolic_blood_pressure"
           ],
           "cdi:simpleUnitOfMeasure": "mmHg",
-          "cdi:hasIntendedDataType": {
-            "@type": [
-              "cdi:ControlledVocabularyEntry"
-            ],
-            "cdi:entryValue": [
-              "xsd:decimal"
-            ]
-          }
+          "cdi:hasIntendedDataType": "xsd:decimal"
         }
       },
       {
@@ -188,14 +181,7 @@ wrapper) and a non-trivial code → variable mapping.
             "diastolic_blood_pressure"
           ],
           "cdi:simpleUnitOfMeasure": "mmHg",
-          "cdi:hasIntendedDataType": {
-            "@type": [
-              "cdi:ControlledVocabularyEntry"
-            ],
-            "cdi:entryValue": [
-              "xsd:decimal"
-            ]
-          }
+          "cdi:hasIntendedDataType": "xsd:decimal"
         }
       },
       {
@@ -258,14 +244,7 @@ wrapper) and a non-trivial code → variable mapping.
             "systolic_blood_pressure"
           ],
           "cdi:simpleUnitOfMeasure": "mmHg",
-          "cdi:hasIntendedDataType": {
-            "@type": [
-              "cdi:ControlledVocabularyEntry"
-            ],
-            "cdi:entryValue": [
-              "xsd:decimal"
-            ]
-          }
+          "cdi:hasIntendedDataType": "xsd:decimal"
         }
       },
       {
@@ -279,14 +258,7 @@ wrapper) and a non-trivial code → variable mapping.
             "diastolic_blood_pressure"
           ],
           "cdi:simpleUnitOfMeasure": "mmHg",
-          "cdi:hasIntendedDataType": {
-            "@type": [
-              "cdi:ControlledVocabularyEntry"
-            ],
-            "cdi:entryValue": [
-              "xsd:decimal"
-            ]
-          }
+          "cdi:hasIntendedDataType": "xsd:decimal"
         }
       },
       {
@@ -316,26 +288,24 @@ wrapper) and a non-trivial code → variable mapping.
     cdif:name "measure_name" .
 
 <https://example.org/rv/diastolicBP> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:decimal" ] ;
+    cdi:hasIntendedDataType "xsd:decimal" ;
     cdi:simpleUnitOfMeasure "mmHg" ;
     cdif:name "diastolic_blood_pressure" .
 
 <https://example.org/rv/systolicBP> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:decimal" ] ;
+    cdi:hasIntendedDataType "xsd:decimal" ;
     cdi:simpleUnitOfMeasure "mmHg" ;
     cdif:name "systolic_blood_pressure" .
 
 <https://example.org/vd/measureName> a cdi:DescriptorValueDomain ;
     cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/rv/heartRate> ;
             cdif:value "heart_rate" ],
-        [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;
-            cdif:value "temp_c" ],
         [ cdif:isDefinedBy <https://example.org/rv/systolicBP> ;
             cdif:value "systolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/rv/diastolicBP> ;
-            cdif:value "diastolic_bp" ] .
+            cdif:value "diastolic_bp" ],
+        [ cdif:isDefinedBy <https://example.org/rv/temperatureC> ;
+            cdif:value "temp_c" ] .
 
 
 ```
@@ -413,6 +383,7 @@ $defs:
               anyOf:
               - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
               - type: object
+                additionalProperties: false
                 description: object reference via URI or URI fragment to a RepresentedVariable
                   defined elsewhere in the document
                 properties:

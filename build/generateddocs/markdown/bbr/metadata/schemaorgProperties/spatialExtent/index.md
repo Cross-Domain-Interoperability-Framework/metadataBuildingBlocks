@@ -45,7 +45,9 @@ Example point location spatial extent instance.
     "ex:SamplingStation"
   ],
   "schema:identifier": "https://ror.org/03m2x1q45",
-  "schema:alternateName": ["LPL Lab"],
+  "schema:alternateName": [
+    "LPL Lab"
+  ],
   "schema:geo": {
     "@type": [
       "schema:GeoCoordinates"
@@ -423,29 +425,48 @@ and geosparql:hasGeometry with WKT polygon and CRS.
     "sf": "http://www.opengis.net/ont/sf#"
   },
   "@id": "ex:SpatialExtentComplete_001",
-  "@type": ["schema:Place"],
-  "schema:additionalType": ["ex:FieldSamplingArea"],
+  "@type": [
+    "schema:Place"
+  ],
+  "schema:additionalType": [
+    "ex:FieldSamplingArea"
+  ],
   "schema:name": {
-    "@type": ["schema:DefinedTerm"],
+    "@type": [
+      "schema:DefinedTerm"
+    ],
     "schema:name": "Monterey Bay National Marine Sanctuary",
     "schema:identifier": {
-      "@type": ["schema:PropertyValue"],
-      "schema:propertyID": "https://www.geonames.org",
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": {
+        "@id": "https://www.geonames.org"
+      },
       "schema:value": "5374363",
       "schema:url": "https://www.geonames.org/5374363"
     },
     "schema:inDefinedTermSet": "https://www.geonames.org"
   },
   "schema:identifier": "https://marineregions.org/mrgid/4260",
-  "schema:alternateName": ["Monterey Bay", "MBNMS"],
+  "schema:alternateName": [
+    "Monterey Bay",
+    "MBNMS"
+  ],
   "schema:geo": {
-    "@type": ["schema:GeoShape"],
+    "@type": [
+      "schema:GeoShape"
+    ],
     "schema:box": "36.5000 -122.5000 37.0000 -121.8000"
   },
   "geosparql:hasGeometry": {
-    "@type": ["sf:Polygon"],
+    "@type": [
+      "sf:Polygon"
+    ],
     "geosparql:asWKT": {
-      "@type": ["geosparql:wktLiteral"],
+      "@type": [
+        "geosparql:wktLiteral"
+      ],
       "@value": "POLYGON((-122.5 36.5, -121.8 36.5, -121.8 37.0, -122.5 37.0, -122.5 36.5))"
     },
     "geosparql:crs": {
@@ -489,7 +510,9 @@ and geosparql:hasGeometry with WKT polygon and CRS.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://www.geonames.org",
+      "schema:propertyID": {
+        "@id": "https://www.geonames.org"
+      },
       "schema:value": "5374363",
       "schema:url": "https://www.geonames.org/5374363"
     },
@@ -539,7 +562,7 @@ ex:SpatialExtentComplete_001 a schema1:Place ;
     schema1:identifier "https://marineregions.org/mrgid/4260" ;
     schema1:name [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://www.geonames.org" ;
+                    schema1:propertyID <https://www.geonames.org> ;
                     schema1:url "https://www.geonames.org/5374363" ;
                     schema1:value "5374363" ] ;
             schema1:inDefinedTermSet "https://www.geonames.org" ;
@@ -712,6 +735,9 @@ properties:
             description: a WKT geometry description string, e.g. 'POINT(-76 -18)'
       geosparql:crs:
         type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string

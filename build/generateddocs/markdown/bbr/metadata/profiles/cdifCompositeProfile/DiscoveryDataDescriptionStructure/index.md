@@ -142,14 +142,7 @@ elsewhere. The conformsTo array carries the three required URIs
                 "patient_id"
               ],
               "cdif:definition": "Pseudonymous patient identifier.",
-              "cdi:hasIntendedDataType": {
-                "@type": [
-                  "cdi:ControlledVocabularyEntry"
-                ],
-                "cdi:entryValue": [
-                  "xsd:string"
-                ]
-              }
+              "cdi:hasIntendedDataType": "xsd:string"
             }
           },
           {
@@ -166,14 +159,7 @@ elsewhere. The conformsTo array carries the three required URIs
                 "systolic_blood_pressure"
               ],
               "cdi:simpleUnitOfMeasure": "mmHg",
-              "cdi:hasIntendedDataType": {
-                "@type": [
-                  "cdi:ControlledVocabularyEntry"
-                ],
-                "cdi:entryValue": [
-                  "xsd:decimal"
-                ]
-              }
+              "cdi:hasIntendedDataType": "xsd:decimal"
             }
           }
         ]
@@ -186,7 +172,9 @@ elsewhere. The conformsTo array carries the three required URIs
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "schema:about": {
       "@id": "ex:dataset/vitalsWide"
@@ -301,14 +289,7 @@ elsewhere. The conformsTo array carries the three required URIs
                 "patient_id"
               ],
               "cdif:definition": "Pseudonymous patient identifier.",
-              "cdi:hasIntendedDataType": {
-                "@type": [
-                  "cdi:ControlledVocabularyEntry"
-                ],
-                "cdi:entryValue": [
-                  "xsd:string"
-                ]
-              }
+              "cdi:hasIntendedDataType": "xsd:string"
             }
           },
           {
@@ -325,14 +306,7 @@ elsewhere. The conformsTo array carries the three required URIs
                 "systolic_blood_pressure"
               ],
               "cdi:simpleUnitOfMeasure": "mmHg",
-              "cdi:hasIntendedDataType": {
-                "@type": [
-                  "cdi:ControlledVocabularyEntry"
-                ],
-                "cdi:entryValue": [
-                  "xsd:decimal"
-                ]
-              }
+              "cdi:hasIntendedDataType": "xsd:decimal"
             }
           }
         ]
@@ -345,7 +319,9 @@ elsewhere. The conformsTo array carries the three required URIs
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "schema:about": {
       "@id": "ex:dataset/vitalsWide"
@@ -372,6 +348,7 @@ elsewhere. The conformsTo array carries the three required URIs
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix schema1: <http://schema.org/> .
 
@@ -396,7 +373,7 @@ elsewhere. The conformsTo array carries the three required URIs
         <https://w3id.org/cdif/data_structure/1.1>,
         <https://w3id.org/cdif/discovery/1.1> ;
     schema1:about <https://example.org/dataset/vitalsWide> ;
-    schema1:additionalType "dcat:CatalogRecord" .
+    schema1:additionalType dcat:CatalogRecord .
 
 <https://example.org/struct/vitalsWide> a cdi:WideDataStructure ;
     cdi:has_DataStructureComponent <https://example.org/struct/vitalsWide/comp/patientId>,
@@ -419,14 +396,12 @@ elsewhere. The conformsTo array carries the three required URIs
     cdif:uses <https://example.org/struct/vitalsWide/rv/systolicBP> .
 
 <https://example.org/struct/vitalsWide/rv/patientId> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:string" ] ;
+    cdi:hasIntendedDataType "xsd:string" ;
     cdif:definition "Pseudonymous patient identifier." ;
     cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsWide/rv/systolicBP> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:decimal" ] ;
+    cdi:hasIntendedDataType "xsd:decimal" ;
     cdi:simpleUnitOfMeasure "mmHg" ;
     cdif:name "systolic_blood_pressure" .
 
@@ -480,7 +455,9 @@ optional Attribute) and its own cdif:PrimaryKey.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "urn:noaa-ghcnd:station-id",
+      "schema:propertyID": {
+        "@id": "urn:noaa-ghcnd:station-id"
+      },
       "schema:value": "DEMO-LONG-2025",
       "schema:url": "https://example.org/aliases/DEMO-LONG-2025"
     }
@@ -503,7 +480,9 @@ optional Attribute) and its own cdif:PrimaryKey.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://loinc.org/",
+        "schema:propertyID": {
+          "@id": "https://loinc.org/"
+        },
         "schema:value": "VS",
         "schema:url": "https://loinc.org/8716-3/"
       },
@@ -551,7 +530,9 @@ optional Attribute) and its own cdif:PrimaryKey.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://orcid.org",
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
           "schema:value": "0000-0002-7933-2154",
           "schema:url": "https://orcid.org/0000-0002-7933-2154"
         },
@@ -579,7 +560,9 @@ optional Attribute) and its own cdif:PrimaryKey.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://credit.niso.org/",
+          "schema:propertyID": {
+            "@id": "https://credit.niso.org/"
+          },
           "schema:value": "data-curation",
           "schema:url": "https://credit.niso.org/contributor-roles/data-curation/"
         },
@@ -595,7 +578,9 @@ optional Attribute) and its own cdif:PrimaryKey.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://orcid.org",
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
           "schema:value": "0000-0001-8898-3457",
           "schema:url": "https://orcid.org/0000-0001-8898-3457"
         }
@@ -612,7 +597,9 @@ optional Attribute) and its own cdif:PrimaryKey.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://ror.org",
+      "schema:propertyID": {
+        "@id": "https://ror.org"
+      },
       "schema:value": "0171mag52",
       "schema:url": "https://ror.org/0171mag52"
     }
@@ -628,7 +615,9 @@ optional Attribute) and its own cdif:PrimaryKey.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://ror.org",
+        "schema:propertyID": {
+          "@id": "https://ror.org"
+        },
         "schema:value": "0171mag52",
         "schema:url": "https://ror.org/0171mag52"
       }
@@ -644,7 +633,9 @@ optional Attribute) and its own cdif:PrimaryKey.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://reporter.nih.gov",
+        "schema:propertyID": {
+          "@id": "https://reporter.nih.gov"
+        },
         "schema:value": "R01-XXXX",
         "schema:url": "https://reporter.nih.gov/search/?term=R01-XXXX"
       },
@@ -659,7 +650,9 @@ optional Attribute) and its own cdif:PrimaryKey.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://ror.org",
+          "schema:propertyID": {
+            "@id": "https://ror.org"
+          },
           "schema:value": "01cwqze88",
           "schema:url": "https://ror.org/01cwqze88"
         }
@@ -731,13 +724,31 @@ optional Attribute) and its own cdif:PrimaryKey.
     "@id": "ex:dataset/vitalsLong/pk",
     "cdif:isComposedOf": [
       {
-        "@id": "ex:var/patientId"
+        "@type": [
+          "cdi:ComponentPosition"
+        ],
+        "cdi:indexes": {
+          "@id": "ex:var/patientId"
+        },
+        "cdi:value": 1
       },
       {
-        "@id": "ex:var/measureName"
+        "@type": [
+          "cdi:ComponentPosition"
+        ],
+        "cdi:indexes": {
+          "@id": "ex:var/measureName"
+        },
+        "cdi:value": 2
       },
       {
-        "@id": "ex:var/observedAt"
+        "@type": [
+          "cdi:ComponentPosition"
+        ],
+        "cdi:indexes": {
+          "@id": "ex:var/observedAt"
+        },
+        "cdi:value": 3
       }
     ]
   },
@@ -814,14 +825,7 @@ optional Attribute) and its own cdif:PrimaryKey.
                 "patient_id"
               ],
               "cdif:definition": "Pseudonymous patient identifier.",
-              "cdi:hasIntendedDataType": {
-                "@type": [
-                  "cdi:ControlledVocabularyEntry"
-                ],
-                "cdi:entryValue": [
-                  "xsd:string"
-                ]
-              }
+              "cdi:hasIntendedDataType": "xsd:string"
             }
           },
           {
@@ -854,14 +858,7 @@ optional Attribute) and its own cdif:PrimaryKey.
                         "systolic_blood_pressure"
                       ],
                       "cdi:simpleUnitOfMeasure": "mmHg",
-                      "cdi:hasIntendedDataType": {
-                        "@type": [
-                          "cdi:ControlledVocabularyEntry"
-                        ],
-                        "cdi:entryValue": [
-                          "xsd:decimal"
-                        ]
-                      }
+                      "cdi:hasIntendedDataType": "xsd:decimal"
                     }
                   },
                   {
@@ -875,14 +872,7 @@ optional Attribute) and its own cdif:PrimaryKey.
                         "diastolic_blood_pressure"
                       ],
                       "cdi:simpleUnitOfMeasure": "mmHg",
-                      "cdi:hasIntendedDataType": {
-                        "@type": [
-                          "cdi:ControlledVocabularyEntry"
-                        ],
-                        "cdi:entryValue": [
-                          "xsd:decimal"
-                        ]
-                      }
+                      "cdi:hasIntendedDataType": "xsd:decimal"
                     }
                   },
                   {
@@ -896,14 +886,7 @@ optional Attribute) and its own cdif:PrimaryKey.
                         "heart_rate"
                       ],
                       "cdi:simpleUnitOfMeasure": "bpm",
-                      "cdi:hasIntendedDataType": {
-                        "@type": [
-                          "cdi:ControlledVocabularyEntry"
-                        ],
-                        "cdi:entryValue": [
-                          "xsd:decimal"
-                        ]
-                      }
+                      "cdi:hasIntendedDataType": "xsd:decimal"
                     }
                   },
                   {
@@ -917,14 +900,7 @@ optional Attribute) and its own cdif:PrimaryKey.
                         "body_temperature_celsius"
                       ],
                       "cdi:simpleUnitOfMeasure": "Cel",
-                      "cdi:hasIntendedDataType": {
-                        "@type": [
-                          "cdi:ControlledVocabularyEntry"
-                        ],
-                        "cdi:entryValue": [
-                          "xsd:decimal"
-                        ]
-                      }
+                      "cdi:hasIntendedDataType": "xsd:decimal"
                     }
                   }
                 ]
@@ -948,14 +924,7 @@ optional Attribute) and its own cdif:PrimaryKey.
                 "measure_value"
               ],
               "cdif:definition": "Numeric value of the vital sign named by measure_name.",
-              "cdi:hasIntendedDataType": {
-                "@type": [
-                  "cdi:ControlledVocabularyEntry"
-                ],
-                "cdi:entryValue": [
-                  "xsd:decimal"
-                ]
-              }
+              "cdi:hasIntendedDataType": "xsd:decimal"
             }
           },
           {
@@ -977,14 +946,7 @@ optional Attribute) and its own cdif:PrimaryKey.
                 "observed_at"
               ],
               "cdif:definition": "Timestamp of the observation; qualifies measure_value.",
-              "cdi:hasIntendedDataType": {
-                "@type": [
-                  "cdi:ControlledVocabularyEntry"
-                ],
-                "cdi:entryValue": [
-                  "xsd:dateTime"
-                ]
-              }
+              "cdi:hasIntendedDataType": "xsd:dateTime"
             }
           }
         ],
@@ -995,13 +957,31 @@ optional Attribute) and its own cdif:PrimaryKey.
           "@id": "ex:struct/vitalsLong/pk",
           "cdif:isComposedOf": [
             {
-              "@id": "ex:var/patientId"
+              "@type": [
+                "cdi:ComponentPosition"
+              ],
+              "cdi:indexes": {
+                "@id": "ex:var/patientId"
+              },
+              "cdi:value": 1
             },
             {
-              "@id": "ex:var/measureName"
+              "@type": [
+                "cdi:ComponentPosition"
+              ],
+              "cdi:indexes": {
+                "@id": "ex:var/measureName"
+              },
+              "cdi:value": 2
             },
             {
-              "@id": "ex:var/observedAt"
+              "@type": [
+                "cdi:ComponentPosition"
+              ],
+              "cdi:indexes": {
+                "@id": "ex:var/observedAt"
+              },
+              "cdi:value": 3
             }
           ]
         }
@@ -1187,7 +1167,9 @@ optional Attribute) and its own cdif:PrimaryKey.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "schema:about": {
       "@id": "ex:dataset/vitalsLong"
@@ -1256,7 +1238,9 @@ optional Attribute) and its own cdif:PrimaryKey.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "urn:noaa-ghcnd:station-id",
+      "schema:propertyID": {
+        "@id": "urn:noaa-ghcnd:station-id"
+      },
       "schema:value": "DEMO-LONG-2025",
       "schema:url": "https://example.org/aliases/DEMO-LONG-2025"
     }
@@ -1279,7 +1263,9 @@ optional Attribute) and its own cdif:PrimaryKey.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://loinc.org/",
+        "schema:propertyID": {
+          "@id": "https://loinc.org/"
+        },
         "schema:value": "VS",
         "schema:url": "https://loinc.org/8716-3/"
       },
@@ -1327,7 +1313,9 @@ optional Attribute) and its own cdif:PrimaryKey.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://orcid.org",
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
           "schema:value": "0000-0002-7933-2154",
           "schema:url": "https://orcid.org/0000-0002-7933-2154"
         },
@@ -1355,7 +1343,9 @@ optional Attribute) and its own cdif:PrimaryKey.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://credit.niso.org/",
+          "schema:propertyID": {
+            "@id": "https://credit.niso.org/"
+          },
           "schema:value": "data-curation",
           "schema:url": "https://credit.niso.org/contributor-roles/data-curation/"
         },
@@ -1371,7 +1361,9 @@ optional Attribute) and its own cdif:PrimaryKey.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://orcid.org",
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
           "schema:value": "0000-0001-8898-3457",
           "schema:url": "https://orcid.org/0000-0001-8898-3457"
         }
@@ -1388,7 +1380,9 @@ optional Attribute) and its own cdif:PrimaryKey.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://ror.org",
+      "schema:propertyID": {
+        "@id": "https://ror.org"
+      },
       "schema:value": "0171mag52",
       "schema:url": "https://ror.org/0171mag52"
     }
@@ -1404,7 +1398,9 @@ optional Attribute) and its own cdif:PrimaryKey.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://ror.org",
+        "schema:propertyID": {
+          "@id": "https://ror.org"
+        },
         "schema:value": "0171mag52",
         "schema:url": "https://ror.org/0171mag52"
       }
@@ -1420,7 +1416,9 @@ optional Attribute) and its own cdif:PrimaryKey.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://reporter.nih.gov",
+        "schema:propertyID": {
+          "@id": "https://reporter.nih.gov"
+        },
         "schema:value": "R01-XXXX",
         "schema:url": "https://reporter.nih.gov/search/?term=R01-XXXX"
       },
@@ -1435,7 +1433,9 @@ optional Attribute) and its own cdif:PrimaryKey.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://ror.org",
+          "schema:propertyID": {
+            "@id": "https://ror.org"
+          },
           "schema:value": "01cwqze88",
           "schema:url": "https://ror.org/01cwqze88"
         }
@@ -1507,13 +1507,31 @@ optional Attribute) and its own cdif:PrimaryKey.
     "@id": "ex:dataset/vitalsLong/pk",
     "cdif:isComposedOf": [
       {
-        "@id": "ex:var/patientId"
+        "@type": [
+          "cdi:ComponentPosition"
+        ],
+        "cdi:indexes": {
+          "@id": "ex:var/patientId"
+        },
+        "cdi:value": 1
       },
       {
-        "@id": "ex:var/measureName"
+        "@type": [
+          "cdi:ComponentPosition"
+        ],
+        "cdi:indexes": {
+          "@id": "ex:var/measureName"
+        },
+        "cdi:value": 2
       },
       {
-        "@id": "ex:var/observedAt"
+        "@type": [
+          "cdi:ComponentPosition"
+        ],
+        "cdi:indexes": {
+          "@id": "ex:var/observedAt"
+        },
+        "cdi:value": 3
       }
     ]
   },
@@ -1590,14 +1608,7 @@ optional Attribute) and its own cdif:PrimaryKey.
                 "patient_id"
               ],
               "cdif:definition": "Pseudonymous patient identifier.",
-              "cdi:hasIntendedDataType": {
-                "@type": [
-                  "cdi:ControlledVocabularyEntry"
-                ],
-                "cdi:entryValue": [
-                  "xsd:string"
-                ]
-              }
+              "cdi:hasIntendedDataType": "xsd:string"
             }
           },
           {
@@ -1630,14 +1641,7 @@ optional Attribute) and its own cdif:PrimaryKey.
                         "systolic_blood_pressure"
                       ],
                       "cdi:simpleUnitOfMeasure": "mmHg",
-                      "cdi:hasIntendedDataType": {
-                        "@type": [
-                          "cdi:ControlledVocabularyEntry"
-                        ],
-                        "cdi:entryValue": [
-                          "xsd:decimal"
-                        ]
-                      }
+                      "cdi:hasIntendedDataType": "xsd:decimal"
                     }
                   },
                   {
@@ -1651,14 +1655,7 @@ optional Attribute) and its own cdif:PrimaryKey.
                         "diastolic_blood_pressure"
                       ],
                       "cdi:simpleUnitOfMeasure": "mmHg",
-                      "cdi:hasIntendedDataType": {
-                        "@type": [
-                          "cdi:ControlledVocabularyEntry"
-                        ],
-                        "cdi:entryValue": [
-                          "xsd:decimal"
-                        ]
-                      }
+                      "cdi:hasIntendedDataType": "xsd:decimal"
                     }
                   },
                   {
@@ -1672,14 +1669,7 @@ optional Attribute) and its own cdif:PrimaryKey.
                         "heart_rate"
                       ],
                       "cdi:simpleUnitOfMeasure": "bpm",
-                      "cdi:hasIntendedDataType": {
-                        "@type": [
-                          "cdi:ControlledVocabularyEntry"
-                        ],
-                        "cdi:entryValue": [
-                          "xsd:decimal"
-                        ]
-                      }
+                      "cdi:hasIntendedDataType": "xsd:decimal"
                     }
                   },
                   {
@@ -1693,14 +1683,7 @@ optional Attribute) and its own cdif:PrimaryKey.
                         "body_temperature_celsius"
                       ],
                       "cdi:simpleUnitOfMeasure": "Cel",
-                      "cdi:hasIntendedDataType": {
-                        "@type": [
-                          "cdi:ControlledVocabularyEntry"
-                        ],
-                        "cdi:entryValue": [
-                          "xsd:decimal"
-                        ]
-                      }
+                      "cdi:hasIntendedDataType": "xsd:decimal"
                     }
                   }
                 ]
@@ -1724,14 +1707,7 @@ optional Attribute) and its own cdif:PrimaryKey.
                 "measure_value"
               ],
               "cdif:definition": "Numeric value of the vital sign named by measure_name.",
-              "cdi:hasIntendedDataType": {
-                "@type": [
-                  "cdi:ControlledVocabularyEntry"
-                ],
-                "cdi:entryValue": [
-                  "xsd:decimal"
-                ]
-              }
+              "cdi:hasIntendedDataType": "xsd:decimal"
             }
           },
           {
@@ -1753,14 +1729,7 @@ optional Attribute) and its own cdif:PrimaryKey.
                 "observed_at"
               ],
               "cdif:definition": "Timestamp of the observation; qualifies measure_value.",
-              "cdi:hasIntendedDataType": {
-                "@type": [
-                  "cdi:ControlledVocabularyEntry"
-                ],
-                "cdi:entryValue": [
-                  "xsd:dateTime"
-                ]
-              }
+              "cdi:hasIntendedDataType": "xsd:dateTime"
             }
           }
         ],
@@ -1771,13 +1740,31 @@ optional Attribute) and its own cdif:PrimaryKey.
           "@id": "ex:struct/vitalsLong/pk",
           "cdif:isComposedOf": [
             {
-              "@id": "ex:var/patientId"
+              "@type": [
+                "cdi:ComponentPosition"
+              ],
+              "cdi:indexes": {
+                "@id": "ex:var/patientId"
+              },
+              "cdi:value": 1
             },
             {
-              "@id": "ex:var/measureName"
+              "@type": [
+                "cdi:ComponentPosition"
+              ],
+              "cdi:indexes": {
+                "@id": "ex:var/measureName"
+              },
+              "cdi:value": 2
             },
             {
-              "@id": "ex:var/observedAt"
+              "@type": [
+                "cdi:ComponentPosition"
+              ],
+              "cdi:indexes": {
+                "@id": "ex:var/observedAt"
+              },
+              "cdi:value": 3
             }
           ]
         }
@@ -1963,7 +1950,9 @@ optional Attribute) and its own cdif:PrimaryKey.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "schema:about": {
       "@id": "ex:dataset/vitalsLong"
@@ -2008,7 +1997,7 @@ optional Attribute) and its own cdif:PrimaryKey.
             schema1:contributor <https://orcid.org/0000-0001-8898-3457> ;
             schema1:roleName [ a schema1:DefinedTerm ;
                     schema1:identifier [ a schema1:PropertyValue ;
-                            schema1:propertyID "https://credit.niso.org/" ;
+                            schema1:propertyID <https://credit.niso.org/> ;
                             schema1:url "https://credit.niso.org/contributor-roles/data-curation/" ;
                             schema1:value "data-curation" ] ;
                     schema1:inDefinedTermSet "https://credit.niso.org/" ;
@@ -2018,7 +2007,37 @@ optional Attribute) and its own cdif:PrimaryKey.
     schema1:dateModified "2025-09-15" ;
     schema1:datePublished "2025-10-01" ;
     schema1:description "Time-series of vital sign measurements (heart rate, systolic BP, diastolic BP, temperature) in long format: one row per observation with a descriptor column naming the measure and a reference column holding the value." ;
-    schema1:distribution [ a schema1:WebAPI ;
+    schema1:distribution [ a cdi:PhysicalDataSet,
+                cdi:TabularTextDataSet,
+                schema1:DataDownload ;
+            cdi:characterSet "UTF-8" ;
+            cdi:isDelimited true ;
+            cdi:isStructuredBy <https://example.org/struct/vitalsLong> ;
+            schema1:contentUrl "https://example.org/downloads/vitals-long.csv" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "vitals-long.csv" ;
+            csvw:delimiter "," ;
+            csvw:header true ;
+            csvw:headerRowCount 1 ;
+            cdif:fileSize 2.4e+00 ;
+            cdif:fileSizeUofM "MB" ;
+            cdif:hasPhysicalMapping [ cdif:format "string" ;
+                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "string" ],
+                [ cdif:format "string" ;
+                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
+                    cdif:index 1 ;
+                    cdif:physicalDataType "string" ],
+                [ cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
+                    cdif:index 2 ;
+                    cdif:physicalDataType "decimal" ],
+                [ cdif:format "ISO8601" ;
+                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
+                    cdif:index 3 ;
+                    cdif:physicalDataType "dateTime" ] ],
+        [ a schema1:WebAPI ;
             schema1:documentation [ a schema1:CreativeWork,
                         dcat:Relationship ;
                     schema1:name "OpenAPI specification for vitals service" ;
@@ -2027,17 +2046,17 @@ optional Attribute) and its own cdif:PrimaryKey.
             schema1:potentialAction [ a schema1:Action ;
                     schema1:name "Query vitals as long-format CSV" ;
                     schema1:query-input [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Response format token (csv only for this example)." ;
-                            schema1:valueName "format" ;
-                            schema1:valuePattern "csv" ;
+                            schema1:description "Maximum number of observations to return (default 100)." ;
+                            schema1:valueName "limit" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
                             schema1:description "Starting index for pagination." ;
                             schema1:valueName "offset" ;
                             schema1:valueRequired false ],
                         [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of observations to return (default 100)." ;
-                            schema1:valueName "limit" ;
+                            schema1:description "Response format token (csv only for this example)." ;
+                            schema1:valueName "format" ;
+                            schema1:valuePattern "csv" ;
                             schema1:valueRequired false ] ;
                     schema1:result [ a cdi:PhysicalDataSet,
                                 cdi:TabularTextDataSet,
@@ -2054,10 +2073,6 @@ optional Attribute) and its own cdif:PrimaryKey.
                             cdif:fileSize 5e-01 ;
                             cdif:fileSizeUofM "MB" ;
                             cdif:hasPhysicalMapping [ cdif:format "string" ;
-                                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
-                                    cdif:index 1 ;
-                                    cdif:physicalDataType "string" ],
-                                [ cdif:format "string" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
                                     cdif:index 0 ;
                                     cdif:physicalDataType "string" ],
@@ -2065,6 +2080,10 @@ optional Attribute) and its own cdif:PrimaryKey.
                                     cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
                                     cdif:index 3 ;
                                     cdif:physicalDataType "dateTime" ],
+                                [ cdif:format "string" ;
+                                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
+                                    cdif:index 1 ;
+                                    cdif:physicalDataType "string" ],
                                 [ cdif:format "decimal" ;
                                     cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
                                     cdif:index 2 ;
@@ -2078,43 +2097,13 @@ optional Attribute) and its own cdif:PrimaryKey.
                     schema1:identifier "https://www.ogc.org/standard/ogcapi-features/" ;
                     schema1:name "OGC API - Features" ;
                     schema1:termCode "ogcapi-features" ] ;
-            schema1:termsOfService "Open access, no authentication required." ],
-        [ a cdi:PhysicalDataSet,
-                cdi:TabularTextDataSet,
-                schema1:DataDownload ;
-            cdi:characterSet "UTF-8" ;
-            cdi:isDelimited true ;
-            cdi:isStructuredBy <https://example.org/struct/vitalsLong> ;
-            schema1:contentUrl "https://example.org/downloads/vitals-long.csv" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "vitals-long.csv" ;
-            csvw:delimiter "," ;
-            csvw:header true ;
-            csvw:headerRowCount 1 ;
-            cdif:fileSize 2.4e+00 ;
-            cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/measureValue> ;
-                    cdif:index 2 ;
-                    cdif:physicalDataType "decimal" ],
-                [ cdif:format "string" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/patientId> ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "string" ],
-                [ cdif:format "ISO8601" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/observedAt> ;
-                    cdif:index 3 ;
-                    cdif:physicalDataType "dateTime" ],
-                [ cdif:format "string" ;
-                    cdif:formats_InstanceVariable <https://example.org/var/measureName> ;
-                    cdif:index 1 ;
-                    cdif:physicalDataType "string" ] ] ;
+            schema1:termsOfService "Open access, no authentication required." ] ;
     schema1:funding <https://example.org/grant/nih-R01-XXXX> ;
     schema1:identifier "https://doi.org/10.1234/vitals-long-2025" ;
     schema1:inLanguage "en" ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://loinc.org/" ;
+                    schema1:propertyID <https://loinc.org/> ;
                     schema1:url "https://loinc.org/8716-3/" ;
                     schema1:value "VS" ] ;
             schema1:inDefinedTermSet "https://loinc.org/" ;
@@ -2138,7 +2127,7 @@ optional Attribute) and its own cdif:PrimaryKey.
                     schema1:name "Long-format encoding rationale" ;
                     schema1:url "https://example.org/docs/long-vs-wide.html" ] ] ;
     schema1:sameAs [ a schema1:PropertyValue ;
-            schema1:propertyID "urn:noaa-ghcnd:station-id" ;
+            schema1:propertyID <urn:noaa-ghcnd:station-id> ;
             schema1:url "https://example.org/aliases/DEMO-LONG-2025" ;
             schema1:value "DEMO-LONG-2025" ] ;
     schema1:subjectOf <https://example.org/dataset/vitalsLong/metadata> ;
@@ -2170,17 +2159,23 @@ optional Attribute) and its own cdif:PrimaryKey.
         <https://w3id.org/cdif/data_structure/1.1>,
         <https://w3id.org/cdif/discovery/1.1> ;
     schema1:about <https://example.org/dataset/vitalsLong> ;
-    schema1:additionalType "dcat:CatalogRecord" .
+    schema1:additionalType dcat:CatalogRecord .
 
 <https://example.org/dataset/vitalsLong/pk> a cdif:Key ;
-    cdif:isComposedOf <https://example.org/var/measureName>,
-        <https://example.org/var/observedAt>,
-        <https://example.org/var/patientId> .
+    cdif:isComposedOf [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/observedAt> ;
+            cdi:value 3 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/patientId> ;
+            cdi:value 1 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/measureName> ;
+            cdi:value 2 ] .
 
 <https://example.org/grant/nih-R01-XXXX> a schema1:MonetaryGrant ;
     schema1:funder <https://ror.org/01cwqze88> ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://reporter.nih.gov" ;
+            schema1:propertyID <https://reporter.nih.gov> ;
             schema1:url "https://reporter.nih.gov/search/?term=R01-XXXX" ;
             schema1:value "R01-XXXX" ] ;
     schema1:name "NIH Award R01-XXXX" .
@@ -2197,47 +2192,49 @@ optional Attribute) and its own cdif:PrimaryKey.
     cdif:isDefinedBy_RepresentedVariable <https://example.org/struct/vitalsLong/rv/patientId> .
 
 <https://example.org/struct/vitalsLong/pk> a cdif:PrimaryKey ;
-    cdif:isComposedOf <https://example.org/var/measureName>,
-        <https://example.org/var/observedAt>,
-        <https://example.org/var/patientId> .
+    cdif:isComposedOf [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/patientId> ;
+            cdi:value 1 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/measureName> ;
+            cdi:value 2 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes <https://example.org/var/observedAt> ;
+            cdi:value 3 ] .
 
 <https://example.org/struct/vitalsLong/rv/diastolicBP> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:decimal" ] ;
+    cdi:hasIntendedDataType "xsd:decimal" ;
     cdi:simpleUnitOfMeasure "mmHg" ;
     cdif:name "diastolic_blood_pressure" .
 
 <https://example.org/struct/vitalsLong/rv/heartRate> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:decimal" ] ;
+    cdi:hasIntendedDataType "xsd:decimal" ;
     cdi:simpleUnitOfMeasure "bpm" ;
     cdif:name "heart_rate" .
 
 <https://example.org/struct/vitalsLong/rv/systolicBP> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:decimal" ] ;
+    cdi:hasIntendedDataType "xsd:decimal" ;
     cdi:simpleUnitOfMeasure "mmHg" ;
     cdif:name "systolic_blood_pressure" .
 
 <https://example.org/struct/vitalsLong/rv/temperatureC> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:decimal" ] ;
+    cdi:hasIntendedDataType "xsd:decimal" ;
     cdi:simpleUnitOfMeasure "Cel" ;
     cdif:name "body_temperature_celsius" .
 
 <https://example.org/struct/vitalsLong/vd/measureName> a cdi:DescriptorValueDomain ;
-    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/diastolicBP> ;
-            cdif:value "diastolic_bp" ],
+    cdif:takesValuesFrom [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/temperatureC> ;
+            cdif:value "temp_c" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/heartRate> ;
             cdif:value "heart_rate" ],
-        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/temperatureC> ;
-            cdif:value "temp_c" ],
+        [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/diastolicBP> ;
+            cdif:value "diastolic_bp" ],
         [ cdif:isDefinedBy <https://example.org/struct/vitalsLong/rv/systolicBP> ;
             cdif:value "systolic_bp" ] .
 
 <https://orcid.org/0000-0001-8898-3457> a schema1:Person ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://orcid.org" ;
+            schema1:propertyID <https://orcid.org> ;
             schema1:url "https://orcid.org/0000-0001-8898-3457" ;
             schema1:value "0000-0001-8898-3457" ] ;
     schema1:name "Mojarro, Angel" .
@@ -2246,14 +2243,14 @@ optional Attribute) and its own cdif:PrimaryKey.
     schema1:contactPoint [ a schema1:ContactPoint ;
             schema1:email "smr@example.org" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://orcid.org" ;
+            schema1:propertyID <https://orcid.org> ;
             schema1:url "https://orcid.org/0000-0002-7933-2154" ;
             schema1:value "0000-0002-7933-2154" ] ;
     schema1:name "Richard, Stephen M." .
 
 <https://ror.org/01cwqze88> a schema1:Organization ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://ror.org" ;
+            schema1:propertyID <https://ror.org> ;
             schema1:url "https://ror.org/01cwqze88" ;
             schema1:value "01cwqze88" ] ;
     schema1:name "National Institutes of Health" .
@@ -2270,30 +2267,27 @@ optional Attribute) and its own cdif:PrimaryKey.
     cdif:name "measure_name" .
 
 <https://example.org/struct/vitalsLong/rv/measureValue> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:decimal" ] ;
+    cdi:hasIntendedDataType "xsd:decimal" ;
     cdif:definition "Numeric value of the vital sign named by measure_name." ;
     cdif:name "measure_value" .
 
 <https://example.org/struct/vitalsLong/rv/observedAt> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:dateTime" ] ;
+    cdi:hasIntendedDataType "xsd:dateTime" ;
     cdif:definition "Timestamp of the observation; qualifies measure_value." ;
     cdif:name "observed_at" .
 
 <https://example.org/struct/vitalsLong/rv/patientId> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:string" ] ;
+    cdi:hasIntendedDataType "xsd:string" ;
     cdif:definition "Pseudonymous patient identifier." ;
     cdif:name "patient_id" .
 
 <https://ror.org/0171mag52> a schema1:Organization ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://ror.org" ;
+            schema1:propertyID <https://ror.org> ;
             schema1:url "https://ror.org/0171mag52" ;
             schema1:value "0171mag52" ],
         [ a schema1:PropertyValue ;
-            schema1:propertyID "https://ror.org" ;
+            schema1:propertyID <https://ror.org> ;
             schema1:url "https://ror.org/0171mag52" ;
             schema1:value "0171mag52" ] ;
     schema1:name "Demo Health Data Repository" .
@@ -2369,8 +2363,8 @@ Links to the schema:
     "prov": "http://www.w3.org/ns/prov#",
     "time": "http://www.w3.org/2006/time#",
     "spdx": "http://spdx.org/rdf/terms#",
-    "xas": "https://xas.org/dictionary/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
+    "xas": "cdif:xas/",
+    "nxs": "https://manual.nexusformat.org/classes/",
     "ada": "https://ada.astromat.org/metadata/",
     "@version": 1.1
   }

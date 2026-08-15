@@ -519,8 +519,8 @@ Links to the schema:
     "schema": "http://schema.org/",
     "spdx": "http://spdx.org/rdf/terms#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "xas": "https://xas.org/dictionary/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
+    "xas": "cdif:xas/",
+    "nxs": "https://manual.nexusformat.org/classes/",
     "prov": "http://www.w3.org/ns/prov#",
     "@version": 1.1
   }

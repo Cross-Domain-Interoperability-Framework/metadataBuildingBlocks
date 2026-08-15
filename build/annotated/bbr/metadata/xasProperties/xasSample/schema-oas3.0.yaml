@@ -1,4 +1,69 @@
 x-defs:
+  cdif.bbr.metadata.schemaorgProperties.identifier:
+    description: 'Properties for a schema.org identifier (schema:PropertyValue pattern).
+
+      **Union-type policy:** In CDIF profile UML models an attribute typed as
+
+      schema:Identifier / schema:PropertyValue is represented by a single attribute
+
+      of that class type. The JSON Schema implementation permits the property value
+
+      to be EITHER a plain string (interpreted as the bare identifier value) OR a
+
+      full schema:PropertyValue object (with explicit @type, propertyID, value).
+
+      Consumers should accept either form.
+
+      '
+    type: object
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:PropertyValue
+        minItems: 1
+      schema:propertyID:
+        anyOf:
+        - type: string
+        - type: object
+          additionalProperties: false
+          required:
+          - '@id'
+          properties:
+            '@id':
+              type: string
+        description: In this context for the schema:PropertyValue, this field is an
+          identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
+          for interoperability. URI-shape values MUST be serialized as JSON-LD IRI
+          references ({"@id":"..."}) so they participate in RDF entailment; free-label
+          strings remain valid as strings.
+        x-jsonld-id: http://schema.org/propertyID
+      schema:value:
+        type: string
+        description: the identifier string. E.g. 10.5066/F7VX0DMQ
+        x-jsonld-id: http://schema.org/value
+      schema:url:
+        type: string
+        format: uri
+        description: 'web-resolveable string for the identifier; host name part is
+          location of a resolver that will return some representation for the given
+          identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ '
+        x-jsonld-id: http://schema.org/url
+    allOf:
+    - required:
+      - '@type'
+    - anyOf:
+      - required:
+        - schema:value
+      - required:
+        - schema:url
+    x-jsonld-prefixes:
+      schema: http://schema.org/
+    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
+    x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.additionalProperty:
     type: object
     title: additionalProperty PropertyValue
@@ -50,69 +115,17 @@ x-defs:
         anyOf:
         - type: string
         - type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               type: string
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm
     x-jsonld-prefixes:
       schema: http://schema.org/
-      nxs: http://purl.org/nexusformat/definitions/
+      nxs: https://manual.nexusformat.org/classes/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
-    x-schema-version: https://json-schema.org/draft/2020-12/schema
-  cdif.bbr.metadata.schemaorgProperties.identifier:
-    description: 'Properties for a schema.org identifier (schema:PropertyValue pattern).
-
-      **Union-type policy:** In CDIF profile UML models an attribute typed as
-
-      schema:Identifier / schema:PropertyValue is represented by a single attribute
-
-      of that class type. The JSON Schema implementation permits the property value
-
-      to be EITHER a plain string (interpreted as the bare identifier value) OR a
-
-      full schema:PropertyValue object (with explicit @type, propertyID, value).
-
-      Consumers should accept either form.
-
-      '
-    type: object
-    properties:
-      '@type':
-        type: array
-        items:
-          type: string
-        contains:
-          enum:
-          - schema:PropertyValue
-        minItems: 1
-      schema:propertyID:
-        type: string
-        description: In this context for the schema:PropertyValue, this field is an
-          identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
-          for interoperability
-        x-jsonld-id: http://schema.org/propertyID
-      schema:value:
-        type: string
-        description: the identifier string. E.g. 10.5066/F7VX0DMQ
-        x-jsonld-id: http://schema.org/value
-      schema:url:
-        type: string
-        format: uri
-        description: 'web-resolveable string for the identifier; host name part is
-          location of a resolver that will return some representation for the given
-          identifier value. E.g. https://doi.org/10.5066/F7VX0DMQ '
-        x-jsonld-id: http://schema.org/url
-    allOf:
-    - required:
-      - '@type'
-    - anyOf:
-      - required:
-        - schema:value
-      - required:
-        - schema:url
-    x-jsonld-prefixes:
-      schema: http://schema.org/
-    x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.definedTerm:
     description: "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF
@@ -189,7 +202,15 @@ properties:
   schema:additionalType:
     type: array
     items:
-      type: string
+      anyOf:
+      - type: string
+      - type: object
+        additionalProperties: false
+        required:
+        - '@id'
+        properties:
+          '@id':
+            type: string
     minItems: 2
     uniqueItems: true
     allOf:
@@ -198,8 +219,14 @@ properties:
         - MaterialSample
       minContains: 1
     - contains:
-        enum:
-        - https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample
+        type: object
+        additionalProperties: false
+        required:
+        - '@id'
+        properties:
+          '@id':
+            enum:
+            - https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample
       minContains: 1
     x-jsonld-id: http://schema.org/additionalType
   schema:name:
@@ -215,27 +242,11 @@ properties:
     x-jsonld-id: http://schema.org/description
   schema:additionalProperty:
     type: array
-    description: extend base definition (AdditionalProperty) with some expected propertyID
-      values from NEXUS and XDI specs added in the enum
+    description: Sample additionalProperty entries (base AdditionalProperty shape).
+      The XDI Sample.* propertyID vocabulary enum is layered on in xasOptional, so
+      it applies at the profile level, not this shape.
     items:
-      allOf:
-      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema-oas3.0.yaml#/$defs/AdditionalProperty
-      - properties:
-          schema:propertyID:
-            type: array
-            minItems: 1
-            items:
-              anyOf:
-              - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/propertyID_item
-              - enum:
-                - xas:stoichiometry
-                - xas:samplePreparation
-                - nxs:Field/NXsample/mass
-                - nxs:Field/NXsample/point_group
-                - nxs:Field/NXsample/unit_cell
-                - xas:parentSample
-                - xas:materialState
-            x-jsonld-id: http://schema.org/propertyID
+      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema-oas3.0.yaml#/$defs/AdditionalProperty
     x-jsonld-id: http://schema.org/additionalProperty
 required:
 - '@type'
@@ -248,4 +259,6 @@ $defs:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasSample/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
 x-jsonld-prefixes:
   schema: http://schema.org/
+  nxs: https://manual.nexusformat.org/classes/
+  xas: https://w3id.org/cdif/xas/
 x-schema-version: https://json-schema.org/draft/2020-12/schema

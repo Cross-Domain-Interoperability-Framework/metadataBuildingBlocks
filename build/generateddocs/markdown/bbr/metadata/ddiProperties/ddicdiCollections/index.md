@@ -258,6 +258,7 @@ $defs:
     - '@type'
   Member:
     type: object
+    additionalProperties: false
     description: Element in a collection that can be either atomic (individual member)
       or composite (collection).
     properties:
@@ -426,6 +427,7 @@ $defs:
     - '@type'
   IndividualMember:
     type: object
+    additionalProperties: false
     description: Distinct element that is not itself a collection (atomic).
     properties:
       '@type':

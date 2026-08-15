@@ -33,7 +33,9 @@ Example Defined Term instance.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://identifiers.org/scheme/rt45347278",
+    "schema:propertyID": {
+      "@id": "https://identifiers.org/scheme/rt45347278"
+    },
     "schema:url": "http://ogc.org/defs/rt45347278"
   },
   "schema:inDefinedTermSet": "http://ogc.org/defs",
@@ -65,7 +67,9 @@ Example Defined Term instance.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://identifiers.org/scheme/rt45347278",
+    "schema:propertyID": {
+      "@id": "https://identifiers.org/scheme/rt45347278"
+    },
     "schema:url": "http://ogc.org/defs/rt45347278"
   },
   "schema:inDefinedTermSet": "http://ogc.org/defs",
@@ -80,7 +84,7 @@ Example Defined Term instance.
 
 ex:definedTerm_zZc a schema1:DefinedTerm ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://identifiers.org/scheme/rt45347278" ;
+            schema1:propertyID <https://identifiers.org/scheme/rt45347278> ;
             schema1:url "http://ogc.org/defs/rt45347278" ] ;
     schema1:inDefinedTermSet "http://ogc.org/defs" ;
     schema1:name "example defined term" ;
@@ -101,11 +105,17 @@ inDefinedTermSet, and termCode.
     "ex": "https://example.org/"
   },
   "@id": "ex:definedTermComplete_001",
-  "@type": ["schema:DefinedTerm"],
+  "@type": [
+    "schema:DefinedTerm"
+  ],
   "schema:name": "Marine Sediment Geochemistry",
   "schema:identifier": {
-    "@type": ["schema:PropertyValue"],
-    "schema:propertyID": "https://vocab.nerc.ac.uk/collection/P02/current/",
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": {
+      "@id": "https://vocab.nerc.ac.uk/collection/P02/current/"
+    },
     "schema:value": "MSDG",
     "schema:url": "https://vocab.nerc.ac.uk/collection/P02/current/MSDG/"
   },
@@ -137,7 +147,9 @@ inDefinedTermSet, and termCode.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://vocab.nerc.ac.uk/collection/P02/current/",
+    "schema:propertyID": {
+      "@id": "https://vocab.nerc.ac.uk/collection/P02/current/"
+    },
     "schema:value": "MSDG",
     "schema:url": "https://vocab.nerc.ac.uk/collection/P02/current/MSDG/"
   },
@@ -153,7 +165,7 @@ inDefinedTermSet, and termCode.
 
 ex:definedTermComplete_001 a schema1:DefinedTerm ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://vocab.nerc.ac.uk/collection/P02/current/" ;
+            schema1:propertyID <https://vocab.nerc.ac.uk/collection/P02/current/> ;
             schema1:url "https://vocab.nerc.ac.uk/collection/P02/current/MSDG/" ;
             schema1:value "MSDG" ] ;
     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/P02/current/" ;

@@ -50,13 +50,16 @@ x-defs:
         anyOf:
         - type: string
         - type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               type: string
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasFacility/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty/$defs/DefinedTerm
     x-jsonld-prefixes:
       schema: http://schema.org/
-      nxs: http://purl.org/nexusformat/definitions/
+      nxs: https://manual.nexusformat.org/classes/
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
   cdif.bbr.metadata.schemaorgProperties.identifier:
@@ -86,10 +89,20 @@ x-defs:
           - schema:PropertyValue
         minItems: 1
       schema:propertyID:
-        type: string
+        anyOf:
+        - type: string
+        - type: object
+          additionalProperties: false
+          required:
+          - '@id'
+          properties:
+            '@id':
+              type: string
         description: In this context for the schema:PropertyValue, this field is an
           identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
-          for interoperability
+          for interoperability. URI-shape values MUST be serialized as JSON-LD IRI
+          references ({"@id":"..."}) so they participate in RDF entailment; free-label
+          strings remain valid as strings.
         x-jsonld-id: http://schema.org/propertyID
       schema:value:
         type: string
@@ -184,25 +197,39 @@ properties:
   schema:additionalType:
     type: array
     items:
-      type: string
+      anyOf:
+      - type: string
+      - type: object
+        additionalProperties: false
+        required:
+        - '@id'
+        properties:
+          '@id':
+            type: string
     contains:
-      enum:
-      - xas:Facility
+      type: object
+      additionalProperties: false
+      required:
+      - '@id'
+      properties:
+        '@id':
+          enum:
+          - xas:facility
     minItems: 1
-    x-jsonld-id: http://schema.orgadditionalType
+    x-jsonld-id: http://schema.org/additionalType
   schema:identifier:
     anyOf:
     - type: string
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasFacility/schema-oas3.0.yaml#/$defs/Identifier
-    x-jsonld-id: http://schema.orgidentifier
+    x-jsonld-id: http://schema.org/identifier
   schema:name:
     type: string
-    x-jsonld-id: http://schema.orgname
+    x-jsonld-id: http://schema.org/name
   schema:additionalProperty:
     type: array
     items:
       $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasFacility/schema-oas3.0.yaml#/$defs/AdditionalProperty
-    x-jsonld-id: http://schema.orgadditionalProperty
+    x-jsonld-id: http://schema.org/additionalProperty
 required:
 - '@type'
 - schema:additionalType
@@ -212,8 +239,7 @@ $defs:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasFacility/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
   Identifier:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/xasProperties/xasFacility/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.identifier
-x-jsonld-extra-terms:
-  schema: http://schema.org
 x-jsonld-prefixes:
-  xas: https://xas.org/dictionary/
+  schema: http://schema.org/
+  xas: https://w3id.org/cdif/xas/
 x-schema-version: https://json-schema.org/draft/2020-12/schema

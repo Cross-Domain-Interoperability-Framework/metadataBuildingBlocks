@@ -39,7 +39,9 @@ Example organization instance.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/ror"
+    },
     "schema:value": "03m2x1q45",
     "schema:url": "https://ror.org/03m2x1q45"
   },
@@ -79,7 +81,9 @@ Example organization instance.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/ror"
+    },
     "schema:value": "03m2x1q45",
     "schema:url": "https://ror.org/03m2x1q45"
   },
@@ -100,7 +104,7 @@ ex:exampleOrg_fW a schema1:Organization ;
     schema1:alternateName "UAz" ;
     schema1:description "University in Tucson, Arizona" ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://registry.identifiers.org/registry/ror" ;
+            schema1:propertyID <https://registry.identifiers.org/registry/ror> ;
             schema1:url "https://ror.org/03m2x1q45" ;
             schema1:value "03m2x1q45" ] ;
     schema1:name "University of Arizona" ;
@@ -121,7 +125,9 @@ name, alternateName, description, identifier (ROR), and sameAs (string and objec
     "ex": "https://example.org/"
   },
   "@id": "ex:OrgComplete_001",
-  "@type": ["schema:Organization"],
+  "@type": [
+    "schema:Organization"
+  ],
   "schema:additionalType": [
     "schema:ResearchOrganization",
     "schema:EducationalOrganization"
@@ -130,14 +136,20 @@ name, alternateName, description, identifier (ROR), and sameAs (string and objec
   "schema:alternateName": "MIT",
   "schema:description": "Private research university in Cambridge, Massachusetts, founded in 1861",
   "schema:identifier": {
-    "@type": ["schema:PropertyValue"],
-    "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/ror"
+    },
     "schema:value": "042nb2s44",
     "schema:url": "https://ror.org/042nb2s44"
   },
   "schema:sameAs": [
     "https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology",
-    {"@id": "https://www.wikidata.org/entity/Q49108"}
+    {
+      "@id": "https://www.wikidata.org/entity/Q49108"
+    }
   ]
 }
 
@@ -171,7 +183,9 @@ name, alternateName, description, identifier (ROR), and sameAs (string and objec
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+    "schema:propertyID": {
+      "@id": "https://registry.identifiers.org/registry/ror"
+    },
     "schema:value": "042nb2s44",
     "schema:url": "https://ror.org/042nb2s44"
   },
@@ -195,7 +209,7 @@ ex:OrgComplete_001 a schema1:Organization ;
     schema1:alternateName "MIT" ;
     schema1:description "Private research university in Cambridge, Massachusetts, founded in 1861" ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://registry.identifiers.org/registry/ror" ;
+            schema1:propertyID <https://registry.identifiers.org/registry/ror> ;
             schema1:url "https://ror.org/042nb2s44" ;
             schema1:value "042nb2s44" ] ;
     schema1:name "Massachusetts Institute of Technology" ;
@@ -262,6 +276,9 @@ properties:
       anyOf:
       - type: string
       - type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string

@@ -32,6 +32,9 @@ x-defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCodelist
         - type: object
+          required:
+          - '@id'
+          additionalProperties: false
           description: object reference via URI or URI fragment referencing an @id
             in the same document
           properties:
@@ -79,10 +82,20 @@ x-defs:
           - schema:PropertyValue
         minItems: 1
       schema:propertyID:
-        type: string
+        anyOf:
+        - type: string
+        - type: object
+          additionalProperties: false
+          required:
+          - '@id'
+          properties:
+            '@id':
+              type: string
         description: In this context for the schema:PropertyValue, this field is an
           identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
-          for interoperability
+          for interoperability. URI-shape values MUST be serialized as JSON-LD IRI
+          references ({"@id":"..."}) so they participate in RDF entailment; free-label
+          strings remain valid as strings.
         x-jsonld-id: http://schema.org/propertyID
       schema:value:
         type: string
@@ -155,7 +168,15 @@ x-defs:
                 enum:
                 - schema:PropertyValue
             schema:propertyID:
-              type: string
+              anyOf:
+              - type: string
+              - type: object
+                additionalProperties: false
+                required:
+                - '@id'
+                properties:
+                  '@id':
+                    type: string
               x-jsonld-id: http://schema.org/propertyID
             schema:value:
               type: string
@@ -181,6 +202,9 @@ x-defs:
           anyOf:
           - type: string
           - type: object
+            required:
+            - '@id'
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -192,9 +216,18 @@ x-defs:
           type: string
         x-jsonld-id: http://schema.org/conditionsOfAccess
       skos:prefLabel:
-        description: Preferred lexical label for the concept scheme. A single string,
-          a single language-tagged value, or an array of language-tagged values. Each
-          language should appear at most once.
+        description: "Preferred lexical label for the concept scheme. Required. A
+          single\nstring, a single language-tagged value, or an array of language-tagged\nvalues.\n\n**Uniqueness
+          rule.** Each language should appear at most once in the\nset of prefLabel
+          values. Two prefLabel values with duplicate `@language`\ntags are non-conformant.
+          Consumers may reject or arbitrarily pick one.\n\n**Multilinguality.** For
+          codelists intended for multilingual use,\nsupply an array of language-tagged
+          values \u2014 one per supported locale.\nWhen a bare string is supplied
+          (no `@language` tag), consumers treat\nit as untagged and MAY infer the
+          language from the enclosing document's\n`@context` or from `schema:inLanguage`
+          on the codelist itself.\n\n**Relationship to skos:altLabel.** Alternate
+          labels (acronyms,\nspelling variants, obsolete names) go on `skos:altLabel`,
+          NOT on\n`prefLabel`. A concept scheme has exactly one preferred label per\nlanguage.\n"
         type: string
         x-jsonld-id: http://www.w3.org/2004/02/skos/core#prefLabel
       skos:definition:
@@ -231,16 +264,31 @@ x-defs:
           schema:additionalType:
             type: array
             items:
-              type: string
+              anyOf:
+              - type: string
+              - type: object
+                additionalProperties: false
+                required:
+                - '@id'
+                properties:
+                  '@id':
+                    type: string
             contains:
-              enum:
-              - dcat:CatalogRecord
+              type: object
+              additionalProperties: false
+              required:
+              - '@id'
+              properties:
+                '@id':
+                  enum:
+                  - dcat:CatalogRecord
             minItems: 1
             x-jsonld-id: http://schema.org/additionalType
           dcterms:conformsTo:
             type: array
             items:
               type: object
+              additionalProperties: false
               properties:
                 '@id':
                   type: string
@@ -248,6 +296,9 @@ x-defs:
               - '@id'
             contains:
               type: object
+              required:
+              - '@id'
+              additionalProperties: false
               properties:
                 '@id':
                   enum:
@@ -259,6 +310,7 @@ x-defs:
             description: Identifier for the catalog record.
           schema:about:
             type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -298,6 +350,7 @@ x-defs:
             type: array
             items:
               type: object
+              additionalProperties: false
               properties:
                 '@id':
                   type: string
@@ -305,9 +358,27 @@ x-defs:
               - '@id'
             x-jsonld-id: http://www.w3.org/2004/02/skos/core#inScheme
           skos:prefLabel:
-            description: Preferred lexical label for this concept. A single string,
+            description: 'Preferred lexical label for this concept. A single string,
+
               a single language-tagged value, or an array of language-tagged values.
+
               Each language should appear at most once.
+
+
+              **Uniqueness rule.** Each language should appear at most once in the
+
+              set of prefLabel values. Two prefLabel values with duplicate `@language`
+
+              tags are non-conformant. Consumers may reject or arbitrarily pick one.
+
+
+              **Relationship to skos:altLabel.** Alternate labels (acronyms,
+
+              spelling variants, obsolete names) go on `skos:altLabel`, NOT on
+
+              `prefLabel`. A concept has exactly one preferred label per language.
+
+              '
             type: string
             x-jsonld-id: http://www.w3.org/2004/02/skos/core#prefLabel
           skos:notation:
@@ -327,6 +398,7 @@ x-defs:
             items:
               anyOf:
               - type: object
+                additionalProperties: false
                 properties:
                   '@id':
                     type: string
@@ -344,6 +416,7 @@ x-defs:
             type: array
             items:
               type: object
+              additionalProperties: false
               properties:
                 '@id':
                   type: string
@@ -391,6 +464,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifEnumerationDomain
         - type: object
+          additionalProperties: false
           description: JSON-LD @id reference to a node defined elsewhere in the graph
           properties:
             '@id':
@@ -416,6 +490,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema-oas3.0.yaml#/$defs/ValueAndConceptDescription
         - type: object
+          additionalProperties: false
           description: JSON-LD @id reference to a node defined elsewhere in the graph
           properties:
             '@id':
@@ -452,6 +527,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifEnumerationDomain
         - type: object
+          additionalProperties: false
           description: JSON-LD @id reference to a node defined elsewhere in the graph
           properties:
             '@id':
@@ -479,6 +555,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifValueDomain/schema-oas3.0.yaml#/$defs/ValueAndConceptDescription
         - type: object
+          additionalProperties: false
           description: JSON-LD @id reference to a node defined elsewhere in the graph
           properties:
             '@id':

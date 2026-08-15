@@ -239,6 +239,9 @@ properties:
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isRequired
   cdif:formats_InstanceVariable:
     type: object
+    required:
+    - '@id'
+    additionalProperties: false
     description: Reference to a variable defined in schema:variableMeasured.
     properties:
       '@id':

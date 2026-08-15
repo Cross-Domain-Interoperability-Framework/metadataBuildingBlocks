@@ -230,6 +230,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifEnumerationDomain/schema.yaml
         - type: object
+          additionalProperties: false
           description: JSON-LD @id reference to a node defined elsewhere in the graph
           properties:
             '@id':
@@ -255,6 +256,7 @@ $defs:
         anyOf:
         - $ref: '#/$defs/ValueAndConceptDescription'
         - type: object
+          additionalProperties: false
           description: JSON-LD @id reference to a node defined elsewhere in the graph
           properties:
             '@id':
@@ -290,6 +292,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifEnumerationDomain/schema.yaml
         - type: object
+          additionalProperties: false
           description: JSON-LD @id reference to a node defined elsewhere in the graph
           properties:
             '@id':
@@ -317,6 +320,7 @@ $defs:
         anyOf:
         - $ref: '#/$defs/ValueAndConceptDescription'
         - type: object
+          additionalProperties: false
           description: JSON-LD @id reference to a node defined elsewhere in the graph
           properties:
             '@id':

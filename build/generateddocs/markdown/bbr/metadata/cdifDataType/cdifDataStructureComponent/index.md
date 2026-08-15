@@ -27,14 +27,6 @@ $defs:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTermOrString/schema.yaml
   cdifConceptOrTerm:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifConceptOrTerm/schema.yaml
-  id-reference:
-    type: object
-    description: Reference to a node defined elsewhere in the document via its @id.
-    properties:
-      '@id':
-        type: string
-    required:
-    - '@id'
   IdentifierComponent:
     type: object
     description: Role given to a represented variable in the context of a long or
@@ -55,7 +47,7 @@ $defs:
       cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
-        - $ref: '#/$defs/id-reference'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
     required:
     - '@type'
@@ -92,7 +84,7 @@ $defs:
       cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
-        - $ref: '#/$defs/id-reference'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
       cdi:semantic:
         type: array
@@ -124,7 +116,7 @@ $defs:
         items:
           anyOf:
           - $ref: '#/$defs/DataStructureComponent'
-          - $ref: '#/$defs/id-reference'
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         minItems: 1
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/qualifies
       cdi:identifier:
@@ -135,7 +127,7 @@ $defs:
       cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
-        - $ref: '#/$defs/id-reference'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
       cdi:semantic:
         type: array
@@ -171,7 +163,7 @@ $defs:
       cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
-        - $ref: '#/$defs/id-reference'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
     required:
     - '@type'
@@ -199,7 +191,7 @@ $defs:
       cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
-        - $ref: '#/$defs/id-reference'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
       cdi:semantic:
         type: array
@@ -230,7 +222,7 @@ $defs:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifDescriptorVariable/schema.yaml
         x-jsonld-id: https://w3id.org/cdif/isDefinedBy_DescriptorVariable
       cdi:refersTo:
-        $ref: '#/$defs/id-reference'
+        $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/refersTo
       cdi:identifier:
         $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
@@ -270,7 +262,7 @@ $defs:
       cdif:isDefinedBy_RepresentedVariable:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifRepresentedVariable/schema.yaml
-        - $ref: '#/$defs/id-reference'
+        - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/objectReference/schema.yaml
         x-jsonld-id: https://w3id.org/cdif/isDefinedBy_RepresentedVariable
       cdi:semantic:
         type: array

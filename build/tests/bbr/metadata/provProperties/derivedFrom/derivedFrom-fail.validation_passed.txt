@@ -1,5 +1,5 @@
 Validation report for cdif.bbr.metadata.provProperties.derivedFrom - Properties for PROV was derived from
-Generated 2026-07-03T21:56:19.916499+00:00
+Generated 2026-08-15T00:09:03.435883+00:00
 === General ===
 Test was expected to fail and it did.
 === End General ===
@@ -12,7 +12,39 @@ Output Turtle derivedFrom-fail.ttl created
 === End Files ===
 
 === JSON Schema ===
-Validation passed
+
+** Validation error **
+ValidationError: {'@context': {'schema': 'http://schema.org/', 'prov': 'http://www.w3.org/ns/prov#', 'nerc': 'https://vocab.nerc.ac.uk/', 'ex': 'https://example.org/'}, '@id': 'ex:generatedBy_345y254h', 'prov:wasDerivedFrom': [{'@type': 'schema:CreativeWork', 'schema:name': 'Title data source', 'schema:description': 'short summary of source content', 'schema:url': 'https badURL'}]} is not valid under any of the given schemas
+
+Failed validating 'anyOf' in schema:
+    {'$schema': 'https://json-schema.org/draft/2020-12/schema',
+     'anyOf': [{'type': 'string'},
+               {'additionalProperties': False,
+                'properties': {'@id': {'description': 'a resolvable '
+                                                      'reference to a '
+                                                      'representation of '
+                                                      'the software or '
+                                                      'instrument used',
+                                       'type': 'string'}},
+                'required': ['@id'],
+                'type': 'object'},
+               {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifReference/schema.yaml'}],
+     'title': 'very simple links or names of data sources used to generate '
+              'the described resource.',
+     'x-jsonld-prefixes': {'prov': 'http://www.w3.org/ns/prov#',
+                           'schema': 'http://schema.org/'}}
+
+On instance:
+    {'@context': {'ex': 'https://example.org/',
+                  'nerc': 'https://vocab.nerc.ac.uk/',
+                  'prov': 'http://www.w3.org/ns/prov#',
+                  'schema': 'http://schema.org/'},
+     '@id': 'ex:generatedBy_345y254h',
+     'prov:wasDerivedFrom': [{'@type': 'schema:CreativeWork',
+                              'schema:description': 'short summary of '
+                                                    'source content',
+                              'schema:name': 'Title data source',
+                              'schema:url': 'https badURL'}]}
 === End JSON Schema ===
 
 === SHACL ===
@@ -30,10 +62,10 @@ Validation result for _sources/provProperties/derivedFrom/rules.shacl:
   	Message: PROV:derivedFrom must have a string value, a CreativeWork citing a source or an @id reference to a source.
   
 Focus nodes for _sources/provProperties/derivedFrom/rules.shacl:
- - Shape _:naf7f038d909042c1aeb8dd81990df991b4: *none*
+ - Shape cdifd:derivedFromProperty/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:n730abb732dc242c09c8932a787a8157ab4: *none*
  - Shape cdifd:derivedFromProperty: ex:generatedBy_345y254h/prov:wasDerivedFrom
  - Shape cdifd:derivedFromProperty/sh:or/rdf:first: *none*
- - Shape cdifd:derivedFromProperty/sh:or/rdf:rest/rdf:first: *none*
 
 Validation result for _sources/cdifDataType/cdifReference/rules.shacl:
   Validation Report
@@ -64,37 +96,37 @@ Validation result for _sources/schemaorgProperties/definedTerm/rules.shacl:
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:
- - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb6: *none*
- - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb8: *none*
- - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb26: *none*
- - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb10: *none*
- - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb5: *none*
- - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb4: *none*
- - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
- - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb19: *none*
- - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb7: *none*
- - Shape cdifd:CDIFDefinedTermShape: *none*
  - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*
+ - Shape _:nf349cbd261d548dab0ef760796af6792b6: *none*
+ - Shape _:nf349cbd261d548dab0ef760796af6792b5: *none*
+ - Shape _:nf349cbd261d548dab0ef760796af6792b10: *none*
+ - Shape _:nf349cbd261d548dab0ef760796af6792b19: *none*
+ - Shape _:nf349cbd261d548dab0ef760796af6792b7: *none*
+ - Shape cdifd:CDIFDefinedTermShape: *none*
+ - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*
  - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:nf349cbd261d548dab0ef760796af6792b8: *none*
+ - Shape _:nf349cbd261d548dab0ef760796af6792b4: *none*
+ - Shape _:nf349cbd261d548dab0ef760796af6792b26: *none*
 
 Validation result for _sources/schemaorgProperties/identifier/rules.shacl:
   Validation Report
   Conforms: True
   
 Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:
- - Shape cdifd:CDIFIdentifierShape: *none*
- - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
- - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
- - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
- - Shape _:n69e475015c7642139550b4e346980ec8b11: *none*
- - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
- - Shape _:n69e475015c7642139550b4e346980ec8b23: *none*
- - Shape _:n69e475015c7642139550b4e346980ec8b21: *none*
- - Shape _:n69e475015c7642139550b4e346980ec8b22: *none*
- - Shape _:n69e475015c7642139550b4e346980ec8b20: *none*
+ - Shape _:n65aacb0df2194e62a33760f3f3d7587ab22: *none*
  - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*
- - Shape _:n69e475015c7642139550b4e346980ec8b10: *none*
- - Shape _:n69e475015c7642139550b4e346980ec8b25: *none*
+ - Shape _:n65aacb0df2194e62a33760f3f3d7587ab23: *none*
+ - Shape _:n65aacb0df2194e62a33760f3f3d7587ab11: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n65aacb0df2194e62a33760f3f3d7587ab21: *none*
+ - Shape _:n65aacb0df2194e62a33760f3f3d7587ab10: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*
+ - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*
+ - Shape _:n65aacb0df2194e62a33760f3f3d7587ab25: *none*
+ - Shape _:n65aacb0df2194e62a33760f3f3d7587ab20: *none*
+ - Shape cdifd:CDIFIdentifierTypeTermShape: *none*
+ - Shape cdifd:CDIFIdentifierShape: *none*
 
 === End SHACL ===
 

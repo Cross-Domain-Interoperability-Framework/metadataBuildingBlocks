@@ -73,7 +73,9 @@ physical mappings.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "urn:idorg:test",
+      "schema:propertyID": {
+        "@id": "urn:idorg:test"
+      },
       "schema:value": "urn:idorg:test:p45689"
     }
   ],
@@ -135,7 +137,9 @@ physical mappings.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "ex:rIPXjaCPQX",
+        "schema:propertyID": {
+          "@id": "ex:rIPXjaCPQX"
+        },
         "schema:value": "PVSajGtBPsLzeCTLv",
         "schema:url": "http://example.com/resource/PVSajGtBPsLzeCTLvt"
       },
@@ -151,7 +155,9 @@ physical mappings.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://resource.org/identifier",
+        "schema:propertyID": {
+          "@id": "https://resource.org/identifier"
+        },
         "schema:value": "tdUMYBItIwdJe",
         "schema:url": "http://example.com/resource/tdUMYBItIwdJe"
       },
@@ -254,7 +260,9 @@ physical mappings.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://orcid.org",
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
           "schema:value": "iY",
           "schema:url": "https://orcid.org/iY"
         },
@@ -290,7 +298,9 @@ physical mappings.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+      "schema:propertyID": {
+        "@id": "https://registry.identifiers.org/registry/ror"
+      },
       "schema:value": "03m2x1q45",
       "schema:url": "https://ror.org/03m2x1q45"
     },
@@ -334,7 +344,9 @@ physical mappings.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://orcid.org",
+        "schema:propertyID": {
+          "@id": "https://orcid.org"
+        },
         "schema:value": "0000-0001-6113-5417",
         "schema:url": "https://orcid.org/0000-0001-6113-5417"
       },
@@ -451,7 +463,9 @@ physical mappings.
             "@type": [
               "schema:PropertyValue"
             ],
-            "schema:propertyID": "https://identifiers.org/orcid",
+            "schema:propertyID": {
+              "@id": "https://identifiers.org/orcid"
+            },
             "schema:value": "NfaMinUfHeMDEFNc",
             "schema:url": "http://orcid.org/NfaMinUfHeMDEFNc"
           }
@@ -495,7 +509,9 @@ physical mappings.
             "@type": [
               "schema:PropertyValue"
             ],
-            "schema:propertyID": "ex:oFIYAymjuGCPjDnSgmB",
+            "schema:propertyID": {
+              "@id": "ex:oFIYAymjuGCPjDnSgmB"
+            },
             "schema:url": "http://example.com/resource/WPfhCJyxiDcwgdHMemJd"
           }
         },
@@ -634,7 +650,9 @@ physical mappings.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://www.ogc.org/standards",
+          "schema:propertyID": {
+            "@id": "https://www.ogc.org/standards"
+          },
           "schema:value": "ogcapi-features-1",
           "schema:url": "https://www.ogc.org/standard/ogcapi-features/"
         },
@@ -761,8 +779,12 @@ physical mappings.
       "schema:name": "RbMivCtraTmzms",
       "schema:description": "EcbPmKQnMCgWozw",
       "schema:propertyID": [
-        "urn:test:GigjbPysIJ",
-        "https://ark.org/bXEOCTwvICRc"
+        {
+          "@id": "urn:test:GigjbPysIJ"
+        },
+        {
+          "@id": "https://ark.org/bXEOCTwvICRc"
+        }
       ],
       "schema:measurementTechnique": "some measurement technique",
       "schema:unitText": "furlongs",
@@ -804,8 +826,12 @@ physical mappings.
       "schema:name": "jzgZCegiTFYBSmsSh",
       "schema:description": "RGKBMBkScTTNQ",
       "schema:propertyID": [
-        "urn:properties:tzysaGTv",
-        "ex:CUXfWZLdRkEAG"
+        {
+          "@id": "urn:properties:tzysaGTv"
+        },
+        {
+          "@id": "ex:CUXfWZLdRkEAG"
+        }
       ],
       "schema:measurementTechnique": {
         "@type": [
@@ -816,7 +842,9 @@ physical mappings.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://identifiers.org",
+          "schema:propertyID": {
+            "@id": "https://identifiers.org"
+          },
           "schema:value": "igcJkZMJiKehgkPjMCp",
           "schema:url": "https://identifiers.org/technique/igcJkZMJiKehgkPjMCp"
         },
@@ -984,7 +1012,9 @@ physical mappings.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "@id": "ex:BAaR",
     "schema:about": {
@@ -1021,7 +1051,9 @@ physical mappings.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://doi.org",
+        "schema:propertyID": {
+          "@id": "https://doi.org"
+        },
         "schema:value": "iY",
         "schema:url": "https://doi.org/iY"
       },
@@ -1049,7 +1081,9 @@ physical mappings.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "ex:fGSg",
+        "schema:propertyID": {
+          "@id": "ex:fGSg"
+        },
         "schema:value": "vPADlYJkJuGgI",
         "schema:url": "http://example.com/resource?foo=bar#fragment"
       }
@@ -1108,7 +1142,9 @@ physical mappings.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "urn:idorg:test",
+      "schema:propertyID": {
+        "@id": "urn:idorg:test"
+      },
       "schema:value": "urn:idorg:test:p45689"
     }
   ],
@@ -1170,7 +1206,9 @@ physical mappings.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "ex:rIPXjaCPQX",
+        "schema:propertyID": {
+          "@id": "ex:rIPXjaCPQX"
+        },
         "schema:value": "PVSajGtBPsLzeCTLv",
         "schema:url": "http://example.com/resource/PVSajGtBPsLzeCTLvt"
       },
@@ -1186,7 +1224,9 @@ physical mappings.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://resource.org/identifier",
+        "schema:propertyID": {
+          "@id": "https://resource.org/identifier"
+        },
         "schema:value": "tdUMYBItIwdJe",
         "schema:url": "http://example.com/resource/tdUMYBItIwdJe"
       },
@@ -1289,7 +1329,9 @@ physical mappings.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://orcid.org",
+          "schema:propertyID": {
+            "@id": "https://orcid.org"
+          },
           "schema:value": "iY",
           "schema:url": "https://orcid.org/iY"
         },
@@ -1325,7 +1367,9 @@ physical mappings.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+      "schema:propertyID": {
+        "@id": "https://registry.identifiers.org/registry/ror"
+      },
       "schema:value": "03m2x1q45",
       "schema:url": "https://ror.org/03m2x1q45"
     },
@@ -1369,7 +1413,9 @@ physical mappings.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://orcid.org",
+        "schema:propertyID": {
+          "@id": "https://orcid.org"
+        },
         "schema:value": "0000-0001-6113-5417",
         "schema:url": "https://orcid.org/0000-0001-6113-5417"
       },
@@ -1486,7 +1532,9 @@ physical mappings.
             "@type": [
               "schema:PropertyValue"
             ],
-            "schema:propertyID": "https://identifiers.org/orcid",
+            "schema:propertyID": {
+              "@id": "https://identifiers.org/orcid"
+            },
             "schema:value": "NfaMinUfHeMDEFNc",
             "schema:url": "http://orcid.org/NfaMinUfHeMDEFNc"
           }
@@ -1530,7 +1578,9 @@ physical mappings.
             "@type": [
               "schema:PropertyValue"
             ],
-            "schema:propertyID": "ex:oFIYAymjuGCPjDnSgmB",
+            "schema:propertyID": {
+              "@id": "ex:oFIYAymjuGCPjDnSgmB"
+            },
             "schema:url": "http://example.com/resource/WPfhCJyxiDcwgdHMemJd"
           }
         },
@@ -1669,7 +1719,9 @@ physical mappings.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://www.ogc.org/standards",
+          "schema:propertyID": {
+            "@id": "https://www.ogc.org/standards"
+          },
           "schema:value": "ogcapi-features-1",
           "schema:url": "https://www.ogc.org/standard/ogcapi-features/"
         },
@@ -1796,8 +1848,12 @@ physical mappings.
       "schema:name": "RbMivCtraTmzms",
       "schema:description": "EcbPmKQnMCgWozw",
       "schema:propertyID": [
-        "urn:test:GigjbPysIJ",
-        "https://ark.org/bXEOCTwvICRc"
+        {
+          "@id": "urn:test:GigjbPysIJ"
+        },
+        {
+          "@id": "https://ark.org/bXEOCTwvICRc"
+        }
       ],
       "schema:measurementTechnique": "some measurement technique",
       "schema:unitText": "furlongs",
@@ -1839,8 +1895,12 @@ physical mappings.
       "schema:name": "jzgZCegiTFYBSmsSh",
       "schema:description": "RGKBMBkScTTNQ",
       "schema:propertyID": [
-        "urn:properties:tzysaGTv",
-        "ex:CUXfWZLdRkEAG"
+        {
+          "@id": "urn:properties:tzysaGTv"
+        },
+        {
+          "@id": "ex:CUXfWZLdRkEAG"
+        }
       ],
       "schema:measurementTechnique": {
         "@type": [
@@ -1851,7 +1911,9 @@ physical mappings.
           "@type": [
             "schema:PropertyValue"
           ],
-          "schema:propertyID": "https://identifiers.org",
+          "schema:propertyID": {
+            "@id": "https://identifiers.org"
+          },
           "schema:value": "igcJkZMJiKehgkPjMCp",
           "schema:url": "https://identifiers.org/technique/igcJkZMJiKehgkPjMCp"
         },
@@ -2019,7 +2081,9 @@ physical mappings.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "@id": "ex:BAaR",
     "schema:about": {
@@ -2056,7 +2120,9 @@ physical mappings.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://doi.org",
+        "schema:propertyID": {
+          "@id": "https://doi.org"
+        },
         "schema:value": "iY",
         "schema:url": "https://doi.org/iY"
       },
@@ -2084,7 +2150,9 @@ physical mappings.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "ex:fGSg",
+        "schema:propertyID": {
+          "@id": "ex:fGSg"
+        },
         "schema:value": "vPADlYJkJuGgI",
         "schema:url": "http://example.com/resource?foo=bar#fragment"
       }
@@ -2114,7 +2182,7 @@ physical mappings.
     schema1:contactPoint [ a schema1:ContactPoint ;
             schema1:email "a.king@nhm.ac.uk" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://orcid.org" ;
+            schema1:propertyID <https://orcid.org> ;
             schema1:url "https://orcid.org/0000-0001-6113-5417" ;
             schema1:value "0000-0001-6113-5417" ] ;
     schema1:name "King, Ashley" .
@@ -2126,7 +2194,7 @@ ex:ABYcNWHKYhTiLLNEzJx a schema1:Person ;
             schema1:email "tom@ngo.net" ] ;
     schema1:description "Data Curator" ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://identifiers.org/orcid" ;
+            schema1:propertyID <https://identifiers.org/orcid> ;
             schema1:url "http://orcid.org/NfaMinUfHeMDEFNc" ;
             schema1:value "NfaMinUfHeMDEFNc" ] ;
     schema1:name "Walker, Longin" .
@@ -2136,7 +2204,7 @@ ex:BAaR a schema1:Dataset ;
         <https://w3id.org/cdif/data_description/1.1>,
         <https://w3id.org/cdif/discovery/1.1> ;
     schema1:about ex:YOPx ;
-    schema1:additionalType "dcat:CatalogRecord" ;
+    schema1:additionalType dcat:CatalogRecord ;
     schema1:includedInDataCatalog ex:lIZkH ;
     schema1:maintainer ex:PersonExample_zZc ;
     schema1:sdDatePublished "2025-10-25" .
@@ -2159,7 +2227,7 @@ ex:PersonExample_zZc_asContributor a schema1:Person ;
             schema1:email "joe@bmanuco.org" ] ;
     schema1:description "Metadata specialist, based in Portland, Maine" ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://orcid.org" ;
+            schema1:propertyID <https://orcid.org> ;
             schema1:url "https://orcid.org/iY" ;
             schema1:value "iY" ] ;
     schema1:name "Joe B. Test" ;
@@ -2181,100 +2249,6 @@ ex:YOPx a schema1:Dataset ;
     schema1:datePublished "2021-09-05" ;
     schema1:description "Auto generated from JSON schema, values are gobbledegoop. For testing" ;
     schema1:distribution [ a cdi:PhysicalDataSet,
-                cdi:StructuredDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/data/measurement-cube.nc" ;
-            schema1:encodingFormat "application/x-netcdf" ;
-            schema1:name "Gridded measurement data cube" ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "SHA256" ;
-                    spdx:checksumValue "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5" ] ;
-            cdif:hasPhysicalMapping [ cdi:decimalPositions 6 ;
-                    cdi:isRequired true ;
-                    cdi:locator "/measurements/intensity" ;
-                    cdi:scale 1000 ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:OjHgIDO ;
-                    cdif:physicalDataType "float32" ],
-                [ cdi:isRequired true ;
-                    cdi:locator "/measurements/wavelength" ;
-                    cdi:nullSequence "NaN" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
-                    cdif:physicalDataType "float32" ] ],
-        [ a schema1:WebAPI ;
-            schema1:documentation [ a schema1:CreativeWork,
-                        dcat:Relationship ;
-                    schema1:name "OpenAPI specification for geochemistry data service" ;
-                    schema1:url "http://example.com/api/v1/openapi.json" ] ;
-            schema1:potentialAction [ a schema1:Action ;
-                    schema1:name "Query geochemistry features" ;
-                    schema1:object [ a schema1:DataFeed ;
-                            schema1:description "Geochemistry observations collection" ] ;
-                    schema1:query-input [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Maximum number of features to return (default 100)" ;
-                            schema1:valueName "limit" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Starting index for pagination" ;
-                            schema1:valueName "offset" ;
-                            schema1:valueRequired false ],
-                        [ a schema1:PropertyValueSpecification ;
-                            schema1:description "Response format: csv or geojson" ;
-                            schema1:valueName "format" ;
-                            schema1:valuePattern "csv|geojson" ;
-                            schema1:valueRequired false ] ;
-                    schema1:result [ a cdi:PhysicalDataSet,
-                                cdi:TabularTextDataSet,
-                                schema1:DataDownload ;
-                            cdi:characterSet "UTF-8" ;
-                            cdi:isDelimited true ;
-                            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-                            schema1:contentUrl "http://example.com/api/v1/collections/geochem/items?f=csv" ;
-                            schema1:encodingFormat "text/csv" ;
-                            schema1:name "Geochemistry query results" ;
-                            csvw:delimiter "," ;
-                            csvw:header true ;
-                            csvw:headerRowCount 1 ;
-                            cdif:fileSize 8e-01 ;
-                            cdif:fileSizeUofM "MB" ;
-                            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                                    cdif:format "decimal" ;
-                                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
-                                    cdif:index 0 ;
-                                    cdif:physicalDataType "float64" ],
-                                [ cdi:isRequired false ;
-                                    cdif:format "decimal" ;
-                                    cdif:formats_InstanceVariable ex:OjHgIDO ;
-                                    cdif:index 1 ;
-                                    cdif:physicalDataType "float64" ] ] ;
-                    schema1:target [ a schema1:EntryPoint ;
-                            schema1:contentType "application/geo+json",
-                                "text/csv" ;
-                            schema1:description "OGC API Features endpoint returning geochemistry observations as CSV" ;
-                            schema1:httpMethod "GET" ;
-                            schema1:urlTemplate "http://example.com/api/v1/collections/geochem/items?f={format}&limit={limit}&offset={offset}" ] ] ;
-            schema1:serviceType [ a schema1:DefinedTerm ;
-                    schema1:identifier [ a schema1:PropertyValue ;
-                            schema1:propertyID "https://www.ogc.org/standards" ;
-                            schema1:url "https://www.ogc.org/standard/ogcapi-features/" ;
-                            schema1:value "ogcapi-features-1" ] ;
-                    schema1:inDefinedTermSet "https://www.ogc.org/standards" ;
-                    schema1:name "OGC API - Features" ;
-                    schema1:termCode "ogcapi-features" ] ;
-            schema1:termsOfService "Open access, no authentication required" ],
-        [ a cdi:PhysicalDataSet,
-                schema1:DataDownload ;
-            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
-            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
-            schema1:encodingFormat "text/csv" ;
-            schema1:name "VwuIdrCrJSsrGATePg" ;
-            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
-            spdx:checksum [ a spdx:Checksum ;
-                    spdx:algorithm "MD5" ;
-                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ],
-        [ a cdi:PhysicalDataSet,
                 schema1:DataDownload ;
             dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
             schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
@@ -2321,13 +2295,107 @@ ex:YOPx a schema1:Dataset ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:OjHgIDO ;
                     cdif:index 1 ;
-                    cdif:physicalDataType "float64" ] ] ;
+                    cdif:physicalDataType "float64" ] ],
+        [ a cdi:PhysicalDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/resource?foo=bar#fragment" ;
+            schema1:encodingFormat "text/csv" ;
+            schema1:name "VwuIdrCrJSsrGATePg" ;
+            schema1:provider ex:ABYcNWHKYhTiLLNEzJx ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "MD5" ;
+                    spdx:checksumValue "MITGLcmBjeFYWmjP" ] ],
+        [ a cdi:PhysicalDataSet,
+                cdi:StructuredDataSet,
+                schema1:DataDownload ;
+            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+            schema1:contentUrl "http://example.com/data/measurement-cube.nc" ;
+            schema1:encodingFormat "application/x-netcdf" ;
+            schema1:name "Gridded measurement data cube" ;
+            spdx:checksum [ a spdx:Checksum ;
+                    spdx:algorithm "SHA256" ;
+                    spdx:checksumValue "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5" ] ;
+            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                    cdi:locator "/measurements/wavelength" ;
+                    cdi:nullSequence "NaN" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
+                    cdif:physicalDataType "float32" ],
+                [ cdi:decimalPositions 6 ;
+                    cdi:isRequired true ;
+                    cdi:locator "/measurements/intensity" ;
+                    cdi:scale 1000 ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:OjHgIDO ;
+                    cdif:physicalDataType "float32" ] ],
+        [ a schema1:WebAPI ;
+            schema1:documentation [ a schema1:CreativeWork,
+                        dcat:Relationship ;
+                    schema1:name "OpenAPI specification for geochemistry data service" ;
+                    schema1:url "http://example.com/api/v1/openapi.json" ] ;
+            schema1:potentialAction [ a schema1:Action ;
+                    schema1:name "Query geochemistry features" ;
+                    schema1:object [ a schema1:DataFeed ;
+                            schema1:description "Geochemistry observations collection" ] ;
+                    schema1:query-input [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Maximum number of features to return (default 100)" ;
+                            schema1:valueName "limit" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Response format: csv or geojson" ;
+                            schema1:valueName "format" ;
+                            schema1:valuePattern "csv|geojson" ;
+                            schema1:valueRequired false ],
+                        [ a schema1:PropertyValueSpecification ;
+                            schema1:description "Starting index for pagination" ;
+                            schema1:valueName "offset" ;
+                            schema1:valueRequired false ] ;
+                    schema1:result [ a cdi:PhysicalDataSet,
+                                cdi:TabularTextDataSet,
+                                schema1:DataDownload ;
+                            cdi:characterSet "UTF-8" ;
+                            cdi:isDelimited true ;
+                            dcterms:conformsTo <http://www.opengis.net/def/nil/OGC/0/missing> ;
+                            schema1:contentUrl "http://example.com/api/v1/collections/geochem/items?f=csv" ;
+                            schema1:encodingFormat "text/csv" ;
+                            schema1:name "Geochemistry query results" ;
+                            csvw:delimiter "," ;
+                            csvw:header true ;
+                            csvw:headerRowCount 1 ;
+                            cdif:fileSize 8e-01 ;
+                            cdif:fileSizeUofM "MB" ;
+                            cdif:hasPhysicalMapping [ cdi:isRequired true ;
+                                    cdif:format "decimal" ;
+                                    cdif:formats_InstanceVariable ex:KJTFKurNFu ;
+                                    cdif:index 0 ;
+                                    cdif:physicalDataType "float64" ],
+                                [ cdi:isRequired false ;
+                                    cdif:format "decimal" ;
+                                    cdif:formats_InstanceVariable ex:OjHgIDO ;
+                                    cdif:index 1 ;
+                                    cdif:physicalDataType "float64" ] ] ;
+                    schema1:target [ a schema1:EntryPoint ;
+                            schema1:contentType "application/geo+json",
+                                "text/csv" ;
+                            schema1:description "OGC API Features endpoint returning geochemistry observations as CSV" ;
+                            schema1:httpMethod "GET" ;
+                            schema1:urlTemplate "http://example.com/api/v1/collections/geochem/items?f={format}&limit={limit}&offset={offset}" ] ] ;
+            schema1:serviceType [ a schema1:DefinedTerm ;
+                    schema1:identifier [ a schema1:PropertyValue ;
+                            schema1:propertyID <https://www.ogc.org/standards> ;
+                            schema1:url "https://www.ogc.org/standard/ogcapi-features/" ;
+                            schema1:value "ogcapi-features-1" ] ;
+                    schema1:inDefinedTermSet "https://www.ogc.org/standards" ;
+                    schema1:name "OGC API - Features" ;
+                    schema1:termCode "ogcapi-features" ] ;
+            schema1:termsOfService "Open access, no authentication required" ] ;
     schema1:funding [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/3572wjht> ;
+            schema1:funder <https://ror.org/fnjrj68> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
-                    schema1:value "lieopgXuumP" ] ;
-            schema1:name "fhhbzh" ],
+                    schema1:value "fMuiBjneudpV" ] ;
+            schema1:name "MWoPQAqRYHobey" ],
         [ a schema1:MonetaryGrant ;
             schema1:funder <https://ror.org/sejer4w6u8> ;
             schema1:identifier [ a schema1:PropertyValue ;
@@ -2335,18 +2403,18 @@ ex:YOPx a schema1:Dataset ;
                     schema1:value "LZpo" ] ;
             schema1:name "ekckpBtI" ],
         [ a schema1:MonetaryGrant ;
-            schema1:funder <https://ror.org/fnjrj68> ;
+            schema1:funder <https://ror.org/3572wjht> ;
             schema1:identifier [ a schema1:PropertyValue ;
                     schema1:propertyID "grant-id" ;
-                    schema1:value "fMuiBjneudpV" ] ;
-            schema1:name "MWoPQAqRYHobey" ] ;
+                    schema1:value "lieopgXuumP" ] ;
+            schema1:name "fhhbzh" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
             schema1:propertyID "uSNzhqeEQPKhCj" ;
             schema1:url "http://identifiers.org/sandbox/uSNzhqeEQPKhCj" ] ;
     schema1:inLanguage "bYiJT" ;
     schema1:keywords [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "ex:rIPXjaCPQX" ;
+                    schema1:propertyID ex:rIPXjaCPQX ;
                     schema1:url "http://example.com/resource/PVSajGtBPsLzeCTLvt" ;
                     schema1:value "PVSajGtBPsLzeCTLv" ] ;
             schema1:inDefinedTermSet "EfagQEQtAkwMBDvfKznc" ;
@@ -2354,7 +2422,7 @@ ex:YOPx a schema1:Dataset ;
             schema1:termCode "bzOl" ],
         [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://resource.org/identifier" ;
+                    schema1:propertyID <https://resource.org/identifier> ;
                     schema1:url "http://example.com/resource/tdUMYBItIwdJe" ;
                     schema1:value "tdUMYBItIwdJe" ] ;
             schema1:inDefinedTermSet "sqH" ;
@@ -2375,11 +2443,11 @@ ex:YOPx a schema1:Dataset ;
     schema1:publisher ex:exampleOrg_fW ;
     schema1:publishingPrinciples "rxZsrPAbJrIGGgDVJ" ;
     schema1:relatedLink [ a schema1:LinkRole ;
-            schema1:linkRelationship "lfCzUaoftdtTPAhMnpC" ],
+            schema1:linkRelationship "BOoRREnpDEUrdNaV" ],
         [ a schema1:LinkRole ;
-            schema1:linkRelationship "BOoRREnpDEUrdNaV" ] ;
+            schema1:linkRelationship "lfCzUaoftdtTPAhMnpC" ] ;
     schema1:sameAs [ a schema1:PropertyValue ;
-            schema1:propertyID "urn:idorg:test" ;
+            schema1:propertyID <urn:idorg:test> ;
             schema1:value "urn:idorg:test:p45689" ] ;
     schema1:spatialCoverage [ a schema1:Place ;
             schema1:geo [ a schema1:GeoCoordinates ;
@@ -2413,11 +2481,6 @@ ex:YOPx a schema1:Dataset ;
         ex:OjHgIDO ;
     schema1:version "OVVAYgJhmFkXyVyedlVo" ;
     dqv:hasQualityMeasurement [ a dqv:QualityMeasurement ;
-            dqv:isMeasurementOf [ a schema1:DefinedTerm ;
-                    schema1:identifier "https://example.org/quality/qartod-pass-rate" ;
-                    schema1:name "QARTOD primary level pass rate" ] ;
-            dqv:value "0.96" ],
-        [ a dqv:QualityMeasurement ;
             dqv:isMeasurementOf <https://example.org/quality/temperatureAccuracy> ;
             dqv:value [ a schema1:DefinedTerm ;
                     schema1:identifier "https://example.org/quality/levels/high" ;
@@ -2425,7 +2488,12 @@ ex:YOPx a schema1:Dataset ;
                     schema1:termCode "HIGH" ] ],
         [ a dqv:QualityMeasurement ;
             dqv:isMeasurementOf "completeness" ;
-            dqv:value "0.987" ] .
+            dqv:value "0.987" ],
+        [ a dqv:QualityMeasurement ;
+            dqv:isMeasurementOf [ a schema1:DefinedTerm ;
+                    schema1:identifier "https://example.org/quality/qartod-pass-rate" ;
+                    schema1:name "QARTOD primary level pass rate" ] ;
+            dqv:value "0.96" ] .
 
 ex:corzCgjNrGcH a schema1:Organization ;
     schema1:additionalType "schema:NGO" ;
@@ -2444,7 +2512,7 @@ ex:exampleOrg_fW a schema1:Organization ;
     schema1:alternateName "UAz" ;
     schema1:description "University in Tucson, Arizona" ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://registry.identifiers.org/registry/ror" ;
+            schema1:propertyID <https://registry.identifiers.org/registry/ror> ;
             schema1:url "https://ror.org/03m2x1q45" ;
             schema1:value "03m2x1q45" ] ;
     schema1:name "University of Arizona" ;
@@ -2467,13 +2535,13 @@ ex:kNKPZsCSWMc a schema1:Organization ;
     schema1:alternateName "WFcslOjvGZY" ;
     schema1:description "ztcLdOAkQTKSPLZ" ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "ex:oFIYAymjuGCPjDnSgmB" ;
+            schema1:propertyID ex:oFIYAymjuGCPjDnSgmB ;
             schema1:url "http://example.com/resource/WPfhCJyxiDcwgdHMemJd" ] ;
     schema1:name "SdeMvoPFxEaJOvQy" .
 
 ex:lIZkH a schema1:DataCatalog ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "ex:fGSg" ;
+            schema1:propertyID ex:fGSg ;
             schema1:url "http://example.com/resource?foo=bar#fragment" ;
             schema1:value "vPADlYJkJuGgI" ] ;
     schema1:name "naEEWHEjgvNFJy" ;
@@ -2486,7 +2554,7 @@ ex:maintainerContactPoint_3456 a schema1:ContactPoint ;
     schema1:email "joe@bmanuco.org" .
 
 ex:maintainerIdentifier_3456 a schema1:PropertyValue ;
-    schema1:propertyID "https://doi.org" ;
+    schema1:propertyID <https://doi.org> ;
     schema1:url "https://doi.org/iY" ;
     schema1:value "iY" .
 
@@ -2531,7 +2599,7 @@ ex:OjHgIDO a cdi:InstanceVariable,
     schema1:maxValue 7.4e+01 ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://identifiers.org" ;
+                    schema1:propertyID <https://identifiers.org> ;
                     schema1:url "https://identifiers.org/technique/igcJkZMJiKehgkPjMCp" ;
                     schema1:value "igcJkZMJiKehgkPjMCp" ] ;
             schema1:inDefinedTermSet "https://identifiers.org/technique/vocabulary" ;
@@ -2539,8 +2607,8 @@ ex:OjHgIDO a cdi:InstanceVariable,
             schema1:termCode "agt" ] ;
     schema1:minValue 3.6e+01 ;
     schema1:name "jzgZCegiTFYBSmsSh" ;
-    schema1:propertyID "ex:CUXfWZLdRkEAG",
-        "urn:properties:tzysaGTv" ;
+    schema1:propertyID ex:CUXfWZLdRkEAG,
+        <urn:properties:tzysaGTv> ;
     schema1:unitCode "S" ;
     schema1:unitText "stone" ;
     schema1:url "http://example.com/resource?foo=bar#stone" ;
@@ -2563,8 +2631,8 @@ ex:KJTFKurNFu a cdi:InstanceVariable,
     schema1:measurementTechnique "some measurement technique" ;
     schema1:minValue 6.7e+01 ;
     schema1:name "RbMivCtraTmzms" ;
-    schema1:propertyID "https://ark.org/bXEOCTwvICRc",
-        "urn:test:GigjbPysIJ" ;
+    schema1:propertyID <https://ark.org/bXEOCTwvICRc>,
+        <urn:test:GigjbPysIJ> ;
     schema1:unitCode "F" ;
     schema1:unitText "furlongs" ;
     schema1:url "http://example.com/resource?foo=bar#furlong" ;
@@ -2607,7 +2675,9 @@ use cdi:locator to point at the NetCDF variable paths.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://doi.org",
+    "schema:propertyID": {
+      "@id": "https://doi.org"
+    },
     "schema:value": "10.5281/zenodo.4242424",
     "schema:url": "https://doi.org/10.5281/zenodo.4242424"
   },
@@ -2815,7 +2885,9 @@ use cdi:locator to point at the NetCDF variable paths.
       "schema:description": "Monthly mean in-situ sea-water temperature for the cell.",
       "schema:measurementTechnique": "Optimal interpolation of CTD and ARGO float observations",
       "schema:propertyID": [
-        "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+        {
+          "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+        }
       ],
       "cdif:physicalDataType": "float32",
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#float",
@@ -2863,7 +2935,9 @@ use cdi:locator to point at the NetCDF variable paths.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "schema:about": {
       "@id": "ex:gom-temp-cube-2025"
@@ -2917,7 +2991,9 @@ use cdi:locator to point at the NetCDF variable paths.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://doi.org",
+    "schema:propertyID": {
+      "@id": "https://doi.org"
+    },
     "schema:value": "10.5281/zenodo.4242424",
     "schema:url": "https://doi.org/10.5281/zenodo.4242424"
   },
@@ -3125,7 +3201,9 @@ use cdi:locator to point at the NetCDF variable paths.
       "schema:description": "Monthly mean in-situ sea-water temperature for the cell.",
       "schema:measurementTechnique": "Optimal interpolation of CTD and ARGO float observations",
       "schema:propertyID": [
-        "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+        {
+          "@id": "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/"
+        }
       ],
       "cdif:physicalDataType": "float32",
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#float",
@@ -3173,7 +3251,9 @@ use cdi:locator to point at the NetCDF variable paths.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "schema:about": {
       "@id": "ex:gom-temp-cube-2025"
@@ -3198,6 +3278,7 @@ use cdi:locator to point at the NetCDF variable paths.
 ```ttl
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -3227,6 +3308,11 @@ ex:gom-temp-cube-2025 a schema1:Dataset ;
                     cdif:formats_InstanceVariable ex:var-lat ;
                     cdif:physicalDataType "float32" ],
                 [ cdi:isRequired true ;
+                    cdi:locator "/time" ;
+                    cdif:format "days since 2024-01-01" ;
+                    cdif:formats_InstanceVariable ex:var-time ;
+                    cdif:physicalDataType "int32" ],
+                [ cdi:isRequired true ;
                     cdi:locator "/temperature" ;
                     cdi:nullSequence "NaN" ;
                     cdif:format "decimal" ;
@@ -3238,17 +3324,12 @@ ex:gom-temp-cube-2025 a schema1:Dataset ;
                     cdif:formats_InstanceVariable ex:var-depth ;
                     cdif:physicalDataType "float32" ],
                 [ cdi:isRequired true ;
-                    cdi:locator "/time" ;
-                    cdif:format "days since 2024-01-01" ;
-                    cdif:formats_InstanceVariable ex:var-time ;
-                    cdif:physicalDataType "int32" ],
-                [ cdi:isRequired true ;
                     cdi:locator "/lon" ;
                     cdif:format "decimal" ;
                     cdif:formats_InstanceVariable ex:var-lon ;
                     cdif:physicalDataType "float32" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://doi.org" ;
+            schema1:propertyID <https://doi.org> ;
             schema1:url "https://doi.org/10.5281/zenodo.4242424" ;
             schema1:value "10.5281/zenodo.4242424" ] ;
     schema1:keywords "Gulf of Maine",
@@ -3276,7 +3357,7 @@ ex:gom-temp-cube-2025 a schema1:Dataset ;
         <https://w3id.org/cdif/data_description/1.1>,
         <https://w3id.org/cdif/discovery/1.1> ;
     schema1:about ex:gom-temp-cube-2025 ;
-    schema1:additionalType "dcat:CatalogRecord" ;
+    schema1:additionalType dcat:CatalogRecord ;
     schema1:sdDatePublished "2025-10-15" .
 
 ex:var-depth a cdi:InstanceVariable,
@@ -3329,7 +3410,7 @@ ex:var-temperature a cdi:InstanceVariable,
     schema1:measurementTechnique "Optimal interpolation of CTD and ARGO float observations" ;
     schema1:minValue -2e+00 ;
     schema1:name "sea_water_temperature" ;
-    schema1:propertyID "http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/" ;
+    schema1:propertyID <http://vocab.nerc.ac.uk/collection/P01/current/TEMPST01/> ;
     cdif:displayLabel "Sea-water temperature" ;
     cdif:physicalDataType "float32" ;
     cdif:role "Measure" ;
@@ -3386,7 +3467,9 @@ cdif:hasPrimaryKey wires the (station, sample_date) composite key.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://doi.org",
+    "schema:propertyID": {
+      "@id": "https://doi.org"
+    },
     "schema:value": "10.5281/zenodo.5151515",
     "schema:url": "https://doi.org/10.5281/zenodo.5151515"
   },
@@ -3553,7 +3636,9 @@ cdif:hasPrimaryKey wires the (station, sample_date) composite key.
       "schema:description": "pH of the water sample (unitless).",
       "schema:measurementTechnique": "Glass electrode, two-point calibration",
       "schema:propertyID": [
-        "http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/"
+        {
+          "@id": "http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/"
+        }
       ],
       "cdif:physicalDataType": "float64",
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
@@ -3654,10 +3739,22 @@ cdif:hasPrimaryKey wires the (station, sample_date) composite key.
     "@id": "ex:gom-water-quality-wide-2025/pk",
     "cdif:isComposedOf": [
       {
-        "@id": "ex:var-station"
+        "@type": [
+          "cdi:ComponentPosition"
+        ],
+        "cdi:indexes": {
+          "@id": "ex:var-station"
+        },
+        "cdi:value": 1
       },
       {
-        "@id": "ex:var-sample-date"
+        "@type": [
+          "cdi:ComponentPosition"
+        ],
+        "cdi:indexes": {
+          "@id": "ex:var-sample-date"
+        },
+        "cdi:value": 2
       }
     ]
   },
@@ -3689,7 +3786,9 @@ cdif:hasPrimaryKey wires the (station, sample_date) composite key.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "schema:about": {
       "@id": "ex:gom-water-quality-wide-2025"
@@ -3745,7 +3844,9 @@ cdif:hasPrimaryKey wires the (station, sample_date) composite key.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://doi.org",
+    "schema:propertyID": {
+      "@id": "https://doi.org"
+    },
     "schema:value": "10.5281/zenodo.5151515",
     "schema:url": "https://doi.org/10.5281/zenodo.5151515"
   },
@@ -3912,7 +4013,9 @@ cdif:hasPrimaryKey wires the (station, sample_date) composite key.
       "schema:description": "pH of the water sample (unitless).",
       "schema:measurementTechnique": "Glass electrode, two-point calibration",
       "schema:propertyID": [
-        "http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/"
+        {
+          "@id": "http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/"
+        }
       ],
       "cdif:physicalDataType": "float64",
       "cdi:intendedDataType": "https://www.w3.org/TR/xmlschema-2/#decimal",
@@ -4013,10 +4116,22 @@ cdif:hasPrimaryKey wires the (station, sample_date) composite key.
     "@id": "ex:gom-water-quality-wide-2025/pk",
     "cdif:isComposedOf": [
       {
-        "@id": "ex:var-station"
+        "@type": [
+          "cdi:ComponentPosition"
+        ],
+        "cdi:indexes": {
+          "@id": "ex:var-station"
+        },
+        "cdi:value": 1
       },
       {
-        "@id": "ex:var-sample-date"
+        "@type": [
+          "cdi:ComponentPosition"
+        ],
+        "cdi:indexes": {
+          "@id": "ex:var-sample-date"
+        },
+        "cdi:value": 2
       }
     ]
   },
@@ -4048,7 +4163,9 @@ cdif:hasPrimaryKey wires the (station, sample_date) composite key.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "schema:about": {
       "@id": "ex:gom-water-quality-wide-2025"
@@ -4074,6 +4191,7 @@ cdif:hasPrimaryKey wires the (station, sample_date) composite key.
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -4104,11 +4222,17 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
             csvw:skipBlankRows true ;
             cdif:fileSize 312 ;
             cdif:fileSizeUofM "KB" ;
-            cdif:hasPhysicalMapping [ cdi:decimalPositions 2 ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 3 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-ph ;
-                    cdif:index 2 ;
+                    cdif:formats_InstanceVariable ex:var-salinity ;
+                    cdif:index 4 ;
+                    cdif:physicalDataType "float64" ],
+                [ cdi:decimalPositions 2 ;
+                    cdi:nullSequence "NA" ;
+                    cdif:format "decimal" ;
+                    cdif:formats_InstanceVariable ex:var-temperature ;
+                    cdif:index 3 ;
                     cdif:physicalDataType "float64" ],
                 [ cdi:isRequired true ;
                     cdif:format "string" ;
@@ -4123,23 +4247,17 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
                 [ cdi:decimalPositions 2 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-temperature ;
-                    cdif:index 3 ;
+                    cdif:formats_InstanceVariable ex:var-oxygen ;
+                    cdif:index 5 ;
                     cdif:physicalDataType "float64" ],
                 [ cdi:decimalPositions 2 ;
                     cdi:nullSequence "NA" ;
                     cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-oxygen ;
-                    cdif:index 5 ;
-                    cdif:physicalDataType "float64" ],
-                [ cdi:decimalPositions 3 ;
-                    cdi:nullSequence "NA" ;
-                    cdif:format "decimal" ;
-                    cdif:formats_InstanceVariable ex:var-salinity ;
-                    cdif:index 4 ;
+                    cdif:formats_InstanceVariable ex:var-ph ;
+                    cdif:index 2 ;
                     cdif:physicalDataType "float64" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://doi.org" ;
+            schema1:propertyID <https://doi.org> ;
             schema1:url "https://doi.org/10.5281/zenodo.5151515" ;
             schema1:value "10.5281/zenodo.5151515" ] ;
     schema1:keywords "Gulf of Maine",
@@ -4172,12 +4290,16 @@ ex:gom-water-quality-wide-2025 a schema1:Dataset ;
         <https://w3id.org/cdif/data_description/1.1>,
         <https://w3id.org/cdif/discovery/1.1> ;
     schema1:about ex:gom-water-quality-wide-2025 ;
-    schema1:additionalType "dcat:CatalogRecord" ;
+    schema1:additionalType dcat:CatalogRecord ;
     schema1:sdDatePublished "2025-10-20" .
 
 <https://example.org/gom-water-quality-wide-2025/pk> a cdif:Key ;
-    cdif:isComposedOf ex:var-sample-date,
-        ex:var-station .
+    cdif:isComposedOf [ a cdi:ComponentPosition ;
+            cdi:indexes ex:var-station ;
+            cdi:value 1 ],
+        [ a cdi:ComponentPosition ;
+            cdi:indexes ex:var-sample-date ;
+            cdi:value 2 ] .
 
 ex:var-oxygen a cdi:InstanceVariable,
         schema1:PropertyValue ;
@@ -4203,7 +4325,7 @@ ex:var-ph a cdi:InstanceVariable,
     schema1:measurementTechnique "Glass electrode, two-point calibration" ;
     schema1:minValue 0e+00 ;
     schema1:name "ph" ;
-    schema1:propertyID "http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/" ;
+    schema1:propertyID <http://vocab.nerc.ac.uk/collection/P01/current/PHXXZZXX/> ;
     cdif:displayLabel "pH" ;
     cdif:physicalDataType "float64" ;
     cdif:role "Measure" ;
@@ -4295,7 +4417,9 @@ to them is a Data Structure profile concern, not a data description one.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://doi.org",
+    "schema:propertyID": {
+      "@id": "https://doi.org"
+    },
     "schema:value": "10.5281/zenodo.5151516",
     "schema:url": "https://doi.org/10.5281/zenodo.5151516"
   },
@@ -4331,8 +4455,7 @@ to them is a Data Structure profile concern, not a data description one.
   },
   "prov:wasDerivedFrom": [
     {
-      "@id": "ex:gom-water-quality-wide-2025",
-      "schema:name": "Wide-form release of the same observations"
+      "@id": "ex:gom-water-quality-wide-2025"
     }
   ],
   "schema:distribution": [
@@ -4622,7 +4745,9 @@ to them is a Data Structure profile concern, not a data description one.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "schema:about": {
       "@id": "ex:gom-water-quality-long-2025"
@@ -4678,7 +4803,9 @@ to them is a Data Structure profile concern, not a data description one.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://doi.org",
+    "schema:propertyID": {
+      "@id": "https://doi.org"
+    },
     "schema:value": "10.5281/zenodo.5151516",
     "schema:url": "https://doi.org/10.5281/zenodo.5151516"
   },
@@ -4714,8 +4841,7 @@ to them is a Data Structure profile concern, not a data description one.
   },
   "prov:wasDerivedFrom": [
     {
-      "@id": "ex:gom-water-quality-wide-2025",
-      "schema:name": "Wide-form release of the same observations"
+      "@id": "ex:gom-water-quality-wide-2025"
     }
   ],
   "schema:distribution": [
@@ -5005,7 +5131,9 @@ to them is a Data Structure profile concern, not a data description one.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "schema:about": {
       "@id": "ex:gom-water-quality-long-2025"
@@ -5031,6 +5159,7 @@ to them is a Data Structure profile concern, not a data description one.
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
@@ -5088,7 +5217,7 @@ ex:gom-water-quality-long-2025 a schema1:Dataset ;
                     cdif:index 0 ;
                     cdif:physicalDataType "string" ] ] ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://doi.org" ;
+            schema1:propertyID <https://doi.org> ;
             schema1:url "https://doi.org/10.5281/zenodo.5151516" ;
             schema1:value "10.5281/zenodo.5151516" ] ;
     schema1:keywords "Gulf of Maine",
@@ -5124,10 +5253,8 @@ ex:gom-water-quality-long-2025 a schema1:Dataset ;
         <https://w3id.org/cdif/data_description/1.1>,
         <https://w3id.org/cdif/discovery/1.1> ;
     schema1:about ex:gom-water-quality-long-2025 ;
-    schema1:additionalType "dcat:CatalogRecord" ;
+    schema1:additionalType dcat:CatalogRecord ;
     schema1:sdDatePublished "2025-10-20" .
-
-ex:gom-water-quality-wide-2025 schema1:name "Wide-form release of the same observations" .
 
 ex:var-dissolved-oxygen a cdi:InstanceVariable,
         schema1:PropertyValue ;
@@ -5289,8 +5416,8 @@ Links to the schema:
     "geosparql": "http://www.opengis.net/ont/geosparql#",
     "spdx": "http://spdx.org/rdf/terms#",
     "time": "http://www.w3.org/2006/time#",
-    "xas": "https://xas.org/dictionary/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
+    "xas": "cdif:xas/",
+    "nxs": "https://manual.nexusformat.org/classes/",
     "ada": "https://ada.astromat.org/metadata/",
     "@version": 1.1
   }

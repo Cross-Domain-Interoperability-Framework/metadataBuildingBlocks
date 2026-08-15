@@ -3,7 +3,7 @@
 
 `cdif.bbr.metadata.profiles.cdifProfile.cdifManifest` *v0.1*
 
-Profile module for archive distributions. Adds schema:hasPart support to schema:distribution items that wrap a single download (e.g. a ZIP), describing each component file inside. Requires that the metadata record declare conformance to https://w3id.org/cdif/manifest/1.1; requires schema:hasPart on any DataDownload whose schema:encodingFormat includes application/zip. Defines the archivePartArray and archivePartItem shapes used by component-file metadata. (Merged from the previous cdifArchive building block, which only published these $defs.)
+Profile module for packages: the resources that make up a dataset and where to retrieve each of them. Declares schema:hasPart in the two places a package needs it -- on the schema:Dataset, for parts that are independently accessible at their own addresses (resourcePartArray / resourcePartItem), and on a schema:distribution item, for component files inside a bundle that have no address of their own (archivePartArray / archivePartItem). Note that schema:hasPart carries a different meaning on schema:instrument (sub-components of an instrument system) and on a bioschemas ComputationalWorkflow; the object it sits on is what disambiguates them. Both part shapes here carry schema:about, so a part that describes another -- a codebook, a data dictionary, a metadata sidecar -- can say which one. Requires that the metadata record declare conformance to https://w3id.org/cdif/manifest/1.1, and requires schema:hasPart on any distribution positively typed with schema:Collection in @type (alongside schema:DataDownload). (Merged from the previous cdifArchive building block, which only published the archive $defs.)
 
 [*Status*](http://www.opengis.net/def/status): Under development
 
@@ -40,7 +40,7 @@ cdifArchive at the smallest valid shape.
   },
   "schema:distribution": [
     {
-      "@type": ["schema:DataDownload"],
+      "@type": ["schema:DataDownload", "schema:Collection"],
       "schema:name": "Bundle",
       "schema:contentUrl": "https://example.org/data/bundle.zip",
       "schema:encodingFormat": ["application/zip"],
@@ -88,7 +88,8 @@ cdifArchive at the smallest valid shape.
   "schema:distribution": [
     {
       "@type": [
-        "schema:DataDownload"
+        "schema:DataDownload",
+        "schema:Collection"
       ],
       "schema:name": "Bundle",
       "schema:contentUrl": "https://example.org/data/bundle.zip",
@@ -118,7 +119,8 @@ cdifArchive at the smallest valid shape.
 @prefix schema1: <http://schema.org/> .
 
 <https://example.org/dataset/minimal-archived> a schema1:Dataset ;
-    schema1:distribution [ a schema1:DataDownload ;
+    schema1:distribution [ a schema1:Collection,
+                schema1:DataDownload ;
             schema1:contentUrl "https://example.org/data/bundle.zip" ;
             schema1:encodingFormat "application/zip" ;
             schema1:hasPart <file:///github/workspace/#part-1> ;
@@ -163,7 +165,9 @@ SPDX checksum on the archive distribution, and a full hasPart manifest.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "@id": "ex:metadata_archive_001",
     "schema:about": {
@@ -178,7 +182,8 @@ SPDX checksum on the archive distribution, and a full hasPart manifest.
   "schema:distribution": [
     {
       "@type": [
-        "schema:DataDownload"
+        "schema:DataDownload",
+        "schema:Collection"
       ],
       "schema:name": "Geochemistry results archive",
       "schema:contentUrl": "https://example.org/downloads/geochem-results-2025.zip",
@@ -274,7 +279,9 @@ SPDX checksum on the archive distribution, and a full hasPart manifest.
       "schema:Dataset"
     ],
     "schema:additionalType": [
-      "dcat:CatalogRecord"
+      {
+        "@id": "dcat:CatalogRecord"
+      }
     ],
     "@id": "ex:metadata_archive_001",
     "schema:about": {
@@ -289,7 +296,8 @@ SPDX checksum on the archive distribution, and a full hasPart manifest.
   "schema:distribution": [
     {
       "@type": [
-        "schema:DataDownload"
+        "schema:DataDownload",
+        "schema:Collection"
       ],
       "schema:name": "Geochemistry results archive",
       "schema:contentUrl": "https://example.org/downloads/geochem-results-2025.zip",
@@ -351,6 +359,7 @@ SPDX checksum on the archive distribution, and a full hasPart manifest.
 
 #### ttl
 ```ttl
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
@@ -365,7 +374,8 @@ SPDX checksum on the archive distribution, and a full hasPart manifest.
 
 ex:dataset_archive_001 a schema1:Dataset ;
     schema1:dateModified "2025-08-01" ;
-    schema1:distribution [ a schema1:DataDownload ;
+    schema1:distribution [ a schema1:Collection,
+                schema1:DataDownload ;
             dcterms:conformsTo <https://w3id.org/cdif/manifest/1.1> ;
             schema1:contentUrl "https://example.org/downloads/geochem-results-2025.zip" ;
             schema1:encodingFormat "application/zip" ;
@@ -381,7 +391,7 @@ ex:dataset_archive_001 a schema1:Dataset ;
 ex:metadata_archive_001 a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/manifest/1.1> ;
     schema1:about ex:dataset_archive_001 ;
-    schema1:additionalType "dcat:CatalogRecord" .
+    schema1:additionalType dcat:CatalogRecord .
 
 <file:///github/workspace/#data-csv> a schema1:MediaObject ;
     schema1:description "Tabular geochemical analysis results" ;
@@ -402,13 +412,17 @@ ex:metadata_archive_001 a schema1:Dataset ;
 ```yaml
 $schema: https://json-schema.org/draft/2020-12/schema
 title: CDIF Manifest
-description: "Profile module for archive distributions. Marks the catalog record as
-  conformant to the CDIF manifest spec (https://w3id.org/cdif/manifest/1.1) and lets
-  schema:distribution items carry schema:hasPart describing the component files inside
-  an archive (ZIP, etc.). The base schema:distribution anyOf [DataDownload, WebAPI]
-  contributed by cdifCore is preserved \u2014 this BB only adds property constraints,
-  no new anyOf branch. (Merged from the previous cdifProfile/cdifArchive BB, which
-  held only the $defs for ArchivePart; everything now lives here.)"
+description: "Profile module for packages: the resources that make up a dataset and
+  where to retrieve each of them. Marks the catalog record as conformant to the CDIF
+  manifest spec (https://w3id.org/cdif/manifest/1.1) and declares schema:hasPart in
+  the two places a package needs it \u2014 on the Dataset, for parts that are independently
+  accessible at their own addresses, and on a schema:distribution item, for component
+  files inside an archive (ZIP, etc.) that have no address of their own. Both part
+  shapes carry schema:about, so a part that describes another \u2014 a codebook, a
+  data dictionary, a metadata sidecar \u2014 can say which one. The base schema:distribution
+  anyOf [DataDownload, WebAPI] contributed by cdifCore is preserved \u2014 this BB
+  only adds property constraints, no new anyOf branch. (Merged from the previous cdifProfile/cdifArchive
+  BB, which held only the $defs for ArchivePart; everything now lives here.)"
 type: object
 properties:
   schema:subjectOf:
@@ -417,6 +431,9 @@ properties:
         type: array
         items:
           type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -425,32 +442,101 @@ properties:
         minItems: 1
         contains:
           type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               const: https://w3id.org/cdif/manifest/1.1
+  schema:hasPart:
+    $ref: '#/$defs/resourcePartArray'
+    description: Component resources of a package whose parts are independently accessible,
+      each with its own distribution. Parts may differ in content type, format and
+      data structure. For component files inside an archive, which have no address
+      of their own, use schema:hasPart on the distribution instead.
   schema:distribution:
+    type: array
     items:
       allOf:
       - properties:
           schema:hasPart:
             $ref: '#/$defs/archivePartArray'
-            description: For archive-style distributions (e.g. ZIP files containing
-              multiple component files), describes the component files. Each component
-              is typed as schema:MediaObject and may include CDIF data description
-              extensions (cdifTabularData, cdifDataCube) to describe its internal
-              structure.
+            description: For bundle/archive distributions (positively typed with schema:Collection
+              in @type), describes the component files. Each component is typed as
+              schema:MediaObject and may include CDIF data description extensions
+              (cdifTabularData, cdifDataCube) to describe its internal structure.
       - if:
           properties:
-            schema:encodingFormat:
+            '@type':
               type: array
               contains:
-                const: application/zip
+                const: schema:Collection
           required:
-          - schema:encodingFormat
+          - '@type'
         then:
           required:
           - schema:hasPart
 $defs:
+  resourcePartArray:
+    type: array
+    description: Array of the resources that make up a package. Each part is independently
+      retrievable, so unlike an archive part it may carry its own schema:distribution
+      and may be typed schema:DataDownload.
+    items:
+      $ref: '#/$defs/resourcePartItem'
+  resourcePartItem:
+    type: object
+    description: 'One independently accessible member of a package. Type it for what
+      it is: schema:Dataset for data, schema:CreativeWork for a codebook, methods
+      document or quality report, schema:MediaObject for a browse image. Parts under
+      separate stewardship should carry their own schema:provider, schema:conditionsOfAccess
+      and schema:dateModified, since those are what differ.'
+    properties:
+      '@id':
+        type: string
+        description: Identifier for this part.
+      '@type':
+        type: array
+        description: What kind of resource this part is. Must include schema:CreativeWork
+          or one of its subclasses -- everything a package can contain is a creative
+          work of some kind, and saying which one is what lets a consumer tell the
+          data from the codebook from the browse image. Additional types beyond that
+          are free, so domain vocabularies (ada:otherFileType and the like) sit alongside.
+          Not constrained to schema:MediaObject as an archive part is, because a part
+          with its own address may well be a Dataset or a DataDownload.
+        items:
+          type: string
+        minItems: 1
+        contains:
+          type: string
+          pattern: ^(schema:|http://schema\.org/)(CreativeWork|Dataset|DataDownload|DataCatalog|MediaObject|ImageObject|VideoObject|AudioObject|3DModel|DigitalDocument|TextDigitalDocument|SpreadsheetDigitalDocument|PresentationDigitalDocument|NoteDigitalDocument|SoftwareApplication|WebApplication|SoftwareSourceCode|Article|ScholarlyArticle|TechArticle|Report|Book|Chapter|Thesis|Manuscript|Map|WebPage|WebSite|Collection|Course|HowTo|Guide|Legislation|Photograph|Painting|Drawing|Poster|Atlas|Periodical|PublicationIssue|PublicationVolume|CreativeWorkSeries|Review|Comment)$
+      schema:name:
+        type: string
+      schema:description:
+        type: string
+      schema:encodingFormat:
+        type: array
+        items:
+          type: string
+      schema:url:
+        type: string
+      schema:about:
+        type: array
+        description: The part this one is about. Use it on a part that describes another
+          -- a codebook, a data dictionary, a quality report, a metadata sidecar --
+          so that a consumer can tell WHICH part it documents rather than only that
+          both are in the package. Equivalent in this use to cito:documents, which
+          is how OAI-ORE packages express the same relationship; schema:subjectOf
+          is the declared inverse.
+        items:
+          type: object
+          required:
+          - '@id'
+          additionalProperties: false
+          properties:
+            '@id':
+              type: string
+              description: Reference to the @id of the part being described.
   archivePartArray:
     type: array
     description: Array describing the files contained in the archive. Each item represents
@@ -513,6 +599,9 @@ $defs:
             describes.
           items:
             type: object
+            required:
+            - '@id'
+            additionalProperties: false
             properties:
               '@id':
                 type: string

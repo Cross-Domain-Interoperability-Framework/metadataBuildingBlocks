@@ -36,7 +36,15 @@ properties:
       instrument type URI (e.g. wd:Q3099911 for Wikidata scientific instrument).
     type: array
     items:
-      type: string
+      anyOf:
+      - type: string
+      - type: object
+        additionalProperties: false
+        required:
+        - '@id'
+        properties:
+          '@id':
+            type: string
     minItems: 1
     x-jsonld-id: http://schema.org/additionalType
   schema:name:
@@ -52,7 +60,15 @@ properties:
     description: Alternate name(s), e.g. specific make/model designation, common abbreviation.
     type: array
     items:
-      type: string
+      anyOf:
+      - type: string
+      - type: object
+        additionalProperties: false
+        required:
+        - '@id'
+        properties:
+          '@id':
+            type: string
     x-jsonld-id: http://schema.org/alternateName
   schema:identifier:
     description: Formal identifier(s) for this instrument. Use PropertyValue for structured
@@ -94,6 +110,7 @@ properties:
         - $ref: '#/$defs/Identifier'
         x-jsonld-id: http://schema.org/identifier
     required:
+    - '@type'
     - schema:name
     x-jsonld-id: http://schema.org/model
   schema:category:
@@ -137,6 +154,7 @@ properties:
       anyOf:
       - $ref: '#/$defs/InstrumentComponent'
       - type: object
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -167,6 +185,9 @@ properties:
         x-jsonld-id: http://schema.org/dateModified
       schema:about:
         type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -179,9 +200,14 @@ properties:
           anyOf:
           - type: string
           - type: object
+            required:
+            - '@id'
+            additionalProperties: false
             properties:
               '@id':
                 type: string
+    required:
+    - '@type'
     x-jsonld-id: http://schema.org/subjectOf
 required:
 - '@type'
@@ -236,7 +262,15 @@ $defs:
         description: Component type classification.
         type: array
         items:
-          type: string
+          anyOf:
+          - type: string
+          - type: object
+            additionalProperties: false
+            required:
+            - '@id'
+            properties:
+              '@id':
+                type: string
         x-jsonld-id: http://schema.org/additionalType
       schema:additionalProperty:
         type: array
@@ -252,7 +286,15 @@ $defs:
           '@type':
             type: array
             items:
-              type: string
+              anyOf:
+              - type: string
+              - type: object
+                additionalProperties: false
+                required:
+                - '@id'
+                properties:
+                  '@id':
+                    type: string
             contains:
               const: schema:ProductModel
             minItems: 1
@@ -264,8 +306,12 @@ $defs:
             - type: string
             - $ref: '#/$defs/Identifier'
             x-jsonld-id: http://schema.org/identifier
+        required:
+        - '@type'
         x-jsonld-id: http://schema.org/model
     required:
+    - '@type'
     - schema:name
 x-jsonld-prefixes:
   schema: http://schema.org/
+  wd: https://www.wikidata.org/entity/

@@ -28,12 +28,22 @@ dcterms:conformsTo (pointing at the CDIF core specification).
     "dcterms": "http://purl.org/dc/terms/",
     "ex": "https://example.org/"
   },
-  "@type": ["schema:Dataset"],
+  "@type": [
+    "schema:Dataset"
+  ],
   "@id": "ex:metadata-record/0001",
-  "schema:additionalType": ["dcat:CatalogRecord"],
-  "schema:about": { "@id": "ex:dataset/0001" },
+  "schema:additionalType": [
+    {
+      "@id": "dcat:CatalogRecord"
+    }
+  ],
+  "schema:about": {
+    "@id": "ex:dataset/0001"
+  },
   "dcterms:conformsTo": [
-    { "@id": "https://w3id.org/cdif/core/1.1" }
+    {
+      "@id": "https://w3id.org/cdif/core/1.1"
+    }
   ]
 }
 
@@ -61,7 +71,9 @@ dcterms:conformsTo (pointing at the CDIF core specification).
   ],
   "@id": "ex:metadata-record/0001",
   "schema:additionalType": [
-    "dcat:CatalogRecord"
+    {
+      "@id": "dcat:CatalogRecord"
+    }
   ],
   "schema:about": {
     "@id": "ex:dataset/0001"
@@ -76,13 +88,14 @@ dcterms:conformsTo (pointing at the CDIF core specification).
 
 #### ttl
 ```ttl
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix schema1: <http://schema.org/> .
 
 <https://example.org/metadata-record/0001> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1> ;
     schema1:about <https://example.org/dataset/0001> ;
-    schema1:additionalType "dcat:CatalogRecord" .
+    schema1:additionalType dcat:CatalogRecord .
 
 
 ```
@@ -105,7 +118,9 @@ and full metadata-about-metadata structure.
     "schema:Dataset"
   ],
   "schema:additionalType": [
-    "dcat:CatalogRecord"
+    {
+      "@id": "dcat:CatalogRecord"
+    }
   ],
   "@id": "ex:URIforMetadata3575",
   "schema:about": {
@@ -138,7 +153,9 @@ and full metadata-about-metadata structure.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+        "schema:propertyID": {
+          "@id": "https://registry.identifiers.org/registry/ror"
+        },
         "schema:url": "https://ror.org/04jpmwt24"
       },
       "schema:sameAs": [
@@ -156,7 +173,9 @@ and full metadata-about-metadata structure.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
+      "schema:propertyID": {
+        "@id": "https://registry.identifiers.org/registry/orcid"
+      },
       "schema:url": "https://orcid.org/3333-4442-9456-9347"
     }
   },
@@ -172,7 +191,9 @@ and full metadata-about-metadata structure.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+      "schema:propertyID": {
+        "@id": "https://registry.identifiers.org/registry/ror"
+      },
       "schema:value": "04sfkyrt24",
       "schema:url": "https://ror.org/04sfkyrt24"
     }
@@ -203,7 +224,9 @@ and full metadata-about-metadata structure.
     "schema:Dataset"
   ],
   "schema:additionalType": [
-    "dcat:CatalogRecord"
+    {
+      "@id": "dcat:CatalogRecord"
+    }
   ],
   "@id": "ex:URIforMetadata3575",
   "schema:about": {
@@ -236,7 +259,9 @@ and full metadata-about-metadata structure.
         "@type": [
           "schema:PropertyValue"
         ],
-        "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+        "schema:propertyID": {
+          "@id": "https://registry.identifiers.org/registry/ror"
+        },
         "schema:url": "https://ror.org/04jpmwt24"
       },
       "schema:sameAs": [
@@ -254,7 +279,9 @@ and full metadata-about-metadata structure.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
+      "schema:propertyID": {
+        "@id": "https://registry.identifiers.org/registry/orcid"
+      },
       "schema:url": "https://orcid.org/3333-4442-9456-9347"
     }
   },
@@ -270,7 +297,9 @@ and full metadata-about-metadata structure.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://registry.identifiers.org/registry/ror",
+      "schema:propertyID": {
+        "@id": "https://registry.identifiers.org/registry/ror"
+      },
       "schema:value": "04sfkyrt24",
       "schema:url": "https://ror.org/04sfkyrt24"
     }
@@ -280,6 +309,7 @@ and full metadata-about-metadata structure.
 
 #### ttl
 ```ttl
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
@@ -287,7 +317,7 @@ and full metadata-about-metadata structure.
 ex:URIforMetadata3575 a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1> ;
     schema1:about ex:URIforNode2246 ;
-    schema1:additionalType "dcat:CatalogRecord" ;
+    schema1:additionalType dcat:CatalogRecord ;
     schema1:includedInDataCatalog <https://ror.org/04sfkyrt24> ;
     schema1:maintainer <https://orcid.org/3333-4442-9456-9347> ;
     schema1:sdDatePublished "2025-10-24" .
@@ -298,7 +328,7 @@ ex:URIforMetadata3575 a schema1:Dataset ;
     schema1:contactPoint [ a schema1:ContactPoint ;
             schema1:email "goodgea@bwc.org" ] ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://registry.identifiers.org/registry/orcid" ;
+            schema1:propertyID <https://registry.identifiers.org/registry/orcid> ;
             schema1:url "https://orcid.org/3333-4442-9456-9347" ] ;
     schema1:name "Goodge, Alice" .
 
@@ -307,7 +337,7 @@ ex:URIforMetadata3575 a schema1:Dataset ;
     schema1:alternateName "BWC" ;
     schema1:description "Description of organizatioan BWC" ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://registry.identifiers.org/registry/ror" ;
+            schema1:propertyID <https://registry.identifiers.org/registry/ror> ;
             schema1:url "https://ror.org/04jpmwt24" ] ;
     schema1:name "Big Wildlife Consortium" ;
     schema1:sameAs "ISNI 0000 0000 9427 2533",
@@ -315,7 +345,7 @@ ex:URIforMetadata3575 a schema1:Dataset ;
 
 <https://ror.org/04sfkyrt24> a schema1:DataCatalog ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://registry.identifiers.org/registry/ror" ;
+            schema1:propertyID <https://registry.identifiers.org/registry/ror> ;
             schema1:url "https://ror.org/04sfkyrt24" ;
             schema1:value "04sfkyrt24" ] ;
     schema1:name "Global Wildlife Aggregator" ;
@@ -345,9 +375,23 @@ properties:
     description: additional type assertions for the catalog record node. dcat:CatalogRecord
       is required.
     items:
-      type: string
+      anyOf:
+      - type: string
+      - type: object
+        additionalProperties: false
+        required:
+        - '@id'
+        properties:
+          '@id':
+            type: string
     contains:
-      const: dcat:CatalogRecord
+      type: object
+      additionalProperties: false
+      required:
+      - '@id'
+      properties:
+        '@id':
+          const: dcat:CatalogRecord
     minItems: 1
     x-jsonld-id: http://schema.org/additionalType
   '@id':
@@ -355,6 +399,9 @@ properties:
     description: identifier for the metadata record
   schema:about:
     type: object
+    required:
+    - '@id'
+    additionalProperties: false
     properties:
       '@id':
         type: string
@@ -365,6 +412,9 @@ properties:
     type: array
     items:
       type: object
+      required:
+      - '@id'
+      additionalProperties: false
       properties:
         '@id':
           type: string

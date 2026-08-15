@@ -21,26 +21,16 @@ very simple implementation for discovery-level citation of sources used to gener
 {
   "@context": {
     "schema": "http://schema.org/",
-    "prov": "http://www.w3.org/ns/prov#",
-    "nerc": "https://vocab.nerc.ac.uk/",
-    "ex": "https://example.org/"
+    "dcterms": "http://purl.org/dc/terms/",
+    "dcat": "http://www.w3.org/ns/dcat#"
   },
-  "@id": "ex:generatedBy_345y254h",
-  "prov:wasDerivedFrom": [
-    {
-      "@id": "http://doi.org/10.547/347848"
-    },
-    "http://doi.org/10.3578/h5ls",
-    {
-      "@id": "ex:source_z536Zc",
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "Title data source",
-      "schema:description": "short summary of source content",
-      "schema:url": "https://doi.org/20456/2342747"
-    }
-  ]
+  "@type": [
+    "schema:CreativeWork",
+    "dcat:Relationship"
+  ],
+  "schema:name": "Source dataset (DOI)",
+  "schema:url": "http://doi.org/10.547/347848",
+  "dcterms:relation": "http://doi.org/10.547/347848"
 }
 
 ```
@@ -58,44 +48,31 @@ very simple implementation for discovery-level citation of sources used to gener
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/provProperties/derivedFrom/context.jsonld",
     {
       "schema": "http://schema.org/",
-      "prov": "http://www.w3.org/ns/prov#",
-      "nerc": "https://vocab.nerc.ac.uk/",
-      "ex": "https://example.org/"
+      "dcterms": "http://purl.org/dc/terms/",
+      "dcat": "http://www.w3.org/ns/dcat#"
     }
   ],
-  "@id": "ex:generatedBy_345y254h",
-  "prov:wasDerivedFrom": [
-    {
-      "@id": "http://doi.org/10.547/347848"
-    },
-    "http://doi.org/10.3578/h5ls",
-    {
-      "@id": "ex:source_z536Zc",
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "Title data source",
-      "schema:description": "short summary of source content",
-      "schema:url": "https://doi.org/20456/2342747"
-    }
-  ]
+  "@type": [
+    "schema:CreativeWork",
+    "dcat:Relationship"
+  ],
+  "schema:name": "Source dataset (DOI)",
+  "schema:url": "http://doi.org/10.547/347848",
+  "dcterms:relation": "http://doi.org/10.547/347848"
 }
 ```
 
 #### ttl
 ```ttl
-@prefix ex: <https://example.org/> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix schema1: <http://schema.org/> .
 
-ex:generatedBy_345y254h prov:wasDerivedFrom <http://doi.org/10.547/347848>,
-        ex:source_z536Zc,
-        "http://doi.org/10.3578/h5ls" .
-
-ex:source_z536Zc a schema1:CreativeWork ;
-    schema1:description "short summary of source content" ;
-    schema1:name "Title data source" ;
-    schema1:url "https://doi.org/20456/2342747" .
+[] a schema1:CreativeWork,
+        dcat:Relationship ;
+    dcterms:relation "http://doi.org/10.547/347848" ;
+    schema1:name "Source dataset (DOI)" ;
+    schema1:url "http://doi.org/10.547/347848" .
 
 
 ```
@@ -108,6 +85,9 @@ title: very simple links or names of data sources used to generate the described
 anyOf:
 - type: string
 - type: object
+  required:
+  - '@id'
+  additionalProperties: false
   properties:
     '@id':
       type: string

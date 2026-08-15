@@ -104,6 +104,9 @@ x-defs:
           anyOf:
           - type: string
           - type: object
+            required:
+            - '@id'
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -143,6 +146,9 @@ x-defs:
           anyOf:
           - type: string
           - type: object
+            required:
+            - '@id'
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -162,6 +168,9 @@ x-defs:
           anyOf:
           - type: string
           - type: object
+            required:
+            - '@id'
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -243,6 +252,9 @@ x-defs:
           anyOf:
           - type: string
           - type: object
+            required:
+            - '@id'
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -272,6 +284,7 @@ x-defs:
             items:
               anyOf:
               - type: object
+                additionalProperties: false
                 properties:
                   '@id':
                     type: string
@@ -288,6 +301,7 @@ x-defs:
         items:
           anyOf:
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -303,6 +317,7 @@ x-defs:
         description: Party who made the dataset publicly available
         anyOf:
         - type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -321,6 +336,7 @@ x-defs:
         items:
           anyOf:
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -358,6 +374,9 @@ x-defs:
             dcterms:conformsTo:
               contains:
                 type: object
+                required:
+                - '@id'
+                additionalProperties: false
                 properties:
                   '@id':
                     enum:
@@ -463,6 +482,9 @@ x-defs:
           dcterms:conformsTo:
             contains:
               type: object
+              required:
+              - '@id'
+              additionalProperties: false
               properties:
                 '@id':
                   enum:
@@ -507,6 +529,7 @@ x-defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifKey
         - type: object
+          additionalProperties: false
           description: object reference via URI or URI fragment to a cdif:Key defined
             elsewhere in the same document
           properties:
@@ -536,6 +559,7 @@ x-defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -547,6 +571,9 @@ x-defs:
             type: array
             items:
               type: object
+              required:
+              - '@id'
+              additionalProperties: false
               properties:
                 '@id':
                   type: string
@@ -555,6 +582,9 @@ x-defs:
             minItems: 1
             contains:
               type: object
+              required:
+              - '@id'
+              additionalProperties: false
               properties:
                 '@id':
                   enum:
@@ -589,6 +619,7 @@ x-defs:
                   anyOf:
                   - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifValueDomain/$defs/SentinelValueDomain
                   - type: object
+                    additionalProperties: false
                     properties:
                       '@id':
                         type: string
@@ -600,6 +631,7 @@ x-defs:
                 anyOf:
                 - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifValueDomain/$defs/SubstantiveValueDomain
                 - type: object
+                  additionalProperties: false
                   properties:
                     '@id':
                       type: string
@@ -782,10 +814,20 @@ x-defs:
           - schema:PropertyValue
         minItems: 1
       schema:propertyID:
-        type: string
+        anyOf:
+        - type: string
+        - type: object
+          additionalProperties: false
+          required:
+          - '@id'
+          properties:
+            '@id':
+              type: string
         description: In this context for the schema:PropertyValue, this field is an
           identifier for the identifier schema, e.g. DOI, ARK.  Get values from https://registry.identifiers.org/registry/
-          for interoperability
+          for interoperability. URI-shape values MUST be serialized as JSON-LD IRI
+          references ({"@id":"..."}) so they participate in RDF entailment; free-label
+          strings remain valid as strings.
         x-jsonld-id: http://schema.org/propertyID
       schema:value:
         type: string
@@ -816,6 +858,9 @@ x-defs:
       reference or an inline concept definition.
     anyOf:
     - type: object
+      required:
+      - '@id'
+      additionalProperties: false
       properties:
         '@id':
           type: string
@@ -892,6 +937,9 @@ x-defs:
         minItems: 1
         items:
           type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -904,6 +952,7 @@ x-defs:
         items:
           anyOf:
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -1049,6 +1098,7 @@ x-defs:
             type: string
             x-jsonld-id: http://schema.org/email
         required:
+        - '@type'
         - schema:email
         x-jsonld-id: http://schema.org/contactPoint
       schema:sameAs:
@@ -1058,6 +1108,9 @@ x-defs:
           anyOf:
           - type: string
           - type: object
+            required:
+            - '@id'
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -1129,6 +1182,9 @@ x-defs:
           anyOf:
           - type: string
           - type: object
+            required:
+            - '@id'
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -1172,6 +1228,7 @@ x-defs:
       schema:contributor:
         anyOf:
         - type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -1224,6 +1281,7 @@ x-defs:
       schema:funder:
         anyOf:
         - type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -1256,6 +1314,8 @@ x-defs:
     title: very simple links or names of software or instruments used to generate
       a resource.
     type: object
+    required:
+    - '@type'
     properties:
       '@type':
         type: array
@@ -1267,15 +1327,57 @@ x-defs:
           - prov:Activity
       prov:used:
         type: array
+        description: Entities the activity used. Per PROV-O each value denotes a prov:Entity.
+          An item may be (1) a string URI or free-text reference, (2) an {@id} reference,
+          (3) an inline entity object carrying an @type that includes prov:Entity
+          plus a schema.org type for the kind of thing used, e.g. ["prov:Entity","schema:Thing"]
+          (instrument), ["prov:Entity","schema:CreativeWork"] (method/protocol), or
+          ["prov:Entity","schema:SoftwareApplication"] (software), or (4) a role-keyed
+          wrapper naming what was used through one of the recognized "used" relations
+          (schema:instrument, bios:computationalTool, prov:reagent). Base leaves the
+          wrapped value loose; profiles/extensions (e.g. cdifProvActivity, adaProduct)
+          pin its shape (Instrument, ComputationalTool, Reagent, ...).
         items:
           anyOf:
           - type: string
           - type: object
+            required:
+            - '@id'
+            additionalProperties: false
             properties:
               '@id':
                 type: string
                 description: a resolvable reference to a representation of the software
                   or instrument used
+          - type: object
+            description: an inline prov:Entity used by the activity (see prov:used
+              description)
+            properties:
+              '@type':
+                type: array
+                items:
+                  type: string
+                minItems: 1
+                contains:
+                  enum:
+                  - prov:Entity
+            required:
+            - '@type'
+          - type: object
+            description: a role-keyed wrapper naming an instrument used by the activity;
+              the extension layer pins the value to an Instrument description.
+            required:
+            - schema:instrument
+          - type: object
+            description: a role-keyed wrapper naming a computational tool (software)
+              used; the extension layer pins the value to a ComputationalTool description.
+            required:
+            - bios:computationalTool
+          - type: object
+            description: a role-keyed wrapper naming a reagent / material used; the
+              extension layer pins the value to a Reagent description.
+            required:
+            - prov:reagent
         x-jsonld-id: http://www.w3.org/ns/prov#used
     x-jsonld-prefixes:
       schema: http://schema.org/
@@ -1288,6 +1390,9 @@ x-defs:
     anyOf:
     - type: string
     - type: object
+      required:
+      - '@id'
+      additionalProperties: false
       properties:
         '@id':
           type: string
@@ -1318,10 +1423,24 @@ x-defs:
         description: additional type assertions for the catalog record node. dcat:CatalogRecord
           is required.
         items:
-          type: string
+          anyOf:
+          - type: string
+          - type: object
+            additionalProperties: false
+            required:
+            - '@id'
+            properties:
+              '@id':
+                type: string
         contains:
-          enum:
-          - dcat:CatalogRecord
+          type: object
+          additionalProperties: false
+          required:
+          - '@id'
+          properties:
+            '@id':
+              enum:
+              - dcat:CatalogRecord
         minItems: 1
         x-jsonld-id: http://schema.org/additionalType
       '@id':
@@ -1329,6 +1448,9 @@ x-defs:
         description: identifier for the metadata record
       schema:about:
         type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -1339,6 +1461,9 @@ x-defs:
         type: array
         items:
           type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -1447,6 +1572,9 @@ x-defs:
         anyOf:
         - type: string
         - type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -1461,6 +1589,9 @@ x-defs:
           anyOf:
           - type: string
           - type: object
+            required:
+            - '@id'
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -1475,6 +1606,9 @@ x-defs:
         anyOf:
         - type: string
         - type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -1672,6 +1806,9 @@ x-defs:
                 description: a WKT geometry description string, e.g. 'POINT(-76 -18)'
           geosparql:crs:
             type: object
+            required:
+            - '@id'
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -1858,6 +1995,9 @@ x-defs:
         anyOf:
         - type: string
         - type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -1927,6 +2067,7 @@ x-defs:
               anyOf:
               - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable
               - type: object
+                additionalProperties: false
                 description: object reference via @id to a cdifInstanceVariable declared
                   elsewhere
                 properties:
@@ -2045,6 +2186,7 @@ x-defs:
             anyOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable
             - type: object
+              additionalProperties: false
               properties:
                 '@id':
                   type: string
@@ -2066,6 +2208,7 @@ x-defs:
               anyOf:
               - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable
               - type: object
+                additionalProperties: false
                 properties:
                   '@id':
                     type: string
@@ -2107,6 +2250,7 @@ x-defs:
             anyOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/Category
             - type: object
+              additionalProperties: false
               properties:
                 '@id':
                   type: string
@@ -2131,6 +2275,7 @@ x-defs:
             anyOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable
             - type: object
+              additionalProperties: false
               properties:
                 '@id':
                   type: string
@@ -2165,6 +2310,7 @@ x-defs:
             anyOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable
             - type: object
+              additionalProperties: false
               properties:
                 '@id':
                   type: string
@@ -2180,6 +2326,7 @@ x-defs:
               anyOf:
               - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/Statistics
               - type: object
+                additionalProperties: false
                 properties:
                   '@id':
                     type: string
@@ -2199,6 +2346,7 @@ x-defs:
               anyOf:
               - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable
               - type: object
+                additionalProperties: false
                 properties:
                   '@id':
                     type: string
@@ -2263,6 +2411,7 @@ x-defs:
           identity cannot be recovered from an unscoped string label."
         anyOf:
         - type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -2345,6 +2494,9 @@ x-defs:
         anyOf:
         - type: string
         - type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -2361,6 +2513,7 @@ x-defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifStatistics/$defs/StatisticsCollection
         - type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -2376,6 +2529,9 @@ x-defs:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifInstanceVariable/$defs/cdifConceptOrTerm
       cdi:qualifies:
         type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -2396,8 +2552,8 @@ x-defs:
       spdx: http://spdx.org/rdf/terms#
       cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
       skos: http://www.w3.org/2004/02/skos/core#
-      xas: https://xas.org/dictionary/
-      nxs: http://purl.org/nexusformat/definitions/
+      xas: https://w3id.org/cdif/xas/
+      nxs: https://manual.nexusformat.org/classes/
       prov: http://www.w3.org/ns/prov#
     x-schema-source: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
     x-schema-version: https://json-schema.org/draft/2020-12/schema
@@ -2432,6 +2588,7 @@ x-defs:
             anyOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifEnumerationDomain
             - type: object
+              additionalProperties: false
               description: JSON-LD @id reference to a node defined elsewhere in the
                 graph
               properties:
@@ -2459,6 +2616,7 @@ x-defs:
             anyOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifValueDomain/$defs/ValueAndConceptDescription
             - type: object
+              additionalProperties: false
               description: JSON-LD @id reference to a node defined elsewhere in the
                 graph
               properties:
@@ -2496,6 +2654,7 @@ x-defs:
             anyOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifEnumerationDomain
             - type: object
+              additionalProperties: false
               description: JSON-LD @id reference to a node defined elsewhere in the
                 graph
               properties:
@@ -2525,6 +2684,7 @@ x-defs:
             anyOf:
             - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifValueDomain/$defs/ValueAndConceptDescription
             - type: object
+              additionalProperties: false
               description: JSON-LD @id reference to a node defined elsewhere in the
                 graph
               properties:
@@ -2750,6 +2910,9 @@ x-defs:
         x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/isRequired
       cdif:formats_InstanceVariable:
         type: object
+        required:
+        - '@id'
+        additionalProperties: false
         description: Reference to a variable defined in schema:variableMeasured.
         properties:
           '@id':
@@ -3190,6 +3353,7 @@ x-defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme/$defs/cdifConcept
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -3219,15 +3383,30 @@ x-defs:
           schema:additionalType:
             type: array
             items:
-              type: string
+              anyOf:
+              - type: string
+              - type: object
+                additionalProperties: false
+                required:
+                - '@id'
+                properties:
+                  '@id':
+                    type: string
             contains:
-              enum:
-              - dcat:CatalogRecord
+              type: object
+              additionalProperties: false
+              required:
+              - '@id'
+              properties:
+                '@id':
+                  enum:
+                  - dcat:CatalogRecord
             minItems: 1
           dcterms:conformsTo:
             type: array
             items:
               type: object
+              additionalProperties: false
               properties:
                 '@id':
                   type: string
@@ -3235,6 +3414,9 @@ x-defs:
               - '@id'
             contains:
               type: object
+              required:
+              - '@id'
+              additionalProperties: false
               properties:
                 '@id':
                   enum:
@@ -3245,6 +3427,7 @@ x-defs:
             description: Identifier for the catalog record.
           schema:about:
             type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -3295,10 +3478,9 @@ x-defs:
               items:
                 $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifConceptScheme/$defs/LanguageTaggedValue
           skos:notation:
-            description: Classification code for this concept within a scheme.
-            type: array
-            items:
-              type: string
+            description: Classification code for this concept within a scheme (a single
+              notation string, consistent with CdifCodelistConcept).
+            type: string
           skos:definition:
             description: Formal explanation of the meaning of this concept.
             anyOf:
@@ -3323,6 +3505,7 @@ x-defs:
             description: Concept scheme(s) this concept belongs to.
             anyOf:
             - type: object
+              additionalProperties: false
               properties:
                 '@id':
                   type: string
@@ -3331,6 +3514,7 @@ x-defs:
             - type: array
               items:
                 type: object
+                additionalProperties: false
                 properties:
                   '@id':
                     type: string
@@ -3357,6 +3541,7 @@ x-defs:
         - skos:prefLabel
       ConceptRef:
         type: object
+        additionalProperties: false
         description: Reference (by URI) to a skos:Concept defined elsewhere. Used
           inside skos:broader / skos:narrower as the @id-reference alternative to
           an inline Concept.
@@ -3612,10 +3797,9 @@ x-defs:
                 $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.skosProperties.skosConcept/$defs/LanguageTaggedValue
             x-jsonld-id: http://www.w3.org/2004/02/skos/core#prefLabel
           skos:notation:
-            description: Classification code for this concept within a scheme.
-            type: array
-            items:
-              type: string
+            description: Classification code for this concept within a scheme (a single
+              notation string, consistent with CdifCodelistConcept).
+            type: string
             x-jsonld-id: http://www.w3.org/2004/02/skos/core#notation
           skos:definition:
             description: Formal explanation of the meaning of this concept.
@@ -3687,6 +3871,7 @@ x-defs:
             description: Concept scheme(s) this concept belongs to.
             anyOf:
             - type: object
+              additionalProperties: false
               properties:
                 '@id':
                   type: string
@@ -3695,6 +3880,7 @@ x-defs:
             - type: array
               items:
                 type: object
+                additionalProperties: false
                 properties:
                   '@id':
                     type: string
@@ -3705,6 +3891,7 @@ x-defs:
             description: Concept scheme(s) for which this is a top concept.
             anyOf:
             - type: object
+              additionalProperties: false
               properties:
                 '@id':
                   type: string
@@ -3713,6 +3900,7 @@ x-defs:
             - type: array
               items:
                 type: object
+                additionalProperties: false
                 properties:
                   '@id':
                     type: string
@@ -3744,6 +3932,7 @@ x-defs:
         - skos:inScheme
       ConceptRef:
         type: object
+        additionalProperties: false
         description: A reference to a SKOS Concept by URI.
         properties:
           '@id':
@@ -3802,6 +3991,9 @@ x-defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/profiles/cdifCompositeProfile/DiscoveryDataDescription/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.profiles.cdifProfile.cdifCodelist
         - type: object
+          required:
+          - '@id'
+          additionalProperties: false
           description: object reference via URI or URI fragment referencing an @id
             in the same document
           properties:
@@ -3862,6 +4054,9 @@ x-defs:
           to.
         items:
           type: object
+          required:
+          - '@id'
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -3920,7 +4115,15 @@ x-defs:
                 enum:
                 - schema:PropertyValue
             schema:propertyID:
-              type: string
+              anyOf:
+              - type: string
+              - type: object
+                additionalProperties: false
+                required:
+                - '@id'
+                properties:
+                  '@id':
+                    type: string
               x-jsonld-id: http://schema.org/propertyID
             schema:value:
               type: string
@@ -3946,6 +4149,9 @@ x-defs:
           anyOf:
           - type: string
           - type: object
+            required:
+            - '@id'
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -3957,9 +4163,18 @@ x-defs:
           type: string
         x-jsonld-id: http://schema.org/conditionsOfAccess
       skos:prefLabel:
-        description: Preferred lexical label for the concept scheme. A single string,
-          a single language-tagged value, or an array of language-tagged values. Each
-          language should appear at most once.
+        description: "Preferred lexical label for the concept scheme. Required. A
+          single\nstring, a single language-tagged value, or an array of language-tagged\nvalues.\n\n**Uniqueness
+          rule.** Each language should appear at most once in the\nset of prefLabel
+          values. Two prefLabel values with duplicate `@language`\ntags are non-conformant.
+          Consumers may reject or arbitrarily pick one.\n\n**Multilinguality.** For
+          codelists intended for multilingual use,\nsupply an array of language-tagged
+          values \u2014 one per supported locale.\nWhen a bare string is supplied
+          (no `@language` tag), consumers treat\nit as untagged and MAY infer the
+          language from the enclosing document's\n`@context` or from `schema:inLanguage`
+          on the codelist itself.\n\n**Relationship to skos:altLabel.** Alternate
+          labels (acronyms,\nspelling variants, obsolete names) go on `skos:altLabel`,
+          NOT on\n`prefLabel`. A concept scheme has exactly one preferred label per\nlanguage.\n"
         type: string
         x-jsonld-id: http://www.w3.org/2004/02/skos/core#prefLabel
       skos:definition:
@@ -3996,16 +4211,31 @@ x-defs:
           schema:additionalType:
             type: array
             items:
-              type: string
+              anyOf:
+              - type: string
+              - type: object
+                additionalProperties: false
+                required:
+                - '@id'
+                properties:
+                  '@id':
+                    type: string
             contains:
-              enum:
-              - dcat:CatalogRecord
+              type: object
+              additionalProperties: false
+              required:
+              - '@id'
+              properties:
+                '@id':
+                  enum:
+                  - dcat:CatalogRecord
             minItems: 1
             x-jsonld-id: http://schema.org/additionalType
           dcterms:conformsTo:
             type: array
             items:
               type: object
+              additionalProperties: false
               properties:
                 '@id':
                   type: string
@@ -4013,6 +4243,9 @@ x-defs:
               - '@id'
             contains:
               type: object
+              required:
+              - '@id'
+              additionalProperties: false
               properties:
                 '@id':
                   enum:
@@ -4024,6 +4257,7 @@ x-defs:
             description: Identifier for the catalog record.
           schema:about:
             type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -4063,6 +4297,7 @@ x-defs:
             type: array
             items:
               type: object
+              additionalProperties: false
               properties:
                 '@id':
                   type: string
@@ -4070,9 +4305,27 @@ x-defs:
               - '@id'
             x-jsonld-id: http://www.w3.org/2004/02/skos/core#inScheme
           skos:prefLabel:
-            description: Preferred lexical label for this concept. A single string,
+            description: 'Preferred lexical label for this concept. A single string,
+
               a single language-tagged value, or an array of language-tagged values.
+
               Each language should appear at most once.
+
+
+              **Uniqueness rule.** Each language should appear at most once in the
+
+              set of prefLabel values. Two prefLabel values with duplicate `@language`
+
+              tags are non-conformant. Consumers may reject or arbitrarily pick one.
+
+
+              **Relationship to skos:altLabel.** Alternate labels (acronyms,
+
+              spelling variants, obsolete names) go on `skos:altLabel`, NOT on
+
+              `prefLabel`. A concept has exactly one preferred label per language.
+
+              '
             type: string
             x-jsonld-id: http://www.w3.org/2004/02/skos/core#prefLabel
           skos:notation:
@@ -4092,6 +4345,7 @@ x-defs:
             items:
               anyOf:
               - type: object
+                additionalProperties: false
                 properties:
                   '@id':
                     type: string
@@ -4109,6 +4363,7 @@ x-defs:
             type: array
             items:
               type: object
+              additionalProperties: false
               properties:
                 '@id':
                   type: string

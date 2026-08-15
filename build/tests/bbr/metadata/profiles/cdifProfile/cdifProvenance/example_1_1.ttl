@@ -1,3 +1,4 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ex: <https://example.org/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
@@ -22,7 +23,9 @@ ex:dataset_with_provenance_001 a schema1:Dataset ;
             schema1:endTime "2025-03-20T00:00:00Z" ;
             schema1:name "Seismic data processing" ;
             schema1:startTime "2025-01-10T00:00:00Z" ;
-            prov:used [ schema1:instrument [ a schema1:SoftwareApplication ;
+            prov:used [ schema1:instrument [ a schema1:Product,
+                                schema1:SoftwareApplication,
+                                schema1:Thing ;
                             schema1:category [ a schema1:DefinedTerm ;
                                     schema1:name "Seismic processing software" ;
                                     schema1:termCode "seismic-processing" ] ;
@@ -33,5 +36,5 @@ ex:dataset_with_provenance_001 a schema1:Dataset ;
 ex:metadata_provenance_001 a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/provenance/1.1> ;
     schema1:about ex:dataset_with_provenance_001 ;
-    schema1:additionalType "dcat:CatalogRecord" .
+    schema1:additionalType dcat:CatalogRecord .
 

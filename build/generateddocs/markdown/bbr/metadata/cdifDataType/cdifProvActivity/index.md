@@ -138,47 +138,48 @@ and facility location.
   "schema:description": "Major and trace element analysis of soil samples collected along a 200 km transect across the Great Basin, using ICP-MS and XRF spectrometry with certified reference materials.",
   "prov:used": [
     {
-      "schema:instrument": {
-        "@type": [
-          "schema:Thing",
-          "schema:DefinedTerm"
-        ],
-        "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
-        "schema:termCode": "ICP-MS",
-        "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
-        "schema:alternateName": "Thermo Fisher iCAP RQ ICP-MS",
-        "schema:category": [
-          {
-            "@type": [
-              "schema:DefinedTerm"
-            ],
-            "schema:name": "Inductively coupled plasma mass spectrometer",
-            "schema:termCode": "LAB21",
-            "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
-          }
-        ],
-        "schema:additionalProperty": [
-          {
-            "@type": [
-              "schema:PropertyValue"
-            ],
-            "schema:propertyID": [
-              "detectionLimit"
-            ],
-            "schema:name": "Typical Detection Limit",
-            "schema:value": "0.01 mg/kg for trace elements"
-          }
-        ]
-      }
+      "schema:instrument": [
+        {
+          "@type": [
+            "schema:Product",
+            "schema:Thing",
+            "schema:DefinedTerm"
+          ],
+          "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
+          "schema:termCode": "ICP-MS",
+          "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
+          "schema:alternateName": [
+            "Thermo Fisher iCAP RQ ICP-MS"
+          ],
+          "schema:category": [
+            {
+              "@type": [
+                "schema:DefinedTerm"
+              ],
+              "schema:name": "Inductively coupled plasma mass spectrometer",
+              "schema:termCode": "LAB21",
+              "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+            }
+          ],
+          "schema:additionalProperty": [
+            {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:propertyID": [
+                "detectionLimit"
+              ],
+              "schema:name": "Typical Detection Limit",
+              "schema:value": "0.01 mg/kg for trace elements"
+            }
+          ]
+        }
+      ]
     },
     "https://vocab.nerc.ac.uk/collection/L05/current/LAB02",
     "Soil core samples collected June 2025, sites GB-001 through GB-045",
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "EPA Method 6200 - XRF Analysis of Soils",
-      "schema:url": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination"
+      "@id": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination"
     }
   ],
   "schema:agent": {
@@ -190,12 +191,16 @@ and facility location.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
+      "schema:propertyID": {
+        "@id": "https://registry.identifiers.org/registry/orcid"
+      },
       "schema:value": "0000-0002-8765-4321",
       "schema:url": "https://orcid.org/0000-0002-8765-4321"
     },
     "schema:contactPoint": {
-      "@type": ["schema:ContactPoint"],
+      "@type": [
+        "schema:ContactPoint"
+      ],
       "schema:email": "maria.chen@unr.edu"
     }
   },
@@ -267,47 +272,48 @@ and facility location.
   "schema:description": "Major and trace element analysis of soil samples collected along a 200 km transect across the Great Basin, using ICP-MS and XRF spectrometry with certified reference materials.",
   "prov:used": [
     {
-      "schema:instrument": {
-        "@type": [
-          "schema:Thing",
-          "schema:DefinedTerm"
-        ],
-        "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
-        "schema:termCode": "ICP-MS",
-        "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
-        "schema:alternateName": "Thermo Fisher iCAP RQ ICP-MS",
-        "schema:category": [
-          {
-            "@type": [
-              "schema:DefinedTerm"
-            ],
-            "schema:name": "Inductively coupled plasma mass spectrometer",
-            "schema:termCode": "LAB21",
-            "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
-          }
-        ],
-        "schema:additionalProperty": [
-          {
-            "@type": [
-              "schema:PropertyValue"
-            ],
-            "schema:propertyID": [
-              "detectionLimit"
-            ],
-            "schema:name": "Typical Detection Limit",
-            "schema:value": "0.01 mg/kg for trace elements"
-          }
-        ]
-      }
+      "schema:instrument": [
+        {
+          "@type": [
+            "schema:Product",
+            "schema:Thing",
+            "schema:DefinedTerm"
+          ],
+          "schema:name": "Inductively Coupled Plasma Mass Spectrometry",
+          "schema:termCode": "ICP-MS",
+          "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/",
+          "schema:alternateName": [
+            "Thermo Fisher iCAP RQ ICP-MS"
+          ],
+          "schema:category": [
+            {
+              "@type": [
+                "schema:DefinedTerm"
+              ],
+              "schema:name": "Inductively coupled plasma mass spectrometer",
+              "schema:termCode": "LAB21",
+              "schema:inDefinedTermSet": "https://vocab.nerc.ac.uk/collection/L05/current/"
+            }
+          ],
+          "schema:additionalProperty": [
+            {
+              "@type": [
+                "schema:PropertyValue"
+              ],
+              "schema:propertyID": [
+                "detectionLimit"
+              ],
+              "schema:name": "Typical Detection Limit",
+              "schema:value": "0.01 mg/kg for trace elements"
+            }
+          ]
+        }
+      ]
     },
     "https://vocab.nerc.ac.uk/collection/L05/current/LAB02",
     "Soil core samples collected June 2025, sites GB-001 through GB-045",
     {
-      "@type": [
-        "schema:CreativeWork"
-      ],
-      "schema:name": "EPA Method 6200 - XRF Analysis of Soils",
-      "schema:url": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination"
+      "@id": "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination"
     }
   ],
   "schema:agent": {
@@ -319,7 +325,9 @@ and facility location.
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://registry.identifiers.org/registry/orcid",
+      "schema:propertyID": {
+        "@id": "https://registry.identifiers.org/registry/orcid"
+      },
       "schema:value": "0000-0002-8765-4321",
       "schema:url": "https://orcid.org/0000-0002-8765-4321"
     },
@@ -398,7 +406,7 @@ ex:activity-soil-chem-analysis a schema1:Action,
             schema1:contactPoint [ a schema1:ContactPoint ;
                     schema1:email "maria.chen@unr.edu" ] ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://registry.identifiers.org/registry/orcid" ;
+                    schema1:propertyID <https://registry.identifiers.org/registry/orcid> ;
                     schema1:url "https://orcid.org/0000-0002-8765-4321" ;
                     schema1:value "0000-0002-8765-4321" ] ;
             schema1:name "Dr. Maria Chen" ] ;
@@ -412,10 +420,8 @@ ex:activity-soil-chem-analysis a schema1:Action,
     schema1:object "Dried and sieved soil samples (<2 mm fraction) from Great Basin transect" ;
     schema1:result ex:dataset-soil-chem-gb-2025 ;
     schema1:startTime "2025-07-15T08:00:00Z" ;
-    prov:used [ a schema1:CreativeWork ;
-            schema1:name "EPA Method 6200 - XRF Analysis of Soils" ;
-            schema1:url "https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination" ],
-        [ schema1:instrument [ a schema1:DefinedTerm,
+    prov:used [ schema1:instrument [ a schema1:DefinedTerm,
+                        schema1:Product,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
                             schema1:name "Typical Detection Limit" ;
@@ -429,6 +435,7 @@ ex:activity-soil-chem-analysis a schema1:Action,
                     schema1:inDefinedTermSet "https://vocab.nerc.ac.uk/collection/L05/current/" ;
                     schema1:name "Inductively Coupled Plasma Mass Spectrometry" ;
                     schema1:termCode "ICP-MS" ] ],
+        <https://www.epa.gov/hw-sw846/sw-846-test-method-6200-field-portable-x-ray-fluorescence-spectrometry-determination>,
         "Soil core samples collected June 2025, sites GB-001 through GB-045",
         "https://vocab.nerc.ac.uk/collection/L05/current/LAB02" .
 
@@ -460,24 +467,29 @@ allOf:
         required by base generatedBy schema)
     prov:used:
       type: array
+      description: Base generatedBy defines the allowed item shapes (string | {@id}
+        | inline prov:Entity | a role-keyed wrapper naming schema:instrument / bios:computationalTool
+        / prov:reagent). This profile only PINS the schema:instrument wrapper's value
+        to the Instrument description when that key is present; it adds no other restriction,
+        so all base item shapes (including inline prov:Entity inputs such as samples)
+        remain valid. The wrapped value is an ARRAY of Instrument. schema:instrument
+        is 0..* -- one activity commonly uses several instruments in the same role
+        (a laser ablation cell plus the ICP-MS it feeds) -- and this schema implements
+        every 1..* / 0..* property as a JSON array, never as "object or array", so
+        a consumer never has to test the value's type before iterating.
       items:
-        anyOf:
-        - type: string
-        - type: object
-          properties:
-            '@id':
-              type: string
-              description: a resolvable reference to a representation of the software
-                or instrument used
-        - type: object
-          description: an item used by the activity that includes a schema:instrument
-            sub-key
-          properties:
-            schema:instrument:
-              $ref: '#/$defs/Instrument'
-              x-jsonld-id: http://schema.org/instrument
+        if:
+          type: object
           required:
           - schema:instrument
+        then:
+          properties:
+            schema:instrument:
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/$defs/Instrument'
+              x-jsonld-id: http://schema.org/instrument
       x-jsonld-id: http://www.w3.org/ns/prov#used
     schema:name:
       type: string
@@ -500,6 +512,7 @@ allOf:
       - $ref: '#/$defs/Organization'
       - $ref: '#/$defs/AgentInRole'
       - type: object
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -516,6 +529,7 @@ allOf:
         - $ref: '#/$defs/Organization'
         - $ref: '#/$defs/AgentInRole'
         - type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -533,6 +547,9 @@ allOf:
       anyOf:
       - type: string
       - type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -566,6 +583,9 @@ allOf:
       anyOf:
       - type: string
       - type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -612,6 +632,9 @@ allOf:
       - $ref: '#/$defs/SpatialExtent'
       - type: string
       - type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -623,6 +646,9 @@ allOf:
       - $ref: '#/$defs/HowTo'
       - type: string
       - type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string
@@ -742,7 +768,8 @@ Links to the schema:
   "@context": {
     "schema": "http://schema.org/",
     "prov": "http://www.w3.org/ns/prov#",
-    "nxs": "http://purl.org/nexusformat/definitions/",
+    "wd": "https://www.wikidata.org/entity/",
+    "nxs": "https://manual.nexusformat.org/classes/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "cdif": "https://w3id.org/cdif/",

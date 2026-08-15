@@ -1,5 +1,6 @@
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ns1: <csvw:> .
 @prefix schema1: <http://schema.org/> .
@@ -43,23 +44,7 @@
             schema1:name "Ocean temperature CSV" ;
             cdif:fileSize 1.2e+00 ;
             cdif:fileSizeUofM "MB" ;
-            cdif:hasPhysicalMapping [ cdi:isRequired true ;
-                    cdi:length 20 ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
-                    cdif:index 0 ;
-                    cdif:physicalDataType "String" ],
-                [ cdi:decimalPositions 2 ;
-                    cdi:defaultValue "NaN" ;
-                    cdi:isRequired false ;
-                    cdi:maximumLength 10 ;
-                    cdi:minimumLength 1 ;
-                    cdi:nullSequence "-999.99" ;
-                    cdi:scale 2 ;
-                    cdif:format "0.00" ;
-                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
-                    cdif:index 2 ;
-                    cdif:physicalDataType "Numeric" ],
-                [ cdi:decimalPositions 1 ;
+            cdif:hasPhysicalMapping [ cdi:decimalPositions 1 ;
                     cdi:isRequired true ;
                     cdi:nullSequence "-999.9" ;
                     cdi:scale 1 ;
@@ -71,6 +56,22 @@
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/qcFlag> ;
                     cdif:index 3 ;
                     cdif:physicalDataType "Integer" ],
+                [ cdi:decimalPositions 2 ;
+                    cdi:defaultValue "NaN" ;
+                    cdi:isRequired false ;
+                    cdi:maximumLength 10 ;
+                    cdi:minimumLength 1 ;
+                    cdi:nullSequence "-999.99" ;
+                    cdi:scale 2 ;
+                    cdif:format "0.00" ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/seaWaterTemp> ;
+                    cdif:index 2 ;
+                    cdif:physicalDataType "Numeric" ],
+                [ cdi:isRequired true ;
+                    cdi:length 20 ;
+                    cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/stationId> ;
+                    cdif:index 0 ;
+                    cdif:physicalDataType "String" ],
                 [ cdi:isRequired false ;
                     cdif:formats_InstanceVariable <https://example.org/dataset/oceanTemp2025/var/sourceCruise> ;
                     cdif:index 4 ;
@@ -89,7 +90,7 @@
 <https://example.org/dataset/oceanTemp2025/metadata> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/data_description/1.1> ;
     schema1:about <https://example.org/dataset/oceanTemp2025> ;
-    schema1:additionalType "dcat:CatalogRecord" .
+    schema1:additionalType dcat:CatalogRecord .
 
 <https://example.org/dataset/oceanTemp2025/var/qcFlag> a cdi:InstanceVariable,
         schema1:PropertyValue ;

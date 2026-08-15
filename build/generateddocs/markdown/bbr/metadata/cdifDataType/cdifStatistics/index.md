@@ -653,6 +653,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
         - type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -674,6 +675,7 @@ $defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -714,6 +716,7 @@ $defs:
         anyOf:
         - $ref: '#/$defs/Category'
         - type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -737,6 +740,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
         - type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -770,6 +774,7 @@ $defs:
         anyOf:
         - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
         - type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -785,6 +790,7 @@ $defs:
           anyOf:
           - $ref: '#/$defs/Statistics'
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -804,6 +810,7 @@ $defs:
           anyOf:
           - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/schema.yaml
           - type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -866,6 +873,7 @@ $defs:
       recovered from an unscoped string label."
     anyOf:
     - type: object
+      additionalProperties: false
       properties:
         '@id':
           type: string
@@ -896,8 +904,8 @@ Links to the schema:
     "cdif": "https://w3id.org/cdif/",
     "spdx": "http://spdx.org/rdf/terms#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "xas": "https://xas.org/dictionary/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
+    "xas": "cdif:xas/",
+    "nxs": "https://manual.nexusformat.org/classes/",
     "prov": "http://www.w3.org/ns/prov#",
     "@version": 1.1
   }

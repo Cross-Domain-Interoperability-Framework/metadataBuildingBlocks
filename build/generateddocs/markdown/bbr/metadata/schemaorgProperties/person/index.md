@@ -41,7 +41,9 @@ Example person instance.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://orcid.org",
+    "schema:propertyID": {
+      "@id": "https://orcid.org"
+    },
     "schema:value": "0000-0001-2345-6789",
     "schema:url": "https://orcid.org/0000-0001-2345-6789"
   },
@@ -90,7 +92,9 @@ Example person instance.
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://orcid.org",
+    "schema:propertyID": {
+      "@id": "https://orcid.org"
+    },
     "schema:value": "0000-0001-2345-6789",
     "schema:url": "https://orcid.org/0000-0001-2345-6789"
   },
@@ -120,7 +124,7 @@ ex:PersonExample_zZc a schema1:Person ;
             schema1:email "joe@bmanuco.org" ] ;
     schema1:description "Metadata specialist, based in Portland, Maine" ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://orcid.org" ;
+            schema1:propertyID <https://orcid.org> ;
             schema1:url "https://orcid.org/0000-0001-2345-6789" ;
             schema1:value "0000-0001-2345-6789" ] ;
     schema1:name "Joe Test" ;
@@ -142,33 +146,49 @@ identifier (ORCID), affiliation, contactPoint, and sameAs (string and object).
     "ex": "https://example.org/"
   },
   "@id": "ex:PersonComplete_001",
-  "@type": ["schema:Person"],
+  "@type": [
+    "schema:Person"
+  ],
   "schema:name": "Jane A. Researcher",
   "schema:description": "Marine geochemist specializing in isotope analysis, based at Woods Hole Oceanographic Institution",
   "schema:alternateName": "Researcher, J.A.",
   "schema:identifier": {
-    "@type": ["schema:PropertyValue"],
-    "schema:propertyID": "https://orcid.org",
+    "@type": [
+      "schema:PropertyValue"
+    ],
+    "schema:propertyID": {
+      "@id": "https://orcid.org"
+    },
     "schema:value": "0000-0002-1825-0097",
     "schema:url": "https://orcid.org/0000-0002-1825-0097"
   },
   "schema:affiliation": {
-    "@type": ["schema:Organization"],
+    "@type": [
+      "schema:Organization"
+    ],
     "schema:name": "Woods Hole Oceanographic Institution",
     "schema:identifier": {
-      "@type": ["schema:PropertyValue"],
-      "schema:propertyID": "https://ror.org",
+      "@type": [
+        "schema:PropertyValue"
+      ],
+      "schema:propertyID": {
+        "@id": "https://ror.org"
+      },
       "schema:value": "03zbnzt98",
       "schema:url": "https://ror.org/03zbnzt98"
     }
   },
   "schema:contactPoint": {
-    "@type": ["schema:ContactPoint"],
+    "@type": [
+      "schema:ContactPoint"
+    ],
     "schema:email": "jresearcher@whoi.edu"
   },
   "schema:sameAs": [
     "https://scholar.google.com/citations?user=abc123",
-    {"@id": "https://www.wikidata.org/entity/Q12345678"}
+    {
+      "@id": "https://www.wikidata.org/entity/Q12345678"
+    }
   ]
 }
 
@@ -198,7 +218,9 @@ identifier (ORCID), affiliation, contactPoint, and sameAs (string and object).
     "@type": [
       "schema:PropertyValue"
     ],
-    "schema:propertyID": "https://orcid.org",
+    "schema:propertyID": {
+      "@id": "https://orcid.org"
+    },
     "schema:value": "0000-0002-1825-0097",
     "schema:url": "https://orcid.org/0000-0002-1825-0097"
   },
@@ -211,7 +233,9 @@ identifier (ORCID), affiliation, contactPoint, and sameAs (string and object).
       "@type": [
         "schema:PropertyValue"
       ],
-      "schema:propertyID": "https://ror.org",
+      "schema:propertyID": {
+        "@id": "https://ror.org"
+      },
       "schema:value": "03zbnzt98",
       "schema:url": "https://ror.org/03zbnzt98"
     }
@@ -239,7 +263,7 @@ identifier (ORCID), affiliation, contactPoint, and sameAs (string and object).
 ex:PersonComplete_001 a schema1:Person ;
     schema1:affiliation [ a schema1:Organization ;
             schema1:identifier [ a schema1:PropertyValue ;
-                    schema1:propertyID "https://ror.org" ;
+                    schema1:propertyID <https://ror.org> ;
                     schema1:url "https://ror.org/03zbnzt98" ;
                     schema1:value "03zbnzt98" ] ;
             schema1:name "Woods Hole Oceanographic Institution" ] ;
@@ -248,7 +272,7 @@ ex:PersonComplete_001 a schema1:Person ;
             schema1:email "jresearcher@whoi.edu" ] ;
     schema1:description "Marine geochemist specializing in isotope analysis, based at Woods Hole Oceanographic Institution" ;
     schema1:identifier [ a schema1:PropertyValue ;
-            schema1:propertyID "https://orcid.org" ;
+            schema1:propertyID <https://orcid.org> ;
             schema1:url "https://orcid.org/0000-0002-1825-0097" ;
             schema1:value "0000-0002-1825-0097" ] ;
     schema1:name "Jane A. Researcher" ;
@@ -313,6 +337,7 @@ properties:
         type: string
         x-jsonld-id: http://schema.org/email
     required:
+    - '@type'
     - schema:email
     x-jsonld-id: http://schema.org/contactPoint
   schema:sameAs:
@@ -322,6 +347,9 @@ properties:
       anyOf:
       - type: string
       - type: object
+        required:
+        - '@id'
+        additionalProperties: false
         properties:
           '@id':
             type: string

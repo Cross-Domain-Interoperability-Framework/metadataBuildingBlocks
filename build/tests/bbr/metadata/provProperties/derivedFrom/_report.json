@@ -2,7 +2,7 @@
   "title": "Validation report for cdif.bbr.metadata.provProperties.derivedFrom - Properties for PROV was derived from",
   "bblockName": "Properties for PROV was derived from",
   "bblockId": "cdif.bbr.metadata.provProperties.derivedFrom",
-  "generated": "2026-07-03T21:56:19.952935+00:00",
+  "generated": "2026-08-15T00:09:03.521116+00:00",
   "result": true,
   "items": [
     {
@@ -61,9 +61,11 @@
           "entries": [
             {
               "op": "validation",
-              "result": true,
-              "isError": false,
-              "message": "Validation passed"
+              "result": false,
+              "exception": "ValidationError",
+              "errorMessage": "{'@context': {'schema': 'http://schema.org/', 'prov': 'http://www.w3.org/ns/prov#', 'nerc': 'https://vocab.nerc.ac.uk/', 'ex': 'https://example.org/'}, '@id': 'ex:generatedBy_345y254h', 'prov:wasDerivedFrom': [{'@type': 'schema:CreativeWork', 'schema:name': 'Title data source', 'schema:description': 'short summary of source content', 'schema:url': 'https badURL'}]} is not valid under any of the given schemas",
+              "isError": true,
+              "message": "ValidationError: {'@context': {'schema': 'http://schema.org/', 'prov': 'http://www.w3.org/ns/prov#', 'nerc': 'https://vocab.nerc.ac.uk/', 'ex': 'https://example.org/'}, '@id': 'ex:generatedBy_345y254h', 'prov:wasDerivedFrom': [{'@type': 'schema:CreativeWork', 'schema:name': 'Title data source', 'schema:description': 'short summary of source content', 'schema:url': 'https badURL'}]} is not valid under any of the given schemas\n\nFailed validating 'anyOf' in schema:\n    {'$schema': 'https://json-schema.org/draft/2020-12/schema',\n     'anyOf': [{'type': 'string'},\n               {'additionalProperties': False,\n                'properties': {'@id': {'description': 'a resolvable '\n                                                      'reference to a '\n                                                      'representation of '\n                                                      'the software or '\n                                                      'instrument used',\n                                       'type': 'string'}},\n                'required': ['@id'],\n                'type': 'object'},\n               {'$ref': 'https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifReference/schema.yaml'}],\n     'title': 'very simple links or names of data sources used to generate '\n              'the described resource.',\n     'x-jsonld-prefixes': {'prov': 'http://www.w3.org/ns/prov#',\n                           'schema': 'http://schema.org/'}}\n\nOn instance:\n    {'@context': {'ex': 'https://example.org/',\n                  'nerc': 'https://vocab.nerc.ac.uk/',\n                  'prov': 'http://www.w3.org/ns/prov#',\n                  'schema': 'http://schema.org/'},\n     '@id': 'ex:generatedBy_345y254h',\n     'prov:wasDerivedFrom': [{'@type': 'schema:CreativeWork',\n                              'schema:description': 'short summary of '\n                                                    'source content',\n                              'schema:name': 'Title data source',\n                              'schema:url': 'https badURL'}]}"
             }
           ]
         },
@@ -74,14 +76,17 @@
             {
               "op": "shacl-report",
               "shaclFile": "_sources/provProperties/derivedFrom/rules.shacl",
-              "graph": "@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .\n@prefix schema1: <http://schema.org/> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode _:N4d7fa85cabc34aa7bc18ad969a6838a8 ;\n            sh:resultMessage \"PROV:derivedFrom must have a string value, a CreativeWork citing a source or an @id reference to a source.\" ;\n            sh:resultSeverity sh:Violation ;\n            sh:sourceConstraintComponent sh:OrConstraintComponent ;\n            sh:sourceShape cdifd:derivedFromProperty ;\n            sh:value _:N4d7fa85cabc34aa7bc18ad969a6838a8 ] .\n\n_:N4d7fa85cabc34aa7bc18ad969a6838a8 a schema1:CreativeWork ;\n    schema1:description \"short summary of source content\" ;\n    schema1:name \"Title data source\" ;\n    schema1:url \"https badURL\" .\n\n",
+              "graph": "@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .\n@prefix schema1: <http://schema.org/> .\n@prefix sh: <http://www.w3.org/ns/shacl#> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a sh:ValidationReport ;\n    sh:conforms false ;\n    sh:result [ a sh:ValidationResult ;\n            sh:focusNode _:Nca081696fd454350a23a481d8fe56655 ;\n            sh:resultMessage \"PROV:derivedFrom must have a string value, a CreativeWork citing a source or an @id reference to a source.\" ;\n            sh:resultSeverity sh:Violation ;\n            sh:sourceConstraintComponent sh:OrConstraintComponent ;\n            sh:sourceShape cdifd:derivedFromProperty ;\n            sh:value _:Nca081696fd454350a23a481d8fe56655 ] .\n\n_:Nca081696fd454350a23a481d8fe56655 a schema1:CreativeWork ;\n    schema1:description \"short summary of source content\" ;\n    schema1:name \"Title data source\" ;\n    schema1:url \"https badURL\" .\n\n",
               "isError": true,
               "message": "Validation result for _sources/provProperties/derivedFrom/rules.shacl:\n  Validation Report\n  Conforms: False\n  Results (1):\n  Constraint Violation in OrConstraintComponent (http://www.w3.org/ns/shacl#OrConstraintComponent):\n  \tSeverity: sh:Violation\n  \tSource Shape: cdifd:derivedFromProperty\n  \tFocus Node: [ rdf:type schema1:CreativeWork ; schema1:description Literal(\"short summary of source content\") ; schema1:name Literal(\"Title data source\") ; schema1:url Literal(\"https badURL\") ]\n  \tValue Node: [ rdf:type schema1:CreativeWork ; schema1:description Literal(\"short summary of source content\") ; schema1:name Literal(\"Title data source\") ; schema1:url Literal(\"https badURL\") ]\n  \tMessage: PROV:derivedFrom must have a string value, a CreativeWork citing a source or an @id reference to a source.\n  "
             },
             {
               "shaclFile": "_sources/provProperties/derivedFrom/rules.shacl",
               "focusNodes": {
-                "_:naf7f038d909042c1aeb8dd81990df991b4": {
+                "cdifd:derivedFromProperty/sh:or/rdf:rest/rdf:first": {
+                  "nodes": []
+                },
+                "_:n730abb732dc242c09c8932a787a8157ab4": {
                   "nodes": []
                 },
                 "cdifd:derivedFromProperty": {
@@ -91,13 +96,10 @@
                 },
                 "cdifd:derivedFromProperty/sh:or/rdf:first": {
                   "nodes": []
-                },
-                "cdifd:derivedFromProperty/sh:or/rdf:rest/rdf:first": {
-                  "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/provProperties/derivedFrom/rules.shacl:\n - Shape _:naf7f038d909042c1aeb8dd81990df991b4: *none*\n - Shape cdifd:derivedFromProperty: ex:generatedBy_345y254h/prov:wasDerivedFrom\n - Shape cdifd:derivedFromProperty/sh:or/rdf:first: *none*\n - Shape cdifd:derivedFromProperty/sh:or/rdf:rest/rdf:first: *none*\n"
+              "message": "Focus nodes for _sources/provProperties/derivedFrom/rules.shacl:\n - Shape cdifd:derivedFromProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n730abb732dc242c09c8932a787a8157ab4: *none*\n - Shape cdifd:derivedFromProperty: ex:generatedBy_345y254h/prov:wasDerivedFrom\n - Shape cdifd:derivedFromProperty/sh:or/rdf:first: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -145,45 +147,45 @@
             {
               "shaclFile": "_sources/schemaorgProperties/definedTerm/rules.shacl",
               "focusNodes": {
-                "_:nedfc687bed6b44138a2a98744ad3e0eeb6": {
+                "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "_:nedfc687bed6b44138a2a98744ad3e0eeb8": {
+                "_:nf349cbd261d548dab0ef760796af6792b6": {
                   "nodes": []
                 },
-                "_:nedfc687bed6b44138a2a98744ad3e0eeb26": {
+                "_:nf349cbd261d548dab0ef760796af6792b5": {
                   "nodes": []
                 },
-                "_:nedfc687bed6b44138a2a98744ad3e0eeb10": {
+                "_:nf349cbd261d548dab0ef760796af6792b10": {
                   "nodes": []
                 },
-                "_:nedfc687bed6b44138a2a98744ad3e0eeb5": {
+                "_:nf349cbd261d548dab0ef760796af6792b19": {
                   "nodes": []
                 },
-                "_:nedfc687bed6b44138a2a98744ad3e0eeb4": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:nedfc687bed6b44138a2a98744ad3e0eeb19": {
-                  "nodes": []
-                },
-                "_:nedfc687bed6b44138a2a98744ad3e0eeb7": {
+                "_:nf349cbd261d548dab0ef760796af6792b7": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape": {
                   "nodes": []
                 },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
+                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
+                },
+                "_:nf349cbd261d548dab0ef760796af6792b8": {
+                  "nodes": []
+                },
+                "_:nf349cbd261d548dab0ef760796af6792b4": {
+                  "nodes": []
+                },
+                "_:nf349cbd261d548dab0ef760796af6792b26": {
+                  "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb6: *none*\n - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb8: *none*\n - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb26: *none*\n - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb10: *none*\n - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb5: *none*\n - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb4: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb19: *none*\n - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb7: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:nf349cbd261d548dab0ef760796af6792b6: *none*\n - Shape _:nf349cbd261d548dab0ef760796af6792b5: *none*\n - Shape _:nf349cbd261d548dab0ef760796af6792b10: *none*\n - Shape _:nf349cbd261d548dab0ef760796af6792b19: *none*\n - Shape _:nf349cbd261d548dab0ef760796af6792b7: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nf349cbd261d548dab0ef760796af6792b8: *none*\n - Shape _:nf349cbd261d548dab0ef760796af6792b4: *none*\n - Shape _:nf349cbd261d548dab0ef760796af6792b26: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -195,48 +197,48 @@
             {
               "shaclFile": "_sources/schemaorgProperties/identifier/rules.shacl",
               "focusNodes": {
-                "cdifd:CDIFIdentifierShape": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierTypeTermShape": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:n69e475015c7642139550b4e346980ec8b11": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierShape/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:n69e475015c7642139550b4e346980ec8b23": {
-                  "nodes": []
-                },
-                "_:n69e475015c7642139550b4e346980ec8b21": {
-                  "nodes": []
-                },
-                "_:n69e475015c7642139550b4e346980ec8b22": {
-                  "nodes": []
-                },
-                "_:n69e475015c7642139550b4e346980ec8b20": {
+                "_:n65aacb0df2194e62a33760f3f3d7587ab22": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "_:n69e475015c7642139550b4e346980ec8b10": {
+                "_:n65aacb0df2194e62a33760f3f3d7587ab23": {
                   "nodes": []
                 },
-                "_:n69e475015c7642139550b4e346980ec8b25": {
+                "_:n65aacb0df2194e62a33760f3f3d7587ab11": {
+                  "nodes": []
+                },
+                "cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n65aacb0df2194e62a33760f3f3d7587ab21": {
+                  "nodes": []
+                },
+                "_:n65aacb0df2194e62a33760f3f3d7587ab10": {
+                  "nodes": []
+                },
+                "cdifd:CDIFIdentifierShape/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n65aacb0df2194e62a33760f3f3d7587ab25": {
+                  "nodes": []
+                },
+                "_:n65aacb0df2194e62a33760f3f3d7587ab20": {
+                  "nodes": []
+                },
+                "cdifd:CDIFIdentifierTypeTermShape": {
+                  "nodes": []
+                },
+                "cdifd:CDIFIdentifierShape": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape cdifd:CDIFIdentifierShape: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n69e475015c7642139550b4e346980ec8b11: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape _:n69e475015c7642139550b4e346980ec8b23: *none*\n - Shape _:n69e475015c7642139550b4e346980ec8b21: *none*\n - Shape _:n69e475015c7642139550b4e346980ec8b22: *none*\n - Shape _:n69e475015c7642139550b4e346980ec8b20: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n69e475015c7642139550b4e346980ec8b10: *none*\n - Shape _:n69e475015c7642139550b4e346980ec8b25: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape _:n65aacb0df2194e62a33760f3f3d7587ab22: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n65aacb0df2194e62a33760f3f3d7587ab23: *none*\n - Shape _:n65aacb0df2194e62a33760f3f3d7587ab11: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n65aacb0df2194e62a33760f3f3d7587ab21: *none*\n - Shape _:n65aacb0df2194e62a33760f3f3d7587ab10: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n65aacb0df2194e62a33760f3f3d7587ab25: *none*\n - Shape _:n65aacb0df2194e62a33760f3f3d7587ab20: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape cdifd:CDIFIdentifierShape: *none*\n"
             }
           ]
         }
@@ -277,7 +279,7 @@
               "op": "ttl-create",
               "empty": false,
               "filename": "example_1_1.ttl",
-              "size": 7,
+              "size": 5,
               "isError": false,
               "message": "Output Turtle example_1_1.ttl created"
             }
@@ -309,25 +311,21 @@
             {
               "shaclFile": "_sources/provProperties/derivedFrom/rules.shacl",
               "focusNodes": {
-                "_:naf7f038d909042c1aeb8dd81990df991b4": {
+                "cdifd:derivedFromProperty/sh:or/rdf:rest/rdf:first": {
+                  "nodes": []
+                },
+                "_:n730abb732dc242c09c8932a787a8157ab4": {
                   "nodes": []
                 },
                 "cdifd:derivedFromProperty": {
-                  "nodes": [
-                    "ex:source_z536Zc",
-                    "ex:generatedBy_345y254h/prov:wasDerivedFrom",
-                    "<http://doi.org/10.547/347848>"
-                  ]
-                },
-                "cdifd:derivedFromProperty/sh:or/rdf:first": {
                   "nodes": []
                 },
-                "cdifd:derivedFromProperty/sh:or/rdf:rest/rdf:first": {
+                "cdifd:derivedFromProperty/sh:or/rdf:first": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/provProperties/derivedFrom/rules.shacl:\n - Shape _:naf7f038d909042c1aeb8dd81990df991b4: *none*\n - Shape cdifd:derivedFromProperty: ex:source_z536Zc,ex:generatedBy_345y254h/prov:wasDerivedFrom,<http://doi.org/10.547/347848>\n - Shape cdifd:derivedFromProperty/sh:or/rdf:first: *none*\n - Shape cdifd:derivedFromProperty/sh:or/rdf:rest/rdf:first: *none*\n"
+              "message": "Focus nodes for _sources/provProperties/derivedFrom/rules.shacl:\n - Shape cdifd:derivedFromProperty/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n730abb732dc242c09c8932a787a8157ab4: *none*\n - Shape cdifd:derivedFromProperty: *none*\n - Shape cdifd:derivedFromProperty/sh:or/rdf:first: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -340,11 +338,13 @@
               "shaclFile": "_sources/cdifDataType/cdifReference/rules.shacl",
               "focusNodes": {
                 "cdifd:CDIFRelationShape": {
-                  "nodes": []
+                  "nodes": [
+                    "_:N3fe562196cf949b4bde39295e56c40d1"
+                  ]
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/cdifDataType/cdifReference/rules.shacl:\n - Shape cdifd:CDIFRelationShape: *none*\n"
+              "message": "Focus nodes for _sources/cdifDataType/cdifReference/rules.shacl:\n - Shape cdifd:CDIFRelationShape: _:N3fe562196cf949b4bde39295e56c40d1\n"
             },
             {
               "op": "shacl-report",
@@ -358,12 +358,12 @@
               "focusNodes": {
                 "cdifd:CDIFLabeledLinkShape": {
                   "nodes": [
-                    "ex:source_z536Zc"
+                    "_:N3fe562196cf949b4bde39295e56c40d1"
                   ]
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/labeledLink/rules.shacl:\n - Shape cdifd:CDIFLabeledLinkShape: ex:source_z536Zc\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/labeledLink/rules.shacl:\n - Shape cdifd:CDIFLabeledLinkShape: _:N3fe562196cf949b4bde39295e56c40d1\n"
             },
             {
               "op": "shacl-report",
@@ -375,45 +375,45 @@
             {
               "shaclFile": "_sources/schemaorgProperties/definedTerm/rules.shacl",
               "focusNodes": {
-                "_:nedfc687bed6b44138a2a98744ad3e0eeb6": {
+                "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "_:nedfc687bed6b44138a2a98744ad3e0eeb8": {
+                "_:nf349cbd261d548dab0ef760796af6792b6": {
                   "nodes": []
                 },
-                "_:nedfc687bed6b44138a2a98744ad3e0eeb26": {
+                "_:nf349cbd261d548dab0ef760796af6792b5": {
                   "nodes": []
                 },
-                "_:nedfc687bed6b44138a2a98744ad3e0eeb10": {
+                "_:nf349cbd261d548dab0ef760796af6792b10": {
                   "nodes": []
                 },
-                "_:nedfc687bed6b44138a2a98744ad3e0eeb5": {
+                "_:nf349cbd261d548dab0ef760796af6792b19": {
                   "nodes": []
                 },
-                "_:nedfc687bed6b44138a2a98744ad3e0eeb4": {
-                  "nodes": []
-                },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:nedfc687bed6b44138a2a98744ad3e0eeb19": {
-                  "nodes": []
-                },
-                "_:nedfc687bed6b44138a2a98744ad3e0eeb7": {
+                "_:nf349cbd261d548dab0ef760796af6792b7": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape": {
                   "nodes": []
                 },
-                "cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first": {
+                "cdifd:CDIFDefinedTermShape/sh:or/rdf:first": {
                   "nodes": []
                 },
                 "cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first": {
                   "nodes": []
+                },
+                "_:nf349cbd261d548dab0ef760796af6792b8": {
+                  "nodes": []
+                },
+                "_:nf349cbd261d548dab0ef760796af6792b4": {
+                  "nodes": []
+                },
+                "_:nf349cbd261d548dab0ef760796af6792b26": {
+                  "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb6: *none*\n - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb8: *none*\n - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb26: *none*\n - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb10: *none*\n - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb5: *none*\n - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb4: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb19: *none*\n - Shape _:nedfc687bed6b44138a2a98744ad3e0eeb7: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/definedTerm/rules.shacl:\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:nf349cbd261d548dab0ef760796af6792b6: *none*\n - Shape _:nf349cbd261d548dab0ef760796af6792b5: *none*\n - Shape _:nf349cbd261d548dab0ef760796af6792b10: *none*\n - Shape _:nf349cbd261d548dab0ef760796af6792b19: *none*\n - Shape _:nf349cbd261d548dab0ef760796af6792b7: *none*\n - Shape cdifd:CDIFDefinedTermShape: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFDefinedTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:nf349cbd261d548dab0ef760796af6792b8: *none*\n - Shape _:nf349cbd261d548dab0ef760796af6792b4: *none*\n - Shape _:nf349cbd261d548dab0ef760796af6792b26: *none*\n"
             },
             {
               "op": "shacl-report",
@@ -425,48 +425,48 @@
             {
               "shaclFile": "_sources/schemaorgProperties/identifier/rules.shacl",
               "focusNodes": {
-                "cdifd:CDIFIdentifierShape": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierTypeTermShape": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:n69e475015c7642139550b4e346980ec8b11": {
-                  "nodes": []
-                },
-                "cdifd:CDIFIdentifierShape/sh:or/rdf:first": {
-                  "nodes": []
-                },
-                "_:n69e475015c7642139550b4e346980ec8b23": {
-                  "nodes": []
-                },
-                "_:n69e475015c7642139550b4e346980ec8b21": {
-                  "nodes": []
-                },
-                "_:n69e475015c7642139550b4e346980ec8b22": {
-                  "nodes": []
-                },
-                "_:n69e475015c7642139550b4e346980ec8b20": {
+                "_:n65aacb0df2194e62a33760f3f3d7587ab22": {
                   "nodes": []
                 },
                 "cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first": {
                   "nodes": []
                 },
-                "_:n69e475015c7642139550b4e346980ec8b10": {
+                "_:n65aacb0df2194e62a33760f3f3d7587ab23": {
                   "nodes": []
                 },
-                "_:n69e475015c7642139550b4e346980ec8b25": {
+                "_:n65aacb0df2194e62a33760f3f3d7587ab11": {
+                  "nodes": []
+                },
+                "cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n65aacb0df2194e62a33760f3f3d7587ab21": {
+                  "nodes": []
+                },
+                "_:n65aacb0df2194e62a33760f3f3d7587ab10": {
+                  "nodes": []
+                },
+                "cdifd:CDIFIdentifierShape/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first": {
+                  "nodes": []
+                },
+                "_:n65aacb0df2194e62a33760f3f3d7587ab25": {
+                  "nodes": []
+                },
+                "_:n65aacb0df2194e62a33760f3f3d7587ab20": {
+                  "nodes": []
+                },
+                "cdifd:CDIFIdentifierTypeTermShape": {
+                  "nodes": []
+                },
+                "cdifd:CDIFIdentifierShape": {
                   "nodes": []
                 }
               },
               "isError": false,
-              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape cdifd:CDIFIdentifierShape: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n69e475015c7642139550b4e346980ec8b11: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape _:n69e475015c7642139550b4e346980ec8b23: *none*\n - Shape _:n69e475015c7642139550b4e346980ec8b21: *none*\n - Shape _:n69e475015c7642139550b4e346980ec8b22: *none*\n - Shape _:n69e475015c7642139550b4e346980ec8b20: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n69e475015c7642139550b4e346980ec8b10: *none*\n - Shape _:n69e475015c7642139550b4e346980ec8b25: *none*\n"
+              "message": "Focus nodes for _sources/schemaorgProperties/identifier/rules.shacl:\n - Shape _:n65aacb0df2194e62a33760f3f3d7587ab22: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:rest/rdf:first: *none*\n - Shape _:n65aacb0df2194e62a33760f3f3d7587ab23: *none*\n - Shape _:n65aacb0df2194e62a33760f3f3d7587ab11: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n65aacb0df2194e62a33760f3f3d7587ab21: *none*\n - Shape _:n65aacb0df2194e62a33760f3f3d7587ab10: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:or/rdf:first: *none*\n - Shape cdifd:CDIFIdentifierShape/sh:property/sh:or/rdf:first: *none*\n - Shape _:n65aacb0df2194e62a33760f3f3d7587ab25: *none*\n - Shape _:n65aacb0df2194e62a33760f3f3d7587ab20: *none*\n - Shape cdifd:CDIFIdentifierTypeTermShape: *none*\n - Shape cdifd:CDIFIdentifierShape: *none*\n"
             }
           ]
         }

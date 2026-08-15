@@ -556,10 +556,9 @@ $defs:
             $ref: '#/$defs/LanguageTaggedValue'
         x-jsonld-id: http://www.w3.org/2004/02/skos/core#prefLabel
       skos:notation:
-        description: Classification code for this concept within a scheme.
-        type: array
-        items:
-          type: string
+        description: Classification code for this concept within a scheme (a single
+          notation string, consistent with CdifCodelistConcept).
+        type: string
         x-jsonld-id: http://www.w3.org/2004/02/skos/core#notation
       skos:definition:
         description: Formal explanation of the meaning of this concept.
@@ -631,6 +630,7 @@ $defs:
         description: Concept scheme(s) this concept belongs to.
         anyOf:
         - type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -639,6 +639,7 @@ $defs:
         - type: array
           items:
             type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -649,6 +650,7 @@ $defs:
         description: Concept scheme(s) for which this is a top concept.
         anyOf:
         - type: object
+          additionalProperties: false
           properties:
             '@id':
               type: string
@@ -657,6 +659,7 @@ $defs:
         - type: array
           items:
             type: object
+            additionalProperties: false
             properties:
               '@id':
                 type: string
@@ -688,6 +691,7 @@ $defs:
     - skos:inScheme
   ConceptRef:
     type: object
+    additionalProperties: false
     description: A reference to a SKOS Concept by URI.
     properties:
       '@id':

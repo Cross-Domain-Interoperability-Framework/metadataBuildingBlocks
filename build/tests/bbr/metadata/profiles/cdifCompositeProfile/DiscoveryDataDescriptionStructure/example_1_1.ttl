@@ -1,5 +1,6 @@
 @prefix cdi: <http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/> .
 @prefix cdif: <https://w3id.org/cdif/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix schema1: <http://schema.org/> .
 
@@ -24,7 +25,7 @@
         <https://w3id.org/cdif/data_structure/1.1>,
         <https://w3id.org/cdif/discovery/1.1> ;
     schema1:about <https://example.org/dataset/vitalsWide> ;
-    schema1:additionalType "dcat:CatalogRecord" .
+    schema1:additionalType dcat:CatalogRecord .
 
 <https://example.org/struct/vitalsWide> a cdi:WideDataStructure ;
     cdi:has_DataStructureComponent <https://example.org/struct/vitalsWide/comp/patientId>,
@@ -47,14 +48,12 @@
     cdif:uses <https://example.org/struct/vitalsWide/rv/systolicBP> .
 
 <https://example.org/struct/vitalsWide/rv/patientId> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:string" ] ;
+    cdi:hasIntendedDataType "xsd:string" ;
     cdif:definition "Pseudonymous patient identifier." ;
     cdif:name "patient_id" .
 
 <https://example.org/struct/vitalsWide/rv/systolicBP> a cdi:RepresentedVariable ;
-    cdi:hasIntendedDataType [ a cdi:ControlledVocabularyEntry ;
-            cdi:entryValue "xsd:decimal" ] ;
+    cdi:hasIntendedDataType "xsd:decimal" ;
     cdi:simpleUnitOfMeasure "mmHg" ;
     cdif:name "systolic_blood_pressure" .
 

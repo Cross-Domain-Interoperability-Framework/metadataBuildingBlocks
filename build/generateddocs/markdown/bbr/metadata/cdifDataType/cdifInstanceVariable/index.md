@@ -155,7 +155,7 @@ them via schema:variableMeasured.
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "cdif": "https://w3id.org/cdif/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "xas": "https://xas.org/dictionary/"
+    "xas": "https://w3id.org/cdif/xas/"
   },
   "@type": [
     "cdi:InstanceVariable",
@@ -168,14 +168,16 @@ them via schema:variableMeasured.
   ],
   "schema:description": "Incident photon energy selected by the monochromator during the XAS scan.",
   "schema:propertyID": [
-    "xas:monochromatorEnergyConcept"
+    {
+      "@id": "xas:monochromatorEnergyConcept"
+    }
   ],
   "schema:unitText": "eV",
   "cdi:identifier": {
     "@type": [
       "cdi:Identifier"
     ],
-    "cdi:uri": "https://xas.org/dictionary/monochromatorEnergy"
+    "cdi:uri": "https://w3id.org/cdif/xas/monochromatorEnergy"
   },
   "cdif:name": [
     "energy"
@@ -207,7 +209,7 @@ them via schema:variableMeasured.
     {
       "schema": "http://schema.org/",
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
-      "xas": "https://xas.org/dictionary/",
+      "xas": "https://w3id.org/cdif/xas/",
       "skos": "http://www.w3.org/2004/02/skos/core#"
     },
     "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifInstanceVariable/context.jsonld",
@@ -218,7 +220,7 @@ them via schema:variableMeasured.
       "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
       "cdif": "https://w3id.org/cdif/",
       "skos": "http://www.w3.org/2004/02/skos/core#",
-      "xas": "https://xas.org/dictionary/"
+      "xas": "https://w3id.org/cdif/xas/"
     }
   ],
   "@type": [
@@ -232,14 +234,16 @@ them via schema:variableMeasured.
   ],
   "schema:description": "Incident photon energy selected by the monochromator during the XAS scan.",
   "schema:propertyID": [
-    "xas:monochromatorEnergyConcept"
+    {
+      "@id": "xas:monochromatorEnergyConcept"
+    }
   ],
   "schema:unitText": "eV",
   "cdi:identifier": {
     "@type": [
       "cdi:Identifier"
     ],
-    "cdi:uri": "https://xas.org/dictionary/monochromatorEnergy"
+    "cdi:uri": "https://w3id.org/cdif/xas/monochromatorEnergy"
   },
   "cdif:name": [
     "energy"
@@ -269,18 +273,18 @@ them via schema:variableMeasured.
 @prefix cdif: <https://w3id.org/cdif/> .
 @prefix ex: <https://example.org/> .
 @prefix schema1: <http://schema.org/> .
-@prefix xas: <https://xas.org/dictionary/> .
+@prefix xas: <https://w3id.org/cdif/xas/> .
 
 xas:monochromatorEnergy a cdi:InstanceVariable,
         schema1:PropertyValue ;
     cdi:identifier [ a cdi:Identifier ;
-            cdi:uri "https://xas.org/dictionary/monochromatorEnergy" ] ;
+            cdi:uri "https://w3id.org/cdif/xas/monochromatorEnergy" ] ;
     cdi:qualifies ex:temperatureVariable ;
     cdi:takesSubstantiveValuesFrom <https://example.org/value-domain/decimal-eV> ;
     schema1:alternateName "Monochromator energy" ;
     schema1:description "Incident photon energy selected by the monochromator during the XAS scan." ;
     schema1:name "energy" ;
-    schema1:propertyID "xas:monochromatorEnergyConcept" ;
+    schema1:propertyID xas:monochromatorEnergyConcept ;
     schema1:unitText "eV" ;
     cdif:definition "Incident photon energy selected by the monochromator during the XAS scan." ;
     cdif:displayLabel "Monochromator energy" ;
@@ -361,6 +365,9 @@ properties:
     anyOf:
     - type: string
     - type: object
+      required:
+      - '@id'
+      additionalProperties: false
       properties:
         '@id':
           type: string
@@ -377,6 +384,7 @@ properties:
     anyOf:
     - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/cdifDataType/cdifStatistics/schema.yaml#/$defs/StatisticsCollection
     - type: object
+      additionalProperties: false
       properties:
         '@id':
           type: string
@@ -391,6 +399,9 @@ properties:
     x-jsonld-id: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/describedUnitOfMeasure
   cdi:qualifies:
     type: object
+    required:
+    - '@id'
+    additionalProperties: false
     properties:
       '@id':
         type: string
@@ -411,8 +422,8 @@ x-jsonld-prefixes:
   spdx: http://spdx.org/rdf/terms#
   cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
   skos: http://www.w3.org/2004/02/skos/core#
-  xas: https://xas.org/dictionary/
-  nxs: http://purl.org/nexusformat/definitions/
+  xas: https://w3id.org/cdif/xas/
+  nxs: https://manual.nexusformat.org/classes/
   prov: http://www.w3.org/ns/prov#
 
 ```
@@ -433,8 +444,8 @@ Links to the schema:
     "spdx": "http://spdx.org/rdf/terms#",
     "cdi": "http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "xas": "https://xas.org/dictionary/",
-    "nxs": "http://purl.org/nexusformat/definitions/",
+    "xas": "cdif:xas/",
+    "nxs": "https://manual.nexusformat.org/classes/",
     "prov": "http://www.w3.org/ns/prov#",
     "@version": 1.1
   }
