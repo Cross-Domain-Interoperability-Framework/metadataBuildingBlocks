@@ -19,6 +19,26 @@ properties:
       anyOf:
       - type: string
       - $ref: '#/$defs/DefinedTerm'
+      # A bare reference to a term defined elsewhere, which is how CDIF
+      # writes a controlled-vocabulary classification everywhere else --
+      # xasInstrument and xasFacility both accept it on this property.
+      # Without it a Place could only be classified by a literal string or
+      # a fully inlined DefinedTerm, so a facility typed
+      # {"@id": "<vocab>:facility"} matched no branch of the
+      # schema:location anyOf in cdifProvActivity and the document was
+      # unvalidatable rather than merely invalid.
+      #
+      # Sealed per the 2026-08 convention: a reference carries @id and
+      # nothing else. Do NOT relax that -- a node with more than @id is
+      # modelled inline and belongs in the DefinedTerm branch above.
+      - type: object
+        additionalProperties: false
+        required:
+        - '@id'
+        properties:
+          '@id':
+            type: string
+            description: reference to a term defined elsewhere
   'schema:name':
     description: A place name for the location, either as a string or a DefinedTerm from a gazetteer.
     anyOf:
