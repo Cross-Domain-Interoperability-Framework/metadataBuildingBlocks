@@ -296,27 +296,27 @@ Example sample documentation, for use in XAS profile, use as value for schema:Ma
 ex:exampleSampel_357h a schema1:Product,
         schema1:Thing ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "sample mass" ;
-            schema1:propertyID xas:samplemass ;
-            schema1:unitText "mg" ;
-            schema1:value "10" ],
+            schema1:name "porosity" ;
+            schema1:propertyID xas:porosity ;
+            schema1:unitText "percent" ;
+            schema1:value "27" ],
         [ a schema1:PropertyValue ;
             schema1:name "Parent sample" ;
             schema1:propertyID xas:parentsample ;
             schema1:value "igsn:10.3476/342573" ],
         [ a schema1:PropertyValue ;
-            schema1:name "samplePreparation" ;
-            schema1:propertyID xas:samplepreparation ;
-            schema1:value "powder on tape, 6 layers" ],
-        [ a schema1:PropertyValue ;
             schema1:name "sample material state" ;
             schema1:propertyID xas:samplematerial ;
             schema1:value "solid metal foil" ],
         [ a schema1:PropertyValue ;
-            schema1:name "porosity" ;
-            schema1:propertyID xas:porosity ;
-            schema1:unitText "percent" ;
-            schema1:value "27" ],
+            schema1:name "samplePreparation" ;
+            schema1:propertyID xas:samplepreparation ;
+            schema1:value "powder on tape, 6 layers" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "sample mass" ;
+            schema1:propertyID xas:samplemass ;
+            schema1:unitText "mg" ;
+            schema1:value "10" ],
         [ a schema1:PropertyValue ;
             schema1:name "stoichiometry" ;
             schema1:propertyID xas:samplechemicalcomposition ;
