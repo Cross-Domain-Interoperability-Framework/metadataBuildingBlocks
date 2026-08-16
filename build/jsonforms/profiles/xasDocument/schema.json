@@ -7573,6 +7573,92 @@
     }
   },
   "$defs": {
+    "CdifCodelistConcept": {
+      "description": "A SKOS Concept constrained for CDIF codelist use. Must have a resolvable @id, skos:inScheme, skos:notation, and skos:prefLabel. Becasue JSON-LD is an open-world implementation, any other skos properties may be included.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "Globally unique, resolvable URI for this concept."
+        },
+        "skos:inScheme": {
+          "description": "The concept scheme this concept belongs to. Required for CDIF codelist concepts.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "@id"
+            ]
+          }
+        },
+        "skos:prefLabel": {
+          "description": "Preferred lexical label for this concept. A single string,\na single language-tagged value, or an array of language-tagged values.\nEach language should appear at most once.\n\n**Uniqueness rule.** Each language should appear at most once in the\nset of prefLabel values. Two prefLabel values with duplicate `@language`\ntags are non-conformant. Consumers may reject or arbitrarily pick one.\n\n**Relationship to skos:altLabel.** Alternate labels (acronyms,\nspelling variants, obsolete names) go on `skos:altLabel`, NOT on\n`prefLabel`. A concept has exactly one preferred label per language.\n",
+          "type": "string"
+        },
+        "skos:notation": {
+          "description": "Classification code for this concept within a scheme.",
+          "type": "string"
+        },
+        "skos:definition": {
+          "description": "Formal definition of this concept. Optional for CDIF codelist concepts. A plain string.",
+          "type": "string"
+        },
+        "skos:narrower": {
+          "description": "Narrower (child) concepts. If present, each inline concept must also declare skos:broader pointing back to the parent concept. Both skos:narrower and skos:broader must be explicit in CDIF codelists.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              },
+              {
+                "$ref": "#/$defs/CdifCodelistConcept",
+                "required": [
+                  "skos:broader"
+                ]
+              }
+            ]
+          }
+        },
+        "skos:broader": {
+          "description": "Broader (parent) concepts. Required on any concept that appears as a skos:narrower value of another concept. CDIF requires both directions to be explicit for hierarchy traversal.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "@id"
+            ]
+          }
+        }
+      },
+      "required": [
+        "@id",
+        "skos:inScheme",
+        "skos:prefLabel",
+        "skos:notation"
+      ]
+    },
     "Statistics": {
       "title": "Statistics",
       "description": "A named bundle of one or more Statistic value objects for an instance variable, optionally weighted, optionally broken down by Category.",
@@ -8856,92 +8942,6 @@
       "required": [
         "@type",
         "skos:prefLabel"
-      ]
-    },
-    "CdifCodelistConcept": {
-      "description": "A SKOS Concept constrained for CDIF codelist use. Must have a resolvable @id, skos:inScheme, skos:notation, and skos:prefLabel. Becasue JSON-LD is an open-world implementation, any other skos properties may be included.",
-      "type": "object",
-      "properties": {
-        "@id": {
-          "type": "string",
-          "description": "Globally unique, resolvable URI for this concept."
-        },
-        "skos:inScheme": {
-          "description": "The concept scheme this concept belongs to. Required for CDIF codelist concepts.",
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "@id": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "@id"
-            ]
-          }
-        },
-        "skos:prefLabel": {
-          "description": "Preferred lexical label for this concept. A single string,\na single language-tagged value, or an array of language-tagged values.\nEach language should appear at most once.\n\n**Uniqueness rule.** Each language should appear at most once in the\nset of prefLabel values. Two prefLabel values with duplicate `@language`\ntags are non-conformant. Consumers may reject or arbitrarily pick one.\n\n**Relationship to skos:altLabel.** Alternate labels (acronyms,\nspelling variants, obsolete names) go on `skos:altLabel`, NOT on\n`prefLabel`. A concept has exactly one preferred label per language.\n",
-          "type": "string"
-        },
-        "skos:notation": {
-          "description": "Classification code for this concept within a scheme.",
-          "type": "string"
-        },
-        "skos:definition": {
-          "description": "Formal definition of this concept. Optional for CDIF codelist concepts. A plain string.",
-          "type": "string"
-        },
-        "skos:narrower": {
-          "description": "Narrower (child) concepts. If present, each inline concept must also declare skos:broader pointing back to the parent concept. Both skos:narrower and skos:broader must be explicit in CDIF codelists.",
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              },
-              {
-                "$ref": "#/$defs/CdifCodelistConcept",
-                "required": [
-                  "skos:broader"
-                ]
-              }
-            ]
-          }
-        },
-        "skos:broader": {
-          "description": "Broader (parent) concepts. Required on any concept that appears as a skos:narrower value of another concept. CDIF requires both directions to be explicit for hierarchy traversal.",
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "@id": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "@id"
-            ]
-          }
-        }
-      },
-      "required": [
-        "@id",
-        "skos:inScheme",
-        "skos:prefLabel",
-        "skos:notation"
       ]
     },
     "StatisticsCollection": {
