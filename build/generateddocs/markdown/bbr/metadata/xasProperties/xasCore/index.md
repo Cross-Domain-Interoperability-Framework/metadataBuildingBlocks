@@ -854,17 +854,17 @@ ex:xas-dataset-001 a schema1:Dataset,
             schema1:url "http://example.com/resource?foo=bar#fragment" ;
             schema1:value "10.12345/xas.2024.001" ] ;
     schema1:keywords [ a schema1:DefinedTerm ;
-            schema1:about "element.symbol" ;
-            schema1:identifier "http://sweetontology.net/matrElement/Selenium" ;
-            schema1:inDefinedTermSet "http://sweetontology.net/matrElement" ;
-            schema1:name "Selenium" ;
-            schema1:termCode "Se" ],
-        [ a schema1:DefinedTerm ;
             schema1:about "element.edge" ;
             schema1:identifier "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md#K" ;
             schema1:inDefinedTermSet "https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/dictionary.md" ;
             schema1:name "K-edge" ;
-            schema1:termCode "K" ] ;
+            schema1:termCode "K" ],
+        [ a schema1:DefinedTerm ;
+            schema1:about "element.symbol" ;
+            schema1:identifier "http://sweetontology.net/matrElement/Selenium" ;
+            schema1:inDefinedTermSet "http://sweetontology.net/matrElement" ;
+            schema1:name "Selenium" ;
+            schema1:termCode "Se" ] ;
     schema1:license "https://creativecommons.org/licenses/by/4.0/" ;
     schema1:measurementTechnique [ a schema1:DefinedTerm ;
             schema1:identifier "http://purl.org/pan-science/PaNET/PaNET01188" ;
@@ -884,19 +884,33 @@ ex:xas-dataset-001 a schema1:Dataset,
             schema1:object [ a schema1:Product,
                         schema1:Thing ;
                     schema1:additionalProperty [ a schema1:PropertyValue ;
-                            schema1:name "Stoichiometry" ;
-                            schema1:propertyID xas:samplechemicalcomposition ;
-                            schema1:value "Na2SeO4" ],
-                        [ a schema1:PropertyValue ;
                             schema1:name "sample preparation method" ;
                             schema1:propertyID xas:samplepreparation ;
-                            schema1:value "powder on tape, 6 layers" ] ;
+                            schema1:value "powder on tape, 6 layers" ],
+                        [ a schema1:PropertyValue ;
+                            schema1:name "Stoichiometry" ;
+                            schema1:propertyID xas:samplechemicalcomposition ;
+                            schema1:value "Na2SeO4" ] ;
                     schema1:additionalType <https://w3id.org/isample/vocabulary/materialsampleobjecttype/materialsample>,
                         "MaterialSample" ;
                     schema1:description "Sodium selenate reference compound, powder" ;
                     schema1:identifier "igsn:10.6620/se-selenate-001" ;
                     schema1:name "Na2SeO4" ] ;
             prov:used [ schema1:instrument [ a schema1:Product,
+                                schema1:Thing,
+                                prov:Entity ;
+                            schema1:additionalProperty [ a schema1:PropertyValue ;
+                                    schema1:name "Probe" ;
+                                    schema1:propertyID xas:probe ;
+                                    schema1:value "x-ray" ],
+                                [ a schema1:PropertyValue ;
+                                    schema1:name "x-ray source" ;
+                                    schema1:propertyID xas:xraysourcetype ;
+                                    schema1:value "Synchrotron X-ray Source" ] ;
+                            schema1:additionalType xas:source,
+                                wd:Q3099911 ;
+                            schema1:name "APS bending magnet source" ] ],
+                [ schema1:instrument [ a schema1:Product,
                                 schema1:Thing,
                                 prov:Entity ;
                             schema1:additionalType xas:beamline,
@@ -909,35 +923,21 @@ ex:xas-dataset-001 a schema1:Dataset,
                                 schema1:Thing,
                                 prov:Entity ;
                             schema1:additionalProperty [ a schema1:PropertyValue ;
+                                    schema1:name "crystal type" ;
+                                    schema1:propertyID xas:monochromatortype ;
+                                    schema1:value "Si(111)" ],
+                                [ a schema1:PropertyValue ;
                                     schema1:name "d-spacing" ;
                                     schema1:propertyID xas:dspacing ;
                                     schema1:unitText "Angstrom" ;
                                     schema1:value "3.13550" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:name "crystal type" ;
-                                    schema1:propertyID xas:monochromatortype ;
-                                    schema1:value "Si(111)" ],
                                 [ a schema1:PropertyValue ;
                                     schema1:name "reflection plane (hkl)" ;
                                     schema1:propertyID xas:reflectionplane ;
                                     schema1:value "1,1,1" ] ;
                             schema1:additionalType xas:xraymonochromator,
                                 wd:Q3099911 ;
-                            schema1:name "Si 111" ] ],
-                [ schema1:instrument [ a schema1:Product,
-                                schema1:Thing,
-                                prov:Entity ;
-                            schema1:additionalProperty [ a schema1:PropertyValue ;
-                                    schema1:name "x-ray source" ;
-                                    schema1:propertyID xas:xraysourcetype ;
-                                    schema1:value "Synchrotron X-ray Source" ],
-                                [ a schema1:PropertyValue ;
-                                    schema1:name "Probe" ;
-                                    schema1:propertyID xas:probe ;
-                                    schema1:value "x-ray" ] ;
-                            schema1:additionalType xas:source,
-                                wd:Q3099911 ;
-                            schema1:name "APS bending magnet source" ] ] ] .
+                            schema1:name "Si 111" ] ] ] .
 
 <urn:uuid:xas-required-catalog-record> a schema1:Dataset ;
     dcterms:conformsTo <https://w3id.org/cdif/core/1.1>,
