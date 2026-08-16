@@ -3707,6 +3707,18 @@ td.name { font-family: monospace; font-weight: 600; white-space: nowrap; }
 td.type { font-family: monospace; color: #06c; }
 td.mult { font-family: monospace; color: #999; white-space: nowrap; }
 td.doc { color: #555; font-size: 0.95rem; }
+.rst-doc h4 { margin: 0.4rem 0 0.2rem; font-size: 1rem; color: #333;
+              border-bottom: 1px solid #ddd; padding-bottom: 0.1rem; }
+.rst-doc h5 { margin: 0.6rem 0 0.15rem; font-size: 0.95rem; color: #06c;
+              font-weight: 600; }
+.rst-doc h6 { margin: 0.4rem 0 0.05rem; font-size: 0.85rem;
+              color: #666; font-weight: 600;
+              text-transform: uppercase; letter-spacing: 0.03em; }
+.rst-doc p  { margin: 0.15rem 0 0.4rem; }
+td.doc .rst-doc h4 { font-size: 0.9rem; }
+td.doc .rst-doc h5 { font-size: 0.85rem; }
+td.doc .rst-doc h6 { font-size: 0.72rem; }
+td.doc .rst-doc p  { font-size: 0.9rem; }
 a.classlink { color: #06c; text-decoration: none; }
 a.classlink:hover { text-decoration: underline; }
 .diagram { background: white; border: 1px solid #eee; position: relative; }
@@ -4069,6 +4081,61 @@ def _html_escape(s: str) -> str:
              .replace(">", "&gt;").replace('"', "&quot;"))
 
 
+# RST underline chars used by rst_augment.compose_documentation, mapped to
+# heading levels for the local HTML browser. The class page already uses
+# <h1>-<h3>, so start our RST doc at <h4>.
+_RST_UNDERLINES = {"=": "h4", "-": "h5", ".": "h6"}
+
+
+def _rst_body_to_html(text: Optional[str]) -> str:
+    """Convert an rst_augment-composed body into HTML section blocks.
+
+    Recognizes the three underline conventions used by the augmenter
+    (`===`, `---`, `...`) and turns each heading into <h4>/<h5>/<h6>.
+    Consecutive non-blank content lines are grouped into <p> blocks. This
+    is intentionally minimal — a real RST parser (docutils) is overkill
+    for the fixed shape rst_augment emits. Bodies that do NOT look like
+    RST-augmented content (missing the `Documentation\\n===` header) are
+    escaped and rendered as a single paragraph so legacy plain-text
+    definitions still display.
+    """
+    if not text:
+        return ""
+    stripped = text.lstrip()
+    if not (stripped.startswith("Documentation\n===") or stripped.startswith("Documentation\r\n===")):
+        return f'<p>{_html_escape(text).replace(chr(10), "<br>")}</p>'
+
+    lines = text.splitlines()
+    out: list[str] = []
+    para: list[str] = []
+
+    def flush():
+        if para:
+            out.append("<p>" + " ".join(_html_escape(p) for p in para) + "</p>")
+            para.clear()
+
+    i = 0
+    while i < len(lines):
+        line = lines[i].rstrip()
+        nxt = lines[i + 1].rstrip() if i + 1 < len(lines) else ""
+        # Heading: non-empty text line followed by an underline of a single
+        # RST marker char at least as long as the text.
+        if (line and nxt and len(set(nxt)) == 1 and nxt[0] in _RST_UNDERLINES
+                and len(nxt) >= len(line.strip())):
+            flush()
+            tag = _RST_UNDERLINES[nxt[0]]
+            out.append(f"<{tag}>{_html_escape(line.strip())}</{tag}>")
+            i += 2
+            continue
+        if line.strip():
+            para.append(line.strip())
+        else:
+            flush()
+        i += 1
+    flush()
+    return f'<div class="rst-doc">{"".join(out)}</div>'
+
+
 def _html_link_class(cls_name: str, kind: str,
                      current_profile: str = "",
                      cross_profile_registry: Optional[dict[str, str]] = None,
@@ -4173,7 +4240,7 @@ def _html_attr_rows(cls: UmlClass, model: Model,
         else:
             type_html = "<span>?</span>"
         mult = _puml_multiplicity(p.lower, p.upper)
-        doc = _html_escape(clean_definition(p.doc) or "")
+        doc = _rst_body_to_html(clean_definition(p.doc))
         rows.append(
             f'<tr><td class="name">{_html_escape(p.name)}</td>'
             f'<td class="type">{type_html}</td>'
@@ -4323,7 +4390,7 @@ def _html_class_page(cls: UmlClass, closure: UmlClosure, model: Model,
                 (target_dir / svg_path.name).write_bytes(svg_path.read_bytes())
             diagram_html = _html_render_diagram(target_pu)
 
-    definition_html = (f'<div class="definition">{_html_escape(clean_definition(cls.doc) or "")}</div>'
+    definition_html = (f'<div class="definition">{_rst_body_to_html(clean_definition(cls.doc))}</div>'
                        if cls.doc else '<p class="empty">No definition.</p>')
 
     union_sub = _UNION_SUBSTITUTION_NOTES.get(cls.name)
