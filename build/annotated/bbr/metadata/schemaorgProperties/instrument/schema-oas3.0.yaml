@@ -933,9 +933,16 @@ properties:
   schema:additionalProperty:
     type: array
     description: Instrument-specific properties (measured variables, detection limits,
-      calibration information, operating parameters, etc.).
+      calibration information, operating parameters, etc.). On a procedure / plan
+      instrument (e.g. an instrument named directly on an ada:TAPPDefinition) these
+      are schema:PropertyValueSpecification parameter templates (an overridable default);
+      on a prov:used analysis-event instrument they are schema:PropertyValue concrete
+      values. The JSON Schema accepts both; a profile SHACL rule pins which form applies
+      in which context.
     items:
-      $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/$defs/AdditionalProperty
+      anyOf:
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/$defs/AdditionalProperty
+      - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/$defs/AdditionalPropertySpecification
     x-jsonld-id: http://schema.org/additionalProperty
   schema:validFrom:
     type: string
@@ -1025,6 +1032,28 @@ $defs:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.agentInRole
   AdditionalProperty:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.schemaorgProperties.additionalProperty
+  AdditionalPropertySpecification:
+    type: object
+    title: additionalProperty PropertyValueSpecification
+    description: A parameter specification (an overridable default) declared on a
+      procedure / plan instrument, typed schema:PropertyValueSpecification; the default
+      sits in schema:defaultValue. Contrast with AdditionalProperty (schema:PropertyValue),
+      the concrete-value form carried by a prov:used analysis-event instrument.
+    properties:
+      '@type':
+        type: array
+        items:
+          type: string
+        contains:
+          enum:
+          - schema:PropertyValueSpecification
+        minItems: 1
+      schema:name:
+        type: string
+        x-jsonld-id: http://schema.org/name
+    required:
+    - '@type'
+    - schema:name
   Reference:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/x-defs/cdif.bbr.metadata.cdifDataType.cdifReference
   InstrumentComponent:
@@ -1076,7 +1105,9 @@ $defs:
       schema:additionalProperty:
         type: array
         items:
-          $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/$defs/AdditionalProperty
+          anyOf:
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/$defs/AdditionalProperty
+          - $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/instrument/schema-oas3.0.yaml#/$defs/AdditionalPropertySpecification
         x-jsonld-id: http://schema.org/additionalProperty
       schema:manufacturer:
         x-jsonld-id: http://schema.org/manufacturer
