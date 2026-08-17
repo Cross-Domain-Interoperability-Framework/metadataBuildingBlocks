@@ -968,66 +968,94 @@
                       },
                       "schema:additionalProperty": {
                         "type": "array",
-                        "description": "Instrument-specific properties (measured variables, detection limits, calibration information, operating parameters, etc.).",
+                        "description": "Instrument-specific properties (measured variables, detection limits, calibration information, operating parameters, etc.). On a procedure / plan instrument (e.g. an instrument named directly on an ada:TAPPDefinition) these are schema:PropertyValueSpecification parameter templates (an overridable default); on a prov:used analysis-event instrument they are schema:PropertyValue concrete values. The JSON Schema accepts both; a profile SHACL rule pins which form applies in which context.",
                         "items": {
-                          "type": "object",
-                          "title": "additionalProperty PropertyValue",
-                          "description": "PropertyValue values required to define a soft-typed property with a value. ",
-                          "properties": {
-                            "@type": {
-                              "type": "array",
-                              "items": {
-                                "type": "string"
-                              },
-                              "contains": {
-                                "const": "schema:PropertyValue"
-                              },
-                              "minItems": 1
-                            },
-                            "schema:propertyID": {
-                              "type": "array",
-                              "items": {
-                                "$ref": "#/$defs/propertyID_item"
-                              },
-                              "minItems": 1,
-                              "description": "identifier or name for the property concept quantified by the values in this variable slot. Multiple values can specify the property at different levels of granularity."
-                            },
-                            "schema:name": {
-                              "type": "string"
-                            },
-                            "schema:value": {
-                              "anyOf": [
-                                {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "title": "additionalProperty PropertyValue",
+                              "description": "PropertyValue values required to define a soft-typed property with a value. ",
+                              "properties": {
+                                "@type": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  },
+                                  "contains": {
+                                    "const": "schema:PropertyValue"
+                                  },
+                                  "minItems": 1
+                                },
+                                "schema:propertyID": {
+                                  "type": "array",
+                                  "items": {
+                                    "$ref": "#/$defs/propertyID_item"
+                                  },
+                                  "minItems": 1,
+                                  "description": "identifier or name for the property concept quantified by the values in this variable slot. Multiple values can specify the property at different levels of granularity."
+                                },
+                                "schema:name": {
                                   "type": "string"
                                 },
-                                {
-                                  "type": "number"
+                                "schema:value": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "number"
+                                    },
+                                    {
+                                      "type": "boolean"
+                                    },
+                                    {
+                                      "type": "object"
+                                    }
+                                  ]
                                 },
-                                {
-                                  "type": "boolean"
+                                "schema:unitCode": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "$ref": "#/$defs/AdditionalProperty_DefinedTerm"
+                                    }
+                                  ]
                                 },
-                                {
-                                  "type": "object"
-                                }
-                              ]
-                            },
-                            "schema:unitCode": {
-                              "anyOf": [
-                                {
+                                "schema:unitText": {
                                   "type": "string"
-                                },
-                                {
-                                  "$ref": "#/$defs/AdditionalProperty_DefinedTerm"
                                 }
+                              },
+                              "required": [
+                                "schema:name",
+                                "schema:value"
                               ]
                             },
-                            "schema:unitText": {
-                              "type": "string"
+                            {
+                              "type": "object",
+                              "title": "additionalProperty PropertyValueSpecification",
+                              "description": "A parameter specification (an overridable default) declared on a procedure / plan instrument, typed schema:PropertyValueSpecification; the default sits in schema:defaultValue. Contrast with AdditionalProperty (schema:PropertyValue), the concrete-value form carried by a prov:used analysis-event instrument.",
+                              "properties": {
+                                "@type": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  },
+                                  "contains": {
+                                    "const": "schema:PropertyValueSpecification"
+                                  },
+                                  "minItems": 1
+                                },
+                                "schema:name": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "@type",
+                                "schema:name"
+                              ]
                             }
-                          },
-                          "required": [
-                            "schema:name",
-                            "schema:value"
                           ]
                         }
                       },
@@ -1110,64 +1138,92 @@
                                 "schema:additionalProperty": {
                                   "type": "array",
                                   "items": {
-                                    "type": "object",
-                                    "title": "additionalProperty PropertyValue",
-                                    "description": "PropertyValue values required to define a soft-typed property with a value. ",
-                                    "properties": {
-                                      "@type": {
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string"
-                                        },
-                                        "contains": {
-                                          "const": "schema:PropertyValue"
-                                        },
-                                        "minItems": 1
-                                      },
-                                      "schema:propertyID": {
-                                        "type": "array",
-                                        "items": {
-                                          "$ref": "#/$defs/propertyID_item"
-                                        },
-                                        "minItems": 1,
-                                        "description": "identifier or name for the property concept quantified by the values in this variable slot. Multiple values can specify the property at different levels of granularity."
-                                      },
-                                      "schema:name": {
-                                        "type": "string"
-                                      },
-                                      "schema:value": {
-                                        "anyOf": [
-                                          {
+                                    "anyOf": [
+                                      {
+                                        "type": "object",
+                                        "title": "additionalProperty PropertyValue",
+                                        "description": "PropertyValue values required to define a soft-typed property with a value. ",
+                                        "properties": {
+                                          "@type": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            },
+                                            "contains": {
+                                              "const": "schema:PropertyValue"
+                                            },
+                                            "minItems": 1
+                                          },
+                                          "schema:propertyID": {
+                                            "type": "array",
+                                            "items": {
+                                              "$ref": "#/$defs/propertyID_item"
+                                            },
+                                            "minItems": 1,
+                                            "description": "identifier or name for the property concept quantified by the values in this variable slot. Multiple values can specify the property at different levels of granularity."
+                                          },
+                                          "schema:name": {
                                             "type": "string"
                                           },
-                                          {
-                                            "type": "number"
+                                          "schema:value": {
+                                            "anyOf": [
+                                              {
+                                                "type": "string"
+                                              },
+                                              {
+                                                "type": "number"
+                                              },
+                                              {
+                                                "type": "boolean"
+                                              },
+                                              {
+                                                "type": "object"
+                                              }
+                                            ]
                                           },
-                                          {
-                                            "type": "boolean"
+                                          "schema:unitCode": {
+                                            "anyOf": [
+                                              {
+                                                "type": "string"
+                                              },
+                                              {
+                                                "$ref": "#/$defs/AdditionalProperty_DefinedTerm"
+                                              }
+                                            ]
                                           },
-                                          {
-                                            "type": "object"
-                                          }
-                                        ]
-                                      },
-                                      "schema:unitCode": {
-                                        "anyOf": [
-                                          {
+                                          "schema:unitText": {
                                             "type": "string"
-                                          },
-                                          {
-                                            "$ref": "#/$defs/AdditionalProperty_DefinedTerm"
                                           }
+                                        },
+                                        "required": [
+                                          "schema:name",
+                                          "schema:value"
                                         ]
                                       },
-                                      "schema:unitText": {
-                                        "type": "string"
+                                      {
+                                        "type": "object",
+                                        "title": "additionalProperty PropertyValueSpecification",
+                                        "description": "A parameter specification (an overridable default) declared on a procedure / plan instrument, typed schema:PropertyValueSpecification; the default sits in schema:defaultValue. Contrast with AdditionalProperty (schema:PropertyValue), the concrete-value form carried by a prov:used analysis-event instrument.",
+                                        "properties": {
+                                          "@type": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            },
+                                            "contains": {
+                                              "const": "schema:PropertyValueSpecification"
+                                            },
+                                            "minItems": 1
+                                          },
+                                          "schema:name": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "@type",
+                                          "schema:name"
+                                        ]
                                       }
-                                    },
-                                    "required": [
-                                      "schema:name",
-                                      "schema:value"
                                     ]
                                   }
                                 },
