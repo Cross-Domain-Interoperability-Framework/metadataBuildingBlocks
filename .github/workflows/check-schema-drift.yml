@@ -16,15 +16,17 @@ name: Check generated schemas are current
 
 on:
   # Push matters as much as pull_request: a98330da3 went straight to main.
+  #
+  # No paths filter on push, deliberately. There used to be one, and it made
+  # a red check invisible: 1e37f62e2 left instrument/resolvedSchema.json
+  # stale on 2026-08-17, the check failed, and then every push for two days
+  # touched nothing in the filter, so it never ran again and never
+  # re-reported. A stale artifact does not stop being stale because the next
+  # commit was unrelated -- the drift is a property of the tree, not of the
+  # diff. Running unconditionally costs ~11 min per push to main and keeps
+  # the signal in front of whoever pushed last.
   push:
     branches: [main]
-    paths:
-      - '_sources/**/schema.yaml'
-      - '_sources/**/resolvedSchema.json'
-      - '_sources/**/*Schema.json'
-      - 'tools/resolve_schema.py'
-      - 'tools/regenerate_schema_json.py'
-      - '.github/workflows/check-schema-drift.yml'
   pull_request:
     paths:
       - '_sources/**/schema.yaml'
