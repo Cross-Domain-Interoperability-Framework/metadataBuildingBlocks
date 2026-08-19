@@ -170,6 +170,12 @@ Variable that records values of multiple variables in the context of a data stru
 
 DDI-CDI ProcessingAgent that orchestrates production activities, linking agents to activities and environments. Uses DDI Cross-Domain Integration vocabulary.
 
+### `cdif.bbr.metadata.ddiProperties.ddicdiRepresentedVariable` — DDI-CDI Represented Variable
+
+**Type:** schema
+
+Conceptual variable with a substantive value domain specified.
+
 ### `cdif.bbr.metadata.schemaorgProperties.action` — Action properties
 
 **Type:** schema
@@ -230,17 +236,17 @@ CDIF profile of the DDI-CDI ValueDomain. A single node is either a cdif:Substant
 
 Statistics related to an instance variable within a data set.
 
-### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructureComponent` — DDI-CDI Data Structure Component
-
-**Type:** schema
-
-Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.
-
 ### `cdif.bbr.metadata.ddiProperties.ddicdiAgent` — DDI-CDI Agent
 
 **Type:** schema
 
 DDI-CDI Agent class hierarchy for CDIF metadata. Covers Agent (abstract base) and its subclasses: Individual (person), Machine (software/hardware), Organization (group/institution), and ProcessingAgent (orchestrates production). Defines properties for identification, contact information, naming, and agent-activity relationships.
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructureComponent` — DDI-CDI Data Structure Component
+
+**Type:** schema
+
+Role given to a represented variable in the context of a long or wide data structure to identify the units associated to data points, and in dimensional and key value data structures to provide identifying fields for the instance values.
 
 ### `cdif.bbr.metadata.cdifDataType.cdifConceptOrTermOrString` — CDIF Concept or Term or String
 
@@ -260,12 +266,6 @@ Schema defining properties for documenting the facility (a schema:Place typed xa
 
 Schema defining properties for documenting a material sample that is the schema:object (target) of an XAS analysis (replacing the deprecated schema:mainEntity, per the Ocean Info Hub recommendation). Defines properties: @type, schema:additionalType, schema:name, schema:identifier, schema:description, schema:additionalProperty. Uses building blocks: identifier (schemaorgProperties), additionalProperty (schemaorgProperties).
 
-### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructure` — DDI-CDI Data Structure
-
-**Type:** schema
-
-Data organization based on reusable data structure components.
-
 ### `cdif.bbr.metadata.ddiProperties.ddicdiCodeList` — DDI-CDI Code List
 
 **Type:** schema
@@ -283,6 +283,12 @@ A base class acting as an extension point to allow all codifications (codelist, 
 **Type:** schema
 
 Set of categories represented by classification items where the subset of immediate children categories for any given parent category are mutually exclusive and jointly exhaustive with respect to that parent.
+
+### `cdif.bbr.metadata.ddiProperties.ddicdiDataStructure` — DDI-CDI Data Structure
+
+**Type:** schema
+
+Data organization based on reusable data structure components.
 
 ### `cdif.bbr.metadata.cdifDataType.cdifPhysicalMapping` — CDIF PhysicalMapping bulding block
 
@@ -385,12 +391,6 @@ Profile of cdi:InstanceVariable / schema:PropertyValue used as a member of a sch
 **Type:** schema
 
 Schema defining propertis of a person, a profile of schema.org/Person. Defines properties: @id, @type, schema:name, schema:description, schema:identifier, schema:alternateName, schema:affiliation, schema:contactPoint, schema:sameAs. Uses building blocks: identifier (schemaorgProperties), organization (schemaorgProperties).
-
-### `cdif.bbr.metadata.ddiProperties.ddicdiRepresentedVariable` — DDI-CDI Represented Variable
-
-**Type:** schema
-
-Conceptual variable with a substantive value domain specified.
 
 ### `cdif.bbr.metadata.profiles.cdifProfile.cdifManifest` — CDIF Manifest
 
