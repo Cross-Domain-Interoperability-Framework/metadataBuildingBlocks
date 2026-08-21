@@ -5,11 +5,18 @@ description: Schema.org PropertyValue-based variableMeasured. Defines properties
 type: object
 properties:
   '@type':
+    description: >-
+      Must include schema:PropertyValue - a measured VALUE - or schema:PropertyValueSpecification -
+      a SPECIFICATION of one, stating the permitted range, default or unit rather than an observed
+      result. Protocol and method descriptions declare the latter, and pinning the array to
+      PropertyValue alone left them no valid spelling. Additional type URIs may be included.
     type: array
     items:
       type: string
     contains:
-      const: schema:PropertyValue
+      anyOf:
+        - const: schema:PropertyValue
+        - const: schema:PropertyValueSpecification
     minItems: 1
   '@id':
     type: string
