@@ -158,14 +158,14 @@ Example documentation for x-ray absorption facility, based on schema.org Place
 
 ex:xasfacility_37yht a schema1:Place ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
+            schema1:name "X-ray Source" ;
+            schema1:propertyID xas:xraysourcetype ;
+            schema1:value "APS bending magnet" ],
+        [ a schema1:PropertyValue ;
             schema1:name "Facility current" ;
             schema1:propertyID xas:facilitycurrent ;
             schema1:unitText "Amps" ;
             schema1:value "120" ],
-        [ a schema1:PropertyValue ;
-            schema1:name "X-ray Source" ;
-            schema1:propertyID xas:xraysourcetype ;
-            schema1:value "APS bending magnet" ],
         [ a schema1:PropertyValue ;
             schema1:name "Facility energy" ;
             schema1:propertyID xas:facilityenergy ;
