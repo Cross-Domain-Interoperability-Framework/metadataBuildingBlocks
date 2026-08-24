@@ -10,7 +10,7 @@
   "itemClass": "schema",
   "register": "cdif-building-block-register",
   "version": "0.1",
-  "dateOfLastChange": "2026-08-22",
+  "dateOfLastChange": "2026-08-24",
   "link": "https://github.com/opengeospatial/bblock-template",
   "sources": [
     {
@@ -49,7 +49,7 @@
   "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/qualityProperties/qualityMeasure/",
   "validationPassed": true,
   "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/qualityProperties/qualityMeasure/",
-  "description": "## Person properties\n\nDefines a set of properties for use describing a person for the schema.org implementation of the [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) discovery profile.",
+  "description": "## Quality measure properties\n\nDefines a set of properties for use describing a data quality measurement for the schema.org implementation of the [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) discovery profile.\n\nA quality measurement pairs the measure that was applied (`dqv:isMeasurementOf`) with the result it produced (`dqv:value`). The measure may be named as a string, referenced by IRI, or given as a `schema:DefinedTerm` from a quality-measure vocabulary such as ISO 19157. The result may be a string, a number, or a `schema:DefinedTerm` \u2014 a number carries a quantity such as a distance or a percentage, a Defined Term a categorical outcome such as pass or fail.\n",
   "examples": [
     {
       "title": "Example quality measure.",
@@ -78,9 +78,37 @@
           "code": "@prefix ns1: <dqv:> .\n@prefix schema1: <http://schema.org/> .\n\n[] a ns1:QualityMeasurement ;\n    ns1:isMeasurementOf [ a schema1:DefinedTerm ;\n            schema1:identifier \"https://standards.iso.org/iso/19157/qualityMeasure/28\" ;\n            schema1:inDefinedTermSet \"https://standards.iso.org/iso/19157\" ;\n            schema1:name \"Positional Accuracy\" ;\n            schema1:termCode \"DQ_AbsoluteExternalPositionalAccuracy\" ] ;\n    ns1:value [ a schema1:DefinedTerm ;\n            schema1:identifier [ a schema1:PropertyValue ;\n                    schema1:propertyID <https://standards.iso.org/iso/19157/qualityResult> ;\n                    schema1:url \"http://example.com/resource?foo=bar#fragment\" ;\n                    schema1:value \"conformant\" ] ;\n            schema1:inDefinedTermSet \"https://standards.iso.org/iso/19157/conformanceResult\" ;\n            schema1:name \"Pass\" ;\n            schema1:termCode \"pass\" ] .\n\n"
         }
       ]
+    },
+    {
+      "title": "Quality measure with a numeric result.",
+      "content": "A quality measure whose result is a number rather than a string or a Defined Term \u2014 here the\npositional accuracy of the example above, reported as a distance instead of a pass/fail term.",
+      "prefixes": {
+        "schema": "http://schema.org/"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/qualityProperties/qualityMeasure/exampleQualityMeasureNumeric.json",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/qualityProperties/qualityMeasure/example_2_1.json",
+          "sizeBytes": 408,
+          "code": "{\n  \"@type\": [\n    \"dqv:QualityMeasurement\"\n  ],\n  \"dqv:isMeasurementOf\": {\n    \"@type\": [\n      \"schema:DefinedTerm\"\n    ],\n    \"schema:name\": \"Positional Accuracy\",\n    \"schema:identifier\": \"https://standards.iso.org/iso/19157/qualityMeasure/28\",\n    \"schema:inDefinedTermSet\": \"https://standards.iso.org/iso/19157\",\n    \"schema:termCode\": \"DQ_AbsoluteExternalPositionalAccuracy\"\n  },\n  \"dqv:value\": 2.5\n}\n"
+        },
+        {
+          "language": "jsonld",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/qualityProperties/qualityMeasure/example_2_1.jsonld",
+          "sizeBytes": 642,
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityMeasure/context.jsonld\"\n  ],\n  \"@type\": [\n    \"dqv:QualityMeasurement\"\n  ],\n  \"dqv:isMeasurementOf\": {\n    \"@type\": [\n      \"schema:DefinedTerm\"\n    ],\n    \"schema:name\": \"Positional Accuracy\",\n    \"schema:identifier\": \"https://standards.iso.org/iso/19157/qualityMeasure/28\",\n    \"schema:inDefinedTermSet\": \"https://standards.iso.org/iso/19157\",\n    \"schema:termCode\": \"DQ_AbsoluteExternalPositionalAccuracy\"\n  },\n  \"dqv:value\": 2.5\n}"
+        },
+        {
+          "language": "ttl",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/qualityProperties/qualityMeasure/example_2_1.ttl",
+          "sizeBytes": 507,
+          "code": "@prefix ns1: <dqv:> .\n@prefix schema1: <http://schema.org/> .\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\n\n[] a ns1:QualityMeasurement ;\n    ns1:isMeasurementOf [ a schema1:DefinedTerm ;\n            schema1:identifier \"https://standards.iso.org/iso/19157/qualityMeasure/28\" ;\n            schema1:inDefinedTermSet \"https://standards.iso.org/iso/19157\" ;\n            schema1:name \"Positional Accuracy\" ;\n            schema1:termCode \"DQ_AbsoluteExternalPositionalAccuracy\" ] ;\n    ns1:value 2.5e+00 .\n\n"
+        }
+      ]
     }
   ],
-  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: definitions for simple quality measure property\ntype: object\nproperties:\n  '@type':\n    type: array\n    items:\n      type: string\n    contains:\n      const: dqv:QualityMeasurement\n    minItems: 1\n  dqv:isMeasurementOf:\n    description: specify the quality measure that is reported, by name, with an ID\n      ref, or as a Defined Term\n    anyOf:\n    - type: string\n    - type: object\n      required:\n      - '@id'\n      additionalProperties: false\n      properties:\n        '@id':\n          type: string\n          description: a resolvable reference to a representation of a quality measure\n    - $ref: '#/$defs/DefinedTerm'\n  dqv:value:\n    description: the reported result of the quality measure, either as a string or\n      a defined term from a vocabulary\n    anyOf:\n    - type: string\n    - $ref: '#/$defs/DefinedTerm'\nrequired:\n- dqv:isMeasurementOf\n- dqv:value\n$defs:\n  DefinedTerm:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: definitions for simple quality measure property\ntype: object\nproperties:\n  '@type':\n    type: array\n    items:\n      type: string\n    contains:\n      const: dqv:QualityMeasurement\n    minItems: 1\n  dqv:isMeasurementOf:\n    description: specify the quality measure that is reported, by name, with an ID\n      ref, or as a Defined Term\n    anyOf:\n    - type: string\n    - type: object\n      required:\n      - '@id'\n      additionalProperties: false\n      properties:\n        '@id':\n          type: string\n          description: a resolvable reference to a representation of a quality measure\n    - $ref: '#/$defs/DefinedTerm'\n  dqv:value:\n    description: the reported result of the quality measure, as a string, a number,\n      or a defined term from a vocabulary\n    anyOf:\n    - type: string\n    - type: number\n    - $ref: '#/$defs/DefinedTerm'\nrequired:\n- dqv:isMeasurementOf\n- dqv:value\n$defs:\n  DefinedTerm:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\nx-jsonld-prefixes:\n  schema: http://schema.org/\n",
   "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
   "gitPath": "_sources/qualityProperties/qualityMeasure"
 }
