@@ -114,17 +114,26 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--apply", action="store_true", help="Actually copy files (default: dry-run)")
     ap.add_argument("--repo", help="Only process this one release repo")
+    ap.add_argument("--check", action="store_true",
+                    help="Dry-run, and exit 1 if any release repo has drifted. "
+                         "For CI: nothing runs this sync automatically, so drift "
+                         "is invisible until someone thinks to compare.")
     args = ap.parse_args()
+    if args.check and args.apply:
+        ap.error("--check and --apply are mutually exclusive")
 
     repos = REPOS if not args.repo else [r for r in REPOS if r[0] == args.repo]
     if args.repo and not repos:
         print(f"Unknown repo: {args.repo}", file=sys.stderr)
         sys.exit(1)
 
-    print(f"Mode: {'APPLY' if args.apply else 'DRY-RUN'}")
+    print(f"Mode: {'APPLY' if args.apply else 'CHECK' if args.check else 'DRY-RUN'}")
     print()
+    drifted = []
     for repo, src_rel, schema, shacl in repos:
         r = sync_repo(repo, src_rel, schema, shacl, args.apply)
+        if r["schema"] != "identical" or r["shacl"] != "identical" or r["examples"]:
+            drifted.append(r)
         print(f"=== {r['repo']} ===")
         print(f"  schema:   {r['schema']}")
         print(f"  shacl:    {r['shacl']}")
@@ -135,6 +144,25 @@ def main():
         else:
             print(f"  examples: all identical or none in mBB source")
         print()
+
+    if args.check:
+        if not drifted:
+            print(f"All {len(repos)} release repos match metadataBuildingBlocks.")
+            return
+        print(f"::error::{len(drifted)} release repo(s) have drifted from "
+              f"metadataBuildingBlocks.")
+        for r in drifted:
+            bits = []
+            if r["schema"] != "identical":  bits.append("schema")
+            if r["shacl"] != "identical":   bits.append("shacl")
+            if r["examples"]:               bits.append(f"{len(r['examples'])} example(s)")
+            print(f"    {r['repo']}: {', '.join(bits)}")
+        print()
+        print("To fix, from the metadataBuildingBlocks repo root:")
+        print("    python tools/sync_release_repos.py --apply")
+        print("then review, commit and push each release repo. Re-validate the")
+        print("examples afterwards -- the schema and SHACL both move.")
+        sys.exit(1)
 
 
 if __name__ == "__main__":

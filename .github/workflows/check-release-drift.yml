@@ -1,0 +1,143 @@
+# Fail when a release repo's generated artifacts have drifted from the
+# building blocks they are generated from.
+#
+# tools/sync_release_repos.py is manual and dry-run by default, and nothing
+# invokes it. In August 2026 that let nine of the eleven release repos fall
+# roughly two weeks behind mBB -- missing the schema:inDefinedTermSet
+# widening, the schema:instrument array form, and
+# cdif:isDefinedBy_RepresentedVariable -- with nothing anywhere going red.
+# The gap only surfaced because someone asked. This closes that.
+#
+# It reports and stops. It does not sync: the release branches are being
+# prepared for a locked release, and a bot-authored schema change to a
+# profile under review is not something anyone asked for.
+name: Check release repos match building blocks
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '_sources/profiles/**'
+      - 'tools/sync_release_repos.py'
+      - '.github/workflows/check-release-drift.yml'
+  workflow_dispatch:
+    inputs:
+      release_branch:
+        description: 'Release-repo branch to compare against'
+        required: false
+        default: 'reviewRevision202606'
+  schedule:
+    # Weekly. The push trigger catches drift this repo causes; the schedule
+    # catches drift a release repo causes by editing a generated file, which
+    # no event here can observe.
+    - cron: '0 6 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-drift-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-release-drift:
+    name: Compare release artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout metadataBuildingBlocks
+        uses: actions/checkout@v4
+        with:
+          path: cdif/metadataBuildingBlocks
+
+      - name: Checkout doc-corediscovery
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/doc-corediscovery
+          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          path: cdif/doc-corediscovery
+
+      - name: Checkout doc-discoverydatadescription
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/doc-discoverydatadescription
+          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          path: cdif/doc-discoverydatadescription
+
+      - name: Checkout doc-discoverydatadescriptionstructure
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/doc-discoverydatadescriptionstructure
+          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          path: cdif/doc-discoverydatadescriptionstructure
+
+      - name: Checkout profile-codelist
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/profile-codelist
+          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          path: cdif/profile-codelist
+
+      - name: Checkout profile-conceptscheme
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/profile-conceptscheme
+          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          path: cdif/profile-conceptscheme
+
+      - name: Checkout profile-core
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/profile-core
+          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          path: cdif/profile-core
+
+      - name: Checkout profile-datadescription
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/profile-datadescription
+          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          path: cdif/profile-datadescription
+
+      - name: Checkout profile-discovery
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/profile-discovery
+          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          path: cdif/profile-discovery
+
+      - name: Checkout profile-datastructure
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/profile-datastructure
+          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          path: cdif/profile-datastructure
+
+      - name: Checkout profile-manifest
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/profile-manifest
+          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          path: cdif/profile-manifest
+
+      - name: Checkout profile-provenance
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/profile-provenance
+          ref: ${{ inputs.release_branch || 'reviewRevision202606' }}
+          path: cdif/profile-provenance
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # pyshacl/rdflib are needed because the comparison regenerates each
+      # profile's merged SHACL bundle via validate_shacl.py --emit-shapes.
+      - name: Install dependencies
+        run: pip install pyyaml jsonschema pyshacl
+
+      # sync_release_repos.py resolves release repos as siblings of the mBB
+      # checkout, which is why everything lands under cdif/.
+      - name: Compare release repos against building blocks
+        working-directory: cdif/metadataBuildingBlocks
+        run: python tools/sync_release_repos.py --check
