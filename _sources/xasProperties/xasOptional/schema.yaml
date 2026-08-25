@@ -5,7 +5,7 @@ description: >-
   Genuinely-optional XAS properties layered on cdifCore. Adds NO requirements. Documents and
   permits optional XAS content: (a) XAS data-array variables as schema:variableMeasured
   cdi:InstanceVariable items, and (b) optional beamline-operational and sample physico-chemical
-  parameters carried as schema:additionalProperty entries (on the prov:used xas:beamline entity
+  parameters carried as schema:additionalProperty entries (on the prov:used NXinstrument entity
   and the schema:object sample respectively; see description.md for the propertyID vocabularies).
   Present only when the corresponding measurements exist.
 type: object
@@ -95,7 +95,7 @@ properties:
                           - xas:samplechemicalcomposition
                           - xas:samplematerial
                           - xas:samplepreparation
-                          - xas:temperature
+                          - "nxs:base_classes/NXsample.html#nxsample-temperature-field"
                           - xas:viscosity
                           - xas:volume
                           # NEXUS NXsample fields
@@ -108,7 +108,7 @@ properties:
             if:
               description: >-
                 When this peer prov:used entry's instrument is a beamline
-                (schema:additionalType contains xas:beamline), its
+                (schema:additionalType contains the NXinstrument class), its
                 schema:additionalProperty entries SHOULD use the XDI
                 Beamline vocabulary (XDI-CDIF-Mapping.xlsx rows 10-20,
                 excluding Beamline.name which maps to schema:name).
@@ -126,7 +126,7 @@ properties:
                           - '@id'
                           properties:
                             '@id':
-                              const: 'xas:beamline'
+                              const: "nxs:base_classes/NXinstrument.html"
                         - type: array
                           contains:
                             type: object
@@ -135,7 +135,7 @@ properties:
                             - '@id'
                             properties:
                               '@id':
-                                const: 'xas:beamline'
+                                const: "nxs:base_classes/NXinstrument.html"
             then:
               properties:
                 'schema:instrument':

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Optional XAS metadata fields",
-  "description": "Genuinely-optional XAS properties layered on cdifCore. Adds NO requirements. Documents and permits optional XAS content: (a) XAS data-array variables as schema:variableMeasured cdi:InstanceVariable items, and (b) optional beamline-operational and sample physico-chemical parameters carried as schema:additionalProperty entries (on the prov:used xas:beamline entity and the schema:object sample respectively; see description.md for the propertyID vocabularies). Present only when the corresponding measurements exist.",
+  "description": "Genuinely-optional XAS properties layered on cdifCore. Adds NO requirements. Documents and permits optional XAS content: (a) XAS data-array variables as schema:variableMeasured cdi:InstanceVariable items, and (b) optional beamline-operational and sample physico-chemical parameters carried as schema:additionalProperty entries (on the prov:used NXinstrument entity and the schema:object sample respectively; see description.md for the propertyID vocabularies). Present only when the corresponding measurements exist.",
   "type": "object",
   "properties": {
     "@context": {
@@ -101,7 +101,7 @@
                                   "xas:samplechemicalcomposition",
                                   "xas:samplematerial",
                                   "xas:samplepreparation",
-                                  "xas:temperature",
+                                  "nxs:base_classes/NXsample.html#nxsample-temperature-field",
                                   "xas:viscosity",
                                   "xas:volume",
                                   "nxs:Field/NXsample/mass",
@@ -123,7 +123,7 @@
             "type": "array",
             "items": {
               "if": {
-                "description": "When this peer prov:used entry's instrument is a beamline (schema:additionalType contains xas:beamline), its schema:additionalProperty entries SHOULD use the XDI Beamline vocabulary (XDI-CDIF-Mapping.xlsx rows 10-20, excluding Beamline.name which maps to schema:name).",
+                "description": "When this peer prov:used entry's instrument is a beamline (schema:additionalType contains the NXinstrument class), its schema:additionalProperty entries SHOULD use the XDI Beamline vocabulary (XDI-CDIF-Mapping.xlsx rows 10-20, excluding Beamline.name which maps to schema:name).",
                 "properties": {
                   "schema:instrument": {
                     "type": "array",
@@ -140,7 +140,7 @@
                               ],
                               "properties": {
                                 "@id": {
-                                  "const": "xas:beamline"
+                                  "const": "nxs:base_classes/NXinstrument.html"
                                 }
                               }
                             },
@@ -154,7 +154,7 @@
                                 ],
                                 "properties": {
                                   "@id": {
-                                    "const": "xas:beamline"
+                                    "const": "nxs:base_classes/NXinstrument.html"
                                   }
                                 }
                               }

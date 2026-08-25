@@ -29,7 +29,7 @@ Optional `schema:PropertyValue` entries carried on the material sample
 (`prov:wasGeneratedBy → schema:object`, an `xasSample`). Permitted `schema:propertyID` values
 (open-world):
 
-`xas:temperature`, `xas:pressure`, `xas:ph`, `xas:eh`, `xas:concentration`, `xas:density`,
+the NeXus `NXsample/temperature` field, `xas:pressure`, `xas:ph`, `xas:eh`, `xas:concentration`, `xas:density`,
 `xas:viscosity`, `xas:porosity`, `xas:opacity`, `xas:resistivity`, `xas:magnetic_field`,
 `xas:magnetic_moment`, `xas:electric_field`, `xas:electrochemical_potential`, `xas:volume`.
 

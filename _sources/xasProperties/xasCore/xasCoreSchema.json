@@ -64,10 +64,10 @@
                         "properties": {
                             "prov:used": {
                                 "type": "array",
-                                "description": "Array of instrument-wrapper entries used by the analysis. Under the peer prov:used model each instrument (source, beamline, monochromator, monitor, ...) is its own top-level wrapper differentiated by schema:instrument.schema:additionalType. An x-ray source (with type and probe properties) and a monochromator (with crystal type, d_spacing, and reflection plane properties) are required here; xas:beamline and the monochromator d_spacing schema:value are additionally required by xasGeneratedBy.",
+                                "description": "Array of instrument-wrapper entries used by the analysis. Under the peer prov:used model each instrument (source, beamline, monochromator, monitor, ...) is its own top-level wrapper differentiated by schema:instrument.schema:additionalType. An x-ray source (with type and probe properties) and a monochromator (with crystal type, d_spacing, and reflection plane properties) are required here; the NXinstrument-typed beamline and the monochromator d_spacing schema:value are additionally required by xasGeneratedBy.",
                                 "allOf": [
                                     {
-                                        "description": "Must contain a peer wrapper whose schema:instrument is classified as xas:source and carries schema:additionalProperty entries for xas:xraysourcetype and xas:probe (each with a schema:value; the probe entry is also named \"Probe\").",
+                                        "description": "Must contain a peer wrapper whose schema:instrument is classified as xas:source and carries schema:additionalProperty entries for the NXsource type and probe fields (each with a schema:value; the probe entry is also named \"Probe\").",
                                         "contains": {
                                             "type": "object",
                                             "required": [
@@ -139,7 +139,7 @@
                                                                                         ],
                                                                                         "properties": {
                                                                                             "@id": {
-                                                                                                "const": "xas:xraysourcetype"
+                                                                                                "const": "nxs:base_classes/NXsource.html#nxsource-type-field"
                                                                                             }
                                                                                         }
                                                                                     }
@@ -169,7 +169,7 @@
                                                                                         ],
                                                                                         "properties": {
                                                                                             "@id": {
-                                                                                                "const": "xas:probe"
+                                                                                                "const": "nxs:base_classes/NXsource.html#nxsource-probe-field"
                                                                                             }
                                                                                         }
                                                                                     }
