@@ -158,11 +158,6 @@ Example documentation for x-ray absorption facility, based on schema.org Place
 
 ex:xasfacility_37yht a schema1:Place ;
     schema1:additionalProperty [ a schema1:PropertyValue ;
-            schema1:name "Facility current" ;
-            schema1:propertyID xas:facilitycurrent ;
-            schema1:unitText "Amps" ;
-            schema1:value "120" ],
-        [ a schema1:PropertyValue ;
             schema1:name "X-ray Source" ;
             schema1:propertyID xas:xraysourcetype ;
             schema1:value "APS bending magnet" ],
@@ -170,7 +165,12 @@ ex:xasfacility_37yht a schema1:Place ;
             schema1:name "Facility energy" ;
             schema1:propertyID xas:facilityenergy ;
             schema1:unitText "GeV" ;
-            schema1:value "7.00" ] ;
+            schema1:value "7.00" ],
+        [ a schema1:PropertyValue ;
+            schema1:name "Facility current" ;
+            schema1:propertyID xas:facilitycurrent ;
+            schema1:unitText "Amps" ;
+            schema1:value "120" ] ;
     schema1:additionalType xas:facility ;
     schema1:identifier "https://ror.org/aps" ;
     schema1:name "APS" .
@@ -183,61 +183,60 @@ ex:xasfacility_37yht a schema1:Place ;
 ```yaml
 $schema: https://json-schema.org/draft/2020-12/schema
 title: definitions a Facility location, type schema:Place
-type: object
-properties:
-  '@id':
-    type: string
-  '@type':
-    type: array
-    items:
+description: 'The facility where XAS data was acquired: a synchrotron, X-ray free
+  electron laser, or laboratory.
+
+  Extends the core CDIF spatialExtent (schema:Place) rather than redeclaring it. A
+  facility is an ordinary CDIF place that happens to be classified as a facility,
+  so it should be described by the same block as any other place; the only thing this
+  block adds is the requirement that schema:additionalType classify it.
+
+  Redeclaring meant this block described four of spatialExtent''s properties and silently
+  ignored the rest: schema:geo, geosparql: hasGeometry and schema:alternateName were
+  accepted on a facility but never validated, so a facility whose coordinates were
+  an unparseable string passed. Composing the core block instead constrains them.
+
+  geochemBuildingBlocks composes the same core block for its laboratory building block,
+  so both profiles now describe this kind of place the same way. They still differ
+  on the classification term -- that block uses a NeXus base class where this one
+  uses xas:facility -- which is a separate question from where the place structure
+  comes from.'
+allOf:
+- $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/spatialExtent/schema.yaml
+- type: object
+  properties:
+    '@id':
       type: string
-    contains:
-      const: schema:Place
-    minItems: 1
-  schema:additionalType:
-    type: array
-    items:
-      anyOf:
-      - type: string
-      - type: object
+    schema:additionalType:
+      description: 'Must classify the place as an XAS facility. The value is a sealed
+        reference ({"@id": ...}) per the CDIF convention for a term defined elsewhere;
+        the core block also permits a bare string or an inline DefinedTerm for other
+        classifications carried alongside this one.'
+      contains:
+        type: object
         additionalProperties: false
         required:
         - '@id'
         properties:
           '@id':
-            type: string
-    contains:
-      type: object
-      additionalProperties: false
-      required:
-      - '@id'
-      properties:
-        '@id':
-          const: xas:facility
-    minItems: 1
-    x-jsonld-id: http://schema.org/additionalType
-  schema:identifier:
-    anyOf:
-    - type: string
-    - $ref: '#/$defs/Identifier'
-    x-jsonld-id: http://schema.org/identifier
-  schema:name:
-    type: string
-    x-jsonld-id: http://schema.org/name
-  schema:additionalProperty:
-    type: array
-    items:
-      $ref: '#/$defs/AdditionalProperty'
-    x-jsonld-id: http://schema.org/additionalProperty
-required:
-- '@type'
-- schema:additionalType
-- schema:name
+            const: xas:facility
+      minItems: 1
+      x-jsonld-id: http://schema.org/additionalType
+    schema:additionalProperty:
+      description: Facility-scope properties that are not places, e.g. storage-ring
+        energy or current. Not offered by the core block, which describes a location
+        rather than an operating machine.
+      type: array
+      items:
+        $ref: '#/$defs/AdditionalProperty'
+      x-jsonld-id: http://schema.org/additionalProperty
+  required:
+  - '@type'
+  - schema:additionalType
+  - schema:name
 $defs:
   AdditionalProperty:
     $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/additionalProperty/schema.yaml
-  Identifier:
-    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/identifier/schema.yaml
 x-jsonld-prefixes:
   schema: http://schema.org/
   xas: https://w3id.org/cdif/xas/
