@@ -5598,259 +5598,33 @@
             "description": "Date/time the XAS analysis finished"
           },
           "schema:location": {
-            "description": "Where the activity occurred",
+            "description": "The facility where XAS data was acquired: a synchrotron, X-ray free electron laser, or laboratory.\nExtends the core CDIF spatialExtent (schema:Place) rather than redeclaring it. A facility is an ordinary CDIF place that happens to be classified as a facility, so it should be described by the same block as any other place; the only thing this block adds is the requirement that schema:additionalType classify it.\nRedeclaring meant this block described four of spatialExtent's properties and silently ignored the rest: schema:geo, geosparql: hasGeometry and schema:alternateName were accepted on a facility but never validated, so a facility whose coordinates were an unparseable string passed. Composing the core block instead constrains them.\ngeochemBuildingBlocks composes the same core block for its laboratory building block, so both profiles now describe this kind of place the same way. They still differ on the classification term -- that block uses a NeXus base class where this one uses xas:facility -- which is a separate question from where the place structure comes from.",
             "anyOf": [
               {
-                "description": "Spatial Extent description for CDIF discovery profile.  Note required prefix declaration for geoSparql ( http://www.opengis.net/ont/geosparql#) and OGC simple features (sf: http://www.opengis.net/ont/sf#)",
-                "type": "object",
-                "properties": {
-                  "@type": {
-                    "default": "schema:Place",
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "enum": [
-                        "schema:Place"
-                      ]
-                    }
-                  },
-                  "schema:additionalType": {
-                    "description": "Domain-specific type classifications for this place (e.g. facility type,laboratory classification, feature type).",
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "description": "Additional type URI or label"
-                    }
-                  },
-                  "schema:name": {
-                    "description": "A place name for the location, either as a string or a DefinedTerm from a gazetteer.",
-                    "anyOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
-                        "type": "object",
-                        "properties": {
-                          "@type": {
-                            "type": "array",
-                            "items": {
-                              "type": "string",
-                              "enum": [
-                                "schema:DefinedTerm"
-                              ]
-                            }
-                          },
-                          "schema:name": {
-                            "type": "string",
-                            "description": "text label for the term that is useful to human user"
-                          },
-                          "schema:identifier": {
-                            "type": "string",
-                            "description": "Identifier"
-                          },
-                          "schema:inDefinedTermSet": {
-                            "description": "The controlled vocabulary responsible for this keyword, as EITHER a plain URI string identifying the vocabulary, OR an object reference ({\"@id\": \"<uri>\"}) to a vocabulary defined elsewhere in the document. Both forms are already in use across CDIF profiles and downstream ADA building blocks; permitting only the string form made the object form - the natural JSON-LD spelling of a reference - invalid, while this class's own union-type policy above explicitly anticipates both.",
-                            "anyOf": [
-                              {
-                                "type": "string"
-                              },
-                              {
-                                "type": "object",
-                                "required": [
-                                  "@id"
-                                ],
-                                "additionalProperties": false,
-                                "properties": {
-                                  "@id": {
-                                    "type": "string"
-                                  }
-                                }
-                              }
-                            ]
-                          },
-                          "schema:termCode": {
-                            "type": "string",
-                            "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
-                          }
-                        },
-                        "required": [
-                          "@type"
-                        ]
-                      }
-                    ]
-                  },
-                  "schema:identifier": {
-                    "type": "string",
-                    "description": "Formal identifier for this place (e.g. ROR identifier for a facility)."
-                  },
-                  "schema:alternateName": {
-                    "description": "Alternate or abbreviated name(s) for this place.",
-                    "type": "array",
-                    "items": {
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
-                          "type": "object",
-                          "properties": {
-                            "@type": {
-                              "type": "array",
-                              "items": {
-                                "type": "string",
-                                "enum": [
-                                  "schema:DefinedTerm"
-                                ]
-                              }
-                            },
-                            "schema:name": {
-                              "type": "string",
-                              "description": "text label for the term that is useful to human user"
-                            },
-                            "schema:identifier": {
-                              "type": "string",
-                              "description": "Identifier"
-                            },
-                            "schema:inDefinedTermSet": {
-                              "description": "The controlled vocabulary responsible for this keyword, as EITHER a plain URI string identifying the vocabulary, OR an object reference ({\"@id\": \"<uri>\"}) to a vocabulary defined elsewhere in the document. Both forms are already in use across CDIF profiles and downstream ADA building blocks; permitting only the string form made the object form - the natural JSON-LD spelling of a reference - invalid, while this class's own union-type policy above explicitly anticipates both.",
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "object",
-                                  "required": [
-                                    "@id"
-                                  ],
-                                  "additionalProperties": false,
-                                  "properties": {
-                                    "@id": {
-                                      "type": "string"
-                                    }
-                                  }
-                                }
-                              ]
-                            },
-                            "schema:termCode": {
-                              "type": "string",
-                              "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
-                            }
-                          },
-                          "required": [
-                            "@type"
-                          ]
-                        }
-                      ]
-                    }
-                  },
-                  "schema:geo": {
-                    "type": "object",
-                    "description": "Either a bounding box or a point location.",
-                    "properties": {
-                      "@type": {
-                        "type": "string",
-                        "default": "schema:GeoShape"
-                      },
-                      "schema:box": {
-                        "type": "string",
-                        "description": "Bounding box as 'south west north east'"
-                      }
-                    }
-                  },
-                  "geosparql:hasGeometry": {
-                    "type": "object",
-                    "description": "Optional geographic extent using wkt geometry, see Ocean InfoHub (https://book.oceaninfohub.org/thematics/spatial/README.html#simple-geosparql-wkt). Other geometry schemes might be specified in a specific domain profile, e.g. for atmospheric, subsurface data, or local coordinate systems. NOTE that the location specified here should be the same as the schema.org point or contained within the specified bounding box.",
-                    "properties": {
-                      "@type": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        },
-                        "description": "MUST be sf: (<http://www.opengis.net/ont/sf#>) SimpleFeature geometry type. See https://opengeospatial.github.io/ogc-geosparql/geosparql11/sf_geometries.ttl"
-                      },
-                      "geosparql:asWKT": {
-                        "type": "object",
-                        "properties": {
-                          "@type": {
-                            "type": "array",
-                            "items": {
-                              "type": "string",
-                              "enum": [
-                                "geosparql:wktLiteral"
-                              ]
-                            }
-                          },
-                          "@value": {
-                            "type": "string",
-                            "description": "a WKT geometry description string, e.g. 'POINT(-76 -18)'"
-                          }
-                        }
-                      },
-                      "geosparql:crs": {
-                        "type": "object",
-                        "required": [
-                          "@id"
-                        ],
-                        "additionalProperties": false,
-                        "properties": {
-                          "@id": {
-                            "type": "string",
-                            "description": "identifier string for coordinate reference system, e.g., 'CRS84'"
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "anyOf": [
-                  {
-                    "required": [
-                      "schema:name"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "schema:identifier"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "schema:geo"
-                    ]
-                  },
-                  {
-                    "required": [
-                      "geosparql:hasGeometry"
-                    ]
-                  }
+                "required": [
+                  "schema:name"
                 ]
               },
               {
-                "type": "string"
+                "required": [
+                  "schema:identifier"
+                ]
               },
               {
-                "type": "object",
                 "required": [
-                  "@id"
-                ],
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string",
-                    "description": "reference to a place defined elsewhere"
-                  }
-                }
+                  "schema:geo"
+                ]
+              },
+              {
+                "required": [
+                  "geosparql:hasGeometry"
+                ]
               }
             ],
             "title": "definitions a Facility location, type schema:Place",
-            "type": "object",
             "properties": {
-              "@id": {
-                "type": "string"
-              },
               "@type": {
+                "default": "schema:Place",
                 "type": "array",
                 "items": {
                   "type": "string",
@@ -5860,20 +5634,199 @@
                 }
               },
               "schema:additionalType": {
+                "description": "Must classify the place as an XAS facility. The value is a sealed reference ({\"@id\": ...}) per the CDIF convention for a term defined elsewhere; the core block also permits a bare string or an inline DefinedTerm for other classifications carried alongside this one.",
                 "type": "array",
                 "items": {
                   "type": "string",
                   "description": "Additional type URI or label"
                 }
               },
+              "schema:name": {
+                "description": "A place name for the location, either as a string or a DefinedTerm from a gazetteer.",
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
+                    "type": "object",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "schema:DefinedTerm"
+                          ]
+                        }
+                      },
+                      "schema:name": {
+                        "type": "string",
+                        "description": "text label for the term that is useful to human user"
+                      },
+                      "schema:identifier": {
+                        "type": "string",
+                        "description": "Identifier"
+                      },
+                      "schema:inDefinedTermSet": {
+                        "description": "The controlled vocabulary responsible for this keyword, as EITHER a plain URI string identifying the vocabulary, OR an object reference ({\"@id\": \"<uri>\"}) to a vocabulary defined elsewhere in the document. Both forms are already in use across CDIF profiles and downstream ADA building blocks; permitting only the string form made the object form - the natural JSON-LD spelling of a reference - invalid, while this class's own union-type policy above explicitly anticipates both.",
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "object",
+                            "required": [
+                              "@id"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                              "@id": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      "schema:termCode": {
+                        "type": "string",
+                        "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                      }
+                    },
+                    "required": [
+                      "@type"
+                    ]
+                  }
+                ]
+              },
               "schema:identifier": {
                 "type": "string",
-                "description": "Identifier"
+                "description": "Formal identifier for this place (e.g. ROR identifier for a facility)."
               },
-              "schema:name": {
+              "schema:alternateName": {
+                "description": "Alternate or abbreviated name(s) for this place.",
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "description": "schema.org Defined Term schema.\n\n**Union-type policy:** In CDIF profile UML models an attribute typed as\nschema:DefinedTerm is represented by a single attribute of that class type.\nThe JSON Schema implementation permits the property value to be EITHER a\nplain string (interpreted as schema:name or schema:termCode in the default\nvocabulary) OR a full schema:DefinedTerm object (with explicit @type, name,\nidentifier, termCode, inDefinedTermSet). Consumers should accept either form.\n\nNote that this differs from the cdif Concept policy: a Concept (skos:Concept)\nin CDIF profiles MUST be a controlled-vocabulary entry (object form or\n@id-reference) — plain strings are not permitted for Concept-typed values\nbecause vocabulary identity cannot be recovered from an unscoped label.\n",
+                      "type": "object",
+                      "properties": {
+                        "@type": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "schema:DefinedTerm"
+                            ]
+                          }
+                        },
+                        "schema:name": {
+                          "type": "string",
+                          "description": "text label for the term that is useful to human user"
+                        },
+                        "schema:identifier": {
+                          "type": "string",
+                          "description": "Identifier"
+                        },
+                        "schema:inDefinedTermSet": {
+                          "description": "The controlled vocabulary responsible for this keyword, as EITHER a plain URI string identifying the vocabulary, OR an object reference ({\"@id\": \"<uri>\"}) to a vocabulary defined elsewhere in the document. Both forms are already in use across CDIF profiles and downstream ADA building blocks; permitting only the string form made the object form - the natural JSON-LD spelling of a reference - invalid, while this class's own union-type policy above explicitly anticipates both.",
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object",
+                              "required": [
+                                "@id"
+                              ],
+                              "additionalProperties": false,
+                              "properties": {
+                                "@id": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "schema:termCode": {
+                          "type": "string",
+                          "description": "A representative code for this keyword in the controlled vocabulary. Analogous to skos:Notation"
+                        }
+                      },
+                      "required": [
+                        "@type"
+                      ]
+                    }
+                  ]
+                }
+              },
+              "schema:geo": {
+                "type": "object",
+                "description": "Either a bounding box or a point location.",
+                "properties": {
+                  "@type": {
+                    "type": "string",
+                    "default": "schema:GeoShape"
+                  },
+                  "schema:box": {
+                    "type": "string",
+                    "description": "Bounding box as 'south west north east'"
+                  }
+                }
+              },
+              "geosparql:hasGeometry": {
+                "type": "object",
+                "description": "Optional geographic extent using wkt geometry, see Ocean InfoHub (https://book.oceaninfohub.org/thematics/spatial/README.html#simple-geosparql-wkt). Other geometry schemes might be specified in a specific domain profile, e.g. for atmospheric, subsurface data, or local coordinate systems. NOTE that the location specified here should be the same as the schema.org point or contained within the specified bounding box.",
+                "properties": {
+                  "@type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "MUST be sf: (<http://www.opengis.net/ont/sf#>) SimpleFeature geometry type. See https://opengeospatial.github.io/ogc-geosparql/geosparql11/sf_geometries.ttl"
+                  },
+                  "geosparql:asWKT": {
+                    "type": "object",
+                    "properties": {
+                      "@type": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "geosparql:wktLiteral"
+                          ]
+                        }
+                      },
+                      "@value": {
+                        "type": "string",
+                        "description": "a WKT geometry description string, e.g. 'POINT(-76 -18)'"
+                      }
+                    }
+                  },
+                  "geosparql:crs": {
+                    "type": "object",
+                    "required": [
+                      "@id"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "@id": {
+                        "type": "string",
+                        "description": "identifier string for coordinate reference system, e.g., 'CRS84'"
+                      }
+                    }
+                  }
+                }
+              },
+              "@id": {
                 "type": "string"
               },
               "schema:additionalProperty": {
+                "description": "Facility-scope properties that are not places, e.g. storage-ring energy or current. Not offered by the core block, which describes a location rather than an operating machine.",
                 "type": "array",
                 "items": {
                   "type": "object",
@@ -6049,6 +6002,7 @@
                 }
               }
             },
+            "type": "object",
             "required": [
               "@type",
               "schema:additionalType",
@@ -8210,96 +8164,6 @@
     }
   },
   "$defs": {
-    "StatisticsCollection": {
-      "title": "StatisticsCollection",
-      "description": "Groups one or more Statistics nodes for an instance variable. A typical use is a dataset-level collection holding row-count / mean / stddev Statistics for each measured variable.",
-      "type": "object",
-      "properties": {
-        "@id": {
-          "type": "string",
-          "description": "Identifier for this StatisticsCollection node."
-        },
-        "@type": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": [
-              "cdi:StatisticsCollection"
-            ]
-          }
-        },
-        "cdi:hasWeight": {
-          "description": "The InstanceVariable whose values were used as weights (inline cdifInstanceVariable node or an @id-reference).",
-          "anyOf": [
-            {
-              "$ref": "#/$defs/CdifInstanceVariable"
-            },
-            {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "@id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "@id"
-              ]
-            }
-          ]
-        },
-        "cdif:has_Statistics": {
-          "type": "array",
-          "description": "Statistics nodes carried by this collection (inline or @id-ref). cdif: namespaced and target-suffixed because the DDI-CDI cdi:has association is polymorphic.",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/Statistics"
-              },
-              {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              }
-            ]
-          }
-        },
-        "cdif:indexedBy": {
-          "type": "array",
-          "description": "CDIF addition (not in canonical DDI-CDI): the InstanceVariable(s) the contained Statistics index — the collection-level coordinate space. Marks the collection as per-variable-scoped: a StatisticsCollection carrying `cdif:indexedBy` MUST be attached via `schema:variableMeasured[i].cdif:isDescribedBy_StatisticsCollection` on one of the indexed variables, NOT at Dataset level via `cdif:statistics` (which is reserved for genuinely dataset-scope aggregates like row count).",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/$defs/CdifInstanceVariable"
-              },
-              {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              }
-            ]
-          }
-        }
-      },
-      "required": [
-        "@type",
-        "cdif:has_Statistics"
-      ]
-    },
     "CategoryStatistics": {
       "title": "CategoryStatistics",
       "description": "Statistics for a specific Category of an instance variable within a data set.",
@@ -8514,6 +8378,96 @@
         "@type",
         "cdi:for",
         "cdi:statistic"
+      ]
+    },
+    "StatisticsCollection": {
+      "title": "StatisticsCollection",
+      "description": "Groups one or more Statistics nodes for an instance variable. A typical use is a dataset-level collection holding row-count / mean / stddev Statistics for each measured variable.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "Identifier for this StatisticsCollection node."
+        },
+        "@type": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "cdi:StatisticsCollection"
+            ]
+          }
+        },
+        "cdi:hasWeight": {
+          "description": "The InstanceVariable whose values were used as weights (inline cdifInstanceVariable node or an @id-reference).",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CdifInstanceVariable"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "@id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "@id"
+              ]
+            }
+          ]
+        },
+        "cdif:has_Statistics": {
+          "type": "array",
+          "description": "Statistics nodes carried by this collection (inline or @id-ref). cdif: namespaced and target-suffixed because the DDI-CDI cdi:has association is polymorphic.",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Statistics"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              }
+            ]
+          }
+        },
+        "cdif:indexedBy": {
+          "type": "array",
+          "description": "CDIF addition (not in canonical DDI-CDI): the InstanceVariable(s) the contained Statistics index — the collection-level coordinate space. Marks the collection as per-variable-scoped: a StatisticsCollection carrying `cdif:indexedBy` MUST be attached via `schema:variableMeasured[i].cdif:isDescribedBy_StatisticsCollection` on one of the indexed variables, NOT at Dataset level via `cdif:statistics` (which is reserved for genuinely dataset-scope aggregates like row count).",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/CdifInstanceVariable"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "@type",
+        "cdif:has_Statistics"
       ]
     },
     "cdifConcept": {
@@ -9327,92 +9281,6 @@
         "skos:prefLabel",
         "skos:definition",
         "skos:inScheme"
-      ]
-    },
-    "CdifCodelistConcept": {
-      "description": "A SKOS Concept constrained for CDIF codelist use. Must have a resolvable @id, skos:inScheme, skos:notation, and skos:prefLabel. Becasue JSON-LD is an open-world implementation, any other skos properties may be included.",
-      "type": "object",
-      "properties": {
-        "@id": {
-          "type": "string",
-          "description": "Globally unique, resolvable URI for this concept."
-        },
-        "skos:inScheme": {
-          "description": "The concept scheme this concept belongs to. Required for CDIF codelist concepts.",
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "@id": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "@id"
-            ]
-          }
-        },
-        "skos:prefLabel": {
-          "description": "Preferred lexical label for this concept. A single string,\na single language-tagged value, or an array of language-tagged values.\nEach language should appear at most once.\n\n**Uniqueness rule.** Each language should appear at most once in the\nset of prefLabel values. Two prefLabel values with duplicate `@language`\ntags are non-conformant. Consumers may reject or arbitrarily pick one.\n\n**Relationship to skos:altLabel.** Alternate labels (acronyms,\nspelling variants, obsolete names) go on `skos:altLabel`, NOT on\n`prefLabel`. A concept has exactly one preferred label per language.\n",
-          "type": "string"
-        },
-        "skos:notation": {
-          "description": "Classification code for this concept within a scheme.",
-          "type": "string"
-        },
-        "skos:definition": {
-          "description": "Formal definition of this concept. Optional for CDIF codelist concepts. A plain string.",
-          "type": "string"
-        },
-        "skos:narrower": {
-          "description": "Narrower (child) concepts. If present, each inline concept must also declare skos:broader pointing back to the parent concept. Both skos:narrower and skos:broader must be explicit in CDIF codelists.",
-          "type": "array",
-          "items": {
-            "anyOf": [
-              {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "@id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "@id"
-                ]
-              },
-              {
-                "$ref": "#/$defs/CdifCodelistConcept",
-                "required": [
-                  "skos:broader"
-                ]
-              }
-            ]
-          }
-        },
-        "skos:broader": {
-          "description": "Broader (parent) concepts. Required on any concept that appears as a skos:narrower value of another concept. CDIF requires both directions to be explicit for hierarchy traversal.",
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "@id": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "@id"
-            ]
-          }
-        }
-      },
-      "required": [
-        "@id",
-        "skos:inScheme",
-        "skos:prefLabel",
-        "skos:notation"
       ]
     },
     "Statistics": {
@@ -10388,6 +10256,92 @@
         "schema:name"
       ],
       "description": "Schema.org PropertyValue-based variableMeasured. Defines properties for a measured variable in a dataset, typed as schema:PropertyValue."
+    },
+    "CdifCodelistConcept": {
+      "description": "A SKOS Concept constrained for CDIF codelist use. Must have a resolvable @id, skos:inScheme, skos:notation, and skos:prefLabel. Becasue JSON-LD is an open-world implementation, any other skos properties may be included.",
+      "type": "object",
+      "properties": {
+        "@id": {
+          "type": "string",
+          "description": "Globally unique, resolvable URI for this concept."
+        },
+        "skos:inScheme": {
+          "description": "The concept scheme this concept belongs to. Required for CDIF codelist concepts.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "@id"
+            ]
+          }
+        },
+        "skos:prefLabel": {
+          "description": "Preferred lexical label for this concept. A single string,\na single language-tagged value, or an array of language-tagged values.\nEach language should appear at most once.\n\n**Uniqueness rule.** Each language should appear at most once in the\nset of prefLabel values. Two prefLabel values with duplicate `@language`\ntags are non-conformant. Consumers may reject or arbitrarily pick one.\n\n**Relationship to skos:altLabel.** Alternate labels (acronyms,\nspelling variants, obsolete names) go on `skos:altLabel`, NOT on\n`prefLabel`. A concept has exactly one preferred label per language.\n",
+          "type": "string"
+        },
+        "skos:notation": {
+          "description": "Classification code for this concept within a scheme.",
+          "type": "string"
+        },
+        "skos:definition": {
+          "description": "Formal definition of this concept. Optional for CDIF codelist concepts. A plain string.",
+          "type": "string"
+        },
+        "skos:narrower": {
+          "description": "Narrower (child) concepts. If present, each inline concept must also declare skos:broader pointing back to the parent concept. Both skos:narrower and skos:broader must be explicit in CDIF codelists.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "@id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "@id"
+                ]
+              },
+              {
+                "$ref": "#/$defs/CdifCodelistConcept",
+                "required": [
+                  "skos:broader"
+                ]
+              }
+            ]
+          }
+        },
+        "skos:broader": {
+          "description": "Broader (parent) concepts. Required on any concept that appears as a skos:narrower value of another concept. CDIF requires both directions to be explicit for hierarchy traversal.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "@id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "@id"
+            ]
+          }
+        }
+      },
+      "required": [
+        "@id",
+        "skos:inScheme",
+        "skos:prefLabel",
+        "skos:notation"
+      ]
     }
   },
   "required": [
