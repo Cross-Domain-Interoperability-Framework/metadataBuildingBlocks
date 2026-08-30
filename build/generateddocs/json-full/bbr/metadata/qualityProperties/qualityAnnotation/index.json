@@ -1,0 +1,118 @@
+
+
+{
+  "itemIdentifier": "cdif.bbr.metadata.qualityProperties.qualityAnnotation",
+  "$schema": "metaschema.yaml",
+  "name": "Quality annotation properties",
+  "abstract": "Schema defining properties for a narrative or categorical data quality annotation associated with a resource -- a compliance statement, a rating, or a quality certificate, as distinct from a quantitative quality measurement. Defines properties: @type, oa:hasBody, oa:motivatedBy, oa:hasTarget. Uses building blocks: definedTerm (schemaorgProperties).",
+  "status": "under-development",
+  "dateTimeAddition": "2026-08-29T00:00:00Z",
+  "itemClass": "schema",
+  "register": "cdif-building-block-register",
+  "version": "0.1",
+  "dateOfLastChange": "2026-08-30",
+  "link": "https://github.com/opengeospatial/bblock-template",
+  "sources": [
+    {
+      "title": "Data Quality Vocabulary (DQV) -- Quality Annotation",
+      "link": "https://www.w3.org/TR/vocab-dqv/#dqv:QualityAnnotation"
+    }
+  ],
+  "maturity": "draft",
+  "scope": "unstable",
+  "tags": [
+    "CDIF",
+    "metadata"
+  ],
+  "shaclShapes": {
+    "cdif.bbr.metadata.qualityProperties.qualityAnnotation": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/qualityProperties/qualityAnnotation/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/definedTerm/rules.shacl"
+    ],
+    "cdif.bbr.metadata.schemaorgProperties.identifier": [
+      "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/schemaorgProperties/identifier/rules.shacl"
+    ]
+  },
+  "dependsOn": [
+    "cdif.bbr.metadata.schemaorgProperties.definedTerm"
+  ],
+  "ldContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityAnnotation/context.jsonld",
+  "schema": {
+    "application/yaml": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityAnnotation/schema.yaml",
+    "application/json": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityAnnotation/schema.json"
+  },
+  "sourceSchema": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/qualityProperties/qualityAnnotation/schema.yaml",
+  "sourceLdContext": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/qualityProperties/qualityAnnotation/context.jsonld",
+  "resolvedSchemaProperties": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityAnnotation/resolvedProperties.json",
+  "sourceFiles": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/qualityProperties/qualityAnnotation/",
+  "validationPassed": true,
+  "testOutputs": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks/blob/main/build/tests/bbr/metadata/qualityProperties/qualityAnnotation/",
+  "description": "## Quality annotation properties\n\nDefines a set of properties for attaching a **quality annotation** to a resource in the schema.org implementation of the [Cross Domain Interoperability Framework](https://cross-domain-interoperability-framework.github.io/cdifbook/metadata/schemaorgimplementation.html#implementation-of-metadata-content-items) (CDIF) discovery profile.\n\nA quality annotation is a *narrative or categorical* quality statement \u2014 a standards-compliance note, a rating, or a quality certificate \u2014 as distinct from a `dqv:QualityMeasurement`, which reports a *quantitative* value against a named metric. Use a quality **measure** when there is a metric and a measured result (e.g. positional accuracy = 4.2 m); use a quality **annotation** when the quality assertion is a statement or a categorical outcome that does not reduce to a metric/value pair (e.g. \"compliant with ISO 19115\", or a certification level).\n\n`dqv:QualityAnnotation` is a subclass of the [Web Annotation](https://www.w3.org/TR/annotation-model/) `oa:Annotation`, so this building block follows the DQV pattern rather than inventing new terms:\n\n- **`oa:hasBody`** *(required)* \u2014 the content of the annotation: a free-text statement, a `schema:DefinedTerm` for a categorical outcome (a certification level, a pass/fail rating from a controlled vocabulary), or an `@id` reference to a separate body resource.\n- **`oa:motivatedBy`** *(recommended)* \u2014 why the annotation was made. For quality annotations this is normally the DQV instance `dqv:qualityAssessment`; any motivation IRI or Defined Term is accepted.\n- **`oa:hasTarget`** *(optional)* \u2014 the resource the annotation is about. When omitted, the annotation is about the resource that carries it (typically the `schema:Dataset`).\n\nThe annotation is attached to the described resource with `dqv:hasQualityAnnotation`.\n\n### Relationship to DDI Codebook\n\nDDI Codebook 2.5 `stdyInfo/qualityStatement` maps here: `standardsCompliance/complianceDescription` and `otherQualityStatement` become the `oa:hasBody` of a quality annotation, while `standardsCompliance/standard/standardName` \u2014 a machine-actionable claim of conformance to a named standard \u2014 is better expressed as `dcterms:conformsTo` on the dataset than as a free-text annotation.\n",
+  "examples": [
+    {
+      "title": "Standards-compliance quality annotation.",
+      "content": "A narrative quality annotation asserting that the dataset's metadata conform to ISO 19115.\nThe compliance statement is the annotation body; the motivation is dqv:qualityAssessment.",
+      "prefixes": {
+        "schema": "http://schema.org/",
+        "dqv": "http://www.w3.org/ns/dqv#",
+        "oa": "http://www.w3.org/ns/oa#"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/qualityProperties/qualityAnnotation/exampleQualityAnnotation.json",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/qualityProperties/qualityAnnotation/example_1_1.json",
+          "sizeBytes": 455,
+          "code": "{\n  \"@type\": [\n    \"dqv:QualityAnnotation\"\n  ],\n  \"schema:name\": \"ISO 19115 compliance statement\",\n  \"oa:motivatedBy\": {\n    \"@id\": \"dqv:qualityAssessment\"\n  },\n  \"oa:hasBody\": \"Metadata for this dataset were prepared and validated against ISO 19115-1:2014. All mandatory elements are populated and the record passed the national profile conformance check on 2024-03-11.\",\n  \"oa:hasTarget\": {\n    \"@id\": \"https://example.org/dataset/soil-chem-2024\"\n  }\n}\n"
+        },
+        {
+          "language": "jsonld",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/qualityProperties/qualityAnnotation/example_1_1.jsonld",
+          "sizeBytes": 774,
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\",\n      \"dqv\": \"http://www.w3.org/ns/dqv#\",\n      \"oa\": \"http://www.w3.org/ns/oa#\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityAnnotation/context.jsonld\"\n  ],\n  \"@type\": [\n    \"dqv:QualityAnnotation\"\n  ],\n  \"schema:name\": \"ISO 19115 compliance statement\",\n  \"oa:motivatedBy\": {\n    \"@id\": \"dqv:qualityAssessment\"\n  },\n  \"oa:hasBody\": \"Metadata for this dataset were prepared and validated against ISO 19115-1:2014. All mandatory elements are populated and the record passed the national profile conformance check on 2024-03-11.\",\n  \"oa:hasTarget\": {\n    \"@id\": \"https://example.org/dataset/soil-chem-2024\"\n  }\n}"
+        },
+        {
+          "language": "ttl",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/qualityProperties/qualityAnnotation/example_1_1.ttl",
+          "sizeBytes": 526,
+          "code": "@prefix dqv: <http://www.w3.org/ns/dqv#> .\n@prefix oa: <http://www.w3.org/ns/oa#> .\n@prefix schema1: <http://schema.org/> .\n\n[] a dqv:QualityAnnotation ;\n    schema1:name \"ISO 19115 compliance statement\" ;\n    oa:hasBody \"Metadata for this dataset were prepared and validated against ISO 19115-1:2014. All mandatory elements are populated and the record passed the national profile conformance check on 2024-03-11.\" ;\n    oa:hasTarget <https://example.org/dataset/soil-chem-2024> ;\n    oa:motivatedBy dqv:qualityAssessment .\n\n"
+        }
+      ]
+    },
+    {
+      "title": "Quality annotation carrying a categorical rating.",
+      "content": "A quality annotation whose body is a schema:DefinedTerm rather than free text \u2014 here an Open\nData certification level from a controlled vocabulary, the categorical counterpart of the\nnarrative statement above.",
+      "prefixes": {
+        "schema": "http://schema.org/",
+        "dqv": "http://www.w3.org/ns/dqv#",
+        "oa": "http://www.w3.org/ns/oa#"
+      },
+      "snippets": [
+        {
+          "language": "json",
+          "ref": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/_sources/qualityProperties/qualityAnnotation/exampleQualityAnnotationRating.json",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/qualityProperties/qualityAnnotation/example_2_1.json",
+          "sizeBytes": 451,
+          "code": "{\n  \"@type\": [\n    \"dqv:QualityAnnotation\"\n  ],\n  \"schema:name\": \"Open Data certification\",\n  \"oa:motivatedBy\": {\n    \"@id\": \"dqv:qualityAssessment\"\n  },\n  \"oa:hasBody\": {\n    \"@type\": [\n      \"schema:DefinedTerm\"\n    ],\n    \"schema:name\": \"Silver\",\n    \"schema:termCode\": \"silver\",\n    \"schema:inDefinedTermSet\": \"https://certificates.theodi.org/en/about/badges\"\n  },\n  \"oa:hasTarget\": {\n    \"@id\": \"https://example.org/dataset/soil-chem-2024\"\n  }\n}\n"
+        },
+        {
+          "language": "jsonld",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/qualityProperties/qualityAnnotation/example_2_1.jsonld",
+          "sizeBytes": 770,
+          "code": "{\n  \"@context\": [\n    {\n      \"schema\": \"http://schema.org/\",\n      \"dqv\": \"http://www.w3.org/ns/dqv#\",\n      \"oa\": \"http://www.w3.org/ns/oa#\"\n    },\n    \"https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/qualityProperties/qualityAnnotation/context.jsonld\"\n  ],\n  \"@type\": [\n    \"dqv:QualityAnnotation\"\n  ],\n  \"schema:name\": \"Open Data certification\",\n  \"oa:motivatedBy\": {\n    \"@id\": \"dqv:qualityAssessment\"\n  },\n  \"oa:hasBody\": {\n    \"@type\": [\n      \"schema:DefinedTerm\"\n    ],\n    \"schema:name\": \"Silver\",\n    \"schema:termCode\": \"silver\",\n    \"schema:inDefinedTermSet\": \"https://certificates.theodi.org/en/about/badges\"\n  },\n  \"oa:hasTarget\": {\n    \"@id\": \"https://example.org/dataset/soil-chem-2024\"\n  }\n}"
+        },
+        {
+          "language": "ttl",
+          "url": "https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/tests/bbr/metadata/qualityProperties/qualityAnnotation/example_2_1.ttl",
+          "sizeBytes": 515,
+          "code": "@prefix dqv: <http://www.w3.org/ns/dqv#> .\n@prefix oa: <http://www.w3.org/ns/oa#> .\n@prefix schema1: <http://schema.org/> .\n\n[] a dqv:QualityAnnotation ;\n    schema1:name \"Open Data certification\" ;\n    oa:hasBody [ a schema1:DefinedTerm ;\n            schema1:inDefinedTermSet \"https://certificates.theodi.org/en/about/badges\" ;\n            schema1:name \"Silver\" ;\n            schema1:termCode \"silver\" ] ;\n    oa:hasTarget <https://example.org/dataset/soil-chem-2024> ;\n    oa:motivatedBy dqv:qualityAssessment .\n\n"
+        }
+      ]
+    }
+  ],
+  "annotatedSchema": "$schema: https://json-schema.org/draft/2020-12/schema\ntitle: definitions for a quality annotation property\ndescription: A dqv:QualityAnnotation (a subclass of oa:Annotation) attaches a narrative\n  or categorical quality statement -- a standards-compliance note, a rating, or a\n  quality certificate -- to a resource. Unlike a dqv:QualityMeasurement it does not\n  report a measured value against a named metric; the assertion lives in the annotation\n  body.\ntype: object\nproperties:\n  '@type':\n    type: array\n    items:\n      type: string\n    contains:\n      const: dqv:QualityAnnotation\n    minItems: 1\n  oa:hasBody:\n    description: the content of the quality annotation -- a free-text statement, a\n      categorical outcome as a Defined Term (e.g. a certification level or a pass/fail\n      rating), or a reference to a separate body resource\n    anyOf:\n    - type: string\n    - $ref: '#/$defs/DefinedTerm'\n    - type: object\n      required:\n      - '@id'\n      additionalProperties: false\n      properties:\n        '@id':\n          type: string\n          description: a resolvable reference to the annotation body\n    x-jsonld-id: http://www.w3.org/ns/oa#hasBody\n  oa:motivatedBy:\n    description: why the annotation was made; for quality annotations this is normally\n      the instance dqv:qualityAssessment, but any motivation IRI or Defined Term is\n      allowed\n    anyOf:\n    - type: string\n    - type: object\n      required:\n      - '@id'\n      additionalProperties: false\n      properties:\n        '@id':\n          type: string\n          description: a resolvable reference to an oa:Motivation\n    - $ref: '#/$defs/DefinedTerm'\n    x-jsonld-id: http://www.w3.org/ns/oa#motivatedBy\n  oa:hasTarget:\n    description: the resource the annotation is about; if omitted, the annotation\n      is about the resource that carries it (e.g. the Dataset)\n    type: object\n    required:\n    - '@id'\n    additionalProperties: false\n    properties:\n      '@id':\n        type: string\n        description: a resolvable reference to the annotated resource\n    x-jsonld-id: http://www.w3.org/ns/oa#hasTarget\n  schema:name:\n    type: string\n    description: optional short human-readable label for the annotation\n    x-jsonld-id: http://schema.org/name\nrequired:\n- oa:hasBody\n$defs:\n  DefinedTerm:\n    $ref: https://cross-domain-interoperability-framework.github.io/metadataBuildingBlocks/build/annotated/bbr/metadata/schemaorgProperties/definedTerm/schema.yaml\nx-jsonld-prefixes:\n  schema: http://schema.org/\n  dqv: http://www.w3.org/ns/dqv#\n  oa: http://www.w3.org/ns/oa#\n",
+  "gitRepository": "https://github.com/Cross-Domain-Interoperability-Framework/metadataBuildingBlocks",
+  "gitPath": "_sources/qualityProperties/qualityAnnotation"
+}
