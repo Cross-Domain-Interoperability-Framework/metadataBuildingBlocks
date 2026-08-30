@@ -1,0 +1,42 @@
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:          <http://www.w3.org/ns/shacl#> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema:      <http://schema.org/>.
+@prefix dqv:         <http://www.w3.org/ns/dqv#> .
+@prefix oa:          <http://www.w3.org/ns/oa#> .
+@prefix cdifd: <https://cdif.org/validation/0.1/shacl#> .
+@base <https://www.ogc.org/rules/template/> .
+
+
+cdifd:qualityAnnotationNode
+	a sh:NodeShape ;
+	sh:targetClass dqv:QualityAnnotation ;
+
+	sh:property
+		[sh:path oa:hasBody ;
+			sh:or ( [sh:nodeKind sh:IRI]
+				    [sh:datatype xsd:string ;
+				        sh:minLength 3 ; ]
+				    [sh:class schema:DefinedTerm]
+				   ) ;
+			sh:minCount 1 ;
+			sh:message "a quality annotation must carry a body (oa:hasBody) as text, an IRI, or a Defined Term" ;
+		] ;
+	sh:property
+		[sh:path oa:motivatedBy ;
+			sh:or ( [sh:nodeKind sh:IRI]
+				    [sh:datatype xsd:string]
+				    [sh:class schema:DefinedTerm]
+				   ) ;
+			sh:minCount 1 ;
+			sh:severity sh:Warning ;
+			sh:message "a quality annotation should state its motivation (oa:motivatedBy), normally dqv:qualityAssessment" ;
+		] ;
+	sh:property
+		[sh:path oa:hasTarget ;
+			sh:nodeKind sh:IRI ;
+			sh:severity sh:Info ;
+			sh:message "oa:hasTarget, if given, references the annotated resource by IRI" ;
+		]
+			.
