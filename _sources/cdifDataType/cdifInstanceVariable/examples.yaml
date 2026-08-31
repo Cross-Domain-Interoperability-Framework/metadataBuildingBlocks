@@ -25,3 +25,42 @@
   snippets:
     - language: json
       ref: exampleCdifInstanceVariableComplete.json
+- title: CDIF Instance Variable with category statistics (DDI Codebook)
+  content: |-
+    A categorical InstanceVariable exercising cdif:isDescribedBy_StatisticsCollection.
+    Derived from variable HH14 ("Language of the Questionnaire") of the MWI 2019 MICS
+    household record (DDI Codebook 2.5). Shows how DDI <catgry>/<catStat>/<sumStat>
+    map to CDIF: the categories become an enumerated value domain
+    (cdi:takesSubstantiveValuesFrom -> SubstantiveValueDomain -> EnumerationDomain ->
+    a skos:ConceptScheme code list), the "Sysmiss" missing category becomes a
+    SentinelValueDomain, and the summary + per-category frequencies become a
+    StatisticsCollection of cdi:Statistics (count/min/max, split by
+    cdi:computationBase) and cdi:CategoryStatistics (one per category, cdi:for
+    referencing the code-list concept).
+  prefixes:
+    schema: http://schema.org/
+    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    cdif: https://w3id.org/cdif/
+    skos: http://www.w3.org/2004/02/skos/core#
+    mics: https://example.org/mics/mwi2019/
+  snippets:
+    - language: json
+      ref: exampleCdifInstanceVariableStatistics.json
+- title: CDIF Instance Variable with category statistics (minimal, no missing)
+  content: |-
+    The pared-down companion to the HH14 statistics example. Variable HH6
+    ("Area", urban/rural) of the MWI 2019 MICS household record (DDI Codebook
+    2.5): a binary category with no missing values, so there is a substantive
+    value domain (2-concept code list) but no SentinelValueDomain. The
+    StatisticsCollection carries count/min/max plus one cdi:CategoryStatistics
+    per category; the category frequencies (3936 + 22946) reconcile with the
+    valid count (26882).
+  prefixes:
+    schema: http://schema.org/
+    cdi: http://ddialliance.org/Specification/DDI-CDI/1.0/RDF/
+    cdif: https://w3id.org/cdif/
+    skos: http://www.w3.org/2004/02/skos/core#
+    mics: https://example.org/mics/mwi2019/
+  snippets:
+    - language: json
+      ref: exampleCdifInstanceVariableStatisticsMinimal.json
