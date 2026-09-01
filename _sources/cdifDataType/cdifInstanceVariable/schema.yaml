@@ -112,6 +112,33 @@ allOf:
 - required:
   - '@type'
 - $ref: ../../schemaorgProperties/variableMeasured/schema.yaml
+# DDI-CDI models InstanceVariable as a subclass of RepresentedVariable, so an
+# InstanceVariable MAY carry RepresentedVariable-level properties (value domain,
+# intended data type, unit of measure, concept, external definition) inline.
+# But when it defers to a RepresentedVariable via
+# cdif:isDefinedBy_RepresentedVariable, those properties are defined once on the
+# RepresentedVariable and MUST NOT be duplicated here, so a copy cannot diverge.
+# Only the represented-variable-level *semantic* properties are forbidden;
+# instance-level identity/labels (cdif:name, cdif:displayLabel,
+# cdif:descriptiveText, cdi:identifier, cdif:simpleUnitOfMeasure) remain allowed.
+- if:
+    required:
+    - 'cdif:isDefinedBy_RepresentedVariable'
+  then:
+    properties:
+      'cdi:takesSubstantiveValuesFrom': false
+      'cdi:takesSentinelValuesFrom': false
+      'cdi:hasIntendedDataType': false
+      'cdi:describedUnitOfMeasure': false
+      'cdi:unitOfMeasureKind': false
+      'cdi:measures': false
+      'cdi:externalDefinition': false
+      'cdif:uses_Concept': false
+      'cdif:definition': false
+    description: >-
+      When cdif:isDefinedBy_RepresentedVariable is present, the
+      represented-variable-level properties live on that RepresentedVariable and
+      may not be declared inline on the InstanceVariable.
 $defs:
   cdifConceptOrTermOrString:
     $ref: ../cdifConceptOrTermOrString/schema.yaml
